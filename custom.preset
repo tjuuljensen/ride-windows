@@ -1,0 +1,19 @@
+##########
+# Customizer for Disassembler0's Win10-Initial-Setup-Script
+# custom preset for "Win 10 / Server 2016 / Server 2019 Initial Setup Script"
+# Author: Torsten Juul-Jensen
+# Version: v1.0, 2019-11-02
+# Source: https://github.com/tjuuljensen/win10-initial-customized
+##########
+
+### Require administrator privileges ###
+RequireAdmin
+
+### Privacy Tweaks ###
+
+
+### Customized functions
+
+### Auxiliary Functions ###
+WaitForKey
+Restart

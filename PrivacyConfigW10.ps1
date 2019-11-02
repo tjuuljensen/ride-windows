@@ -89,6 +89,9 @@ function _populateHostsFile{
 	# List from https://github.com/WindowsLies/BlockWindows/blob/master/hosts
 	# Check whether list is blocked by executing "ping telemetry.urs.microsoft.com"
 
+  # A more recent blocklist is here:
+  # https://www.encrypt-the-planet.com/downloads/hosts
+
     param(
         [string]$Hostfile=(Join-Path -Path $([Environment]::GetEnvironmentVariable("windir")) -ChildPath "system32\drivers\etc\hosts")
         )
@@ -212,30 +215,13 @@ function _SetWin10privacySettings(){
 	_createRegKey($regKey)
 	Set-ItemProperty -path $regKey -name EnableWebContentEvaluation -value 0
 
-	# Opt out of web site offers based on language list
-	$regKey="HKCU:\Control Panel\International\User Profile\"
-	_createRegKey($regKey)
-	Set-ItemProperty -path $regKey -name HttpAcceptLanguageOptOut -value 1
 
-	# "Let apps use my adverstising ID..."
-	$regKey="HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo\"
-	_createRegKey($regKey)
-	Set-ItemProperty -path $regKey -name Enabled -value 0
 
 	#"Send Miccrosoft info about how ..." (typing and writing)
 	$regKey="HKCU:\SOFTWARE\Microsoft\Input\TIPC\"
 	_createRegKey($regKey)
 	Set-ItemProperty -path $regKey -name Enabled -value 0
 
-	#"Send Miccrosoft info about how ..." (typing and writing)
-	$regKey="HKCU:\SOFTWARE\Microsoft\Input\TIPC\"
-	_createRegKey($regKey)
-	Set-ItemProperty -path $regKey -name Enabled -value 0
-
-	# Disable Feedback frequency
-	$regKey="HKCU:\SOFTWARE\Microsoft\Siuf\Rules\"
-	_createRegKey($regKey)
-	Set-ItemProperty -path $regKey -name NumberOfSIUFInPeriod -value 0
 
 	# Disable Microsoft Edge Page Prediction
 	$regKey="HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\FlipAhead\"
@@ -267,62 +253,10 @@ function _SetWin10privacySettings(){
   Set-ItemProperty -path $regKey -name RemoveWindowsStore -value 1
   Set-ItemProperty -path $regKey -name DisableStoreApps -value 1
 
-  # Disable Microsoft Consumer Experience
-  # http://www.ghacks.net/2016/03/02/turn-off-microsoft-consumer-experience/
-  $regKey="HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent\"
-  _createRegKey($regKey)
-  Set-ItemProperty -path $regKey -name DisableWindowsConsumerFeatures -value 1
 
 }
 
-function _uninstallWin10Apps{
-	#Uninstall Store
-	#Get-AppxPackage *windowsstore* | Remove-AppxPackage
-	#Uninstall 3D Builder
-	Get-AppxPackage *3dbuilder* | Remove-AppxPackage
-	#Uninstall Alarms and Clock
-	Get-AppxPackage *windowsalarms* | Remove-AppxPackage
-	#Uninstall Calculator
-	Get-AppxPackage *windowscalculator* | Remove-AppxPackage
-	#Uninstall Calendar and Mail
-	Get-AppxPackage *windowscommunicationsapps* | Remove-AppxPackage
-	#Uninstall Camera
-	Get-AppxPackage *windowscamera* | Remove-AppxPackage
-	#Uninstall Get Office
-	Get-AppxPackage *officehub* | Remove-AppxPackage
-	#Uninstall Get Skype
-	Get-AppxPackage *skypeapp* | Remove-AppxPackage
-	#Uninstall Get Started
-	Get-AppxPackage *getstarted* | Remove-AppxPackage
-	#Uninstall Groove Music
-	Get-AppxPackage *zunemusic* | Remove-AppxPackage
-	#Uninstall Maps
-	Get-AppxPackage *windowsmaps* | Remove-AppxPackage
-	#Uninstall Microsoft Solitaire Collection
-	Get-AppxPackage *solitairecollection* | Remove-AppxPackage
-	#Uninstall Money
-	Get-AppxPackage *bingfinance* | Remove-AppxPackage
-	#Uninstall Movies & TV
-	Get-AppxPackage *zunevideo* | Remove-AppxPackage
-	#Uninstall News
-	Get-AppxPackage *bingnews* | Remove-AppxPackage
-	#Uninstall OneNote
-	Get-AppxPackage *onenote* | Remove-AppxPackage
-	#Uninstall People
-	Get-AppxPackage *people* | Remove-AppxPackage
-	#Uninstall Phone Companion:
-	Get-AppxPackage *windowsphone* | Remove-AppxPackage
-	#Uninstall Photos
-	Get-AppxPackage *photos* | Remove-AppxPackage
-	#Uninstall Sports
-	Get-AppxPackage *bingsports* | Remove-AppxPackage
-	#Uninstall Voice Recorder:
-	Get-AppxPackage *soundrecorder* | Remove-AppxPackage
-	#Uninstall Weather
-	Get-AppxPackage *bingweather* | Remove-AppxPackage
-	#Uninstall Xbox
-	Get-AppxPackage *xboxapp* | Remove-AppxPackage
-}
+
 
 function _activateWin10{
     param(
@@ -346,21 +280,6 @@ function _activateWin10{
 	$service.InstallProductKey($key)
 	$service.RefreshLicenseStatus()
 
-}
-
-function _RemoveOnedrive{
-    #Remove 64bit OneDrive from Explorer
-    #http://www.howtogeek.com/225973/how-to-disable-onedrive-and-remove-it-from-file-explorer-on-windows-10/
-    New-PSDrive -PSProvider registry -Root HKEY_CLASSES_ROOT -Name HKCR
-    $regKey="HKCR:\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}\"
-    _createRegKey($regKey)
-    Set-ItemProperty -path $regKey -name System.IsPinnedToNameSpaceTree -value 0
-    $regKey="HKCR:\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}\"
-    _createRegKey($regKey)
-    Set-ItemProperty -path $regKey -name System.IsPinnedToNameSpaceTree -value 0
-    # Prevent OneDrive from running at startup
-    $regkey="HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
-    Remove-ItemProperty -Path $regkey -name OneDrive
 }
 
 function _configureBitLocker{
