@@ -7,6 +7,7 @@
 # https://docs.microsoft.com/en-us/windows/wsl/wsl2-install
 # https://devblogs.microsoft.com/commandline/wsl-2-is-now-available-in-windows-insiders/
 # https://docs.microsoft.com/en-us/windows/wsl/install-manual
+# https://medium.com/swlh/get-wsl2-working-on-windows-10-2ee84ef8ed43 (see X.11 section)
 
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -NoRestart
 Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -NoRestart

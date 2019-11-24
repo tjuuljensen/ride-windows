@@ -37,17 +37,6 @@ function _fixWPAD{
     Set-ItemProperty -Path $key -Name DefaultConnectionSettings -Value $data
 }
 
-function _disableIPv6{
-    # Disable IPv6 machine-wide using registry
-    # http://blogs.technet.com/b/askpfeplat/archive/2014/09/15/a-5-second-boot-optimization-if-you-ve-disabled-ipv6-on-windows-client-and-server-by-setting-disabledcomponents-to-0xffffffff.aspx
-    New-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters\' -Name  'DisabledComponents' -Value '0xffffffff' -PropertyType 'DWord'
-
-    # Disable ISATAP, Teredo and 6to4
-    # Read more in Mark Minasi's newletter: http://www.minasi.com/newsletters/nws1303.htm
-    set-net6to4configuration -state disabled
-    set-NetTeredoConfiguration -type disabled
-    set-netisatapconfiguration -state disabled
-}
 
 function _SetWin10privacySettings(){
     # Sets a long list of Windows 10 privacy settings
