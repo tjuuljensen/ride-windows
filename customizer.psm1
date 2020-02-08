@@ -110,12 +110,28 @@ function _activateWin10{
 
 }
 
+function Sysprep{
+  # sysprep installation - for templates
+}
+
+function InstallOffice365{
+  #https://www.microsoft.com/en-us/download/details.aspx?id=49117
+}
 
 ########
 # Install 3rd party programs
 ########
 
+function _installSpiceGuestTool{
+  #Install spice guest tool (for boxes)
+  #https://www.spice-space.org/download.html
 
+  # Spice webdavd for folder sharing
+  #https://www.spice-space.org/download/windows/spice-webdavd/
+  # https://www.spice-space.org/download/windows/spice-webdavd/spice-webdavd-x64-latest.msi
+
+  # Check article : https://www.ctrl.blog/entry/how-to-win10-in-gnome-boxes.html
+}
 
 function _installPrograms{
     #Install programs
@@ -256,10 +272,6 @@ New-Item ($chromeInstallDir+"master_preferences") -type file -force -value "{
 "
 
 }
-
-
-
-
 
 
 ##########
