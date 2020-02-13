@@ -35,9 +35,5 @@ $FedoraRemixURL = "https://github.com" + (((Invoke-WebRequest "https://github.co
 Invoke-WebRequest $FedoraRemixURL -UseBasicParsing -OutFile fedoraremix.appx
 Add-AppxPackage .\fedoraremix.appx
 
-
-
-
-
 #Disable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -NoRestart
 #Disable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -NoRestart
