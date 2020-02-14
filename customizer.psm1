@@ -117,7 +117,7 @@ function EnableWSL{
   #Disable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -NoRestart
 }
 
-function ActivateWin10{
+function ActivateWindows10{
 
   if ((Get-WindowsEdition -Online | select Edition) -like "*Professional*"){$key="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX"}
   if ((Get-WindowsEdition -Online | select Edition) -like "*Enterprise*"){$key="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX"}
@@ -185,101 +185,135 @@ function _ResolveURL {
         }
 }
 
-function _DownloadWebFile{
-    # Download a file from an exploded URL and return local filename as return argument
-
-    Param (
-        [parameter(Mandatory=$true)]
-        [ValidateNotNullOrEmpty()]
-        [string]$URL,
-
-        [ValidateNotNullOrEmpty()]
-        [string]$DownloadDirectory=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}", # Default Download Directory
-
-        [ValidateNotNullOrEmpty()]
-        [string]$FileName=([System.IO.Path]::GetFileName($URL))
-    )
-
-    $LocalFile = Join-Path -Path $DownloadDirectory -ChildPath ([System.IO.Path]::GetFileName($FileName).Replace("%20"," "))
-
-    (New-Object System.Net.WebClient).DownloadFile($URL, $LocalFile)
-    $localFile #return local filename
-    }
-
 
 function InstallFirefox{
     # Define Download URL
-    $URL="https://download.mozilla.org/?product=firefox-latest&os=win&lang=en-US" #Resolve full URL filename (as this is a redirect)
-
-    $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+    $URL="https://download.mozilla.org/?product=firefox-latest&os=win&lang=en-US"
 
     # Resolve full download URL
-    $request = [System.Net.WebRequest]::Create($URL)
-    $request.AllowAutoRedirect=$false
-    $response=$request.GetResponse()
-
-    switch([int]$response.StatusCode){
-
-        200 {$FullDownloadURL = $URL} # OK
-        302 {$FullDownloadURL = $response.GetResponseHeader("Location")} # Redirect
-        default {Write-host "Did not resolve URL"
-                  return 1}
-        }
-
-    $FileName=([System.IO.Path]::GetFileName($FullDownloadURL))
-    $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath ([System.IO.Path]::GetFileName($FileName).Replace("%20"," "))
+    Write-host "Checking URL: $URL"
+    $FullDownloadURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
+    if (! $FullDownloadURL) {write-host "Error: URL not resolved"; return}
 
     # Download file
-    (New-Object System.Net.WebClient).DownloadFile($FullDownloadURL, $LocalFile)
+    $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+    $FileName=([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+    $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
+    Write-host "Downloading file from: $FullDownloadURL"
+    Start-BitsTransfer -Source $FullDownloadURL -Destination $LocalFile
+    #(New-Object System.Net.WebClient).DownloadFile($FullDownloadURL, $LocalFile)
 
-    # Install Firefox and make customizations
-    Start-Process ($LocalFile) /s -NoNewWindow -Wait
+    # Install
+    $FileType=([System.IO.Path]::GetExtension($Localfile))
+    Write-host "Starting installation of: $FileName"
+    switch ($FileType){
+            ".exe" {Start-Process $LocalFile /s -NoNewWindow -Wait}
+            ".msi" {msiexec.exe /i $Localfile /quiet | Out-Null}
+    }
 }
 
 function InstallChrome{
     # Define Download URL
-    $CHROMEMSIURL = "https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B41280CF8-747D-3F47-BA8E-0E6CEDBB4C51%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26ap%3Dx64-stable/dl/chrome/install/googlechromestandaloneenterprise64.msi"
+    $#CHROMEMSIURL = "https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B41280CF8-747D-3F47-BA8E-0E6CEDBB4C51%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26ap%3Dx64-stable/dl/chrome/install/googlechromestandaloneenterprise64.msi"
+    $URL=https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%3Dx64-stable/dl/chrome/install/googlechromestandaloneenterprise64.msi
 
-    # Install Chrome and make customization
-    # Read more about deployment on Chrome here: https://support.google.com/chrome/a/answer/3115278?hl=en
-    msiexec.exe /i (_DownloadWebFile $CHROMEMSIURL) /quiet | Out-Null
-    _createChromePreferenceFiles
+    # Resolve full download URL
+    Write-host "Checking URL: $URL"
+    $FullDownloadURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
+    if (! $FullDownloadURL) {write-host "Error: URL not resolved"; return}
+
+    # Download file
+    $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+    $FileName=([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+    $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
+    Write-host "Downloading file from: $FullDownloadURL"
+    Start-BitsTransfer -Source $FullDownloadURL -Destination $LocalFile
+    #(New-Object System.Net.WebClient).DownloadFile($FullDownloadURL, $LocalFile)
+
+    # Install
+    $FileType=([System.IO.Path]::GetExtension($Localfile))
+    Write-host "Starting installation of: $FileName"
+    switch ($FileType){
+            ".exe" {Start-Process $LocalFile /s -NoNewWindow -Wait}
+            ".msi" {msiexec.exe /i $Localfile /quiet | Out-Null}
+    }
 }
 
 function InstallGPGwin{
     # Define Download URL
     $GPGWINURL="https://files.gpg4win.org/gpg4win-latest.exe"
 
-    # Install other programs
-    Start-Process (_DownloadWebFile $GPGWINURL) /S -NoNewWindow -Wait
+    # Resolve full download URL
+    Write-host "Checking URL: $URL"
+    $FullDownloadURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
+    if (! $FullDownloadURL) {write-host "Error: URL not resolved"; return}
+
+    # Download file
+    $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+    $FileName=([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+    $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
+    Write-host "Downloading file from: $FullDownloadURL"
+    Start-BitsTransfer -Source $FullDownloadURL -Destination $LocalFile
+    #(New-Object System.Net.WebClient).DownloadFile($FullDownloadURL, $LocalFile)
+
+    # Install
+    $FileType=([System.IO.Path]::GetExtension($Localfile))
+    Write-host "Starting installation of: $FileName"
+    switch ($FileType){
+            ".exe" {Start-Process $LocalFile /s -NoNewWindow -Wait}
+            ".msi" {msiexec.exe /i $Localfile /quiet | Out-Null}
+    }
 }
 
 function InstallThunderbird{
-    # Define Download URL
-    $THUNDERBIRDURL= _ResolveURL -Path "https://download.mozilla.org/?product=thunderbird-latest&os=win&lang=en-US" #Resolve full URL filename (as this is a redirect)
-  Start-Process (_DownloadWebFile $THUNDERBIRDURL) /s -NoNewWindow -Wait
+  # Define Download URL
+  $URL= "https://download.mozilla.org/?product=thunderbird-latest&os=win&lang=en-US"
+
+  # Resolve full download URL
+  Write-host "Checking URL: $URL"
+  $FullDownloadURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
+  if (! $FullDownloadURL) {write-host "Error: URL not resolved"; return}
+
+  # Download file
+  $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $FileName=([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
+  Write-host "Downloading file from: $FullDownloadURL"
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $LocalFile
+  #(New-Object System.Net.WebClient).DownloadFile($FullDownloadURL, $LocalFile)
+
+  # Install
+  $FileType=([System.IO.Path]::GetExtension($Localfile))
+  Write-host "Starting installation of: $FileName"
+  switch ($FileType){
+          ".exe" {Start-Process $LocalFile /s -NoNewWindow -Wait}
+          ".msi" {msiexec.exe /i $Localfile /quiet | Out-Null}
+  }
 }
 
 function InstallOffice365{
   # download and install office365 using office deployment tool
 
-  # Avoid security warning
-  # remember to test on freshly configured system (when IE wizard is not complete)
-  # reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\3" /t REG_DWORD /v 1A10 /f /d 0
+  # scrape web page for right file link
+  $URL="https://www.microsoft.com/en-us/download/confirmation.aspx?id=49117"
+  $CheckURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
+  if (! $CheckURL) {write-host "Error: URL not resolved"; return}
+  $FullDownloadURL=(Invoke-WebRequest -UseBasicParsing  -Uri $URL).Links.Href | Get-Unique -asstring| Select-String -Pattern officedeploymenttool
+  if (! $FullDownloadURL) {write-host "Error: OfficeDeploymentTool Not found"; return}
 
+  #Download file
   $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $OFFICEDEPLOYMENTOOLURL="https://www.microsoft.com/en-us/download/confirmation.aspx?id=49117"
-
-  $DOWNLOADLINK=(Invoke-WebRequest -UseBasicParsing  -Uri $OFFICEDEPLOYMENTOOLURL).Links.Href | Get-Unique -asstring| Select-String -Pattern officedeploymenttool
-  $OUTFILE = "$DefaultDownloadDir\officedeploymenttool.exe"
-  $OutFilename=[System.IO.Path]::GetFileName($DOWNLOADLINK)
-  $OFFICE365XML="$DEPLOYWORKDIR\custom-Office365-x86.xml"
-
+  $FileName=([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
   Import-Module BitsTransfer
-  Start-BitsTransfer -Source $DOWNLOADLINK -Destination $OutFilename
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $LocalFile
 
-  $DEPLOYWORKDIR="$DefaultDownloadDir\office365deploy"
-  Invoke-Expression "$OutFilename /quiet /extract:$DEPLOYWORKDIR"
+  # Extract Deployment tool in a subdirectory
+  $DeploymentDirectory=Join-Path -Path $DefaultDownloadDir -ChildPath "office365deploy\"
+  Invoke-Expression "$LocalFile /quiet /extract:$DeploymentDirectory"
+
+  # Create Office365 XMl file
+  $CustomOffice365XML=Join-Path -Path $DeploymentDirectory -ChildPath "custom-Office365-x86.xml"
 
   '<!-- Office 365 client configuration file for custom downloads -->
 
@@ -299,16 +333,13 @@ function InstallOffice365{
   <Updates Enabled="TRUE" Channel="Monthly" />
   <Display Level="None" AcceptEULA="TRUE" />
   <Property Name="AUTOACTIVATE" Value="1" />
-  </Configuration>' |  Out-File $OFFICE365XML
+  </Configuration>' |  Out-File $CustomOffice365XML
 
-  # start download
-  Invoke-Expression "$DEPLOYWORKDIR\setup.exe /download $OFFICE365XML"
+  # start download using OfficeDeploymentTool
+  Invoke-Expression (Join-Path -Path $DeploymentDirectory -ChildPath "setup.exe") "/download $CustomOffice365XML"
 
-  # this must follow in the end
-  # reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\3" /v 1A10 /f
-
-  # start install
-  Invoke-Expression "$DEPLOYWORKDIR\setup.exe /configure $OFFICE365XML"
+  # start install using OfficeDeploymentTool
+  Invoke-Expression (Join-Path -Path $DeploymentDirectory -ChildPath "setup.exe") "/configure $CustomOffice365XML"
 
 }
 
@@ -317,7 +348,7 @@ function InstallOffice365{
 ##########
 
 #
-function _createFirefoxPreferenceFiles {
+function CreateFirefoxPreferenceFiles {
   # See more at https://developer.mozilla.org/en-US/Firefox/Enterprise_deployment
 
   param([string]$FirefoxInstallDir=([System.Environment]::GetFolderPath("ProgramFilesX86")+"\Mozilla Firefox\"))
