@@ -26,10 +26,11 @@ Wow. So Disassembler0's repo in short:
 - It had most (~80%) of my privacy/hardening features implemented
 - It had a cool configuration mechanism which would be easy to adopt for others
 
-And therefore I ended up with this repo. It has what Disassembler0/Win10-Initial-Setup-Script has not (privacy/hardening).
-If Disassembler0 implements the features, I will remove it from my repo.
+So I rewrote my script to fit his loader mechanism and I ended up with this repo. It has what Disassembler0/Win10-Initial-Setup-Script has not (privacy/hardening). If Disassembler0 implements the features, I will remove it from my repo.
 I will add other resources that matches the purpose and which is easily configurable (encrypt-the-planet's hosts file is an example hereof)
 I will also maintain automated browser privacy/hardening settings as part of my repo.
+
+In fact, I use the same logic behind my Fedora Linux configuration. Please see my repo for inspiration: https://github.com/tjuuljensen/bootstrap-fedora
 
 ## Credits
 
