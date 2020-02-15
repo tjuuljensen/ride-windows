@@ -1,4 +1,4 @@
-# win10-initial-customized
+# bootstrap-win10
 When Windows 10 was released, it became clear to everyone that telemetry and dial-back functions was
 something that we all needed to care about if we care about our privacy.
 
@@ -33,7 +33,6 @@ I will also maintain automated browser privacy/hardening settings as part of my 
 In fact, I use the same logic behind my Fedora Linux configuration. Please see my repo for inspiration: https://github.com/tjuuljensen/bootstrap-fedora
 
 ## Credits
-
 Disassembler0's Win10-Initial-Setup-Script repo:
 https://github.com/Disassembler0/Win10-Initial-Setup-Script
 

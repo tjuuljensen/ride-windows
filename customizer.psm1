@@ -3,7 +3,7 @@
 # Win 10 / Server 2016 / Server 2019 Initial Setup Script
 # Author: Torsten Juul-Jensen
 # Version: v2.0, 2020-02-15
-# Source: https://github.com/tjuuljensen/win10-initial-customized
+# Source: https://github.com/tjuuljensen/bootstrap-win10
 ##########
 
 
