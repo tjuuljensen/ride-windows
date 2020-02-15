@@ -2,120 +2,14 @@
 # Customizer for Disassembler0's Win10-Initial-Setup-Script
 # Win 10 / Server 2016 / Server 2019 Initial Setup Script
 # Author: Torsten Juul-Jensen
-# Version: v1.0, 2019-11-02
+# Version: v2.0, 2020-02-15
 # Source: https://github.com/tjuuljensen/win10-initial-customized
 ##########
 
 
-##########
-#
-##########
-
-function SetBitLockerAES256{
-    # Set BitLocker to AES-256
-    # Check with "manage-bde -status"
-    # Encrypt AFTERWARDS!
-    # See more here: http://www.howtogeek.com/193649/how-to-make-bitlocker-use-256-bit-aes-encryption-instead-of-128-bit-aes/
-    $regKey="HKLM:\SOFTWARE\Policies\Microsoft\FVE\"
-    _createRegKey($regKey)
-    Set-ItemProperty -path $regKey -name EncryptionMethod -value 4
-    #To-do: start BitLocker Encryption with PowerShell https://technet.microsoft.com/en-us/library/jj649829(v=wps.630).aspx
-}
-
-function DisableMulticastDNS{
-    # Disable Multicast
-    $multiCastRegKey="HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient"
-    _createRegKey($multiCastRegKey)
-    New-ItemProperty -path $multiCastRegKey -name EnableMulticast -value 0 -PropertyType DWord -Force
-}
-
-function DisableIEProxyAutoconfig{
-    # Disable IE proxy autoconfig by editing binary registry value
-    # prevents WPAD atttack
-    $key = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections'
-    $data = (Get-ItemProperty -Path $key -Name DefaultConnectionSettings).DefaultConnectionSettings
-    $data[8] = 1
-    Set-ItemProperty -Path $key -Name DefaultConnectionSettings -Value $data
-}
-
-
-function _SetWin10privacySettings(){
-  # Sets a long list of Windows 10 privacy settings
-  # See what can be configured how here: https://technet.microsoft.com/en-us/library/mt577208%28v=vs.85%29.aspx
-  # A good listing over all Windows 10 privacy settings: https://4sysops.com/archives/windows-10-privacy-all-group-policy-settings
-  # And more here: https://fix10.isleaked.com/
-  # BTW: You should change your SSID on your WPA2 Wi-Fi: http://www.pcworld.com/article/2951824/windows/how-to-disable-windows-10s-wi-fi-sense-password-sharing.html
-
-	#"Send Microsoft info about how ..." (typing and writing)
-	$regKey="HKCU:\SOFTWARE\Microsoft\Input\TIPC\"
-	_createRegKey($regKey)
-	Set-ItemProperty -path $regKey -name Enabled -value 0
-
-	# Disable Microsoft Edge Page Prediction
-  # When Page Prediction is enabled in Microsoft Edge, the browser might crawl pages you never actually visit during the browsing session. This exposes your machine fingerprint and also creates a notable load on PCs with low end hardware because the browser calculates the possible URL address every time you type something into the address bar. It also creates potentially unnecessary bandwidth usage.
-	$regKey="HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\FlipAhead\"
-	_createRegKey($regKey)
-	Set-ItemProperty -path $regKey -name FPEnabled -value 0
-
-  # Disable Windows Store App - Windows Enterprise Only!!!
-  $regKey="HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore\"
-  _createRegKey($regKey)
-  Set-ItemProperty -path $regKey -name RemoveWindowsStore -value 1
-  Set-ItemProperty -path $regKey -name DisableStoreApps -value 1
-}
-
-# SSDP Discovery service is required for UPnP and Media Center Extender (as per Windows Services > Dependencies tab for SSDP discovery) and so if you don't need UPnP it won't have any negative affects.
-# Network Management in Windows isn't affected by SSDP; you can confidently disable it
-function _fixServices{
-    # Disabling services
-    # check disabled state via WMI: gwmi win32_service -filter "name = 'WinHttpAutoProxySvc' OR name = 'SSDPSRV' OR name = 'upnphost'"
-    Get-Service WinHttpAutoProxySvc,SSDPSRV,upnphost | Stop-Service -PassThru -Force | Set-Service -StartupType disabled
-
-    #### FIXME
-    #### Se hvordan dmwappushservice er implementeret i Win10.psm1 og lav det på samme måde med de andre
-
-    # Stopping services  & setting them to manual
-    Get-Service WerSvc | Stop-Service -PassThru -Force | Set-Service -StartupType manual
-}
-
-# Upnp: Without UPnP enabled things like torrents and multiplayer gaming won't work properly unless you manually identify and forward all the ports required
-
-function EnableWSL{
-  # Enable Windows Subsystem Linux PowerShell Script
-  #
-  # Sources:
-  # https://stackoverflow.com/questions/7330187/how-to-find-the-windows-version-from-the-powershell-command-line
-  # https://www.computerhope.com/issues/ch001879.htm (How to install WSL on Windows 10)
-  # https://www.how2shout.com/how-to/how-to-install-fedora-remix-for-wsl-on-windows-10-using-choco.html
-  # https://docs.microsoft.com/en-us/windows/wsl/wsl2-install
-  # https://devblogs.microsoft.com/commandline/wsl-2-is-now-available-in-windows-insiders/
-  # https://docs.microsoft.com/en-us/windows/wsl/install-manual
-  # https://medium.com/swlh/get-wsl2-working-on-windows-10-2ee84ef8ed43 (see X.11 section)
-
-  Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -NoRestart
-  Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -NoRestart
-
-  # Return the Windows version
-   $WindowsVersion = ([System.Environment]::OSVersion.Version).Build
-
-   if ( $WindowsVersion -ge 18917 ) {
-     # If WSL 2 available
-     wsl --set-default-version 2
-  }
-
-  # curl.exe is available in Windows 10 Spring 2018 Update (or later) - could use "curl.exe -L and -o"
-  Invoke-WebRequest https://aka.ms/wsl-ubuntu-1804 -OutFile ubuntu-1804.appx
-  Add-AppxPackage .\ubuntu-1804.appx
-
-  # Fedora remix is available on github
-  # https://github.com/WhitewaterFoundry/Fedora-Remix-for-WSL/releases
-  $FedoraRemixURL = "https://github.com" + (((Invoke-WebRequest "https://github.com/WhitewaterFoundry/Fedora-Remix-for-WSL/releases" -UseBasicParsing ).links).href  | Select-String "x64" | Select-Object -First 1)
-  Invoke-WebRequest $FedoraRemixURL -UseBasicParsing -OutFile fedoraremix.appx
-  Add-AppxPackage .\fedoraremix.appx
-
-  #Disable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -NoRestart
-  #Disable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -NoRestart
-}
+################################################################
+###### Windows 10 configuration  ###
+################################################################
 
 function ActivateWindows10{
 
@@ -131,22 +25,234 @@ function ActivateWindows10{
 
 function Sysprep{
   # sysprep installation - for templates
+  Start-Process -FilePath C:\Windows\System32\Sysprep\Sysprep.exe -ArgumentList ‘/generalize /oobe /shutdown /quiet’
 }
 
-########
-# Install 3rd party programs
-########
+
+function DisableWindowsStoreApp(){
+  # Disable Windows Store App - Windows Enterprise Only!!!
+  Write-Output "Disabling Windows Store app (Windows Enterprise only)..."
+  if ((Get-WindowsEdition -Online | select Edition) -like "*Enterprise*"){
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore\")) {
+      New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore\" -Force | Out-Null
+    }
+    Set-ItemProperty -path $regKey -name RemoveWindowsStore -value 1
+    Set-ItemProperty -path $regKey -name DisableStoreApps -value 1
+  } else {
+    Write-Output "INFO: This version of Windows is not Enterprise. Windows Store app is not disabled."
+  }
+}
+
+function EnableWindowsStoreApp(){
+  # Disable Windows Store App - Windows Enterprise Only!!!
+  Write-Output "Enabling Windows Store app (Windows Enterprise only)..."
+  Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore\" -Name "RemoveWindowsStore" -ErrorAction SilentlyContinue
+  Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore\" -Name "DisableStoreApps" -ErrorAction SilentlyContinue
+}
+
+################################################################
+###### Hardening Windows  ###
+################################################################
+
+function SetBitLockerAES256{
+    # Set BitLocker to AES-256
+    # Check with "manage-bde -status" and Encrypt AFTERWARDS!
+    # See more here: http://www.howtogeek.com/193649/how-to-make-bitlocker-use-256-bit-aes-encryption-instead-of-128-bit-aes/
+    Write-Output "Setting default Bitlocker encryption to AES256..."
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\")) {
+  		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\" -Force | Out-Null
+  	}
+
+    Set-ItemProperty -path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\" -name "EncryptionMethod" -value 4
+    #To-do: start BitLocker Encryption with PowerShell https://technet.microsoft.com/en-us/library/jj649829(v=wps.630).aspx
+}
+
+function SetBitLockerAES128{
+    # Set BitLocker to AES-128 (default)
+    Write-Output "Setting default Bitlocker encryption to AES128..."
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\")) {
+  		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\" -Force | Out-Null
+  	}
+    Set-ItemProperty -path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\" -name "EncryptionMethod" -value 3
+    #To-do: start BitLocker Encryption with PowerShell https://technet.microsoft.com/en-us/library/jj649829(v=wps.630).aspx
+}
+
+function _fixServices{
+  # SSDP Discovery service is required for UPnP and Media Center Extender (as per Windows Services > Dependencies tab for SSDP discovery) and so if you don't need UPnP it won't have any negative affects.
+  # Network Management in Windows isn't affected by SSDP; you can confidently disable it
+    # Disabling services
+    # check disabled state via WMI: gwmi win32_service -filter "name = 'WinHttpAutoProxySvc' OR name = 'SSDPSRV' OR name = 'upnphost'"
+    Get-Service WinHttpAutoProxySvc,SSDPSRV,upnphost | Stop-Service -PassThru -Force | Set-Service -StartupType disabled
+
+    #### FIXME
+    #### Se hvordan dmwappushservice er implementeret i Win10.psm1 og lav det på samme måde med de andre
+
+    # Stopping services  & setting them to manual
+    Get-Service WerSvc | Stop-Service -PassThru -Force | Set-Service -StartupType manual
+}
+
+# Upnp: Without UPnP enabled things like torrents and multiplayer gaming won't work properly unless you manually identify and forward all the ports required
+
+
+################################################################
+###### Network Functions  ###
+################################################################
+
+function DisableIEProxyAutoconfig{
+    # Disable IE proxy autoconfig by editing binary registry value
+    # prevents WPAD atttack
+    Write-Output "Disabling Internet Explorer Proxy autoconfig..."
+    $data = (Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections" -Name DefaultConnectionSettings).DefaultConnectionSettings
+    $data[8] = 1
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections" -Name DefaultConnectionSettings -Value $data
+}
+
+function DisableMulticastDNS{
+    # Specifies that link local multicast name resolution (LLMNR) is disabled on client computers.
+    # If this policy setting is enabled, LLMNR will be disabled on all available network adapters on the client computer.
+    Write-Output "Disabling multicast traffic..."
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient")) {
+      New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" -Force | Out-Null
+    }
+    New-ItemProperty -path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" -name "EnableMulticast" -value 0 -PropertyType DWord -Force
+}
+
+function EnableMulticastDNS{
+    Write-Output "Enabling multicast traffic..."
+    # LMNR will be enabled on all available network adapters (default setting)
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" -Name "EnableMulticast" -ErrorAction SilentlyContinue
+}
+
+
+function GetTelemetryBlockingHostfile{
+    # read more here: https://encrypt-the-planet.com/windows-10-anti-spy-host-file/
+    Write-Output "Enabling blocking hostsfile from encrypt-the-planet.com..."
+    $Hostsfile=Join-Path -Path $Env:windir -ChildPath "\System32\Drivers\etc\hosts"
+    Invoke-WebRequest https://www.encrypt-the-planet.com/downloads/hosts -OutFile $Hostsfile
+
+}
+
+function SetDefaultHostsfile{
+  # Use a default Windows 10 hostfile
+  Write-Output "Setting hosts file to default (empty file)..."
+  $Hostsfile=Join-Path -Path $Env:windir -ChildPath "\System32\Drivers\etc\hosts"
+
+  '# Copyright (c) 1993-2009 Microsoft Corp.
+#
+# This is a sample HOSTS file used by Microsoft TCP/IP for Windows.
+#
+# This file contains the mappings of IP addresses to host names. Each
+# entry should be kept on an individual line. The IP address should
+# be placed in the first column followed by the corresponding host name.
+# The IP address and the host name should be separated by at least one
+# space.
+#
+# Additionally, comments (such as these) may be inserted on individual
+# lines or following the machine name denoted by a ''#'' symbol.
+#
+# For example:
+#
+#      102.54.94.97     rhino.acme.com          # source server
+#       38.25.63.10     x.acme.com              # x client host
+
+# localhost name resolution is handled within DNS itself.
+#	127.0.0.1       localhost
+#	::1             localhost
+' | out-file $Hostsfile
+
+}
+
+
+################################################################
+###### Privacy configurations  ###
+################################################################
+
+function DisableInkingAndTypingData{
+  # Disable sending of inking and typing data to Microsoft to improve the language recognition and suggestion capabilities of apps and services.
+  Write-Output "Disabling sending of inking and typing data..."
+  Set-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Input\TIPC\" -name Enabled -value 0
+}
+
+function EnableInkingAndTypingData{
+  # Send inking and typing data to Microsoft to improve the language recognition and suggestion capabilities of apps and services.
+  Write-Output "Enabling sending of inking and typing data..."
+  Set-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Input\TIPC\" -name Enabled -value 1
+}
+
+
+################################################################
+###### Windows Subsystem for Linux  ###
+################################################################
+
+function EnableWSL{
+  # Enable Windows Subsystem Linux PowerShell Script
+  #
+  # Sources:
+  # https://stackoverflow.com/questions/7330187/how-to-find-the-windows-version-from-the-powershell-command-line
+  # https://www.computerhope.com/issues/ch001879.htm (How to install WSL on Windows 10)
+  # https://www.how2shout.com/how-to/how-to-install-fedora-remix-for-wsl-on-windows-10-using-choco.html
+  # https://docs.microsoft.com/en-us/windows/wsl/wsl2-install
+  # https://devblogs.microsoft.com/commandline/wsl-2-is-now-available-in-windows-insiders/
+  # https://docs.microsoft.com/en-us/windows/wsl/install-manual
+  # https://medium.com/swlh/get-wsl2-working-on-windows-10-2ee84ef8ed43 (see X.11 section)
+
+  Write-Output "Enabling Windows Subsystem for Linux..."
+
+  Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -NoRestart
+  Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -NoRestart
+
+  # Set wsl version as default version on latest versions of Windows 10
+   $WindowsVersion = ([System.Environment]::OSVersion.Version).Build
+
+   if ( $WindowsVersion -ge 18917 ) {
+     # If WSL 2 available
+     Write-Output "Setting Windows Subsystem for Linux version 2 as default WSL..."
+     wsl --set-default-version 2
+  }
+}
+
+function DisableWSL{
+  Write-Output "Disabling Windows Subsystem for Linux..."
+  Disable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -NoRestart
+  Disable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -NoRestart
+}
+
+function InstallWSLubuntu1804{
+  Write-Output "Installing WSL Ubuntu 18.04..."
+  Invoke-WebRequest https://aka.ms/wsl-ubuntu-1804 -OutFile ubuntu-1804.appx
+  Add-AppxPackage .\ubuntu-1804.appx
+}
+
+function InstallWSLdebian{
+  Write-Output "Installing WSL Debian..."
+  Invoke-WebRequest https://aka.ms/wsl-debian-gnulinux -OutFile wsl-debian-gnulinux.appx
+  Add-AppxPackage .\wsl-debian-gnulinux.appx
+}
+
+function InstallWSLkali{
+  Write-Output "Installing WSL Kali..."
+  Invoke-WebRequest https://aka.ms/wsl-kali-linux-new -OutFile wsl-kali-linux-new.appx
+  Add-AppxPackage .\wsl-kali-linux-new.appx
+}
+
+function InstallWSLFedoraRemix{
+  Write-Output "Installing WSL Fedora Remix..."
+  # Fedora remix is available on github
+  # https://github.com/WhitewaterFoundry/Fedora-Remix-for-WSL/releases
+  $FedoraRemixURL = "https://github.com" + (((Invoke-WebRequest "https://github.com/WhitewaterFoundry/Fedora-Remix-for-WSL/releases" -UseBasicParsing ).links).href  | Select-String "x64" | Select-Object -First 1)
+  Invoke-WebRequest $FedoraRemixURL -UseBasicParsing -OutFile fedoraremix.appx
+  Add-AppxPackage .\fedoraremix.appx
+}
+
+
+################################################################
+###### Install programs  ###
+################################################################
 
 function InstallSpiceGuestTool{
-  # Install spice guest tool (for boxes)
-  # https://www.spice-space.org/download.html
-  # Check article : https://www.ctrl.blog/entry/how-to-win10-in-gnome-boxes.html
-
-  # download spice tools
-  #
-  #https://spice-space.org/download/windows/spice-webdavd/spice-webdavd-x64-latest.msi
-  # https://spice-space.org/download/windows/spice-guest-tools/spice-guest-tools-latest.exe
-
+  # Install spice guest tool (for Gnome boxes) - https://www.spice-space.org/download.html
+  # Read more here: https://www.ctrl.blog/entry/how-to-win10-in-gnome-boxes.html
+  Write-Output "Installing Spice Guest Tools for VM..."
   $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $SPICEWEBDAVD="https://spice-space.org/download/windows/spice-webdavd/spice-webdavd-x64-latest.msi"
   $SPICEGUESTTOOLS="https://spice-space.org/download/windows/spice-guest-tools/spice-guest-tools-latest.exe"
@@ -165,141 +271,71 @@ function InstallSpiceGuestTool{
   Invoke-Expression "$SPICEGUESTTOOLSFILE"
 }
 
-function _ResolveURL {
-    # Get filename from URL (redirected or direct)
-
-    Param (
-        [Parameter(Mandatory=$true)]
-        [String]$Path
-    )
-
-    $request = [System.Net.WebRequest]::Create($Path)
-    $request.AllowAutoRedirect=$false
-    $response=$request.GetResponse()
-
-    switch([int]$response.StatusCode){
-
-        200 {$Path} # OK
-        302 {$response.GetResponseHeader("Location")} # Redirect
-        #default {Write-host "Nothing happened"}
-        }
-}
-
-
-function InstallFirefox{
-    # Define Download URL
-    $URL="https://download.mozilla.org/?product=firefox-latest&os=win&lang=en-US"
-
-    # Resolve full download URL
-    Write-host "Checking URL: $URL"
-    $FullDownloadURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
-    if (! $FullDownloadURL) {write-host "Error: URL not resolved"; return}
-
-    # Download file
-    $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-    $FileName=([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
-    $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
-    Write-host "Downloading file from: $FullDownloadURL"
-    Start-BitsTransfer -Source $FullDownloadURL -Destination $LocalFile
-    #(New-Object System.Net.WebClient).DownloadFile($FullDownloadURL, $LocalFile)
-
-    # Install
-    $FileType=([System.IO.Path]::GetExtension($Localfile))
-    Write-host "Starting installation of: $FileName"
-    switch ($FileType){
-            ".exe" {Start-Process $LocalFile /s -NoNewWindow -Wait}
-            ".msi" {msiexec.exe /i $Localfile /quiet | Out-Null}
-    }
-}
-
-function InstallChrome{
-    # Define Download URL
-    $#CHROMEMSIURL = "https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B41280CF8-747D-3F47-BA8E-0E6CEDBB4C51%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26ap%3Dx64-stable/dl/chrome/install/googlechromestandaloneenterprise64.msi"
-    $URL=https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%3Dx64-stable/dl/chrome/install/googlechromestandaloneenterprise64.msi
-
-    # Resolve full download URL
-    Write-host "Checking URL: $URL"
-    $FullDownloadURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
-    if (! $FullDownloadURL) {write-host "Error: URL not resolved"; return}
-
-    # Download file
-    $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-    $FileName=([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
-    $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
-    Write-host "Downloading file from: $FullDownloadURL"
-    Start-BitsTransfer -Source $FullDownloadURL -Destination $LocalFile
-    #(New-Object System.Net.WebClient).DownloadFile($FullDownloadURL, $LocalFile)
-
-    # Install
-    $FileType=([System.IO.Path]::GetExtension($Localfile))
-    Write-host "Starting installation of: $FileName"
-    switch ($FileType){
-            ".exe" {Start-Process $LocalFile /s -NoNewWindow -Wait}
-            ".msi" {msiexec.exe /i $Localfile /quiet | Out-Null}
-    }
-}
 
 function InstallGPGwin{
+    Write-Output "Installing GPG for Windows..."
     # Define Download URL
-    $GPGWINURL="https://files.gpg4win.org/gpg4win-latest.exe"
+    $URL="https://files.gpg4win.org/gpg4win-latest.exe"
 
     # Resolve full download URL
-    Write-host "Checking URL: $URL"
+    Write-Output "Checking URL: $URL"
     $FullDownloadURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
-    if (! $FullDownloadURL) {write-host "Error: URL not resolved"; return}
+    if (! $FullDownloadURL) {Write-Output "Error: URL not resolved"; return}
 
     # Download file
     $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
     $FileName=([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
     $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
-    Write-host "Downloading file from: $FullDownloadURL"
+    Write-Output "Downloading file from: $FullDownloadURL"
     Start-BitsTransfer -Source $FullDownloadURL -Destination $LocalFile
     #(New-Object System.Net.WebClient).DownloadFile($FullDownloadURL, $LocalFile)
 
     # Install
     $FileType=([System.IO.Path]::GetExtension($Localfile))
-    Write-host "Starting installation of: $FileName"
+    Write-Output "Starting installation of: $FileName"
     switch ($FileType){
             ".exe" {Start-Process $LocalFile /s -NoNewWindow -Wait}
-            ".msi" {msiexec.exe /i $Localfile /quiet | Out-Null}
+            ".msi" {msiexec.exe /i $Localfile /qb}
     }
 }
 
 function InstallThunderbird{
+  Write-Output "Installing Mozilla Thunderbird..."
   # Define Download URL
   $URL= "https://download.mozilla.org/?product=thunderbird-latest&os=win&lang=en-US"
 
   # Resolve full download URL
-  Write-host "Checking URL: $URL"
+  Write-Output "Checking URL: $URL"
   $FullDownloadURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
-  if (! $FullDownloadURL) {write-host "Error: URL not resolved"; return}
+  if (! $FullDownloadURL) {Write-Output "Error: URL not resolved"; return}
 
   # Download file
   $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $FileName=([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
   $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
-  Write-host "Downloading file from: $FullDownloadURL"
+  Write-Output "Downloading file from: $FullDownloadURL"
   Start-BitsTransfer -Source $FullDownloadURL -Destination $LocalFile
   #(New-Object System.Net.WebClient).DownloadFile($FullDownloadURL, $LocalFile)
 
   # Install
   $FileType=([System.IO.Path]::GetExtension($Localfile))
-  Write-host "Starting installation of: $FileName"
+  Write-Output "Starting installation of: $FileName"
   switch ($FileType){
           ".exe" {Start-Process $LocalFile /s -NoNewWindow -Wait}
-          ".msi" {msiexec.exe /i $Localfile /quiet | Out-Null}
+          ".msi" {msiexec.exe /i $Localfile /qb}
   }
 }
 
 function InstallOffice365{
   # download and install office365 using office deployment tool
 
+  Write-Output "Installing Microsoft Office 365..."
   # scrape web page for right file link
   $URL="https://www.microsoft.com/en-us/download/confirmation.aspx?id=49117"
   $CheckURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
-  if (! $CheckURL) {write-host "Error: URL not resolved"; return}
-  $FullDownloadURL=(Invoke-WebRequest -UseBasicParsing  -Uri $URL).Links.Href | Get-Unique -asstring| Select-String -Pattern officedeploymenttool
-  if (! $FullDownloadURL) {write-host "Error: OfficeDeploymentTool Not found"; return}
+  if (! $CheckURL) {Write-Output "Error: URL not resolved"; return}
+  $FullDownloadURL=(Invoke-WebRequest -UseBasicParsing  -Uri $URL).Links.Href | Get-Unique -asstring | Select-String -Pattern officedeploymenttool
+  if (! $FullDownloadURL) {Write-Output "Error: OfficeDeploymentTool Not found"; return}
 
   #Download file
   $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
@@ -343,13 +379,59 @@ function InstallOffice365{
 
 }
 
-##########
-# Browser tweaks and functions
-##########
+################################################################
+###### Browsers and Internet  ###
+################################################################
 
-#
+function DisableEdgePagePrediction{
+  # Disable Microsoft Edge Page Prediction
+  # When Page Prediction is enabled in Microsoft Edge, the browser might crawl pages you never actually visit during the browsing session.
+  # This exposes your machine fingerprint and also creates a notable load on PCs with low end hardware because the browser calculates the
+  # possible URL address every time you type something into the address bar. It also creates potentially unnecessary bandwidth usage.
+
+  Write-Output "Disabling Microsoft Edge page prediction..."
+  If (!(Test-Path "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\FlipAhead\")) {
+    New-Item -Path "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\FlipAhead\" -Force | Out-Null
+  }
+	Set-ItemProperty -path "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\FlipAhead\" -name FPEnabled -value 0
+
+}
+
+function InstallFirefox{
+    Write-Output "Installing Mozilla Firefox..."
+    # Define Download URL
+    $URL="https://download.mozilla.org/?product=firefox-msi-latest-ssl&os=win64&lang=en-US"
+
+    # Resolve full download URL
+    Write-Output "Checking URL: $URL"
+    $FullDownloadURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
+    if (! $FullDownloadURL) {Write-Output "Error: URL not resolved"; return}
+
+    # Download file
+    $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+    $FileName=([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+    $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
+    Write-Output "Downloading file from: $FullDownloadURL"
+    Start-BitsTransfer -Source $FullDownloadURL -Destination $LocalFile
+    #(New-Object System.Net.WebClient).DownloadFile($FullDownloadURL, $LocalFile)
+
+    # Install
+    $FileType=([System.IO.Path]::GetExtension($Localfile))
+    Write-Output "Starting installation of: $FileName"
+    switch ($FileType){
+            ".exe" {Start-Process $LocalFile /s -NoNewWindow -Wait}
+            ".msi" {msiexec.exe /i $Localfile /qb}
+    }
+}
+
+function RemoveFirefox{
+  Write-Output "Removing Mozilla Firefox..."
+  $MyVar=Get-ChildItem "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Mozilla Firefox*"  | % { Get-ItemProperty $_.PsPath } | Select UninstallString
+}
+
 function CreateFirefoxPreferenceFiles {
   # See more at https://developer.mozilla.org/en-US/Firefox/Enterprise_deployment
+  Write-Output "Creating prefence files for Mozilla Firefox..."
 
   param([string]$FirefoxInstallDir=([System.Environment]::GetFolderPath("ProgramFilesX86")+"\Mozilla Firefox\"))
 
@@ -406,14 +488,49 @@ EnableProfileMigrator=false
 "
 }
 
-function _createChromePreferenceFiles {
+function InstallChrome{
+    # Define Download URL
+    #$CHROMEMSIURL = "https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B41280CF8-747D-3F47-BA8E-0E6CEDBB4C51%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26ap%3Dx64-stable/dl/chrome/install/googlechromestandaloneenterprise64.msi"
+    Write-Output "Installing Google Chrome..."
+    $URL="https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%3Dx64-stable/dl/chrome/install/googlechromestandaloneenterprise64.msi"
+
+    # Resolve full download URL
+    Write-Output "Checking URL: $URL"
+    $FullDownloadURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
+    if (! $FullDownloadURL) {Write-Output "Error: URL not resolved"; return}
+
+    # Download file
+    $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+    $FileName=([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+    $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
+    Write-Output "Downloading file from: $FullDownloadURL"
+    Start-BitsTransfer -Source $FullDownloadURL -Destination $LocalFile
+    #(New-Object System.Net.WebClient).DownloadFile($FullDownloadURL, $LocalFile)
+
+    # Install
+    $FileType=([System.IO.Path]::GetExtension($Localfile))
+    Write-Output "Starting installation of: $FileName"
+    switch ($FileType){
+            ".exe" {Start-Process $LocalFile /s -NoNewWindow -Wait}
+            ".msi" {msiexec.exe /i $Localfile /qb}
+    }
+}
+
+function RemoveChrome{
+  Write-Output "Removing Google Chrome..."
+  Uninstall-Package -InputObject ( Get-Package -Name "Google Chrome")
+}
+
+
+function CreateChromePreferenceFiles {
+Write-Output "Creating preference files for Google Chrome..."
 
 param($ChromeInstallDir=([System.Environment]::GetFolderPath("ProgramFilesX86")+"\Google\Chrome\Application\"))
 
 # Create the master_preferences file
 # File contents based on source fils: https://src.chromium.org/viewvc/chrome/trunk/src/chrome/common/pref_names.cc
 New-Item ($chromeInstallDir+"master_preferences") -type file -force -value "{
- ""homepage"" : ""https://encrypted.google.com"",
+ ""homepage"" : ""https://www.google.com"",
  ""homepage_is_newtabpage"" : false,
  ""dns_prefetching.enabled"" : false,
  ""browser"" : {
@@ -448,7 +565,7 @@ New-Item ($chromeInstallDir+"master_preferences") -type file -force -value "{
   ""verbose_logging"" : true
  },
  ""first_run_tabs"" : [
-   ""http://encrypted.google.com"",
+   ""http://www.google.com"",
    ""welcome_page"",
    ""new_tab_page""
  ]
@@ -456,10 +573,49 @@ New-Item ($chromeInstallDir+"master_preferences") -type file -force -value "{
 "
 }
 
+function InstallOpera{
+  Write-Output "Installing Opera..."
+  #$URL="https://www.opera.com/da/computer/thanks?ni=stable&os=windows"
+  $URL="https://get.geo.opera.com/pub/opera/desktop/"
 
-##########
-#region Auxiliary Functions
-##########
+  # Scrape ftp site for latest Version
+  $CheckURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
+  if (! $CheckURL) {Write-Output "Error: URL not resolved"; return}
+  $LatestOperaVersion=(Invoke-WebRequest -UseBasicParsing  -Uri $URL).Links.Href | Get-Unique -asstring | Sort-Object -Descending | select-object -First 1
+  if (! $LatestOperaVersion) {Write-Output "Error: Opera browser not found"; return}
+  $LatestOperaPath="$($URL)$($LatestOperaVersion)win/"
+  $LatestOperaInstallerFiles=(Invoke-WebRequest -UseBasicParsing  -Uri $LatestOperaPath).Links.Href | Get-Unique -asstring | Sort-Object -Descending | Select-String -Pattern Autoupdate_x64 # | select-object -First 1
+  # returns two objects (also a sha256 file)
+
+  # Download file
+  $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  # FIXME - foreach file download
+  Foreach ($file in $LatestOperaInstallerFiles)
+  {
+    $OperaInstallerFile=$LatestOperaPath + $file
+    $FileName=([System.IO.Path]::GetFileName($OperaInstallerFile).Replace("%20"," "))
+    $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
+    Write-Output "Downloading file from: $OperaInstallerFile"
+    Start-BitsTransfer -Source $OperaInstallerFile -Destination $LocalFile
+
+    # Install
+    $FileType=([System.IO.Path]::GetExtension($Localfile))
+    switch ($FileType){
+            ".exe" {
+                Write-Output "Starting installation of: $FileName"
+                # .\Opera_66.0.3515.95_Setup_x64.exe --runimmediately --allusers=0 --setdefaultbrowser=0 --enable-installer-stats=0 --enable-stats=0
+                Start-Process $LocalFile /s -NoNewWindow -Wait
+                }
+            # sha256 - https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-filehash?view=powershell-7
+      }
+  }
+
+}
+
+
+################################################################
+###### Auxiliary Functions  ###
+################################################################
 
 # Wait for keypress
 Function WaitForKey {
@@ -473,9 +629,6 @@ Function Restart {
 	Restart-Computer
 }
 
-##########
-#endregion Auxiliary Functions
-##########
 
 
 # Export functions
