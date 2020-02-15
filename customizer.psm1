@@ -1,10 +1,9 @@
-##########
 # Customizer for Disassembler0's Win10-Initial-Setup-Script
 # Win 10 / Server 2016 / Server 2019 Initial Setup Script
 # Author: Torsten Juul-Jensen
 # Version: v2.0, 2020-02-15
 # Source: https://github.com/tjuuljensen/bootstrap-win10
-##########
+#
 
 
 ################################################################
@@ -77,22 +76,51 @@ function SetBitLockerAES128{
     #To-do: start BitLocker Encryption with PowerShell https://technet.microsoft.com/en-us/library/jj649829(v=wps.630).aspx
 }
 
-function _fixServices{
-  # SSDP Discovery service is required for UPnP and Media Center Extender (as per Windows Services > Dependencies tab for SSDP discovery) and so if you don't need UPnP it won't have any negative affects.
+Function DisableSSDPdiscovery{
+  # Disables discovery of networked devices and services that use the SSDP discovery protocol, such as UPnP devices.
+  # SSDP Discovery service is required for UPnP and Media Center Extender (as per Windows Services > Dependencies tab for SSDP discovery)
+  # and so if you don't need UPnP it won't have any negative affects.
   # Network Management in Windows isn't affected by SSDP; you can confidently disable it
-    # Disabling services
-    # check disabled state via WMI: gwmi win32_service -filter "name = 'WinHttpAutoProxySvc' OR name = 'SSDPSRV' OR name = 'upnphost'"
-    Get-Service WinHttpAutoProxySvc,SSDPSRV,upnphost | Stop-Service -PassThru -Force | Set-Service -StartupType disabled
-
-    #### FIXME
-    #### Se hvordan dmwappushservice er implementeret i Win10.psm1 og lav det på samme måde med de andre
-
-    # Stopping services  & setting them to manual
-    Get-Service WerSvc | Stop-Service -PassThru -Force | Set-Service -StartupType manual
+Write-Output "Stopping and disabling SSDP discovery protocol..."
+	Stop-Service "SSDPSRV" -WarningAction SilentlyContinue
+	Set-Service "SSDPSRV" -StartupType Disabled
 }
 
-# Upnp: Without UPnP enabled things like torrents and multiplayer gaming won't work properly unless you manually identify and forward all the ports required
+Function EnableSSDPdiscovery {
+  # Discovers networked devices and services that use the SSDP discovery protocol, such as UPnP devices.
+  # Also announces SSDP devices and services running on the local computer.
+	Write-Output "Enabling and starting SSDP discovery protocol..."
+	Set-Service "SSDPSRV" -StartupType Manual
+	Start-Service "SSDPSRV" -WarningAction SilentlyContinue
+}
 
+Function DisableUniversalPlugAndPlay{
+  # Without UPnP enabled things like torrents and multiplayer gaming won't work properly unless you manually identify and forward all the ports required
+  Write-Output "Stopping and disabling UPNP service..."
+	Stop-Service "upnphost" -WarningAction SilentlyContinue
+	Set-Service "upnphost" -StartupType Disabled
+}
+
+Function EnableUniversalPlugAndPlay {
+
+	Write-Output "Enabling UPNP service..."
+	Set-Service "upnphost" -StartupType Manual
+	#Start-Service "upnphost" -WarningAction SilentlyContinue
+}
+
+Function DisableWinHttpAutoProxySvc {
+  # Disable IE proxy autoconfig service
+	Write-Output "Stopping and disabling HTTP Proxy auto-discovery ..."
+	Stop-Service "WinHttpAutoProxySvc" -WarningAction SilentlyContinue
+	Set-Service "WinHttpAutoProxySvc" -StartupType Disabled
+}
+
+Function EnableWinHttpAutoProxySvc {
+  # Enable IE proxy autoconfig service
+	Write-Output "Enabling and starting HTTP Proxy auto-discovery..."
+	Set-Service "WinHttpAutoProxySvc" -StartupType Manual
+	Start-Service "WinHttpAutoProxySvc" -WarningAction SilentlyContinue
+}
 
 ################################################################
 ###### Network Functions  ###
@@ -125,6 +153,7 @@ function EnableMulticastDNS{
 
 
 function GetTelemetryBlockingHostfile{
+    # Null-routing hostfile to block Microsoft and NVidia telemetry
     # read more here: https://encrypt-the-planet.com/windows-10-anti-spy-host-file/
     Write-Output "Enabling blocking hostsfile from encrypt-the-planet.com..."
     $Hostsfile=Join-Path -Path $Env:windir -ChildPath "\System32\Drivers\etc\hosts"
@@ -609,7 +638,6 @@ function InstallOpera{
             # sha256 - https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-filehash?view=powershell-7
       }
   }
-
 }
 
 
