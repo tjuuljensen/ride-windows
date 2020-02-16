@@ -6,14 +6,52 @@
 # Source: https://github.com/tjuuljensen/bootstrap-win10
 ##########
 
-### Require administrator privileges ###
+###### Require administrator privileges ###
 RequireAdmin
 
-### My Tweaks ###
+###### Windows 10 configuration  ###
+ActivateWindows10
+Sysprep
+DisableWindowsStoreApp        # EnableWindowsStoreApp
 
+###### Privacy configurations  ###
+DisableInkingAndTypingData    # EnableInkingAndTypingData
 
-### Customized functions
+###### Hardening Windows  ###
+SetBitLockerAES256            # SetBitLockerAES128
+PutBitlockerShortCutOnDesktop
+DisableSSDPdiscovery          # EnableSSDPdiscovery
+DisableUniversalPlugAndPlay   # EnableUniversalPlugAndPlay
+DisableWinHttpAutoProxySvc    # EnableWinHttpAutoProxySvc
 
-### Auxiliary Functions ###
+###### Network Functions  ###
+DisableIEProxyAutoconfig
+DisableMulticastDNS           # EnableMulticastDNS
+GetTelemetryBlockingHostfile  # SetDefaultHostsfile
+
+###### Windows Subsystem for Linux  ###
+EnableWSL                     # DisableWSL
+InstallWSLubuntu1804          # RemoveWSLubuntu1804
+InstallWSLdebian              # RemoveWSLdebian
+InstallWSLkali                # RemoveWSLkali
+InstallWSLFedoraRemix         # RemoveWSLFedoraRemix
+
+###### Install programs  ###
+InstallSpiceGuestTool
+InstallGPGwin
+InstallThunderbird
+InstallOffice365
+InstallVMwareWorkstation
+
+###### Browsers and Internet  ###
+DisableEdgePagePrediction
+InstallFirefox                # RemoveFirefox
+CreateFirefoxPreferenceFiles
+InstallChrome                 # RemoveChrome
+CreateChromePreferenceFiles
+CustomizeChrome
+InstallOpera                  #
+
+###### Auxiliary Functions  ###
 WaitForKey
 Restart

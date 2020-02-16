@@ -24,7 +24,7 @@ function ActivateWindows10{
 
 function Sysprep{
   # sysprep installation - for templates
-  Start-Process -FilePath C:\Windows\System32\Sysprep\Sysprep.exe -ArgumentList ‘/generalize /oobe /shutdown /quiet’
+  Start-Process -FilePath C:\Windows\System32\Sysprep\Sysprep.exe -ArgumentList "/generalize /oobe /shutdown /quiet"
 }
 
 
@@ -48,6 +48,24 @@ function EnableWindowsStoreApp(){
   Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore\" -Name "RemoveWindowsStore" -ErrorAction SilentlyContinue
   Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore\" -Name "DisableStoreApps" -ErrorAction SilentlyContinue
 }
+
+
+################################################################
+###### Privacy configurations  ###
+################################################################
+
+function DisableInkingAndTypingData{
+  # Disable sending of inking and typing data to Microsoft to improve the language recognition and suggestion capabilities of apps and services.
+  Write-Output "Disabling sending of inking and typing data..."
+  Set-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Input\TIPC\" -name Enabled -value 0
+}
+
+function EnableInkingAndTypingData{
+  # Send inking and typing data to Microsoft to improve the language recognition and suggestion capabilities of apps and services.
+  Write-Output "Enabling sending of inking and typing data..."
+  Set-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Input\TIPC\" -name Enabled -value 1
+}
+
 
 ################################################################
 ###### Hardening Windows  ###
@@ -75,6 +93,20 @@ function SetBitLockerAES128{
     Set-ItemProperty -path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\" -name "EncryptionMethod" -value 3
     #To-do: start BitLocker Encryption with PowerShell https://technet.microsoft.com/en-us/library/jj649829(v=wps.630).aspx
 }
+
+function PutBitlockerShortCutOnDesktop{
+    # Start Bitlocker wizard https://social.technet.microsoft.com/Forums/windows/en-US/12388d10-196a-483a-8421-7dcbffed123b/run-bitlocker-drive-encryption-wizard-from-command-line?forum=w7itprosecurity
+    $AppLocation = "C:\Windows\System32\BitLockerWizardElev.exe"
+    $WshShell = New-Object -ComObject WScript.Shell
+    $Shortcut = $WshShell.CreateShortcut("$Home\Desktop\Bitlocker Wizard.lnk")
+    $Shortcut.TargetPath = $AppLocation
+    $Shortcut.Arguments ="\ t"
+    #$Shortcut.IconLocation = "C:\Windows\System32\BitLockerWizardElev.exe,0"
+    $Shortcut.Description ="Start Bitlocker Wizard"
+    $Shortcut.WorkingDirectory ="C:\Windows\System32"
+    $Shortcut.Save()
+}
+
 
 Function DisableSSDPdiscovery{
   # Disables discovery of networked devices and services that use the SSDP discovery protocol, such as UPnP devices.
@@ -121,6 +153,7 @@ Function EnableWinHttpAutoProxySvc {
 	Set-Service "WinHttpAutoProxySvc" -StartupType Manual
 	Start-Service "WinHttpAutoProxySvc" -WarningAction SilentlyContinue
 }
+
 
 ################################################################
 ###### Network Functions  ###
@@ -193,23 +226,6 @@ function SetDefaultHostsfile{
 
 
 ################################################################
-###### Privacy configurations  ###
-################################################################
-
-function DisableInkingAndTypingData{
-  # Disable sending of inking and typing data to Microsoft to improve the language recognition and suggestion capabilities of apps and services.
-  Write-Output "Disabling sending of inking and typing data..."
-  Set-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Input\TIPC\" -name Enabled -value 0
-}
-
-function EnableInkingAndTypingData{
-  # Send inking and typing data to Microsoft to improve the language recognition and suggestion capabilities of apps and services.
-  Write-Output "Enabling sending of inking and typing data..."
-  Set-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Input\TIPC\" -name Enabled -value 1
-}
-
-
-################################################################
 ###### Windows Subsystem for Linux  ###
 ################################################################
 
@@ -248,30 +264,79 @@ function DisableWSL{
 
 function InstallWSLubuntu1804{
   Write-Output "Installing WSL Ubuntu 18.04..."
-  Invoke-WebRequest https://aka.ms/wsl-ubuntu-1804 -OutFile ubuntu-1804.appx
-  Add-AppxPackage .\ubuntu-1804.appx
+  $URL="https://aka.ms/wsl-ubuntu-1804"
+
+  # Downloading file
+  $FullDownloadURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
+  $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $FileName=([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
+  Write-Output "Downloading file from: $FullDownloadURL"
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $LocalFile
+
+  # Installing File
+  Add-AppxPackage $LocalFile
+}
+
+function RemoveWSLubuntu1804{
+  Get-AppxPackage "CanonicalGroupLimited.Ubuntu18.04onWindows" | Remove-AppxPackage
 }
 
 function InstallWSLdebian{
   Write-Output "Installing WSL Debian..."
-  Invoke-WebRequest https://aka.ms/wsl-debian-gnulinux -OutFile wsl-debian-gnulinux.appx
-  Add-AppxPackage .\wsl-debian-gnulinux.appx
+  $URL="https://aka.ms/wsl-debian-gnulinux"
+
+  # Downloading file
+  $FullDownloadURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
+  $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $FileName=([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
+  Write-Output "Downloading file from: $FullDownloadURL"
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $LocalFile
+
+  # Installing File
+  Add-AppxPackage $LocalFile
+}
+
+function RemoveWSLdebian{
+  Get-AppxPackage "TheDebianProject.DebianGNULinux" | Remove-AppxPackage
 }
 
 function InstallWSLkali{
   Write-Output "Installing WSL Kali..."
-  Invoke-WebRequest https://aka.ms/wsl-kali-linux-new -OutFile wsl-kali-linux-new.appx
-  Add-AppxPackage .\wsl-kali-linux-new.appx
+  $URL="https://aka.ms/wsl-kali-linux-new"
+
+  # Downloading file
+  $FullDownloadURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
+  $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $FileName=([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
+  Write-Output "Downloading file from: $FullDownloadURL"
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $LocalFile
+
+  # Installing File
+  Add-AppxPackage $LocalFile
+}
+
+function RemoveWSLkali{
+  Get-AppxPackage "KaliLinux.54290C8133FEE" | Remove-AppxPackage
 }
 
 function InstallWSLFedoraRemix{
-  Write-Output "Installing WSL Fedora Remix..."
   # Fedora remix is available on github
   # https://github.com/WhitewaterFoundry/Fedora-Remix-for-WSL/releases
+  # Fedora Remix cannot use BitsTransfer due to githubs extremely long download URLs
+
+  Write-Output "Installing WSL Fedora Remix..."
   $FedoraRemixURL = "https://github.com" + (((Invoke-WebRequest "https://github.com/WhitewaterFoundry/Fedora-Remix-for-WSL/releases" -UseBasicParsing ).links).href  | Select-String "x64" | Select-Object -First 1)
   Invoke-WebRequest $FedoraRemixURL -UseBasicParsing -OutFile fedoraremix.appx
   Add-AppxPackage .\fedoraremix.appx
 }
+
+function RemoveWSLFedoraRemix{
+  Get-AppxPackage "WhitewaterFoundryLtd.Co.FedoraRemixforWSL" | Remove-AppxPackage
+}
+
 
 
 ################################################################
@@ -323,7 +388,7 @@ function InstallGPGwin{
     $FileType=([System.IO.Path]::GetExtension($Localfile))
     Write-Output "Starting installation of: $FileName"
     switch ($FileType){
-            ".exe" {Start-Process $LocalFile /s -NoNewWindow -Wait}
+            ".exe" {Start-Process $LocalFile -NoNewWindow -Wait}
             ".msi" {msiexec.exe /i $Localfile /qb}
     }
 }
@@ -350,7 +415,7 @@ function InstallThunderbird{
   $FileType=([System.IO.Path]::GetExtension($Localfile))
   Write-Output "Starting installation of: $FileName"
   switch ($FileType){
-          ".exe" {Start-Process $LocalFile /s -NoNewWindow -Wait}
+          ".exe" {Start-Process $LocalFile -NoNewWindow -Wait}
           ".msi" {msiexec.exe /i $Localfile /qb}
   }
 }
@@ -408,6 +473,33 @@ function InstallOffice365{
 
 }
 
+function InstallVMwareWorkstation{
+
+      #Download vmware workstation
+      $URL = "https://www.vmware.com/go/getworkstation-win"
+
+      Write-Output "Installing VMware Workstation..."
+      # Resolve full download URL
+      Write-Output "Checking URL: $URL"
+      $FullDownloadURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
+      if (! $FullDownloadURL) {Write-Output "Error: URL not resolved"; return}
+
+      # Download file
+      $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+      $FileName=([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+      $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
+      Write-Output "Downloading file from: $FullDownloadURL"
+      Start-BitsTransfer -Source $FullDownloadURL -Destination $LocalFile
+      #(New-Object System.Net.WebClient).DownloadFile($FullDownloadURL, $LocalFile)
+
+      # Install
+      $FileType=([System.IO.Path]::GetExtension($Localfile))
+      Write-Output "Starting installation of: $FileName"
+      Start-Process -FilePath $LocalFile -NoNewWindow -Wait -ArgumentList "/s /v/qn REBOOT=ReallySuppress ADDLOCAL=ALL EULAS_AGREED=1 SERIALNUMBER=""XXXXX-XXXXX-XXXXX-XXXXX-XXXXX"""
+
+}
+
+
 ################################################################
 ###### Browsers and Internet  ###
 ################################################################
@@ -448,7 +540,7 @@ function InstallFirefox{
     $FileType=([System.IO.Path]::GetExtension($Localfile))
     Write-Output "Starting installation of: $FileName"
     switch ($FileType){
-            ".exe" {Start-Process $LocalFile /s -NoNewWindow -Wait}
+            ".exe" {Start-Process $LocalFile -NoNewWindow -Wait}
             ".msi" {msiexec.exe /i $Localfile /qb}
     }
 }
@@ -540,7 +632,7 @@ function InstallChrome{
     $FileType=([System.IO.Path]::GetExtension($Localfile))
     Write-Output "Starting installation of: $FileName"
     switch ($FileType){
-            ".exe" {Start-Process $LocalFile /s -NoNewWindow -Wait}
+            ".exe" {Start-Process $LocalFile -NoNewWindow -Wait}
             ".msi" {msiexec.exe /i $Localfile /qb}
     }
 }
@@ -602,6 +694,18 @@ New-Item ($chromeInstallDir+"master_preferences") -type file -force -value "{
 "
 }
 
+function CustomizeChrome{
+
+  # Add Default Search engines on Chrome
+      # http://ludovic.chabant.com/devblog/2010/12/29/poor-mans-search-engines-sync-for-google-chrome/
+      # Chrome search string (for manually adding): https://encrypted.google.com/search?hl=en&as_q=%s
+      # https://productforums.google.com/forum/#!topic/chrome/7a5G3eGur5Y
+      # Disable 3rd party cookies
+
+  # Change Edge default search engine and home page
+
+}
+
 function InstallOpera{
   Write-Output "Installing Opera..."
   #$URL="https://www.opera.com/da/computer/thanks?ni=stable&os=windows"
@@ -633,7 +737,7 @@ function InstallOpera{
             ".exe" {
                 Write-Output "Starting installation of: $FileName"
                 # .\Opera_66.0.3515.95_Setup_x64.exe --runimmediately --allusers=0 --setdefaultbrowser=0 --enable-installer-stats=0 --enable-stats=0
-                Start-Process $LocalFile /s -NoNewWindow -Wait
+                Start-Process $LocalFile -NoNewWindow -Wait
                 }
             # sha256 - https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-filehash?view=powershell-7
       }
