@@ -744,6 +744,11 @@ function InstallOpera{
   }
 }
 
+function InstallAutopsy{
+  # SleuthKit/InstallAutopsy
+  # scrape github page - https://github.com/sleuthkit/autopsy/releases/
+  # get 64 bit files like autopsy-4.14.0-64bit.msi and autopsy-4.14.0-64bit.msi.asc
+}
 
 ################################################################
 ###### Auxiliary Functions  ###
