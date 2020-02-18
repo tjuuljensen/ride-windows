@@ -52,6 +52,9 @@ CreateChromePreferenceFiles
 CustomizeChrome
 InstallOpera                  #
 
+###### Forensic Tools ###
+InstallAutopsy
+
 ###### Auxiliary Functions  ###
 WaitForKey
 Restart
