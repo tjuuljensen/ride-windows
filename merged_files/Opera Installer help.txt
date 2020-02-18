@@ -1,0 +1,56 @@
+Opera Installer 66.0.3515.95 Stable
+
+The following command line parameters affect the behavior of the installer:
+  silent
+    Run the installer fully unattended. No dialog will be displayed in this mode. If it isn't running with sufficient privileges, the installer will fail instead of prompting the user.
+  runimmediately
+    Run the installer mostly unattended. The installation will start immediately and the progress dialog will be displayed. The installer will prompt the user for elevation if needed.
+  language=LANGUAGE
+    Install Opera in the specified language.This language will also be used during installation.
+    Default value: The Operating system UI language.
+  installfolder=FOLDER
+    Install Opera in the specified folder.
+  allusers=[0|1]
+    If true, install Opera for all users on the system.
+    Default value: True when running from an administrative acount.
+  copyonly=[0|1]
+    If true, the installer will only copy the files to the installation folder and will otherwise not perform any modification on the system.
+    Default value: False.
+  singleprofile=[0|1]
+    If true, the installer will set up Opera to use a singleprofile located in the installation folder.
+    Default value: False.
+  setdefaultbrowser=[0|1]
+    If true, make Opera the default browser for this user or computer.
+    Default value: True for Opera Stable.
+  desktopshortcut=[0|1]
+    If true, create a shortcut for Opera on the desktop.
+    Default value: True.
+  startmenushortcut=[0|1]
+    If true, create a shortcut for Opera on the start menu.
+    Default value: True.
+  pintotaskbar=[0|1]
+    If true, pin Opera to the taskbar.
+    Default value: True.
+  pin-additional-shortcuts=[0|1]
+    If true and utm_medium=PB, pins additional shortcuts to the taskbar.
+    Default value: True.
+  import-browser-data=[0|1]
+    If true, Opera is set up to import user data from the previously default browser when creating new user profiles.
+    Default value: True.
+  enable-stats=[0|1]
+    If true, Opera will by default gather and report statistics.
+    Default value: True.
+  enable-installer-stats=[0|1]
+    If true, installer will by default gather and report statistics.
+    Default value: True.
+  launchbrowser=[0|1]
+    If true, Opera is launched once the installation is completed.
+    Default value: True.
+
+Languages available for the language option:
+be, bg, bn, ca, cs, da, de, el, en-GB, en, es-419, es, fi, fil, fr-CA, fr, hi, hr, hu, id, it, ja, ko, lt, lv, ms, nb, nl, pl, pt-BR, pt-PT, ro, ru, sk, sr, sv, sw, ta, te, th, tr, uk, vi, zh-CN, zh-TW
+
+Features available through command-line switches:
+        --with-feature:installer-experiment-test [Enabled by default: false]
+        --with-feature:installer-use-minimal-package [Enabled by default: false]
+Press any key to continue . . .
