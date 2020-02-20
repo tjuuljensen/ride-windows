@@ -443,7 +443,7 @@ function InstallOffice365{
   Invoke-Expression "$LocalFile /quiet /extract:$DeploymentDirectory"
 
   # Create Office365 XMl file
-  $CustomOffice365XML=Join-Path -Path $DeploymentDirectory -ChildPath "custom-Office365-x86.xml"
+  $CustomXML=Join-Path -Path $DeploymentDirectory -ChildPath "custom-Office365-x86.xml"
 
   '<!-- Office 365 client configuration file for custom downloads -->
 
@@ -463,15 +463,65 @@ function InstallOffice365{
   <Updates Enabled="TRUE" Channel="Monthly" />
   <Display Level="None" AcceptEULA="TRUE" />
   <Property Name="AUTOACTIVATE" Value="1" />
-  </Configuration>' |  Out-File $CustomOffice365XML
+  </Configuration>' |  Out-File $CustomXML
 
   # start download using OfficeDeploymentTool
-  Invoke-Expression (Join-Path -Path $DeploymentDirectory -ChildPath "setup.exe") "/download $CustomOffice365XML"
+  Invoke-Expression (Join-Path -Path $DeploymentDirectory -ChildPath "setup.exe") "/download $CustomXML"
 
   # start install using OfficeDeploymentTool
-  Invoke-Expression (Join-Path -Path $DeploymentDirectory -ChildPath "setup.exe") "/configure $CustomOffice365XML"
+  Invoke-Expression (Join-Path -Path $DeploymentDirectory -ChildPath "setup.exe") "/configure $CustomXML"
 
 }
+
+function InstallVisioPro{
+  # download and install office365 using office deployment tool
+
+  Write-Output "Installing Microsoft Visio Pro..."
+  # scrape web page for right file link
+  $URL="https://www.microsoft.com/en-us/download/confirmation.aspx?id=49117"
+  $CheckURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
+  if (! $CheckURL) {Write-Output "Error: URL not resolved"; return}
+  $FullDownloadURL=(Invoke-WebRequest -UseBasicParsing  -Uri $URL).Links.Href | Get-Unique -asstring | Select-String -Pattern officedeploymenttool
+  if (! $FullDownloadURL) {Write-Output "Error: OfficeDeploymentTool Not found"; return}
+
+  #Download file
+  $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $FileName=([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
+  Import-Module BitsTransfer
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $LocalFile
+
+  # Extract Deployment tool in a subdirectory
+  $DeploymentDirectory=Join-Path -Path $DefaultDownloadDir -ChildPath "office365deploy\"
+  Invoke-Expression "$LocalFile /quiet /extract:$DeploymentDirectory"
+
+  # Create Office365 XMl file
+  $CustomXML=Join-Path -Path $DeploymentDirectory -ChildPath "custom-visio-x86.xml"
+
+  '<!-- Office 365 client configuration file for custom downloads -->
+
+  <Configuration>
+
+    <Add OfficeClientEdition="32" Channel="Monthly">
+      <Product ID="VisioProRetail">
+        <Language ID="en-us" />
+        <Language ID="da-dk" />
+      </Product>
+    </Add>
+
+  <Updates Enabled="TRUE" Channel="Monthly" />
+  <Display Level="None" AcceptEULA="TRUE" />
+  <Property Name="AUTOACTIVATE" Value="1" />
+  </Configuration>' |  Out-File $CustomXML
+
+  # start download using OfficeDeploymentTool
+  Invoke-Expression (Join-Path -Path $DeploymentDirectory -ChildPath "setup.exe") "/download $CustomXML"
+
+  # start install using OfficeDeploymentTool
+  Invoke-Expression (Join-Path -Path $DeploymentDirectory -ChildPath "setup.exe") "/configure $CustomXML"
+
+}
+
 
 function InstallVMwareWorkstation{
 
