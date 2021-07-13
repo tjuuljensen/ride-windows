@@ -1,5 +1,4 @@
-# Customizer for Disassembler0's Win10-Initial-Setup-Script
-# Win 10 / Server 2016 / Server 2019 Initial Setup Script
+# Win 10 / Server 2016 / Server 2019 Setup Script
 # Author: Torsten Juul-Jensen
 # Version: v2.0, 2020-02-15
 # Source: https://github.com/tjuuljensen/bootstrap-win10
