@@ -21,11 +21,6 @@ function ActivateWindows10{
 	$service.RefreshLicenseStatus()
 }
 
-function Sysprep{
-  # sysprep installation - for templates
-  Start-Process -FilePath C:\Windows\System32\Sysprep\Sysprep.exe -ArgumentList "/generalize /oobe /shutdown /quiet"
-}
-
 
 function DisableWindowsStoreApp(){
   # Disable Windows Store App - Windows Enterprise Only!!!
@@ -48,6 +43,24 @@ function EnableWindowsStoreApp(){
   Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore\" -Name "DisableStoreApps" -ErrorAction SilentlyContinue
 }
 
+function DisableFriendlyURLFormat(){
+  # Disable Friendly URL paste funtion from Microsoft Edge - can be HKLM or HKCU
+  # https://admx.help/?Category=EdgeChromium&Policy=Microsoft.Policies.Edge::ConfigureFriendlyURLFormat
+  Write-Output "Disabling Microsoft Edge Friendly URL Format..."
+
+  If (!(Test-Path "HKCU:\SOFTWARE\Policies\Microsoft\Edge\")) {
+    New-Item -Path "HKCU:\SOFTWARE\Policies\Microsoft\Edge\" -Force | Out-Null
+  }
+  New-ItemProperty -path "HKCU:\SOFTWARE\Policies\Microsoft\Edge\" -name "ConfigureFriendlyURLFormat" -value 1 -PropertyType DWord -Force
+}
+
+function UnconfigureFriendlyURLFormat(){
+  # Unconfigure Friendly URL paste funtion from Microsoft Edge - can be HKLM or HKCU
+  # https://admx.help/?Category=EdgeChromium&Policy=Microsoft.Policies.Edge::ConfigureFriendlyURLFormat
+  Write-Output "Unconfiguring Microsoft Edge Friendly URL Format..."
+
+  Remove-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Edge\" -name "ConfigureFriendlyURLFormat"  -ErrorAction SilentlyContinue
+}
 
 ################################################################
 ###### Privacy configurations  ###
@@ -334,6 +347,83 @@ function InstallWSLFedoraRemix{
 
 function RemoveWSLFedoraRemix{
   Get-AppxPackage "WhitewaterFoundryLtd.Co.FedoraRemixforWSL" | Remove-AppxPackage
+}
+
+
+
+################################################################
+###### Operational Tasks  ###
+################################################################
+
+function GetWindowsUpdates{
+  # Get-WindowsUpdates using PowerShell
+  Write-Output "Installing PowerShell Requirements for Windows Update..."
+  # PowerShellGet requires NuGet provider to interact with NuGet-based repositories
+  Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+
+  Install-Module PSWindowsUpdate -Force
+  Import-Module PSWindowsUpdate
+  Write-Output "Installing Windows Updates..."
+  Get-WindowsUpdate -AcceptAll -Install  # -AutoReboot
+}
+
+
+function CleanLocalWindowsUpdateCache{
+  # Stop Service wuauserv (Windows Update Service)
+  # Stop bits (Background Intelligent Transfer Service)
+  Get-Service -DisplayName "wuauserv" | Stop-Service
+  Get-Service -DisplayName "bits" | Stop-Service
+  Remove-Item C:\Windows\SoftwareDistribution\Download\*
+  Get-Service -DisplayName "wuauserv" | Start-Service
+  Get-Service -DisplayName "bits" | Start-Service
+}
+
+function RunDiskCleanup{
+  # Dism.exe /online /Cleanup-Image /StartComponentCleanup
+  # Dism.exe /online /Cleanup-Image /StartComponentCleanup /ResetBase
+
+  # Run CleanMgr functions
+
+  $HKLM = [UInt32] “0x80000002”
+  $strKeyPath = “SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches”
+  $strValueName = “StateFlags0065”
+
+  $subkeys = gci -Path HKLM:\$strKeyPath -Name
+
+  ForEach ($subkey in $subkeys) {
+      Try {
+          New-ItemProperty -Path HKLM:\$strKeyPath\$subkey -Name $strValueName -PropertyType DWord -Value 2 -ErrorAction SilentlyContinue| Out-Null
+      }
+      Catch {
+      }
+      Try {
+          Start-Process cleanmgr -ArgumentList “/sagerun:65” -Wait -NoNewWindow -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+      }
+      Catch {
+          }
+      }
+  ForEach ($subkey in $subkeys) {
+      Try {
+          Remove-ItemProperty -Path HKLM:\$strKeyPath\$subkey -Name $strValueName | Out-Null
+      }
+      Catch {
+      }
+  }
+}
+
+function RunSysprepGeneralizeOOBE{
+  # Sysprep installation - for templates
+  # https://theitbros.com/sysprep-windows-machine/
+  # FIXME: Should be tested if it works (check stackoverflow link below): Start-Process -FilePath C:\Windows\System32\Sysprep\Sysprep.exe -ArgumentList "/generalize /oobe /shutdown /quiet"
+  # https://stackoverflow.com/questions/52144405/run-sysprep-remotely-through-commands-from-azure-powershell
+  $sysprep = 'C:\Windows\System32\Sysprep\Sysprep.exe'
+  $arg = '/generalize /oobe /shutdown /quiet'
+  Invoke-Command -ScriptBlock {param($sysprep,$arg) Start-Process -FilePath $sysprep -ArgumentList $arg} -ArgumentList $sysprep,$arg
+
+  # Handle Activation on Sysprep
+  # Check this (old article - WIn7)
+  # https://social.technet.microsoft.com/Forums/windows/en-US/4104fa3f-9c36-4d45-aa36-677602894768/sysprep-maintain-activation-and-product-key?forum=w7itproinstall
+
 }
 
 

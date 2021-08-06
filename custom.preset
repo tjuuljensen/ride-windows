@@ -11,8 +11,8 @@ RequireAdmin
 
 ###### Windows 10 configuration  ###
 ActivateWindows10
-Sysprep
 DisableWindowsStoreApp        # EnableWindowsStoreApp
+DisableFriendlyURLFormat      # UnconfigureFriendlyURLFormat
 
 ###### Privacy configurations  ###
 DisableInkingAndTypingData    # EnableInkingAndTypingData
@@ -35,6 +35,12 @@ InstallWSLubuntu1804          # RemoveWSLubuntu1804
 InstallWSLdebian              # RemoveWSLdebian
 InstallWSLkali                # RemoveWSLkali
 InstallWSLFedoraRemix         # RemoveWSLFedoraRemix
+
+###### Operational Tasks  ###
+GetWindowsUpdates
+CleanLocalWindowsUpdateCache
+RunDiskCleanup
+# RunSysprepGeneralizeOOBE
 
 ###### Install programs  ###
 InstallSpiceGuestTool
