@@ -198,8 +198,11 @@ function EnableMulticastDNS{
 
 
 function GetTelemetryBlockingHostfile{
+
     # Null-routing hostfile to block Microsoft and NVidia telemetry
     # read more here: https://encrypt-the-planet.com/windows-10-anti-spy-host-file/
+    # Fetching from encrypt-the-planet and overwrite current host file
+
     Write-Output "Enabling blocking hostsfile from encrypt-the-planet.com..."
     $Hostsfile=Join-Path -Path $Env:windir -ChildPath "\System32\Drivers\etc\hosts"
     Invoke-WebRequest https://www.encrypt-the-planet.com/downloads/hosts -OutFile $Hostsfile
@@ -649,6 +652,9 @@ function DisableEdgePagePrediction{
   # This exposes your machine fingerprint and also creates a notable load on PCs with low end hardware because the browser calculates the
   # possible URL address every time you type something into the address bar. It also creates potentially unnecessary bandwidth usage.
 
+  # https://www.kapilarya.com/how-to-enable-disable-page-prediction-in-microsoft-edge
+
+  
   Write-Output "Disabling Microsoft Edge page prediction..."
   If (!(Test-Path "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\FlipAhead\")) {
     New-Item -Path "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\FlipAhead\" -Force | Out-Null
