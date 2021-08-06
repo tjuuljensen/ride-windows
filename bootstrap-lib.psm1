@@ -435,6 +435,82 @@ function RunSysprepGeneralizeOOBE{
 ###### Install programs  ###
 ################################################################
 
+function InstallSysmon64{
+    # install sysmon from Microsof
+    # https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
+    # Use SysMon config from https://github.com/olafhartong/sysmon-modular/blob/master/Merge-SysmonXml.ps1
+
+    Write-Output "Installing Sysmon64..."
+
+    $INSTALLFILE="Sysmon64.exe"
+    $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+    $SYSMONURL="https://download.sysinternals.com/files/Sysmon.zip"
+    $SYSMONFILE=$SYSMONURL.Substring($SYSMONURL.LastIndexOf("/") + 1)
+
+    cd $DefaultDownloadDir
+    Import-Module BitsTransfer
+    Start-BitsTransfer -Source $SYSMONURL
+
+    Expand-Archive -Path $SYSMONFILE -DestinationPath $DefaultDownloadDir
+    # Invoke-Expression $INSTALLFILE -i sysmon-modular.xml
+
+    # https://stackoverflow.com/questions/25736268/how-to-register-a-windows-service-but-avoid-it-being-listed-in-the-services-cons
+    # Set the security descriptor of sysmon - SC SDSET Sysmon64 D:(D;;DCLCWPDTSD;;;IU)(D;;DCLCWPDTSD;;;SU)(D;;DCLCWPDTSD;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)
+
+}
+
+
+function InstallNotepadPlusPlus{
+
+  $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+
+  $URL="https://notepad-plus-plus.org/downloads"
+
+  # the filetype later selected for download
+  $FILEMASK="Installer.x64"
+
+  # get the URL of the latest verison of NPP
+  $LATESTNPPURL=((Invoke-WebRequest -UseBasicParsing –Uri $URL).Links | where outerHTML -Like "*$URL*" | Select-Object -First 1).href
+  $NPPFILESURL=(Invoke-WebRequest -UseBasicParsing –Uri $LATESTNPPURL).Links | where outerHTML -Like "*$FILEMASK*"
+
+  # Download all files in object (expected is an .exe file and a .sig file)
+  $NPPFILESURL | ForEach-Object { Start-BitsTransfer -Source ($_).href -Destination $DefaultDownloadDir }
+
+  # FIXME Install is missing
+
+}
+
+
+function Install7Zip{
+  # https://www.7-zip.org/
+  $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+
+  $URL="https://www.7-zip.org/"
+
+  # the filetype later selected for download
+  $FILEMASK="-x64"
+  $BETAALLOWED=false # | true
+
+  # get the URL of the latest verison of NPP
+  $URLLINKS=(Invoke-WebRequest -UseBasicParsing –Uri $URL).Links
+  $7ZIPFILES=( $URLLINKS | where outerHTML -Like "*$FILEMASK*")
+
+  $BETAEXIST=($URLLINKS | where outerHTML -Like "*beta*" | Select-Object -First 1) -match '\d\d\.\d\d'
+  $BETAVERSION=$Matches[0].Remove(2,1)
+
+  if ( $BETAALLOWED ) {
+    $LATEST7ZIP=($7ZIPFILES | Sort-Object -Descending | Select-Object -First 1).href
+  else
+    $LATEST7ZIP=($7ZIPFILES | where href -notlike $BETAVERSION | Sort-Object -Descending | Select-Object -First 1).href
+  }
+
+  # Download file
+  $FULLURL= $URL + $LATEST7ZIP
+  Start-BitsTransfer -Source ($LATEST7ZIP).href -Destination $DefaultDownloadDir }
+
+  # FIXME Install is missing
+}
+
 function InstallSpiceGuestTool{
   # Install spice guest tool (for Gnome boxes) - https://www.spice-space.org/download.html
   # Read more here: https://www.ctrl.blog/entry/how-to-win10-in-gnome-boxes.html
@@ -654,7 +730,7 @@ function DisableEdgePagePrediction{
 
   # https://www.kapilarya.com/how-to-enable-disable-page-prediction-in-microsoft-edge
 
-  
+
   Write-Output "Disabling Microsoft Edge page prediction..."
   If (!(Test-Path "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\FlipAhead\")) {
     New-Item -Path "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\FlipAhead\" -Force | Out-Null
