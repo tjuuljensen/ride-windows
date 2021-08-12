@@ -4,6 +4,89 @@
 # Source: https://github.com/tjuuljensen/bootstrap-win10
 #
 
+################################################################
+###### Temp  ###
+################################################################
+
+
+function GetSecurityComplianceToolkit{
+  # https://www.microsoft.com/en-us/download/details.aspx?id=55319
+}
+
+
+function InstallBurp{
+  # https://portswigger.net/burp/releases/community/latest
+}
+
+function InstallFonts{
+  # Inspired by https://www.powershellgallery.com/packages/PSWinGlue/0.3.3/Content/Functions%5CInstall-Font.ps1
+  <#
+        .Synopsis
+        Installs one or more fonts.
+        .Parameter FontPath
+        The path to the font to be installed or a directory containing fonts to install.
+        .Parameter Recurse
+        Searches for fonts to install recursively when a path to a directory is provided.
+        .Notes
+        There's no checking if a given font is already installed. This is problematic as an existing
+        installation will trigger a GUI dialogue requesting confirmation to overwrite the installed
+        font, breaking unattended and CLI-only scenarios.
+
+        [CmdletBinding()]
+        Param(
+            [Parameter(Mandatory=$true)]
+            [String]$FontPath,
+
+            [Switch]$Recurse
+        )
+
+        $ErrorActionPreference = 'Stop'
+    #>
+
+  # fixme - Hardcoded UNC
+  $FontPath = "C:\!INSTALL\delicious-123"
+  [Switch]$Recurse = $True
+
+  if (Test-Path -Path $FontPath) {
+      $FontItem = Get-Item -Path $FontPath
+      if ($FontItem -is [IO.DirectoryInfo]) {
+          if ($Recurse) {
+              $Fonts = Get-ChildItem -Path $FontItem -Include ('*.fon','*.otf','*.ttc','*.ttf') -Recurse
+          } else {
+              $Fonts = Get-ChildItem -Path "$FontItem\*" -Include ('*.fon','*.otf','*.ttc','*.ttf')
+          }
+
+          if (!$Fonts) {
+              throw ('Unable to locate any fonts in provided directory: {0}' -f $FontItem.FullName)
+          }
+      } elseif ($FontItem -is [IO.FileInfo]) {
+          if ($FontItem.Extension -notin ('.fon','.otf','.ttc','.ttf')) {
+              throw ('Provided file does not appear to be a valid font: {0}' -f $FontItem.FullName)
+          }
+
+          $Fonts = $FontItem
+      } else {
+          throw ('Expected directory or file but received: {0}' -f $FontItem.GetType().Name)
+      }
+  } else {
+      throw ('Provided font path does not appear to be valid: {0}' -f $FontPath)
+  }
+
+  $ShellAppFontNamespace = 0x14
+  $ShellApp = New-Object -ComObject Shell.Application
+  $FontsFolder = $ShellApp.NameSpace($ShellAppFontNamespace)
+  foreach ($Font in $Fonts) {
+      Write-Verbose -Message ('Installing font: {0}' -f $Font.BaseName)
+      $FontsFolder.CopyHere($Font.FullName)
+  }
+}
+
+function SetFirewallRules{
+  #https://winaero.com/export-and-import-specific-firewall-rule-in-windows-10/
+
+}
+
+
 
 ################################################################
 ###### Windows 10 configuration  ###
@@ -461,9 +544,8 @@ function InstallSysmon64{
 
 
 function InstallNotepadPlusPlus{
-
+  # https://notepad-plus-plus.org
   $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-
   $URL="https://notepad-plus-plus.org/downloads"
 
   # the filetype later selected for download
@@ -487,9 +569,9 @@ function Install7Zip{
 
   $URL="https://www.7-zip.org/"
 
-  # the filetype later selected for download
+  # the filetypemask later selected for download
   $FILEMASK="-x64"
-  $BETAALLOWED=false # | true
+  $BETAALLOWED=$false # Allow latest versions by changing this to $true
 
   # get the URL of the latest verison of NPP
   $URLLINKS=(Invoke-WebRequest -UseBasicParsing –Uri $URL).Links
@@ -506,10 +588,34 @@ function Install7Zip{
 
   # Download file
   $FULLURL= $URL + $LATEST7ZIP
-  Start-BitsTransfer -Source ($LATEST7ZIP).href -Destination $DefaultDownloadDir }
+  Start-BitsTransfer -Source $LATEST7ZIP -Destination $DefaultDownloadDir }
 
   # FIXME Install is missing
 }
+
+function InstallSysinternalsSuite{
+  $URL="https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite"
+  $URL="https://live.sysinternals.com/files/"
+  $SysInternalsSuiteURL=((Invoke-WebRequest -UseBasicParsing –Uri $URL).Links | Where-Object {($_.href -Like "*.zip*") -and ($_.href -notLike "*nano*") -and ($_.href -notLike "*arm64*") } ).href
+  Start-BitsTransfer -Source $SysInternalsSuiteURL -Destination $DefaultDownloadDir }
+  # FIXME Install is missing
+}
+
+
+function InstallNirsoftTools{
+  # Add defender exclusion before download
+  # https://docs.microsoft.com/en-us/powershell/module/defender/add-mppreference?view=windowsserver2019-ps
+  # https://www.windowscentral.com/how-manage-microsoft-defender-antivirus-powershell-windows-10#change_settings_defender_powershell
+  $NirLauncherPage = Invoke-WebRequest -Uri "https://launcher.nirsoft.net/downloads/index.html" -DisableKeepAlive -UseBasicParsing -UserAgent "Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0"
+  $NirLauncherZip = $URL= ($NirLauncherPage.links | Where-Object outerHTML -Like '*zip*download*' ).href
+  $NirLauncherPage -match 'password.*copyTextToClipboard.*;">(.*)<\/a>'
+  # Stored in $matches- save in
+  $ZipPassword =$Matches[1]
+  $URLPrefix="https:"
+  $URL=$URLPrefix$NirLauncherZip
+  # FIXME - this
+}
+
 
 function InstallSpiceGuestTool{
   # Install spice guest tool (for Gnome boxes) - https://www.spice-space.org/download.html

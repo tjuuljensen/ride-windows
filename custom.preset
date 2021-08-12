@@ -43,6 +43,10 @@ RunDiskCleanup
 # RunSysprepGeneralizeOOBE
 
 ###### Install programs  ###
+InstallSysmon64
+InstallNotepadPlusPlus
+Install7Zip
+InstallSysinternalsSuite
 InstallSpiceGuestTool
 InstallGPGwin
 InstallThunderbird
