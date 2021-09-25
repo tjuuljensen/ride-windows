@@ -5,9 +5,18 @@
 #
 
 ################################################################
-###### Temp  ###
+###### Temp (Unsorted) ###
 ################################################################
 
+function InstallGit4Win{
+  $URL="https://github.com/git-for-windows/git/releases/latest"
+  $RELEASEPAGELINKS=(Invoke-WebRequest -UseBasicParsing –Uri $URL).Links
+  $GIT4WIN64=($RELEASEPAGELINKS | where { $_.href -Like "*64*" -and $_.href -Like "*exe*" -and $_.href -notlike "*Portable*" }).href
+}
+
+function InstallActiveDirectoryRSAT{
+  # https://theitbros.com/install-and-import-powershell-active-directory-module/
+}
 
 function GetSecurityComplianceToolkit{
   # https://www.microsoft.com/en-us/download/details.aspx?id=55319
