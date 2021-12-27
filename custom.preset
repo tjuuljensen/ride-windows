@@ -9,8 +9,9 @@
 ###### Require administrator privileges ###
 RequireAdmin
 
-###### Windows 10 configuration  ###
-ActivateWindows10
+###### Windows configuration  ###
+ActivateWindows
+ReplaceLocalAdministrator
 DisableWindowsStoreApp        # EnableWindowsStoreApp
 DisableFriendlyURLFormat      # UnconfigureFriendlyURLFormat
 
@@ -18,7 +19,7 @@ DisableFriendlyURLFormat      # UnconfigureFriendlyURLFormat
 DisableInkingAndTypingData    # EnableInkingAndTypingData
 
 ###### Hardening Windows  ###
-SetBitLockerAES256            # SetBitLockerAES128
+SetDefaultBitLockerAES256     # SetDefaultBitLockerAES128
 PutBitlockerShortCutOnDesktop
 DisableSSDPdiscovery          # EnableSSDPdiscovery
 DisableUniversalPlugAndPlay   # EnableUniversalPlugAndPlay
