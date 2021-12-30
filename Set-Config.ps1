@@ -26,6 +26,56 @@ Function AddOrRemoveTweak($tweak) {
 	}
 }
 
+function Get-IniFile
+#
+# Inspired by https://stackoverflow.com/questions/43690336/powershell-to-read-single-value-from-simple-ini-file
+#
+{
+    param(
+        [parameter(Mandatory = $true)] [string] $filePath
+			  )
+
+    $anonymous = "NoSection"
+
+    $ini = @{}
+    switch -regex -file $filePath
+    {
+        "^\[(.+)\]$" # Section
+        {
+            $section = $matches[1]
+            $ini[$section] = @{}
+            $CommentCount = 0
+        }
+
+        "^(;.*)$" # Comment
+        {
+            if (!($section))
+            {
+                $section = $anonymous
+                $ini[$section] = @{}
+            }
+            $value = $matches[1]
+            $CommentCount = $CommentCount + 1
+            $name = "Comment" + $CommentCount
+            $ini[$section][$name] = $value
+        }
+
+        "(.+?)\s*=\s*(.*)" # Key
+        {
+            if (!($section))
+            {
+                $section = $anonymous
+                $ini[$section] = @{}
+            }
+            $name,$value = $matches[1..2]
+            $ini[$section][$name] = $value
+        }
+    }
+
+    return $ini
+}
+
+
 # Parse and resolve paths in passed arguments
 $i = 0
 While ($i -lt $args.Length) {
@@ -41,6 +91,12 @@ While ($i -lt $args.Length) {
 		$PSCommandArgs += "-preset `"$preset`""
 		# Load tweak names from the preset file
 		Get-Content $preset -ErrorAction Stop | ForEach-Object { AddOrRemoveTweak($_.Split("#")[0].Trim()) }
+	} ElseIf ($args[$i].ToLower() -eq "-ini") {
+		# Resolve full path to the ini file
+		$ini = Resolve-Path $args[++$i] -ErrorAction Stop
+		$PSCommandArgs += "-ini `"$ini`""
+		# Load valuesfrom the ini file
+		$config = Get-IniFile $ini
 	} ElseIf ($args[$i].ToLower() -eq "-log") {
 		# Resolve full path to the output file
 		$log = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($args[++$i])

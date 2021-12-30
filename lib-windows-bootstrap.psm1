@@ -5,92 +5,6 @@
 #
 
 ################################################################
-###### Temp (Unsorted) ###
-################################################################
-
-function InstallGit4Win{
-  $URL="https://github.com/git-for-windows/git/releases/latest"
-  $RELEASEPAGELINKS=(Invoke-WebRequest -UseBasicParsing –Uri $URL).Links
-  $GIT4WIN64=($RELEASEPAGELINKS | where { $_.href -Like "*64*" -and $_.href -Like "*exe*" -and $_.href -notlike "*Portable*" }).href
-  $DOWNLOADURL="https://github.com$GIT4WIN64"
-
-  # FIXME - Install is missing
-}
-
-function InstallActiveDirectoryRSAT{
-  # https://theitbros.com/install-and-import-powershell-active-directory-module/
-  <#
-  # Windows Server
-  Import-Module ServerManager
-  Add-WindowsFeature -Name "RSAT-AD-PowerShell" –IncludeAllSubFeature
-
-  # Windows 10 (up to 1803)
-  Enable-WindowsOptionalFeature -Online -FeatureName RSATClient-Roles-AD-Powershell
-
-  # Windows 10 (and later)
-  Add-WindowsCapability –online –Name “Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0”
-  #>
-}
-
-function GetSecurityComplianceToolkit{
-  # https://www.microsoft.com/en-us/download/details.aspx?id=55319
-}
-
-
-function InstallBurpPro{
-  # https://portswigger.net/burp/releases/community/latest
-  $URL="https://portswigger.net/burp/releases/community/latest"
-  $PAGELINKS=(Invoke-WebRequest -UseBasicParsing –Uri $URL).Links
-  $PACKAGELINK=($PAGELINKS | where { $_.href -Like "*64" -And $_.href -Like "*product=pro*" }).href
-  $DOWNLOADURL="https://portswigger.net$PACKAGELINK"
-
-  # FIXME - missing install
-}
-
-function InstallBurpCommunity{
-  # https://portswigger.net/burp/releases/community/latest
-  $URL="https://portswigger.net/burp/releases/community/latest"
-  $PAGELINKS=(Invoke-WebRequest -UseBasicParsing –Uri $URL).Links
-  $PACKAGELINK=($PAGELINKS | where { $_.href -Like "*64" -And $_.href -Like "*product=community*" }).href
-  $DOWNLOADURL="https://portswigger.net$PACKAGELINK"
-
-  # FIXME - missing install
-}
-
-function InstallFonts{
-  # Inspired by https://www.powershellgallery.com/packages/PSWinGlue/0.3.3/Content/Functions%5CInstall-Font.ps1
-
-  $FontPath = "$PSScriptRoot\fonts"
-#  [Switch]$Recurse = $True
-
-  if (Test-Path -Path $FontPath) {
-      $FontItem = Get-Item -Path $FontPath
-      $Fonts = Get-ChildItem -Path $FontItem -Include ('*.fon','*.otf','*.ttc','*.ttf') -Recurse
-  }
-
-  $ShellAppFontNamespace = 0x14
-  $ShellApp = New-Object -ComObject Shell.Application
-  $FontsFolder = $ShellApp.NameSpace($ShellAppFontNamespace)
-  foreach ($Font in $Fonts) {
-      $TargetPath = Join-Path $FontsFolder $Font.Name
-      if (Test-Path $TargetPath) {
-        Remove-Item $TargetPath -Force
-		    Copy-Item $FontFile.FullName $TargetPath -Force
-        }
-      else {
-        Write-Verbose -Message ('Installing font: {0}' -f $Font.BaseName)
-        $FontsFolder.CopyHere($Font.FullName)
-      }
-  }
-}
-
-function SetFirewallRules{
-  #https://winaero.com/export-and-import-specific-firewall-rule-in-windows-10/
-
-}
-
-
-################################################################
 ###### Windows configuration  ###
 ################################################################
 
@@ -106,45 +20,42 @@ function ActivateWindows{
 	$service.RefreshLicenseStatus()
 }
 
-function ReplaceLocalAdministrator{
-  $LocalAdminUser = "Admin"
-  $Password = Read-Host -AsSecureString "Enter password of the Local Admin User"
-  New-LocalUser $LocalAdminUser -Password $Password -FullName "Local Administrative Account" -Description "The account used for performing local administrative tasks"
-  Add-LocalGroupMember -Group "Administrators" -Member $LocalAdminUser
-  Disable-LocalUser -Name "Administrator"
+function CreateNewLocalAdmin{
+  #param(
+  #    [string] $NewAdminUser = "Admin"
+  #)
+  $DefaultAdminName="admin"
+  # Test if value was set by reading the $config.LocalAdmin.AdminUse value from an ini file
+  $LocalAdminUser = if ($config.LocalAdmin.AdminUser -eq $null) {$DefaultAdminName}  else {$config.LocalAdmin.AdminUser}
+
+  if ((Get-LocalUser $LocalAdminUser -ErrorAction Ignore).count -eq 1) {
+    write-output "ERROR: User $LocalAdminUser exists - Exiting."
+  } else {
+    # If Password was set in ini file, use this
+   if ($config.LocalAdmin.AdminPassword -ne $null -and ($config.LocalAdmin.AdminPassword).tolower() -ne "[prompt]") {
+          $Password = ConvertTo-SecureString -String $config.LocalAdmin.AdminPassword
+        } else {
+          $Password = Read-Host -AsSecureString "Enter password of the Local Admin User"
+        }
+
+    New-LocalUser $LocalAdminUser -Password $Password -FullName "Local Administrative Account" -Description "The account used for performing local administrative tasks"
+    Add-LocalGroupMember -Group "Administrators" -Member $LocalAdminUser
+  }
+
 }
 
-function ReplaceDefaultWallpapers{
-  <#
-  https://ccmexec.com/2015/08/replacing-default-wallpaper-in-windows-10-using-scriptmdtsccm/
-  Default 4k images in C:\Windows\Web\4K\Wallpaper\Windows:
-  768x1024  - img0_768x1024.jpg
-  768x1366  - img0_768x1366.jpg
-  1024x768  - img0_1024x768.jpg
-  1200x1920 - img0_1200x1920.jpg
-  1366x768  - img0_1366x768.jpg
-  1600x2560 - img0_1600x2560.jpg
-  2160x3840 - img0_2160x3840.jpg
-  2560x1600 - img0_2560x1600.jpg
-  3840x2160 - img0_3840x2160.jpg
-  #>
+function DisableBuiltinAdministrator{
 
-  $DefaultWallPaper="$env:SystemDrive:\windows\WEB\wallpaper\Windows\img0.jpg"
-  $WallPaperPath="$env:SystemDrive:\Windows\Web\4K\Wallpaper\Windows"
+  $AdditionalLocalAdmins=Get-LocalGroupMember -group "Administrators" | Where-Object Name -NotLike "*\Administrator"
+  if ( $AdditionalLocalAdmins.count -gt 0 ) {
+      Disable-LocalUser -Name "Administrator"
+      Write-Output "The following user(s) can be used to log on with administrative credentials:"
+      Write-Output $AdditionalLocalAdmins.Name
+  } else {
+     Write-Output "ERROR: You need other users in the Administrators group before disabling the default Administrator"
+  }
 
-  takeown /f $DefaultWallPaper
-  takeown /f $WallPaperPath\*.*
-
-  icacls $DefaultWallPaper /Grant 'System:(F)'
-  icacls $WallPaperPath\*.* /Grant 'System:(F)'
-
-  Remove-Item $DefaultWallPaper
-  Remove-Item $WallPaperPath\*.*
-
-  Copy-Item $PSScriptRoot\pictures\wallpaper\img0.jpg $DefaultWallPaper
-  Copy-Item $PSScriptRoot\pictures\wallpaper\4k\*.* $WallPaperPath
 }
-
 
 function DisableWindowsStoreApp(){
   # Disable Windows Store App - Windows Enterprise Only!!!
@@ -197,6 +108,34 @@ function DisableRunAsInStartMenu{
   Remove-ItemProperty -path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer\" -name "ShowRunAsDifferentUserInStart" -ErrorAction SilentlyContinue
 }
 
+function EnableInternetExplorer11{
+  Enable-WindowsOptionalFeature -FeatureName Internet-Explorer-Optional-amd64 –Online
+}
+
+function DisableInternetExplorer11{
+  Disable-WindowsOptionalFeature -FeatureName Internet-Explorer-Optional-amd64 –Online
+}
+
+function EnableInternetPrinting{
+  Enable-WindowsOptionalFeature -FeatureName Printing-Foundation-InternetPrinting-Client –Online
+}
+
+function DisableInternetPrinting{
+  Disable-WindowsOptionalFeature -FeatureName Printing-Foundation-InternetPrinting-Client –Online
+}
+
+function EnablePowerShellV2{
+  Enable-WindowsOptionalFeature -Online -FeatureName MicrosoftWindowsPowerShellV2Root
+}
+
+function DisablePowerShellV2{
+  Disable-WindowsOptionalFeature -Online -FeatureName MicrosoftWindowsPowerShellV2Root
+}
+
+function SetFirewallRules{
+  #https://winaero.com/export-and-import-specific-firewall-rule-in-windows-10/
+
+}
 
 ################################################################
 ###### Privacy configurations  ###
@@ -266,6 +205,28 @@ function EnableBitlockerPIN{
   # BitLocker PIN
   $SecureString = ConvertTo-SecureString "FIXME1234" -AsPlainText -Force
   Enable-BitLocker -MountPoint "$($env:SystemDrive)" -EncryptionMethod Aes256 -UsedSpaceOnly -Pin $SecureString -TPMandPinProtector
+
+}
+
+Function EnableLockOutThreshold {
+	Write-Output "Setting Bitlocker Lockout Threshold to 10 attempts..."
+	If (!(Test-Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System")) {
+		New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "MaxDevicePasswordFailedAttempts" -Type DWord -Value 10
+}
+
+Function DisableLockOutThreshold {
+	Write-Output "Disabling Bitlocker Lockout Threshold..."
+	If (!(Test-Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System")) {
+		New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "MaxDevicePasswordFailedAttempts" -Type DWord -Value 0
+}
+
+function EnabledEnhancedPIN{
+  # \SOFTWARE\Policies\Microsoft\FVE  = 1
+  # https://admx.help/?Category=MDOP&Policy=Microsoft.Policies.BitLockerManagement::EnhancedPIN_Name
 
 }
 
@@ -585,6 +546,30 @@ function RunSysprepGeneralizeOOBE{
 ###### Install programs  ###
 ################################################################
 
+
+function InstallGit4Win{
+  $URL="https://github.com/git-for-windows/git/releases/latest"
+  $RELEASEPAGELINKS=(Invoke-WebRequest -UseBasicParsing –Uri $URL).Links
+  $GIT4WIN64=($RELEASEPAGELINKS | where { $_.href -Like "*64*" -and $_.href -Like "*exe*" -and $_.href -notlike "*Portable*" }).href
+  $FullDownloadURL="https://github.com$GIT4WIN64"
+
+  # Download file
+  $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $FileName=([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
+  Write-Output "Downloading file from: $FullDownloadURL"
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $LocalFile
+
+  # Install File
+  $CommandLineOptions="/SILENT /LOG"
+  $FileType=([System.IO.Path]::GetExtension($Localfile))
+  Write-Output "Starting installation of: $FileName"
+  switch ($FileType){
+          ".exe" {Start-Process $LocalFile $CommandLineOptions -NoNewWindow -Wait}
+          ".msi" {msiexec.exe /i $Localfile /qb}
+  }
+
+}
 
 function InstallNotepadPlusPlus{
   # https://notepad-plus-plus.org
@@ -1109,17 +1094,6 @@ New-Item ($chromeInstallDir+"master_preferences") -type file -force -value "{
 "
 }
 
-function CustomizeChrome{
-
-  # Add Default Search engines on Chrome
-      # http://ludovic.chabant.com/devblog/2010/12/29/poor-mans-search-engines-sync-for-google-chrome/
-      # Chrome search string (for manually adding): https://encrypted.google.com/search?hl=en&as_q=%s
-      # https://productforums.google.com/forum/#!topic/chrome/7a5G3eGur5Y
-      # Disable 3rd party cookies
-
-  # Change Edge default search engine and home page
-
-}
 
 function InstallOpera{
   Write-Output "Installing Opera..."
@@ -1171,8 +1145,80 @@ function InstallAutopsy{
 
 
 ################################################################
+###### Customization  ###
+################################################################
+
+function InstallFonts{
+  # Inspired by https://www.powershellgallery.com/packages/PSWinGlue/0.3.3/Content/Functions%5CInstall-Font.ps1
+
+  $FontPath = "$PSScriptRoot\fonts"
+#  [Switch]$Recurse = $True
+
+  if (Test-Path -Path $FontPath) {
+      $FontItem = Get-Item -Path $FontPath
+      $Fonts = Get-ChildItem -Path $FontItem -Include ('*.fon','*.otf','*.ttc','*.ttf') -Recurse
+  }
+
+  $ShellAppFontNamespace = 0x14
+  $ShellApp = New-Object -ComObject Shell.Application
+  $FontsFolder = $ShellApp.NameSpace($ShellAppFontNamespace)
+  foreach ($Font in $Fonts) {
+      $TargetPath = Join-Path $FontsFolder $Font.Name
+      if (Test-Path $TargetPath) {
+        Remove-Item $TargetPath -Force
+		    Copy-Item $FontFile.FullName $TargetPath -Force
+        }
+      else {
+        Write-Verbose -Message ('Installing font: {0}' -f $Font.BaseName)
+        $FontsFolder.CopyHere($Font.FullName)
+      }
+  }
+}
+
+
+function ReplaceDefaultWallpapers{
+  <#
+  https://ccmexec.com/2015/08/replacing-default-wallpaper-in-windows-10-using-scriptmdtsccm/
+  Default 4k images in C:\Windows\Web\4K\Wallpaper\Windows:
+  768x1024  - img0_768x1024.jpg
+  768x1366  - img0_768x1366.jpg
+  1024x768  - img0_1024x768.jpg
+  1200x1920 - img0_1200x1920.jpg
+  1366x768  - img0_1366x768.jpg
+  1600x2560 - img0_1600x2560.jpg
+  2160x3840 - img0_2160x3840.jpg
+  2560x1600 - img0_2560x1600.jpg
+  3840x2160 - img0_3840x2160.jpg
+  #>
+
+  $DefaultWallPaper="$env:SystemDrive:\windows\WEB\wallpaper\Windows\img0.jpg"
+  $WallPaperPath="$env:SystemDrive:\Windows\Web\4K\Wallpaper\Windows"
+
+  takeown /f $DefaultWallPaper
+  takeown /f $WallPaperPath\*.*
+
+  icacls $DefaultWallPaper /Grant 'System:(F)'
+  icacls $WallPaperPath\*.* /Grant 'System:(F)'
+
+  Remove-Item $DefaultWallPaper
+  Remove-Item $WallPaperPath\*.*
+
+  Copy-Item $PSScriptRoot\pictures\wallpaper\img0.jpg $DefaultWallPaper
+  Copy-Item $PSScriptRoot\pictures\wallpaper\4k\*.* $WallPaperPath
+}
+
+
+################################################################
 ###### Auxiliary Functions  ###
 ################################################################
+
+function SetHostname{
+  Write-Output "Changing hostname..."
+  $hostname = Read-Host "Enter new Hostname [$env:computername]"
+  if ($hostname -ne $null -and $hostname -ne "") {
+      Rename-Computer -NewName "$hostname"  -LocalCredential $env:computername\$env:username #-Restart
+  }
+}
 
 # Wait for keypress
 Function WaitForKey {
