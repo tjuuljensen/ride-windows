@@ -108,14 +108,6 @@ function DisableRunAsInStartMenu{
   Remove-ItemProperty -path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer\" -name "ShowRunAsDifferentUserInStart" -ErrorAction SilentlyContinue
 }
 
-function EnableInternetExplorer11{
-  Enable-WindowsOptionalFeature -FeatureName Internet-Explorer-Optional-amd64 –Online
-}
-
-function DisableInternetExplorer11{
-  Disable-WindowsOptionalFeature -FeatureName Internet-Explorer-Optional-amd64 –Online
-}
-
 function EnableInternetPrinting{
   Enable-WindowsOptionalFeature -FeatureName Printing-Foundation-InternetPrinting-Client –Online
 }
@@ -124,18 +116,6 @@ function DisableInternetPrinting{
   Disable-WindowsOptionalFeature -FeatureName Printing-Foundation-InternetPrinting-Client –Online
 }
 
-function EnablePowerShellV2{
-  Enable-WindowsOptionalFeature -Online -FeatureName MicrosoftWindowsPowerShellV2Root
-}
-
-function DisablePowerShellV2{
-  Disable-WindowsOptionalFeature -Online -FeatureName MicrosoftWindowsPowerShellV2Root
-}
-
-function SetFirewallRules{
-  #https://winaero.com/export-and-import-specific-firewall-rule-in-windows-10/
-
-}
 
 ################################################################
 ###### Privacy configurations  ###
