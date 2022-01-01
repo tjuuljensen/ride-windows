@@ -3,7 +3,7 @@
 # Exclude \dev
 /dev
 /CIS
-/merged_files
 
+# exclude ini files 
 config.ini
 serials.ini
