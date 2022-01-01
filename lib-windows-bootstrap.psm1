@@ -537,7 +537,6 @@ function RunSysprepGeneralizeOOBE{
   # Handle Activation on Sysprep
   # Check this (old article - WIn7)
   # https://social.technet.microsoft.com/Forums/windows/en-US/4104fa3f-9c36-4d45-aa36-677602894768/sysprep-maintain-activation-and-product-key?forum=w7itproinstall
-
 }
 
 
@@ -568,11 +567,13 @@ function InstallGit4Win{
           ".exe" {Start-Process $LocalFile $CommandLineOptions -NoNewWindow -Wait}
           ".msi" {msiexec.exe /i $Localfile /qb}
   }
-
 }
+
 
 function InstallNotepadPlusPlus{
   # https://notepad-plus-plus.org
+  # https://www.get-itsolutions.com/notepad-silent-install-exe-msi-version/
+
   $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $URL="https://notepad-plus-plus.org/downloads"
 
@@ -584,21 +585,43 @@ function InstallNotepadPlusPlus{
   $NPPFILESURL=(Invoke-WebRequest -UseBasicParsing –Uri $LATESTNPPURL).Links | where outerHTML -Like "*$FILEMASK*"
 
   # Download all files in object (expected is an .exe file and a .sig file)
-  $NPPFILESURL | ForEach-Object { Start-BitsTransfer -Source ($_).href -Destination $DefaultDownloadDir }
+  ($NPPFILESURL).href | Get-Unique | ForEach-Object { Start-BitsTransfer -Source ($_) -Destination $DefaultDownloadDir }
 
-  # FIXME Install is missing
+  $LocalFiles=$NPPFILESURL | ForEach-Object {
+  $FileName=([System.IO.Path]::GetFileName(($_).href).Replace("%20"," "))
+  $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
+  $LocalFile
+  } | get-unique
+
+  # Install File
+  $LocalFiles | ForEach-Object {
+      $FileType=[System.IO.Path]::GetExtension($_)
+      $FileName=[System.IO.Path]::GetFileName($_)
+
+      switch ($FileType){
+          ".exe" {Write-Output "Starting installation of: $FileName"
+                  $CommandLineOptions="/S"
+                  #Start-Process $LocalFile $CommandLineOptions -NoNewWindow -Wait
+                  }
+          ".msi" {Write-Output "Starting installation of: $FileName"
+                  #msiexec.exe /i $Localfile /qb
+                  }
+      }
+  }
 
 }
 
 
 function Install7Zip{
   # https://www.7-zip.org/
+  # https://www.get-itsolutions.com/7zip-silent-install-msi-exe-version-cmd/
+  
   $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
 
   $URL="https://www.7-zip.org/"
 
   # the filetypemask later selected for download
-  $FILEMASK="-x64"
+  $FILEMASK="*-x64"
   $BETAALLOWED=$false # Allow latest versions by changing this to $true
 
   # get the URL of the latest verison of NPP
@@ -606,38 +629,65 @@ function Install7Zip{
   $7ZIPFILES=( $URLLINKS | where outerHTML -Like "*$FILEMASK*")
 
   $BETAEXIST=($URLLINKS | where outerHTML -Like "*beta*" | Select-Object -First 1) -match '\d\d\.\d\d'
-  $BETAVERSION=$Matches[0].Remove(2,1)
 
-  if ( $BETAALLOWED ) {
+  if ( $BETAALLOWED -and ($BETAEXIST -eq $true)) {
+    $BETAVERSION=$Matches[0].Remove(2,1)
     $LATEST7ZIP=($7ZIPFILES | Sort-Object -Descending | Select-Object -First 1).href
-  else
+    }
+  else {
     $LATEST7ZIP=($7ZIPFILES | where href -notlike $BETAVERSION | Sort-Object -Descending | Select-Object -First 1).href
   }
 
   # Download file
-  $FULLURL= $URL + $LATEST7ZIP
-  Start-BitsTransfer -Source $LATEST7ZIP -Destination $DefaultDownloadDir }
+  $FullDownloadURL= $URL + $LATEST7ZIP
+  $FileName=([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $DestinationFile=Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination  $DestinationFile
 
-  # FIXME Install is missing
+  # Install
+  switch ($DestinationFile){
+      ".exe" {Write-Output "Starting installation of: $DestinationFile"
+              $CommandLineOptions="/S"
+              #Start-Process $LocalFile $CommandLineOptions -NoNewWindow -Wait
+              }
+      ".msi" {Write-Output "Starting installation of: $DestinationFile"
+              #msiexec.exe /i $Localfile /qb
+              }
+  }
 }
 
 
-function GetSysmonXML{
+function GetSysmonSwiftXML{
   <#
     Read more here
     https://github.com/SwiftOnSecurity/sysmon-config
+  #>
+  $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+
+  $TARGETFILE=sysmon-modular.xml
+  $URL="https://raw.githubusercontent.com/SwiftOnSecurity/sysmon-config/master/sysmonconfig-export.xml"
+
+  cd $DefaultDownloadDir
+  $DestinationFile=Join-Path -Path $DefaultDownloadDir -ChildPath $TARGETFILE
+  Start-BitsTransfer -Source $URL -Destination $DestinationFile
+}
+
+
+function GetSysmonOlafXML{
+  <#
+    Read more here
     https://github.com/olafhartong/sysmon-modular
   #>
   $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
 
-  $URL="https://raw.githubusercontent.com/SwiftOnSecurity/sysmon-config/master/sysmonconfig-export.xml"
+  $TARGETFILE=sysmon-modular.xml
   $URL="https://raw.githubusercontent.com/olafhartong/sysmon-modular/master/sysmonconfig.xml"
 
   cd $DefaultDownloadDir
-  Import-Module BitsTransfer
-  Start-BitsTransfer -Source $URL -Destination
-
+  $DestinationFile=Join-Path -Path $DefaultDownloadDir -ChildPath $TARGETFILE
+  Start-BitsTransfer -Source $URL -Destination $DestinationFile
 }
+
 
 function InstallSysmon64{
     # install sysmon from Microsof
@@ -656,8 +706,7 @@ function InstallSysmon64{
     Start-BitsTransfer -Source $URL
 
     Expand-Archive -Path $SYSMONFILE -DestinationPath $DefaultDownloadDir
-    #FIXME - What file to use?
-    # Invoke-Expression $INSTALLFILE -accepteula -i sysmon-modular.xml
+    Invoke-Expression $INSTALLFILE -accepteula -i sysmon-modular.xml
 
     # https://stackoverflow.com/questions/25736268/how-to-register-a-windows-service-but-avoid-it-being-listed-in-the-services-cons
     Set-Content SDSET Sysmon64 D:(D;;DCLCWPDTSD;;;IU)(D;;DCLCWPDTSD;;;SU)(D;;DCLCWPDTSD;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)
