@@ -1,9 +1,8 @@
 # git ignore file
 
-# Exclude \dev
+# Exclude libraries
 /dev
-/CIS
 
-# exclude ini files 
+# exclude ini files
 config.ini
 serials.ini
