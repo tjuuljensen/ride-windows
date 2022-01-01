@@ -1,7 +1,7 @@
 # git ignore file
 
 # Exclude libraries
-/dev
+dev/*
 
 # exclude ini files
 config.ini
