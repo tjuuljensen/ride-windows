@@ -1,0 +1,9 @@
+# git ignore file
+
+# Exclude \dev
+/dev
+/CIS
+/merged_files
+
+config.ini
+serials.ini

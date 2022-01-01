@@ -1,1 +1,1 @@
-@powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0Win10.ps1" -include "%~dp0Win10.psm1" -preset "%~dpn0.preset"
+@powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0set-config.ps1" -include "%~dp0lib-win-config.psm1" -preset "%~dpn0.preset"
