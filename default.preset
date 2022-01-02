@@ -1,8 +1,92 @@
 ##########
-# Win 10 / Server 2016 / Server 2019 Initial Setup Script - Default preset
-# Author: Disassembler <disassembler@dasm.cz>
-# Version: v3.10, 2020-07-15
-# Source: https://github.com/Disassembler0/Win10-Initial-Setup-Script
+# default config file for Windows
+# custom preset for "Win 10 / Server 2016 / Server 2019 Initial Setup Script"
+# Author: Torsten Juul-Jensen
+# Version: v1.0, 2019-11-02
+# Source: https://github.com/tjuuljensen/bootstrap-win10
+##########
+
+###### Require administrator privileges ###
+RequireAdmin
+
+###### Windows configuration  ###
+ActivateWindows
+CreateNewLocalAdmin
+DisableBuiltinAdministrator
+DisableWindowsStoreApp        # EnableWindowsStoreApp
+DisableFriendlyURLFormat      # UnconfigureFriendlyURLFormat
+EnableRunAsInStartMenu        # DisableRunAsInStartMenu
+EnableInternetPrinting        # DisableInternetPrinting
+
+###### Privacy configurations  ###
+DisableInkingAndTypingData    # EnableInkingAndTypingData
+
+###### Hardening Windows  ###
+SetDefaultBitLockerAES256     # SetDefaultBitLockerAES128
+PutBitlockerShortCutOnDesktop
+EnableBitlocker               # EnableBitlockerPIN
+EnableLockOutThreshold        # DisableLockOutThreshold     # EnabledEnhancedPIN
+
+DisableSSDPdiscovery          # EnableSSDPdiscovery
+DisableUniversalPlugAndPlay   # EnableUniversalPlugAndPlay
+DisableWinHttpAutoProxySvc    # EnableWinHttpAutoProxySvc
+
+###### Network Functions  ###
+DisableIEProxyAutoconfig
+DisableMulticastDNS           # EnableMulticastDNS
+GetTelemetryBlockingHostfile  # SetDefaultHostsfile
+
+###### Windows Subsystem for Linux  ###
+EnableWSL                     # DisableWSL
+InstallWSLubuntu1804          # RemoveWSLubuntu1804
+InstallWSLdebian              # RemoveWSLdebian
+InstallWSLkali                # RemoveWSLkali
+InstallWSLFedoraRemix         # RemoveWSLFedoraRemix
+
+###### Operational Tasks  ###
+GetWindowsUpdatesWithPwsh
+CleanLocalWindowsUpdateCache
+RunDiskCleanup
+# RunSysprepGeneralizeOOBE
+
+###### Install programs  ###
+InstallGit4Win
+# InstallNotepadPlusPlus
+Install7Zip
+GetSysmonSwiftXML             # GetSysmonOlafXML
+InstallSysmon64
+InstallSysinternalsSuite
+# InstallSpiceGuestTool
+# InstallGPGwin
+# InstallThunderbird
+InstallOffice365
+# InstallVisioPro
+InstallVMwareWorkstation
+
+###### Browsers and Internet  ###
+DisableEdgePagePrediction
+InstallFirefox                # RemoveFirefox
+CreateFirefoxPreferenceFiles
+InstallChrome                 # RemoveChrome
+CreateChromePreferenceFiles
+CustomizeChrome
+InstallOpera                  #
+
+###### Forensic Tools ###
+InstallAutopsy
+
+###### Customization  ###
+InstallFonts
+ReplaceDefaultWallpapers
+
+### Other Functions ###
+SetHostname
+
+
+##########
+## From this point forward, functions are from Disassembler repo
+## Version: v3.10, 2020-07-15
+## Source: https://github.com/Disassembler0/Win10-Initial-Setup-Script
 ##########
 
 ### Require administrator privileges ###
