@@ -466,9 +466,9 @@ function RunDiskCleanup{
   Dism.exe /online /Cleanup-Image /StartComponentCleanup /ResetBase
   #>
 
-  $HKLM = [UInt32] “0x80000002”
-  $strKeyPath = “SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches”
-  $strValueName = “StateFlags0065”
+  $HKLM = [UInt32] "0x80000002"
+  $strKeyPath = "SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches"
+  $strValueName = "StateFlags0065"
 
   $subkeys = Get-ChildItem -Path HKLM:\$strKeyPath -Name
 
@@ -479,7 +479,7 @@ function RunDiskCleanup{
       Catch {
       }
       Try {
-          Start-Process cleanmgr -ArgumentList “/sagerun:65” -Wait -NoNewWindow -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+          Start-Process cleanmgr -ArgumentList "/sagerun:65" -Wait -NoNewWindow -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
       }
       Catch {
           }
