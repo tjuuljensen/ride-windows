@@ -192,10 +192,20 @@ Function DisableLockOutThreshold {
 	Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "MaxDevicePasswordFailedAttempts" -Type DWord -Value 0
 }
 
-function EnabledEnhancedPIN{
-  # \SOFTWARE\Policies\Microsoft\FVE  = 1
-  # https://admx.help/?Category=MDOP&Policy=Microsoft.Policies.BitLockerManagement::EnhancedPIN_Name
+function EnableEnhancedPIN{
+  Write-Output "Enabling Enhanced PIN..."
+  If (!(Test-Path "HKLM:\Software\Policies\Microsoft\FVE")) {
+    New-Item -Path "HKLM:\Software\Policies\Microsoft\FVE" -Force | Out-Null
+  }
+  Set-ItemProperty -Path "HKLM:Software\Policies\Microsoft\FVE" -Name "UseEnhancedPin" -Type DWord -Value 1
+}
 
+function DisableEnhancedPIN{
+  Write-Output "Disabling Enhanced PIN..."
+  If (!(Test-Path "HKLM:\Software\Policies\Microsoft\FVE")) {
+    New-Item -Path "HKLM:\Software\Policies\Microsoft\FVE" -Force | Out-Null
+  }
+  Set-ItemProperty -Path "HKLM:Software\Policies\Microsoft\FVE" -Name "UseEnhancedPin" -Type DWord -Value 0
 }
 
 function DisableSSDPdiscovery{

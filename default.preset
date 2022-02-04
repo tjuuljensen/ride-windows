@@ -2,14 +2,14 @@
 # default config file for Windows
 # custom preset for "Win 10 / Server 2016 / Server 2019 Initial Setup Script"
 # Author: Torsten Juul-Jensen
-# Version: v1.0, 2019-11-02
+# Version: v1.2, 2022-01-04
 # Source: https://github.com/tjuuljensen/bootstrap-win10
 ##########
 
 ###### Require administrator privileges ###
 RequireAdmin
 
-###### Windows configuration  ###
+###### Windows configuration ###
 CreateNewLocalAdmin
 DisableBuiltinAdministrator
 DisableWindowsStoreApp        # EnableWindowsStoreApp
@@ -24,7 +24,8 @@ DisableInkingAndTypingData    # EnableInkingAndTypingData
 SetDefaultBitLockerAES256     # SetDefaultBitLockerAES128
 PutBitlockerShortCutOnDesktop
 EnableBitlocker               # EnableBitlockerPIN
-EnableLockOutThreshold        # DisableLockOutThreshold     # EnabledEnhancedPIN
+EnableLockOutThreshold        # DisableLockOutThreshold
+EnableEnhancedPIN             # DisableEnhancedPIN
 
 DisableSSDPdiscovery          # EnableSSDPdiscovery
 DisableUniversalPlugAndPlay   # EnableUniversalPlugAndPlay
@@ -41,12 +42,6 @@ InstallWSLubuntu1804          # RemoveWSLubuntu1804
 InstallWSLdebian              # RemoveWSLdebian
 InstallWSLkali                # RemoveWSLkali
 InstallWSLFedoraRemix         # RemoveWSLFedoraRemix
-
-###### Operational Tasks  ###
-GetWindowsUpdatesWithPwsh
-CleanLocalWindowsUpdateCache
-RunDiskCleanup
-# RunSysprepGeneralizeOOBE
 
 ###### Install programs  ###
 InstallGit4Win                #
@@ -83,13 +78,10 @@ SetHostname
 
 
 ##########
-## From this point forward, functions are from Disassembler repo
+## From this point forward, most functions are from Disassembler repo
 ## Version: v3.10, 2020-07-15
 ## Source: https://github.com/Disassembler0/Win10-Initial-Setup-Script
 ##########
-
-### Require administrator privileges ###
-RequireAdmin
 
 ### Privacy Tweaks ###
 DisableTelemetry                # EnableTelemetry
@@ -337,6 +329,12 @@ RemoveFaxPrinter                # AddFaxPrinter
 ### Unpinning ###
 # UnpinStartMenuTiles
 # UnpinTaskbarIcons
+
+###### Operational Tasks  ###
+GetWindowsUpdatesWithPwsh
+CleanLocalWindowsUpdateCache
+RunDiskCleanup
+# RunSysprepGeneralizeOOBE
 
 ### Auxiliary Functions ###
 WaitForKey
