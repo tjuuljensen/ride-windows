@@ -10,7 +10,6 @@
 RequireAdmin
 
 ###### Windows configuration  ###
-ActivateWindows
 CreateNewLocalAdmin
 DisableBuiltinAdministrator
 DisableWindowsStoreApp        # EnableWindowsStoreApp

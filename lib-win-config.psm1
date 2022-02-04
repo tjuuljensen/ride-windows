@@ -8,18 +8,6 @@
 ###### Windows configuration  ###
 ################################################################
 
-function ActivateWindows{
-
-  if ((Get-WindowsEdition -Online | select Edition) -like "*Professional*"){$key="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX"}
-  if ((Get-WindowsEdition -Online | select Edition) -like "*Enterprise*"){$key="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX"}
-
-	$computer = Get-Content env:computername
-
-	$service = get-wmiObject -query "select * from SoftwareLicensingService" -computername $computer
-	$service.InstallProductKey($key)
-	$service.RefreshLicenseStatus()
-}
-
 function CreateNewLocalAdmin{
   #param(
   #    [string] $NewAdminUser = "Admin"
@@ -704,20 +692,6 @@ function InstallSysinternalsSuite{
 }
 
 
-function InstallNirsoftTools{
-  # Add defender exclusion before download
-  # https://docs.microsoft.com/en-us/powershell/module/defender/add-mppreference?view=windowsserver2019-ps
-  # https://www.windowscentral.com/how-manage-microsoft-defender-antivirus-powershell-windows-10#change_settings_defender_powershell
-  $NirLauncherPage = Invoke-WebRequest -Uri "https://launcher.nirsoft.net/downloads/index.html" -DisableKeepAlive -UseBasicParsing -UserAgent "Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0"
-  $NirLauncherZip = $URL= ($NirLauncherPage.links | Where-Object outerHTML -Like '*zip*download*' ).href
-  $NirLauncherPage -match 'password.*copyTextToClipboard.*;">(.*)<\/a>'
-  # Stored in $matches- save in
-  $ZipPassword =$Matches[1]
-  $URLPrefix="https:"
-  $URL=$URLPrefix$NirLauncherZip
-  # FIXME - this
-}
-
 
 function InstallSpiceGuestTool{
   # Install spice guest tool (for Gnome boxes) - https://www.spice-space.org/download.html
@@ -1140,7 +1114,7 @@ function InstallOpera{
 
   # Download file
   $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  # FIXME - foreach file download
+
   Foreach ($file in $LatestOperaInstallerFiles)
   {
     $OperaInstallerFile=$LatestOperaPath + $file
