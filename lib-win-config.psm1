@@ -579,6 +579,10 @@ function InstallNotepadPlusPlus{
 
 }
 
+function RemoveNotepadPlusPlus{
+  Write-Output "Removing Notepad++..."
+  Uninstall-Package -InputObject ( Get-Package -Name "Notepad++")
+}
 
 function Install7Zip{
   # https://www.7-zip.org/
@@ -622,6 +626,11 @@ function Install7Zip{
               #msiexec.exe /i $Localfile /qb
               }
   }
+}
+
+function Remove7Zip{
+  Write-Output "Removing 7-Zip..."
+  Uninstall-Package -InputObject ( Get-Package -Name "7-Zip")
 }
 
 
@@ -677,7 +686,7 @@ function InstallSysmon64{
     Invoke-Expression $INSTALLFILE -accepteula -i sysmon-modular.xml
 
     # https://stackoverflow.com/questions/25736268/how-to-register-a-windows-service-but-avoid-it-being-listed-in-the-services-cons
-    Set-Content SDSET Sysmon64 D:(D;;DCLCWPDTSD;;;IU)(D;;DCLCWPDTSD;;;SU)(D;;DCLCWPDTSD;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)
+    Set-Content SDSET Sysmon64 "D:(D;;DCLCWPDTSD;;;IU)(D;;DCLCWPDTSD;;;SU)(D;;DCLCWPDTSD;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)"
 
 }
 
@@ -899,6 +908,10 @@ function InstallVMwareWorkstation{
 
 }
 
+function RemoveVMwareWorkstation{
+  Write-Output "Removing VMware Workstation..."
+  Uninstall-Package -InputObject ( Get-Package -Name "VMware Workstation")
+}
 
 ################################################################
 ###### Browsers and Internet  ###

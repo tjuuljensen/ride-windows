@@ -49,18 +49,18 @@ RunDiskCleanup
 # RunSysprepGeneralizeOOBE
 
 ###### Install programs  ###
-InstallGit4Win
-# InstallNotepadPlusPlus
-Install7Zip
+InstallGit4Win                #
+# InstallNotepadPlusPlus      # RemoveNotepadPlusPlus
+Install7Zip                   # Remove7Zip
 GetSysmonSwiftXML             # GetSysmonOlafXML
-InstallSysmon64
-InstallSysinternalsSuite
-# InstallSpiceGuestTool
-# InstallGPGwin
-# InstallThunderbird
-InstallOffice365
-# InstallVisioPro
-InstallVMwareWorkstation
+InstallSysmon64               #
+InstallSysinternalsSuite      #
+# InstallSpiceGuestTool       #
+# InstallGPGwin               #
+# InstallThunderbird          #
+InstallOffice365              #
+# InstallVisioPro             #
+InstallVMwareWorkstation      # RemoveVMwareWorkstation
 
 ###### Browsers and Internet  ###
 DisableEdgePagePrediction
