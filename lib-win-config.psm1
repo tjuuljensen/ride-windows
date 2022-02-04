@@ -97,11 +97,11 @@ function DisableRunAsInStartMenu{
 }
 
 function EnableInternetPrinting{
-  Enable-WindowsOptionalFeature -FeatureName Printing-Foundation-InternetPrinting-Client –Online
+  Enable-WindowsOptionalFeature -FeatureName Printing-Foundation-InternetPrinting-Client -Online
 }
 
 function DisableInternetPrinting{
-  Disable-WindowsOptionalFeature -FeatureName Printing-Foundation-InternetPrinting-Client –Online
+  Disable-WindowsOptionalFeature -FeatureName Printing-Foundation-InternetPrinting-Client -Online
 }
 
 
@@ -466,9 +466,9 @@ function RunDiskCleanup{
   Dism.exe /online /Cleanup-Image /StartComponentCleanup /ResetBase
   #>
 
-  $HKLM = [UInt32] “0x80000002”
-  $strKeyPath = “SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches”
-  $strValueName = “StateFlags0065”
+  $HKLM = [UInt32] "0x80000002"
+  $strKeyPath = "SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches"
+  $strValueName = "StateFlags0065"
 
   $subkeys = Get-ChildItem -Path HKLM:\$strKeyPath -Name
 
@@ -479,7 +479,7 @@ function RunDiskCleanup{
       Catch {
       }
       Try {
-          Start-Process cleanmgr -ArgumentList “/sagerun:65” -Wait -NoNewWindow -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+          Start-Process cleanmgr -ArgumentList "/sagerun:65" -Wait -NoNewWindow -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
       }
       Catch {
           }
@@ -516,7 +516,7 @@ function RunSysprepGeneralizeOOBE{
 
 function InstallGit4Win{
   $URL="https://github.com/git-for-windows/git/releases/latest"
-  $RELEASEPAGELINKS=(Invoke-WebRequest -UseBasicParsing –Uri $URL).Links
+  $RELEASEPAGELINKS=(Invoke-WebRequest -UseBasicParsing -Uri $URL).Links
   $GIT4WIN64=($RELEASEPAGELINKS | where { $_.href -Like "*64*" -and $_.href -Like "*exe*" -and $_.href -notlike "*Portable*" }).href
   $FullDownloadURL="https://github.com$GIT4WIN64"
 
@@ -549,8 +549,8 @@ function InstallNotepadPlusPlus{
   $FILEMASK="Installer.x64"
 
   # get the URL of the latest verison of NPP
-  $LATESTNPPURL=((Invoke-WebRequest -UseBasicParsing –Uri $URL).Links | where outerHTML -Like "*$URL*" | Select-Object -First 1).href
-  $NPPFILESURL=(Invoke-WebRequest -UseBasicParsing –Uri $LATESTNPPURL).Links | where outerHTML -Like "*$FILEMASK*"
+  $LATESTNPPURL=((Invoke-WebRequest -UseBasicParsing -Uri $URL).Links | where outerHTML -Like "*$URL*" | Select-Object -First 1).href
+  $NPPFILESURL=(Invoke-WebRequest -UseBasicParsing -Uri $LATESTNPPURL).Links | where outerHTML -Like "*$FILEMASK*"
 
   # Download all files in object (expected is an .exe file and a .sig file)
   ($NPPFILESURL).href | Get-Unique | ForEach-Object { Start-BitsTransfer -Source ($_) -Destination $DefaultDownloadDir }
@@ -597,7 +597,7 @@ function Install7Zip{
   $BETAALLOWED=$false # Allow latest versions by changing this to $true
 
   # get the URL of the latest verison of NPP
-  $URLLINKS=(Invoke-WebRequest -UseBasicParsing –Uri $URL).Links
+  $URLLINKS=(Invoke-WebRequest -UseBasicParsing -Uri $URL).Links
   $7ZIPFILES=( $URLLINKS | where outerHTML -Like "*$FILEMASK*")
 
   $BETAEXIST=($URLLINKS | where outerHTML -Like "*beta*" | Select-Object -First 1) -match '\d\d\.\d\d'
@@ -695,7 +695,7 @@ function InstallSysinternalsSuite{
   # $URL="https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite"
   # $URL="https://live.sysinternals.com/files/"
   $URL="https://download.sysinternals.com/files/SysinternalsSuite.zip"
-  # $SysInternalsSuiteURL=((Invoke-WebRequest -UseBasicParsing –Uri $URL).Links | Where-Object {($_.href -Like "*.zip*") -and ($_.href -notLike "*nano*") -and ($_.href -notLike "*arm64*") } ).href
+  # $SysInternalsSuiteURL=((Invoke-WebRequest -UseBasicParsing -Uri $URL).Links | Where-Object {($_.href -Like "*.zip*") -and ($_.href -notLike "*nano*") -and ($_.href -notLike "*arm64*") } ).href
   Start-BitsTransfer -Source $URL -Destination $DefaultDownloadDir }
   # FIXME Install is missing
 }
