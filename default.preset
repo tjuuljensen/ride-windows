@@ -49,8 +49,8 @@ InstallGit4Win                #
 Install7Zip                   # Remove7Zip
 GetSysmonSwiftXML             # GetSysmonOlafXML
 InstallSysmon64               #
-InstallSysinternalsSuite      #
-# InstallSpiceGuestTool       #
+GetSysinternalsSuite          #
+# InstallSpiceGuestToolAndWebDAVDaemon    #
 # InstallGPGwin               #
 # InstallThunderbird          #
 InstallOffice365              #
