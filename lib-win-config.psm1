@@ -9,9 +9,8 @@
 ################################################################
 
 function CreateNewLocalAdmin{
-  #param(
-  #    [string] $NewAdminUser = "Admin"
-  #)
+  # Tested on Windows 10 Pro 10.0.19044
+
   $DefaultAdminName="admin"
   # Test if value was set by reading the $config.LocalAdmin.AdminUse value from an ini file
   $LocalAdminUser = if ($config.LocalAdmin.AdminUser -eq $null) {$DefaultAdminName}  else {$config.LocalAdmin.AdminUser}
@@ -26,10 +25,11 @@ function CreateNewLocalAdmin{
           $Password = Read-Host -AsSecureString "Enter password of the Local Admin User"
         }
 
-    New-LocalUser $LocalAdminUser -Password $Password -FullName "Local Administrative Account" -Description "The account used for performing local administrative tasks"
+    Write-Output "Creating local admin user: $LocalAdminUser"
+    $newUser = New-LocalUser $LocalAdminUser -Password $Password -FullName "Local Administrative Account" -Description "Local administrative account"
+
     Add-LocalGroupMember -Group "Administrators" -Member $LocalAdminUser
   }
-
 }
 
 function DisableBuiltinAdministrator{
