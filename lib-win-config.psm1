@@ -33,16 +33,15 @@ function CreateNewLocalAdmin{
 }
 
 function DisableBuiltinAdministrator{
+  # Tested on Windows 10 Pro 10.0.19044
 
   $AdditionalLocalAdmins=Get-LocalGroupMember -group "Administrators" | Where-Object Name -NotLike "*\Administrator"
   if ( $AdditionalLocalAdmins.count -gt 0 ) {
       Disable-LocalUser -Name "Administrator"
-      Write-Output "The following user(s) can be used to log on with administrative credentials:"
-      Write-Output $AdditionalLocalAdmins.Name
+      Write-Output "Builtin\Administrator disabled"
   } else {
      Write-Output "ERROR: You need other users in the Administrators group before disabling the default Administrator"
   }
-
 }
 
 function DisableWindowsStoreApp(){
