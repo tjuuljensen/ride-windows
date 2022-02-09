@@ -73,7 +73,7 @@ function DisableFriendlyURLFormat(){
   If (!(Test-Path "HKCU:\SOFTWARE\Policies\Microsoft\Edge\")) {
     New-Item -Path "HKCU:\SOFTWARE\Policies\Microsoft\Edge\" -Force | Out-Null
   }
-  New-ItemProperty -path "HKCU:\SOFTWARE\Policies\Microsoft\Edge\" -name "ConfigureFriendlyURLFormat" -value 1 -PropertyType DWord -Force
+  New-ItemProperty -path "HKCU:\SOFTWARE\Policies\Microsoft\Edge\" -name "ConfigureFriendlyURLFormat" -value 1 -PropertyType DWord -Force | Out-Null
 }
 
 function UnconfigureFriendlyURLFormat(){
@@ -86,7 +86,7 @@ function UnconfigureFriendlyURLFormat(){
 function EnableRunAsInStartMenu{
   # https://winaero.com/add-run-start-menu-windows-10/
   Write-Output "Enabling RunAs context menu in Start Menu..."
-  New-ItemProperty -path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer\" -name "ShowRunAsDifferentUserInStart" -value 1 -PropertyType DWord -Force
+  New-ItemProperty -path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer\" -name "ShowRunAsDifferentUserInStart" -value 1 -PropertyType DWord -Force | Out-Null
 }
 
 function DisableRunAsInStartMenu{
@@ -274,7 +274,7 @@ function DisableMulticastDNS{
     If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient")) {
       New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" -Force | Out-Null
     }
-    New-ItemProperty -path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" -name "EnableMulticast" -value 0 -PropertyType DWord -Force
+    New-ItemProperty -path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" -name "EnableMulticast" -value 0 -PropertyType DWord -Force | Out-Null
 }
 
 function EnableMulticastDNS{
@@ -374,7 +374,7 @@ function InstallWSLubuntu1804{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
-	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Create software folder
@@ -383,7 +383,7 @@ function InstallWSLubuntu1804{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Download
@@ -413,7 +413,7 @@ function InstallWSLdebian{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
-	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Create software folder
@@ -422,7 +422,7 @@ function InstallWSLdebian{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Download
@@ -452,7 +452,7 @@ function InstallWSLkali{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
-	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Create software folder
@@ -461,7 +461,7 @@ function InstallWSLkali{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Download
@@ -524,7 +524,7 @@ function RunDiskCleanup{
 
   ForEach ($subkey in $subkeys) {
       Try {
-          New-ItemProperty -Path HKLM:\$strKeyPath\$subkey -Name $strValueName -PropertyType DWord -Value 2 -ErrorAction SilentlyContinue| Out-Null
+          New-ItemProperty -Path HKLM:\$strKeyPath\$subkey -Name $strValueName -PropertyType DWord -Value 2 -ErrorAction SilentlyContinue | Out-Null
       }
       Catch {
       }
@@ -581,7 +581,7 @@ function InstallGit4Win{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
-	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Create software folder
@@ -590,7 +590,7 @@ function InstallGit4Win{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Download
@@ -624,7 +624,7 @@ function InstallNotepadPlusPlus{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
-	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Create software folder
@@ -633,7 +633,7 @@ function InstallNotepadPlusPlus{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Download
@@ -671,7 +671,7 @@ function Install7Zip{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
-	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Create software folder
@@ -680,7 +680,7 @@ function Install7Zip{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Download
@@ -712,7 +712,7 @@ function GetSysmonSwiftXML{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
-	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Create software folder
@@ -721,7 +721,7 @@ function GetSysmonSwiftXML{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Download
@@ -743,7 +743,7 @@ function GetSysmonOlafXML{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
-	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Create software folder
@@ -752,7 +752,7 @@ function GetSysmonOlafXML{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Download
@@ -774,7 +774,7 @@ function InstallSysmon64{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
-	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Create software folder
@@ -783,7 +783,7 @@ function InstallSysmon64{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Download
@@ -825,7 +825,7 @@ function GetSysinternalsSuite{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
-	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Create software folder
@@ -834,7 +834,7 @@ function GetSysinternalsSuite{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Download
@@ -862,7 +862,7 @@ function InstallSpiceGuestToolAndWebDAVDaemon{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
-	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Create software folder
@@ -871,7 +871,7 @@ function InstallSpiceGuestToolAndWebDAVDaemon{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Download
@@ -896,7 +896,7 @@ function InstallSpiceGuestToolAndWebDAVDaemon{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
-	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Create software folder
@@ -905,7 +905,7 @@ function InstallSpiceGuestToolAndWebDAVDaemon{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Download
@@ -931,7 +931,7 @@ function InstallGPGwin{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
-	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Create software folder
@@ -940,7 +940,7 @@ function InstallGPGwin{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Download
@@ -967,7 +967,7 @@ function InstallThunderbird{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
-	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Create software folder
@@ -976,7 +976,7 @@ function InstallThunderbird{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Download
@@ -1006,7 +1006,7 @@ function InstallOffice365{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
-	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Create software folder
@@ -1015,7 +1015,7 @@ function InstallOffice365{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Download Office deployment tool
@@ -1071,7 +1071,7 @@ function InstallVisioPro{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
-	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Create software folder
@@ -1080,7 +1080,7 @@ function InstallVisioPro{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Download Office deployment tool
@@ -1131,7 +1131,7 @@ function InstallVMwareWorkstation{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
-	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Create software folder
@@ -1140,7 +1140,7 @@ function InstallVMwareWorkstation{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Download
@@ -1196,7 +1196,7 @@ function InstallFirefox{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
-	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Create software folder
@@ -1205,7 +1205,7 @@ function InstallFirefox{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Download
@@ -1271,17 +1271,17 @@ Components.classes[""@mozilla.org/toolkit/crash-reporter;1""].getService(Compone
 // Disable sync services
 pref(""services.sync.enabled"", false);
 
-"
+" | Out-Null
 
   # Create the autoconfig.js file
   New-Item ($firefoxInstallDir+"defaults\pref\autoconfig.js") -type file -force -value "pref(""general.config.filename"", ""mozilla.cfg"");
 pref(""general.config.obscure_value"", 0);
-"
+" | Out-Null
 
   # Create the override.ini file (disables Migration Wizard)
   New-Item ($firefoxInstallDir+"browser\override.ini") -type file -force -value "[XRE]
 EnableProfileMigrator=false
-"
+" | Out-Null
 }
 
 function InstallChrome{
@@ -1298,7 +1298,7 @@ function InstallChrome{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
-	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Create software folder
@@ -1307,7 +1307,7 @@ function InstallChrome{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Download
@@ -1375,7 +1375,7 @@ New-Item ($chromeInstallDir+"master_preferences") -type file -force -value "{
    ""new_tab_page""
  ]
 }
-"
+" | Out-Null
 }
 
 
@@ -1396,7 +1396,7 @@ function InstallOpera{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
-	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Create software folder
@@ -1405,7 +1405,7 @@ function InstallOpera{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Download
