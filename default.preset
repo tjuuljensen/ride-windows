@@ -50,7 +50,7 @@ Install7Zip                   # Remove7Zip
 GetSysmonSwiftXML             # GetSysmonOlafXML
 InstallSysmon64               #
 GetSysinternalsSuite          #
-# InstallSpiceGuestToolAndWebDAVDaemon    #
+# InstallSpiceGuestTool       #
 # InstallGPGwin               #
 # InstallThunderbird          #
 InstallOffice365              #
