@@ -677,6 +677,10 @@ function InstallAtom{
   Write-Output "Installation done for $SoftwareName"
 }
 
+function RemoveAtom {
+  Write-Output "Removing Atom..."
+  Uninstall-Package -InputObject ( Get-Package -Name "Atom")
+}
 
 function InstallNotepadPlusPlus{
   $SoftwareName = "NotepadPlusPlus"
