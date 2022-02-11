@@ -413,7 +413,7 @@ function InstallWSLubuntu1804{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
   }
 
   # Download
@@ -452,7 +452,7 @@ function InstallWSLdebian{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
   }
 
   # Download
@@ -491,7 +491,7 @@ function InstallWSLkali{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
   }
 
   # Download
@@ -619,7 +619,7 @@ function InstallGit4Win{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
   }
 
   # Download
@@ -704,7 +704,7 @@ function InstallNotepadPlusPlus{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
   }
 
   # Download
@@ -751,7 +751,7 @@ function Install7Zip{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
   }
 
   # Download
@@ -823,7 +823,7 @@ function GetSysmonOlafXML{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
   }
 
   # Download
@@ -854,7 +854,7 @@ function InstallSysmon64{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
   }
 
   # Download
@@ -905,7 +905,7 @@ function GetSysinternalsSuite{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
   }
 
   # Download
@@ -942,7 +942,7 @@ function InstallSpiceGuestToolAndWebDAVDaemon{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
   }
 
   # Download
@@ -976,7 +976,7 @@ function InstallSpiceGuestToolAndWebDAVDaemon{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
   }
 
   # Download
@@ -1011,7 +1011,7 @@ function InstallGPGwin{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
   }
 
   # Download
@@ -1047,7 +1047,7 @@ function InstallThunderbird{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
   }
 
   # Download
@@ -1086,7 +1086,7 @@ function InstallOffice365{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
   }
 
   # Download Office deployment tool
@@ -1151,7 +1151,7 @@ function InstallVisioPro{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
   }
 
   # Download Office deployment tool
@@ -1211,7 +1211,7 @@ function InstallVMwareWorkstation{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
   }
 
   # Download
@@ -1276,7 +1276,7 @@ function InstallFirefox{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
   }
 
   # Download
@@ -1378,7 +1378,7 @@ function InstallChrome{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
   }
 
   # Download
@@ -1476,7 +1476,7 @@ function InstallOpera{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
   }
 
   # Download
