@@ -9,9 +9,8 @@
 ################################################################
 
 function CreateNewLocalAdmin{
-  #param(
-  #    [string] $NewAdminUser = "Admin"
-  #)
+  # Tested on Windows 10 Pro 10.0.19044
+
   $DefaultAdminName="admin"
   # Test if value was set by reading the $config.LocalAdmin.AdminUse value from an ini file
   $LocalAdminUser = if ($config.LocalAdmin.AdminUser -eq $null) {$DefaultAdminName}  else {$config.LocalAdmin.AdminUser}
@@ -26,23 +25,23 @@ function CreateNewLocalAdmin{
           $Password = Read-Host -AsSecureString "Enter password of the Local Admin User"
         }
 
-    New-LocalUser $LocalAdminUser -Password $Password -FullName "Local Administrative Account" -Description "The account used for performing local administrative tasks"
+    Write-Output "Creating local admin user: $LocalAdminUser"
+    $newUser = New-LocalUser $LocalAdminUser -Password $Password -FullName "Local Administrative Account" -Description "Local administrative account"
+
     Add-LocalGroupMember -Group "Administrators" -Member $LocalAdminUser
   }
-
 }
 
 function DisableBuiltinAdministrator{
+  # Tested on Windows 10 Pro 10.0.19044
 
   $AdditionalLocalAdmins=Get-LocalGroupMember -group "Administrators" | Where-Object Name -NotLike "*\Administrator"
   if ( $AdditionalLocalAdmins.count -gt 0 ) {
       Disable-LocalUser -Name "Administrator"
-      Write-Output "The following user(s) can be used to log on with administrative credentials:"
-      Write-Output $AdditionalLocalAdmins.Name
+      Write-Output "Builtin\Administrator disabled"
   } else {
      Write-Output "ERROR: You need other users in the Administrators group before disabling the default Administrator"
   }
-
 }
 
 function DisableWindowsStoreApp(){
@@ -74,7 +73,7 @@ function DisableFriendlyURLFormat(){
   If (!(Test-Path "HKCU:\SOFTWARE\Policies\Microsoft\Edge\")) {
     New-Item -Path "HKCU:\SOFTWARE\Policies\Microsoft\Edge\" -Force | Out-Null
   }
-  New-ItemProperty -path "HKCU:\SOFTWARE\Policies\Microsoft\Edge\" -name "ConfigureFriendlyURLFormat" -value 1 -PropertyType DWord -Force
+  New-ItemProperty -path "HKCU:\SOFTWARE\Policies\Microsoft\Edge\" -name "ConfigureFriendlyURLFormat" -value 1 -PropertyType DWord -Force | Out-Null
 }
 
 function UnconfigureFriendlyURLFormat(){
@@ -87,7 +86,7 @@ function UnconfigureFriendlyURLFormat(){
 function EnableRunAsInStartMenu{
   # https://winaero.com/add-run-start-menu-windows-10/
   Write-Output "Enabling RunAs context menu in Start Menu..."
-  New-ItemProperty -path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer\" -name "ShowRunAsDifferentUserInStart" -value 1 -PropertyType DWord -Force
+  New-ItemProperty -path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer\" -name "ShowRunAsDifferentUserInStart" -value 1 -PropertyType DWord -Force | Out-Null
 }
 
 function DisableRunAsInStartMenu{
@@ -275,7 +274,7 @@ function DisableMulticastDNS{
     If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient")) {
       New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" -Force | Out-Null
     }
-    New-ItemProperty -path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" -name "EnableMulticast" -value 0 -PropertyType DWord -Force
+    New-ItemProperty -path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" -name "EnableMulticast" -value 0 -PropertyType DWord -Force | Out-Null
 }
 
 function EnableMulticastDNS{
@@ -375,7 +374,11 @@ function InstallWSLubuntu1804{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
+<<<<<<< HEAD
 	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+=======
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   }
 
   # Create software folder
@@ -384,7 +387,11 @@ function InstallWSLubuntu1804{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+<<<<<<< HEAD
 	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+=======
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   }
 
   # Download
@@ -394,7 +401,11 @@ function InstallWSLubuntu1804{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
+<<<<<<< HEAD
   # Install
+=======
+  # Install AppxPackage
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   Add-AppxPackage $FileFullName
   Write-Output "Installation done for $SoftwareName"
 }
@@ -414,7 +425,11 @@ function InstallWSLdebian{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
+<<<<<<< HEAD
 	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+=======
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   }
 
   # Create software folder
@@ -423,7 +438,11 @@ function InstallWSLdebian{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+<<<<<<< HEAD
 	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+=======
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   }
 
   # Download
@@ -433,7 +452,11 @@ function InstallWSLdebian{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
+<<<<<<< HEAD
   # Install
+=======
+  # Install AppxPackage
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   Add-AppxPackage $FileFullName
   Write-Output "Installation done for $SoftwareName"
 }
@@ -446,6 +469,7 @@ function RemoveWSLdebian{
 function InstallWSLkali{
   $SoftwareName = "WSL Kali"
   Write-Output "Installing $SoftwareName..."
+<<<<<<< HEAD
 
   $FullDownloadURL = [System.Net.HttpWebRequest]::Create("https://aka.ms/wsl-kali-linux-new").GetResponse().ResponseUri.AbsoluteUri
 
@@ -480,8 +504,43 @@ function InstallWSLkali{
 function RemoveWSLkali{
   Write-Output "Removing WSL Kali..."
   Get-AppxPackage "KaliLinux.54290C8133FEE" | Remove-AppxPackage
+=======
+
+  $FullDownloadURL = [System.Net.HttpWebRequest]::Create("https://aka.ms/wsl-kali-linux-new").GetResponse().ResponseUri.AbsoluteUri
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Install AppxPackage
+  Add-AppxPackage $FileFullName
+  Write-Output "Installation done for $SoftwareName"
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
 }
 
+function RemoveWSLkali{
+  Write-Output "Removing WSL Kali..."
+  Get-AppxPackage "KaliLinux.54290C8133FEE" | Remove-AppxPackage
+}
 
 ################################################################
 ###### Operational Tasks  ###
@@ -525,7 +584,7 @@ function RunDiskCleanup{
 
   ForEach ($subkey in $subkeys) {
       Try {
-          New-ItemProperty -Path HKLM:\$strKeyPath\$subkey -Name $strValueName -PropertyType DWord -Value 2 -ErrorAction SilentlyContinue| Out-Null
+          New-ItemProperty -Path HKLM:\$strKeyPath\$subkey -Name $strValueName -PropertyType DWord -Value 2 -ErrorAction SilentlyContinue | Out-Null
       }
       Catch {
       }
@@ -582,7 +641,11 @@ function InstallGit4Win{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
+<<<<<<< HEAD
 	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+=======
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   }
 
   # Create software folder
@@ -591,6 +654,7 @@ function InstallGit4Win{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+<<<<<<< HEAD
 	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
   }
 
@@ -608,6 +672,21 @@ function InstallGit4Win{
     ".exe" { Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait }
     ".msi" { msiexec.exe /i $FileFullName /qb }
   }
+=======
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Install exe
+  $CommandLineOptions = "/SILENT /LOG"
+  Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   Write-Output "Installation done for $SoftwareName"
 }
 
@@ -629,7 +708,11 @@ function InstallNotepadPlusPlus{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
+<<<<<<< HEAD
 	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+=======
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   }
 
   # Create software folder
@@ -638,6 +721,7 @@ function InstallNotepadPlusPlus{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+<<<<<<< HEAD
 	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
   }
 
@@ -655,6 +739,21 @@ function InstallNotepadPlusPlus{
     ".exe" { Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait }
     ".msi" { msiexec.exe /i $FileFullName /qb }
   }
+=======
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Install exe
+  $CommandLineOptions = "/SILENT /LOG"
+  Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   Write-Output "Installation done for $SoftwareName"
 }
 
@@ -680,7 +779,11 @@ function Install7Zip{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
+<<<<<<< HEAD
 	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+=======
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   }
 
   # Create software folder
@@ -689,7 +792,11 @@ function Install7Zip{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+<<<<<<< HEAD
 	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+=======
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   }
 
   # Download
@@ -699,6 +806,7 @@ function Install7Zip{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
+<<<<<<< HEAD
   # Install
   $CommandLineOptions = "/SILENT /LOG"
   $FileType = ([System.IO.Path]::GetExtension($FileFullName))
@@ -706,6 +814,11 @@ function Install7Zip{
     ".exe" { Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait }
     ".msi" { msiexec.exe /i $FileFullName /qb }
   }
+=======
+  # Install exe
+  $CommandLineOptions = "/SILENT /LOG"
+  Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   Write-Output "Installation done for $SoftwareName"
 }
 
@@ -725,7 +838,11 @@ function GetSysmonSwiftXML{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
+<<<<<<< HEAD
 	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+=======
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   }
 
   # Create software folder
@@ -734,7 +851,11 @@ function GetSysmonSwiftXML{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+<<<<<<< HEAD
 	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+=======
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   }
 
   # Download
@@ -749,6 +870,7 @@ function GetSysmonSwiftXML{
 function GetSysmonOlafXML{
   $SoftwareName = "Sysmon Olaf XML"
   Write-Output "Getting $SoftwareName..."
+<<<<<<< HEAD
 
   $FullDownloadURL = "https://raw.githubusercontent.com/olafhartong/sysmon-modular/master/sysmonconfig.xml"
 
@@ -768,6 +890,27 @@ function GetSysmonOlafXML{
 	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
   }
 
+=======
+
+  $FullDownloadURL = "https://raw.githubusercontent.com/olafhartong/sysmon-modular/master/sysmonconfig.xml"
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   # Download
   Write-Output "Downloading file from: $FullDownloadURL"
   $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
@@ -780,6 +923,7 @@ function GetSysmonOlafXML{
 function InstallSysmon64{
   $SoftwareName = "Sysmon64"
   Write-Output "Installing $SoftwareName..."
+<<<<<<< HEAD
 
   $FullDownloadURL = "https://download.sysinternals.com/files/Sysmon.zip"
 
@@ -806,10 +950,39 @@ function InstallSysmon64{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
+=======
+
+  $FullDownloadURL = "https://download.sysinternals.com/files/Sysmon.zip"
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   # Unzip
   Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
   Remove-Item -Path $FileFullName -ErrorAction Ignore
   Write-Output "Unzipped to: $SoftwareFolderFullName"
+<<<<<<< HEAD
 
   # Install
   $InstallFileFullName = "$SoftwareFolderFullName\Sysmon64.exe"
@@ -818,6 +991,21 @@ function InstallSysmon64{
     $CommandLineOptions += " -i $BootstrapFolder\Sysmon Olaf XML\sysmonconfig.xml"
   }
   Write-Output "Command line arguments: $CommandLineOptions"
+=======
+
+  # Set command line options
+  $CommandLineOptions = "-accepteula"
+  if (Test-Path -Path "$BootstrapFolder\Sysmon Olaf XML\sysmonconfig.xml") {
+    $CommandLineOptions += " -i $BootstrapFolder\Sysmon Olaf XML\sysmonconfig.xml"
+  }
+  elseIf (Test-Path -Path "$BootstrapFolder\Sysmon Swift XML\sysmonconfig-export.xml") {
+    $CommandLineOptions += " -i $BootstrapFolder\Sysmon Swift XML\sysmonconfig-export.xml"
+  }
+  Write-Output "Command line arguments: $CommandLineOptions"
+
+  # Install exe
+  $InstallFileFullName = "$SoftwareFolderFullName\Sysmon64.exe"
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   Start-Process $InstallFileFullName $CommandLineOptions -NoNewWindow -Wait
   Write-Output "Installation done for $SoftwareName"
 }
@@ -833,7 +1021,11 @@ function GetSysinternalsSuite{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
+<<<<<<< HEAD
 	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+=======
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   }
 
   # Create software folder
@@ -842,7 +1034,11 @@ function GetSysinternalsSuite{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+<<<<<<< HEAD
 	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+=======
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   }
 
   # Download
@@ -859,6 +1055,7 @@ function GetSysinternalsSuite{
 }
 
 
+<<<<<<< HEAD
 function InstallSpiceWebDAVDaemon{
   $SoftwareName = "Spice WebDAV Daemon"
   Write-Output "Installing $SoftwareName..."
@@ -900,11 +1097,19 @@ function InstallSpiceGuestTool{
 
   $FullDownloadURL = "https://spice-space.org/download/windows/spice-guest-tools/spice-guest-tools-latest.exe"
 
+=======
+function InstallSpiceGuestToolAndWebDAVDaemon{
+  #1: Spice Guest Tool
+  $SoftwareName = "Spice Guest Tool"
+  Write-Output "Installing $SoftwareName..."
+
+  $FullDownloadURL = "https://spice-space.org/download/windows/spice-guest-tools/spice-guest-tools-latest.exe"
+
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
-	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Create software folder
@@ -913,7 +1118,7 @@ function InstallSpiceGuestTool{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
   # Download
@@ -923,8 +1128,56 @@ function InstallSpiceGuestTool{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
+  # Install exe
+  $CommandLineOptions = "/SILENT /LOG"
+  Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
+  Write-Output "Installation done for $SoftwareName"
+
+  #2: Spice WebDAV Daemon
+  $SoftwareName = "Spice WebDAV Daemon"
+  Write-Output "Installing $SoftwareName..."
+
+  $FullDownloadURL = "https://spice-space.org/download/windows/spice-webdavd/spice-webdavd-x64-latest.msi"
+
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+<<<<<<< HEAD
+	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+=======
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+<<<<<<< HEAD
+	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+=======
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+<<<<<<< HEAD
   # Install
   Start-Process $FileFullName -NoNewWindow -Wait
+=======
+  # Install msi
+  Invoke-Expression "msiexec /qb /i $FileFullName"
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   Write-Output "Installation done for $SoftwareName"
 }
 
@@ -939,7 +1192,11 @@ function InstallGPGwin{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
+<<<<<<< HEAD
 	$null = New-Item -Path $BootstrapFolder -ItemType Directory
+=======
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   }
 
   # Create software folder
@@ -948,7 +1205,11 @@ function InstallGPGwin{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+<<<<<<< HEAD
 	$null = New-Item -Path $SoftwareFolderFullName -ItemType Directory
+=======
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   }
 
   # Download
@@ -958,8 +1219,14 @@ function InstallGPGwin{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
+<<<<<<< HEAD
   # Install
   Start-Process $FileFullName -NoNewWindow -Wait
+=======
+  # Install exe
+  $CommandLineOptions = "/SILENT /LOG"
+  Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   Write-Output "Installation done for $SoftwareName"
 }
 
@@ -967,6 +1234,7 @@ function InstallGPGwin{
 function InstallThunderbird{
   $SoftwareName = "Thunderbird"
   Write-Output "Installing $SoftwareName..."
+<<<<<<< HEAD
 
   $FullDownloadURL = "https://download.mozilla.org/?product=thunderbird-latest&os=win&lang=en-US"
 
@@ -995,6 +1263,37 @@ function InstallThunderbird{
 
   # Install
   Start-Process $FileFullName -NoNewWindow -Wait
+=======
+
+  $FullDownloadURL = "https://download.mozilla.org/?product=thunderbird-latest&os=win&lang=en-US"
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Install exe
+  $CommandLineOptions = "/SILENT /LOG"
+  Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   Write-Output "Installation done for $SoftwareName"
 }
 
@@ -1012,6 +1311,7 @@ function InstallOffice365{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
+<<<<<<< HEAD
 	$null = New-Item -Path $BootstrapFolder -ItemType Directory
   }
 
@@ -1032,6 +1332,28 @@ function InstallOffice365{
   Write-Output "Downloaded: $FileFullName"
 
   # Install
+=======
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Download Office deployment tool
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Download Office binaries
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   Start-Process $FileFullName "/quiet /extract:$SoftwareFolderFullName" -NoNewWindow -Wait
 
   $ConfigFileFullName = "$SoftwareFolderFullName\setupcustom-Office365-x86.xml"
@@ -1057,36 +1379,53 @@ function InstallOffice365{
 
   $SetupFileFullName = "$SoftwareFolderFullName\setup.exe"
   Start-Process $SetupFileFullName "/download $ConfigFileFullName" -NoNewWindow -Wait
+<<<<<<< HEAD
   Start-Process $SetupFileFullName "/configure $ConfigFileFullName" -NoNewWindow -Wait
 
+=======
+
+  # Install
+  Start-Process $SetupFileFullName "/configure $ConfigFileFullName" -NoNewWindow -Wait
+>>>>>>> c5c620148d777f1990d649d0de12badb1f4db394
   Write-Output "Installation done for $SoftwareName"
 }
 
 function InstallVisioPro{
-  # download and install office365 using office deployment tool
+  $SoftwareName = "Visio Pro"
+  Write-Output "Installing $SoftwareName..."
 
-  Write-Output "Installing Microsoft Visio Pro..."
-  # scrape web page for right file link
-  $URL="https://www.microsoft.com/en-us/download/confirmation.aspx?id=49117"
-  $CheckURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
-  if (! $CheckURL) {Write-Output "Error: URL not resolved"; return}
-  $FullDownloadURL=(Invoke-WebRequest -UseBasicParsing  -Uri $URL).Links.Href | Get-Unique -asstring | Select-String -Pattern officedeploymenttool
-  if (! $FullDownloadURL) {Write-Output "Error: OfficeDeploymentTool Not found"; return}
+  $FullDownloadURL = (Invoke-WebRequest -UseBasicParsing -Uri "https://www.microsoft.com/en-us/download/confirmation.aspx?id=49117").Links.Href | Get-Unique -asstring | Select-String -Pattern officedeploymenttool
+  if (-not $FullDownloadURL) {
+	Write-Output "Error: $SoftwareName not found"
+	return
+  }
 
-  #Download file
-  $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $FileName=([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
-  $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
-  Import-Module BitsTransfer
-  Start-BitsTransfer -Source $FullDownloadURL -Destination $LocalFile
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
 
-  # Extract Deployment tool in a subdirectory
-  $DeploymentDirectory=Join-Path -Path $DefaultDownloadDir -ChildPath "office365deploy\"
-  Invoke-Expression "$LocalFile /quiet /extract:$DeploymentDirectory"
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
 
-  # Create Office365 XMl file
-  $CustomXML=Join-Path -Path $DeploymentDirectory -ChildPath "custom-visio-x86.xml"
+  # Download Office deployment tool
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
 
+  # Download Visio
+  Start-Process $FileFullName "/quiet /extract:$SoftwareFolderFullName" -NoNewWindow -Wait
+  $ConfigFileFullName = "$SoftwareFolderFullName\custom-visio-x86.xml"
   '<!-- Office 365 client configuration file for custom downloads -->
 
   <Configuration>
@@ -1101,41 +1440,53 @@ function InstallVisioPro{
   <Updates Enabled="TRUE" Channel="Monthly" />
   <Display Level="None" AcceptEULA="TRUE" />
   <Property Name="AUTOACTIVATE" Value="1" />
-  </Configuration>' |  Out-File $CustomXML
+  </Configuration>' | Out-File $ConfigFileFullName
+  $SetupFileFullName = "$SoftwareFolderFullName\setup.exe"
+  Start-Process $SetupFileFullName "/download $ConfigFileFullName" -NoNewWindow -Wait
 
-  # start download using OfficeDeploymentTool
-  Invoke-Expression (Join-Path -Path $DeploymentDirectory -ChildPath "setup.exe") "/download $CustomXML"
-
-  # start install using OfficeDeploymentTool
-  Invoke-Expression (Join-Path -Path $DeploymentDirectory -ChildPath "setup.exe") "/configure $CustomXML"
-
+  # Install
+  Start-Process $SetupFileFullName "/configure $ConfigFileFullName" -NoNewWindow -Wait
+  Write-Output "Installation done for $SoftwareName"
 }
 
 
 function InstallVMwareWorkstation{
+  $SoftwareName = "VMware Workstation"
+  Write-Output "Installing $SoftwareName..."
 
-      #Download vmware workstation
-      $URL = "https://www.vmware.com/go/getworkstation-win"
+  $FullDownloadURL = [System.Net.HttpWebRequest]::Create("https://www.vmware.com/go/getworkstation-win").GetResponse().ResponseUri.AbsoluteUri
+  if (-not $FullDownloadURL) {
+	Write-Output "Error: $SoftwareName not found"
+	return
+  }
 
-      Write-Output "Installing VMware Workstation..."
-      # Resolve full download URL
-      Write-Output "Checking URL: $URL"
-      $FullDownloadURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
-      if (! $FullDownloadURL) {Write-Output "Error: URL not resolved"; return}
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
 
-      # Download file
-      $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-      $FileName=([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
-      $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
-      Write-Output "Downloading file from: $FullDownloadURL"
-      Start-BitsTransfer -Source $FullDownloadURL -Destination $LocalFile
-      #(New-Object System.Net.WebClient).DownloadFile($FullDownloadURL, $LocalFile)
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
 
-      # Install
-      $FileType=([System.IO.Path]::GetExtension($Localfile))
-      Write-Output "Starting installation of: $FileName"
-      Start-Process -FilePath $LocalFile -NoNewWindow -Wait -ArgumentList "/s /v/qn REBOOT=ReallySuppress ADDLOCAL=ALL EULAS_AGREED=1 SERIALNUMBER=""XXXXX-XXXXX-XXXXX-XXXXX-XXXXX"""
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
 
+  # Install exe
+  $CommandLineOptions = "/s /v/qn REBOOT=ReallySuppress ADDLOCAL=ALL EULAS_AGREED=1 SERIALNUMBER=""XXXXX-XXXXX-XXXXX-XXXXX-XXXXX"""
+  Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
+  Write-Output "Installation done for $SoftwareName"
 }
 
 function RemoveVMwareWorkstation{
@@ -1144,7 +1495,7 @@ function RemoveVMwareWorkstation{
 }
 
 ################################################################
-###### Browsers and Internet  ###
+###### Browsers and Internet ###
 ################################################################
 
 function DisableEdgePagePrediction{
@@ -1165,30 +1516,41 @@ function DisableEdgePagePrediction{
 }
 
 function InstallFirefox{
-    Write-Output "Installing Mozilla Firefox..."
-    # Define Download URL
-    $URL="https://download.mozilla.org/?product=firefox-msi-latest-ssl&os=win64&lang=en-US"
+  $SoftwareName = "Mozilla Firefox"
+  Write-Output "Installing $SoftwareName..."
 
-    # Resolve full download URL
-    Write-Output "Checking URL: $URL"
-    $FullDownloadURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
-    if (! $FullDownloadURL) {Write-Output "Error: URL not resolved"; return}
+  $FullDownloadURL = [System.Net.HttpWebRequest]::Create("https://download.mozilla.org/?product=firefox-msi-latest-ssl&os=win64&lang=en-US").GetResponse().ResponseUri.AbsoluteUri
+  if (-not $FullDownloadURL) {
+	Write-Output "Error: $SoftwareName not found"
+	return
+  }
 
-    # Download file
-    $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-    $FileName=([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
-    $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
-    Write-Output "Downloading file from: $FullDownloadURL"
-    Start-BitsTransfer -Source $FullDownloadURL -Destination $LocalFile
-    #(New-Object System.Net.WebClient).DownloadFile($FullDownloadURL, $LocalFile)
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
 
-    # Install
-    $FileType=([System.IO.Path]::GetExtension($Localfile))
-    Write-Output "Starting installation of: $FileName"
-    switch ($FileType){
-            ".exe" {Start-Process $LocalFile -NoNewWindow -Wait}
-            ".msi" {msiexec.exe /i $Localfile /qb}
-    }
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Install msi
+  Invoke-Expression "msiexec /qb /i $FileFullName"
+  Write-Output "Installation done for $SoftwareName"
 }
 
 function RemoveFirefox{
@@ -1242,52 +1604,61 @@ Components.classes[""@mozilla.org/toolkit/crash-reporter;1""].getService(Compone
 // Disable sync services
 pref(""services.sync.enabled"", false);
 
-"
+" | Out-Null
 
   # Create the autoconfig.js file
   New-Item ($firefoxInstallDir+"defaults\pref\autoconfig.js") -type file -force -value "pref(""general.config.filename"", ""mozilla.cfg"");
 pref(""general.config.obscure_value"", 0);
-"
+" | Out-Null
 
   # Create the override.ini file (disables Migration Wizard)
   New-Item ($firefoxInstallDir+"browser\override.ini") -type file -force -value "[XRE]
 EnableProfileMigrator=false
-"
+" | Out-Null
 }
 
 function InstallChrome{
-    # Define Download URL
-    #$CHROMEMSIURL = "https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B41280CF8-747D-3F47-BA8E-0E6CEDBB4C51%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26ap%3Dx64-stable/dl/chrome/install/googlechromestandaloneenterprise64.msi"
-    Write-Output "Installing Google Chrome..."
-    $URL="https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%3Dx64-stable/dl/chrome/install/googlechromestandaloneenterprise64.msi"
+  $SoftwareName = "Chrome"
+  Write-Output "Installing $SoftwareName..."
 
-    # Resolve full download URL
-    Write-Output "Checking URL: $URL"
-    $FullDownloadURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
-    if (! $FullDownloadURL) {Write-Output "Error: URL not resolved"; return}
+  $FullDownloadURL = [System.Net.HttpWebRequest]::Create("https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%3Dx64-stable/dl/chrome/install/googlechromestandaloneenterprise64.msi").GetResponse().ResponseUri.AbsoluteUri
+  if (-not $FullDownloadURL) {
+	Write-Output "Error: $SoftwareName not found"
+	return
+  }
 
-    # Download file
-    $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-    $FileName=([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
-    $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
-    Write-Output "Downloading file from: $FullDownloadURL"
-    Start-BitsTransfer -Source $FullDownloadURL -Destination $LocalFile
-    #(New-Object System.Net.WebClient).DownloadFile($FullDownloadURL, $LocalFile)
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
 
-    # Install
-    $FileType=([System.IO.Path]::GetExtension($Localfile))
-    Write-Output "Starting installation of: $FileName"
-    switch ($FileType){
-            ".exe" {Start-Process $LocalFile -NoNewWindow -Wait}
-            ".msi" {msiexec.exe /i $Localfile /qb}
-    }
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Install msi
+  Invoke-Expression "msiexec /qb /i $FileFullName"
+  Write-Output "Installation done for $SoftwareName"
 }
 
 function RemoveChrome{
   Write-Output "Removing Google Chrome..."
   Uninstall-Package -InputObject ( Get-Package -Name "Google Chrome")
 }
-
 
 function CreateChromePreferenceFiles {
 Write-Output "Creating preference files for Google Chrome..."
@@ -1337,46 +1708,50 @@ New-Item ($chromeInstallDir+"master_preferences") -type file -force -value "{
    ""new_tab_page""
  ]
 }
-"
+" | Out-Null
 }
 
 
 function InstallOpera{
-  Write-Output "Installing Opera..."
-  #$URL="https://www.opera.com/da/computer/thanks?ni=stable&os=windows"
-  $URL="https://get.geo.opera.com/pub/opera/desktop/"
+  $SoftwareName = "Opera"
+  Write-Output "Installing $SoftwareName..."
 
-  # Scrape ftp site for latest Version
-  $CheckURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
-  if (! $CheckURL) {Write-Output "Error: URL not resolved"; return}
-  $LatestOperaVersion=(Invoke-WebRequest -UseBasicParsing  -Uri $URL).Links.Href | Get-Unique -asstring | Sort-Object -Descending | select-object -First 1
-  if (! $LatestOperaVersion) {Write-Output "Error: Opera browser not found"; return}
-  $LatestOperaPath="$($URL)$($LatestOperaVersion)win/"
-  $LatestOperaInstallerFiles=(Invoke-WebRequest -UseBasicParsing  -Uri $LatestOperaPath).Links.Href | Get-Unique -asstring | Sort-Object -Descending | Select-String -Pattern Autoupdate_x64 # | select-object -First 1
-  # returns two objects (also a sha256 file)
-
-  # Download file
-  $DefaultDownloadDir=(Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-
-  Foreach ($file in $LatestOperaInstallerFiles)
-  {
-    $OperaInstallerFile=$LatestOperaPath + $file
-    $FileName=([System.IO.Path]::GetFileName($OperaInstallerFile).Replace("%20"," "))
-    $LocalFile = Join-Path -Path $DefaultDownloadDir -ChildPath $FileName
-    Write-Output "Downloading file from: $OperaInstallerFile"
-    Start-BitsTransfer -Source $OperaInstallerFile -Destination $LocalFile
-
-    # Install
-    $FileType=([System.IO.Path]::GetExtension($Localfile))
-    switch ($FileType){
-            ".exe" {
-                Write-Output "Starting installation of: $FileName"
-                # .\Opera_66.0.3515.95_Setup_x64.exe --runimmediately --allusers=0 --setdefaultbrowser=0 --enable-installer-stats=0 --enable-stats=0
-                Start-Process $LocalFile -NoNewWindow -Wait
-                }
-            # sha256 - https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-filehash?view=powershell-7
-      }
+  $URL = [System.Net.HttpWebRequest]::Create("https://www.opera.com/computer/thanks?ni=stable&os=windows").GetResponse().ResponseUri.AbsoluteUri
+  $LatestVersion = (Invoke-WebRequest -UseBasicParsing -Uri $URL).Links.Href | Get-Unique -asstring | Sort-Object -Descending | select-object -First 1
+  $LatestPath = "$($URL)$($LatestVersion)win/"
+  $FullDownloadURL = (Invoke-WebRequest -UseBasicParsing -Uri $LatestPath).Links.Href | Get-Unique -asstring | Sort-Object -Descending | Select-String -Pattern "Autoupdate_x64.exe$"
+  if (-not $FullDownloadURL) {
+	Write-Output "Error: $SoftwareName not found"
+	return
   }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Install exe
+  $CommandLineOptions = "/SILENT /LOG"
+  Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
+  Write-Output "Installation done for $SoftwareName"
 }
 
 ################################################################
