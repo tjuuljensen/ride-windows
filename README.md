@@ -52,7 +52,7 @@ Even though the script worked and saved me hours of installation time, the ugly 
 And then some day I visited Disassembler0's Win10-Initial-Setup-Script on github (https://github.com/Disassembler0/Win10-Initial-Setup-Script).
 Wow. I immediately discarded a lot of my code and used the Disassembler0 repo for years next to a slimmer version of my own - now adjusted to fit the code structure of the Disassembler0 repo.
 
-Disassembler0 archived his repo in 2021 (Thanks for all the fish!), so I adopted all his code in this repo - and I am back to self maintaining it.
+Disassembler0 archived his repo in 2021 (Thanks for all the fish!), so I adopted all his code in this repo - and I am back to maintaining my bootstrap script myself.
 
 So why do I do it?
 I am a Linux user and I created this script to make sure I remembered a lot of steps when installing a Windows machine. I like that I can spin up a fully configured machine in short time - no matter whether it is a VM or a physical pc.
@@ -82,7 +82,7 @@ I have a Linux repo and use the same script architecture in my Fedora Linux conf
 **A:** Yes, to certain extent. Some tweaks (most notably UI tweaks) are set only for the user currently executing the script. As stated above, the script can be run repeatedly; therefore it's possible to run it multiple times, each time as different user. Due to the nature of authentication and privilege escalation mechanisms in Windows, most of the tweaks can be successfully applied only by users belonging to *Administrators* group. Standard users will get an UAC prompt asking for admin credentials which then causes the tweaks to be applied to the given admin account instead of the original non-privileged one. There are a few ways how this can be circumvented programmatically, but I'm not planning to include any as it would negatively impact code complexity and readability. If you still wish to try to use the script in multi-user environment, check [this answer in issue #29](https://github.com/Disassembler0/Win10-Initial-Setup-Script/issues/29#issuecomment-333040591) for some pointers.
 
 **Q:** Did you test the script?  
-**A:** Yes. I'm testing new additions on up-to-date 64bit Home and Enterprise editions in VMs. I'm also regularly using it for all my home installations after all bigger updates.
+**A:** Yes. I'm testing new additions on up-to-date 64bit Enterprise editions in VMs. I'm also regularly using it for all my home installations after all bigger updates.
 
 **Q:** I've run the script and it did something I don't like, how can I undo it?  
 **A:** For every tweak, there is also a corresponding function which restores the default settings. The default is considered freshly installed Windows 10 or Windows Server 2016 with no adjustments made during or after the installation. Use the tweaks to create and run new preset. Alternatively, since some functions are just automation for actions which can be done using GUI, find appropriate control and modify it manually.
@@ -230,14 +230,14 @@ If you wish to make more elaborate modifications of the basic script and incorpo
 2. Clone your fork on your computer.
 
     ```
-    git clone https://github.com/<yournamehere>/Win10-Initial-Setup-Script
-    cd Win10-Initial-Setup-Script
+    git clone https://github.com/<yournamehere>/bootstrap-windows
+    cd bootstrap-windows
     ```
 
 3. Add the original repository as a remote (*upstream*).
 
     ```
-    git remote add upstream https://github.com/Disassembler0/Win10-Initial-Setup-Script
+    git remote add upstream https://github.com/tjuuljensen/bootstrap-windows
     ```
 
 4. Commit your modifications as you see fit.
