@@ -103,6 +103,36 @@ function DisableInternetPrinting{
   Disable-WindowsOptionalFeature -FeatureName Printing-Foundation-InternetPrinting-Client -Online
 }
 
+function SetRegionalSettings{
+  # https://scribbleghost.net/2018/04/30/add-keyboard-language-to-windows-10-with-powershell/
+
+  # Save WinUserLanguageList into a variable object and build the list from scratch
+  $LanguageList = Get-WinUserLanguageList
+  $LanguageList.Clear()
+  $LanguageList.add("en-GB")
+  $LanguageList[0].InputMethodTips.Clear()
+  # Add DK keyboard as keyboard language
+  $LanguageList[0].InputMethodTips.Add('0406:00000406')
+  Set-WinUserLanguageList $LanguageList -Force
+
+  # Make region settings independent of OS language and set culture and location
+  Set-WinCultureFromLanguageListOptOut -OptOut $True
+  Set-Culture en-GB
+  Set-WinHomeLocation -GeoId 0x3d
+
+  # Set non-unicode legacy software to use this language as default
+  Set-WinSystemLocale -SystemLocale da-DK
+
+  # Copy settings to entire system - Only on Windows 11 and forward
+   if (([environment]::OSVersion.Version).Build -gt 20000) {
+     write-host "Copying sessings to system default..."
+     Copy-UserInternationalSettingsToSystem -WelcomeScreen $True -NewUser $True
+     }
+
+  # Set timezone
+  Write-Host "Setting Time Zone"
+  Set-TimeZone "Romance Standard Time"
+}
 
 ################################################################
 ###### Privacy configurations  ###
