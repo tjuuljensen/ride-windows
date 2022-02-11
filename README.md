@@ -22,7 +22,7 @@ The functions of the script are focused on minimizing windows telemetry traffic 
 &nbsp;
 
 ## Installation
-If you just want to run the script with the default preset, download and unpack the [latest release](https://github.com/tjuuljensen/bootstrap-windows) and then simply double-click on the *Default.cmd* file and confirm *User Account Control* prompt. Make sure your account is a member of *Administrators* group as the script attempts to run with elevated privileges.
+If you just want to run the script with the default preset, download and unpack the [latest release](https://github.com/tjuuljensen/bootstrap-windows) and then simply double-click on the *default.cmd* file and confirm *User Account Control* prompt. Make sure your account is a member of *Administrators* group as the script attempts to run with elevated privileges.
 
 The script supports command line options and parameters which can help you customize the tweak selection or even add your own custom tweaks, however these features require some basic knowledge of command line usage and PowerShell scripting. Refer to [Advanced usage](#advanced-usage) section for more details.
 
@@ -54,7 +54,8 @@ Wow. I immediately discarded a lot of my code and used the Disassembler0 repo fo
 
 Disassembler0 archived his repo in 2021 (Thanks for all the fish!), so I adopted all his code in this repo - and I am back to self maintaining it.
 
-And by the way: I am a Linux user and I created this script to make sure I remembered a lot of steps when installing a Windows machine.
+So why do I do it?
+I am a Linux user and I created this script to make sure I remembered a lot of steps when installing a Windows machine. I like that I can spin up a fully configured machine in short time - no matter whether it is a VM or a physical pc.
 I have a Linux repo and use the same script architecture in my Fedora Linux configuration: https://github.com/tjuuljensen/bootstrap-fedora.
 
 
@@ -69,13 +70,13 @@ I have a Linux repo and use the same script architecture in my Fedora Linux conf
 **A:** Yes! In fact the script has been written to support exactly that, as it's not uncommon that big Windows Updates reset some of the settings.
 
 **Q:** Which versions and editions of Windows are supported?  
-**A:** The script aims to be fully compatible with the most up-to-date 64bit version of Windows 10 receiving updates from semi-annual channel, however if you create your own preset and exclude the incompatible tweaks, it will work also on LTSB/LTSC and possibly also on 32bit systems. Vast majority of the tweaks will work on all Windows editions. Some of them rely on group policy settings, so there may be a few limitations for Home and Education editions.
+**A:** The script aims to be fully compatible with the most up-to-date 64bit version of Windows 10 / 11 receiving updates from semi-annual channel, however if you create your own preset and exclude the incompatible tweaks, it will work also on LTSB/LTSC and possibly also on 32bit systems. Vast majority of the tweaks will work on all Windows editions. Some of them rely on group policy settings, so there may be a few limitations for Home and Education editions.
 
 **Q:** Can I run the script on Windows Server 2016 or 2019?  
-**A:** Yes. Starting from version 2.5, Windows Server is supported. There are even few tweaks specific to Server environment. Keep in mind though, that the script is still primarily designed for Windows 10, so you have to create your own preset.
+**A:** Yes. Starting from version 2.5, Windows Server is supported. There are even few tweaks specific to Server environment. Keep in mind though, that the script is still primarily designed for Windows 10 / 11, so you have to create your own preset.
 
 **Q:** Can I run the script on Windows 7, 8, 8.1 or other versions of Windows?  
-**A:** No. Although some tweaks may work also on older versions of Windows, the script is developed only for Windows 10 and Windows Server 2016 / 2019. There are no plans to support older versions.
+**A:** No. Although some tweaks may work also on older versions of Windows, the script is developed only for Windows 10 /11 and Windows Server 2016 / 2019. There are no plans to support older versions.
 
 **Q:** Can I run the script in multi-user environment?  
 **A:** Yes, to certain extent. Some tweaks (most notably UI tweaks) are set only for the user currently executing the script. As stated above, the script can be run repeatedly; therefore it's possible to run it multiple times, each time as different user. Due to the nature of authentication and privilege escalation mechanisms in Windows, most of the tweaks can be successfully applied only by users belonging to *Administrators* group. Standard users will get an UAC prompt asking for admin credentials which then causes the tweaks to be applied to the given admin account instead of the original non-privileged one. There are a few ways how this can be circumvented programmatically, but I'm not planning to include any as it would negatively impact code complexity and readability. If you still wish to try to use the script in multi-user environment, check [this answer in issue #29](https://github.com/Disassembler0/Win10-Initial-Setup-Script/issues/29#issuecomment-333040591) for some pointers.
@@ -102,10 +103,7 @@ I have a Linux repo and use the same script architecture in my Fedora Linux conf
 **A:** So you can directly take a function block or a line from within a function and use it elsewhere, without elaborating on any dependencies.
 
 **Q:** For how long are you going to maintain the script?  
-**A:** As long as I use Windows 10.
-
-**Q:** I really like the script. Can I send a donation?  
-**A:** Feel free to send donations via [PayPal](https://www.paypal.me/Disassembler). Any amount is appreciated, but keep in mind that donations are completely voluntary and I'm not obliged to make any script adjustments in your favor regardless of the donated amount. You can also drop me a mail to discuss an alternative way.
+**A:** As long as I find it useful.
 
 &nbsp;
 
@@ -129,6 +127,9 @@ I have a Linux repo and use the same script architecture in my Fedora Linux conf
 |  21H2   | 21H2                    | November 2021 Update   | 19044 |
 
 ### Windows 11
+
+| Version |        Code name        |     Marketing name     | Build |
+| :-----: | ----------------------- | ---------------------- | :---: |
 |  21H2   | N/A                     | October 2021 Update    | 22000 |
 
 &nbsp;
@@ -214,6 +215,11 @@ If you'd like to store output from the script execution, you can do so using `-l
 
 The logging is done using PowerShell `Start-Transcript` cmdlet, which writes extra information about current environment (date, machine and user name, command used for execution etc.) to the beginning of the file and logs both standard output and standard error streams.
 
+### Using INI files
+
+You can load personal settings to the script using an INI file with certain parameters.
+
+
 ## Maintaining own forks
 
 The easiest way to customize the script settings it is to create your own preset and, if needed, your own tweak scripts as described above. For easy start, you can base the modifications on the *default.cmd* and *default.preset* and maintain just that. If you choose to fork the script anyway, you don't need to comment or remove the actual functions in *Win10.psm1*, because if they are not called, they are not used.
@@ -270,7 +276,7 @@ Following is a list of rules which I'm trying to apply in this project. The rule
 Try to give a function a meaningful name up to 25 characters long, which gives away the purpose of the function. Use verbs like `Enable`/`Disable`, `Show`/`Hide`, `Install`/`Uninstall`, `Add`/`Remove` in the beginning of the function name. In case the function doesn't fit any of these verbs, come up with another name, beginning with the verb `Set`, which indicates what the function does, e.g. `SetCurrentNetworkPrivate` and `SetCurrentNetworkPublic`.
 
 ### Revert functions
-Always add a function with opposite name (or equivalent) which reverts the behavior to default. The default is considered freshly installed Windows 10 or Windows Server 2016 / 2019 with no adjustments made during or after the installation. If you don't have access to either of these, create the revert function to the best of your knowledge and I will fill in the rest if necessary.
+Always add a function with opposite name (or equivalent) which reverts the behavior to default. The default is considered freshly installed Windows 10/11 or Windows Server 2016 / 2019 with no adjustments made during or after the installation. If you don't have access to either of these, create the revert function to the best of your knowledge and I will fill in the rest if necessary.
 
 ### Function similarities
 Check if there isn't already a function with similar purpose as the one you're trying to add. As long as the name and objective of the existing function is unchanged, feel free to add your tweak to that function rather than creating a new one.
@@ -288,7 +294,7 @@ Unless applied on unsupported system, all functions have to be applicable repeat
 Suppress all output generated by commands and cmdlets using `| Out-Null` or `-ErrorAction SilentlyContinue` where applicable. Whenever an input is needed, use appropriate arguments to suppress the prompt and programmatically provide values for the command to run (e.g. using `-Confirm:$false`). The only acceptable output is from the `Write-Output` cmdlets in the beginning of each function and from non-suppressible cmdlets like `Remove-AppxPackage`.
 
 ### Registry
-Create the registry keys only if they don't exist on fresh installation if Windows 10 or Windows Server 2016 / 2019. When deleting registry, delete only registry values, not the whole keys. When you're setting registry values, always use `Set-ItemProperty` instead of `New-ItemProperty`. When you're removing registry values, choose either `Set-ItemProperty` or `Remove-ItemProperty` to reinstate the same situation as it was on the clean installation. Again, if you don't know what the original state was, let me know in PR description and I will fill in the gaps. When you need to use `HKEY_USERS` registry hive, always add following snippet before the registry modification to ensure portability.
+Create the registry keys only if they don't exist on fresh installation if Windows 10 / 11 or Windows Server 2016 / 2019. When deleting registry, delete only registry values, not the whole keys. When you're setting registry values, always use `Set-ItemProperty` instead of `New-ItemProperty`. When you're removing registry values, choose either `Set-ItemProperty` or `Remove-ItemProperty` to reinstate the same situation as it was on the clean installation. Again, if you don't know what the original state was, let me know in PR description and I will fill in the gaps. When you need to use `HKEY_USERS` registry hive, always add following snippet before the registry modification to ensure portability.
 
 ```powershell
 If (!(Test-Path "HKU:")) {
