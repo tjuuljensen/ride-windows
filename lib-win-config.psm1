@@ -118,7 +118,7 @@ function SetRegionalSettings{
   # Make region settings independent of OS language and set culture and location
   Set-WinCultureFromLanguageListOptOut -OptOut $True
   Set-Culture en-GB
-  Set-WinHomeLocation -GeoId 0x3d
+  Set-WinHomeLocation -GeoId 0x3d  # Denmark
 
   # Set non-unicode legacy software to use this language as default
   Set-WinSystemLocale -SystemLocale da-DK
@@ -200,7 +200,7 @@ function EnableBitlocker{
 
 function EnableBitlockerPIN{
   # BitLocker PIN
-  $SecureString = ConvertTo-SecureString "FIXME1234" -AsPlainText -Force
+  $SecureString = ConvertTo-SecureString "ChangeMeNow!" -AsPlainText -Force
   Enable-BitLocker -MountPoint "$($env:SystemDrive)" -EncryptionMethod Aes256 -UsedSpaceOnly -Pin $SecureString -TPMandPinProtector
 
 }
@@ -635,6 +635,48 @@ function InstallGit4Win{
   Write-Output "Installation done for $SoftwareName"
 }
 
+function InstallAtom{
+  $SoftwareName = "Atom"
+  Write-Output "Installing $SoftwareName..."
+
+  $Url = "https://github.com/atom/atom/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
+  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*64*" -and $_.href -Like "*exe*" }).href
+  $FullDownloadURL = "https://github.com$SoftwareUri"
+  if (-not $FullDownloadURL) {
+	Write-Output "Error: $SoftwareName not found"
+	return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Install exe
+  $CommandLineOptions = ""
+  Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
+  Write-Output "Installation done for $SoftwareName"
+}
+
 
 function InstallNotepadPlusPlus{
   $SoftwareName = "NotepadPlusPlus"
@@ -750,7 +792,7 @@ function GetSysmonSwiftXML{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
   }
 
   # Download
