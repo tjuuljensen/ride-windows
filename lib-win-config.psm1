@@ -922,7 +922,7 @@ function GetSysinternalsSuite{
 }
 
 
-function InstallSpiceGuestToolAndWebDAVDaemon{
+function InstallSpiceGuestTool{
   #1: Spice Guest Tool
   $SoftwareName = "Spice Guest Tool"
   Write-Output "Installing $SoftwareName..."
