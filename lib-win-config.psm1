@@ -661,7 +661,7 @@ function InstallAtom{
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
   }
 
   # Download

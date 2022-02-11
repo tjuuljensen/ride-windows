@@ -16,6 +16,7 @@ DisableWindowsStoreApp        # EnableWindowsStoreApp
 DisableFriendlyURLFormat      # UnconfigureFriendlyURLFormat
 EnableRunAsInStartMenu        # DisableRunAsInStartMenu
 EnableInternetPrinting        # DisableInternetPrinting
+SetRegionalSettings
 
 ###### Privacy configurations  ###
 DisableInkingAndTypingData    # EnableInkingAndTypingData
@@ -45,6 +46,7 @@ InstallWSLFedoraRemix         # RemoveWSLFedoraRemix
 
 ###### Install programs  ###
 InstallGit4Win                #
+InstallAtom                   # RemoveAtom
 # InstallNotepadPlusPlus      # RemoveNotepadPlusPlus
 Install7Zip                   # Remove7Zip
 GetSysmonSwiftXML             # GetSysmonOlafXML
