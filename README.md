@@ -220,17 +220,17 @@ The logging is done using PowerShell `Start-Transcript` cmdlet, which writes ext
 You can load personal settings to the script using an INI file with certain parameters. The parameters relate to specific functions in the config script. The table shows the functions where the feature is implemented and the default values.
 
 |       Function             |       Section       |     Key             | Default value          |
-| :------------------------: | ------------------- | ------------------- | :--------------------: |
+| -------------------------- | ------------------- | ------------------- | ---------------------- |
 |  CreateNewLocalAdmin       | LocalAdmin          | AdminUser           | Admin                  |
-|  CreateNewLocalAdmin       | LocalAdmin          | AdminPassword       | <EMPTY>                |
-|  EnableBitlockerTPMandPIN  | Bitlocker           | TPMandPINPassword   | ChangeMeNow!           |
+|  CreateNewLocalAdmin       | LocalAdmin          | AdminPassword       | -                      |
+|  EnableBitlockerTPMandPIN  | Bitlocker           | TPMandPINPassword   | -                      |
 |  SetRegionalSettings       | Language            | WinUserLanguage     | en-GB                  |
 |  SetRegionalSettings       | Language            | Culture             | en-GB                  |
 |  SetRegionalSettings       | Language            | Keyboard            | 0406:00000406 (Danish) |
 |  SetRegionalSettings       | Language            | Location            | 0x3d (Denmark)         |
 |  SetRegionalSettings       | Language            | SystemLocale        | da-DK                  |
 |  SetRegionalSettings       | Language            | TimeZone            | Romance Standard Time  |
-|  InstallVMwareWorkstation  | VMwareWorkstation   | VMWAREWORKSTATION16 | <EMPTY>                |
+|  InstallVMwareWorkstation  | VMwareWorkstation   | VMWAREWORKSTATION16 | -                      |
 
 
 ## Maintaining own forks
