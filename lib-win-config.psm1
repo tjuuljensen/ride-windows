@@ -8,6 +8,32 @@
 ###### Windows configuration  ###
 ################################################################
 
+function ActivateWindows{
+
+  # Determine variable name holding Windows License Key - loaded from ini file
+  if (([Environment]::OSVersion.Version).Major -eq "10") { # Either Windows 10 or 11
+    $WindowsBuild= ([Environment]::OSVersion.Version).Build
+    $WindowsEdition=(Get-WindowsEdition -Online).Edition
+    Switch( $WindowsBuild )
+    {
+      ({$PSItem -lt 20000 -and $PSItem -gt 10240})
+        { $WindowsVersion=("Windows" + "10" + $WindowsEdition)}
+      ({$PSItem -ge 22000})
+        { $WindowsVersion=("Windows" + "11" + $WindowsEdition)}
+    }
+  }
+
+  # Read variable content (if any) and install licence key if it exists
+  $LicenseKey=$config.WindowsKey."$WindowsVersion"}
+  if ( $LicenseKey -ne $null ) {
+    $computer = Get-Content Env:ComputerName
+
+    $service = Get-WmiObject -Query "select * from SoftwareLicensingService" -ComputerName $computer
+    $service.InstallProductKey($LicenseKey)
+    $service.RefreshLicenseStatus()
+  }
+}
+
 function CreateNewLocalAdmin{
   # Tested on Windows 10 Pro 10.0.19044
 
@@ -138,7 +164,7 @@ function SetRegionalSettings{
   Set-WinSystemLocale -SystemLocale $SystemLocale
 
   # Copy settings to entire system - Only on Windows 11 and forward
-   if (([environment]::OSVersion.Version).Build -gt 20000) {
+   if (([environment]::OSVersion.Version).Build -ge 22000) {
      write-host "Copying sessings to system default..."
      Copy-UserInternationalSettingsToSystem -WelcomeScreen $True -NewUser $True
      }
@@ -200,20 +226,9 @@ function PutBitlockerShortCutOnDesktop{
     $Shortcut.TargetPath = $AppLocation
     $Shortcut.Arguments ="\ t"
     $Shortcut.Description ="Start Bitlocker Wizard"
-    $Shortcut.WorkingDirectory ="C:\Windows\System32"
+    $Shortcut.WorkingDirectory = ($env:SystemDrive+"\Windows\System32")
     #$Shortcut.IconLocation = "C:\Windows\System32\BitLockerWizardElev.exe,0"
     $Shortcut.Save()
-}
-
-function EnableBitlocker{
-  # https://docs.microsoft.com/en-us/powershell/module/bitlocker/enable-bitlocker
-  # https://lazyadmin.nl/it/enable-bitlocker-windows-10/
-  Enable-BitLocker -MountPoint "$($env:SystemDrive)" -EncryptionMethod Aes256  -UsedSpaceOnly -SkipHardwareTest -RecoveryPasswordProtector
-
-}
-
-function DisableBitlocker{
-  Disable-BitLocker -MountPoint "$($env:SystemDrive)"
 }
 
 Function EnableLockOutThreshold {
@@ -267,12 +282,23 @@ function DisableAdvancedAuthAtStart{
 }
 
 function EnableBitlockerTPMandPIN{
-  $DefaultPIN="ChangeMeNow!"
-  # Test if value was set by reading the value from an ini file
-  $DefaultBitlockerPIN = if ($config.Bitlocker.TPMandPINPassword -eq $null) {$DefaultPIN}  else {$config.Bitlocker.TPMandPINPassword}
 
-  $SecureString = ConvertTo-SecureString $DefaultBitlockerPIN -AsPlainText -Force
-  Enable-BitLocker -MountPoint "$($env:SystemDrive)" -EncryptionMethod Aes256 -UsedSpaceOnly -Pin $SecureString -TPMandPinProtector
+  if ($config.Bitlocker.TPMandPINPassword -ne $null -and ($config.Bitlocker.TPMandPINPassword).tolower() -ne "[prompt]") {
+         $Password = ConvertTo-SecureString -String $config.Bitlocker.TPMandPINPassword
+       } else {
+         $Password = Read-Host -AsSecureString "Enter new Bitlocker Pre-Boot PIN: "
+       }
+  Enable-BitLocker -MountPoint "$($env:SystemDrive)" -EncryptionMethod Aes256 -UsedSpaceOnly -Pin $Password -TPMandPinProtector
+}
+
+function EnableBitlocker{
+  # https://docs.microsoft.com/en-us/powershell/module/bitlocker/enable-bitlocker
+  # https://lazyadmin.nl/it/enable-bitlocker-windows-10/
+  Enable-BitLocker -MountPoint $env:SystemDrive -EncryptionMethod Aes256  -UsedSpaceOnly -SkipHardwareTest -RecoveryPasswordProtector
+}
+
+function DisableBitlocker{
+  Disable-BitLocker -MountPoint $env:SystemDrive
 }
 
 ################################################################
@@ -575,7 +601,7 @@ function CleanLocalWindowsUpdateCache{
   # Stop bits (Background Intelligent Transfer Service)
   Get-Service -Name "wuauserv" | Stop-Service
   Get-Service -Name "bits" | Stop-Service
-  Remove-Item C:\Windows\SoftwareDistribution\Download\* -recurse -force
+  Remove-Item ("$($env:SystemDrive)"+"\Windows\SoftwareDistribution\Download\*") -recurse -force
   Get-Service -Name "wuauserv" | Start-Service
   Get-Service -Name "bits" | Start-Service
 }
@@ -1605,8 +1631,8 @@ function ReplaceDefaultWallpapers{
   3840x2160 - img0_3840x2160.jpg
   #>
 
-  $DefaultWallPaper="$env:SystemDrive:\windows\WEB\wallpaper\Windows\img0.jpg"
-  $WallPaperPath="$env:SystemDrive:\Windows\Web\4K\Wallpaper\Windows"
+  $DefaultWallPaper=($env:SystemDrive+"\windows\WEB\wallpaper\Windows\img0.jpg")
+  $WallPaperPath=($env:SystemDrive+"\Windows\Web\4K\Wallpaper\Windows")
 
   takeown /f $DefaultWallPaper
   takeown /f $WallPaperPath\*.*
