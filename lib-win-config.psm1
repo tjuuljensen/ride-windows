@@ -22,7 +22,7 @@ function CreateNewLocalAdmin{
    if ($config.LocalAdmin.AdminPassword -ne $null -and ($config.LocalAdmin.AdminPassword).tolower() -ne "[prompt]") {
           $Password = ConvertTo-SecureString -String $config.LocalAdmin.AdminPassword
         } else {
-          $Password = Read-Host -AsSecureString "Enter password of the Local Admin User"
+          $Password = Read-Host -AsSecureString "Enter password of the Local Admin User: "
         }
 
     Write-Output "Creating local admin user: $LocalAdminUser"
@@ -106,22 +106,36 @@ function DisableInternetPrinting{
 function SetRegionalSettings{
   # https://scribbleghost.net/2018/04/30/add-keyboard-language-to-windows-10-with-powershell/
 
+  $DefaultWinUserLanguage="en-GB"
+  $DefaultCulture="en-GB"
+  $DefaultKeyboard="0406:00000406" # Danish keyboard
+  $DefaultLocation="0x3d" # Denmark
+  $DefaultSystemLocale="da-DK"
+  $DefaultTimeZone="Romance Standard Time"
+
+  $WinUserLanguage = if ($config.Language.WinUserLanguage -eq $null) {$DefaultWinUserLanguage}  else {$config.Language.WinUserLanguage}
+  $Culture = if ($config.Language.Culture -eq $null) {$DefaultCulture}  else {$config.Language.Culture}
+  $Keyboard = if ($config.Language.Keyboard -eq $null) {$DefaultKeyboard}  else {$config.Language.Keyboard}
+  $Location = if ($config.Language.Location -eq $null) {$DefaultLocation}  else {$config.Language.Location}
+  $SystemLocale = if ($config.Language.SystemLocale -eq $null) {$DefaultSystemLocale}  else {$config.Language.SystemLocale}
+  $TimeZone = if ($config.Language.TimeZone -eq $null) {$DefaultTimeZone}  else {$config.Language.TimeZone}
+
   # Save WinUserLanguageList into a variable object and build the list from scratch
   $LanguageList = Get-WinUserLanguageList
   $LanguageList.Clear()
-  $LanguageList.add("en-GB")
+  $LanguageList.add($WinUserLanguage)
   $LanguageList[0].InputMethodTips.Clear()
   # Add DK keyboard as keyboard language
-  $LanguageList[0].InputMethodTips.Add('0406:00000406')
+  $LanguageList[0].InputMethodTips.Add($DefaultKeyboard)
   Set-WinUserLanguageList $LanguageList -Force
 
   # Make region settings independent of OS language and set culture and location
   Set-WinCultureFromLanguageListOptOut -OptOut $True
-  Set-Culture en-GB
-  Set-WinHomeLocation -GeoId 0x3d  # Denmark
+  Set-Culture $Culture
+  Set-WinHomeLocation -GeoId $DefaultLocation
 
   # Set non-unicode legacy software to use this language as default
-  Set-WinSystemLocale -SystemLocale da-DK
+  Set-WinSystemLocale -SystemLocale $SystemLocale
 
   # Copy settings to entire system - Only on Windows 11 and forward
    if (([environment]::OSVersion.Version).Build -gt 20000) {
@@ -131,7 +145,7 @@ function SetRegionalSettings{
 
   # Set timezone
   Write-Host "Setting Time Zone"
-  Set-TimeZone "Romance Standard Time"
+  Set-TimeZone $TimeZone
 }
 
 ################################################################
@@ -152,7 +166,7 @@ function EnableInkingAndTypingData{
 
 
 ################################################################
-###### Hardening Windows  ###
+###### Bitlocker configuration  ###
 ################################################################
 
 function SetDefaultBitLockerAES256{
@@ -194,15 +208,12 @@ function PutBitlockerShortCutOnDesktop{
 function EnableBitlocker{
   # https://docs.microsoft.com/en-us/powershell/module/bitlocker/enable-bitlocker
   # https://lazyadmin.nl/it/enable-bitlocker-windows-10/
-  Enable-BitLocker -EncryptionMethod Aes256 -UsedSpaceOnly -RecoveryKeyPath "E:\FIXME\" -RecoveryKeyProtector
+  Enable-BitLocker -MountPoint "$($env:SystemDrive)" -EncryptionMethod Aes256  -UsedSpaceOnly -SkipHardwareTest -RecoveryPasswordProtector
 
 }
 
-function EnableBitlockerPIN{
-  # BitLocker PIN
-  $SecureString = ConvertTo-SecureString "ChangeMeNow!" -AsPlainText -Force
-  Enable-BitLocker -MountPoint "$($env:SystemDrive)" -EncryptionMethod Aes256 -UsedSpaceOnly -Pin $SecureString -TPMandPinProtector
-
+function DisableBitlocker{
+  Disable-BitLocker -MountPoint "$($env:SystemDrive)"
 }
 
 Function EnableLockOutThreshold {
@@ -236,6 +247,37 @@ function DisableEnhancedPIN{
   }
   Set-ItemProperty -Path "HKLM:Software\Policies\Microsoft\FVE" -Name "UseEnhancedPin" -Type DWord -Value 0
 }
+
+function EnableAdvancedAuthAtStart{
+  # https://technet.microsoft.com/en-us/library/jj649829(v=wps.630).aspx
+  Write-Output "Enabling Additional Authentication at Startup..."
+  If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\")) {
+    New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\" -Force | Out-Null
+  }
+  Set-ItemProperty -path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\" -name "UseAdvancedStartup" -value 1
+}
+
+function DisableAdvancedAuthAtStart{
+  # https://technet.microsoft.com/en-us/library/jj649829(v=wps.630).aspx
+  Write-Output "Enabling Additional Authentication at Startup..."
+  If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\")) {
+    New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\" -Force | Out-Null
+  }
+  Set-ItemProperty -path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\" -name "UseAdvancedStartup" -value 0
+}
+
+function EnableBitlockerTPMandPIN{
+  $DefaultPIN="ChangeMeNow!"
+  # Test if value was set by reading the value from an ini file
+  $DefaultBitlockerPIN = if ($config.Bitlocker.TPMandPINPassword -eq $null) {$DefaultPIN}  else {$config.Bitlocker.TPMandPINPassword}
+
+  $SecureString = ConvertTo-SecureString $DefaultBitlockerPIN -AsPlainText -Force
+  Enable-BitLocker -MountPoint "$($env:SystemDrive)" -EncryptionMethod Aes256 -UsedSpaceOnly -Pin $SecureString -TPMandPinProtector
+}
+
+################################################################
+###### Hardening Windows  ###
+################################################################
 
 function DisableSSDPdiscovery{
   # Disables discovery of networked devices and services that use the SSDP discovery protocol, such as UPnP devices.
@@ -1202,6 +1244,14 @@ function InstallVMwareWorkstation{
 	return
   }
 
+  # Determine optional serial number
+  $VMwareSerialNumber = if ($config.VMwareWorkstation.VMWAREWORKSTATION16 -ne $null) {$config.VMwareWorkstation.VMWAREWORKSTATION16}
+  $found = $FullDownloadURL -match '.*workstation-full-(\d+)\.*'
+  if ($found) {
+    $MajorVersion=$matches[1]
+    $VMwareSerialNumber=(Get-Variable ("VMWAREWORKSTATION" + $MajorVersion + "*")).Value
+  }
+
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
@@ -1226,8 +1276,9 @@ function InstallVMwareWorkstation{
   Write-Output "Downloaded: $FileFullName"
 
   # Install exe
-  $CommandLineOptions = "/s /v/qn REBOOT=ReallySuppress ADDLOCAL=ALL EULAS_AGREED=1 SERIALNUMBER=""XXXXX-XXXXX-XXXXX-XXXXX-XXXXX"""
-  Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
+  $CommandLineOptions = "/s /v/qn REBOOT=ReallySuppress ADDLOCAL=ALL EULAS_AGREED=1 "
+  $CommandLineOptions2 = if ($VMwareSerialNumber -ne $null) {"SERIALNUMBER=""$VMwareSerialNumber"""}
+  Start-Process $FileFullName $CommandLineOptions $CommandLineOptions2 -NoNewWindow -Wait
   Write-Output "Installation done for $SoftwareName"
 }
 
