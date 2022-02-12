@@ -1244,12 +1244,12 @@ function InstallVMwareWorkstation{
 	return
   }
 
-  # Determine optional serial number
-  $VMwareSerialNumber = if ($config.VMwareWorkstation.VMWAREWORKSTATION16 -ne $null) {$config.VMwareWorkstation.VMWAREWORKSTATION16}
-  $found = $FullDownloadURL -match '.*workstation-full-(\d+)\.*'
-  if ($found) {
-    $MajorVersion=$matches[1]
-    $VMwareSerialNumber=(Get-Variable ("VMWAREWORKSTATION" + $MajorVersion + "*")).Value
+  # Determine variable name of variable holding serial number (in case ini file was loaded)
+  $FoundMajorVersion = $FullDownloadURL -match '.*workstation-full-(\d+)\.*'
+  if ($FoundMajorVersion) {
+      $MajorVersion=$matches[1]
+      $KeyName=("VMWAREWORKSTATION" + $MajorVersion)
+      $VMwareSerialNumber=$config.VMwareWorkstation."$KeyName"
   }
 
   # Create bootstrap folder if not existing
