@@ -22,12 +22,6 @@ SetRegionalSettings
 DisableInkingAndTypingData    # EnableInkingAndTypingData
 
 ###### Hardening Windows  ###
-SetDefaultBitLockerAES256     # SetDefaultBitLockerAES128
-PutBitlockerShortCutOnDesktop
-EnableBitlocker               # EnableBitlockerPIN
-EnableLockOutThreshold        # DisableLockOutThreshold
-EnableEnhancedPIN             # DisableEnhancedPIN
-
 DisableSSDPdiscovery          # EnableSSDPdiscovery
 DisableUniversalPlugAndPlay   # EnableUniversalPlugAndPlay
 DisableWinHttpAutoProxySvc    # EnableWinHttpAutoProxySvc
@@ -77,13 +71,6 @@ ReplaceDefaultWallpapers
 
 ### Other Functions ###
 SetHostname
-
-
-##########
-## From this point forward, most functions are from Disassembler repo
-## Version: v3.10, 2020-07-15
-## Source: https://github.com/Disassembler0/Win10-Initial-Setup-Script
-##########
 
 ### Privacy Tweaks ###
 DisableTelemetry                # EnableTelemetry
@@ -337,6 +324,14 @@ GetWindowsUpdatesWithPwsh
 CleanLocalWindowsUpdateCache
 RunDiskCleanup
 # RunSysprepGeneralizeOOBE
+
+###### Bitlocker  ###
+SetDefaultBitLockerAES256     # SetDefaultBitLockerAES128
+# PutBitlockerShortCutOnDesktop
+# EnableLockOutThreshold       # DisableLockOutThreshold
+# EnableEnhancedPIN            # DisableEnhancedPIN
+# EnableAdvancedAuthAtStart    # DisableAdvancedAuthAtStart
+# EnableBitlockerTPMandPIN     # EnableBitlocker             # DisableBitlocker
 
 ### Auxiliary Functions ###
 WaitForKey
