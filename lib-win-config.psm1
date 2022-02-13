@@ -288,7 +288,14 @@ function EnableBitlockerTPMandPIN{
        } else {
          $Password = Read-Host -AsSecureString "Enter new Bitlocker Pre-Boot PIN: "
        }
-  Enable-BitLocker -MountPoint "$($env:SystemDrive)" -EncryptionMethod Aes256 -UsedSpaceOnly -Pin $Password -TPMandPinProtector
+  # Bitlocker will check if bootable CD's are in the drive before enabling BitLocker
+  # As virtual machines very often have an ISO connected after a fresh install, eject all CD's if in a VM
+  $IsVirtual=((Get-WmiObject Win32_ComputerSystem).model -like ("*Virtual*") -or (Get-WmiObject Win32_ComputerSystem).model -like ("*VMware*"))
+  if ($IsVirtual) {
+    $Eject = New-Object -ComObject "Shell.Application"
+    $Eject.Namespace(17).Items() | Where-Object { $_.Type -eq "CD Drive" } | foreach { $_.InvokeVerb("Eject") }
+    }
+  Enable-BitLocker -MountPoint "$($env:SystemDrive)" -EncryptionMethod Aes256 -UsedSpaceOnly -Pin $Password -TPMandPinProtector -SkipHardwareTest
 }
 
 function EnableBitlocker{
@@ -431,20 +438,13 @@ function SetDefaultHostsfile{
 
 function EnableWSL{
   # Enable Windows Subsystem Linux PowerShell Script
-  #
-  # Sources:
-  # https://stackoverflow.com/questions/7330187/how-to-find-the-windows-version-from-the-powershell-command-line
-  # https://www.computerhope.com/issues/ch001879.htm (How to install WSL on Windows 10)
-  # https://www.how2shout.com/how-to/how-to-install-fedora-remix-for-wsl-on-windows-10-using-choco.html
-  # https://docs.microsoft.com/en-us/windows/wsl/wsl2-install
-  # https://devblogs.microsoft.com/commandline/wsl-2-is-now-available-in-windows-insiders/
-  # https://docs.microsoft.com/en-us/windows/wsl/install-manual
-  # https://medium.com/swlh/get-wsl2-working-on-windows-10-2ee84ef8ed43 (see X.11 section)
+  # https://docs.microsoft.com/en-us/windows/wsl/install
 
   Write-Output "Enabling Windows Subsystem for Linux..."
 
   Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -NoRestart
   Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -NoRestart
+  Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All -NoRestart
 
   # Set wsl version as default version on latest versions of Windows 10
    $WindowsVersion = ([System.Environment]::OSVersion.Version).Build
@@ -460,79 +460,26 @@ function DisableWSL{
   Write-Output "Disabling Windows Subsystem for Linux..."
   Disable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -NoRestart
   Disable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -NoRestart
+  Disable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All -NoRestart
 }
 
-function InstallWSLubuntu1804{
-  $SoftwareName = "WSL Ubuntu 18.04"
+function InstallWSLubuntu{
+  $SoftwareName = "WSL Ubuntu"
   Write-Output "Installing $SoftwareName..."
 
-  $FullDownloadURL = [System.Net.HttpWebRequest]::Create("https://aka.ms/wsl-ubuntu-1804").GetResponse().ResponseUri.AbsoluteUri
-
-  # Create bootstrap folder if not existing
-  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
-  if (-not (Test-Path -Path $BootstrapFolder)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
-  }
-
-  # Create software folder
-  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
-  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
-  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
-  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
-  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
-  }
-
-  # Download
-  Write-Output "Downloading file from: $FullDownloadURL"
-  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
-  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
-  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
-  Write-Output "Downloaded: $FileFullName"
-
-  # Install AppxPackage
-  Add-AppxPackage $FileFullName
-  Write-Output "Installation done for $SoftwareName"
+  wsl --install -d Ubuntu
 }
 
-function RemoveWSLubuntu1804{
+function RemoveWSLubuntu{
   Write-Output "Removing WSL Ubuntu..."
-  Get-AppxPackage "CanonicalGroupLimited.Ubuntu18.04onWindows" | Remove-AppxPackage
+  Get-AppxPackage "CanonicalGroupLimited.UbuntuonWindows" | Remove-AppxPackage
 }
 
 function InstallWSLdebian{
   $SoftwareName = "WSL Debian"
   Write-Output "Installing $SoftwareName..."
 
-  $FullDownloadURL = [System.Net.HttpWebRequest]::Create("https://aka.ms/wsl-debian-gnulinux").GetResponse().ResponseUri.AbsoluteUri
-
-  # Create bootstrap folder if not existing
-  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
-  if (-not (Test-Path -Path $BootstrapFolder)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
-  }
-
-  # Create software folder
-  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
-  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
-  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
-  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
-  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
-  }
-
-  # Download
-  Write-Output "Downloading file from: $FullDownloadURL"
-  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
-  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
-  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
-  Write-Output "Downloaded: $FileFullName"
-
-  # Install AppxPackage
-  Add-AppxPackage $FileFullName
-  Write-Output "Installation done for $SoftwareName"
+  wsl --install -d Debian
 }
 
 function RemoveWSLdebian{
@@ -544,7 +491,34 @@ function InstallWSLkali{
   $SoftwareName = "WSL Kali"
   Write-Output "Installing $SoftwareName..."
 
-  $FullDownloadURL = [System.Net.HttpWebRequest]::Create("https://aka.ms/wsl-kali-linux-new").GetResponse().ResponseUri.AbsoluteUri
+  wsl --install -d kali-linux
+}
+
+function RemoveWSLkali{
+  Write-Output "Removing WSL Kali..."
+  Get-AppxPackage "KaliLinux.54290C8133FEE" | Remove-AppxPackage
+}
+
+function InstallWSLFedora{
+  # Inspiration found in page:
+  # https://dev.to/bowmanjd/install-fedora-on-windows-subsystem-for-linux-wsl-4b26
+
+  $SoftwareName = "WSL Fedora"
+  Write-Output "Installing $SoftwareName..."
+
+  # get lastest Fedora version
+  $FedoraReleaseUri="https://download.fedoraproject.org/pub/fedora/linux/releases/"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $FedoraReleaseUri).Links
+  $FedoraVersion= ($ReleasePageLinks.href | %{$_.Substring(0, $_.length - 1) -as [int]}  | Sort-Object -Descending | Select-Object -First 1)
+
+  # Get second latest release page (most likely yesterday)
+  $url="https://koji.fedoraproject.org/koji/packageinfo?packageID=26387"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
+  $BuildPage = ("https://koji.fedoraproject.org/koji/" + ($ReleasePageLinks | where { $_.outerHTML -Like "*Container*" -and $_.outerHTML -Like "*$FedoraVersion*" } | Select-Object -Skip 1 -First 1).href)
+
+  # Get rootfs image link in page
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $BuildPage).Links
+  $FullDownloadURL = ($ReleasePageLinks | where { $_.outerHTML -Like "*x86_64.tar.xz*"}).href
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
@@ -569,14 +543,17 @@ function InstallWSLkali{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Install AppxPackage
-  Add-AppxPackage $FileFullName
-  Write-Output "Installation done for $SoftwareName"
-}
+  # Install (FIXME)
+  # & 'C:\Program Files\7-Zip\7z.exe' x .\Fedora-Container-Base-35-20220212.0.x86_64.tar.xz
+  #  & 'C:\Program Files\7-Zip\7z.exe' e .\Fedora-Container-Base-35-20220212.0.x86_64.tar 64f3db080638d17ae803eb06b0515b6f99fb90a9b490f310bd98a02b8a5df6c4\layer.tar
+  # Move layer.tar to fedora-35-rootfs.tar
 
-function RemoveWSLkali{
-  Write-Output "Removing WSL Kali..."
-  Get-AppxPackage "KaliLinux.54290C8133FEE" | Remove-AppxPackage
+  # mkdir $HOME\wsl\fedora
+  # wsl --import fedora $HOME\wsl\fedora $HOME\Downloads\fedora-35-rootfs.tar
+  # set this as defaul: wsl -s fedora
+
+
+  Write-Output "Installation done for $SoftwareName"
 }
 
 ################################################################
@@ -834,7 +811,7 @@ function Install7Zip{
   Write-Output "Downloaded: $FileFullName"
 
   # Install exe
-  $CommandLineOptions = "/SILENT /LOG"
+  $CommandLineOptions = "/S"
   Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
   Write-Output "Installation done for $SoftwareName"
 }
