@@ -53,6 +53,7 @@ GetSysinternalsSuite          #
 InstallOffice365              #
 # InstallVisioPro             #
 InstallVMwareWorkstation      # RemoveVMwareWorkstation
+# InstallOpenJDK              #
 
 ###### Browsers and Internet  ###
 DisableEdgePagePrediction

@@ -982,6 +982,53 @@ function GetSysinternalsSuite{
 }
 
 
+function InstallOpenJDK{
+  # We select version 11 instead of 17 because Neo4j/BloodHound require 11
+  $SoftwareName = "OpenJDK"
+  Write-Output "Installing $SoftwareName..."
+
+  $Url = "https://docs.microsoft.com/en-us/java/openjdk/download#openjdk-11"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
+  $FullDownloadURL = ($ReleasePageLinks | where { $_.href -Like "*x64.msi" -and $_.href -Like "*jdk-11*" }).href
+  if (-not $FullDownloadURL) {
+	Write-Output "Error: $SoftwareName not found"
+	return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Unzip
+  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
+  Remove-Item -Path $FileFullName -ErrorAction Ignore
+  Write-Output "Unzipped to: $SoftwareFolderFullName"
+
+  # Install msi
+  Invoke-Expression "msiexec /qb /i $FileFullName ADDLOCAL=FeatureMain,FeatureEnvironment,FeatureJarFileRunWith,FeatureJavaHome"
+  Write-Output "Installation done for $SoftwareName"
+}
+
+
 function InstallSpiceGuestTool{
   #1: Spice WebDAV Daemon
   $SoftwareName = "Spice WebDAV Daemon"
