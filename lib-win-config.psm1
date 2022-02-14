@@ -1118,10 +1118,10 @@ function InstallNeo4j{
 }
 
 
-function InstallBloodhound {
+function GetBloodhound {
   # Depends on InstallOpenJDK, InstallNeo4j
   $SoftwareName = "Bloodhound"
-  Write-Output "Installing $SoftwareName..."
+  Write-Output "Get $SoftwareName..."
 
   $Url = "https://github.com/BloodHoundAD/BloodHound/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links

@@ -55,7 +55,7 @@ InstallOffice365              #
 InstallVMwareWorkstation      # RemoveVMwareWorkstation
 # InstallOpenJDK              #
 # InstallNeo4j                #
-# InstallBloodhound           #
+# GetBloodhound				  #
 
 ###### Browsers and Internet  ###
 DisableEdgePagePrediction
