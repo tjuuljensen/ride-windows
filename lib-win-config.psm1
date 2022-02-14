@@ -112,7 +112,12 @@ function UnconfigureFriendlyURLFormat(){
 function EnableRunAsInStartMenu{
   # https://winaero.com/add-run-start-menu-windows-10/
   Write-Output "Enabling RunAs context menu in Start Menu..."
-  New-ItemProperty -path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer\" -name "ShowRunAsDifferentUserInStart" -value 1 -PropertyType DWord -Force | Out-Null
+
+  $Path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer"
+  if (-not (Test-Path $Path)) {
+    New-Item -Path $Path | Out-Null
+  }
+  Set-ItemProperty -path $Path -name "ShowRunAsDifferentUserInStart" -value 1 -Type DWord -Force | Out-Null
 }
 
 function DisableRunAsInStartMenu{
