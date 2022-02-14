@@ -24,7 +24,7 @@ function ActivateWindows{
   }
 
   # Read variable content (if any) and install licence key if it exists
-  $LicenseKey=$config.WindowsKey."$WindowsVersion"}
+  $LicenseKey=$config.WindowsKey."$WindowsVersion"
   if ( $LicenseKey -ne $null ) {
     $computer = Get-Content Env:ComputerName
 
