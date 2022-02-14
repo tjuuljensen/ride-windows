@@ -480,7 +480,6 @@ function DisableWSL{
 function InstallWSLubuntu{
   $SoftwareName = "WSL Ubuntu"
   Write-Output "Installing $SoftwareName..."
-
   wsl --install -d Ubuntu
 }
 
@@ -492,7 +491,6 @@ function RemoveWSLubuntu{
 function InstallWSLdebian{
   $SoftwareName = "WSL Debian"
   Write-Output "Installing $SoftwareName..."
-
   wsl --install -d Debian
 }
 
@@ -504,7 +502,6 @@ function RemoveWSLdebian{
 function InstallWSLkali{
   $SoftwareName = "WSL Kali"
   Write-Output "Installing $SoftwareName..."
-
   wsl --install -d kali-linux
 }
 
@@ -1569,9 +1566,45 @@ function InstallOpera{
 ################################################################
 
 function InstallAutopsy{
-  # SleuthKit/InstallAutopsy
-  # scrape github page - https://github.com/sleuthkit/autopsy/releases/
-  # get 64 bit files like autopsy-4.14.0-64bit.msi and autopsy-4.14.0-64bit.msi.asc
+
+  $SoftwareName = "Autopsy"
+  Write-Output "Installing $SoftwareName..."
+
+  $Url = "https://github.com/sleuthkit/autopsy/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
+  $SoftwareUri = ( $ReleasePageLinks | where { $_.href -Like "*64*" -and $_.href -NotLike "*asc*"}).href
+  $FullDownloadURL = "https://github.com$SoftwareUri"
+  if (-not $FullDownloadURL) {
+	Write-Output "Error: $SoftwareName not found"
+	return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Install msi
+  Invoke-Expression "msiexec /qb /i $FileFullName"
+  Write-Output "Installation done for $SoftwareName"
 }
 
 

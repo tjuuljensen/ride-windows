@@ -33,11 +33,11 @@ DisableMulticastDNS           # EnableMulticastDNS
 GetTelemetryBlockingHostfile  # SetDefaultHostsfile
 
 ###### Windows Subsystem for Linux  ###
-EnableWSL                     # DisableWSL
-InstallWSLubuntu1804          # RemoveWSLubuntu1804
-InstallWSLdebian              # RemoveWSLdebian
-InstallWSLkali                # RemoveWSLkali
-InstallWSLFedoraRemix         # RemoveWSLFedoraRemix
+# EnableWSL                   # DisableWSL
+# InstallWSLubuntu            # RemoveWSLubuntu
+# InstallWSLdebian            # RemoveWSLdebian
+# InstallWSLkali              # RemoveWSLkali
+# InstallWSLFedora            # RemoveWSLFedora
 
 ###### Install programs  ###
 InstallGit4Win                #
@@ -64,14 +64,11 @@ CustomizeChrome
 InstallOpera                  #
 
 ###### Forensic Tools ###
-InstallAutopsy
+InstallAutopsy                #
 
 ###### Customization  ###
 InstallFonts
 ReplaceDefaultWallpapers
-
-### Other Functions ###
-SetHostname
 
 ### Privacy Tweaks ###
 DisableTelemetry                # EnableTelemetry
@@ -325,6 +322,9 @@ GetWindowsUpdatesWithPwsh
 CleanLocalWindowsUpdateCache
 RunDiskCleanup
 # RunSysprepGeneralizeOOBE
+
+### Other Functions ###
+SetHostname
 
 ###### Bitlocker  ###
 SetDefaultBitLockerAES256     # SetDefaultBitLockerAES128
