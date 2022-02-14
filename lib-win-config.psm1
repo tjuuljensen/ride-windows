@@ -1118,6 +1118,53 @@ function InstallNeo4j{
 }
 
 
+function InstallBloodhound {
+  # Depends on InstallOpenJDK, InstallNeo4j
+  $SoftwareName = "Bloodhound"
+  Write-Output "Installing $SoftwareName..."
+
+  $Url = "https://github.com/BloodHoundAD/BloodHound/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
+  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*win32-x64.zip" }).href
+  $FullDownloadURL = "https://github.com$SoftwareUri"
+  if (-not $FullDownloadURL) {
+	Write-Output "Error: $SoftwareName not found"
+	return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Unzip
+  # Cannot unzip directly to software folder due to too long path. Even with Long paths enabled. This hack works, also with long paths disabled.
+  Expand-Archive $FileFullName -DestinationPath \temp
+  Move-Item -Path \temp\* -Destination $SoftwareFolderFullName
+  Remove-Item -Path $FileFullName -ErrorAction Ignore
+  Remove-Item -Path \temp -Recurse -ErrorAction Ignore
+  Write-Output "Unzipped to: $SoftwareFolderFullName"
+}
+
+
 function InstallSpiceGuestTool{
   #1: Spice WebDAV Daemon
   $SoftwareName = "Spice WebDAV Daemon"
