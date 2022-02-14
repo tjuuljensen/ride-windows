@@ -744,7 +744,7 @@ function InstallGit4Win{
   Write-Output "Downloaded: $FileFullName"
 
   # Install exe
-  $CommandLineOptions = "/S"
+  $CommandLineOptions = "/SILENT /LOG"
   Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
   Write-Output "Installation done for $SoftwareName"
 }
