@@ -138,7 +138,7 @@ function DisableRunAsInStartMenu{
 function EnableInternetPrinting{
   Write-Output "###"
   Write-Output "Enabling Internet Printing..."
-  Enable-WindowsOptionalFeature -FeatureName Printing-Foundation-InternetPrinting-Client -Online
+  Enable-WindowsOptionalFeature -FeatureName Printing-Foundation-InternetPrinting-Client -Online | Out-Null
 }
 
 function DisableInternetPrinting{
@@ -501,9 +501,9 @@ function EnableWSL{
 
   Write-Output "Enabling Windows Subsystem for Linux..."
 
-  Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -NoRestart
-  Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -NoRestart
-  Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All -NoRestart
+  Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -NoRestart | Out-Null
+  Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -NoRestart | Out-Null
+  Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All -NoRestart | Out-Null
 
   # Set wsl version as default version on latest versions of Windows 10
    $WindowsVersion = ([System.Environment]::OSVersion.Version).Build
