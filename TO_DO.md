@@ -1,14 +1,15 @@
 ## Tasks:
-* SpiceGuestTools - rækkefølge er byttet om!!!
-* Test
-* EXE commend line options
-* Uninstall functions (msi & exe)
+* SpiceGuestTools - rækkefølge er byttet om!!! [JBK]
+* Test [JBK - Win10] [TJJ - Win11]
+* EXE command line options [TJJ - fixed]
+* Uninstall functions (msi & exe) [TJJ]
 * BitLocker CD/USB bootable check
 * Log Output check (Bitlocker output)
-* Check Sysprep
+* Check Sysprep 
 * Running twice
 * Configurable \Tools folder
 * SysInternals Suite to \Tools
+* Opdateret readme (config.ini eksempel)
 
 ### Version 2:
 * Local Install
