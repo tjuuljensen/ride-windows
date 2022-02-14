@@ -25,7 +25,7 @@ DisableInkingAndTypingData    # EnableInkingAndTypingData
 ###### Hardening Windows  ###
 DisableSSDPdiscovery          # EnableSSDPdiscovery
 DisableUniversalPlugAndPlay   # EnableUniversalPlugAndPlay
-DisableWinHttpAutoProxySvc    # EnableWinHttpAutoProxySvc
+# DisableWinHttpAutoProxySvc  # EnableWinHttpAutoProxySvc
 
 ###### Network Functions  ###
 DisableIEProxyAutoconfig
