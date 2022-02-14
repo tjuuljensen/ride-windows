@@ -16,6 +16,7 @@ DisableWindowsStoreApp        # EnableWindowsStoreApp
 DisableFriendlyURLFormat      # UnconfigureFriendlyURLFormat
 EnableRunAsInStartMenu        # DisableRunAsInStartMenu
 EnableInternetPrinting        # DisableInternetPrinting
+EnableMemoryIntegrity         # DisableMemoryIntegrity
 SetRegionalSettings
 
 ###### Privacy configurations  ###

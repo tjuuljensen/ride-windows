@@ -122,11 +122,25 @@ function DisableRunAsInStartMenu{
 }
 
 function EnableInternetPrinting{
+  Write-Output "Enabling Internet Printing..."
   Enable-WindowsOptionalFeature -FeatureName Printing-Foundation-InternetPrinting-Client -Online
 }
 
 function DisableInternetPrinting{
+  Write-Output "Disabling Internet Printing..."
   Disable-WindowsOptionalFeature -FeatureName Printing-Foundation-InternetPrinting-Client -Online
+}
+
+function EnableMemoryIntegrity{
+  # https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/enable-virtualization-based-protection-of-code-integrity
+  # https://winbuzzer.com/2020/06/05/windows-10-how-to-disable-or-enable-core-isolation-memory-integrity-xcxwbt/
+  Write-Output "Enabling Memory Integrity..."
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios" -Name "HypervisorEnforcedCodeIntegrity" -Type DWord -Value 1
+}
+
+function DisableMemoryIntegrity{
+  Write-Output "Disabling Memory Integrity..."
+	Remove-ItemProperty -Path  "HKLM:\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios" -Name "HypervisorEnforcedCodeIntegrity" -ErrorAction SilentlyContinue
 }
 
 function SetRegionalSettings{
