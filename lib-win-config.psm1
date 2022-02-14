@@ -70,7 +70,7 @@ function DisableBuiltinAdministrator{
   }
 }
 
-function DisableWindowsStoreApp(){
+function DisableWindowsStoreApp{
   # Disable Windows Store App - Windows Enterprise Only!!!
   Write-Output "Disabling Windows Store app (Windows Enterprise only)..."
   if ((Get-WindowsEdition -Online | select Edition) -like "*Enterprise*"){
@@ -84,14 +84,14 @@ function DisableWindowsStoreApp(){
   }
 }
 
-function EnableWindowsStoreApp(){
+function EnableWindowsStoreApp{
   # Disable Windows Store App - Windows Enterprise Only!!!
   Write-Output "Enabling Windows Store app (Windows Enterprise only)..."
   Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore\" -Name "RemoveWindowsStore" -ErrorAction SilentlyContinue
   Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore\" -Name "DisableStoreApps" -ErrorAction SilentlyContinue
 }
 
-function DisableFriendlyURLFormat(){
+function DisableFriendlyURLFormat{
   # Disable Friendly URL paste funtion from Microsoft Edge - can be HKLM or HKCU
   # https://admx.help/?Category=EdgeChromium&Policy=Microsoft.Policies.Edge::ConfigureFriendlyURLFormat
   Write-Output "Disabling Microsoft Edge Friendly URL Format..."
@@ -102,7 +102,7 @@ function DisableFriendlyURLFormat(){
   New-ItemProperty -path "HKCU:\SOFTWARE\Policies\Microsoft\Edge\" -name "ConfigureFriendlyURLFormat" -value 1 -PropertyType DWord -Force | Out-Null
 }
 
-function UnconfigureFriendlyURLFormat(){
+function UnconfigureFriendlyURLFormat{
   # Unconfigure Friendly URL paste funtion from Microsoft Edge - can be HKLM or HKCU
   # https://admx.help/?Category=EdgeChromium&Policy=Microsoft.Policies.Edge::ConfigureFriendlyURLFormat
   Write-Output "Unconfiguring Microsoft Edge Friendly URL Format..."
