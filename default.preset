@@ -54,6 +54,7 @@ InstallOffice365              #
 # InstallVisioPro             #
 InstallVMwareWorkstation      # RemoveVMwareWorkstation
 # InstallOpenJDK              #
+# InstallNeo4j                #
 
 ###### Browsers and Internet  ###
 DisableEdgePagePrediction

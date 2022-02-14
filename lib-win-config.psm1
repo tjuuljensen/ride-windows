@@ -1029,6 +1029,95 @@ function InstallOpenJDK{
 }
 
 
+function InstallNeo4j{
+  # Depends on InstallOpenJDK
+  # APOC plugin included. Required for other tools like ImproHound
+
+  $SoftwareName = "Neo4j Community"
+  Write-Output "Installing $SoftwareName..."
+
+  # Get the latest Neo4j APOC version number and download link
+  # We don't want the latest Neo4j if a compatible APOC is not out yet
+  $Url = "https://github.com/neo4j-contrib/neo4j-apoc-procedures/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
+  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*all.jar" }).href
+  $ApocFullDownloadURL = "https://github.com$SoftwareUri"
+  if (-not $ApocFullDownloadURL) {
+	Write-Output "Error: $SoftwareName not found"
+	return
+  }
+  $VersionFound = $ApocFullDownloadURL | where {$_ -match "(?<=download/)(.*)(?=/apoc)"}
+  if (-not $VersionFound) {
+    Write-Output "Error: APOC version not fould in download url"
+	return
+  }
+  $ApocVersion = [version]$Matches[0]
+  $ApocVersionShort = "$($ApocVersion.Major).$($ApocVersion.Minor)"
+
+  # Set Neo4j download URL
+  $Url = "https://neo4j.com/download-center/#community"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
+  $WinzipCommunityLinks = $ReleasePageLinks.href | where { $_ -Like "*winzip" -and $_ -Like "*community*" }
+  $DownloadURL = $WinzipCommunityLinks | where {$_ -like "*release=$ApocVersionShort*"}
+  if (-not $DownloadURL) {
+    Write-Output "Error: Could not find right Neo4j version"
+	return
+  }
+  $VersionFound = $DownloadURL | where {$_ -match "(?<=release=)(.*)(?=&)"}
+  if (-not $VersionFound) {
+    Write-Output "Error: Neo4j version not fould in download url"
+	return
+  }
+  $Neo4jVersion = $Matches[0]
+  $FileName = "neo4j-community-$Neo4jVersion-windows.zip"
+  $FullDownloadURL = "https://neo4j.com/artifact.php?name=$FileName"
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download Neo4j
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Unzip
+  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
+  Remove-Item -Path $FileFullName -ErrorAction Ignore
+  Write-Output "Unzipped to: $SoftwareFolderFullName"
+  $Neo4jRootDirFullName = (Get-ChildItem $SoftwareFolderFullName -Directory).FullName
+
+  # Download APOC plugin
+  $Neo4jRootDirFullName = (Get-ChildItem $SoftwareFolderFullName -Directory).FullName
+  Write-Output "Downloading file from: $ApocFullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($ApocFullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $Neo4jRootDirFullName -ChildPath "plugins\$FileName"
+  Start-BitsTransfer -Source $ApocFullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Config - Allow APOC queries
+  (Get-Content "$Neo4jRootDirFullName\conf\neo4j.conf").replace('#dbms.security.procedures.unrestricted=my.extensions.example,my.procedures.*', 'dbms.security.procedures.unrestricted=apoc.*') | Set-Content "$Neo4jRootDirFullName\conf\neo4j.conf"
+
+  # Install service
+  Start-Process "$Neo4jRootDirFullName\bin\neo4j.bat" "install-service" -NoNewWindow -Wait
+  net start neo4j
+  Write-Output "Installation done for $SoftwareName"
+}
+
+
 function InstallSpiceGuestTool{
   #1: Spice WebDAV Daemon
   $SoftwareName = "Spice WebDAV Daemon"
