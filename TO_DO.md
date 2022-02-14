@@ -1,5 +1,4 @@
 ## Tasks:
-* SpiceGuestTools - rækkefølge er byttet om!!! [JBK]
 * Test [JBK - Win10] [TJJ - Win11]
 * EXE command line options [TJJ - fixed]
 * Uninstall functions (msi & exe) [TJJ]

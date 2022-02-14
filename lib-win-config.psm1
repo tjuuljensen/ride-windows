@@ -983,7 +983,40 @@ function GetSysinternalsSuite{
 
 
 function InstallSpiceGuestTool{
-  #1: Spice Guest Tool
+  #1: Spice WebDAV Daemon
+  $SoftwareName = "Spice WebDAV Daemon"
+  Write-Output "Installing $SoftwareName..."
+
+  $FullDownloadURL = "https://spice-space.org/download/windows/spice-webdavd/spice-webdavd-x64-latest.msi"
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Install msi
+  Invoke-Expression "msiexec /qb /i $FileFullName"
+  Write-Output "Installation done for $SoftwareName"
+
+  #2: Spice Guest Tool
   $SoftwareName = "Spice Guest Tool"
   Write-Output "Installing $SoftwareName..."
 
@@ -1015,39 +1048,6 @@ function InstallSpiceGuestTool{
   # Install exe
   $CommandLineOptions = ""
   Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
-  Write-Output "Installation done for $SoftwareName"
-
-  #2: Spice WebDAV Daemon
-  $SoftwareName = "Spice WebDAV Daemon"
-  Write-Output "Installing $SoftwareName..."
-
-  $FullDownloadURL = "https://spice-space.org/download/windows/spice-webdavd/spice-webdavd-x64-latest.msi"
-
-  # Create bootstrap folder if not existing
-  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
-  if (-not (Test-Path -Path $BootstrapFolder)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
-  }
-
-  # Create software folder
-  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
-  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
-  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
-  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
-  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
-  }
-
-  # Download
-  Write-Output "Downloading file from: $FullDownloadURL"
-  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
-  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
-  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
-  Write-Output "Downloaded: $FileFullName"
-
-  # Install msi
-  Invoke-Expression "msiexec /qb /i $FileFullName"
   Write-Output "Installation done for $SoftwareName"
 }
 
