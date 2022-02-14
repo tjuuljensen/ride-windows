@@ -686,7 +686,7 @@ function InstallGit4Win{
   Write-Output "Downloaded: $FileFullName"
 
   # Install exe
-  $CommandLineOptions = "/SILENT /LOG"
+  $CommandLineOptions = "/S"
   Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
   Write-Output "Installation done for $SoftwareName"
 }
@@ -775,7 +775,7 @@ function InstallNotepadPlusPlus{
   Write-Output "Downloaded: $FileFullName"
 
   # Install exe
-  $CommandLineOptions = "/SILENT /LOG"
+  $CommandLineOptions = "/S"
   Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
   Write-Output "Installation done for $SoftwareName"
 }
@@ -1013,7 +1013,7 @@ function InstallSpiceGuestTool{
   Write-Output "Downloaded: $FileFullName"
 
   # Install exe
-  $CommandLineOptions = "/SILENT /LOG"
+  $CommandLineOptions = ""
   Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
   Write-Output "Installation done for $SoftwareName"
 
@@ -1082,7 +1082,7 @@ function InstallGPGwin{
   Write-Output "Downloaded: $FileFullName"
 
   # Install exe
-  $CommandLineOptions = "/SILENT /LOG"
+  $CommandLineOptions = "/S"
   Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
   Write-Output "Installation done for $SoftwareName"
 }
@@ -1118,7 +1118,7 @@ function InstallThunderbird{
   Write-Output "Downloaded: $FileFullName"
 
   # Install exe
-  $CommandLineOptions = "/SILENT /LOG"
+  $CommandLineOptions = "-ms" # silent install
   Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
   Write-Output "Installation done for $SoftwareName"
 }
