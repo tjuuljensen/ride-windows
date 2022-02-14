@@ -4,7 +4,6 @@
 * Uninstall functions (msi & exe) [TJJ]
 * BitLocker CD/USB bootable check
 * Log Output check (Bitlocker output)
-* Split lib file into configs, installs, etc.
 * Check Sysprep 
 * Running twice
 * Configurable \Tools folder
@@ -12,6 +11,8 @@
 * Opdateret readme (config.ini eksempel)
 
 ### Version 2:
+* Split lib file into configs, installs, etc.
+* Fix two/four space vs tab indent
 * Local Install
 * GPG verification
 * SHA verification
