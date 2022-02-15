@@ -1835,10 +1835,13 @@ function InstallOpera{
   $SoftwareName = "Opera"
   Write-Output "Installing $SoftwareName..."
 
-  $URL = [System.Net.HttpWebRequest]::Create("https://www.opera.com/computer/thanks?ni=stable&os=windows").GetResponse().ResponseUri.AbsoluteUri
-  $LatestVersion = (Invoke-WebRequest -UseBasicParsing -Uri $URL).Links.Href | Get-Unique -asstring | Sort-Object -Descending | select-object -First 1
-  $LatestPath = "$($URL)$($LatestVersion)win/"
-  $FullDownloadURL = (Invoke-WebRequest -UseBasicParsing -Uri $LatestPath).Links.Href | Get-Unique -asstring | Sort-Object -Descending | Select-String -Pattern "Autoupdate_x64.exe$"
+  $URL = "https://get.geo.opera.com/pub/opera/desktop/"
+  $CheckURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
+  if (! $CheckURL) {Write-Output "Error: URL not resolved"; return}
+  $LatestOperaVersion=(Invoke-WebRequest -UseBasicParsing  -Uri $URL).Links.Href | Get-Unique -asstring | Sort-Object -Descending | select-object -First 1
+  if (! $LatestOperaVersion) {Write-Output "Error: Opera browser not found"; return}
+  $LatestOperaPath = "$($URL)$($LatestOperaVersion)win/"
+  $FullDownloadURL = $LatestOperaPath + ((Invoke-WebRequest -UseBasicParsing -Uri $LatestOperaPath).Links.Href | Get-Unique -asstring | Sort-Object -Descending | Select-String -Pattern "Autoupdate_x64.exe$")
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
 	return
@@ -1867,11 +1870,17 @@ function InstallOpera{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Install exe
+  # Unpack
   $CommandLineOptions = "/SILENT /LOG"
   Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
+
+  # Install exe
+  $InstallFile = "$SoftwareFolderFullName\installer.exe"
+  $CommandLineOptions = "--silent --setdefaultbrowser=0 --startmenushortcut=0 --desktopshortcut=0 --pintotaskbar=0 --pin-additional-shortcuts=0 --launchbrowser=0"
+  Start-Process $InstallFile $CommandLineOptions -NoNewWindow -Wait
   Write-Output "Installation done for $SoftwareName"
 }
+
 
 ################################################################
 ###### Forensic Functions  ###
