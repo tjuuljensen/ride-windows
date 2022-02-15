@@ -11,6 +11,7 @@
 * Opdateret readme (config.ini eksempel)
 
 ### Version 2:
+* Stop Atom from starting up after installation
 * Split lib file into configs, installs, etc.
 * Fix two/four space vs tab indent
 * Local Install
