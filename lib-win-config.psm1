@@ -1592,8 +1592,10 @@ function InstallVMwareWorkstation{
 
   # Install exe
   $CommandLineOptions = "/s /v/qn REBOOT=ReallySuppress ADDLOCAL=ALL EULAS_AGREED=1 "
-  $CommandLineOptions2 = if ($VMwareSerialNumber -ne $null) {"SERIALNUMBER=""$VMwareSerialNumber"""}
-  Start-Process $FileFullName $CommandLineOptions $CommandLineOptions2 -NoNewWindow -Wait
+  if ($VMwareSerialNumber -ne $null) {
+    $CommandLineOptions += "SERIALNUMBER=""$VMwareSerialNumber"""
+  }
+  Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
   Write-Output "Installation done for $SoftwareName"
 }
 
