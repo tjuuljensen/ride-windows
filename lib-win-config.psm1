@@ -1419,6 +1419,7 @@ function InstallThunderbird{
   Write-Output "Installation done for $SoftwareName"
 }
 
+
 function InstallOffice365{
   Write-Output "###"
   $SoftwareName = "Office365"
@@ -1454,7 +1455,7 @@ function InstallOffice365{
   Write-Output "Downloaded: $FileFullName"
 
   # Download Office binaries
-  Start-Process $FileFullName "/quiet /extract:$SoftwareFolderFullName" -NoNewWindow -Wait
+  Start-Process $FileFullName "/quiet /extract:""$SoftwareFolderFullName""" -NoNewWindow -Wait
 
   $ConfigFileFullName = "$SoftwareFolderFullName\setupcustom-Office365-x86.xml"
   '<!-- Office 365 client configuration file for custom downloads -->
@@ -1478,12 +1479,13 @@ function InstallOffice365{
   </Configuration>' | Out-File $ConfigFileFullName
 
   $SetupFileFullName = "$SoftwareFolderFullName\setup.exe"
-  Start-Process $SetupFileFullName "/download $ConfigFileFullName" -NoNewWindow -Wait
+  Start-Process $SetupFileFullName "/download ""$ConfigFileFullName""" -NoNewWindow -Wait
 
   # Install
-  Start-Process $SetupFileFullName "/configure $ConfigFileFullName" -NoNewWindow -Wait
+  Start-Process $SetupFileFullName "/configure ""$ConfigFileFullName""" -NoNewWindow -Wait
   Write-Output "Installation done for $SoftwareName"
 }
+
 
 function InstallVisioPro{
   Write-Output "###"
