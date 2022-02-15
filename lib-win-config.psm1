@@ -787,7 +787,7 @@ function InstallAtom{
   Write-Output "Downloaded: $FileFullName"
 
   # Install exe
-  $CommandLineOptions = ""
+  $CommandLineOptions = " "
   Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
   Write-Output "Installation done for $SoftwareName"
 }
@@ -1340,7 +1340,7 @@ function InstallSpiceGuestTool{
   Write-Output "Downloaded: $FileFullName"
 
   # Install exe
-  $CommandLineOptions = ""
+  $CommandLineOptions = " "
   Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
   Write-Output "Installation done for $SoftwareName"
 }
