@@ -855,7 +855,7 @@ function Install7Zip{
   $Url = "https://www.7-zip.org/"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
   $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*x64.exe" }).href
-  $FullDownloadURL = "https://github.com$SoftwareUri"
+  $FullDownloadURL = "$Url$SoftwareUri"
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
 	return
