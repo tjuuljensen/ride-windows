@@ -1677,7 +1677,7 @@ function CreateFirefoxPreferenceFiles {
   # See more at https://developer.mozilla.org/en-US/Firefox/Enterprise_deployment
   Write-Output "Creating prefence files for Mozilla Firefox..."
 
-  param([string]$FirefoxInstallDir=([System.Environment]::GetFolderPath("ProgramFilesX86")+"\Mozilla Firefox\"))
+  $FirefoxInstallDir = [System.Environment]::GetFolderPath("ProgramFilesX86")+"\Mozilla Firefox\"
 
   # Create the config file
   New-Item ($firefoxInstallDir+"mozilla.cfg") -type file -force -value "
@@ -1781,7 +1781,7 @@ function CreateChromePreferenceFiles {
   Write-Output "###"
 Write-Output "Creating preference files for Google Chrome..."
 
-param($ChromeInstallDir=([System.Environment]::GetFolderPath("ProgramFilesX86")+"\Google\Chrome\Application\"))
+  $ChromeInstallDir = [System.Environment]::GetFolderPath("ProgramFilesX86")+"\Google\Chrome\Application\"
 
 # Create the master_preferences file
 # File contents based on source fils: https://src.chromium.org/viewvc/chrome/trunk/src/chrome/common/pref_names.cc
