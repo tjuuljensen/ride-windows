@@ -1925,7 +1925,7 @@ function InstallAutopsy{
   Write-Output "Downloaded: $FileFullName"
 
   # Install msi
-  Invoke-Expression "msiexec /qb /i $FileFullName"
+  Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" /quiet" -Wait -NoNewWindow
   Write-Output "Installation done for $SoftwareName"
 }
 
