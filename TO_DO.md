@@ -11,6 +11,7 @@
 * Opdateret readme (config.ini eksempel)
 
 ### Version 2:
+* Change all MSI installs to this: Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" /quiet" -Wait -NoNewWindow
 * Stop Atom from starting up after installation
 * Split lib file into configs, installs, etc.
 * Fix two/four space vs tab indent
