@@ -64,7 +64,6 @@ InstallFirefox                # RemoveFirefox
 CreateFirefoxPreferenceFiles
 InstallChrome                 # RemoveChrome
 CreateChromePreferenceFiles
-CustomizeChrome
 InstallOpera                  #
 
 ###### Forensic Tools ###
