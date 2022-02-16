@@ -629,12 +629,12 @@ function GetWindowsUpdatesWithPwsh{
   # Get-WindowsUpdates using PowerShell
   Write-Output "Installing PowerShell Requirements for Windows Update..."
   # PowerShellGet requires NuGet provider to interact with NuGet-based repositories
-  Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+  Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force | Out-Null
 
-  Install-Module PSWindowsUpdate -Force
+  Install-Module PSWindowsUpdate -Force | Out-Null
   Import-Module PSWindowsUpdate
   Write-Output "Installing Windows Updates..."
-  Get-WindowsUpdate -AcceptAll -Install  # -AutoReboot
+  Get-WindowsUpdate -AcceptAll -Install -IgnoreReboot | Out-Null
 }
 
 
