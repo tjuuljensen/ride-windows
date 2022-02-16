@@ -640,6 +640,7 @@ function GetWindowsUpdatesWithPwsh{
 
 function CleanLocalWindowsUpdateCache{
   Write-Output "###"
+  Write-Output "Clean Windows Update cache..."
   # Stop Service wuauserv (Windows Update Service)
   # Stop bits (Background Intelligent Transfer Service)
   Get-Service -Name "wuauserv" | Stop-Service
@@ -648,6 +649,7 @@ function CleanLocalWindowsUpdateCache{
   Get-Service -Name "wuauserv" | Start-Service
   Get-Service -Name "bits" | Start-Service
 }
+
 
 function RunDiskCleanup{
   Write-Output "###"
