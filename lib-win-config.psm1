@@ -653,6 +653,7 @@ function CleanLocalWindowsUpdateCache{
 
 function RunDiskCleanup{
   Write-Output "###"
+  Write-Output "Disk cleanup..."
   <#
   Same functions as:
   Dism.exe /online /Cleanup-Image /StartComponentCleanup
