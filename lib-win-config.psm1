@@ -138,7 +138,7 @@ function DisableRunAsInStartMenu{
 function EnableInternetPrinting{
   Write-Output "###"
   Write-Output "Enabling Internet Printing..."
-  Enable-WindowsOptionalFeature -FeatureName Printing-Foundation-InternetPrinting-Client -Online | Out-Null
+  Enable-WindowsOptionalFeature -FeatureName Printing-Foundation-InternetPrinting-Client -Online -NoRestart | Out-Null
 }
 
 function DisableInternetPrinting{
