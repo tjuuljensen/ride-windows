@@ -1002,10 +1002,10 @@ function InstallSysmon64{
   # Set command line options
   $CommandLineOptions = "-accepteula"
   if (Test-Path -Path "$BootstrapFolder\Sysmon Olaf XML\sysmonconfig.xml") {
-    $CommandLineOptions += " -i '$BootstrapFolder\Sysmon Olaf XML\sysmonconfig.xml'"
+    $CommandLineOptions += " -i ""$BootstrapFolder\Sysmon Olaf XML\sysmonconfig.xml"""
   }
   elseIf (Test-Path -Path "$BootstrapFolder\Sysmon Swift XML\sysmonconfig-export.xml") {
-    $CommandLineOptions += " -i '$BootstrapFolder\Sysmon Swift XML\sysmonconfig-export.xml'"
+    $CommandLineOptions += " -i ""$BootstrapFolder\Sysmon Swift XML\sysmonconfig-export.xml"""
   }
   Write-Output "Command line arguments: $CommandLineOptions"
 
