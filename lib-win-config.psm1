@@ -1966,6 +1966,7 @@ function InstallFonts{
 
 function ReplaceDefaultWallpapers{
   Write-Output "###"
+  Write-Output "Replacing wallpapers..."
   <#
   https://ccmexec.com/2015/08/replacing-default-wallpaper-in-windows-10-using-scriptmdtsccm/
   Default 4k images in C:\Windows\Web\4K\Wallpaper\Windows:
@@ -1983,17 +1984,17 @@ function ReplaceDefaultWallpapers{
   $DefaultWallPaper=($env:SystemDrive+"\windows\WEB\wallpaper\Windows\img0.jpg")
   $WallPaperPath=($env:SystemDrive+"\Windows\Web\4K\Wallpaper\Windows")
 
-  takeown /f $DefaultWallPaper
-  takeown /f $WallPaperPath\*.*
+  takeown /f $DefaultWallPaper | Out-Null
+  takeown /f $WallPaperPath\*.* | Out-Null
 
-  icacls $DefaultWallPaper /Grant 'System:(F)'
-  icacls $WallPaperPath\*.* /Grant 'System:(F)'
+  icacls $DefaultWallPaper /Grant 'Administrators:(F)' | Out-Null
+  icacls $WallPaperPath\*.* /Grant 'Administrators:(F)' | Out-Null
 
   Remove-Item $DefaultWallPaper
   Remove-Item $WallPaperPath\*.*
 
-  Copy-Item $PSScriptRoot\pictures\wallpaper\img0.jpg $DefaultWallPaper
-  Copy-Item $PSScriptRoot\pictures\wallpaper\4k\*.* $WallPaperPath
+  Copy-Item "$PSScriptRoot\pictures\wallpaper\img0.jpg" $DefaultWallPaper
+  Copy-Item "$PSScriptRoot\pictures\wallpaper\4k\*.*" $WallPaperPath
 }
 
 
