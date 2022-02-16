@@ -1936,6 +1936,7 @@ function InstallAutopsy{
 
 function InstallFonts{
   Write-Output "###"
+    Write-Output "Installing fonts..."
   # Inspired by https://www.powershellgallery.com/packages/PSWinGlue/0.3.3/Content/Functions%5CInstall-Font.ps1
 
   $FontPath = "$PSScriptRoot\fonts"
