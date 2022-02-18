@@ -1,4 +1,5 @@
 # git ignore file
+*.bak
 
 # Exclude libraries
 dev/*
