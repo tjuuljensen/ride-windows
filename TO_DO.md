@@ -10,6 +10,7 @@
 * Opdateret readme (config.ini eksempel)
 
 ### Version 2:
+* Add PingCastle license with ini file 
 * Disable Teams boot on startup function 
 * Prevent creation of desktop shortcuts (or delete after install): Firefox, autopsy, vmware workstation, teams, edge, chrome, atom 
 * Running twice
