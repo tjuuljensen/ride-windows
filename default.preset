@@ -59,6 +59,7 @@ InstallVMwareWorkstation      # RemoveVMwareWorkstation
 # GetSharphound				  #
 # GetAzurehound				  #
 # GetImproHound               #
+# GetPingCastle               #
 
 ###### Browsers and Internet  ###
 DisableEdgePagePrediction
