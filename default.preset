@@ -56,6 +56,7 @@ InstallVMwareWorkstation      # RemoveVMwareWorkstation
 # InstallOpenJDK              #
 # InstallNeo4j                #
 # GetBloodhound				  #
+# GetSharphound				  #
 # GetImproHound               #
 
 ###### Browsers and Internet  ###
