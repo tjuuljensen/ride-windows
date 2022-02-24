@@ -56,7 +56,10 @@ InstallVMwareWorkstation      # RemoveVMwareWorkstation
 # InstallOpenJDK              #
 # InstallNeo4j                #
 # GetBloodhound				  #
+# GetSharphound				  #
+# GetAzurehound				  #
 # GetImproHound               #
+# GetPingCastle               #
 
 ###### Browsers and Internet  ###
 DisableEdgePagePrediction
@@ -64,7 +67,6 @@ InstallFirefox                # RemoveFirefox
 CreateFirefoxPreferenceFiles
 InstallChrome                 # RemoveChrome
 CreateChromePreferenceFiles
-CustomizeChrome
 InstallOpera                  #
 
 ###### Forensic Tools ###

@@ -138,7 +138,7 @@ function DisableRunAsInStartMenu{
 function EnableInternetPrinting{
   Write-Output "###"
   Write-Output "Enabling Internet Printing..."
-  Enable-WindowsOptionalFeature -FeatureName Printing-Foundation-InternetPrinting-Client -Online | Out-Null
+  Enable-WindowsOptionalFeature -FeatureName Printing-Foundation-InternetPrinting-Client -Online -NoRestart | Out-Null
 }
 
 function DisableInternetPrinting{
@@ -629,17 +629,18 @@ function GetWindowsUpdatesWithPwsh{
   # Get-WindowsUpdates using PowerShell
   Write-Output "Installing PowerShell Requirements for Windows Update..."
   # PowerShellGet requires NuGet provider to interact with NuGet-based repositories
-  Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+  Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force | Out-Null
 
-  Install-Module PSWindowsUpdate -Force
+  Install-Module PSWindowsUpdate -Force | Out-Null
   Import-Module PSWindowsUpdate
   Write-Output "Installing Windows Updates..."
-  Get-WindowsUpdate -AcceptAll -Install  # -AutoReboot
+  Get-WindowsUpdate -AcceptAll -Install -IgnoreReboot | Out-Null
 }
 
 
 function CleanLocalWindowsUpdateCache{
   Write-Output "###"
+  Write-Output "Clean Windows Update cache..."
   # Stop Service wuauserv (Windows Update Service)
   # Stop bits (Background Intelligent Transfer Service)
   Get-Service -Name "wuauserv" | Stop-Service
@@ -649,8 +650,10 @@ function CleanLocalWindowsUpdateCache{
   Get-Service -Name "bits" | Start-Service
 }
 
+
 function RunDiskCleanup{
   Write-Output "###"
+  Write-Output "Disk cleanup..."
   <#
   Same functions as:
   Dism.exe /online /Cleanup-Image /StartComponentCleanup
@@ -999,10 +1002,10 @@ function InstallSysmon64{
   # Set command line options
   $CommandLineOptions = "-accepteula"
   if (Test-Path -Path "$BootstrapFolder\Sysmon Olaf XML\sysmonconfig.xml") {
-    $CommandLineOptions += " -i '$BootstrapFolder\Sysmon Olaf XML\sysmonconfig.xml'"
+    $CommandLineOptions += " -i ""$BootstrapFolder\Sysmon Olaf XML\sysmonconfig.xml"""
   }
   elseIf (Test-Path -Path "$BootstrapFolder\Sysmon Swift XML\sysmonconfig-export.xml") {
-    $CommandLineOptions += " -i '$BootstrapFolder\Sysmon Swift XML\sysmonconfig-export.xml'"
+    $CommandLineOptions += " -i ""$BootstrapFolder\Sysmon Swift XML\sysmonconfig-export.xml"""
   }
   Write-Output "Command line arguments: $CommandLineOptions"
 
@@ -1236,6 +1239,78 @@ function GetBloodhound {
 }
 
 
+function GetSharphound {
+  Write-Output "###"
+  $SoftwareName = "Sharphound"
+  Write-Output "Get $SoftwareName..."
+
+  $FullDownloadURL = "https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/Collectors/SharpHound.exe"
+  if (-not $FullDownloadURL) {
+	Write-Output "Error: $SoftwareName not found"
+	return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+}
+
+
+function GetAzurehound {
+  Write-Output "###"
+  $SoftwareName = "Azurehound"
+  Write-Output "Get $SoftwareName..."
+
+  $FullDownloadURL = "https://github.com/BloodHoundAD/BloodHound/blob/master/Collectors/AzureHound.ps1"
+  if (-not $FullDownloadURL) {
+	Write-Output "Error: $SoftwareName not found"
+	return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+}
+
+
 function GetImproHound{
   Write-Output "###"
   $SoftwareName = "ImproHound"
@@ -1272,6 +1347,50 @@ function GetImproHound{
   $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
+}
+
+
+function GetPingCastle{
+  Write-Output "###"
+  $SoftwareName = "PingCastle"
+  Write-Output "Getting $SoftwareName..."
+
+  $Url = "https://github.com/vletoux/pingcastle/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
+  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*.zip*" -and $_.href -like "*releases*"}).href
+  $FullDownloadURL = "https://github.com$SoftwareUri"
+  if (-not $FullDownloadURL) {
+	Write-Output "Error: $SoftwareName not found"
+	return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Unzip
+  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
+  Remove-Item -Path $FileFullName -ErrorAction Ignore
+  Write-Output "Unzipped to: $SoftwareFolderFullName"
 }
 
 
@@ -1662,7 +1781,7 @@ function InstallFirefox{
   Write-Output "Downloaded: $FileFullName"
 
   # Install msi
-  Invoke-Expression "msiexec /qb /i $FileFullName"
+  Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" /quiet" -Wait -NoNewWindow
   Write-Output "Installation done for $SoftwareName"
 }
 
@@ -1767,7 +1886,7 @@ function InstallChrome{
   Write-Output "Downloaded: $FileFullName"
 
   # Install msi
-  Invoke-Expression "msiexec /qb /i $FileFullName"
+  Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" /quiet" -Wait -NoNewWindow
   Write-Output "Installation done for $SoftwareName"
 }
 
@@ -1835,10 +1954,13 @@ function InstallOpera{
   $SoftwareName = "Opera"
   Write-Output "Installing $SoftwareName..."
 
-  $URL = [System.Net.HttpWebRequest]::Create("https://www.opera.com/computer/thanks?ni=stable&os=windows").GetResponse().ResponseUri.AbsoluteUri
-  $LatestVersion = (Invoke-WebRequest -UseBasicParsing -Uri $URL).Links.Href | Get-Unique -asstring | Sort-Object -Descending | select-object -First 1
-  $LatestPath = "$($URL)$($LatestVersion)win/"
-  $FullDownloadURL = (Invoke-WebRequest -UseBasicParsing -Uri $LatestPath).Links.Href | Get-Unique -asstring | Sort-Object -Descending | Select-String -Pattern "Autoupdate_x64.exe$"
+  $URL = "https://get.geo.opera.com/pub/opera/desktop/"
+  $CheckURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
+  if (! $CheckURL) {Write-Output "Error: URL not resolved"; return}
+  $LatestOperaVersion=(Invoke-WebRequest -UseBasicParsing  -Uri $URL).Links.Href | Get-Unique -asstring | Sort-Object -Descending | select-object -First 1
+  if (! $LatestOperaVersion) {Write-Output "Error: Opera browser not found"; return}
+  $LatestOperaPath = "$($URL)$($LatestOperaVersion)win/"
+  $FullDownloadURL = $LatestOperaPath + ((Invoke-WebRequest -UseBasicParsing -Uri $LatestOperaPath).Links.Href | Get-Unique -asstring | Sort-Object -Descending | Select-String -Pattern "Autoupdate_x64.exe$")
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
 	return
@@ -1867,11 +1989,17 @@ function InstallOpera{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Install exe
+  # Unpack
   $CommandLineOptions = "/SILENT /LOG"
   Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
+
+  # Install exe
+  $InstallFile = "$SoftwareFolderFullName\installer.exe"
+  $CommandLineOptions = "--silent --setdefaultbrowser=0 --startmenushortcut=0 --desktopshortcut=0 --pintotaskbar=0 --pin-additional-shortcuts=0 --launchbrowser=0"
+  Start-Process $InstallFile $CommandLineOptions -NoNewWindow -Wait
   Write-Output "Installation done for $SoftwareName"
 }
+
 
 ################################################################
 ###### Forensic Functions  ###
@@ -1916,7 +2044,7 @@ function InstallAutopsy{
   Write-Output "Downloaded: $FileFullName"
 
   # Install msi
-  Invoke-Expression "msiexec /qb /i $FileFullName"
+  Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" /quiet" -Wait -NoNewWindow
   Write-Output "Installation done for $SoftwareName"
 }
 
@@ -1927,6 +2055,7 @@ function InstallAutopsy{
 
 function InstallFonts{
   Write-Output "###"
+    Write-Output "Installing fonts..."
   # Inspired by https://www.powershellgallery.com/packages/PSWinGlue/0.3.3/Content/Functions%5CInstall-Font.ps1
 
   $FontPath = "$PSScriptRoot\fonts"
@@ -1956,6 +2085,7 @@ function InstallFonts{
 
 function ReplaceDefaultWallpapers{
   Write-Output "###"
+  Write-Output "Replacing wallpapers..."
   <#
   https://ccmexec.com/2015/08/replacing-default-wallpaper-in-windows-10-using-scriptmdtsccm/
   Default 4k images in C:\Windows\Web\4K\Wallpaper\Windows:
@@ -1970,22 +2100,16 @@ function ReplaceDefaultWallpapers{
   3840x2160 - img0_3840x2160.jpg
   #>
 
-  $DefaultWallPaper=($env:SystemDrive+"\windows\WEB\wallpaper\Windows\img0.jpg")
   $WallPaperPath=($env:SystemDrive+"\Windows\Web\4K\Wallpaper\Windows")
 
-  takeown /f $DefaultWallPaper
-  takeown /f $WallPaperPath\*.*
+  takeown /f $WallPaperPath\*.* | Out-Null
+  icacls $WallPaperPath\*.* /Grant 'Administrators:(F)' | Out-Null
+  Remove-Item $WallPaperPath\*.* -Recurse
 
-  icacls $DefaultWallPaper /Grant 'System:(F)'
-  icacls $WallPaperPath\*.* /Grant 'System:(F)'
-
-  Remove-Item $DefaultWallPaper
-  Remove-Item $WallPaperPath\*.*
-
-  Copy-Item $PSScriptRoot\pictures\wallpaper\img0.jpg $DefaultWallPaper
-  Copy-Item $PSScriptRoot\pictures\wallpaper\4k\*.* $WallPaperPath
+  if (Test-Path -Path "$PSScriptRoot\pictures\wallpaper") {
+    Copy-Item "$PSScriptRoot\pictures\wallpaper\" $WallPaperPath -Recurse
+  }
 }
-
 
 ################################################################
 ###### Auxiliary Functions  ###
