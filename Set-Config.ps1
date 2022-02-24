@@ -69,6 +69,8 @@ function Get-IniFile {
     return $ini
 }
 
+# Clean up env from potentially earlier execution
+Remove-Item -Path env:BOOTSTRAP_DOWNLOAD_ONLY -ErrorAction SilentlyContinue
 
 # Parse and resolve paths in passed arguments
 $i = 0
@@ -91,6 +93,9 @@ While ($i -lt $args.Length) {
 		$PSCommandArgs += "-ini `"$ini`""
 		# Load valuesfrom the ini file
 		$config = Get-IniFile $ini
+	} ElseIf ($args[$i].ToLower() -eq "-downloadonly") {
+		$env:BOOTSTRAP_DOWNLOAD_ONLY = $true
+		$PSCommandArgs += "-downloadonly"
 	} ElseIf ($args[$i].ToLower() -eq "-log") {
 		# Resolve full path to the output file
 		$log = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($args[++$i])

@@ -746,10 +746,12 @@ function InstallGit4Win{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Install exe
-  $CommandLineOptions = "/SILENT /LOG"
-  Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
-  Write-Output "Installation done for $SoftwareName"
+  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+    # Install exe
+    $CommandLineOptions = "/SILENT /LOG"
+    Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
+    Write-Output "Installation done for $SoftwareName"
+  }
 }
 
 function InstallAtom{
@@ -789,10 +791,12 @@ function InstallAtom{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Install exe
-  $CommandLineOptions = " "
-  Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
-  Write-Output "Installation done for $SoftwareName"
+  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+    # Install exe
+    $CommandLineOptions = " "
+    Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
+    Write-Output "Installation done for $SoftwareName"
+  }
 }
 
 function RemoveAtom {
@@ -838,10 +842,12 @@ function InstallNotepadPlusPlus{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Install exe
-  $CommandLineOptions = "/S"
-  Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
-  Write-Output "Installation done for $SoftwareName"
+  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+    # Install exe
+    $CommandLineOptions = "/S"
+    Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
+    Write-Output "Installation done for $SoftwareName"
+  }
 }
 
 function RemoveNotepadPlusPlus{
@@ -887,10 +893,12 @@ function Install7Zip{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Install exe
-  $CommandLineOptions = "/S"
-  Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
-  Write-Output "Installation done for $SoftwareName"
+  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+    # Install exe
+    $CommandLineOptions = "/S"
+    Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
+    Write-Output "Installation done for $SoftwareName"
+  }
 }
 
 function Remove7Zip{
@@ -1009,10 +1017,12 @@ function InstallSysmon64{
   }
   Write-Output "Command line arguments: $CommandLineOptions"
 
-  # Install exe
-  $InstallFileFullName = "$SoftwareFolderFullName\Sysmon64.exe"
-  Start-Process $InstallFileFullName $CommandLineOptions -NoNewWindow -Wait
-  Write-Output "Installation done for $SoftwareName"
+  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+    # Install exe
+    $InstallFileFullName = "$SoftwareFolderFullName\Sysmon64.exe"
+    Start-Process $InstallFileFullName $CommandLineOptions -NoNewWindow -Wait
+    Write-Output "Installation done for $SoftwareName"
+  }
 }
 
 
@@ -1095,9 +1105,11 @@ function InstallOpenJDK{
   Remove-Item -Path $FileFullName -ErrorAction Ignore
   Write-Output "Unzipped to: $SoftwareFolderFullName"
 
-  # Install msi
-  Invoke-Expression "msiexec /qb /i $FileFullName ADDLOCAL=FeatureMain,FeatureEnvironment,FeatureJarFileRunWith,FeatureJavaHome"
-  Write-Output "Installation done for $SoftwareName"
+  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+    # Install msi
+    Invoke-Expression "msiexec /qb /i $FileFullName ADDLOCAL=FeatureMain,FeatureEnvironment,FeatureJarFileRunWith,FeatureJavaHome"
+    Write-Output "Installation done for $SoftwareName"
+  }
 }
 
 
@@ -1184,10 +1196,12 @@ function InstallNeo4j{
   # Config - Allow APOC queries
   (Get-Content "$Neo4jRootDirFullName\conf\neo4j.conf").replace('#dbms.security.procedures.unrestricted=my.extensions.example,my.procedures.*', 'dbms.security.procedures.unrestricted=apoc.*') | Set-Content "$Neo4jRootDirFullName\conf\neo4j.conf"
 
-  # Install service
-  Start-Process "$Neo4jRootDirFullName\bin\neo4j.bat" "install-service" -NoNewWindow -Wait
-  net start neo4j
-  Write-Output "Installation done for $SoftwareName"
+  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+    # Install service
+    Start-Process "$Neo4jRootDirFullName\bin\neo4j.bat" "install-service" -NoNewWindow -Wait
+    net start neo4j
+    Write-Output "Installation done for $SoftwareName"
+  }
 }
 
 
@@ -1425,9 +1439,11 @@ function InstallSpiceGuestTool{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Install msi
-  Invoke-Expression "msiexec /qb /i $FileFullName"
-  Write-Output "Installation done for $SoftwareName"
+  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+    # Install msi
+    Invoke-Expression "msiexec /qb /i $FileFullName"
+    Write-Output "Installation done for $SoftwareName"
+  }
 
   #2: Spice Guest Tool
   $SoftwareName = "Spice Guest Tool"
@@ -1458,10 +1474,12 @@ function InstallSpiceGuestTool{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Install exe
-  $CommandLineOptions = " "
-  Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
-  Write-Output "Installation done for $SoftwareName"
+  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+    # Install exe
+    $CommandLineOptions = " "
+    Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
+    Write-Output "Installation done for $SoftwareName"
+  }
 }
 
 
@@ -1495,10 +1513,12 @@ function InstallGPGwin{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Install exe
-  $CommandLineOptions = "/S"
-  Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
-  Write-Output "Installation done for $SoftwareName"
+  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+    # Install exe
+    $CommandLineOptions = "/S"
+    Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
+    Write-Output "Installation done for $SoftwareName"
+  }
 }
 
 
@@ -1532,10 +1552,12 @@ function InstallThunderbird{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Install exe
-  $CommandLineOptions = "-ms" # silent install
-  Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
-  Write-Output "Installation done for $SoftwareName"
+  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+    # Install exe
+    $CommandLineOptions = "-ms" # silent install
+    Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
+    Write-Output "Installation done for $SoftwareName"
+  }
 }
 
 
@@ -1600,9 +1622,11 @@ function InstallOffice365{
   $SetupFileFullName = "$SoftwareFolderFullName\setup.exe"
   Start-Process $SetupFileFullName "/download ""$ConfigFileFullName""" -NoNewWindow -Wait
 
-  # Install
-  Start-Process $SetupFileFullName "/configure ""$ConfigFileFullName""" -NoNewWindow -Wait
-  Write-Output "Installation done for $SoftwareName"
+  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+    # Install
+    Start-Process $SetupFileFullName "/configure ""$ConfigFileFullName""" -NoNewWindow -Wait
+    Write-Output "Installation done for $SoftwareName"
+  }
 }
 
 
@@ -1661,9 +1685,11 @@ function InstallVisioPro{
   $SetupFileFullName = "$SoftwareFolderFullName\setup.exe"
   Start-Process $SetupFileFullName "/download $ConfigFileFullName" -NoNewWindow -Wait
 
-  # Install
-  Start-Process $SetupFileFullName "/configure $ConfigFileFullName" -NoNewWindow -Wait
-  Write-Output "Installation done for $SoftwareName"
+  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+    # Install
+    Start-Process $SetupFileFullName "/configure $ConfigFileFullName" -NoNewWindow -Wait
+    Write-Output "Installation done for $SoftwareName"
+  }
 }
 
 
@@ -1709,13 +1735,15 @@ function InstallVMwareWorkstation{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Install exe
-  $CommandLineOptions = "/s /v/qn REBOOT=ReallySuppress ADDLOCAL=ALL EULAS_AGREED=1 "
-  if ($VMwareSerialNumber -ne $null) {
-    $CommandLineOptions += "SERIALNUMBER=""$VMwareSerialNumber"""
+  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+    # Install exe
+    $CommandLineOptions = "/s /v/qn REBOOT=ReallySuppress ADDLOCAL=ALL EULAS_AGREED=1 "
+    if ($VMwareSerialNumber -ne $null) {
+      $CommandLineOptions += "SERIALNUMBER=""$VMwareSerialNumber"""
+    }
+    Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
+    Write-Output "Installation done for $SoftwareName"
   }
-  Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
-  Write-Output "Installation done for $SoftwareName"
 }
 
 function RemoveVMwareWorkstation{
@@ -1780,9 +1808,11 @@ function InstallFirefox{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Install msi
-  Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" /quiet" -Wait -NoNewWindow
-  Write-Output "Installation done for $SoftwareName"
+  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+    # Install msi
+    Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" /quiet" -Wait -NoNewWindow
+    Write-Output "Installation done for $SoftwareName"
+  }
 }
 
 function RemoveFirefox{
@@ -1885,9 +1915,11 @@ function InstallChrome{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Install msi
-  Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" /quiet" -Wait -NoNewWindow
-  Write-Output "Installation done for $SoftwareName"
+  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+    # Install msi
+    Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" /quiet" -Wait -NoNewWindow
+    Write-Output "Installation done for $SoftwareName"
+  }
 }
 
 function RemoveChrome{
@@ -1993,11 +2025,13 @@ function InstallOpera{
   $CommandLineOptions = "/SILENT /LOG"
   Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
 
-  # Install exe
-  $InstallFile = "$SoftwareFolderFullName\installer.exe"
-  $CommandLineOptions = "--silent --setdefaultbrowser=0 --startmenushortcut=0 --desktopshortcut=0 --pintotaskbar=0 --pin-additional-shortcuts=0 --launchbrowser=0"
-  Start-Process $InstallFile $CommandLineOptions -NoNewWindow -Wait
-  Write-Output "Installation done for $SoftwareName"
+  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+    # Install exe
+    $InstallFile = "$SoftwareFolderFullName\installer.exe"
+    $CommandLineOptions = "--silent --setdefaultbrowser=0 --startmenushortcut=0 --desktopshortcut=0 --pintotaskbar=0 --pin-additional-shortcuts=0 --launchbrowser=0"
+    Start-Process $InstallFile $CommandLineOptions -NoNewWindow -Wait
+    Write-Output "Installation done for $SoftwareName"
+  }
 }
 
 
@@ -2043,9 +2077,11 @@ function InstallAutopsy{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Install msi
-  Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" /quiet" -Wait -NoNewWindow
-  Write-Output "Installation done for $SoftwareName"
+  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+    # Install msi
+    Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" /quiet" -Wait -NoNewWindow
+    Write-Output "Installation done for $SoftwareName"
+  }
 }
 
 
