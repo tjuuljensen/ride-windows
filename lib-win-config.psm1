@@ -25,7 +25,7 @@ function ActivateWindows{
   }
 
   # Read variable content (if any) and install licence key if it exists
-  $LicenseKey=$config.WindowsKey."$WindowsVersion"
+  $LicenseKey = [Environment]::GetEnvironmentVariable("BOOTSTRAP-WindowsKey-$WindowsVersion", "Process")
   if ( $LicenseKey -ne $null ) {
     $computer = Get-Content Env:ComputerName
 
@@ -40,15 +40,15 @@ function CreateNewLocalAdmin{
   # Tested on Windows 10 Pro 10.0.19044
 
   $DefaultAdminName="admin"
-  # Test if value was set by reading the $config.LocalAdmin.AdminUse value from an ini file
-  $LocalAdminUser = if ($config.LocalAdmin.AdminUser -eq $null) {$DefaultAdminName}  else {$config.LocalAdmin.AdminUser}
+  $LocalAdminUser = if ([Environment]::GetEnvironmentVariable("BOOTSTRAP-LocalAdmin-AdminUser", "Process") -eq $null) {$DefaultAdminName}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-LocalAdmin-AdminUser", "Process")}
 
   if ((Get-LocalUser $LocalAdminUser -ErrorAction Ignore).count -eq 1) {
     write-output "ERROR: User $LocalAdminUser exists - Exiting."
   } else {
     # If Password was set in ini file, use this
-   if ($config.LocalAdmin.AdminPassword -ne $null -and ($config.LocalAdmin.AdminPassword).tolower() -ne "[prompt]") {
-          $Password = ConvertTo-SecureString -String $config.LocalAdmin.AdminPassword
+  
+   if ([Environment]::GetEnvironmentVariable("BOOTSTRAP-LocalAdmin-AdminPassword", "Process") -ne $null -and ([Environment]::GetEnvironmentVariable("BOOTSTRAP-LocalAdmin-AdminPassword", "Process")).tolower() -ne "[prompt]") {
+          $Password = ConvertTo-SecureString -String $([Environment]::GetEnvironmentVariable("BOOTSTRAP-LocalAdmin-AdminPassword", "Process"))
         } else {
           $Password = Read-Host -AsSecureString "Enter password of the Local Admin User: "
         }
@@ -172,12 +172,12 @@ function SetRegionalSettings{
   $DefaultSystemLocale="da-DK"
   $DefaultTimeZone="Romance Standard Time"
 
-  $WinUserLanguage = if ($config.Language.WinUserLanguage -eq $null) {$DefaultWinUserLanguage}  else {$config.Language.WinUserLanguage}
-  $Culture = if ($config.Language.Culture -eq $null) {$DefaultCulture}  else {$config.Language.Culture}
-  $Keyboard = if ($config.Language.Keyboard -eq $null) {$DefaultKeyboard}  else {$config.Language.Keyboard}
-  $Location = if ($config.Language.Location -eq $null) {$DefaultLocation}  else {$config.Language.Location}
-  $SystemLocale = if ($config.Language.SystemLocale -eq $null) {$DefaultSystemLocale}  else {$config.Language.SystemLocale}
-  $TimeZone = if ($config.Language.TimeZone -eq $null) {$DefaultTimeZone}  else {$config.Language.TimeZone}
+  $WinUserLanguage = if ([Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-WinUserLanguage", "Process") -eq $null) {$DefaultWinUserLanguage}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-WinUserLanguage", "Process")}
+  $Culture = if ([Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-Culture", "Process") -eq $null) {$DefaultCulture}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-Culture", "Process")}
+  $Keyboard = if ([Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-Keyboard", "Process") -eq $null) {$DefaultKeyboard}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-Keyboard", "Process")}
+  $Location = if ([Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-Location", "Process") -eq $null) {$DefaultLocation}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-Location", "Process")}
+  $SystemLocale = if ([Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-SystemLocale", "Process") -eq $null) {$DefaultSystemLocale}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-SystemLocale", "Process")}
+  $TimeZone = if ([Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-TimeZone", "Process") -eq $null) {$DefaultTimeZone}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-TimeZone", "Process")}
 
   # Save WinUserLanguageList into a variable object and build the list from scratch
   $LanguageList = Get-WinUserLanguageList
@@ -328,8 +328,8 @@ function DisableAdvancedAuthAtStart{
 function EnableBitlockerTPMandPIN{
   Write-Output "###"
 
-  if ($config.Bitlocker.TPMandPINPassword -ne $null -and ($config.Bitlocker.TPMandPINPassword).tolower() -ne "[prompt]") {
-         $Password = ConvertTo-SecureString -String $config.Bitlocker.TPMandPINPassword
+  if ([Environment]::GetEnvironmentVariable("BOOTSTRAP-Bitlocker-TPMandPINPassword", "Process") -ne $null -and ([Environment]::GetEnvironmentVariable("BOOTSTRAP-Bitlocker-TPMandPINPassword", "Process")).tolower() -ne "[prompt]") {
+         $Password = ConvertTo-SecureString -String ([Environment]::GetEnvironmentVariable("BOOTSTRAP-Bitlocker-TPMandPINPassword", "Process"))
        } else {
          $Password = Read-Host -AsSecureString "Enter new Bitlocker Pre-Boot PIN: "
        }
@@ -708,7 +708,6 @@ function RunSysprepGeneralizeOOBE{
 ###### Install programs  ###
 ################################################################
 
-
 function InstallGit4Win{
   Write-Output "###"
   $SoftwareName = "Git4Win"
@@ -746,7 +745,7 @@ function InstallGit4Win{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
     # Install exe
     $CommandLineOptions = "/SILENT /LOG"
     Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
@@ -791,7 +790,7 @@ function InstallAtom{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
     # Install exe
     $CommandLineOptions = " "
     Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
@@ -842,7 +841,7 @@ function InstallNotepadPlusPlus{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
     # Install exe
     $CommandLineOptions = "/S"
     Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
@@ -893,7 +892,7 @@ function Install7Zip{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
     # Install exe
     $CommandLineOptions = "/S"
     Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
@@ -1017,7 +1016,7 @@ function InstallSysmon64{
   }
   Write-Output "Command line arguments: $CommandLineOptions"
 
-  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
     # Install exe
     $InstallFileFullName = "$SoftwareFolderFullName\Sysmon64.exe"
     Start-Process $InstallFileFullName $CommandLineOptions -NoNewWindow -Wait
@@ -1105,7 +1104,7 @@ function InstallOpenJDK{
   Remove-Item -Path $FileFullName -ErrorAction Ignore
   Write-Output "Unzipped to: $SoftwareFolderFullName"
 
-  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
     # Install msi
     Invoke-Expression "msiexec /qb /i $FileFullName ADDLOCAL=FeatureMain,FeatureEnvironment,FeatureJarFileRunWith,FeatureJavaHome"
     Write-Output "Installation done for $SoftwareName"
@@ -1196,7 +1195,7 @@ function InstallNeo4j{
   # Config - Allow APOC queries
   (Get-Content "$Neo4jRootDirFullName\conf\neo4j.conf").replace('#dbms.security.procedures.unrestricted=my.extensions.example,my.procedures.*', 'dbms.security.procedures.unrestricted=apoc.*') | Set-Content "$Neo4jRootDirFullName\conf\neo4j.conf"
 
-  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
     # Install service
     Start-Process "$Neo4jRootDirFullName\bin\neo4j.bat" "install-service" -NoNewWindow -Wait
     net start neo4j
@@ -1439,7 +1438,7 @@ function InstallSpiceGuestTool{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
     # Install msi
     Invoke-Expression "msiexec /qb /i $FileFullName"
     Write-Output "Installation done for $SoftwareName"
@@ -1474,7 +1473,7 @@ function InstallSpiceGuestTool{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
     # Install exe
     $CommandLineOptions = " "
     Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
@@ -1513,7 +1512,7 @@ function InstallGPGwin{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
     # Install exe
     $CommandLineOptions = "/S"
     Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
@@ -1552,7 +1551,7 @@ function InstallThunderbird{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
     # Install exe
     $CommandLineOptions = "-ms" # silent install
     Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
@@ -1622,7 +1621,7 @@ function InstallOffice365{
   $SetupFileFullName = "$SoftwareFolderFullName\setup.exe"
   Start-Process $SetupFileFullName "/download ""$ConfigFileFullName""" -NoNewWindow -Wait
 
-  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
     # Install
     Start-Process $SetupFileFullName "/configure ""$ConfigFileFullName""" -NoNewWindow -Wait
     Write-Output "Installation done for $SoftwareName"
@@ -1685,7 +1684,7 @@ function InstallVisioPro{
   $SetupFileFullName = "$SoftwareFolderFullName\setup.exe"
   Start-Process $SetupFileFullName "/download $ConfigFileFullName" -NoNewWindow -Wait
 
-  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
     # Install
     Start-Process $SetupFileFullName "/configure $ConfigFileFullName" -NoNewWindow -Wait
     Write-Output "Installation done for $SoftwareName"
@@ -1709,7 +1708,7 @@ function InstallVMwareWorkstation{
   if ($FoundMajorVersion) {
       $MajorVersion=$matches[1]
       $KeyName=("VMWAREWORKSTATION" + $MajorVersion)
-      $VMwareSerialNumber=$config.VMwareWorkstation."$KeyName"
+      $VMwareSerialNumber = [Environment]::GetEnvironmentVariable("BOOTSTRAP-VMwareWorkstation-$KeyName", "Process")
   }
 
   # Create bootstrap folder if not existing
@@ -1735,7 +1734,7 @@ function InstallVMwareWorkstation{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
     # Install exe
     $CommandLineOptions = "/s /v/qn REBOOT=ReallySuppress ADDLOCAL=ALL EULAS_AGREED=1 "
     if ($VMwareSerialNumber -ne $null) {
@@ -1808,7 +1807,7 @@ function InstallFirefox{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
     # Install msi
     Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" /quiet" -Wait -NoNewWindow
     Write-Output "Installation done for $SoftwareName"
@@ -1915,7 +1914,7 @@ function InstallChrome{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
     # Install msi
     Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" /quiet" -Wait -NoNewWindow
     Write-Output "Installation done for $SoftwareName"
@@ -2025,7 +2024,7 @@ function InstallOpera{
   $CommandLineOptions = "/SILENT /LOG"
   Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
 
-  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
     # Install exe
     $InstallFile = "$SoftwareFolderFullName\installer.exe"
     $CommandLineOptions = "--silent --setdefaultbrowser=0 --startmenushortcut=0 --desktopshortcut=0 --pintotaskbar=0 --pin-additional-shortcuts=0 --launchbrowser=0"
@@ -2077,7 +2076,7 @@ function InstallAutopsy{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not $env:BOOTSTRAP_DOWNLOAD_ONLY) {
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
     # Install msi
     Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" /quiet" -Wait -NoNewWindow
     Write-Output "Installation done for $SoftwareName"

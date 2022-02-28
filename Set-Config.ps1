@@ -27,46 +27,28 @@ Function AddOrRemoveTweak($tweak) {
 }
 
 function Get-IniFile {
+# Inspired by: https://stackoverflow.com/a/422529
 # Read contents of ini file into a variable
 # Inspired by https://stackoverflow.com/questions/43690336/powershell-to-read-single-value-from-simple-ini-file
     param(
         [parameter(Mandatory = $true)] [string] $filePath
-			  )
-    $anonymous = "NoSection"
-    $ini = @{}
-    switch -regex -file $filePath
-    {
-        "^\[(.+)\]$" # Section
-        {
-            $section = $matches[1]
-            $ini[$section] = @{}
-            $CommentCount = 0
+	)
+
+    # Create a default section if none exist in the file. Like a java prop file.
+    $section = "NO_SECTION"
+
+    switch -regex -file $filePath {
+        "^\[(.+)\]$" {
+            $section = $matches[1].Trim()
         }
-        "^([#;].*)$" # Comment - ; or # at beginning of line
-        {
-            if (!($section))
-            {
-                $section = $anonymous
-                $ini[$section] = @{}
-            }
-            $value = $matches[1]
-            $CommentCount = $CommentCount + 1
-            $name = "Comment" + $CommentCount
-            $ini[$section][$name] = $value
-        }
-        "(.+?)\s*=\s*(.*)(#.*$)" # Key - break at any # (linux style)
-        {
-            if (!($section))
-            {
-                $section = $anonymous
-                $ini[$section] = @{}
-            }
+        "^\s*([^#].+?)\s*=\s*(.*)" {
             $name,$value = $matches[1..2]
-            $ini[$section][$name] = $value
+            # skip comments that start with semicolon:
+            if (!($name.StartsWith(";"))) {
+                [Environment]::SetEnvironmentVariable("BOOTSTRAP-$section-$name", $value.Trim(), "Process")
+            }
         }
     }
-
-    return $ini
 }
 
 # Clean up env from potentially earlier execution
@@ -92,9 +74,9 @@ While ($i -lt $args.Length) {
 		$ini = Resolve-Path $args[++$i] -ErrorAction Stop
 		$PSCommandArgs += "-ini `"$ini`""
 		# Load valuesfrom the ini file
-		$config = Get-IniFile $ini
+        Get-IniFile $ini
 	} ElseIf ($args[$i].ToLower() -eq "-downloadonly") {
-		$env:BOOTSTRAP_DOWNLOAD_ONLY = $true
+		[Environment]::SetEnvironmentVariable("BOOTSTRAP-Download-Only", $true, "Process")
 		$PSCommandArgs += "-downloadonly"
 	} ElseIf ($args[$i].ToLower() -eq "-log") {
 		# Resolve full path to the output file
