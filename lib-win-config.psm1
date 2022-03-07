@@ -936,6 +936,29 @@ function GetSysmonSwiftXML{
   $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
+
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+		# Set default tools folder
+		$ToolsFolder = "\Tools"
+    }
+    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+		New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+		Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+  }
 }
 
 
@@ -968,6 +991,29 @@ function GetSysmonOlafXML{
   $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
+
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+	  # Set default tools folder
+	  $ToolsFolder = "\Tools"
+    }
+    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+	  New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+	  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+  }
 }
 
 
@@ -1001,24 +1047,46 @@ function InstallSysmon64{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Unzip
-  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
-  Remove-Item -Path $FileFullName -ErrorAction Ignore
-  Write-Output "Unzipped to: $SoftwareFolderFullName"
-
-  # Set command line options
-  $CommandLineOptions = "-accepteula"
-  if (Test-Path -Path "$BootstrapFolder\Sysmon Olaf XML\sysmonconfig.xml") {
-    $CommandLineOptions += " -i ""$BootstrapFolder\Sysmon Olaf XML\sysmonconfig.xml"""
-  }
-  elseIf (Test-Path -Path "$BootstrapFolder\Sysmon Swift XML\sysmonconfig-export.xml") {
-    $CommandLineOptions += " -i ""$BootstrapFolder\Sysmon Swift XML\sysmonconfig-export.xml"""
-  }
-  Write-Output "Command line arguments: $CommandLineOptions"
-
   if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+	# Get tools folder
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+	  $ToolsFolder = "\Tools"
+	}
+	$ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+
+	# Create tools folder if not existing
+	if (-not (Test-Path -Path $ToolsFolder)) {
+	  New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+	}
+
+	# Copy to tools folder (overwrite existing)
+	$NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+	if (Test-Path -Path $NewSoftwareFolderFullName) {
+	  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+	}
+	Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+	Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+	# Unzip
+	$NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
+	Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
+	Remove-Item -Path $NewFileFullName -ErrorAction Ignore
+	Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+
+	# Set command line options
+	$CommandLineOptions = "-accepteula"
+	if (Test-Path -Path "$BootstrapFolder\Sysmon Olaf XML\sysmonconfig.xml") {
+	  $CommandLineOptions += " -i ""$BootstrapFolder\Sysmon Olaf XML\sysmonconfig.xml"""
+	}
+	elseIf (Test-Path -Path "$BootstrapFolder\Sysmon Swift XML\sysmonconfig-export.xml") {
+	  $CommandLineOptions += " -i ""$BootstrapFolder\Sysmon Swift XML\sysmonconfig-export.xml"""
+	}
+	Write-Output "Command line arguments: $CommandLineOptions"
+
     # Install exe
-    $InstallFileFullName = "$SoftwareFolderFullName\Sysmon64.exe"
+    $InstallFileFullName = "$NewSoftwareFolderFullName\Sysmon64.exe"
     Start-Process $InstallFileFullName $CommandLineOptions -NoNewWindow -Wait
     Write-Output "Installation done for $SoftwareName"
   }
@@ -1055,10 +1123,34 @@ function GetSysinternalsSuite{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Unzip
-  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
-  Remove-Item -Path $FileFullName -ErrorAction Ignore
-  Write-Output "Unzipped to: $SoftwareFolderFullName"
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+	# Get tools folder
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+	  $ToolsFolder = "\Tools"
+	}
+	$ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+
+	# Create tools folder if not existing
+	if (-not (Test-Path -Path $ToolsFolder)) {
+	  New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+	}
+
+	# Copy to tools folder (overwrite existing)
+	$NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+	if (Test-Path -Path $NewSoftwareFolderFullName) {
+	  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+	}
+	Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+	Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+	# Unzip
+	$NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
+	Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
+	Remove-Item -Path $NewFileFullName -ErrorAction Ignore
+	Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+  }
 }
 
 
@@ -1148,8 +1240,8 @@ function InstallNeo4j{
 	return
   }
   $Neo4jVersion = $Matches[0]
-  $FileName = "neo4j-community-$Neo4jVersion-windows.zip"
-  $FullDownloadURL = "https://neo4j.com/artifact.php?name=$FileName"
+  $Neo4jFileName = "neo4j-community-$Neo4jVersion-windows.zip"
+  $FullDownloadURL = "https://neo4j.com/artifact.php?name=$Neo4jFileName"
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
@@ -1169,30 +1261,58 @@ function InstallNeo4j{
 
   # Download Neo4j
   Write-Output "Downloading file from: $FullDownloadURL"
-  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
-  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
-  Write-Output "Downloaded: $FileFullName"
-
-  # Unzip
-  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
-  Remove-Item -Path $FileFullName -ErrorAction Ignore
-  Write-Output "Unzipped to: $SoftwareFolderFullName"
-  $Neo4jRootDirFullName = (Get-ChildItem $SoftwareFolderFullName -Directory).FullName
+  $Neo4jFileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $Neo4jFileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $Neo4jFileFullName
+  Write-Output "Downloaded: $Neo4jFileFullName"
 
   # Download APOC plugin
-  $Neo4jRootDirFullName = (Get-ChildItem $SoftwareFolderFullName -Directory).FullName
   Write-Output "Downloading file from: $ApocFullDownloadURL"
-  $FileName = ([System.IO.Path]::GetFileName($ApocFullDownloadURL).Replace("%20"," "))
-  $FileFullName = Join-Path -Path $Neo4jRootDirFullName -ChildPath "plugins\$FileName"
-  Start-BitsTransfer -Source $ApocFullDownloadURL -Destination $FileFullName
-  Write-Output "Downloaded: $FileFullName"
-
-  # Config - Allow APOC queries
-  (Get-Content "$Neo4jRootDirFullName\conf\neo4j.conf").replace('#dbms.security.procedures.unrestricted=my.extensions.example,my.procedures.*', 'dbms.security.procedures.unrestricted=apoc.*') | Set-Content "$Neo4jRootDirFullName\conf\neo4j.conf"
+  $ApocFileName = ([System.IO.Path]::GetFileName($ApocFullDownloadURL).Replace("%20"," "))
+  $ApocFileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $ApocFileName
+  Start-BitsTransfer -Source ApocFullDownloadURL -Destination $ApocFileFullName
+  Write-Output "Downloaded: $ApocFileFullName"
 
   if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+	# Get tools folder
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+	  $ToolsFolder = "\Tools"
+	}
+	$ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+
+	# Create tools folder if not existing
+	if (-not (Test-Path -Path $ToolsFolder)) {
+	  New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+	}
+
+	# Copy to tools folder (overwrite existing)
+	$NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+	if (Test-Path -Path $NewSoftwareFolderFullName) {
+	  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+	}
+	Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+	Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+    # Unzip
+	$NewNeo4jFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $Neo4jFileName
+    Expand-Archive $NewNeo4jFileFullName -DestinationPath $NewSoftwareFolderFullName
+    Remove-Item -Path $NewNeo4jFileFullName -ErrorAction Ignore
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+
+    # Move APOC to plugin folder
+    $NewApocFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $ApocFileName
+	$FinalApocFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath "plugins\$ApocFileName"
+	Move-Item -Path $NewApocFileFullName -Destination $FinalApocFileFullName
+    Write-Output "Moved APOC plugin to: $FinalApocFileFullName"
+
+    # Config - Allow APOC queries
+	$ConfigFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath "conf\neo4j.conf"
+    (Get-Content $ConfigFileFullName).replace('#dbms.security.procedures.unrestricted=my.extensions.example,my.procedures.*', 'dbms.security.procedures.unrestricted=apoc.*') | Set-Content $ConfigFileFullName
+
     # Install service
-    Start-Process "$Neo4jRootDirFullName\bin\neo4j.bat" "install-service" -NoNewWindow -Wait
+	$InstallFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath "bin\neo4j.bat"
+    Start-Process $InstallFileFullName "install-service" -NoNewWindow -Wait
     net start neo4j
     Write-Output "Installation done for $SoftwareName"
   }
@@ -1237,13 +1357,37 @@ function GetBloodhound {
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Unzip
-  # Cannot unzip directly to software folder due to too long path. Even with Long paths enabled. This hack works, also with long paths disabled.
-  Expand-Archive $FileFullName -DestinationPath \temp
-  Move-Item -Path \temp\* -Destination $SoftwareFolderFullName
-  Remove-Item -Path $FileFullName -ErrorAction Ignore
-  Remove-Item -Path \temp -Recurse -ErrorAction Ignore
-  Write-Output "Unzipped to: $SoftwareFolderFullName"
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+	# Get tools folder
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+	  $ToolsFolder = "\Tools"
+	}
+	$ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+
+	# Create tools folder if not existing
+	if (-not (Test-Path -Path $ToolsFolder)) {
+	  New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+	}
+
+	# Copy to tools folder (overwrite existing)
+	$NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+	if (Test-Path -Path $NewSoftwareFolderFullName) {
+	  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+	}
+	Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+	Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+	# Unzip
+	# Cannot unzip directly to software folder due to too long path. Even with Long paths enabled. This hack works, also with long paths disabled.
+	$NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
+	Expand-Archive $NewFileFullName -DestinationPath \temp\bh\
+	Move-Item -Path \temp\bh\* -Destination $NewSoftwareFolderFullName
+	Remove-Item -Path $NewFileFullName -ErrorAction Ignore
+	Remove-Item -Path \temp\bh -Recurse -ErrorAction Ignore
+	Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+  }
 }
 
 
@@ -1280,6 +1424,29 @@ function GetSharphound {
   $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
+
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+	  # Set default tools folder
+	  $ToolsFolder = "\Tools"
+    }
+    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+	  New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+	  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+  }
 }
 
 
@@ -1316,6 +1483,29 @@ function GetAzurehound {
   $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
+
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+	  # Set default tools folder
+	  $ToolsFolder = "\Tools"
+    }
+    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+	  New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+	  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+  }
 }
 
 
@@ -1355,6 +1545,29 @@ function GetImproHound{
   $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
+
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+	  # Set default tools folder
+	  $ToolsFolder = "\Tools"
+    }
+    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+	  New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+	  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+  }
 }
 
 
@@ -1395,10 +1608,34 @@ function GetPingCastle{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Unzip
-  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
-  Remove-Item -Path $FileFullName -ErrorAction Ignore
-  Write-Output "Unzipped to: $SoftwareFolderFullName"
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+	# Get tools folder
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+	  $ToolsFolder = "\Tools"
+	}
+	$ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+
+	# Create tools folder if not existing
+	if (-not (Test-Path -Path $ToolsFolder)) {
+	  New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+	}
+
+	# Copy to tools folder (overwrite existing)
+	$NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+	if (Test-Path -Path $NewSoftwareFolderFullName) {
+	  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+	}
+	Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+	Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+	# Unzip
+	$NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
+	Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
+	Remove-Item -Path $NewFileFullName -ErrorAction Ignore
+	Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+  }
 }
 
 
