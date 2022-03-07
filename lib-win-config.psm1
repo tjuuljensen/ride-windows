@@ -1293,7 +1293,7 @@ function GetAzurehound {
   $SoftwareName = "Azurehound"
   Write-Output "Get $SoftwareName..."
 
-  $FullDownloadURL = "https://github.com/BloodHoundAD/BloodHound/blob/master/Collectors/AzureHound.ps1"
+  $FullDownloadURL = "https://github.com/BloodHoundAD/BloodHound/raw/master/Collectors/AzureHound.ps1"
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
 	return
