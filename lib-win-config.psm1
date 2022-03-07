@@ -1099,11 +1099,6 @@ function InstallOpenJDK{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Unzip
-  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
-  Remove-Item -Path $FileFullName -ErrorAction Ignore
-  Write-Output "Unzipped to: $SoftwareFolderFullName"
-
   if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
     # Install msi
     Invoke-Expression "msiexec /qb /i $FileFullName ADDLOCAL=FeatureMain,FeatureEnvironment,FeatureJarFileRunWith,FeatureJavaHome"
