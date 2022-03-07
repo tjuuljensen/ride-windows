@@ -71,6 +71,7 @@ InstallOpera                  #
 
 ###### Forensic Tools ###
 InstallAutopsy                #
+# InstallNetworkMiner         #
 
 ###### Customization  ###
 InstallFonts

@@ -2316,6 +2316,66 @@ function InstallAutopsy{
 }
 
 
+function InstallNetworkMiner{
+  Write-Output "###"
+  $SoftwareName = "NetworkMiner"
+  Write-Output "Installing $SoftwareName..."
+
+  $FullDownloadURL = "https://www.netresec.com/?download=NetworkMiner"
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = "$SoftwareName.zip"
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+	# Get tools folder
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+	  $ToolsFolder = "\Tools"
+	}
+	$ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+
+	# Create tools folder if not existing
+	if (-not (Test-Path -Path $ToolsFolder)) {
+	  New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+	}
+
+	# Copy to tools folder (overwrite existing)
+	$NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+	if (Test-Path -Path $NewSoftwareFolderFullName) {
+	  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+	}
+	Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+	Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+	# Unzip
+	$NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
+	Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
+	Remove-Item -Path $NewFileFullName -ErrorAction Ignore
+	Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+  }
+}
+
 ################################################################
 ###### Customization  ###
 ################################################################
