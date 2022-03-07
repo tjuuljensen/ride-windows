@@ -4,6 +4,9 @@
 # Exclude libraries
 dev/*
 
+# Exclude Visual Studio meta
+.vs/*
+
 # exclude ini files
 config.ini
 serials.ini
