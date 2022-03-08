@@ -87,6 +87,9 @@ InstallAutopsy                #
 # GetOSTViewer
 # InstallNucleusKernelFATNFTS
 # InstallLoki
+# InstallSSView
+# InstallSrumMonkey
+# InstallSrumDump
 
 ###### Customization  ###
 InstallFonts
