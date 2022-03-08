@@ -81,6 +81,12 @@ InstallAutopsy                #
 # InstallDejsonlz4
 # GetHex2text
 # InstallHindsight
+# InstallSqlitebrowser
+# GetShimCacheParser
+# GetPSTViewer
+# GetOSTViewer
+# InstallNucleusKernelFATNFTS
+# InstallLoki
 
 ###### Customization  ###
 InstallFonts

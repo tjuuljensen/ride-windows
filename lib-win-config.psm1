@@ -2601,8 +2601,231 @@ function InstallHindsight{
 
 }
 
+function InstallLoki{
+  Write-Output "###"
+  $SoftwareName = "Loki"
+  Write-Output "Installing $SoftwareName..."
+
+  $Url = "https://github.com/Neo23x0/Loki/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
+  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*loki_*" -and $_.href -Like "*zip*"}).href
+  $FullDownloadURL = "https://github.com$SoftwareUri"
+  if (-not $FullDownloadURL) {
+  Write-Output "Error: $SoftwareName not found"
+  return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+  New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+  New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Unzip
+  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
+  Remove-Item -Path $FileFullName -ErrorAction Ignore
+  Write-Output "Unzipped to: $SoftwareFolderFullName"
+}
 
 
+function InstallNucleusKernelFATNFTS{
+  Write-Output "###"
+  $SoftwareName = "Nucleus_Kernel_FAT_NFTS"
+  Write-Output "Get $SoftwareName..."
+  $Url = "https://www.nucleustechnologies.com/data-recovery.html"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
+  $FullDownloadURL =  ($ReleasePageLinks | where { $_.href -Like "*dl*" -and $_.href -Like "*id=1" }).href
+  if (-not $FullDownloadURL) {
+  Write-Output "Error: $SoftwareName not found"
+  return
+  }
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+  New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+  New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = "Nucleus-Kernel-FAT-NFTS.exe"
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+}
+
+
+function GetOSTViewer{
+  Write-Output "###"
+  $SoftwareName = "OST_Viewer"
+  Write-Output "Get $SoftwareName..."
+  $FullDownloadURL = "https://www.nucleustechnologies.com/dl/dl.php?id=127"
+  if (-not $FullDownloadURL) {
+  Write-Output "Error: $SoftwareName not found"
+  return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+  New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+  New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = "OST_Viewer.exe"
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+}
+
+
+function GetPSTViewer{
+  Write-Output "###"
+  $SoftwareName = "PST_Viewer"
+  Write-Output "Get $SoftwareName..."
+  $FullDownloadURL = "https://www.nucleustechnologies.com/dl/dl.php?id=125"
+  if (-not $FullDownloadURL) {
+  Write-Output "Error: $SoftwareName not found"
+  return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+  New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+  New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = "PST_Viewer.exe"
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+}
+
+
+function GetShimCacheParser{
+  Write-Output "###"
+  $SoftwareName = "ShimCacheParser"
+  Write-Output "Get $SoftwareName..."
+  $FullDownloadURL = "https://raw.githubusercontent.com/mandiant/ShimCacheParser/master/ShimCacheParser.py"
+  if (-not $FullDownloadURL) {
+  Write-Output "Error: $SoftwareName not found"
+  return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+  New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+  New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+}
+
+
+function InstallSqlitebrowser{
+  Write-Output "###"
+  $SoftwareName = "sqlitebrowser"
+  Write-Output "Installing $SoftwareName..."
+
+  $Url = "https://download.sqlitebrowser.org"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
+  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*win64*" -and $_.href -Like "*msi*" -and $_.href -notlike "*.11*" -and $_.href -notlike "*.0*"}).href
+  $FullDownloadURL = "https://download.sqlitebrowser.org$SoftwareUri"
+  if (-not $FullDownloadURL) {
+  Write-Output "Error: $SoftwareName not found"
+  return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+  New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+  New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+}
 
 
 function InstallAutopsy{
