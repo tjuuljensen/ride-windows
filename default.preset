@@ -90,6 +90,9 @@ InstallAutopsy                #
 # InstallSSView
 # InstallSrumMonkey
 # InstallSrumDump
+# InstallThumbcacheviewer
+# InstallSuperFetch_Tools2
+
 
 ###### Customization  ###
 InstallFonts
