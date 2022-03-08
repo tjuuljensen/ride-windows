@@ -94,6 +94,8 @@ InstallAutopsy                #
 # InstallSuperFetch_Tools2
 # InstallUserAssist
 # InstallThumbsviewer
+# InstallWinhex
+# InstallWinPmem
 
 
 ###### Customization  ###
