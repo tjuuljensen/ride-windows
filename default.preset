@@ -60,6 +60,8 @@ InstallVMwareWorkstation      # RemoveVMwareWorkstation
 # GetAzurehound				  #
 # GetImproHound               #
 # GetPingCastle               #
+# InstallJoplin
+
 
 ###### Browsers and Internet  ###
 DisableEdgePagePrediction
@@ -78,6 +80,7 @@ InstallAutopsy                #
 # InstallCyLR
 # InstallDejsonlz4
 # GetHex2text
+# InstallHindsight
 
 ###### Customization  ###
 InstallFonts
