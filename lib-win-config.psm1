@@ -2435,6 +2435,85 @@ function InstallCyLR{
   Write-Output "Unzipped to: $SoftwareFolderFullName"
 }
 
+function InstallDejsonlz4{
+  Write-Output "###"
+  $SoftwareName = "dejsonlz4"
+  Write-Output "Installing $SoftwareName..."
+
+  $Url = "https://github.com/avih/dejsonlz4/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
+  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*dejsonlz4.v*" -and $_.href -Like "*zip*"}).href
+  $FullDownloadURL = "https://github.com$SoftwareUri"
+  if (-not $FullDownloadURL) {
+  Write-Output "Error: $SoftwareName not found"
+  return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+  New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+  New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Unzip
+  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
+  Remove-Item -Path $FileFullName -ErrorAction Ignore
+  Write-Output "Unzipped to: $SoftwareFolderFullName"
+}
+
+
+function GetHex2text{
+  Write-Output "###"
+  $SoftwareName = "hex2text"
+  Write-Output "Get $SoftwareName..."
+  $FullDownloadURL = "https://raw.githubusercontent.com/gh05t-4/hex2text/master/hex2text.py"
+  if (-not $FullDownloadURL) {
+  Write-Output "Error: $SoftwareName not found"
+  return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+  New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+  New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+}
+
+
 
 
 

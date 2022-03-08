@@ -76,6 +76,8 @@ InstallAutopsy                #
 # InstallChainsaw
 # GetChromeParser
 # InstallCyLR
+# InstallDejsonlz4
+# GetHex2text
 
 ###### Customization  ###
 InstallFonts
