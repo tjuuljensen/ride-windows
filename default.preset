@@ -99,6 +99,8 @@ InstallAutopsy                #
 # InstallWinPmem
 # InstallVolatility2
 # InstallVolatility3
+# InstallPartitionDiagnosticParser
+# InstallGoogle-Analytic-Cookie-Cruncher
 
 
 ###### Customization  ###
