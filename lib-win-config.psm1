@@ -1269,7 +1269,7 @@ function InstallNeo4j{
   Write-Output "Downloading file from: $ApocFullDownloadURL"
   $ApocFileName = ([System.IO.Path]::GetFileName($ApocFullDownloadURL).Replace("%20"," "))
   $ApocFileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $ApocFileName
-  Start-BitsTransfer -Source ApocFullDownloadURL -Destination $ApocFileFullName
+  Start-BitsTransfer -Source $ApocFullDownloadURL -Destination $ApocFileFullName
   Write-Output "Downloaded: $ApocFileFullName"
 
   if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
@@ -1302,16 +1302,17 @@ function InstallNeo4j{
 
     # Move APOC to plugin folder
     $NewApocFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $ApocFileName
-	$FinalApocFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath "plugins\$ApocFileName"
+    $Neo4jRootDirFullName = (Get-ChildItem $NewSoftwareFolderFullName -Directory).FullName
+	$FinalApocFileFullName = Join-Path -Path $Neo4jRootDirFullName -ChildPath "plugins\$ApocFileName"
 	Move-Item -Path $NewApocFileFullName -Destination $FinalApocFileFullName
     Write-Output "Moved APOC plugin to: $FinalApocFileFullName"
 
     # Config - Allow APOC queries
-	$ConfigFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath "conf\neo4j.conf"
+	$ConfigFileFullName = Join-Path -Path $Neo4jRootDirFullName -ChildPath "conf\neo4j.conf"
     (Get-Content $ConfigFileFullName).replace('#dbms.security.procedures.unrestricted=my.extensions.example,my.procedures.*', 'dbms.security.procedures.unrestricted=apoc.*') | Set-Content $ConfigFileFullName
 
     # Install service
-	$InstallFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath "bin\neo4j.bat"
+	$InstallFileFullName = Join-Path -Path $Neo4jRootDirFullName -ChildPath "bin\neo4j.bat"
     Start-Process $InstallFileFullName "install-service" -NoNewWindow -Wait
     net start neo4j
     Write-Output "Installation done for $SoftwareName"
