@@ -60,6 +60,8 @@ InstallVMwareWorkstation      # RemoveVMwareWorkstation
 # GetAzurehound				  #
 # GetImproHound               #
 # GetPingCastle               #
+# InstallJoplin
+
 
 ###### Browsers and Internet  ###
 DisableEdgePagePrediction
@@ -72,6 +74,34 @@ InstallOpera                  #
 ###### Forensic Tools ###
 InstallAutopsy                #
 # InstallNetworkMiner         #
+# InstallAutorunner
+# InstallChainsaw
+# GetChromeParser
+# InstallCyLR
+# InstallDejsonlz4
+# GetHex2text
+# InstallHindsight
+# InstallSqlitebrowser
+# GetShimCacheParser
+# GetPSTViewer
+# GetOSTViewer
+# InstallNucleusKernelFATNFTS
+# InstallLoki
+# InstallSSView
+# InstallSrumMonkey
+# InstallSrumDump
+# InstallThumbcacheviewer
+# InstallSuperFetch_Tools2
+# InstallUserAssist
+# InstallThumbsviewer
+# InstallRegRipper
+# InstallWinhex
+# InstallWinPmem
+# InstallVolatility2
+# InstallVolatility3
+# InstallPartitionDiagnosticParser
+# InstallGoogle-Analytic-Cookie-Cruncher
+
 
 ###### Customization  ###
 InstallFonts
