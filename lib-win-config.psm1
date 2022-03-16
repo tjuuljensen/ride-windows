@@ -2318,6 +2318,83 @@ function InstallOpera{
 ###### Forensic Functions  ###
 ################################################################
 
+function GetZimmermanTools{
+    Write-Output "###"
+    $SoftwareName = "ZimmermanTools"
+    Write-Output "Installing $SoftwareName..."
+    $Url = 'https://f001.backblazeb2.com/file/EricZimmermanTools/'
+    $filenames = @('AmcacheParser.zip',
+                   'AppCompatCacheParser.zip',
+                   'bstrings.zip',
+                   'EvtxECmd.zip',
+                   'EZViewer.zip',
+                   'hasher.zip',
+                   'JLECmd.zip',
+                   'JumpListExplorer.zip',
+                   'LECmd.zip',
+                   'MFTECmd.zip',
+                   'PECmd.zip',
+                   'RBCmd.zip',
+                   'RecentFileCacheParser.zip',
+                   'RECmd.zip',
+                   'RegistryExplorer.zip',
+                   'rla.zip',
+                   'RBCmd.zip',
+                   'SDBExplorer.zip',
+                   'SBECmd.zip',
+                   'ShellBagsExplorer.zip',
+                   'SQLECmd.zip',
+                   'SrumECmd.zip',
+                   'SumECmd.zip',
+                   'TimelineExplorer.zip',
+                   'VSCMount.zip',
+                   'WxTCmd.zip'
+                   )
+
+  # Create bootstrap and Zimmerman folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $ZimmermanFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap\ZimmermanTools"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+    New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+  elseif (-not (Test-Path -Path $ZimmermanFolder)) {
+    New-Item -Path $ZimmermanFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $SoftwareFolderFullName = 'C:\Users\analyst\Downloads\Bootstrap\ZimmermanTools'
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+    New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download all software items
+  foreach($file in $filenames) {
+    $FullDownloadURL = "$Url$file"
+    $FolderName = "$SoftwareFolderFullName\$file"
+    Try{
+      Start-BitsTransfer -Source $FullDownloadURL -Destination $FolderName 
+      } 
+    catch{
+      Write-Host "Download failed: $file"
+      continue
+      }
+    finally{
+      # Unzip item downloaded
+      if (Test-Path -Path $FolderName) {
+      Expand-Archive -Path "$FolderName" -DestinationPath $SoftwareFolderFullName -Force
+      Remove-Item -Path $FolderName -ErrorAction Ignore
+      Write-Output "Unzipped $file to: $SoftwareFolderFullName"
+      }
+    }
+  }
+}
+
+
+
+
+
+
 function InstallAutorunner{
   Write-Output "###"
   $SoftwareName = "autorunner"
