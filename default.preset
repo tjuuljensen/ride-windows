@@ -44,6 +44,7 @@ InstallGit4Win                #
 InstallAtom                   # RemoveAtom
 # InstallNotepadPlusPlus      # RemoveNotepadPlusPlus
 Install7Zip                   # Remove7Zip
+InstallRSAT                   # RemoveRSAT
 GetSysmonSwiftXML             # GetSysmonOlafXML
 InstallSysmon64               #
 GetSysinternalsSuite          #
@@ -55,9 +56,9 @@ InstallOffice365              #
 InstallVMwareWorkstation      # RemoveVMwareWorkstation
 # InstallOpenJDK              #
 # InstallNeo4j                #
-# GetBloodhound				  #
-# GetSharphound				  #
-# GetAzurehound				  #
+# GetBloodhound				        #
+# GetSharphound				        #
+# GetAzurehound				        #
 # GetImproHound               #
 # GetPingCastle               #
 # InstallJoplin

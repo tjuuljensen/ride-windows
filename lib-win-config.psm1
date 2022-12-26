@@ -46,7 +46,7 @@ function CreateNewLocalAdmin{
     write-output "ERROR: User $LocalAdminUser exists - Exiting."
   } else {
     # If Password was set in ini file, use this
-  
+
    if ([Environment]::GetEnvironmentVariable("BOOTSTRAP-LocalAdmin-AdminPassword", "Process") -ne $null -and ([Environment]::GetEnvironmentVariable("BOOTSTRAP-LocalAdmin-AdminPassword", "Process")).tolower() -ne "[prompt]") {
           $Password = ConvertTo-SecureString -String $([Environment]::GetEnvironmentVariable("BOOTSTRAP-LocalAdmin-AdminPassword", "Process"))
         } else {
@@ -906,6 +906,18 @@ function Remove7Zip{
   Uninstall-Package -InputObject ( Get-Package -Name "7-Zip")
 }
 
+function InstallRSAT{
+  Write-Output "###"
+  $SoftwareName = "Remote Server Administration Tool (RSAT)"
+  Write-Output "Getting $SoftwareName..."
+  Get-WindowsCapability -Name RSAT* -Online | Add-WindowsCapability -Online
+}
+
+function RemoveRSAT{
+  Write-Output "###"
+  Write-Output "Remote Server Administration Tool (RSAT)"
+  Get-WindowsCapability -Name RSAT* -Online | Remove-WindowsCapability -Online
+}
 
 function GetSysmonSwiftXML{
   Write-Output "###"
