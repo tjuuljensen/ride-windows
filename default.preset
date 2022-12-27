@@ -1,9 +1,9 @@
 ##########
 # default config file for Windows
-# custom preset for "Win 10 / Server 2016 / Server 2019 Initial Setup Script"
+# preset for Windowns 10/11, Server 2016 & Server 2019
 # Author: Torsten Juul-Jensen
-# Version: v1.2, 2022-01-04
-# Source: https://github.com/tjuuljensen/bootstrap-win10
+# Version: v1.3, 2022-12-26
+# Source: https://github.com/tjuuljensen/ride-windows
 ##########
 
 ###### Require administrator privileges ###

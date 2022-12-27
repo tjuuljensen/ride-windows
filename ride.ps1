@@ -2,7 +2,7 @@
 # Win 10 / 11 / Server 2016 / Server 2019 Bootstrap Script - Main execution loop
 # Author: Torsten Juul-Jensen
 # Version: v4.00, 2022-02-11
-# Source: https://github.com/tjuuljensen/bootstrap-windows
+# Source: https://github.com/tjuuljensen/ride-windows
 ##########
 
 # Relaunch the script with administrator privileges

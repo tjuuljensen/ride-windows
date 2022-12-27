@@ -1,4 +1,4 @@
-# bootstrap-windows
+# ride-windows
 
 &nbsp;
 
@@ -22,7 +22,7 @@ The functions of the script are focused on minimizing windows telemetry traffic 
 &nbsp;
 
 ## Installation
-If you just want to run the script with the default preset, download and unpack the [latest release](https://github.com/tjuuljensen/bootstrap-windows) and then simply double-click on the *default.cmd* file and confirm *User Account Control* prompt. Make sure your account is a member of *Administrators* group as the script attempts to run with elevated privileges.
+If you just want to run the script with the default preset, download and unpack the [latest release](https://github.com/tjuuljensen/ride-windows) and then simply double-click on the *default.cmd* file and confirm *User Account Control* prompt. Make sure your account is a member of *Administrators* group as the script attempts to run with elevated privileges.
 
 The script supports command line options and parameters which can help you customize the tweak selection or even add your own custom tweaks, however these features require some basic knowledge of command line usage and PowerShell scripting. Refer to [Advanced usage](#advanced-usage) section for more details.
 
@@ -136,7 +136,7 @@ I have a Linux repo and use the same script architecture in my Fedora Linux conf
 
 ## Advanced usage
 
-    powershell.exe -NoProfile -ExecutionPolicy Bypass -File  set-config.ps1 [-include filename] [-preset filename] [-log logname] [-ini inifile]  [[!]tweakname]
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File  ride.ps1 [-include filename] [-preset filename] [-log logname] [-ini inifile]  [[!]tweakname]
 
     -include filename       load module with user-defined tweaks
     -preset filename        load preset with tweak names to apply
@@ -153,7 +153,7 @@ The tweak names can be prefixed with exclamation mark (`!`) which will instead c
 
 To supply a customized preset, you can either pass the function names directly as arguments.
 
-    powershell.exe -NoProfile -ExecutionPolicy Bypass -File set-config.ps1 -include Win10.psm1 EnableFirewall EnableDefender
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File ride.ps1 -include Win10.psm1 EnableFirewall EnableDefender
 
 Or you can create a file where you write the function names (one function name per line, no commas or quotes, whitespaces allowed, comments starting with `#`) and then pass the filename using `-preset` parameter.  
 Example of a preset file `mypreset.txt`:
@@ -168,7 +168,7 @@ Example of a preset file `mypreset.txt`:
 
 Command using the preset file above:
 
-    powershell.exe -NoProfile -ExecutionPolicy Bypass -File set-config.ps1 -include Win10.psm1 -preset mypreset.txt
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File ride.ps1 -include Win10.psm1 -preset mypreset.txt
 
 ### Includes
 
@@ -189,7 +189,7 @@ Function MyTweak2 {
 
 Command using the script above:
 
-    powershell.exe -NoProfile -ExecutionPolicy Bypass -File set-config.ps1 -include mytweaks.psm1 MyTweak1 MyTweak2
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File ride.ps1 -include mytweaks.psm1 MyTweak1 MyTweak2
 
 ### Combination
 
@@ -203,7 +203,7 @@ Example of a preset file `otherpreset.txt`:
 
 Command using all three examples combined:
 
-    powershell.exe -NoProfile -ExecutionPolicy Bypass -File set-config.ps1 -include Win10.psm1 -include mytweaks.psm1 -preset mypreset.txt -preset otherpreset.txt Restart
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File ride.ps1 -include Win10.psm1 -include mytweaks.psm1 -preset mypreset.txt -preset otherpreset.txt Restart
 
 &nbsp;
 
@@ -211,7 +211,7 @@ Command using all three examples combined:
 
 If you'd like to store output from the script execution, you can do so using `-log` parameter followed by a filename of the log file you want to create. For example:
 
-    powershell.exe -NoProfile -ExecutionPolicy Bypass -File set-config.ps1 -include Win10.psm1 -preset mypreset.txt -log myoutput.log
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File ride.ps1 -include Win10.psm1 -preset mypreset.txt -log myoutput.log
 
 The logging is done using PowerShell `Start-Transcript` cmdlet, which writes extra information about current environment (date, machine and user name, command used for execution etc.) to the beginning of the file and logs both standard output and standard error streams.
 
@@ -243,14 +243,14 @@ If you wish to make more elaborate modifications of the basic script and incorpo
 2. Clone your fork on your computer.
 
     ```
-    git clone https://github.com/<yournamehere>/bootstrap-windows
-    cd bootstrap-windows
+    git clone https://github.com/<yournamehere>/ride-windows
+    cd ride-windows
     ```
 
 3. Add the original repository as a remote (*upstream*).
 
     ```
-    git remote add upstream https://github.com/tjuuljensen/bootstrap-windows
+    git remote add upstream https://github.com/tjuuljensen/ride-windows
     ```
 
 4. Commit your modifications as you see fit.

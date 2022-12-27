@@ -1,7 +1,7 @@
 # Win 10 / Server 2016 / Server 2019 Setup Script
 # Author: Torsten Juul-Jensen
 # Version: v2.1, 2021-12-25
-# Source: https://github.com/tjuuljensen/lib-win-config.psm1
+# Source: https://github.com/tjuuljensen/ride-windows/lib-win-config.psm1
 #
 
 ################################################################
@@ -713,10 +713,12 @@ function InstallGit4Win{
   $SoftwareName = "Git4Win"
   Write-Output "Installing $SoftwareName..."
 
-  $Url = "https://github.com/git-for-windows/git/releases/latest"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*64*" -and $_.href -Like "*exe*" -and $_.href -notlike "*Portable*" }).href
-  $FullDownloadURL = "https://github.com$SoftwareUri"
+  $author="git-for-windows"
+  $repo="git"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+
+  $FullDownloadURL = ($ReleasePageLinks | where { $_ -Like "*64*" -and $_ -Like "*exe*" -and $_ -notlike "*Portable*" })
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
 	return
@@ -758,10 +760,11 @@ function InstallAtom{
   $SoftwareName = "Atom"
   Write-Output "Installing $SoftwareName..."
 
-  $Url = "https://github.com/atom/atom/releases/latest"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*64*" -and $_.href -Like "*exe*" }).href
-  $FullDownloadURL = "https://github.com$SoftwareUri"
+  $author="atom"
+  $repo="atom"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+  $FullDownloadURL = ($ReleasePageLinks | where { $_ -Like "*64*" -and $_ -Like "*exe*" })
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
 	return
@@ -809,10 +812,12 @@ function InstallNotepadPlusPlus{
   $SoftwareName = "NotepadPlusPlus"
   Write-Output "Installing $SoftwareName..."
 
-  $Url = "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/latest"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*x64.exe" }).href
-  $FullDownloadURL = "https://github.com$SoftwareUri"
+  $author="notepad-plus-plus"
+  $repo="notepad-plus-plus"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+  $FullDownloadURL = ($ReleasePageLinks | where { $_ -Like "*64.exe" })
+
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
 	return
@@ -1221,10 +1226,13 @@ function InstallNeo4j{
 
   # Get the latest Neo4j APOC version number and download link
   # We don't want the latest Neo4j if a compatible APOC is not out yet
-  $Url = "https://github.com/neo4j-contrib/neo4j-apoc-procedures/releases/latest"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*all.jar" }).href
-  $ApocFullDownloadURL = "https://github.com$SoftwareUri"
+  $author="neo4j-contrib"
+  $repo="neo4j-apoc-procedures"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+  $FullDownloadURL = ($ReleasePageLinks | where { $_ -Like "*all.jar" })
+
+  $ApocFullDownloadURL = ($ReleasePageLinks | where { $_ -Like "*extended.jar" } | select-object -First 1)
   if (-not $ApocFullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
 	return
@@ -1338,10 +1346,12 @@ function GetBloodhound {
   $SoftwareName = "Bloodhound"
   Write-Output "Get $SoftwareName..."
 
-  $Url = "https://github.com/BloodHoundAD/BloodHound/releases/latest"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*win32-x64.zip" }).href
-  $FullDownloadURL = "https://github.com$SoftwareUri"
+  $author="BloodHoundAD"
+  $repo="BloodHound"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+
+  $FullDownloadURL = ($ReleasePageLinks | where { $_ -Like "*win32-x64.zip" })
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
 	return
@@ -1409,6 +1419,12 @@ function GetSharphound {
   $SoftwareName = "Sharphound"
   Write-Output "Get $SoftwareName..."
 
+  #$author="BloodHoundAD"
+  #$repo="SharpHound"
+  #$Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  #$ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+
+  #$FullDownloadURL = ($ReleasePageLinks | where { $_ -NotLike "*debug*" })
   $FullDownloadURL = "https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/Collectors/SharpHound.exe"
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
@@ -1468,7 +1484,13 @@ function GetAzurehound {
   $SoftwareName = "Azurehound"
   Write-Output "Get $SoftwareName..."
 
-  $FullDownloadURL = "https://github.com/BloodHoundAD/BloodHound/raw/master/Collectors/AzureHound.ps1"
+  $author="BloodHoundAD"
+  $repo="AzureHound"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+  $FullDownloadURL = ($ReleasePageLinks | where { $_ -Like "*windows-amd64*" -and $_ -NotLike "*sha*" })
+
+  #$FullDownloadURL = "https://github.com/BloodHoundAD/BloodHound/raw/master/Collectors/AzureHound.ps1"
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
 	return
@@ -1527,10 +1549,10 @@ function GetImproHound{
   $SoftwareName = "ImproHound"
   Write-Output "Getting $SoftwareName..."
 
-  $Url = "https://github.com/improsec/ImproHound/releases/latest"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*.exe" }).href
-  $FullDownloadURL = "https://github.com$SoftwareUri"
+  $author="improsec" #bloodsuckers
+  $repo="ImproHound"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $FullDownloadURL = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
 	return
@@ -1589,10 +1611,12 @@ function GetPingCastle{
   $SoftwareName = "PingCastle"
   Write-Output "Getting $SoftwareName..."
 
-  $Url = "https://github.com/vletoux/pingcastle/releases/latest"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*.zip*" -and $_.href -like "*releases*"}).href
-  $FullDownloadURL = "https://github.com$SoftwareUri"
+
+  $author="vletoux"
+  $repo="pingcastle"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $FullDownloadURL = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
 	return
@@ -2002,10 +2026,12 @@ function InstallJoplin{
   $SoftwareName = "Joplin"
   Write-Output "Installing $SoftwareName..."
 
-  $Url = "https://github.com/laurent22/joplin/releases/latest"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*Joplin-Setup*" -and $_.href -Like "*.exe*"}).href
-  $FullDownloadURL = "https://github.com$SoftwareUri"
+  $author="laurent22"
+  $repo="joplin"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+
+  $FullDownloadURL = ($ReleasePageLinks | where { $_ -Like "*Joplin-Setup*" -and $_ -Like "*.exe*"})
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
   return
