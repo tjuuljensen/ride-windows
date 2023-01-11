@@ -218,13 +218,33 @@ function DisableInkingAndTypingData{
   Set-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Input\TIPC\" -name Enabled -value 0
 }
 
-function EnableInkingAndTypingData{
+function ExcludeToolsDirDefender{
+  # More configuration here:
+  # https://www.windowscentral.com/how-manage-microsoft-defender-antivirus-powershell-windows-10
   Write-Output "###"
-  # Send inking and typing data to Microsoft to improve the language recognition and suggestion capabilities of apps and services.
-  Write-Output "Enabling sending of inking and typing data..."
-  Set-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Input\TIPC\" -name Enabled -value 1
+  # Exclude C:\Tools from Defender Antivirus scan
+  Write-Output "Exclude C:\Tools from Defender Antivirus scans..."
+  Set-MpPreference -ExclusionPath C:\Tools
 }
 
+function RemoveToolsDirDefender{
+  Write-Output "###"
+  # Remove C:\Tools from Defender Antivirus scan
+  Write-Output "Remove C:\Tools from Defender Antivirus scan..."
+  Remove-MpPreference -ExclusionPath C:\Tools
+}
+
+
+################################################################
+###### Privacy configurations  ###
+################################################################
+
+function DisableInkingAndTypingData{
+  Write-Output "###"
+  # Disable sending of inking and typing data to Microsoft to improve the language recognition and suggestion capabilities of apps and services.
+  Write-Output "Disabling sending of inking and typing data..."
+  Set-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Input\TIPC\" -name Enabled -value 0
+}
 
 ################################################################
 ###### Bitlocker configuration  ###

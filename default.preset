@@ -22,6 +22,9 @@ SetRegionalSettings
 ###### Privacy configurations  ###
 DisableInkingAndTypingData    # EnableInkingAndTypingData
 
+###### Defender configuration  ###
+ExcludeToolsDirDefender       # RemoveToolsDirDefender
+
 ###### Hardening Windows  ###
 DisableSSDPdiscovery          # EnableSSDPdiscovery
 DisableUniversalPlugAndPlay   # EnableUniversalPlugAndPlay
@@ -64,7 +67,6 @@ InstallVMwareWorkstation      # RemoveVMwareWorkstation
 # GetPingCastle               #
 # InstallJoplin
 
-
 ###### Browsers and Internet  ###
 DisableEdgePagePrediction
 InstallFirefox                # RemoveFirefox
@@ -103,7 +105,6 @@ InstallAutopsy                #
 # InstallVolatility3
 # InstallPartitionDiagnosticParser
 # InstallGoogle-Analytic-Cookie-Cruncher
-
 
 ###### Customization  ###
 InstallFonts
