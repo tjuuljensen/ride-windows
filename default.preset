@@ -46,16 +46,17 @@ InstallAtom                   # RemoveAtom
 Install7Zip                   # Remove7Zip
 InstallRSAT                   # RemoveRSAT
 GetSysmonSwiftXML             # GetSysmonOlafXML
-InstallSysmon64               #
-GetSysinternalsSuite          #
-# InstallSpiceGuestTool       #
-# InstallGPGwin               #
-# InstallThunderbird          #
-InstallOffice365              #
-# InstallVisioPro             #
+InstallSysmon64               # 
+GetSysinternalsSuite          # 
+InstallNirsoftTools           #                     # depends on 7-Zip for installation
+# InstallSpiceGuestTool       # 
+# InstallGPGwin               # 
+# InstallThunderbird          # 
+InstallOffice365              # 
+# InstallVisioPro             # 
 InstallVMwareWorkstation      # RemoveVMwareWorkstation
-# InstallOpenJDK              #
-# InstallNeo4j                #
+# InstallOpenJDK              # 
+# InstallNeo4j                # 
 # GetBloodhound				        #
 # GetSharphound				        #
 # GetAzurehound				        #
@@ -107,6 +108,7 @@ InstallAutopsy                #
 ###### Customization  ###
 InstallFonts
 ReplaceDefaultWallpapers
+# InstallLenovoCompanion        # RemoveLenovoCompanion
 
 ### Privacy Tweaks ###
 DisableTelemetry                # EnableTelemetry

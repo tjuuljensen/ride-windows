@@ -1171,6 +1171,92 @@ function GetSysinternalsSuite{
 }
 
 
+function InstallNirsoftTools(){
+
+  Write-Output "###"
+  $SoftwareName = "NirsoftTools"
+  Write-Output "Installing $SoftwareName..."
+
+  # To unpack package, this function depends on 7-Zip
+  $ArchiveTool = [System.Environment]::GetFolderPath("ProgramFiles")+"\7-Zip\7z.exe"
+
+  $Url = "https://www.nirsoft.net/x64_download_package.html"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).links.href
+  $SubDownloadURL = ($ReleasePageLinks | where { $_ -Like "*x64tools*" })
+  $FullDownloadURL = "https://www.nirsoft.net/$SubDownloadURL"
+
+  if (-not $SubDownloadURL) {
+  Write-Output "Error: $SoftwareName not found"
+  return
+  }
+
+  # Get password from HTML
+  $DownloadpageHTML=Invoke-RestMethod $Url
+  $DownloadpageHTML -match '<a href="" onclick="copyTextToClipboard\(''(?<NirsoftPass>.*)''\);return' | Out-Null
+  # $matches.NirsoftPass now holds the password
+  $ZipPassword=$matches.NirsoftPass
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+  New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+  New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+      # Get tools folder
+      $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+      if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+      }
+      $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+
+      # Create tools folder if not existing
+      if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+      }
+
+      # Write serial to file
+      $SerialFileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath "serial.txt"
+      $ZipPassword | Out-File -FilePath $SerialFileFullName 
+
+       # Unzip to tools folder (overwrite existing)
+      $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+      if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+      } else {
+        New-Item -Path $NewSoftwareFolderFullName -ItemType Directory | Out-Null
+      }
+      # Unzip password protected file
+      if (-not (Test-Path $ArchiveTool)) {
+          Write-Output "Warning: Archive tool not found. Cannot unpack software"
+      } else {
+      & $ArchiveTool e "-o$NewSoftwareFolderFullName" "-p$ZipPassword" $FileFullName
+      Write-Output "Installation done for $SoftwareName"
+      }
+      
+  }
+
+}
+
+
 function InstallOpenJDK{
   Write-Output "###"
   # We select version 11 instead of 17 because Neo4j/BloodHound require 11
@@ -3595,9 +3681,31 @@ function ReplaceDefaultWallpapers{
   Remove-Item $WallPaperPath\*.* -Recurse
 
   if (Test-Path -Path "$PSScriptRoot\pictures\wallpaper") {
-    Copy-Item "$PSScriptRoot\pictures\wallpaper\" $WallPaperPath -Recurse
+    Copy-Item "$PSScriptRoot\pictures\wallpaper\img0*" $WallPaperPath -Recurse
   }
 }
+
+
+function InstallLenovoCompanion(){
+  # If the computer is a thinkpad, install lenovo Companion
+
+  # Check if it's a thinkpad
+  $ComputerModel=Get-CimInstance -ClassName Win32_ComputerSystemProduct | Where-Object { $_.Version -like 'ThinkPad*' } 
+
+  # Install Lenovo Companion if it's a ThinkPad
+  if ( $ComputerModel -ne $null ) { 
+      Get-AppxPackage 'E046963F.LenovoCompanion' -AllUsers | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+  }
+
+}
+
+function RemoveLenovoCompanion(){
+
+    Get-AppxPackage 'E046963F.LenovoCompanion' | Remove-AppxPackage
+
+}
+
+
 
 ################################################################
 ###### Auxiliary Functions  ###
@@ -7256,7 +7364,7 @@ Function UninstallMsftBloat {
 	Get-AppxPackage "Microsoft.Reader" | Remove-AppxPackage
 	Get-AppxPackage "Microsoft.RemoteDesktop" | Remove-AppxPackage
 	Get-AppxPackage "Microsoft.SkypeApp" | Remove-AppxPackage
-	Get-AppxPackage "Microsoft.Todos" | Remove-AppxPackage
+	Get-AppxPackage "Microsoft.Todos" | Remove-AppxPackages
 	Get-AppxPackage "Microsoft.Wallet" | Remove-AppxPackage
 	Get-AppxPackage "Microsoft.WebMediaExtensions" | Remove-AppxPackage
 	Get-AppxPackage "Microsoft.Whiteboard" | Remove-AppxPackage
@@ -7369,9 +7477,12 @@ function UninstallThirdPartyBloat {
 	Get-AppxPackage "AD2F1837.HPJumpStart" | Remove-AppxPackage
 	Get-AppxPackage "AD2F1837.HPRegistration" | Remove-AppxPackage
 	Get-AppxPackage "AdobeSystemsIncorporated.AdobePhotoshopExpress" | Remove-AppxPackage
-	Get-AppxPackage "Amazon.com.Amazon" | Remove-AppxPackage
+	Get-AppxPackage "Amazon.com.Amazon" | Remove-AppxPackage  
+  Get-AppxPackage "AmazonVideo.PrimeVideo" | Remove-AppxPackage  
+  Get-AppxPackage "BytedancePte.Ltd.TikTok" | Remove-AppxPackage  
 	Get-AppxPackage "C27EB4BA.DropboxOEM" | Remove-AppxPackage
 	Get-AppxPackage "CAF9E577.Plex" | Remove-AppxPackage
+  Get-AppxPackage "Clipchamp.Clipchamp" | Remove-AppxPackage
 	Get-AppxPackage "CyberLinkCorp.hs.PowerMediaPlayer14forHPConsumerPC" | Remove-AppxPackage
 	Get-AppxPackage "D52A8D61.FarmVille2CountryEscape" | Remove-AppxPackage
 	Get-AppxPackage "D5EA27B7.Duolingo-LearnLanguagesforFree" | Remove-AppxPackage
@@ -7379,6 +7490,7 @@ function UninstallThirdPartyBloat {
 	Get-AppxPackage "DolbyLaboratories.DolbyAccess" | Remove-AppxPackage
 	Get-AppxPackage "Drawboard.DrawboardPDF" | Remove-AppxPackage
 	Get-AppxPackage "Facebook.Facebook" | Remove-AppxPackage
+  Get-AppxPackage "Facebook.InstagramBeta" | Remove-AppxPackage
 	Get-AppxPackage "Fitbit.FitbitCoach" | Remove-AppxPackage
 	Get-AppxPackage "flaregamesGmbH.RoyalRevolt2" | Remove-AppxPackage
 	Get-AppxPackage "GAMELOFTSA.Asphalt8Airborne" | Remove-AppxPackage
