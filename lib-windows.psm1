@@ -40,14 +40,14 @@ function CreateNewLocalAdmin{
   # Tested on Windows 10 Pro 10.0.19044
 
   $DefaultAdminName="admin"
-  $LocalAdminUser = if ([Environment]::GetEnvironmentVariable("BOOTSTRAP-LocalAdmin-AdminUser", "Process") -eq $null) {$DefaultAdminName}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-LocalAdmin-AdminUser", "Process")}
+  $LocalAdminUser = if ($null -eq [Environment]::GetEnvironmentVariable("BOOTSTRAP-LocalAdmin-AdminUser", "Process")) {$DefaultAdminName}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-LocalAdmin-AdminUser", "Process")}
 
   if ((Get-LocalUser $LocalAdminUser -ErrorAction Ignore).count -eq 1) {
     write-output "ERROR: User $LocalAdminUser exists - Exiting."
   } else {
     # If Password was set in ini file, use this
 
-   if ([Environment]::GetEnvironmentVariable("BOOTSTRAP-LocalAdmin-AdminPassword", "Process") -ne $null -and ([Environment]::GetEnvironmentVariable("BOOTSTRAP-LocalAdmin-AdminPassword", "Process")).tolower() -ne "[prompt]") {
+   if ($null -ne [Environment]::GetEnvironmentVariable("BOOTSTRAP-LocalAdmin-AdminPassword", "Process") -and ([Environment]::GetEnvironmentVariable("BOOTSTRAP-LocalAdmin-AdminPassword", "Process")).tolower() -ne "[prompt]") {
           $Password = ConvertTo-SecureString -String $([Environment]::GetEnvironmentVariable("BOOTSTRAP-LocalAdmin-AdminPassword", "Process"))
         } else {
           $Password = Read-Host -AsSecureString "Enter password of the Local Admin User: "
@@ -77,7 +77,7 @@ function DisableWindowsStoreApp{
   Write-Output "###"
   # Disable Windows Store App - Windows Enterprise Only!!!
   Write-Output "Disabling Windows Store app (Windows Enterprise only)..."
-  if ((Get-WindowsEdition -Online | select Edition) -like "*Enterprise*"){
+  if ((Get-WindowsEdition -Online | Select-Object Edition) -like "*Enterprise*"){
     If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore\")) {
       New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore\" -Force | Out-Null
     }
@@ -172,12 +172,12 @@ function SetRegionalSettings{
   $DefaultSystemLocale="da-DK"
   $DefaultTimeZone="Romance Standard Time"
 
-  $WinUserLanguage = if ([Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-WinUserLanguage", "Process") -eq $null) {$DefaultWinUserLanguage}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-WinUserLanguage", "Process")}
-  $Culture = if ([Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-Culture", "Process") -eq $null) {$DefaultCulture}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-Culture", "Process")}
-  $Keyboard = if ([Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-Keyboard", "Process") -eq $null) {$DefaultKeyboard}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-Keyboard", "Process")}
-  $Location = if ([Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-Location", "Process") -eq $null) {$DefaultLocation}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-Location", "Process")}
-  $SystemLocale = if ([Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-SystemLocale", "Process") -eq $null) {$DefaultSystemLocale}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-SystemLocale", "Process")}
-  $TimeZone = if ([Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-TimeZone", "Process") -eq $null) {$DefaultTimeZone}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-TimeZone", "Process")}
+  $WinUserLanguage = if ($null -eq [Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-WinUserLanguage", "Process")) {$DefaultWinUserLanguage}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-WinUserLanguage", "Process")}
+  $Culture = if ($null -eq [Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-Culture", "Process")) {$DefaultCulture}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-Culture", "Process")}
+  $Keyboard = if ($null -eq [Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-Keyboard", "Process")) {$DefaultKeyboard}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-Keyboard", "Process")}
+  $Location = if ($null -eq [Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-Location", "Process")) {$DefaultLocation}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-Location", "Process")}
+  $SystemLocale = if ($null -eq [Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-SystemLocale", "Process")) {$DefaultSystemLocale}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-SystemLocale", "Process")}
+  $TimeZone = if ($null -eq [Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-TimeZone", "Process")) {$DefaultTimeZone}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-TimeZone", "Process")}
 
   # Save WinUserLanguageList into a variable object and build the list from scratch
   $LanguageList = Get-WinUserLanguageList
@@ -348,7 +348,7 @@ function DisableAdvancedAuthAtStart{
 function EnableBitlockerTPMandPIN{
   Write-Output "###"
 
-  if ([Environment]::GetEnvironmentVariable("BOOTSTRAP-Bitlocker-TPMandPINPassword", "Process") -ne $null -and ([Environment]::GetEnvironmentVariable("BOOTSTRAP-Bitlocker-TPMandPINPassword", "Process")).tolower() -ne "[prompt]") {
+  if ($null -ne [Environment]::GetEnvironmentVariable("BOOTSTRAP-Bitlocker-TPMandPINPassword", "Process") -and ([Environment]::GetEnvironmentVariable("BOOTSTRAP-Bitlocker-TPMandPINPassword", "Process")).tolower() -ne "[prompt]") {
          $Password = ConvertTo-SecureString -String ([Environment]::GetEnvironmentVariable("BOOTSTRAP-Bitlocker-TPMandPINPassword", "Process"))
        } else {
          $Password = Read-Host -AsSecureString "Enter new Bitlocker Pre-Boot PIN: "
