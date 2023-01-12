@@ -51,7 +51,8 @@ InstallRSAT                   # RemoveRSAT
 GetSysmonSwiftXML             # GetSysmonOlafXML
 InstallSysmon64               # 
 GetSysinternalsSuite          # 
-InstallNirsoftTools           #                     # depends on 7-Zip for installation
+# InstallNirsoftLauncher      # InstallNirsoftTools           #                     # depends on 7-Zip for installation
+InstallJoeTools               #
 # InstallSpiceGuestTool       # 
 # InstallGPGwin               # 
 # InstallThunderbird          # 
@@ -112,7 +113,7 @@ ReplaceDefaultWallpapers
 # InstallLenovoCompanion        # RemoveLenovoCompanion
 
 ### Privacy Tweaks ###
-DisableTelemetry                # EnableTelemetry
+DisableTelemWiFietry                # EnableTelemetry
 DisableCortana                  # EnableCortana
 DisableWiFiSense                # EnableWiFiSense
 # DisableSmartScreen            # EnableSmartScreen

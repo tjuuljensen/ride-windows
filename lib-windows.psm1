@@ -1190,6 +1190,89 @@ function GetSysinternalsSuite{
   }
 }
 
+function InstallNirsoftLauncher(){
+
+  Write-Output "###"
+  $SoftwareName = "Nirsoft Launcher"
+  Write-Output "Installing $SoftwareName..."
+
+  # To unpack package, this function depends on 7-Zip
+  $ArchiveTool = [System.Environment]::GetFolderPath("ProgramFiles")+"\7-Zip\7z.exe"
+
+  $Url = "https://launcher.nirsoft.net/downloads/index.html"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).links.href
+  $SubDownloadURL = ($ReleasePageLinks | where { $_ -Like "*_enc*" })
+  $FullDownloadURL = "https:$SubDownloadURL"
+
+  if (-not $SubDownloadURL) {
+  Write-Output "Error: $SoftwareName not found"
+  return
+  }
+
+  # Get password from HTML
+  $DownloadpageHTML=Invoke-RestMethod $Url
+  $DownloadpageHTML -match '<span class="notranslate"><a href="" onclick="copyTextToClipboard\(''(?<NirsoftPass>.*)''\);return' | Out-Null
+  # $matches.NirsoftPass now holds the password
+  $ZipPassword=$matches.NirsoftPass
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+  New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+  New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+      # Get tools folder
+      $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+      if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+      }
+      $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+
+      # Create tools folder if not existing
+      if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+      }
+
+      # Write serial to file
+      $SerialFileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath "serial.txt"
+      $ZipPassword | Out-File -FilePath $SerialFileFullName 
+
+       # Unzip to tools folder (overwrite existing)
+      $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+      if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+      } else {
+        New-Item -Path $NewSoftwareFolderFullName -ItemType Directory | Out-Null
+      }
+      # Unzip password protected file
+      if (-not (Test-Path $ArchiveTool)) {
+          Write-Output "Warning: Archive tool not found. Cannot unpack software"
+      } else {
+      & $ArchiveTool e "-o$NewSoftwareFolderFullName" "-p$ZipPassword" $FileFullName
+      Write-Output "Installation done for $SoftwareName"
+      }
+      
+  }
+}
 
 function InstallNirsoftTools(){
 
@@ -1273,9 +1356,94 @@ function InstallNirsoftTools(){
       }
       
   }
-
 }
 
+function InstallJoeTools(){
+  Write-Output "###"
+    # http://www.joeware.net/freetools/index.htm
+    $SoftwareName = "Joe Tools"
+    Write-Output "Installing $SoftwareName..."
+  
+    $Url = "http://www.joeware.net/freetools/index.htm"
+    $ReleasePageLinks = (Invoke-WebRequest -Uri $Url).Links
+    $DownloadPages =  ($ReleasePageLinks | where { $_.href -Like "*tools/*" } ).href | Sort-Object | Get-Unique
+    if (-not $DownloadPages) {
+    Write-Output "Error: $SoftwareName not found"
+    return
+    }
+  
+    # Create bootstrap folder if not existing
+    $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+    $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+    if (-not (Test-Path -Path $BootstrapFolder)) {
+    New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+    }
+  
+    # Create software folder
+    $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+    $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+    $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+    $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+    if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+    New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+    }
+  
+    $PHPpage="https://www.joeware.net/downloads/dl2.php"
+    Foreach ($SubUrl in $DownloadPages)
+      {
+  
+       $FullDownloadURL = "http://www.joeware.net/freetools/"+$SubUrl
+       $Fields=(Invoke-WebRequest -Uri $FullDownloadURL).inputfields
+       $DownloadFile=( $Fields | where { $_.name -eq "download" } ).value
+       $Action=( $Fields | where { $_.name -eq "B1" } ).value
+       $Payload=@{download=$DownloadFile
+               email=""
+               B1=$Action}
+       $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $DownloadFile
+       
+       Write-Output "Downloading files from: $FullDownloadURL"
+       Invoke-WebRequest -Uri $PHPpage -Method Post -Body $Payload -OutFile $FileFullName 
+       Write-Output "Downloaded: $FileFullName"
+      }
+    
+  
+     # Move files to Tools folder and unzip them
+  
+     if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+  
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+  
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName\*.* -Recurse -Force
+    }
+    #Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    #Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+  
+    # Unzip
+    $JoeFiles = Get-ChildItem $SoftwareFolderFullName -Filter *.zip 
+  
+      foreach ($ZipFile in $JoeFiles) {
+          try { $ZipFile | Expand-Archive -DestinationPath $NewSoftwareFolderFullName  }
+          catch { Write-Host "FAILED to unzip:"$ZipFile -ForegroundColor red }
+      }
+    
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+    }
+  
+  
+  }
 
 function InstallOpenJDK{
   Write-Output "###"
