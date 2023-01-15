@@ -54,7 +54,7 @@ function CreateNewLocalAdmin{
         }
 
     Write-Output "Creating local admin user: $LocalAdminUser"
-    $newUser = New-LocalUser $LocalAdminUser -Password $Password -FullName "Local Administrative Account" -Description "Local administrative account"
+    New-LocalUser $LocalAdminUser -Password $Password -FullName "Local Administrative Account" -Description "Local administrative account"
 
     Add-LocalGroupMember -Group "Administrators" -Member $LocalAdminUser
   }
@@ -185,13 +185,13 @@ function SetRegionalSettings{
   $LanguageList.add($WinUserLanguage)
   $LanguageList[0].InputMethodTips.Clear()
   # Add DK keyboard as keyboard language
-  $LanguageList[0].InputMethodTips.Add($DefaultKeyboard)
+  $LanguageList[0].InputMethodTips.Add($Keyboard)
   Set-WinUserLanguageList $LanguageList -Force
 
   # Make region settings independent of OS language and set culture and location
   Set-WinCultureFromLanguageListOptOut -OptOut $True
   Set-Culture $Culture
-  Set-WinHomeLocation -GeoId $DefaultLocation
+  Set-WinHomeLocation -GeoId $Location
 
   # Set non-unicode legacy software to use this language as default
   Set-WinSystemLocale -SystemLocale $SystemLocale
@@ -358,7 +358,7 @@ function EnableBitlockerTPMandPIN{
   $IsVirtual=((Get-WmiObject Win32_ComputerSystem).model -like ("*Virtual*") -or (Get-WmiObject Win32_ComputerSystem).model -like ("*VMware*"))
   if ($IsVirtual) {
     $Eject = New-Object -ComObject "Shell.Application"
-    $Eject.Namespace(17).Items() | Where-Object { $_.Type -eq "CD Drive" } | foreach { $_.InvokeVerb("Eject") }
+    $Eject.Namespace(17).Items() | Where-Object { $_.Type -eq "CD Drive" } | ForEach-Object { $_.InvokeVerb("Eject") }
     }
   Enable-BitLocker -MountPoint "$($env:SystemDrive)" -EncryptionMethod Aes256 -UsedSpaceOnly -Pin $Password -TPMandPinProtector -SkipHardwareTest
 }
@@ -593,16 +593,16 @@ function InstallWSLFedora{
   # get lastest Fedora version
   $FedoraReleaseUri="https://download.fedoraproject.org/pub/fedora/linux/releases/"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $FedoraReleaseUri).Links
-  $FedoraVersion= ($ReleasePageLinks.href | %{$_.Substring(0, $_.length - 1) -as [int]}  | Sort-Object -Descending | Select-Object -First 1)
+  $FedoraVersion= ($ReleasePageLinks.href | ForEach-Object{$_.Substring(0, $_.length - 1) -as [int]}  | Sort-Object -Descending | Select-Object -First 1)
 
   # Get second latest release page (most likely yesterday)
   $url="https://koji.fedoraproject.org/koji/packageinfo?packageID=26387"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $BuildPage = ("https://koji.fedoraproject.org/koji/" + ($ReleasePageLinks | where { $_.outerHTML -Like "*Container*" -and $_.outerHTML -Like "*$FedoraVersion*" } | Select-Object -Skip 1 -First 1).href)
+  $BuildPage = ("https://koji.fedoraproject.org/koji/" + ($ReleasePageLinks | Where-Object { $_.outerHTML -Like "*Container*" -and $_.outerHTML -Like "*$FedoraVersion*" } | Select-Object -Skip 1 -First 1).href)
 
   # Get rootfs image link in page
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $BuildPage).Links
-  $FullDownloadURL = ($ReleasePageLinks | where { $_.outerHTML -Like "*x86_64.tar.xz*"}).href
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_.outerHTML -Like "*x86_64.tar.xz*"}).href
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
@@ -738,7 +738,7 @@ function InstallGit4Win{
   $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
 
-  $FullDownloadURL = ($ReleasePageLinks | where { $_ -Like "*64*" -and $_ -Like "*exe*" -and $_ -notlike "*Portable*" })
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*64*" -and $_ -Like "*exe*" -and $_ -notlike "*Portable*" })
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
 	return
@@ -784,7 +784,7 @@ function InstallAtom{
   $repo="atom"
   $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
-  $FullDownloadURL = ($ReleasePageLinks | where { $_ -Like "*64*" -and $_ -Like "*exe*" })
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*64*" -and $_ -Like "*exe*" })
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
 	return
@@ -836,7 +836,7 @@ function InstallNotepadPlusPlus{
   $repo="notepad-plus-plus"
   $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
-  $FullDownloadURL = ($ReleasePageLinks | where { $_ -Like "*64.exe" })
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*64.exe" })
 
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
@@ -887,7 +887,7 @@ function Install7Zip{
 
   $Url = "https://www.7-zip.org/"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*x64.exe" }).href
+  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*x64.exe" }).href
   $FullDownloadURL = "$Url$SoftwareUri"
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
@@ -978,10 +978,9 @@ function GetSysmonSwiftXML{
     # Get tools folder
     $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
     if (-not $ToolsFolder) {
-		# Set default tools folder
-		$ToolsFolder = "\Tools"
+      # Set default tools folder
+      $ToolsFolder = "$env:SystemDrive\Tools"
     }
-    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1033,10 +1032,9 @@ function GetSysmonOlafXML{
     # Get tools folder
     $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
     if (-not $ToolsFolder) {
-	  # Set default tools folder
-	  $ToolsFolder = "\Tools"
+      # Set default tools folder
+      $ToolsFolder = "$env:SystemDrive\Tools"
     }
-    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1089,9 +1087,8 @@ function InstallSysmon64{
 	$ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
 	if (-not $ToolsFolder) {
 	  # Set default tools folder
-	  $ToolsFolder = "\Tools"
-	}
-	$ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    $ToolsFolder = "$env:SystemDrive\Tools"
+  }
 
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1165,9 +1162,8 @@ function GetSysinternalsSuite{
 	$ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
 	if (-not $ToolsFolder) {
 	  # Set default tools folder
-	  $ToolsFolder = "\Tools"
-	}
-	$ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+	  $ToolsFolder = "$env:SystemDrive\Tools"
+  }
 
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1190,18 +1186,16 @@ function GetSysinternalsSuite{
   }
 }
 
+
 function InstallNirsoftLauncher(){
 
   Write-Output "###"
-  $SoftwareName = "Nirsoft Launcher"
+  $SoftwareName = "NirsoftLauncher"
   Write-Output "Installing $SoftwareName..."
-
-  # To unpack package, this function depends on 7-Zip
-  $ArchiveTool = [System.Environment]::GetFolderPath("ProgramFiles")+"\7-Zip\7z.exe"
 
   $Url = "https://launcher.nirsoft.net/downloads/index.html"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).links.href
-  $SubDownloadURL = ($ReleasePageLinks | where { $_ -Like "*_enc*" })
+  $SubDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*_enc*" })
   $FullDownloadURL = "https:$SubDownloadURL"
 
   if (-not $SubDownloadURL) {
@@ -1235,26 +1229,45 @@ function InstallNirsoftLauncher(){
   Write-Output "Downloading file from: $FullDownloadURL"
   $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
   $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
-  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+
+  # Web page requires a referer, so a invoke-webrequest is used
+  $headers = @{}
+  $headers["referer"] = "https://www.nirsoft.net"
+  Invoke-WebRequest -Uri $FullDownloadURL -OutFile $FileFullName -Headers $headers 
+  
   Write-Output "Downloaded: $FileFullName"
+
+  # Downloading NLP Files #
+  $NLPFileURLs=($ReleasePageLinks | Where-Object { $_ -Like "*.nlp" })
+
+ Foreach ($SubUrl in $NLPFileURLs)
+    {
+    $FullDownloadURL = "https:"+$SubUrl
+    $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+    $NLPFileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+    Write-Output "Downloading files from: $FullDownloadURL"
+
+    # Web page requires a referer, so a invoke-webrequest is used
+    Invoke-WebRequest -Uri $FullDownloadURL -OutFile $NLPFileFullName -Headers $headers 
+    Write-Output "Downloaded: $NLPFileFullName"
+    }
 
   if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
       # Get tools folder
       $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
       if (-not $ToolsFolder) {
-      # Set default tools folder
-      $ToolsFolder = "\Tools"
+        # Set default tools folder
+        $ToolsFolder = "$env:SystemDrive\Tools"
       }
-      $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
       # Create tools folder if not existing
       if (-not (Test-Path -Path $ToolsFolder)) {
       New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
       }
 
-      # Write serial to file
-      $SerialFileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath "serial.txt"
-      $ZipPassword | Out-File -FilePath $SerialFileFullName 
+      # Write password to file
+      $PasswordFileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath "zip_password.txt"
+      $ZipPassword | Out-File -FilePath $PasswordFileFullName
 
        # Unzip to tools folder (overwrite existing)
       $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
@@ -1263,29 +1276,29 @@ function InstallNirsoftLauncher(){
       } else {
         New-Item -Path $NewSoftwareFolderFullName -ItemType Directory | Out-Null
       }
+
+      # To unpack package, this function depends on 7-Zip
+      $ArchiveTool = [System.Environment]::GetFolderPath("ProgramFiles")+"\7-Zip\7z.exe"
       # Unzip password protected file
       if (-not (Test-Path $ArchiveTool)) {
-          Write-Output "Warning: Archive tool not found. Cannot unpack software"
-      } else {
-      & $ArchiveTool e "-o$NewSoftwareFolderFullName" "-p$ZipPassword" $FileFullName
+          Write-Output "Warning: 7-Zip not found. Cannot unpack software"
+      } else {# 
+        Write-Host "Unpacking with 7-zip"
+        & $ArchiveTool x "-o$NewSoftwareFolderFullName" "-p$ZipPassword" $FileFullName | out-null
       Write-Output "Installation done for $SoftwareName"
-      }
-      
+      }      
   }
 }
 
-function InstallNirsoftTools(){
+function InstallNirsoftToolsX64(){
 
   Write-Output "###"
   $SoftwareName = "NirsoftTools"
   Write-Output "Installing $SoftwareName..."
 
-  # To unpack package, this function depends on 7-Zip
-  $ArchiveTool = [System.Environment]::GetFolderPath("ProgramFiles")+"\7-Zip\7z.exe"
-
   $Url = "https://www.nirsoft.net/x64_download_package.html"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).links.href
-  $SubDownloadURL = ($ReleasePageLinks | where { $_ -Like "*x64tools*" })
+  $SubDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*x64tools*" })
   $FullDownloadURL = "https://www.nirsoft.net/$SubDownloadURL"
 
   if (-not $SubDownloadURL) {
@@ -1319,26 +1332,28 @@ function InstallNirsoftTools(){
   Write-Output "Downloading file from: $FullDownloadURL"
   $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
   $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
-  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  # Web page requires a referer, so a invoke-webrequest is used
+  $headers = @{}
+  $headers["referer"] = "https://www.nirsoft.net"
+  Invoke-WebRequest -Uri $FullDownloadURL -OutFile $FileFullName -Headers $headers 
   Write-Output "Downloaded: $FileFullName"
 
   if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
       # Get tools folder
       $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
       if (-not $ToolsFolder) {
-      # Set default tools folder
-      $ToolsFolder = "\Tools"
+        # Set default tools folder
+        $ToolsFolder = "$env:SystemDrive\Tools"
       }
-      $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
       # Create tools folder if not existing
       if (-not (Test-Path -Path $ToolsFolder)) {
       New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
       }
 
-      # Write serial to file
-      $SerialFileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath "serial.txt"
-      $ZipPassword | Out-File -FilePath $SerialFileFullName 
+      # Write password to file
+      $PasswordFileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath "zip_password.txt"
+      $ZipPassword | Out-File -FilePath $PasswordFileFullName 
 
        # Unzip to tools folder (overwrite existing)
       $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
@@ -1347,103 +1362,280 @@ function InstallNirsoftTools(){
       } else {
         New-Item -Path $NewSoftwareFolderFullName -ItemType Directory | Out-Null
       }
+      
+      # To unpack package, this function depends on 7-Zip
+      $ArchiveTool = [System.Environment]::GetFolderPath("ProgramFiles")+"\7-Zip\7z.exe"
       # Unzip password protected file
       if (-not (Test-Path $ArchiveTool)) {
-          Write-Output "Warning: Archive tool not found. Cannot unpack software"
+          Write-Output "Warning: 7-Zip not found. Cannot unpack software"
       } else {
-      & $ArchiveTool e "-o$NewSoftwareFolderFullName" "-p$ZipPassword" $FileFullName
+        Write-Host "Unpacking with 7-zip"
+        & $ArchiveTool x "-o$NewSoftwareFolderFullName" "-p$ZipPassword" $FileFullName | out-null
       Write-Output "Installation done for $SoftwareName"
-      }
-      
+      }    
   }
 }
 
-function InstallJoeTools(){
+function InstallJoeWare(){
   Write-Output "###"
-    # http://www.joeware.net/freetools/index.htm
-    $SoftwareName = "Joe Tools"
-    Write-Output "Installing $SoftwareName..."
-  
-    $Url = "http://www.joeware.net/freetools/index.htm"
-    $ReleasePageLinks = (Invoke-WebRequest -Uri $Url).Links
-    $DownloadPages =  ($ReleasePageLinks | where { $_.href -Like "*tools/*" } ).href | Sort-Object | Get-Unique
-    if (-not $DownloadPages) {
-    Write-Output "Error: $SoftwareName not found"
-    return
-    }
-  
-    # Create bootstrap folder if not existing
-    $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-    $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
-    if (-not (Test-Path -Path $BootstrapFolder)) {
-    New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
-    }
-  
-    # Create software folder
-    $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
-    $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
-    $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
-    $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
-    if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-    New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
-    }
-  
-    $PHPpage="https://www.joeware.net/downloads/dl2.php"
-    Foreach ($SubUrl in $DownloadPages)
-      {
-  
-       $FullDownloadURL = "http://www.joeware.net/freetools/"+$SubUrl
-       $Fields=(Invoke-WebRequest -Uri $FullDownloadURL).inputfields
-       $DownloadFile=( $Fields | where { $_.name -eq "download" } ).value
-       $Action=( $Fields | where { $_.name -eq "B1" } ).value
-       $Payload=@{download=$DownloadFile
-               email=""
-               B1=$Action}
-       $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $DownloadFile
-       
-       Write-Output "Downloading files from: $FullDownloadURL"
-       Invoke-WebRequest -Uri $PHPpage -Method Post -Body $Payload -OutFile $FileFullName 
-       Write-Output "Downloaded: $FileFullName"
-      }
+  # http://www.joeware.net/freetools/index.htm
+  $SoftwareName = "JoeWare"
+  Write-Output "Installing $SoftwareName..."
+
+  $Url = "http://www.joeware.net/freetools/index.htm"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
+  $DownloadPages =  ($ReleasePageLinks | Where-Object { $_.href -Like "*tools/*" } ).href | Sort-Object | Get-Unique
+  if (-not $DownloadPages) {
+  Write-Output "Error: $SoftwareName not found"
+  return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+  New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+  New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  $PHPpage="https://www.joeware.net/downloads/dl2.php"
+  Foreach ($SubUrl in $DownloadPages)
+  {
+    $FullDownloadURL = "http://www.joeware.net/freetools/"+$SubUrl
+    $Fields=(Invoke-WebRequest -UseBasicParsing -Uri $FullDownloadURL).inputfields
+    $DownloadFile=( $Fields | Where-Object { $_.name -eq "download" } ).value
+    $Action=( $Fields | Where-Object { $_.name -eq "B1" } ).value
+    $Payload=@{download=$DownloadFile
+            email=""
+            B1=$Action}
+    $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $DownloadFile
     
+    Write-Output "Downloading files from: $FullDownloadURL"
+    Invoke-WebRequest -Uri $PHPpage -Method Post -Body $Payload -OutFile $FileFullName 
+    Write-Output "Downloaded: $FileFullName"
+  }
   
-     # Move files to Tools folder and unzip them
-  
-     if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  # Move files to Tools folder
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+
     # Get tools folder
     $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
     if (-not $ToolsFolder) {
       # Set default tools folder
-      $ToolsFolder = "\Tools"
+      $ToolsFolder = "$env:SystemDrive\Tools"
     }
-    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
   
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
       New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
     }
   
-    # Copy to tools folder (overwrite existing)
+    # Create software directory in Tools folder
     $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
     if (Test-Path -Path $NewSoftwareFolderFullName) {
-      Remove-Item -Path $NewSoftwareFolderFullName\*.* -Recurse -Force
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    } else {
+      New-Item -Path $NewSoftwareFolderFullName -ItemType Directory | Out-Null
     }
-    #Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
-    #Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
-  
+
     # Unzip
-    $JoeFiles = Get-ChildItem $SoftwareFolderFullName -Filter *.zip 
+    $ZipFiles = Get-ChildItem $SoftwareFolderFullName -Filter *.zip 
   
-      foreach ($ZipFile in $JoeFiles) {
+      foreach ($ZipFile in $ZipFiles) {
           try { $ZipFile | Expand-Archive -DestinationPath $NewSoftwareFolderFullName  }
           catch { Write-Host "FAILED to unzip:"$ZipFile -ForegroundColor red }
       }
     
     Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+  }
+}
+
+function InstallCCleaner(){
+
+  Write-Output "###"
+  $SoftwareName = "CCleaner"
+  Write-Output "Installing $SoftwareName..."
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+  New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+  New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  $CCleanerURLs=@("https://www.ccleaner.com/ccleaner/download/portable"
+                  "https://www.ccleaner.com/defraggler/builds"
+                  "https://www.ccleaner.com/recuva/builds"
+                  "https://www.ccleaner.com/speccy/builds"
+                  )
+ 
+  Foreach ($Url in $CCleanerURLs)
+    {
+    $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).links.href
+    $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*.zip" -or $_ -Like "*.exe" })
+
+    if (-not $FullDownloadURL) {
+    Write-Output "Error: $SoftwareName not found"
+    return
+    }
+
+    $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+    $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+    Write-Output "Downloading files from: $FullDownloadURL"
+    Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+    Write-Output "Downloaded: $FileFullName"
     }
   
-  
+  # Move files to Tools folder
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+    # Set default tools folder
+    $ToolsFolder = "$env:SystemDrive\Tools"
+    }
+
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+    New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Create software directory in Tools folder
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+    Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    } else {
+    New-Item -Path $NewSoftwareFolderFullName -ItemType Directory | Out-Null
+    }
+
+    # Unzip with built-in unzip
+    $ZipFiles = Get-ChildItem $SoftwareFolderFullName -Filter *.zip 
+    Write-Host "Unpacking zip files"
+
+    foreach ($ZipFile in $ZipFiles) {
+        try { $ZipFile | Expand-Archive -DestinationPath $NewSoftwareFolderFullName  }
+        catch { Write-Host "FAILED to unzip:"$ZipFile -ForegroundColor red }
+    }
+
+    # Unzip .exe with 7-Zip
+    $ArchiveTool = [System.Environment]::GetFolderPath("ProgramFiles")+"\7-Zip\7z.exe"
+    if (-not (Test-Path $ArchiveTool)) {
+      Write-Output "Warning: 7-Zip not found. Cannot unpack software"
+    } else {
+      Write-Host "Unpacking with 7-zip"
+      $ExeFiles = Get-ChildItem $SoftwareFolderFullName -Filter *.exe 
+
+      foreach ($File in $ExeFiles) {
+        $FileFullName=$File.FullName
+        & $ArchiveTool x "-y" "-o$NewSoftwareFolderFullName" "$FileFullName" ""-xr!$*\*"" "-xr!uninst.exe" | Out-Null
+      }
+    }
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
   }
+}
+
+function InstallMitec(){
+  Write-Output "###"
+  # http://www.mitec.cz
+  $SoftwareName = "Mitec"
+  Write-Output "Installing $SoftwareName..."
+
+  $Url = "http://www.mitec.cz"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
+  $DownloadPages =  ($ReleasePageLinks | Where-Object { $_.href -Like "*.html" -and  $_.href -NotLike "/*.*"} ).href | Sort-Object | Get-Unique
+
+  # ($ReleasePageLinks | Where-Object { $_.href -Like "*.zip" } ).href | Sort-Object | Get-Unique
+  if (-not $DownloadPages) {
+  Write-Output "Error: $SoftwareName not found"
+  return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+  New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+  New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  Foreach ($SubUrl in $DownloadPages)
+  {
+    $DownloadPageURL = "$Url"+"/"+$SubUrl
+    $PageLinks=(Invoke-WebRequest -UseBasicParsing -Uri $DownloadPageURL).links.href
+    $DownloadFile=($PageLinks | Where-Object { $_ -Like "*Downloads*" -And $_ -NotLike "*Trial.*" -And $_ -NotLike "*Demo*" -And ($_ -Like "*.exe" -or $_ -Like "*.zip")}) | Select-Object -First 1
+    if ($null -ne $DownloadFile ) {
+        $FileSubPath=$DownloadFile.replace("./","/")
+        $FullDownloadURL = $Url+$FileSubPath
+        $DownloadFile=$DownloadFile -replace ".*/"
+        $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $DownloadFile
+    
+        Write-Output "Downloading files from: $FullDownloadURL"
+        Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName 
+        Write-Output "Downloaded: $FileFullName"
+    } 
+  }
+  
+  # Move files to Tools folder
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "$env:SystemDrive\Tools"
+    }
+  
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+  
+    # Create software directory in Tools folder
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    } else {
+      New-Item -Path $NewSoftwareFolderFullName -ItemType Directory | Out-Null
+    }
+
+    # Unzip
+    $ZipFiles = Get-ChildItem $SoftwareFolderFullName -Filter *.zip 
+  
+      foreach ($ZipFile in $ZipFiles) {
+          try { $ZipFile | Expand-Archive -DestinationPath $NewSoftwareFolderFullName | Out-Null }
+          catch { Write-Host "FAILED to unzip:"$ZipFile -ForegroundColor red }
+      }
+    
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+  }
+}
 
 function InstallOpenJDK{
   Write-Output "###"
@@ -1453,7 +1645,7 @@ function InstallOpenJDK{
 
   $Url = "https://docs.microsoft.com/en-us/java/openjdk/download#openjdk-11"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $FullDownloadURL = ($ReleasePageLinks | where { $_.href -Like "*x64.msi" -and $_.href -Like "*jdk-11*" }).href
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_.href -Like "*x64.msi" -and $_.href -Like "*jdk-11*" }).href
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
 	return
@@ -1504,14 +1696,14 @@ function InstallNeo4j{
   $repo="neo4j-apoc-procedures"
   $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
-  $FullDownloadURL = ($ReleasePageLinks | where { $_ -Like "*all.jar" })
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*all.jar" })
 
-  $ApocFullDownloadURL = ($ReleasePageLinks | where { $_ -Like "*extended.jar" } | select-object -First 1)
+  $ApocFullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*extended.jar" } | select-object -First 1)
   if (-not $ApocFullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
 	return
   }
-  $VersionFound = $ApocFullDownloadURL | where {$_ -match "(?<=download/)(.*)(?=/apoc)"}
+  $VersionFound = $ApocFullDownloadURL | Where-Object {$_ -match "(?<=download/)(.*)(?=/apoc)"}
   if (-not $VersionFound) {
     Write-Output "Error: APOC version not fould in download url"
 	return
@@ -1522,13 +1714,13 @@ function InstallNeo4j{
   # Set Neo4j download URL
   $Url = "https://neo4j.com/download-center/#community"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $WinzipCommunityLinks = $ReleasePageLinks.href | where { $_ -Like "*winzip" -and $_ -Like "*community*" }
-  $DownloadURL = $WinzipCommunityLinks | where {$_ -like "*release=$ApocVersionShort*"}
+  $WinzipCommunityLinks = $ReleasePageLinks.href | Where-Object { $_ -Like "*winzip" -and $_ -Like "*community*" }
+  $DownloadURL = $WinzipCommunityLinks | Where-Object {$_ -like "*release=$ApocVersionShort*"}
   if (-not $DownloadURL) {
     Write-Output "Error: Could not find right Neo4j version"
 	return
   }
-  $VersionFound = $DownloadURL | where {$_ -match "(?<=release=)(.*)(?=&)"}
+  $VersionFound = $DownloadURL | Where-Object {$_ -match "(?<=release=)(.*)(?=&)"}
   if (-not $VersionFound) {
     Write-Output "Error: Neo4j version not fould in download url"
 	return
@@ -1571,9 +1763,8 @@ function InstallNeo4j{
 	$ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
 	if (-not $ToolsFolder) {
 	  # Set default tools folder
-	  $ToolsFolder = "\Tools"
-	}
-	$ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    $ToolsFolder = "$env:SystemDrive\Tools"
+  }
 
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1625,7 +1816,7 @@ function GetBloodhound {
   $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
 
-  $FullDownloadURL = ($ReleasePageLinks | where { $_ -Like "*win32-x64.zip" })
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*win32-x64.zip" })
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
 	return
@@ -1659,9 +1850,8 @@ function GetBloodhound {
 	$ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
 	if (-not $ToolsFolder) {
 	  # Set default tools folder
-	  $ToolsFolder = "\Tools"
-	}
-	$ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    $ToolsFolder = "$env:SystemDrive\Tools"
+  }
 
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1698,7 +1888,7 @@ function GetSharphound {
   #$Url = "https://api.github.com/repos/$author/$repo/releases/latest"
   #$ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
 
-  #$FullDownloadURL = ($ReleasePageLinks | where { $_ -NotLike "*debug*" })
+  #$FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -NotLike "*debug*" })
   $FullDownloadURL = "https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/Collectors/SharpHound.exe"
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
@@ -1732,10 +1922,9 @@ function GetSharphound {
     # Get tools folder
     $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
     if (-not $ToolsFolder) {
-	  # Set default tools folder
-	  $ToolsFolder = "\Tools"
+      # Set default tools folder
+      $ToolsFolder = "$env:SystemDrive\Tools"
     }
-    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1762,7 +1951,7 @@ function GetAzurehound {
   $repo="AzureHound"
   $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
-  $FullDownloadURL = ($ReleasePageLinks | where { $_ -Like "*windows-amd64*" -and $_ -NotLike "*sha*" })
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*windows-amd64*" -and $_ -NotLike "*sha*" })
 
   #$FullDownloadURL = "https://github.com/BloodHoundAD/BloodHound/raw/master/Collectors/AzureHound.ps1"
   if (-not $FullDownloadURL) {
@@ -1797,10 +1986,9 @@ function GetAzurehound {
     # Get tools folder
     $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
     if (-not $ToolsFolder) {
-	  # Set default tools folder
-	  $ToolsFolder = "\Tools"
+      # Set default tools folder
+      $ToolsFolder = "$env:SystemDrive\Tools"
     }
-    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1859,10 +2047,9 @@ function GetImproHound{
     # Get tools folder
     $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
     if (-not $ToolsFolder) {
-	  # Set default tools folder
-	  $ToolsFolder = "\Tools"
+      # Set default tools folder
+      $ToolsFolder = "$env:SystemDrive\Tools"
     }
-    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1924,9 +2111,8 @@ function GetPingCastle{
 	$ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
 	if (-not $ToolsFolder) {
 	  # Set default tools folder
-	  $ToolsFolder = "\Tools"
-	}
-	$ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    $ToolsFolder = "$env:SystemDrive\Tools"
+  }
 
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
@@ -2280,7 +2466,7 @@ function InstallVMwareWorkstation{
   if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
     # Install exe
     $CommandLineOptions = "/s /v/qn REBOOT=ReallySuppress ADDLOCAL=ALL EULAS_AGREED=1 "
-    if ($VMwareSerialNumber -ne $null) {
+    if ($null -ne $VMwareSerialNumber) {
       $CommandLineOptions += "SERIALNUMBER=""$VMwareSerialNumber"""
     }
     Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
@@ -2305,7 +2491,7 @@ function InstallJoplin{
   $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
 
-  $FullDownloadURL = ($ReleasePageLinks | where { $_ -Like "*Joplin-Setup*" -and $_ -Like "*.exe*"})
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*Joplin-Setup*" -and $_ -Like "*.exe*"})
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
   return
@@ -2410,7 +2596,7 @@ function InstallFirefox{
 function RemoveFirefox{
   Write-Output "###"
   Write-Output "Removing Mozilla Firefox..."
-  $MyVar=Get-ChildItem "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Mozilla Firefox*"  | % { Get-ItemProperty $_.PsPath } | Select UninstallString
+  Get-ChildItem "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Mozilla Firefox*"  | ForEach-Object { Get-ItemProperty $_.PsPath } | Select-Object UninstallString
 }
 
 function CreateFirefoxPreferenceFiles {
@@ -2638,7 +2824,7 @@ function InstallAutorunner{
 
   $Url = "https://github.com/woanware/autorunner/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*autorunner*" -and $_.href -Like "*zip*" -and $_.href -notlike "*archive*"}).href
+  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*autorunner*" -and $_.href -Like "*zip*" -and $_.href -notlike "*archive*"}).href
   $FullDownloadURL = "https://github.com$SoftwareUri"
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
@@ -2682,7 +2868,7 @@ function InstallChainsaw{
 
   $Url = "https://github.com/countercept/chainsaw/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*windows*" -and $_.href -Like "*msvc*" -and $_.href -Like "*zip*"}).href
+  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*windows*" -and $_.href -Like "*msvc*" -and $_.href -Like "*zip*"}).href
   $FullDownloadURL = "https://github.com$SoftwareUri"
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
@@ -2760,7 +2946,7 @@ function InstallCyLR{
 
   $Url = "https://github.com/orlikoski/CyLR/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*win*" -and $_.href -Like "*86*" -and $_.href -Like "*zip*" }).href
+  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*win*" -and $_.href -Like "*86*" -and $_.href -Like "*zip*" }).href
   $FullDownloadURL = "https://github.com$SoftwareUri"
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
@@ -2803,7 +2989,7 @@ function InstallDejsonlz4{
 
   $Url = "https://github.com/avih/dejsonlz4/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*dejsonlz4.v*" -and $_.href -Like "*zip*"}).href
+  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*dejsonlz4.v*" -and $_.href -Like "*zip*"}).href
   $FullDownloadURL = "https://github.com$SoftwareUri"
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
@@ -2882,7 +3068,7 @@ function InstallHindsight{
 
   $Url = "https://github.com/obsidianforensics/hindsight/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*hind*" -and $_.href -Like "*exe*" -and $_.href -like "*gui*" }).href
+  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*hind*" -and $_.href -Like "*exe*" -and $_.href -like "*gui*" }).href
   $FullDownloadURL = "https://github.com$SoftwareUri"
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
@@ -2921,7 +3107,7 @@ function InstallLoki{
 
   $Url = "https://github.com/Neo23x0/Loki/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*loki_*" -and $_.href -Like "*zip*"}).href
+  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*loki_*" -and $_.href -Like "*zip*"}).href
   $FullDownloadURL = "https://github.com$SoftwareUri"
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
@@ -2964,7 +3150,7 @@ function InstallNucleusKernelFATNFTS{
   Write-Output "Get $SoftwareName..."
   $Url = "https://www.nucleustechnologies.com/data-recovery.html"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $FullDownloadURL =  ($ReleasePageLinks | where { $_.href -Like "*dl*" -and $_.href -Like "*id=1" }).href
+  $FullDownloadURL =  ($ReleasePageLinks | Where-Object { $_.href -Like "*dl*" -and $_.href -Like "*id=1" }).href
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
   return
@@ -3109,7 +3295,7 @@ function InstallSqlitebrowser{
 
   $Url = "https://download.sqlitebrowser.org"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*win64*" -and $_.href -Like "*msi*" -and $_.href -notlike "*.11*" -and $_.href -notlike "*.0*"}).href
+  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*win64*" -and $_.href -Like "*msi*" -and $_.href -notlike "*.11*" -and $_.href -notlike "*.0*"}).href
   $FullDownloadURL = "https://download.sqlitebrowser.org$SoftwareUri"
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
@@ -3146,7 +3332,7 @@ function InstallSrumDump{
   Write-Output "Installing $SoftwareName..."
   $Url = "https://github.com/MarkBaggett/srum-dump/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*srum*" -and $_.href -Like "*exe*"}).href
+  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*srum*" -and $_.href -Like "*exe*"}).href
   $FullDownloadURL = "https://github.com$SoftwareUri"
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
@@ -3186,7 +3372,7 @@ function InstallSrumMonkey{
 
   $Url = "https://github.com/devgc/SrumMonkey/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*win*" -and $_.href -Like "*64*" -and $_.href -Like "*exe*"}).href
+  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*win*" -and $_.href -Like "*64*" -and $_.href -Like "*exe*"}).href
   $FullDownloadURL = "https://github.com$SoftwareUri"
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
@@ -3265,7 +3451,7 @@ function InstallThumbcacheviewer{
 
   $Url = "https://github.com/thumbcacheviewer/thumbcacheviewer/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | where {$_.href -Like "*64*" -and $_.href -Like "*zip*"}).href
+  $SoftwareUri = ($ReleasePageLinks | Where-Object {$_.href -Like "*64*" -and $_.href -Like "*zip*"}).href
   $FullDownloadURL = "https://github.com$SoftwareUri"
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
@@ -3349,7 +3535,7 @@ function InstallUserAssist{
 
   $Url = "https://blog.didierstevens.com/my-software/#UserAssist"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*UserAssist_*" -and $_.href -Like "*zip*" -and $_.href -notlike "*_4_*"-and $_.href -notlike "*_3_*" -and $_.href -notlike "https*"}).href
+  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*UserAssist_*" -and $_.href -Like "*zip*" -and $_.href -notlike "*_4_*"-and $_.href -notlike "*_3_*" -and $_.href -notlike "https*"}).href
   $FullDownloadURL = "$SoftwareUri"
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
@@ -3393,7 +3579,7 @@ function InstallThumbsviewer{
 
   $Url = "https://github.com/thumbsviewer/thumbsviewer/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | where {$_.href -Like "*64*" -and $_.href -Like "*zip*"}).href
+  $SoftwareUri = ($ReleasePageLinks | Where-Object {$_.href -Like "*64*" -and $_.href -Like "*zip*"}).href
   $FullDownloadURL = "https://github.com$SoftwareUri"
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
@@ -3511,7 +3697,7 @@ function InstallWinPmem{
 
   $Url = "https://github.com/Velocidex/WinPmem/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*64*" -and $_.href -Like "*exe*" }).href
+  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*64*" -and $_.href -Like "*exe*" }).href
   $FullDownloadURL = "https://github.com$SoftwareUri"
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
@@ -3592,7 +3778,7 @@ function InstallVolatility3{
 
   $Url = "https://github.com/volatilityfoundation/volatility3/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | where { $_.href -Like "*py3*" -and $_.href -Like "*.whl*"}).href
+  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*py3*" -and $_.href -Like "*.whl*"}).href
   $FullDownloadURL = "https://github.com$SoftwareUri"
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
@@ -3665,7 +3851,7 @@ function InstallPartitionDiagnosticParser{
 }
 
 
-function InstallGoogle-Analytic-Cookie-Cruncher{
+function InstallGoogleAnalyticCookieCruncher{
   Write-Output "###"
   $SoftwareName = "Google-Analytic-Cookie-Cruncher"
   Write-Output "Get $SoftwareName..."
@@ -3713,7 +3899,7 @@ function InstallAutopsy{
 
   $Url = "https://github.com/sleuthkit/autopsy/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ( $ReleasePageLinks | where { $_.href -Like "*64*" -and $_.href -NotLike "*asc*"}).href
+  $SoftwareUri = ( $ReleasePageLinks | Where-Object { $_.href -Like "*64*" -and $_.href -NotLike "*asc*"}).href
   $FullDownloadURL = "https://github.com$SoftwareUri"
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
@@ -3786,9 +3972,8 @@ function InstallNetworkMiner{
 	$ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
 	if (-not $ToolsFolder) {
 	  # Set default tools folder
-	  $ToolsFolder = "\Tools"
-	}
-	$ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    $ToolsFolder = "$env:SystemDrive\Tools"
+  }
 
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
@@ -3881,7 +4066,7 @@ function InstallLenovoCompanion(){
   $ComputerModel=Get-CimInstance -ClassName Win32_ComputerSystemProduct | Where-Object { $_.Version -like 'ThinkPad*' } 
 
   # Install Lenovo Companion if it's a ThinkPad
-  if ( $ComputerModel -ne $null ) { 
+  if ( $null -ne $ComputerModel ) { 
       Get-AppxPackage 'E046963F.LenovoCompanion' -AllUsers | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
   }
 
@@ -3903,7 +4088,7 @@ function SetHostname{
   Write-Output "###"
   Write-Output "Changing hostname..."
   $hostname = Read-Host "Enter new Hostname [$env:computername]"
-  if ($hostname -ne $null -and $hostname -ne "") {
+  if ($null -ne $hostname -and $hostname -ne "") {
       Rename-Computer -NewName "$hostname"  -LocalCredential $env:computername\$env:username #-Restart
   }
 }

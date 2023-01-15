@@ -51,8 +51,11 @@ InstallRSAT                   # RemoveRSAT
 GetSysmonSwiftXML             # GetSysmonOlafXML
 InstallSysmon64               # 
 GetSysinternalsSuite          # 
-# InstallNirsoftLauncher      # InstallNirsoftTools           #                     # depends on 7-Zip for installation
-InstallJoeTools               #
+# InstallJoeWare              #
+# InstallCCleaner             #
+# InstallMitec                #
+# InstallNirsoftLauncher      # InstallNirsoftToolsX64        #                     # depends on 7-Zip for installation
+
 # InstallSpiceGuestTool       # 
 # InstallGPGwin               # 
 # InstallThunderbird          # 
@@ -105,7 +108,7 @@ InstallAutopsy                #
 # InstallVolatility2
 # InstallVolatility3
 # InstallPartitionDiagnosticParser
-# InstallGoogle-Analytic-Cookie-Cruncher
+# InstallGoogleAnalyticCookieCruncher
 
 ###### Customization  ###
 InstallFonts
