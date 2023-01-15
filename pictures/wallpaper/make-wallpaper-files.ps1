@@ -16,28 +16,31 @@ if ($null -eq (Get-Command "magick.exe" -ErrorAction SilentlyContinue))
    Write-Host "Unable to find magick.exe in your PATH"
    Write-Host "Download it free here: https://imagemagick.org/index.php"
    exit 1
+} elseif ( ! (Test-Path $imageFile)) {
+   Write-Host "Image file not found: $imageFile"
+   exit 1
 }
 
-# Check if image exists and if syntax below works
-
-add-type -AssemblyName System.Drawing
+Add-Type -AssemblyName System.Drawing
 $image = New-Object System.Drawing.Bitmap $imageFile
 $imageWidth = $image.Width
 $imageHeight = $image.Height
 
 if ($imageWidth -ge $imageHeight)
 {
+   Write-Host "Processing landscape formats"
    # Landscape formats
-   magick .\$image -resize 1024x768 img0_1024x768.jpg
-   magick .\$image -resize 1366x768 img0_1366x768.jpg
-   magick .\$image -resize 2560x1600 img0_2560x1600.jpg
-   magick .\$image -resize 3840x2160 img0_3840x2160.jpg
+   magick .\$imageFile -resize 1024x768 img0_1024x768.jpg
+   magick .\$imageFile -resize 1366x768 img0_1366x768.jpg
+   magick .\$imageFile -resize 2560x1600 img0_2560x1600.jpg
+   magick .\$imageFile -resize 3840x2160 img0_3840x2160.jpg
 } else {
    # Portrait formats
-   magick .\$image -resize 768x1024 img0_768x1024.jpg
-   magick .\$image -resize 768x1366 img0_768x1366.jpg
-   magick .\$image -resize 1200x1920 img0_1200x1920.jpg
-   magick .\$image -resize 1600x2560 img0_1600x2560.jpg
-   magick .\$image -resize 2160x3840 img0_2160x3840.jpg
+   Write-Host "Processing portrait formats"
+   magick .\$imageFile -resize 768x1024 img0_768x1024.jpg
+   magick .\$imageFile -resize 768x1366 img0_768x1366.jpg
+   magick .\$imageFile -resize 1200x1920 img0_1200x1920.jpg
+   magick .\$imageFile -resize 1600x2560 img0_1600x2560.jpg
+   magick .\$imageFile -resize 2160x3840 img0_2160x3840.jpg
 }
 
