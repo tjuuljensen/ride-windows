@@ -1269,14 +1269,13 @@ function InstallNirsoftLauncher(){
       $PasswordFileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath "zip_password.txt"
       $ZipPassword | Out-File -FilePath $PasswordFileFullName
 
-       # Unzip to tools folder (overwrite existing)
+      # Create software directory in Tools folder
       $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
       if (Test-Path -Path $NewSoftwareFolderFullName) {
       Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
-      } else {
-        New-Item -Path $NewSoftwareFolderFullName -ItemType Directory | Out-Null
-      }
-
+      } 
+      New-Item -Path $NewSoftwareFolderFullName -ItemType Directory | Out-Null
+      
       # To unpack package, this function depends on 7-Zip
       $ArchiveTool = [System.Environment]::GetFolderPath("ProgramFiles")+"\7-Zip\7z.exe"
       # Unzip password protected file
@@ -1355,13 +1354,12 @@ function InstallNirsoftToolsX64(){
       $PasswordFileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath "zip_password.txt"
       $ZipPassword | Out-File -FilePath $PasswordFileFullName 
 
-       # Unzip to tools folder (overwrite existing)
+       # Create software directory in Tools folder
       $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
       if (Test-Path -Path $NewSoftwareFolderFullName) {
       Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
-      } else {
-        New-Item -Path $NewSoftwareFolderFullName -ItemType Directory | Out-Null
-      }
+      } 
+      New-Item -Path $NewSoftwareFolderFullName -ItemType Directory | Out-Null
       
       # To unpack package, this function depends on 7-Zip
       $ArchiveTool = [System.Environment]::GetFolderPath("ProgramFiles")+"\7-Zip\7z.exe"
@@ -1442,10 +1440,9 @@ function InstallJoeWare(){
     $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
     if (Test-Path -Path $NewSoftwareFolderFullName) {
       Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
-    } else {
-      New-Item -Path $NewSoftwareFolderFullName -ItemType Directory | Out-Null
-    }
-
+    } 
+    New-Item -Path $NewSoftwareFolderFullName -ItemType Directory | Out-Null
+    
     # Unzip
     $ZipFiles = Get-ChildItem $SoftwareFolderFullName -Filter *.zip 
   
@@ -1523,9 +1520,8 @@ function InstallCCleaner(){
     $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
     if (Test-Path -Path $NewSoftwareFolderFullName) {
     Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
-    } else {
+    } 
     New-Item -Path $NewSoftwareFolderFullName -ItemType Directory | Out-Null
-    }
 
     # Unzip with built-in unzip
     $ZipFiles = Get-ChildItem $SoftwareFolderFullName -Filter *.zip 
@@ -1621,15 +1617,110 @@ function InstallMitec(){
     $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
     if (Test-Path -Path $NewSoftwareFolderFullName) {
       Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
-    } else {
-      New-Item -Path $NewSoftwareFolderFullName -ItemType Directory | Out-Null
-    }
+    } 
+    New-Item -Path $NewSoftwareFolderFullName -ItemType Directory | Out-Null
 
     # Unzip
     $ZipFiles = Get-ChildItem $SoftwareFolderFullName -Filter *.zip 
   
       foreach ($ZipFile in $ZipFiles) {
           try { $ZipFile | Expand-Archive -DestinationPath $NewSoftwareFolderFullName | Out-Null }
+          catch { Write-Host "FAILED to unzip:"$ZipFile -ForegroundColor red }
+      }
+    
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+  }
+}
+
+function InstallNtcore(){
+  Write-Output "###"
+  
+  $SoftwareName = "NTCore"
+  Write-Output "Installing $SoftwareName..."
+
+  $Url = "https://ntcore.com/?page_id=345"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
+  # Capture subpages in a variable
+  $DownloadPages = ($ReleasePageLinks | Where-Object { $_.href -Like "/?page_id*" } ).href | Sort-Object | Get-Unique 
+  # Capture direct download links in another variable
+  $DownloadURLs = ($ReleasePageLinks | Where-Object { $_.href -Like "/files*" } ).href | Sort-Object | Get-Unique
+
+  # ($ReleasePageLinks | Where-Object { $_.href -Like "*.zip" } ).href | Sort-Object | Get-Unique
+  if (-not $DownloadPages) {
+  Write-Output "Error: $SoftwareName not found"
+  return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+  New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+  New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  ForEach ($SubUrl in $DownloadPages)
+  {
+    $DownloadPageURL = "https://ntcore.com"+$SubUrl
+    $PageLinks=(Invoke-WebRequest -UseBasicParsing -Uri $DownloadPageURL).links.href
+    $DownloadFiles=$PageLinks | Where-Object { $_ -Like "*.exe" -or $_ -Like "*.zip" } | Sort-Object | Get-Unique 
+    if ($null -ne $DownloadFiles ) {
+        ForEach ($File in $DownloadFiles) {
+            $FullDownloadURL = "https://ntcore.com"+$File
+            $FileName=$File -replace ".*files/"
+            $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+            #Write-Output $DownloadPageURL
+            Write-Output "Downloading files from: $FullDownloadURL"
+            Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName 
+            Write-Output "Downloaded: $FileFullName"
+        }
+    } 
+  }
+  
+  ForEach ($File in $DownloadURLs) {
+    $FullDownloadURL = "https://ntcore.com"+$File.replace("qtida.py","qtida.zip")
+    $FileName=($File -replace ".*files/" -replace ".*/").replace("qtida.py","qtida.zip")
+    $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+    Write-Output "Downloading files from: $FullDownloadURL"
+    Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName 
+    Write-Output "Downloaded: $FileFullName"
+  }
+
+  # Move files to Tools folder
+  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "$env:SystemDrive\Tools"
+    }
+  
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+  
+    # Create software directory in Tools folder
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    } 
+    New-Item -Path $NewSoftwareFolderFullName -ItemType Directory | Out-Null
+    
+    # Unzip
+    $ZipFiles = Get-ChildItem $SoftwareFolderFullName -Filter *.zip 
+  
+      foreach ($ZipFile in $ZipFiles) {
+          try { $ZipFile | Expand-Archive -DestinationPath $NewSoftwareFolderFullName -Force | Out-Null }
           catch { Write-Host "FAILED to unzip:"$ZipFile -ForegroundColor red }
       }
     

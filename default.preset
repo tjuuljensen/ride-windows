@@ -54,8 +54,8 @@ GetSysinternalsSuite          #
 # InstallJoeWare              #
 # InstallCCleaner             #
 # InstallMitec                #
-# InstallNirsoftLauncher      # InstallNirsoftToolsX64        #                     # depends on 7-Zip for installation
-
+# InstallNtcore               #
+# InstallNirsoftLauncher      # InstallNirsoftToolsX64        # 
 # InstallSpiceGuestTool       # 
 # InstallGPGwin               # 
 # InstallThunderbird          # 
