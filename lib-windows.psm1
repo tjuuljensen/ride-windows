@@ -5831,7 +5831,7 @@ Function EnableUpdateAutoDownload {
 
 # Disable automatic restart after Windows Update installation
 # The tweak is slightly experimental, as it registers a dummy debugger for MusNotification.exe
-# which blocks the restart prompt executable from running, thus never schedulling the restart
+# which blocks the restart prompt executable from running, thus never scheduling the restart
 Function DisableUpdateRestart {
   Write-Output "###"
 	Write-Output "Disabling Windows Update automatic restart..."

@@ -44,13 +44,13 @@ GetTelemetryBlockingHostfile  # SetDefaultHostsfile
 
 ###### Install programs  ###
 InstallGit4Win                #
-InstallAtom                   # RemoveAtom
+# InstallAtom                 # RemoveAtom
 # InstallNotepadPlusPlus      # RemoveNotepadPlusPlus
 Install7Zip                   # Remove7Zip
 InstallRSAT                   # RemoveRSAT
 GetSysmonSwiftXML             # GetSysmonOlafXML
 InstallSysmon64               # 
-GetSysinternalsSuite          # 
+# GetSysinternalsSuite        # 
 # InstallJoeWare              #
 # InstallCCleaner             #
 # InstallMitec                #
@@ -61,7 +61,7 @@ GetSysinternalsSuite          #
 # InstallThunderbird          # 
 InstallOffice365              # 
 # InstallVisioPro             # 
-InstallVMwareWorkstation      # RemoveVMwareWorkstation
+# InstallVMwareWorkstation    # RemoveVMwareWorkstation
 # InstallOpenJDK              # 
 # InstallNeo4j                # 
 # GetBloodhound				        #
@@ -80,7 +80,7 @@ CreateChromePreferenceFiles
 InstallOpera                  #
 
 ###### Forensic Tools ###
-InstallAutopsy                #
+# InstallAutopsy              #
 # InstallNetworkMiner         #
 # InstallAutorunner
 # InstallChainsaw
