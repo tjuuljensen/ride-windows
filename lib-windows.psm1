@@ -25,7 +25,7 @@ function ActivateWindows{
   }
 
   # Read variable content (if any) and install licence key if it exists
-  $LicenseKey = [Environment]::GetEnvironmentVariable("BOOTSTRAP-WindowsKey-$WindowsVersion", "Process")
+  $LicenseKey = [Environment]::GetEnvironmentVariable("RIDEVAR-WindowsKey-$WindowsVersion", "Process")
   if ( $LicenseKey -ne $null ) {
     $computer = Get-Content Env:ComputerName
 
@@ -40,15 +40,15 @@ function CreateNewLocalAdmin{
   # Tested on Windows 10 Pro 10.0.19044
 
   $DefaultAdminName="admin"
-  $LocalAdminUser = if ($null -eq [Environment]::GetEnvironmentVariable("BOOTSTRAP-LocalAdmin-AdminUser", "Process")) {$DefaultAdminName}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-LocalAdmin-AdminUser", "Process")}
+  $LocalAdminUser = if ($null -eq [Environment]::GetEnvironmentVariable("RIDEVAR-LocalAdmin-AdminUser", "Process")) {$DefaultAdminName}  else {[Environment]::GetEnvironmentVariable("RIDEVAR-LocalAdmin-AdminUser", "Process")}
 
   if ((Get-LocalUser $LocalAdminUser -ErrorAction Ignore).count -eq 1) {
     write-output "ERROR: User $LocalAdminUser exists - Exiting."
   } else {
     # If Password was set in ini file, use this
 
-   if ($null -ne [Environment]::GetEnvironmentVariable("BOOTSTRAP-LocalAdmin-AdminPassword", "Process") -and ([Environment]::GetEnvironmentVariable("BOOTSTRAP-LocalAdmin-AdminPassword", "Process")).tolower() -ne "[prompt]") {
-          $Password = ConvertTo-SecureString -String $([Environment]::GetEnvironmentVariable("BOOTSTRAP-LocalAdmin-AdminPassword", "Process"))
+   if ($null -ne [Environment]::GetEnvironmentVariable("RIDEVAR-LocalAdmin-AdminPassword", "Process") -and ([Environment]::GetEnvironmentVariable("RIDEVAR-LocalAdmin-AdminPassword", "Process")).tolower() -ne "[prompt]") {
+          $Password = ConvertTo-SecureString -String $([Environment]::GetEnvironmentVariable("RIDEVAR-LocalAdmin-AdminPassword", "Process"))
         } else {
           $Password = Read-Host -AsSecureString "Enter password of the Local Admin User: "
         }
@@ -172,12 +172,12 @@ function SetRegionalSettings{
   $DefaultSystemLocale="da-DK"
   $DefaultTimeZone="Romance Standard Time"
 
-  $WinUserLanguage = if ($null -eq [Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-WinUserLanguage", "Process")) {$DefaultWinUserLanguage}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-WinUserLanguage", "Process")}
-  $Culture = if ($null -eq [Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-Culture", "Process")) {$DefaultCulture}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-Culture", "Process")}
-  $Keyboard = if ($null -eq [Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-Keyboard", "Process")) {$DefaultKeyboard}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-Keyboard", "Process")}
-  $Location = if ($null -eq [Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-Location", "Process")) {$DefaultLocation}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-Location", "Process")}
-  $SystemLocale = if ($null -eq [Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-SystemLocale", "Process")) {$DefaultSystemLocale}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-SystemLocale", "Process")}
-  $TimeZone = if ($null -eq [Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-TimeZone", "Process")) {$DefaultTimeZone}  else {[Environment]::GetEnvironmentVariable("BOOTSTRAP-Language-TimeZone", "Process")}
+  $WinUserLanguage = if ($null -eq [Environment]::GetEnvironmentVariable("RIDEVAR-Language-WinUserLanguage", "Process")) {$DefaultWinUserLanguage}  else {[Environment]::GetEnvironmentVariable("RIDEVAR-Language-WinUserLanguage", "Process")}
+  $Culture = if ($null -eq [Environment]::GetEnvironmentVariable("RIDEVAR-Language-Culture", "Process")) {$DefaultCulture}  else {[Environment]::GetEnvironmentVariable("RIDEVAR-Language-Culture", "Process")}
+  $Keyboard = if ($null -eq [Environment]::GetEnvironmentVariable("RIDEVAR-Language-Keyboard", "Process")) {$DefaultKeyboard}  else {[Environment]::GetEnvironmentVariable("RIDEVAR-Language-Keyboard", "Process")}
+  $Location = if ($null -eq [Environment]::GetEnvironmentVariable("RIDEVAR-Language-Location", "Process")) {$DefaultLocation}  else {[Environment]::GetEnvironmentVariable("RIDEVAR-Language-Location", "Process")}
+  $SystemLocale = if ($null -eq [Environment]::GetEnvironmentVariable("RIDEVAR-Language-SystemLocale", "Process")) {$DefaultSystemLocale}  else {[Environment]::GetEnvironmentVariable("RIDEVAR-Language-SystemLocale", "Process")}
+  $TimeZone = if ($null -eq [Environment]::GetEnvironmentVariable("RIDEVAR-Language-TimeZone", "Process")) {$DefaultTimeZone}  else {[Environment]::GetEnvironmentVariable("RIDEVAR-Language-TimeZone", "Process")}
 
   # Save WinUserLanguageList into a variable object and build the list from scratch
   $LanguageList = Get-WinUserLanguageList
@@ -348,8 +348,8 @@ function DisableAdvancedAuthAtStart{
 function EnableBitlockerTPMandPIN{
   Write-Output "###"
 
-  if ($null -ne [Environment]::GetEnvironmentVariable("BOOTSTRAP-Bitlocker-TPMandPINPassword", "Process") -and ([Environment]::GetEnvironmentVariable("BOOTSTRAP-Bitlocker-TPMandPINPassword", "Process")).tolower() -ne "[prompt]") {
-         $Password = ConvertTo-SecureString -String ([Environment]::GetEnvironmentVariable("BOOTSTRAP-Bitlocker-TPMandPINPassword", "Process"))
+  if ($null -ne [Environment]::GetEnvironmentVariable("RIDEVAR-Bitlocker-TPMandPINPassword", "Process") -and ([Environment]::GetEnvironmentVariable("RIDEVAR-Bitlocker-TPMandPINPassword", "Process")).tolower() -ne "[prompt]") {
+         $Password = ConvertTo-SecureString -String ([Environment]::GetEnvironmentVariable("RIDEVAR-Bitlocker-TPMandPINPassword", "Process"))
        } else {
          $Password = Read-Host -AsSecureString "Enter new Bitlocker Pre-Boot PIN: "
        }
@@ -767,7 +767,7 @@ function InstallGit4Win{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Install exe
     $CommandLineOptions = "/SILENT /LOG"
     Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
@@ -813,7 +813,7 @@ function InstallAtom{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Install exe
     $CommandLineOptions = " "
     Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
@@ -866,7 +866,7 @@ function InstallNotepadPlusPlus{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Install exe
     $CommandLineOptions = "/S"
     Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
@@ -917,7 +917,7 @@ function Install7Zip{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Install exe
     $CommandLineOptions = "/S"
     Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
@@ -974,13 +974,14 @@ function GetSysmonSwiftXML{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Get tools folder
-    $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
     if (-not $ToolsFolder) {
       # Set default tools folder
-      $ToolsFolder = "$env:SystemDrive\Tools"
+      $ToolsFolder = "\Tools"
     }
+    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1028,13 +1029,14 @@ function GetSysmonOlafXML{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Get tools folder
-    $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
     if (-not $ToolsFolder) {
       # Set default tools folder
-      $ToolsFolder = "$env:SystemDrive\Tools"
+      $ToolsFolder = "\Tools"
     }
+    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1082,13 +1084,14 @@ function InstallSysmon64{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
 	# Get tools folder
-	$ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
 	if (-not $ToolsFolder) {
 	  # Set default tools folder
-    $ToolsFolder = "$env:SystemDrive\Tools"
+    $ToolsFolder = "\Tools"
   }
+  $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1157,13 +1160,14 @@ function GetSysinternalsSuite{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
 	# Get tools folder
-	$ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
 	if (-not $ToolsFolder) {
 	  # Set default tools folder
-	  $ToolsFolder = "$env:SystemDrive\Tools"
+	  $ToolsFolder = "\Tools"
   }
+  $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1252,13 +1256,14 @@ function InstallNirsoftLauncher(){
     Write-Output "Downloaded: $NLPFileFullName"
     }
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
       # Get tools folder
-      $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+      $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
       if (-not $ToolsFolder) {
         # Set default tools folder
-        $ToolsFolder = "$env:SystemDrive\Tools"
+        $ToolsFolder = "\Tools"
       }
+      $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
       # Create tools folder if not existing
       if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1337,13 +1342,14 @@ function InstallNirsoftToolsX64(){
   Invoke-WebRequest -Uri $FullDownloadURL -OutFile $FileFullName -Headers $headers 
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
       # Get tools folder
-      $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+      $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
       if (-not $ToolsFolder) {
         # Set default tools folder
-        $ToolsFolder = "$env:SystemDrive\Tools"
+        $ToolsFolder = "\Tools"
       }
+      $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
       # Create tools folder if not existing
       if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1422,14 +1428,15 @@ function InstallJoeWare(){
   }
   
   # Move files to Tools folder
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
 
     # Get tools folder
-    $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
     if (-not $ToolsFolder) {
       # Set default tools folder
-      $ToolsFolder = "$env:SystemDrive\Tools"
+      $ToolsFolder = "\Tools"
     }
+    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
   
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1502,14 +1509,15 @@ function InstallCCleaner(){
     }
   
   # Move files to Tools folder
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
 
     # Get tools folder
-    $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
     if (-not $ToolsFolder) {
-    # Set default tools folder
-    $ToolsFolder = "$env:SystemDrive\Tools"
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
     }
+    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1599,14 +1607,15 @@ function InstallMitec(){
   }
   
   # Move files to Tools folder
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
 
     # Get tools folder
-    $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
     if (-not $ToolsFolder) {
       # Set default tools folder
-      $ToolsFolder = "$env:SystemDrive\Tools"
+      $ToolsFolder = "\Tools"
     }
+    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
   
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1695,14 +1704,15 @@ function InstallNtcore(){
   }
 
   # Move files to Tools folder
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
 
     # Get tools folder
-    $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
     if (-not $ToolsFolder) {
       # Set default tools folder
-      $ToolsFolder = "$env:SystemDrive\Tools"
+      $ToolsFolder = "\Tools"
     }
+    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
   
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1765,7 +1775,7 @@ function InstallOpenJDK{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Install msi
     Invoke-Expression "msiexec /qb /i $FileFullName ADDLOCAL=FeatureMain,FeatureEnvironment,FeatureJarFileRunWith,FeatureJavaHome"
     Write-Output "Installation done for $SoftwareName"
@@ -1849,13 +1859,14 @@ function InstallNeo4j{
   Start-BitsTransfer -Source $ApocFullDownloadURL -Destination $ApocFileFullName
   Write-Output "Downloaded: $ApocFileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
 	# Get tools folder
-	$ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
 	if (-not $ToolsFolder) {
 	  # Set default tools folder
-    $ToolsFolder = "$env:SystemDrive\Tools"
+    $ToolsFolder = "\Tools"
   }
+  $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1936,13 +1947,14 @@ function GetBloodhound {
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
 	# Get tools folder
-	$ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
 	if (-not $ToolsFolder) {
 	  # Set default tools folder
-    $ToolsFolder = "$env:SystemDrive\Tools"
+    $ToolsFolder = "\Tools"
   }
+  $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
@@ -2009,13 +2021,14 @@ function GetSharphound {
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Get tools folder
-    $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
     if (-not $ToolsFolder) {
       # Set default tools folder
-      $ToolsFolder = "$env:SystemDrive\Tools"
+      $ToolsFolder = "\Tools"
     }
+    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -2073,13 +2086,14 @@ function GetAzurehound {
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Get tools folder
-    $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
     if (-not $ToolsFolder) {
       # Set default tools folder
-      $ToolsFolder = "$env:SystemDrive\Tools"
+      $ToolsFolder = "\Tools"
     }
+    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -2134,13 +2148,14 @@ function GetImproHound{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Get tools folder
-    $ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
     if (-not $ToolsFolder) {
       # Set default tools folder
-      $ToolsFolder = "$env:SystemDrive\Tools"
+      $ToolsFolder = "\Tools"
     }
+    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -2197,13 +2212,14 @@ function GetPingCastle{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
 	# Get tools folder
-	$ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
 	if (-not $ToolsFolder) {
 	  # Set default tools folder
-    $ToolsFolder = "$env:SystemDrive\Tools"
+    $ToolsFolder = "\Tools"
   }
+  $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
@@ -2258,7 +2274,7 @@ function InstallSpiceGuestTool{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Install msi
     Invoke-Expression "msiexec /qb /i $FileFullName"
     Write-Output "Installation done for $SoftwareName"
@@ -2293,7 +2309,7 @@ function InstallSpiceGuestTool{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Install exe
     $CommandLineOptions = " "
     Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
@@ -2332,7 +2348,7 @@ function InstallGPGwin{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Install exe
     $CommandLineOptions = "/S"
     Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
@@ -2371,7 +2387,7 @@ function InstallThunderbird{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Install exe
     $CommandLineOptions = "-ms" # silent install
     Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
@@ -2441,7 +2457,7 @@ function InstallOffice365{
   $SetupFileFullName = "$SoftwareFolderFullName\setup.exe"
   Start-Process $SetupFileFullName "/download ""$ConfigFileFullName""" -NoNewWindow -Wait
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Install
     Start-Process $SetupFileFullName "/configure ""$ConfigFileFullName""" -NoNewWindow -Wait
     Write-Output "Installation done for $SoftwareName"
@@ -2504,7 +2520,7 @@ function InstallVisioPro{
   $SetupFileFullName = "$SoftwareFolderFullName\setup.exe"
   Start-Process $SetupFileFullName "/download $ConfigFileFullName" -NoNewWindow -Wait
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Install
     Start-Process $SetupFileFullName "/configure $ConfigFileFullName" -NoNewWindow -Wait
     Write-Output "Installation done for $SoftwareName"
@@ -2528,7 +2544,7 @@ function InstallVMwareWorkstation{
   if ($FoundMajorVersion) {
       $MajorVersion=$matches[1]
       $KeyName=("VMWAREWORKSTATION" + $MajorVersion)
-      $VMwareSerialNumber = [Environment]::GetEnvironmentVariable("BOOTSTRAP-VMwareWorkstation-$KeyName", "Process")
+      $VMwareSerialNumber = [Environment]::GetEnvironmentVariable("RIDEVAR-VMwareWorkstation-$KeyName", "Process")
   }
 
   # Create bootstrap folder if not existing
@@ -2554,7 +2570,7 @@ function InstallVMwareWorkstation{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Install exe
     $CommandLineOptions = "/s /v/qn REBOOT=ReallySuppress ADDLOCAL=ALL EULAS_AGREED=1 "
     if ($null -ne $VMwareSerialNumber) {
@@ -2668,7 +2684,7 @@ function InstallJoplin{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Install exe
     $CommandLineOptions = " "
     Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
@@ -2734,7 +2750,7 @@ function InstallFirefox{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Install msi
     Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" /quiet" -Wait -NoNewWindow
     Write-Output "Installation done for $SoftwareName"
@@ -2841,7 +2857,7 @@ function InstallChrome{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Install msi
     Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" /quiet" -Wait -NoNewWindow
     Write-Output "Installation done for $SoftwareName"
@@ -2951,7 +2967,7 @@ function InstallOpera{
   $CommandLineOptions = "/SILENT /LOG"
   Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Install exe
     $InstallFile = "$SoftwareFolderFullName\installer.exe"
     $CommandLineOptions = "--silent --setdefaultbrowser=0 --startmenushortcut=0 --desktopshortcut=0 --pintotaskbar=0 --pin-additional-shortcuts=0 --launchbrowser=0"
@@ -4077,7 +4093,7 @@ function InstallAutopsy{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Install msi
     Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" /quiet" -Wait -NoNewWindow
     Write-Output "Installation done for $SoftwareName"
@@ -4115,13 +4131,14 @@ function InstallNetworkMiner{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("BOOTSTRAP-Download-Only", "Process")) {
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
 	# Get tools folder
-	$ToolsFolder = [Environment]::GetEnvironmentVariable("BOOTSTRAP-Customization-ToolsFolder", "Process")
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
 	if (-not $ToolsFolder) {
 	  # Set default tools folder
-    $ToolsFolder = "$env:SystemDrive\Tools"
+    $ToolsFolder = "\Tools"
   }
+  $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {

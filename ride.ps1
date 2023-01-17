@@ -45,14 +45,14 @@ function Get-IniFile {
             $name,$value = $matches[1..2]
             # skip comments that start with semicolon:
             if (!($name.StartsWith(";"))) {
-                [Environment]::SetEnvironmentVariable("BOOTSTRAP-$section-$name", $value.Trim(), "Process")
+                [Environment]::SetEnvironmentVariable("RIDEVAR-$section-$name", $value.Trim(), "Process")
             }
         }
     }
 }
 
 # Clean up env from potentially earlier execution
-Remove-Item -Path env:BOOTSTRAP_DOWNLOAD_ONLY -ErrorAction SilentlyContinue
+Remove-Item -Path env:RIDEVAR-Download-Only -ErrorAction SilentlyContinue
 
 # Parse and resolve paths in passed arguments
 $i = 0
@@ -76,7 +76,7 @@ While ($i -lt $args.Length) {
 		# Load valuesfrom the ini file
         Get-IniFile $ini
 	} ElseIf ($args[$i].ToLower() -eq "-downloadonly") {
-		[Environment]::SetEnvironmentVariable("BOOTSTRAP-Download-Only", $true, "Process")
+		[Environment]::SetEnvironmentVariable("RIDEVAR-Download-Only", $true, "Process")
 		$PSCommandArgs += "-downloadonly"
 	} ElseIf ($args[$i].ToLower() -eq "-log") {
 		# Resolve full path to the output file
