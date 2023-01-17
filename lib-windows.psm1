@@ -2571,6 +2571,63 @@ function RemoveVMwareWorkstation{
   Uninstall-Package -InputObject ( Get-Package -Name "VMware Workstation")
 }
 
+function SetVMDirUserhome(){
+
+  # Edit VMWare preference file and set default VM directory
+  $VMWareWkstDir="$env:APPDATA\VMware"
+  $VMWareWkstIni="$VMWareWkstDir\preferences.ini"
+  
+  $NewDefaultVMPath="$env:USERPROFILE\Virtual Machines"
+  $ConfigKey="prefvmx.defaultVMPath = "
+  $ConfigParameter = $NewDefaultVMPath
+
+  # Test if new default vm dir exists
+  if (-not (Test-Path -Path $NewDefaultVMPath)) {
+    New-Item -Path $NewDefaultVMPath -ItemType Directory | Out-Null
+    }
+
+  # Test if ini file exists and contains default directory value
+  if ((Test-Path $VMWareWkstIni) -and ((Get-Content $VMWareWkstIni | Select-String -Pattern $ConfigKey ).Matches.Success )) {
+      # Replace value in ConfigKey with new value and write it to the ini file
+      (Get-Content $VMWareWkstIni) -replace ("(?<=$ConfigKey)" +'(.*?)(?="$)'),$ConfigParameter | Set-Content $VMWareWkstIni
+  } else { 
+    if (-not (Test-Path -Path $VMWareWkstDir)) {
+      New-Item -Path $VMWareWkstDir -ItemType Directory | Out-Null
+      }
+    # Write a single line to the inifile (-Append is obsolete)
+    $ConfigKey+""""+$ConfigParameter+""""| Out-File -FilePath "$VMWareWkstIni" -Encoding utf8 -Append
+    }
+}
+
+function SetVMDirDocuments(){
+
+  # Edit VMWare preference file and set default VM directory
+  $VMWareWkstDir="$env:APPDATA\VMware"
+  $VMWareWkstIni="$VMWareWkstDir\preferences.ini"
+
+  $DefaultDocumentsPath=[Environment]::GetFolderPath("MyDocuments")
+  $NewDefaultVMPath="$DefaultDocumentsPath\Virtual Machines"
+  
+  $ConfigKey="prefvmx.defaultVMPath = "
+  $ConfigParameter = $NewDefaultVMPath
+
+  # Test if new default vm dir exists
+  if (-not (Test-Path -Path $NewDefaultVMPath)) {
+    New-Item -Path $NewDefaultVMPath -ItemType Directory | Out-Null
+    }
+
+  # Test if ini file exists and contains default directory value
+  if ((Test-Path $VMWareWkstIni) -and ((Get-Content $VMWareWkstIni | Select-String -Pattern $ConfigKey ).Matches.Success )) {
+      # Replace value in ConfigKey with new value and write it to the ini file
+      (Get-Content $VMWareWkstIni) -replace ("(?<=$ConfigKey)" +'(.*?)(?="$)'),$ConfigParameter | Set-Content $VMWareWkstIni
+  } else { 
+    if (-not (Test-Path -Path $VMWareWkstDir)) {
+      New-Item -Path $VMWareWkstDir -ItemType Directory | Out-Null
+      }
+    # Write a single line to the inifile (-Append is obsolete)
+    $ConfigKey+""""+$ConfigParameter+""""| Out-File -FilePath "$VMWareWkstIni" -Encoding utf8 -Append
+    }
+}
 
 function InstallJoplin{
   Write-Output "###"

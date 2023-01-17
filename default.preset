@@ -62,6 +62,7 @@ InstallSysmon64               #
 InstallOffice365              # 
 # InstallVisioPro             # 
 # InstallVMwareWorkstation    # RemoveVMwareWorkstation
+# SetVMDirUserhome            # SetVMDirDocuments
 # InstallOpenJDK              # 
 # InstallNeo4j                # 
 # GetBloodhound				        #
