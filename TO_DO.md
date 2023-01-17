@@ -3,10 +3,11 @@
 * BitLocker CD/USB bootable check
 * Log Output check (Bitlocker output)
 * Check Sysprep
-* Configurable \Tools folder
-* Opdateret readme (config.ini eksempel)
+* Update readme (config.ini example)
 
 - Adjust activation (serial number checks) - https://scribbleghost.net/2019/08/23/how-to-find-and-backup-your-windows-10-license-key/
+
+- Add WiFi
 
 - PowerShell Whois
   https://powershellisfun.com/2022/06/12/get-whois-information-using-powershell/
