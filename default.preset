@@ -24,6 +24,7 @@ DisableInkingAndTypingData    # EnableInkingAndTypingData
 
 ###### Defender configuration  ###
 ExcludeToolsDirDefender       # RemoveToolsDirDefender
+ExcludeBootstrapDirDefender   # RemoveBootstrapDirDefender
 
 ###### Hardening Windows  ###
 DisableSSDPdiscovery          # EnableSSDPdiscovery

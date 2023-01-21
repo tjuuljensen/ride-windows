@@ -234,6 +234,30 @@ function RemoveToolsDirDefender{
   Remove-MpPreference -ExclusionPath C:\Tools
 }
 
+function ExcludeBootstrapDirDefender{
+  Write-Output "###"
+  Write-Output "Exclude Bootstrap (download) from Defender Antivirus scans..."
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+  
+  Set-MpPreference -ExclusionPath $BootstrapFolder
+}
+
+function RemoveBootstrapDirDefender{
+  Write-Output "###"
+  Write-Output "Remove C:\Tools from Defender Antivirus exclusion..."
+  
+  # Get Bootstrap folder
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+
+  Remove-MpPreference -ExclusionPath $DefaultDownloadDir
+}
 
 ################################################################
 ###### Privacy configurations  ###
@@ -263,7 +287,7 @@ function SetDefaultBitLockerAES256{
     Set-ItemProperty -path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\" -name "EncryptionMethod" -value 4
     #To-do: start BitLocker Encryption with PowerShell https://technet.microsoft.com/en-us/library/jj649829(v=wps.630).aspx
 }
-
+Bootstra
 function SetDefaultBitLockerAES128{
   Write-Output "###"
     # Set BitLocker to AES-128 (default)
