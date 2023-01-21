@@ -244,7 +244,7 @@ function ExcludeBootstrapDirDefender{
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
-  
+
   Set-MpPreference -ExclusionPath $BootstrapFolder
 }
 
@@ -256,7 +256,7 @@ function RemoveBootstrapDirDefender{
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
   $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
 
-  Remove-MpPreference -ExclusionPath $DefaultDownloadDir
+  Remove-MpPreference -ExclusionPath $BootstrapFolder
 }
 
 ################################################################
