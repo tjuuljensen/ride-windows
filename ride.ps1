@@ -1,9 +1,26 @@
-##########
-# Win 10 / 11 / Server 2016 / Server 2019 Bootstrap Script - Main execution loop
-# Author: Torsten Juul-Jensen
-# Version: v4.00, 2022-02-11
-# Source: https://github.com/tjuuljensen/ride-windows
-##########
+<#
+.SYNOPSIS
+	Win 10 / 11 / Server 2016 / Server 2019 Bootstrap Script
+.DESCRIPTION
+	This script is for automation of routine tasks done after a fresh installation of 
+	Windows 10/11 and Windows Server 2016 / 2019. 
+	The repo does not hold a complete set of all existing Windows tweaks, nor is it a 
+	complete way of creating the fully hardened/locked down machine.
+	The functions of the script are focused on minimizing windows telemetry traffic and
+	on the installation and configuration of a lot of standard tools for the typical 
+	technical user or people working with Digital Forensics and Incident Response.
+.NOTES
+	This script is for Windows only. Though many features might work in 32-bit environments,
+	the script is made for and tested on x64 installations.
+.LINK
+	https://github.com/tjuuljensen/ride-windows/blob/master/README.md
+.EXAMPLE
+	ride.ps1 -include -preset
+	ride.ps1 -ini 
+	ride.ps1 -downloadonly
+    ride.ps1 -log
+	ride.ps1 tweakname !anothertweakname
+#>
 
 # Relaunch the script with administrator privileges
 Function RequireAdmin {
