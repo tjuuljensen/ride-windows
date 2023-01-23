@@ -287,7 +287,7 @@ function SetDefaultBitLockerAES256{
     Set-ItemProperty -path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\" -name "EncryptionMethod" -value 4
     #To-do: start BitLocker Encryption with PowerShell https://technet.microsoft.com/en-us/library/jj649829(v=wps.630).aspx
 }
-Bootstra
+
 function SetDefaultBitLockerAES128{
   Write-Output "###"
     # Set BitLocker to AES-128 (default)
@@ -847,7 +847,7 @@ function InstallNotepadPlusPlus{
   $repo="notepad-plus-plus"
   $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
-  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*64.exe" })
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*64.exe" -and $_ -NotLike "*arm64*"} | Select-Object -First 1)
 
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
@@ -946,13 +946,13 @@ function InstallRSAT{
   Write-Output "###"
   $SoftwareName = "Remote Server Administration Tool (RSAT)"
   Write-Output "Getting $SoftwareName..."
-  Get-WindowsCapability -Name RSAT* -Online | Add-WindowsCapability -Online
+  Get-WindowsCapability -Name RSAT* -Online | Add-WindowsCapability -Online | Out-Null
 }
 
 function RemoveRSAT{
   Write-Output "###"
   Write-Output "Remote Server Administration Tool (RSAT)"
-  Get-WindowsCapability -Name RSAT* -Online | Remove-WindowsCapability -Online
+  Get-WindowsCapability -Name RSAT* -Online | Remove-WindowsCapability -Online | Out-Null
 }
 
 function GetSysmonSwiftXML{
@@ -992,7 +992,7 @@ function GetSysmonSwiftXML{
       # Set default tools folder
       $ToolsFolder = "\Tools"
     }
-    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1047,7 +1047,7 @@ function GetSysmonOlafXML{
       # Set default tools folder
       $ToolsFolder = "\Tools"
     }
-    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1102,7 +1102,7 @@ function InstallSysmon64{
 	  # Set default tools folder
     $ToolsFolder = "\Tools"
   }
-  $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+  #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1178,7 +1178,7 @@ function GetSysinternalsSuite{
 	  # Set default tools folder
 	  $ToolsFolder = "\Tools"
   }
-  $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+  #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1274,7 +1274,7 @@ function InstallNirsoftLauncher(){
         # Set default tools folder
         $ToolsFolder = "\Tools"
       }
-      $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+      #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
       # Create tools folder if not existing
       if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1360,7 +1360,7 @@ function InstallNirsoftToolsX64(){
         # Set default tools folder
         $ToolsFolder = "\Tools"
       }
-      $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+      #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
       # Create tools folder if not existing
       if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1447,7 +1447,7 @@ function InstallJoeWare(){
       # Set default tools folder
       $ToolsFolder = "\Tools"
     }
-    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
   
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1528,7 +1528,7 @@ function InstallCCleaner(){
       # Set default tools folder
       $ToolsFolder = "\Tools"
     }
-    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1626,7 +1626,7 @@ function InstallMitec(){
       # Set default tools folder
       $ToolsFolder = "\Tools"
     }
-    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
   
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1723,7 +1723,7 @@ function InstallNtcore(){
       # Set default tools folder
       $ToolsFolder = "\Tools"
     }
-    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
   
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1877,7 +1877,7 @@ function InstallNeo4j{
 	  # Set default tools folder
     $ToolsFolder = "\Tools"
   }
-  $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+  #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1965,7 +1965,7 @@ function GetBloodhound {
 	  # Set default tools folder
     $ToolsFolder = "\Tools"
   }
-  $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+  #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
@@ -2039,7 +2039,7 @@ function GetSharphound {
       # Set default tools folder
       $ToolsFolder = "\Tools"
     }
-    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -2104,7 +2104,7 @@ function GetAzurehound {
       # Set default tools folder
       $ToolsFolder = "\Tools"
     }
-    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -2166,7 +2166,7 @@ function GetImproHound{
       # Set default tools folder
       $ToolsFolder = "\Tools"
     }
-    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -2230,7 +2230,7 @@ function GetPingCastle{
 	  # Set default tools folder
     $ToolsFolder = "\Tools"
   }
-  $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+  #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
@@ -4205,7 +4205,7 @@ function InstallZimmermanTools{
       # Set default tools folder
       $ToolsFolder = "\Tools"
     }
-    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
   
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -4259,7 +4259,7 @@ function InstallNetworkMiner{
 	  # Set default tools folder
     $ToolsFolder = "\Tools"
   }
-  $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+  #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
 
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
