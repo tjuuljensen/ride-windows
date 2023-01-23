@@ -66,12 +66,14 @@ InstallOffice365              #
 # SetVMDirUserhome            # SetVMDirDocuments
 # InstallOpenJDK              # 
 # InstallNeo4j                # 
-# GetBloodhound				        #
-# GetSharphound				        #
-# GetAzurehound				        #
+# GetBloodhound				  #
+# GetSharphound				  #
+# GetAzurehound				  #
 # GetImproHound               #
 # GetPingCastle               #
 # InstallJoplin
+# InstallWireshark            # RemoveWireshark
+# InstallZimmermanTools
 
 ###### Browsers and Internet  ###
 DisableEdgePagePrediction
@@ -118,7 +120,7 @@ ReplaceDefaultWallpapers
 # InstallLenovoCompanion        # RemoveLenovoCompanion
 
 ### Privacy Tweaks ###
-DisableTelemWiFietry                # EnableTelemetry
+DisableTelemWiFietry            # EnableTelemetry
 DisableCortana                  # EnableCortana
 DisableWiFiSense                # EnableWiFiSense
 # DisableSmartScreen            # EnableSmartScreen

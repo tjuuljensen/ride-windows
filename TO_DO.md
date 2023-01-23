@@ -13,7 +13,6 @@
   https://powershellisfun.com/2022/06/12/get-whois-information-using-powershell/
   https://www.powershellgallery.com/packages/PSScriptTools/2.9.0/Content/functions%5CGet-WhoIs.ps1
 
-
 - AXIOM Free Tools (incl EDD)
   https://support.magnetforensics.com/s/software-and-downloads?productTag=free-tools
 
@@ -22,9 +21,6 @@
   https://d1kpmuwb7gvu1i.cloudfront.net/AccessData_FTK_Imager_4.7.1.exe
   https://d1kpmuwb7gvu1i.cloudfront.net/Imager/4_7_1/FTKImager_UserGuide.pdf
   https://d1kpmuwb7gvu1i.cloudfront.net/Imager/Imager_4.7.1_RN.pdf
-
-- Wireshark
-  https://www.wireshark.org/download.html
 
 - CyberChef
   https://github.com/thalesgroup-cert/FAST/blob/main/Softwares/CyberChef/CyberChef.py

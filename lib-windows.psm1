@@ -4065,6 +4065,55 @@ function InstallGoogleAnalyticCookieCruncher{
   Write-Output "Unzipped to: $SoftwareFolderFullName"
 }
 
+function InstallWireshark{
+  Write-Output "###"
+  $SoftwareName = "Wireshark"
+  Write-Output "Installing $SoftwareName..."
+
+ 
+  $Url = "https://www.wireshark.org/download.html"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_.href -Like "*64*" -and $_.href -Like "*exe*" -and $_.href -NotLike "*Portable*" }).href | Select-Object -First 1
+  if (-not $FullDownloadURL) {
+  Write-Output "Error: $SoftwareName not found"
+  return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Install exe
+    Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force | Out-Null
+    $CommandLineOptions = "/S"
+    Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
+    Write-Output "Installation done for $SoftwareName"
+  }
+}
+
+function RemoveWireshark{
+  Uninstall-Package -InputObject ( Get-Package -Name "Wireshark*" )
+}
 
 function InstallAutopsy{
   Write-Output "###"
@@ -4111,6 +4160,67 @@ function InstallAutopsy{
   }
 }
 
+function InstallZimmermanTools{
+  Write-Output "###"
+
+  $SoftwareName = "ZimmermanTools"
+  Write-Output "Installing $SoftwareName..."
+
+  $FullDownloadURL = "https://raw.githubusercontent.com/EricZimmerman/Get-ZimmermanTools/master/Get-ZimmermanTools.ps1"
+  if (-not $FullDownloadURL) {
+	Write-Output "Error: $SoftwareName not found"
+	return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Run ps1 file which will download the tools
+  & "$FileFullName"
+  
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    $ToolsFolder = Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+  
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+  
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+  }
+}
 
 function InstallNetworkMiner{
   Write-Output "###"
@@ -4171,6 +4281,8 @@ function InstallNetworkMiner{
 	Write-Output "Unzipped to: $NewSoftwareFolderFullName"
   }
 }
+
+
 
 ################################################################
 ###### Customization  ###
