@@ -698,36 +698,23 @@ function CleanLocalWindowsUpdateCache{
 function RunDiskCleanup{
   Write-Output "###"
   Write-Output "Disk cleanup..."
-  <#
-  Same functions as:
-  Dism.exe /online /Cleanup-Image /StartComponentCleanup
-  Dism.exe /online /Cleanup-Image /StartComponentCleanup /ResetBase
-  #>
 
-  $HKLM = [UInt32] "0x80000002"
   $strKeyPath = "SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches"
-  $strValueName = "StateFlags0065"
+  $strValueName = "StateFlags0001"
 
   $subkeys = Get-ChildItem -Path HKLM:\$strKeyPath -Name
 
   ForEach ($subkey in $subkeys) {
-      Try {
-          New-ItemProperty -Path HKLM:\$strKeyPath\$subkey -Name $strValueName -PropertyType DWord -Value 2 -ErrorAction SilentlyContinue | Out-Null
+      If($subkey -ne "DownloadsFolder") {
+          New-ItemProperty -Path HKLM:\$strKeyPath\$subkey -Name $strValueName -PropertyType DWORD -Value 2 -Force -ErrorAction SilentlyContinue | Out-Null
       }
-      Catch {
-      }
-      Try {
-          Start-Process cleanmgr -ArgumentList "/sagerun:65" -Wait -NoNewWindow -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-      }
-      Catch {
-          }
-      }
+  }
+
+  # run cleanmgr.exe
+  Start-Process cleanmgr.exe -ArgumentList "/sagerun:1" -Wait -NoNewWindow -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+
   ForEach ($subkey in $subkeys) {
-      Try {
-          Remove-ItemProperty -Path HKLM:\$strKeyPath\$subkey -Name $strValueName | Out-Null
-      }
-      Catch {
-      }
+      Remove-ItemProperty -Path HKLM:\$strKeyPath\$subkey -Name $strValueName -ErrorAction SilentlyContinue | Out-Null
   }
 }
 
