@@ -1267,21 +1267,6 @@ function InstallNirsoftLauncher(){
   
   Write-Output "Downloaded: $FileFullName"
 
-  # Downloading NLP Files #
-  $NLPFileURLs=($ReleasePageLinks | Where-Object { $_ -Like "*.nlp" })
-
- Foreach ($SubUrl in $NLPFileURLs)
-    {
-    $FullDownloadURL = "https:"+$SubUrl
-    $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
-    $NLPFileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
-    Write-Output "Downloading files from: $FullDownloadURL"
-
-    # Web page requires a referer, so a invoke-webrequest is used
-    Invoke-WebRequest -Uri $FullDownloadURL -OutFile $NLPFileFullName -Headers $headers 
-    Write-Output "Downloaded: $NLPFileFullName"
-    }
-
   if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
       # Get tools folder
       $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
@@ -1317,6 +1302,164 @@ function InstallNirsoftLauncher(){
         & $ArchiveTool x "-o$NewSoftwareFolderFullName" "-p$ZipPassword" $FileFullName | out-null
       Write-Output "Installation done for $SoftwareName"
       }      
+  }
+}
+
+function InstallNirsoftPkgFiles{
+  
+  Write-Output "###"
+  $SoftwareName = "NirsoftLauncherPackages"
+  Write-Output "Installing $SoftwareName..."
+
+  $Url = "https://launcher.nirsoft.net/downloads/index.html"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).links.href
+  
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+  New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+  New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download - Web page requires a referer, so a invoke-webrequest is used
+  $headers = @{}
+  $headers["referer"] = "https://www.nirsoft.net"
+
+  # Downloading NLP Files #
+  $NLPFileURLs=($ReleasePageLinks | Where-Object { $_ -Like "*.nlp" })
+
+  Foreach ($SubUrl in $NLPFileURLs)
+      {
+      $FullDownloadURL = "https:"+$SubUrl
+      $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+      $NLPFileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+      Write-Output "Downloading files from: $FullDownloadURL"
+
+      # Web page requires a referer, so a invoke-webrequest is used
+      Invoke-WebRequest -Uri $FullDownloadURL -OutFile $NLPFileFullName -Headers $headers 
+      Write-Output "Downloaded: $NLPFileFullName"
+      }
+
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+      # Get tools folder
+      $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+      if (-not $ToolsFolder) {
+        # Set default tools folder
+        $ToolsFolder = "\Tools"
+      }
+   
+      # Create tools folder if not existing
+      if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+      }
+  }  
+
+  # Copy NLP file for ZimmerManTools from repo "files" directory
+  $NLPfile = "zimmermantools.nlp"
+  $NLPpackage = "ZimmerManTools"
+
+  # If repo NLP file can be identified, copy to Bootstrap and to Tools directory
+  if ($PSScriptRoot) {
+      $SourceDir = Join-Path -Path $PSScriptRoot -ChildPath "files"
+      $SourceFile = Join-Path -Path $SourceDir -ChildPath $NLPfile
+      $DestinationFile = Join-Path -Path $SoftwareFolderFullName -ChildPath $NLPfile
+
+      if ((Test-Path -Path $SourceFile)) {
+          Copy-Item $SourceFile $DestinationFile -Force
+          Write-Output "File $NLPfile copied to $SoftwareFolderFullName"
+      }
+
+    # Copy Zimmerman NLP to Tools directory
+    if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+      $DestinationDir = Join-Path -Path $ToolsFolder -ChildPath $NLPpackage
+      $DestinationFile = Join-Path -Path $DestinationDir -ChildPath $NLPfile
+      if ((Test-Path -Path $DestinationDir) -And (Test-Path -Path $SourceFile)) {
+            Copy-Item $SourceFile $DestinationFile -Force
+            Write-Output "File $NLPfile copied to $DestinationDir"
+        }
+    }
+  }
+
+  # Create NLP file for CCleaner from Piriform by replacing paths in downloaded file
+  $NLPfile = "piriform.nlp"
+  $NLPpackage = "CCleaner"
+
+  $SourceFile = Join-Path -Path $SoftwareFolderFullName -ChildPath $NLPfile
+  $DestinationDir = Join-Path -Path $BootstrapFolder -ChildPath $NLPpackage
+  $DestinationFile = Join-Path -Path $DestinationDir -ChildPath $NLPfile
+  (Get-Content $NLPfileFullName).Replace(".\Speccy\Speccy", "Speccy").Replace(".\Recuva\Recuva", "recuva").Replace(".\Defraggler\df", "df").Replace(".\Defraggler\Defraggler", "Defraggler").Replace(".\CCleaner\CCleaner", "CCleaner") | Out-File $DestinationFile -Force -Encoding ascii
+
+  # Copy CCleaner package file to Tools Package directory
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+      $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $NLPpackage
+      $ToolsNLPFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $NLPfile
+      Copy-Item $DestinationFile $ToolsNLPFileFullName -Force
+      Write-Output "File $NLPfile copied to $NewSoftwareFolderFullName"
+  }
+  
+  # Copy SysInternals NLP file to Tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    $NLPfile = "sysinternals6.nlp"
+    $NLPpackage = "SysinternalsSuite"
+    $SourceFile = Join-Path -Path $SoftwareFolderFullName -ChildPath $NLPfile
+    $DestinationDir = Join-Path -Path $ToolsFolder -ChildPath $NLPpackage
+    $DestinationFile = Join-Path -Path $DestinationDir -ChildPath $NLPfile
+
+    if ((Test-Path -Path $SourceFile) -And (Test-Path -Path $DestinationDir)) {
+        Copy-Item $SourceFile $DestinationFile -Force
+        Write-Output "File $NLPfile copied to $DestinationDir"
+    }
+  }
+
+  # Copy Mitec NLP file to Tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    $NLPfile = "mitec.nlp"
+    $NLPpackage = "Mitec"
+    $SourceFile = Join-Path -Path $SoftwareFolderFullName -ChildPath $NLPfile
+    $DestinationDir = Join-Path -Path $ToolsFolder -ChildPath $NLPpackage
+    $DestinationFile = Join-Path -Path $DestinationDir -ChildPath $NLPfile
+
+    if ((Test-Path -Path $SourceFile) -And (Test-Path -Path $DestinationDir)) {
+        Copy-Item $SourceFile $DestinationFile -Force
+        Write-Output "File $NLPfile copied to $DestinationDir"
+    }
+  }
+
+  # Copy NTCore NLP file to Tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    $NLPfile = "ntcore.nlp"
+    $NLPpackage = "NTCore"
+    $SourceFile = Join-Path -Path $SoftwareFolderFullName -ChildPath $NLPfile
+    $DestinationDir = Join-Path -Path $ToolsFolder -ChildPath $NLPpackage
+    $DestinationFile = Join-Path -Path $DestinationDir -ChildPath $NLPfile
+
+    if ((Test-Path -Path $SourceFile) -And (Test-Path -Path $DestinationDir)) {
+        Copy-Item $SourceFile $DestinationFile -Force
+        Write-Output "File $NLPfile copied to $DestinationDir"
+    }
+  }
+
+  # Copy JoeWare NLP file to Tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    $NLPfile = "joeware.nlp"
+    $NLPpackage = "JoeWare"
+    $SourceFile = Join-Path -Path $SoftwareFolderFullName -ChildPath $NLPfile
+    $DestinationDir = Join-Path -Path $ToolsFolder -ChildPath $NLPpackage
+    $DestinationFile = Join-Path -Path $DestinationDir -ChildPath $NLPfile
+
+    if ((Test-Path -Path $SourceFile) -And (Test-Path -Path $DestinationDir)) {
+        Copy-Item $SourceFile $DestinationFile -Force
+        Write-Output "File $NLPfile copied to $DestinationDir"
+    }
   }
 }
 
@@ -2539,6 +2682,14 @@ function InstallOffice365{
   Set-Location $DefaultDownloadDir 
 }
 
+function RemoveTeamsWideInstaller{
+  Write-Output "###"
+  # Remove Teams Machine-Wide Installer
+  Write-Output "Removing Teams Machine-wide Installer" #-ForegroundColor Yellow
+
+  $MachineWide = Get-WmiObject -Class Win32_Product | Where-Object{$_.Name -eq "Teams Machine-Wide Installer"}
+  $MachineWide.Uninstall()
+}
 
 function InstallVisioPro{
   Write-Output "###"

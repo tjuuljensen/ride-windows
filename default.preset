@@ -1,15 +1,15 @@
-##########
+#######
 # default config file for Windows
 # preset for Windowns 10/11, Server 2016 & Server 2019
 # Author: Torsten Juul-Jensen
 # Version: v1.3, 2022-12-26
 # Source: https://github.com/tjuuljensen/ride-windows
-##########
+#######
 
-###### Require administrator privileges ###
+### Require administrator privileges ###
 RequireAdmin
 
-###### Windows configuration ###
+### Windows configuration ###
 CreateNewLocalAdmin
 DisableBuiltinAdministrator
 # DisableWindowsStoreApp      # EnableWindowsStoreApp
@@ -19,51 +19,60 @@ EnableInternetPrinting        # DisableInternetPrinting
 EnableMemoryIntegrity         # DisableMemoryIntegrity
 SetRegionalSettings
 
-###### Privacy configurations  ###
+### Privacy configurations  ###
 DisableInkingAndTypingData    # EnableInkingAndTypingData
 
-###### Defender configuration  ###
+### Defender configuration  ###
 ExcludeToolsDirDefender       # RemoveToolsDirDefender
 ExcludeBootstrapDirDefender   # RemoveBootstrapDirDefender
 
-###### Hardening Windows  ###
+### Hardening Windows  ###
 DisableSSDPdiscovery          # EnableSSDPdiscovery
 DisableUniversalPlugAndPlay   # EnableUniversalPlugAndPlay
 DisableWinHttpAutoProxySvc    # EnableWinHttpAutoProxySvc
 
-###### Network Functions  ###
+### Network Functions  ###
 DisableIEProxyAutoconfig
 DisableAutoconfigURL          # EnableAutoconfigURL
 DisableMulticastDNS           # EnableMulticastDNS
 GetTelemetryBlockingHostfile  # SetDefaultHostsfile
 
-###### Windows Subsystem for Linux  ###
+### Windows Subsystem for Linux  ###
 # EnableWSL                   # DisableWSL
 # InstallWSLubuntu            # RemoveWSLubuntu
 # InstallWSLdebian            # RemoveWSLdebian
 # InstallWSLkali              # RemoveWSLkali
 # InstallWSLFedora            # RemoveWSLFedora
 
-###### Install programs  ###
-InstallGit4Win                #
-# InstallAtom                 # RemoveAtom
-# InstallNotepadPlusPlus      # RemoveNotepadPlusPlus
+### Install programs  ###
 Install7Zip                   # Remove7Zip
-# InstallRSAT                 # RemoveRSAT
+InstallGit4Win                #
+# InstallGPGwin               # 
+# InstallNotepadPlusPlus      # RemoveNotepadPlusPlus
+# InstallAtom                 # RemoveAtom
 GetSysmonSwiftXML             # GetSysmonOlafXML
 InstallSysmon64               # 
+InstallOffice365              # 
+RemoveTeamsWideInstaller
+# InstallVisioPro             # 
+# InstallVMwareWorkstation    # RemoveVMwareWorkstation
+# SetVMDirUserhome            # SetVMDirDocuments
+# InstallThunderbird          # 
+# InstallJoplin
+
+### System Tools ###
 # GetSysinternalsSuite        # 
 # InstallJoeWare              #
 # InstallCCleaner             #
 # InstallMitec                #
 # InstallNtcore               #
+# InstallWireshark            # RemoveWireshark
+# InstallZimmermanTools
 # InstallNirsoftLauncher      # InstallNirsoftToolsX64        # 
-# InstallGPGwin               # 
-# InstallThunderbird          # 
-InstallOffice365              # 
-# InstallVisioPro             # 
-# InstallVMwareWorkstation    # RemoveVMwareWorkstation
-# SetVMDirUserhome            # SetVMDirDocuments
+# InstallNirsoftPkgFiles
+
+### Active Directory Tools ###
+# InstallRSAT                 # RemoveRSAT
 # InstallOpenJDK              # 
 # InstallNeo4j                # 
 # GetBloodhound				  #
@@ -71,17 +80,13 @@ InstallOffice365              #
 # GetAzurehound				  #
 # GetImproHound               #
 # GetPingCastle               #
-# InstallJoplin
-# InstallWireshark            # RemoveWireshark
-# InstallZimmermanTools
 
-###### For Linux VMs ###
+### For Linux VMs ###
 # InstallVirtIOGuestTool      #
 # InstallSpiceGuestTool       # 
 # InstallSpiceWebDAV          #
 
-
-###### Browsers and Internet  ###
+### Browsers and Internet  ###
 DisableEdgePagePrediction
 InstallFirefox                # RemoveFirefox
 CreateFirefoxPreferenceFiles
@@ -89,7 +94,7 @@ InstallChrome                 # RemoveChrome
 CreateChromePreferenceFiles
 InstallOpera                  #
 
-###### Forensic Tools ###
+### Forensic Tools ###
 # InstallAutopsy              #
 # InstallNetworkMiner         #
 # InstallAutorunner
@@ -120,7 +125,7 @@ InstallOpera                  #
 # InstallPartitionDiagnosticParser
 # InstallGoogleAnalyticCookieCruncher
 
-###### Customization  ###
+### Customization  ###
 InstallFonts
 ReplaceDefaultWallpapers
 # InstallLenovoCompanion        # RemoveLenovoCompanion
@@ -373,7 +378,7 @@ RemoveFaxPrinter                # AddFaxPrinter
 # UnpinTaskbarIcons
 CleanPublicDesktop
 
-###### Operational Tasks  ###
+### Operational Tasks  ###
 GetWindowsUpdatesWithPwsh
 CleanLocalWindowsUpdateCache
 RunDiskCleanup
@@ -382,7 +387,7 @@ RunDiskCleanup
 ### Other Functions ###
 SetHostname
 
-###### Bitlocker  ###
+### Bitlocker  ###
 SetDefaultBitLockerAES256     # SetDefaultBitLockerAES128
 # PutBitlockerShortCutOnDesktop
 # EnableLockOutThreshold       # DisableLockOutThreshold
