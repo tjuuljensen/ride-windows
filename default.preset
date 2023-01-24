@@ -58,7 +58,6 @@ InstallSysmon64               #
 # InstallMitec                #
 # InstallNtcore               #
 # InstallNirsoftLauncher      # InstallNirsoftToolsX64        # 
-# InstallSpiceGuestTool       # 
 # InstallGPGwin               # 
 # InstallThunderbird          # 
 InstallOffice365              # 
@@ -75,6 +74,12 @@ InstallOffice365              #
 # InstallJoplin
 # InstallWireshark            # RemoveWireshark
 # InstallZimmermanTools
+
+###### For Linux VMs ###
+# InstallVirtIOGuestTool      #
+# InstallSpiceGuestTool       # 
+# InstallSpiceWebDAV          #
+
 
 ###### Browsers and Internet  ###
 DisableEdgePagePrediction
