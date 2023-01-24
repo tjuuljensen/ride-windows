@@ -443,7 +443,7 @@ Function DisableWinHttpAutoProxySvc {
   Write-Output "###"
   # Disable IE proxy autoconfig service
 	Write-Output "Stopping and disabling HTTP Proxy auto-discovery ..."
-	Stop-Service "WinHttpAutoProxySvc" -WarningAction SilentlyContinue
+	Stop-Service "WinHttpAutoProxySvc" -Force -WarningAction SilentlyContinue
 	Set-Service "WinHttpAutoProxySvc" -StartupType Disabled
 }
 
@@ -2304,7 +2304,7 @@ function InstallSpiceGuestTool{
 
   if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Install msi
-    Invoke-Expression "msiexec /qb /i $FileFullName"
+    Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" /quiet" -Wait -NoNewWindow
     Write-Output "Installation done for $SoftwareName"
   }
 
@@ -2339,7 +2339,7 @@ function InstallSpiceGuestTool{
 
   if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Install exe
-    $CommandLineOptions = " "
+    $CommandLineOptions = "/S"
     Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
     Write-Output "Installation done for $SoftwareName"
   }
@@ -2410,7 +2410,7 @@ function InstallThunderbird{
 
   # Download
   Write-Output "Downloading file from: $FullDownloadURL"
-  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileName = "Thunderbird Setup.exe"
   $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
@@ -2466,22 +2466,20 @@ function InstallOffice365{
 
   <Configuration>
 
-    <Add OfficeClientEdition="32" Channel="Monthly">
+    <Add Channel="MonthlyEnterprise">
       <Product ID="O365ProPlusRetail">
-        <Language ID="en-us" />
-        <Language ID="da-dk" />
-      </Product>
-      <Product ID="VisioProRetail">
         <Language ID="en-us" />
         <Language ID="da-dk" />
       </Product>
     </Add>
 
-  <Updates Enabled="TRUE" Channel="Monthly" />
+  <Updates Enabled="TRUE" Channel="MonthlyEnterprise" />
   <Display Level="None" AcceptEULA="TRUE" />
   <Property Name="AUTOACTIVATE" Value="1" />
+  <Property Name="FORCEAPPSSHUTDOWN" Value="TRUE" />
   </Configuration>' | Out-File $ConfigFileFullName
 
+  Set-Location $SoftwareFolderFullName
   $SetupFileFullName = "$SoftwareFolderFullName\setup.exe"
   Start-Process -FilePath $SetupFileFullName  -ArgumentList "/download ""$ConfigFileFullName""" -NoNewWindow -Wait
 
@@ -2534,17 +2532,20 @@ function InstallVisioPro{
 
   <Configuration>
 
-    <Add OfficeClientEdition="32" Channel="Monthly">
+    <Add Channel="MonthlyEnterprise">
       <Product ID="VisioProRetail">
         <Language ID="en-us" />
         <Language ID="da-dk" />
       </Product>
     </Add>
 
-  <Updates Enabled="TRUE" Channel="Monthly" />
+  <Updates Enabled="TRUE" Channel="MonthlyEnterprise" />
   <Display Level="None" AcceptEULA="TRUE" />
   <Property Name="AUTOACTIVATE" Value="1" />
+  <Property Name="FORCEAPPSSHUTDOWN" Value="TRUE" />
   </Configuration>' | Out-File $ConfigFileFullName
+  
+  Set-Location $SoftwareFolderFullName
   $SetupFileFullName = "$SoftwareFolderFullName\setup.exe"
   Start-Process $SetupFileFullName "/download $ConfigFileFullName" -NoNewWindow -Wait
 
@@ -4030,46 +4031,50 @@ function InstallVolatility3{
 
 function InstallPartitionDiagnosticParser{
   Write-Output "###"
-  $SoftwareName = "Partition%4DiagnosticParser"
+  $SoftwareName = "Partition-DiagnosticParser"
   Write-Output "Get $SoftwareName..."
  
   $author="theAtropos4n6"
   $repo="Partition-4DiagnosticParser"
-  $Url = "https://api.github.com/repos/$author/$repo/zipball/master"
+  $Url = "https://api.github.com/repos/$author/$repo/zipball"
   $FullDownloadURL = $Url
  
   if (-not $FullDownloadURL) {
-  Write-Output "Error: $SoftwareName not found"
-  return
-  }
-
-  # Create bootstrap folder if not existing
-  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
-  if (-not (Test-Path -Path $BootstrapFolder)) {
-  New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
-  }
-
-  # Create software folder
-  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
-  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
-  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
-  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
-  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-  New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
-  }
-
-  # Download
-  Write-Output "Downloading file from: $FullDownloadURL"
-  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
-  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
-  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
-  Write-Output "Downloaded: $FileFullName"
-
-  # Unzip
-  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
-  Remove-Item -Path $FileFullName -ErrorAction Ignore
-  Write-Output "Unzipped to: $SoftwareFolderFullName"
+    Write-Output "Error: $SoftwareName not found"
+    return
+    }
+  
+    # Create bootstrap folder if not existing
+    $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+    $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+    if (-not (Test-Path -Path $BootstrapFolder)) {
+    New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+    }
+  
+    # Create software folder
+    $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+    $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+    $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+    $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+    if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+    New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+    }
+  
+    # Download
+    Write-Output "Downloading file from: $FullDownloadURL"
+    $FileName = "$SoftwareName.zip"
+    $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+    Invoke-WebRequest -Uri $FullDownloadURL -OutFile $FileFullName
+    Write-Output "Downloaded: $FileFullName"
+  
+    # Unzip
+    Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
+    Remove-Item -Path $FileFullName -ErrorAction Ignore
+    $SubPath = Get-ChildItem $SoftwareFolderFullName -Name
+    $FullSubPath =Join-Path -Path $SoftwareFolderFullName -ChildPath $SubPath
+    Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $SoftwareFolderFullName -Force
+    Remove-Item -Path $FullSubPath -ErrorAction Ignore
+    Write-Output "Unzipped to: $SoftwareFolderFullName"
 }
 
 
@@ -4080,9 +4085,8 @@ function InstallGoogleAnalyticCookieCruncher{
 
   $author="mdegrazia"
   $repo="Google-Analytic-Cookie-Cruncher"
-  $Url = "https://api.github.com/repos/$author/$repo/zipball/master"
-  $FullDownloadURL = $Url
-
+  $FullDownloadURL = "https://api.github.com/repos/$author/$repo/zipball"
+  
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
   return
@@ -4106,14 +4110,18 @@ function InstallGoogleAnalyticCookieCruncher{
 
   # Download
   Write-Output "Downloading file from: $FullDownloadURL"
-  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileName = "$SoftwareName.zip"
   $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
-  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Invoke-WebRequest -Uri $FullDownloadURL -OutFile $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
   # Unzip
   Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
   Remove-Item -Path $FileFullName -ErrorAction Ignore
+  $SubPath = Get-ChildItem $SoftwareFolderFullName -Name
+  $FullSubPath =Join-Path -Path $SoftwareFolderFullName -ChildPath $SubPath
+  Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $SoftwareFolderFullName -Force
+  Remove-Item -Path $FullSubPath -ErrorAction Ignore
   Write-Output "Unzipped to: $SoftwareFolderFullName"
 }
 
@@ -4498,12 +4506,12 @@ Function DisableTelemetry {
 		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\TextInput" -Force | Out-Null
 	}
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\TextInput" -Name "AllowLinguisticDataCollection" -Type DWord -Value 0
-	Disable-ScheduledTask -TaskName "Microsoft\Windows\Application Experience\Microsoft Compatibility Appraiser" | Out-Null
-	Disable-ScheduledTask -TaskName "Microsoft\Windows\Application Experience\ProgramDataUpdater" | Out-Null
-	Disable-ScheduledTask -TaskName "Microsoft\Windows\Autochk\Proxy" | Out-Null
-	Disable-ScheduledTask -TaskName "Microsoft\Windows\Customer Experience Improvement Program\Consolidator" | Out-Null
-	Disable-ScheduledTask -TaskName "Microsoft\Windows\Customer Experience Improvement Program\UsbCeip" | Out-Null
-	Disable-ScheduledTask -TaskName "Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector" | Out-Null
+	Disable-ScheduledTask -TaskName "Microsoft\Windows\Application Experience\Microsoft Compatibility Appraiser" -ErrorAction SilentlyContinue | Out-Null
+	Disable-ScheduledTask -TaskName "Microsoft\Windows\Application Experience\ProgramDataUpdater" -ErrorAction SilentlyContinue | Out-Null
+	Disable-ScheduledTask -TaskName "Microsoft\Windows\Autochk\Proxy" -ErrorAction SilentlyContinue | Out-Null
+	Disable-ScheduledTask -TaskName "Microsoft\Windows\Customer Experience Improvement Program\Consolidator" -ErrorAction SilentlyContinue | Out-Null
+	Disable-ScheduledTask -TaskName "Microsoft\Windows\Customer Experience Improvement Program\UsbCeip" -ErrorAction SilentlyContinue | Out-Null
+	Disable-ScheduledTask -TaskName "Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector" -ErrorAction SilentlyContinue | Out-Null
 	# Office 2016 / 2019
 	Disable-ScheduledTask -TaskName "Microsoft\Office\Office ClickToRun Service Monitor" -ErrorAction SilentlyContinue | Out-Null
 	Disable-ScheduledTask -TaskName "Microsoft\Office\OfficeTelemetryAgentFallBack2016" -ErrorAction SilentlyContinue | Out-Null
