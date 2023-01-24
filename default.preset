@@ -12,7 +12,7 @@ RequireAdmin
 ###### Windows configuration ###
 CreateNewLocalAdmin
 DisableBuiltinAdministrator
-DisableWindowsStoreApp        # EnableWindowsStoreApp
+# DisableWindowsStoreApp      # EnableWindowsStoreApp
 DisableFriendlyURLFormat      # UnconfigureFriendlyURLFormat
 EnableRunAsInStartMenu        # DisableRunAsInStartMenu
 EnableInternetPrinting        # DisableInternetPrinting
@@ -29,10 +29,11 @@ ExcludeBootstrapDirDefender   # RemoveBootstrapDirDefender
 ###### Hardening Windows  ###
 DisableSSDPdiscovery          # EnableSSDPdiscovery
 DisableUniversalPlugAndPlay   # EnableUniversalPlugAndPlay
-# DisableWinHttpAutoProxySvc  # EnableWinHttpAutoProxySvc
+DisableWinHttpAutoProxySvc    # EnableWinHttpAutoProxySvc
 
 ###### Network Functions  ###
 DisableIEProxyAutoconfig
+DisableAutoconfigURL          # EnableAutoconfigURL
 DisableMulticastDNS           # EnableMulticastDNS
 GetTelemetryBlockingHostfile  # SetDefaultHostsfile
 
@@ -48,7 +49,7 @@ InstallGit4Win                #
 # InstallAtom                 # RemoveAtom
 # InstallNotepadPlusPlus      # RemoveNotepadPlusPlus
 Install7Zip                   # Remove7Zip
-InstallRSAT                   # RemoveRSAT
+# InstallRSAT                 # RemoveRSAT
 GetSysmonSwiftXML             # GetSysmonOlafXML
 InstallSysmon64               # 
 # GetSysinternalsSuite        # 
@@ -120,7 +121,7 @@ ReplaceDefaultWallpapers
 # InstallLenovoCompanion        # RemoveLenovoCompanion
 
 ### Privacy Tweaks ###
-DisableTelemWiFietry            # EnableTelemetry
+DisableTelemetry                # EnableTelemetry
 DisableCortana                  # EnableCortana
 DisableWiFiSense                # EnableWiFiSense
 # DisableSmartScreen            # EnableSmartScreen
@@ -244,7 +245,7 @@ ShowFileOperationsDetails       # HideFileOperationsDetails
 # EnableFileDeleteConfirm       # DisableFileDeleteConfirm
 HideTaskbarSearch               # ShowTaskbarSearchIcon         # ShowTaskbarSearchBox
 HideTaskView                    # ShowTaskView
-ShowSmallTaskbarIcons           # ShowLargeTaskbarIcons
+# ShowSmallTaskbarIcons         # ShowLargeTaskbarIcons
 SetTaskbarCombineWhenFull       # SetTaskbarCombineNever        # SetTaskbarCombineAlways
 HideTaskbarPeopleIcon           # ShowTaskbarPeopleIcon
 ShowTrayIcons                   # HideTrayIcons
@@ -264,8 +265,8 @@ SetVisualFXPerformance          # SetVisualFXAppearance
 # AddENKeyboard                 # RemoveENKeyboard
 # EnableNumlock                 # DisableNumlock
 # DisableEnhPointerPrecision    # EnableEnhPointerPrecision
-# SetSoundSchemeNone            # SetSoundSchemeDefault
-# DisableStartupSound           # EnableStartupSound
+SetSoundSchemeNone              # SetSoundSchemeDefault
+DisableStartupSound             # EnableStartupSound
 # DisableChangingSoundScheme    # EnableChangingSoundScheme
 # EnableVerboseStatus           # DisableVerboseStatus
 DisableF1HelpKey                # EnableF1HelpKey
@@ -296,11 +297,11 @@ ShowThisPCOnDesktop             # HideThisPCFromDesktop
 # ShowNetworkOnDesktop          # HideNetworkFromDesktop
 # HideDesktopIcons              # ShowDesktopIcons
 # ShowBuildNumberOnDesktop      # HideBuildNumberFromDesktop
-HideDesktopFromThisPC           # ShowDesktopInThisPC
+# HideDesktopFromThisPC         # ShowDesktopInThisPC
 # HideDesktopFromExplorer       # ShowDesktopInExplorer
 HideDocumentsFromThisPC         # ShowDocumentsInThisPC
 # HideDocumentsFromExplorer     # ShowDocumentsInExplorer
-HideDownloadsFromThisPC         # ShowDownloadsInThisPC
+# HideDownloadsFromThisPC       # ShowDownloadsInThisPC
 # HideDownloadsFromExplorer     # ShowDownloadsInExplorer
 HideMusicFromThisPC             # ShowMusicInThisPC
 # HideMusicFromExplorer         # ShowMusicInExplorer
@@ -335,7 +336,7 @@ DisableMediaSharing             # EnableMediaSharing
 # DisableMediaOnlineAccess      # EnableMediaOnlineAccess
 # EnableDeveloperMode           # DisableDeveloperMode
 # UninstallMediaPlayer          # InstallMediaPlayer
-# UninstallInternetExplorer     # InstallInternetExplorer
+UninstallInternetExplorer       # InstallInternetExplorer
 # UninstallWorkFolders          # InstallWorkFolders
 # UninstallHelloFace            # InstallHelloFace
 # UninstallMathRecognizer       # InstallMathRecognizer
@@ -365,6 +366,7 @@ RemoveFaxPrinter                # AddFaxPrinter
 ### Unpinning ###
 # UnpinStartMenuTiles
 # UnpinTaskbarIcons
+CleanPublicDesktop
 
 ###### Operational Tasks  ###
 GetWindowsUpdatesWithPwsh

@@ -198,12 +198,12 @@ function SetRegionalSettings{
 
   # Copy settings to entire system - Only on Windows 11 and forward
    if (([environment]::OSVersion.Version).Build -ge 22000) {
-     write-host "Copying sessings to system default..."
+     Write-Output "Copying sessings to system default..."
      Copy-UserInternationalSettingsToSystem -WelcomeScreen $True -NewUser $True
      }
 
   # Set timezone
-  Write-Host "Setting Time Zone"
+  Write-Output "Setting Time Zone"
   Set-TimeZone $TimeZone
 }
 
@@ -224,7 +224,7 @@ function ExcludeToolsDirDefender{
   Write-Output "###"
   # Exclude C:\Tools from Defender Antivirus scan
   Write-Output "Exclude C:\Tools from Defender Antivirus scans..."
-  Set-MpPreference -ExclusionPath C:\Tools
+  Add-MpPreference -ExclusionPath C:\Tools
 }
 
 function RemoveToolsDirDefender{
@@ -245,7 +245,7 @@ function ExcludeBootstrapDirDefender{
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
 
-  Set-MpPreference -ExclusionPath $BootstrapFolder
+  Add-MpPreference -ExclusionPath $BootstrapFolder
 }
 
 function RemoveBootstrapDirDefender{
@@ -459,6 +459,21 @@ Function EnableWinHttpAutoProxySvc {
 ################################################################
 ###### Network Functions  ###
 ################################################################
+
+function DisableAutoconfigURL{
+  Write-Output "###"
+    # Disable machine proxy script
+    Write-Output "Disabling autoconfig URL (Proxy script)..."
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name "AutoconfigURL" -Type String -Value ""
+}
+
+
+function EnableAutoconfigURL{
+  Write-Output "###"
+    # Disable machine proxy script
+    Write-Output "Disabling autoconfig URL (Proxy script)..."
+    Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name "AutoconfigURL" -ErrorAction SilentlyContinue
+}
 
 function DisableIEProxyAutoconfig{
   Write-Output "###"
@@ -1298,7 +1313,7 @@ function InstallNirsoftLauncher(){
       if (-not (Test-Path $ArchiveTool)) {
           Write-Output "Warning: 7-Zip not found. Cannot unpack software"
       } else {# 
-        Write-Host "Unpacking with 7-zip"
+        Write-Output "Unpacking with 7-zip"
         & $ArchiveTool x "-o$NewSoftwareFolderFullName" "-p$ZipPassword" $FileFullName | out-null
       Write-Output "Installation done for $SoftwareName"
       }      
@@ -1384,7 +1399,7 @@ function InstallNirsoftToolsX64(){
       if (-not (Test-Path $ArchiveTool)) {
           Write-Output "Warning: 7-Zip not found. Cannot unpack software"
       } else {
-        Write-Host "Unpacking with 7-zip"
+        Write-Output "Unpacking with 7-zip"
         & $ArchiveTool x "-o$NewSoftwareFolderFullName" "-p$ZipPassword" $FileFullName | out-null
       Write-Output "Installation done for $SoftwareName"
       }    
@@ -1466,7 +1481,7 @@ function InstallJoeWare(){
   
       foreach ($ZipFile in $ZipFiles) {
           try { $ZipFile | Expand-Archive -DestinationPath $NewSoftwareFolderFullName  }
-          catch { Write-Host "FAILED to unzip:"$ZipFile -ForegroundColor red }
+          catch { Write-Output "FAILED to unzip:"$ZipFile -ForegroundColor red }
       }
     
     Write-Output "Unzipped to: $NewSoftwareFolderFullName"
@@ -1544,11 +1559,11 @@ function InstallCCleaner(){
 
     # Unzip with built-in unzip
     $ZipFiles = Get-ChildItem $SoftwareFolderFullName -Filter *.zip 
-    Write-Host "Unpacking zip files"
+    Write-Output "Unpacking zip files"
 
     foreach ($ZipFile in $ZipFiles) {
         try { $ZipFile | Expand-Archive -DestinationPath $NewSoftwareFolderFullName  }
-        catch { Write-Host "FAILED to unzip:"$ZipFile -ForegroundColor red }
+        catch { Write-Output "FAILED to unzip:"$ZipFile -ForegroundColor red }
     }
 
     # Unzip .exe with 7-Zip
@@ -1556,7 +1571,7 @@ function InstallCCleaner(){
     if (-not (Test-Path $ArchiveTool)) {
       Write-Output "Warning: 7-Zip not found. Cannot unpack software"
     } else {
-      Write-Host "Unpacking with 7-zip"
+      Write-Output "Unpacking with 7-zip"
       $ExeFiles = Get-ChildItem $SoftwareFolderFullName -Filter *.exe 
 
       foreach ($File in $ExeFiles) {
@@ -1644,8 +1659,8 @@ function InstallMitec(){
     $ZipFiles = Get-ChildItem $SoftwareFolderFullName -Filter *.zip 
   
       foreach ($ZipFile in $ZipFiles) {
-          try { $ZipFile | Expand-Archive -DestinationPath $NewSoftwareFolderFullName | Out-Null }
-          catch { Write-Host "FAILED to unzip:"$ZipFile -ForegroundColor red }
+          try { $ZipFile | Expand-Archive -DestinationPath $NewSoftwareFolderFullName -Force | Out-Null }
+          catch { Write-Output "FAILED to unzip:"$ZipFile -ForegroundColor red }
       }
     
     Write-Output "Unzipped to: $NewSoftwareFolderFullName"
@@ -1742,7 +1757,7 @@ function InstallNtcore(){
   
       foreach ($ZipFile in $ZipFiles) {
           try { $ZipFile | Expand-Archive -DestinationPath $NewSoftwareFolderFullName -Force | Out-Null }
-          catch { Write-Host "FAILED to unzip:"$ZipFile -ForegroundColor red }
+          catch { Write-Output "FAILED to unzip:"$ZipFile -ForegroundColor red }
       }
     
     Write-Output "Unzipped to: $NewSoftwareFolderFullName"
@@ -1983,10 +1998,12 @@ function GetBloodhound {
 	# Unzip
 	# Cannot unzip directly to software folder due to too long path. Even with Long paths enabled. This hack works, also with long paths disabled.
 	$NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
-	Expand-Archive $NewFileFullName -DestinationPath \temp\bh\
-	Move-Item -Path \temp\bh\* -Destination $NewSoftwareFolderFullName
+  $BloodhoundTempDir="\tmp_bh"
+	Expand-Archive $NewFileFullName -DestinationPath $BloodhoundTempDir
+	Move-Item -Path $BloodhoundTempDir\* -Destination $NewSoftwareFolderFullName
+  Remove-Item -Path $BloodhoundTempDir -Recurse -Force | Out-Null
 	Remove-Item -Path $NewFileFullName -ErrorAction Ignore
-	Remove-Item -Path \temp\bh -Recurse -ErrorAction Ignore
+	Remove-Item -Path $BloodhoundTempDir -Recurse -ErrorAction Ignore
 	Write-Output "Unzipped to: $NewSoftwareFolderFullName"
   }
 }
@@ -2466,11 +2483,11 @@ function InstallOffice365{
   </Configuration>' | Out-File $ConfigFileFullName
 
   $SetupFileFullName = "$SoftwareFolderFullName\setup.exe"
-  Start-Process $SetupFileFullName "/download ""$ConfigFileFullName""" -NoNewWindow -Wait
+  Start-Process -FilePath $SetupFileFullName  -ArgumentList "/download ""$ConfigFileFullName""" -NoNewWindow -Wait
 
   if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Install
-    Start-Process $SetupFileFullName "/configure ""$ConfigFileFullName""" -NoNewWindow -Wait
+    Start-Process -FilePath $SetupFileFullName -ArgumentList "/configure ""$ConfigFileFullName""" -NoNewWindow -Wait
     Write-Output "Installation done for $SoftwareName"
   }
 }
@@ -2697,7 +2714,7 @@ function InstallJoplin{
 
   if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Install exe
-    $CommandLineOptions = " "
+    $CommandLineOptions = "/allusers /S"
     Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
     Write-Output "Installation done for $SoftwareName"
   }
@@ -2997,10 +3014,11 @@ function InstallAutorunner{
   $SoftwareName = "autorunner"
   Write-Output "Installing $SoftwareName..."
 
-  $Url = "https://github.com/woanware/autorunner/releases/latest"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*autorunner*" -and $_.href -Like "*zip*" -and $_.href -notlike "*archive*"}).href
-  $FullDownloadURL = "https://github.com$SoftwareUri"
+  $author="woanware"
+  $repo="autorunner"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $FullDownloadURL = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
   return
@@ -3041,10 +3059,12 @@ function InstallChainsaw{
   $SoftwareName = "chainsaw"
   Write-Output "Installing $SoftwareName..."
 
-  $Url = "https://github.com/countercept/chainsaw/releases/latest"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*windows*" -and $_.href -Like "*msvc*" -and $_.href -Like "*zip*"}).href
-  $FullDownloadURL = "https://github.com$SoftwareUri"
+  $author="countercept"
+  $repo="chainsaw"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*windows*" -and $_ -Like "*msvc*" -and $_ -Like "*zip*"})
+  
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
   return
@@ -3119,10 +3139,12 @@ function InstallCyLR{
   $SoftwareName = "CyLR"
   Write-Output "Installing $SoftwareName..."
 
-  $Url = "https://github.com/orlikoski/CyLR/releases/latest"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*win*" -and $_.href -Like "*86*" -and $_.href -Like "*zip*" }).href
-  $FullDownloadURL = "https://github.com$SoftwareUri"
+  $author="orlikoski"
+  $repo="CyLR"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*win*" -and $_ -Like "*86*" -and $_ -Like "*zip*" })
+  
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
   return
@@ -3161,11 +3183,12 @@ function InstallDejsonlz4{
   Write-Output "###"
   $SoftwareName = "dejsonlz4"
   Write-Output "Installing $SoftwareName..."
-
-  $Url = "https://github.com/avih/dejsonlz4/releases/latest"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*dejsonlz4.v*" -and $_.href -Like "*zip*"}).href
-  $FullDownloadURL = "https://github.com$SoftwareUri"
+  
+  $author="avih"
+  $repo="dejsonlz4"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*zip*" })
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
   return
@@ -3240,11 +3263,13 @@ function InstallHindsight{
   Write-Output "###"
   $SoftwareName = "Hindsight"
   Write-Output "Installing $SoftwareName..."
+  
+  $author="obsidianforensics"
+  $repo="hindsight"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*gui*" -and $_ -Like "*exe*" })
 
-  $Url = "https://github.com/obsidianforensics/hindsight/releases/latest"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*hind*" -and $_.href -Like "*exe*" -and $_.href -like "*gui*" }).href
-  $FullDownloadURL = "https://github.com$SoftwareUri"
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
   return
@@ -3280,10 +3305,12 @@ function InstallLoki{
   $SoftwareName = "Loki"
   Write-Output "Installing $SoftwareName..."
 
-  $Url = "https://github.com/Neo23x0/Loki/releases/latest"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*loki_*" -and $_.href -Like "*zip*"}).href
-  $FullDownloadURL = "https://github.com$SoftwareUri"
+  $author="Neo23x0"
+  $repo="Loki"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*loki_*" -and $_ -Like "*zip*" })
+  
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
   return
@@ -3505,10 +3532,13 @@ function InstallSrumDump{
   Write-Output "###"
   $SoftwareName = "srum_dump2"
   Write-Output "Installing $SoftwareName..."
-  $Url = "https://github.com/MarkBaggett/srum-dump/releases/latest"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*srum*" -and $_.href -Like "*exe*"}).href
-  $FullDownloadURL = "https://github.com$SoftwareUri"
+
+  $author="MarkBaggett"
+  $repo="srum-dump"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*srum_*" -and $_ -Like "*exe*" })
+  
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
   return
@@ -3545,10 +3575,12 @@ function InstallSrumMonkey{
   $SoftwareName = "SrumMonkey"
   Write-Output "Installing $SoftwareName..."
 
-  $Url = "https://github.com/devgc/SrumMonkey/releases/latest"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*win*" -and $_.href -Like "*64*" -and $_.href -Like "*exe*"}).href
-  $FullDownloadURL = "https://github.com$SoftwareUri"
+  $author="devgc"
+  $repo="SrumMonkey"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*SrumMonkey*" -and $_ -Like "*exe*" })
+  
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
   return
@@ -3621,13 +3653,15 @@ function InstallSSView{
 
 function InstallThumbcacheviewer{
   Write-Output "###"
-  $SoftwareName = "thumbcacheviewer"
+  $SoftwareName = "ThumbCacheViewer"
   Write-Output "Installing $SoftwareName..."
 
-  $Url = "https://github.com/thumbcacheviewer/thumbcacheviewer/releases/latest"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | Where-Object {$_.href -Like "*64*" -and $_.href -Like "*zip*"}).href
-  $FullDownloadURL = "https://github.com$SoftwareUri"
+  $author="thumbcacheviewer"
+  $repo="thumbcacheviewer"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*64*" -and $_ -Like "*zip*" })
+
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
   return
@@ -3749,13 +3783,15 @@ function InstallUserAssist{
 
 function InstallThumbsviewer{
   Write-Output "###"
-  $SoftwareName = "thumbs_viewer"
+  $SoftwareName = "Thumbsviewer"
   Write-Output "Installing $SoftwareName..."
 
-  $Url = "https://github.com/thumbsviewer/thumbsviewer/releases/latest"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | Where-Object {$_.href -Like "*64*" -and $_.href -Like "*zip*"}).href
-  $FullDownloadURL = "https://github.com$SoftwareUri"
+  $author="thumbsviewer"
+  $repo="thumbsviewer"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*64*" -and $_ -Like "*zip*" })
+  
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
   return
@@ -3794,6 +3830,7 @@ function InstallRegRipper{
   Write-Output "###"
   $SoftwareName = "RegRipper3.0"
   Write-Output "Get $SoftwareName..."
+
   $FullDownloadURL = "https://github.com/keydet89/RegRipper3.0/raw/master/rr.exe"
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
@@ -3870,10 +3907,12 @@ function InstallWinPmem{
   $SoftwareName = "WinPmem"
   Write-Output "Installing $SoftwareName..."
 
-  $Url = "https://github.com/Velocidex/WinPmem/releases/latest"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*64*" -and $_.href -Like "*exe*" }).href
-  $FullDownloadURL = "https://github.com$SoftwareUri"
+  $author="Velocidex"
+  $repo="WinPmem"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*64*" -and $_ -Like "*exe*" })
+ 
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
   return
@@ -3951,15 +3990,16 @@ function InstallVolatility3{
   $SoftwareName = "Volatility3"
   Write-Output "Installing $SoftwareName..."
 
-  $Url = "https://github.com/volatilityfoundation/volatility3/releases/latest"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*py3*" -and $_.href -Like "*.whl*"}).href
-  $FullDownloadURL = "https://github.com$SoftwareUri"
+  $author="volatilityfoundation"
+  $repo="volatility3"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*py3*" -and $_ -Like "*.whl*" })
+ 
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
   return
   }
-
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
@@ -3983,6 +4023,8 @@ function InstallVolatility3{
   $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
+
+  Write-Output "UNFINISHED: Check install procedure at: https://github.com/volatilityfoundation/volatility3"
 }
 
 
@@ -3990,7 +4032,12 @@ function InstallPartitionDiagnosticParser{
   Write-Output "###"
   $SoftwareName = "Partition%4DiagnosticParser"
   Write-Output "Get $SoftwareName..."
-  $FullDownloadURL = "https://github.com/theAtropos4n6/Partition-4DiagnosticParser/archive/refs/heads/main.zip"
+ 
+  $author="theAtropos4n6"
+  $repo="Partition-4DiagnosticParser"
+  $Url = "https://api.github.com/repos/$author/$repo/zipball/master"
+  $FullDownloadURL = $Url
+ 
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
   return
@@ -4019,7 +4066,7 @@ function InstallPartitionDiagnosticParser{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-    # Unzip
+  # Unzip
   Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
   Remove-Item -Path $FileFullName -ErrorAction Ignore
   Write-Output "Unzipped to: $SoftwareFolderFullName"
@@ -4030,7 +4077,12 @@ function InstallGoogleAnalyticCookieCruncher{
   Write-Output "###"
   $SoftwareName = "Google-Analytic-Cookie-Cruncher"
   Write-Output "Get $SoftwareName..."
-  $FullDownloadURL = "https://github.com/mdegrazia/Google-Analytic-Cookie-Cruncher/archive/refs/heads/master.zip"
+
+  $author="mdegrazia"
+  $repo="Google-Analytic-Cookie-Cruncher"
+  $Url = "https://api.github.com/repos/$author/$repo/zipball/master"
+  $FullDownloadURL = $Url
+
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
   return
@@ -4120,11 +4172,13 @@ function InstallAutopsy{
 
   $SoftwareName = "Autopsy"
   Write-Output "Installing $SoftwareName..."
+  
+  $author="sleuthkit"
+  $repo="autopsy"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
 
-  $Url = "https://github.com/sleuthkit/autopsy/releases/latest"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ( $ReleasePageLinks | Where-Object { $_.href -Like "*64*" -and $_.href -NotLike "*asc*"}).href
-  $FullDownloadURL = "https://github.com$SoftwareUri"
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*64*" -and $_ -NotLike "*.asc"})
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
 	return
@@ -4196,7 +4250,7 @@ function InstallZimmermanTools{
   Write-Output "Downloaded: $FileFullName"
 
   # Run ps1 file which will download the tools
-  & "$FileFullName"
+  & "$FileFullName" -Dest $SoftwareFolderFullName
   
   if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Get tools folder
@@ -4355,14 +4409,14 @@ function InstallLenovoCompanion(){
 
   # Install Lenovo Companion if it's a ThinkPad
   if ( $null -ne $ComputerModel ) { 
-      Get-AppxPackage 'E046963F.LenovoCompanion' -AllUsers | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+      Get-AppxPackage 'E046963F.LenovoSettingsForEnterprise*' -AllUsers | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
   }
 
 }
 
 function RemoveLenovoCompanion(){
 
-    Get-AppxPackage 'E046963F.LenovoCompanion' | Remove-AppxPackage
+    Get-AppxPackage 'E046963F.LenovoSettingsForEnterprise*' | Remove-AppxPackage
 
 }
 
@@ -4377,7 +4431,7 @@ function SetHostname{
   Write-Output "Changing hostname..."
   $hostname = Read-Host "Enter new Hostname [$env:computername]"
   if ($null -ne $hostname -and $hostname -ne "") {
-      Rename-Computer -NewName "$hostname"  -LocalCredential $env:computername\$env:username #-Restart
+      Rename-Computer -NewName "$hostname"  #-LocalCredential $env:computername\$env:username #-Restart
   }
 }
 
@@ -8025,7 +8079,7 @@ Function UninstallMsftBloat {
 	Get-AppxPackage "Microsoft.Reader" | Remove-AppxPackage
 	Get-AppxPackage "Microsoft.RemoteDesktop" | Remove-AppxPackage
 	Get-AppxPackage "Microsoft.SkypeApp" | Remove-AppxPackage
-	Get-AppxPackage "Microsoft.Todos" | Remove-AppxPackages
+	Get-AppxPackage "Microsoft.Todos" | Remove-AppxPackage
 	Get-AppxPackage "Microsoft.Wallet" | Remove-AppxPackage
 	Get-AppxPackage "Microsoft.WebMediaExtensions" | Remove-AppxPackage
 	Get-AppxPackage "Microsoft.Whiteboard" | Remove-AppxPackage
@@ -8168,6 +8222,7 @@ function UninstallThirdPartyBloat {
 	Get-AppxPackage "ThumbmunkeysLtd.PhototasticCollage" | Remove-AppxPackage
 	Get-AppxPackage "WinZipComputing.WinZipUniversal" | Remove-AppxPackage
 	Get-AppxPackage "XINGAG.XING" | Remove-AppxPackage
+  Get-AppxPackage "Disney.37853FC22B2CE" | Remove-AppxPackage
 }
 
 # Install default third party applications
@@ -8217,6 +8272,7 @@ Function InstallThirdPartyBloat {
 	Get-AppxPackage -AllUsers "ThumbmunkeysLtd.PhototasticCollage" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 	Get-AppxPackage -AllUsers "WinZipComputing.WinZipUniversal" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 	Get-AppxPackage -AllUsers "XINGAG.XING" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+  Get-AppxPackage -AllUsers "Disney.37853FC22B2CE" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 }
 
 # Uninstall Windows Store
@@ -8924,6 +8980,11 @@ Function UnpinTaskbarIcons {
 	Write-Output "Unpinning all Taskbar icons..."
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband" -Name "Favorites" -Type Binary -Value ([byte[]](255))
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband" -Name "FavoritesResolve" -ErrorAction SilentlyContinue
+}
+
+Function CleanPublicDesktop(){
+  $PublicDesktop="\Users\Public\Desktop"
+  Remove-Item -Path $PublicDesktop\*.* 
 }
 
 ##########
