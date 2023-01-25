@@ -144,7 +144,7 @@ function EnableInternetPrinting{
 function DisableInternetPrinting{
   Write-Output "###"
   Write-Output "Disabling Internet Printing..."
-  Disable-WindowsOptionalFeature -FeatureName Printing-Foundation-InternetPrinting-Client -Online
+  Disable-WindowsOptionalFeature -FeatureName Printing-Foundation-InternetPrinting-Client -Online -NoRestart | Out-Null
 }
 
 function EnableMemoryIntegrity{
