@@ -1393,16 +1393,14 @@ function InstallNirsoftPkgFiles{
   $NLPfile = "piriform.nlp"
   $NLPpackage = "CCleaner"
 
-  $SourceFile = Join-Path -Path $SoftwareFolderFullName -ChildPath $NLPfile
-  $DestinationDir = Join-Path -Path $BootstrapFolder -ChildPath $NLPpackage
-  $DestinationFile = Join-Path -Path $DestinationDir -ChildPath $NLPfile
-  (Get-Content $NLPfileFullName).Replace(".\Speccy\Speccy", "Speccy").Replace(".\Recuva\Recuva", "recuva").Replace(".\Defraggler\df", "df").Replace(".\Defraggler\Defraggler", "Defraggler").Replace(".\CCleaner\CCleaner", "CCleaner") | Out-File $DestinationFile -Force -Encoding ascii
+  $NLPFileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $NLPfile
+  (Get-Content $NLPFileFullName).Replace(".\Speccy\Speccy", "Speccy").Replace(".\Recuva\Recuva", "recuva").Replace(".\Defraggler\df", "df").Replace(".\Defraggler\Defraggler", "Defraggler").Replace(".\CCleaner\CCleaner", "CCleaner") | Out-File $NLPFileFullName -Force -Encoding ascii
 
   # Copy CCleaner package file to Tools Package directory
   if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
       $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $NLPpackage
       $ToolsNLPFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $NLPfile
-      Copy-Item $DestinationFile $ToolsNLPFileFullName -Force
+      Copy-Item $NLPFileFullName $ToolsNLPFileFullName -Force
       Write-Output "File $NLPfile copied to $NewSoftwareFolderFullName"
   }
   
