@@ -2,7 +2,7 @@
 # default config file for Windows
 # preset for Windowns 10/11, Server 2016 & Server 2019
 # Author: Torsten Juul-Jensen
-# Version: v1.3, 2022-12-26
+# Version: v1.4.1, 2022-01-27
 # Source: https://github.com/tjuuljensen/ride-windows
 #######
 
@@ -47,6 +47,7 @@ GetTelemetryBlockingHostfile  # SetDefaultHostsfile
 ### Install programs  ###
 Install7Zip                   # Remove7Zip
 InstallGit4Win                #
+# InstallVSCode               # ReomeVSCode
 # InstallGPGwin               # 
 # InstallNotepadPlusPlus      # RemoveNotepadPlusPlus
 # InstallAtom                 # RemoveAtom
@@ -128,7 +129,7 @@ InstallOpera                  #
 ### Customization  ###
 InstallFonts
 ReplaceDefaultWallpapers
-# InstallLenovoCompanion        # RemoveLenovoCompanion
+# InstallLenovoVantage        # RemoveLenovoVantage
 
 ### Privacy Tweaks ###
 DisableTelemetry                # EnableTelemetry
@@ -243,7 +244,7 @@ EnableNTFSLongPaths             # DisableNTFSLongPaths
 
 ### UI Tweaks ###
 DisableActionCenter             # EnableActionCenter
-DisableLockScreen               # EnableLockScreen
+# DisableLockScreen             # EnableLockScreen
 # DisableLockScreenRS1          # EnableLockScreenRS1
 HideNetworkFromLockScreen       # ShowNetworkOnLockScreen
 HideShutdownFromLockScreen      # ShowShutdownOnLockScreen
@@ -280,6 +281,10 @@ DisableStartupSound             # EnableStartupSound
 # DisableChangingSoundScheme    # EnableChangingSoundScheme
 # EnableVerboseStatus           # DisableVerboseStatus
 DisableF1HelpKey                # EnableF1HelpKey
+# DisableTaskbarDesktops        # EnableTaskbarDesktops
+DisableTaskbarWidgets           # EnableTaskbarWidgets
+DisableTaskbarChat              # EnableTaskbarChat
+# SetTaskbarAlignmentLeft       # SetTaskbarAlignmentMiddle
 
 ### Explorer UI Tweaks ###
 # ShowExplorerTitleFullPath     # HideExplorerTitleFullPath
@@ -381,7 +386,7 @@ CleanPublicDesktop
 ### Operational Tasks  ###
 GetWindowsUpdatesWithPwsh
 CleanLocalWindowsUpdateCache
-RunDiskCleanup
+# RunDiskCleanup
 # RunSysprepGeneralizeOOBE
 
 ### Other Functions ###

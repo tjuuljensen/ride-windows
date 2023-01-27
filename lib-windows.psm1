@@ -54,7 +54,7 @@ function CreateNewLocalAdmin{
         }
 
     Write-Output "Creating local admin user: $LocalAdminUser"
-    New-LocalUser $LocalAdminUser -Password $Password -FullName "Local Administrative Account" -Description "Local administrative account"
+    New-LocalUser $LocalAdminUser -Password $Password -FullName "Local Administrator Account" -Description "Local administrator account [made by bootstrap script]"
 
     Add-LocalGroupMember -Group "Administrators" -Member $LocalAdminUser
   }
@@ -284,7 +284,7 @@ function SetDefaultBitLockerAES256{
   		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\" -Force | Out-Null
   	}
 
-    Set-ItemProperty -path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\" -name "EncryptionMethod" -value 4
+    Set-ItemProperty -path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\" -Name "EncryptionMethod" -value 4
     #To-do: start BitLocker Encryption with PowerShell https://technet.microsoft.com/en-us/library/jj649829(v=wps.630).aspx
 }
 
@@ -371,12 +371,19 @@ function DisableAdvancedAuthAtStart{
 
 function EnableBitlockerTPMandPIN{
   Write-Output "###"
+  Write-Output "Enabling Bitlocker TPM and PIN..."
 
   if ($null -ne [Environment]::GetEnvironmentVariable("RIDEVAR-Bitlocker-TPMandPINPassword", "Process") -and ([Environment]::GetEnvironmentVariable("RIDEVAR-Bitlocker-TPMandPINPassword", "Process")).tolower() -ne "[prompt]") {
-         $Password = ConvertTo-SecureString -String ([Environment]::GetEnvironmentVariable("RIDEVAR-Bitlocker-TPMandPINPassword", "Process"))
-       } else {
-         $Password = Read-Host -AsSecureString "Enter new Bitlocker Pre-Boot PIN: "
-       }
+    $Password = ConvertTo-SecureString -String ([Environment]::GetEnvironmentVariable("RIDEVAR-Bitlocker-TPMandPINPassword", "Process"))
+  } else {
+    do {
+      $Password  = Read-Host "Enter new Bitlocker Pre-Boot PIN " -AsSecureString
+      $Password2 = Read-Host "Re-enter Bitlocker Pre-Boot PIN  " -AsSecureString
+      $pwd1_text = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($Password))
+      $pwd2_text = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($Password2))
+      }
+      while ($pwd1_text -ne $pwd2_text)
+  }
   # Bitlocker will check if bootable CD's are in the drive before enabling BitLocker
   # As virtual machines very often have an ISO connected after a fresh install, eject all CD's if in a VM
   $IsVirtual=((Get-WmiObject Win32_ComputerSystem).model -like ("*Virtual*") -or (Get-WmiObject Win32_ComputerSystem).model -like ("*VMware*"))
@@ -462,11 +469,10 @@ Function EnableWinHttpAutoProxySvc {
 
 function DisableAutoconfigURL{
   Write-Output "###"
-    # Disable machine proxy script
-    Write-Output "Disabling autoconfig URL (Proxy script)..."
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name "AutoconfigURL" -Type String -Value ""
+  # Disable machine proxy script
+  Write-Output "Disabling autoconfig URL (Proxy script)..."
+  Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name "AutoconfigURL" -Type String -Value ""
 }
-
 
 function EnableAutoconfigURL{
   Write-Output "###"
@@ -955,6 +961,51 @@ function Remove7Zip{
   Write-Output "###"
   Write-Output "Removing 7-Zip..."
   Uninstall-Package -InputObject ( Get-Package -Name "7-Zip")
+}
+
+function InstallVSCode{
+  Write-Output "###"
+  $SoftwareName = "VSCode"
+  Write-Output "Installing $SoftwareName..."
+
+  # Setting the direct download link
+  $FullDownloadURL = "https://code.visualstudio.com/download/"
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = "VSCodeSetup-x64.exe"
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Install exe
+    $CommandLineOptions = " /SILENT /NORESTART"
+    Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
+    Write-Output "Installation done for $SoftwareName"
+  }
+}
+
+function RemoveVSCode{
+  Write-Output "###"
+  Write-Output "Removing VSCode..."
+  Uninstall-Package -InputObject (Get-Package -Name 'Microsoft Visual Studio Code')
 }
 
 function InstallRSAT{
@@ -1768,7 +1819,14 @@ function InstallMitec(){
         $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $DownloadFile
     
         Write-Output "Downloading files from: $FullDownloadURL"
-        Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName 
+        try {
+          Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName 
+        }
+        catch {
+          Write-Output "Getting the file failed. Retrying once..."
+          Start-Sleep -Seconds 2
+          Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName 
+        }
         Write-Output "Downloaded: $FileFullName"
     } 
   }
@@ -2670,11 +2728,13 @@ function InstallOffice365{
 
   Set-Location $SoftwareFolderFullName
   $SetupFileFullName = "$SoftwareFolderFullName\setup.exe"
+  Write-Output "Downloading latest installation files. This may take some time..."
   Start-Process -FilePath $SetupFileFullName  -ArgumentList "/download ""$ConfigFileFullName""" -NoNewWindow -Wait
 
   if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Install
-    Start-Process -FilePath $SetupFileFullName -ArgumentList "/configure ""$ConfigFileFullName""" -NoNewWindow -Wait
+    Write-Output "Starting installation of $SoftwareName. Sit back and wait some more..."
+    Start-Process -FilePath $SetupFileFullName -ArgumentList "/configure ""$ConfigFileFullName""" -Wait
     Write-Output "Installation done for $SoftwareName"
   }
   Set-Location $DefaultDownloadDir 
@@ -4457,7 +4517,7 @@ function InstallZimmermanTools{
   Write-Output "Downloaded: $FileFullName"
 
   # Run ps1 file which will download the tools
-  & "$FileFullName" -Dest $SoftwareFolderFullName
+  Start-Process $FileFullName -ArgumentList "-Dest $SoftwareFolderFullName"
   
   if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Get tools folder
@@ -4598,8 +4658,8 @@ function ReplaceDefaultWallpapers{
 
   $WallPaperPath=($env:SystemDrive+"\Windows\Web\4K\Wallpaper\Windows")
 
-  takeown /f $WallPaperPath\*.* | Out-Null
-  icacls $WallPaperPath\*.* /Grant 'Administrators:(F)' | Out-Null
+  Start-Process takeown -ArgumentList "/f $WallPaperPath\*.*" -Wait -NoNewWindow | Out-Null
+  Start-Process icacls -ArgumentList "$WallPaperPath\*.* /Grant 'Administrators:(F)'" | Out-Null
   Remove-Item $WallPaperPath\*.* -Recurse
 
   if (Test-Path -Path "$PSScriptRoot\pictures\wallpaper") {
@@ -4607,26 +4667,87 @@ function ReplaceDefaultWallpapers{
   }
 }
 
+# Installation of Lenovo Commercial Vantage software package. 
+# Missing a method for dynamically identifying latest version.
+function InstallLenovoVantage{
 
-function InstallLenovoCompanion(){
-  # If the computer is a thinkpad, install lenovo Companion
+  Write-Output "###"
+  $SoftwareName = "LenovoVantage"
+  Write-Output "Installing $SoftwareName..."
+  
+  # Temp fix to missing dynamic version identification:
+  $FullDownloadURL="https://download.lenovo.com/pccbbs/thinkvantage_en/metroapps/Vantage/LenovoCommercialVantage_10.2210.33.0_v3.zip"
 
-  # Check if it's a thinkpad
-  $ComputerModel=Get-CimInstance -ClassName Win32_ComputerSystemProduct | Where-Object { $_.Version -like 'ThinkPad*' } 
-
-  # Install Lenovo Companion if it's a ThinkPad
-  if ( $null -ne $ComputerModel ) { 
-      Get-AppxPackage 'E046963F.LenovoSettingsForEnterprise*' -AllUsers | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+  <# This section can be uncommented when a dynamic way of getting the latest filename is found
+  $Url = "https://support.lenovo.com/gb/en/solutions/hf003321"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
+  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*zip" }).href
+  $FullDownloadURL = "$Url$SoftwareUri" 
+  #>
+  
+  if (-not $FullDownloadURL) {
+	Write-Output "Error: $SoftwareName not found"
+	return
   }
 
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  try {
+    Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName #| Out-Null
+	  #Remove-Item -Path $FileFullName -ErrorAction Ignore
+    Write-Output "Unzipped to: $SoftwareFolderFullName"
+  }
+  catch {
+    Write-Output "Expansion of archive failed: $FileFullName"
+  }
+
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get the computermodel - look for ThinkPad
+    $ComputerModel=Get-CimInstance -ClassName Win32_ComputerSystemProduct | Where-Object { $_.Version -like 'ThinkPad*' } 
+
+    # Install Lenovo Companion if it's a ThinkPad
+    if ( $null -ne $ComputerModel ) { 
+
+        # Write-Output "Installing $SoftwareName..."
+
+        $InstallFile = "setup-commercial-vantage.bat"
+        $InstallFileFullName = (Get-ChildItem $InstallFile -recurse | Select-Object -First 1).fullname
+        $CommandLineOptions = " "
+
+        Start-Process $InstallFileFullName -Argumentlist $CommandLineOptions -NoNewWindow -Wait
+        Write-Output "Installation done for $SoftwareName"
+    } else {
+        Write-Output "Computer could not be identified as a ThinkPad. You must install $SoftwareName manually"
+    }
+  }
 }
 
-function RemoveLenovoCompanion(){
-
-    Get-AppxPackage 'E046963F.LenovoSettingsForEnterprise*' | Remove-AppxPackage
-
+function RemoveLenovoVantage{
+  Write-Output "###"
+  Write-Output "Removing LenovoVantage..."
+  Get-AppxPackage 'E046963F.LenovoSettingsforEnterprise' | Remove-AppxPackage
 }
-
 
 
 ################################################################
@@ -7391,10 +7512,78 @@ Function EnableF1HelpKey {
 	Remove-Item "HKCU:\Software\Classes\TypeLib\{8cec5860-07a1-11d9-b15e-000d56bfe6ee}\1.0\0" -Recurse -ErrorAction SilentlyContinue
 }
 
+# Remove multiple desktops button on taskbar
+Function DisableTaskbarDesktops {
+  Write-Output "###"
+	Write-Output "Removing Multiple Desktops from taskbar..."
+	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced")) {
+		New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowTaskViewButton" -Type DWord -Value 0
+}
+
+# Show multiple desktops button on taskbar
+Function EnableTaskbarDesktops {
+  Write-Output "###"
+	Write-Output "Showing Multiple Desktops on taskbar..."
+	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowTaskViewButton" -ErrorAction SilentlyContinue
+}
+
+# Disable widgets on taskbar
+Function DisableTaskbarWidgets {
+  Write-Output "###"
+	Write-Output "Removing widgets from taskbar..."
+	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced")) {
+		New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarDa" -Type DWord -Value 0
+}
+
+# Show widgets on taskbar
+Function EnableTaskbarWidgets {
+  Write-Output "###"
+	Write-Output "Showing widgets on taskbar..."
+	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarDa" -ErrorAction SilentlyContinue
+}
+
+
+# Hide Chat icon on taskbar
+Function DisableTaskbarChat {
+  Write-Output "###"
+	Write-Output "Removing chat icon in taskbar..."
+	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced")) {
+		New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarMn" -Type DWord -Value 0
+}
+
+# Show chat icon on taskbar
+Function EnableTaskbarChat {
+  Write-Output "###"
+	Write-Output "Showing chat icon on taskbar..."
+	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarMn" -ErrorAction SilentlyContinue
+}
+
+# Align taskbar left
+Function SetTaskbarAlignmentLeft {
+  Write-Output "###"
+	Write-Output "Aligning taskbar to the left..."
+	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced")) {
+		New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarAl" -Type DWord -Value 0
+}
+
+# Put taskbar in the center (default Windows 11)
+Function SetTaskbarAlignmentMiddle {
+  Write-Output "###"
+	Write-Output "Centering taskbar..."
+	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarAl" -ErrorAction SilentlyContinue
+}
+
 ##########
 #endregion UI Tweaks
 ##########
-
 
 
 ##########
