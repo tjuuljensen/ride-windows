@@ -54,7 +54,7 @@ function CreateNewLocalAdmin{
         }
 
     Write-Output "Creating local admin user: $LocalAdminUser"
-    New-LocalUser $LocalAdminUser -Password $Password -FullName "Local Administrator Account" -Description "Local administrator account [made by bootstrap script]"
+    New-LocalUser $LocalAdminUser -Password $Password -FullName "Local Administrator" -Description "Replacement for default Administrator Account" | Out-Null
 
     Add-LocalGroupMember -Group "Administrators" -Member $LocalAdminUser
   }
@@ -406,6 +406,13 @@ function DisableBitlocker{
   Disable-BitLocker -MountPoint $env:SystemDrive
 }
 
+function AddBitlockerRecoveryPswd {
+  Add-BitLockerKeyProtector -MountPoint "$($env:SystemDrive)" -RecoveryPasswordProtector 
+}
+function DisplayBitlockerRecoveryPwd{
+  (Get-BitLockerVolume -MountPoint "$($env:SystemDrive)" | Select-Object -ExpandProperty KeyProtector)[1] | Select-Object KeyprotectorId,RecoveryPassword
+}
+
 ################################################################
 ###### Hardening Windows  ###
 ################################################################
@@ -447,19 +454,22 @@ Function EnableUniversalPlugAndPlay {
 }
 
 Function DisableWinHttpAutoProxySvc {
-  Write-Output "###"
   # Disable IE proxy autoconfig service
-	Write-Output "Stopping and disabling HTTP Proxy auto-discovery ..."
-	Stop-Service "WinHttpAutoProxySvc" -Force -WarningAction SilentlyContinue
-	Set-Service "WinHttpAutoProxySvc" -StartupType Disabled
+  # https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/disable-http-proxy-auth-features
+	
+  Write-Output "###"
+  Write-Output "Stopping and disabling HTTP Proxy auto-discovery (WPAD)..."
+  If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\WinHttp")) {
+    New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\WinHttp" -Force | Out-Null
+  }
+  New-ItemProperty -path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\WinHttp" -name "DisableWpad" -Type DWORD -Value 1 -Force | Out-Null
 }
 
 Function EnableWinHttpAutoProxySvc {
-  Write-Output "###"
-  # Enable IE proxy autoconfig service
-	Write-Output "Enabling and starting HTTP Proxy auto-discovery..."
-	Set-Service "WinHttpAutoProxySvc" -StartupType Manual
-	Start-Service "WinHttpAutoProxySvc" -WarningAction SilentlyContinue
+   # Enable IE proxy autoconfig service
+   Write-Output "###"
+   Write-Output "Enabling and starting HTTP Proxy auto-discovery (WPAD)..."
+	Remove-ItemProperty -path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\WinHttp" -name "DisableWpad" -ErrorAction SilentlyContinue | Out-Null
 }
 
 
@@ -471,7 +481,11 @@ function DisableAutoconfigURL{
   Write-Output "###"
   # Disable machine proxy script
   Write-Output "Disabling autoconfig URL (Proxy script)..."
-  Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name "AutoconfigURL" -Type String -Value ""
+  If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings")) {
+    New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Force | Out-Null
+  }
+  New-ItemProperty -path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -name "AutoconfigURL" -Type String -Value "" -Force | Out-Null
+
 }
 
 function EnableAutoconfigURL{
@@ -969,7 +983,7 @@ function InstallVSCode{
   Write-Output "Installing $SoftwareName..."
 
   # Setting the direct download link
-  $FullDownloadURL = "https://code.visualstudio.com/download/"
+  $FullDownloadURL = "https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user"
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
@@ -992,20 +1006,25 @@ function InstallVSCode{
   $FileName = "VSCodeSetup-x64.exe"
   $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
-  Write-Output "Downloaded: $FileFullName"
+  if ((Get-AuthenticodeSignature $FileFullName).Status -eq 'Valid') {
+    Write-Output "Downloaded: $FileFullName"
 
-  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
-    # Install exe
-    $CommandLineOptions = " /SILENT /NORESTART"
-    Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
-    Write-Output "Installation done for $SoftwareName"
+    if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+      # Install exe
+      $CommandLineOptions = " /SILENT /NORESTART /mergetasks=!runcode"
+      Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
+      Write-Output "Installation done for $SoftwareName"
+    }
+  } else {
+    Write-Output "ERROR installing $SoftwareName. Downloaded file did not pass verification."
   }
 }
 
 function RemoveVSCode{
+  # Require nuget 
   Write-Output "###"
   Write-Output "Removing VSCode..."
-  Uninstall-Package -InputObject (Get-Package -Name 'Microsoft Visual Studio Code')
+  Uninstall-Package -InputObject (Get-Package -Name 'Microsoft Visual Studio Code*')
 }
 
 function InstallRSAT{
@@ -1819,15 +1838,17 @@ function InstallMitec(){
         $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $DownloadFile
     
         Write-Output "Downloading files from: $FullDownloadURL"
-        try {
-          Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName 
-        }
-        catch {
-          Write-Output "Getting the file failed. Retrying once..."
+        Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName -ErrorAction SilentlyContinue
+        if (! (Test-Path -Path $FileFullName)) {
+          Write-Host "Retrying..."
           Start-Sleep -Seconds 2
           Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName 
+        } 
+        if (Test-Path -Path $FileFullName) {
+          Write-Output "Downloaded: $FileFullName"}
+        else {
+          Write-Output "Error downloading: $FileFullName" 
         }
-        Write-Output "Downloaded: $FileFullName"
     } 
   }
   
@@ -2706,7 +2727,7 @@ function InstallOffice365{
   Write-Output "Downloaded: $FileFullName"
 
   # Download Office binaries
-  Start-Process $FileFullName "/quiet /extract:""$SoftwareFolderFullName""" -NoNewWindow -Wait
+  Start-Process $FileFullName "/quiet /extract:""$SoftwareFolderFullName""" -NoNewWindow -Wait -ErrorAction SilentlyContinue
 
   $ConfigFileFullName = "$SoftwareFolderFullName\setupcustom-Office365-x86.xml"
   '<!-- Office 365 client configuration file for custom downloads -->
@@ -2715,7 +2736,7 @@ function InstallOffice365{
 
     <Add Channel="MonthlyEnterprise">
       <Product ID="O365ProPlusRetail">
-        <Language ID="en-us" />
+        <Language ID="en-uk" />
         <Language ID="da-dk" />
       </Product>
     </Add>
@@ -2724,7 +2745,7 @@ function InstallOffice365{
   <Display Level="None" AcceptEULA="TRUE" />
   <Property Name="AUTOACTIVATE" Value="1" />
   <Property Name="FORCEAPPSSHUTDOWN" Value="TRUE" />
-  </Configuration>' | Out-File $ConfigFileFullName
+  </Configuration>' | Out-File $ConfigFileFullName -Force
 
   Set-Location $SoftwareFolderFullName
   $SetupFileFullName = "$SoftwareFolderFullName\setup.exe"
@@ -2734,7 +2755,7 @@ function InstallOffice365{
   if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Install
     Write-Output "Starting installation of $SoftwareName. Sit back and wait some more..."
-    Start-Process -FilePath $SetupFileFullName -ArgumentList "/configure ""$ConfigFileFullName""" -Wait
+    Start-Process -FilePath $SetupFileFullName -ArgumentList "/configure ""$ConfigFileFullName""" -NoNewWindow -Wait
     Write-Output "Installation done for $SoftwareName"
   }
   Set-Location $DefaultDownloadDir 
@@ -2746,7 +2767,7 @@ function RemoveTeamsWideInstaller{
   Write-Output "Removing Teams Machine-wide Installer" #-ForegroundColor Yellow
 
   $MachineWide = Get-WmiObject -Class Win32_Product | Where-Object{$_.Name -eq "Teams Machine-Wide Installer"}
-  $MachineWide.Uninstall()
+  $MachineWide.Uninstall() | Out-Null
 }
 
 function InstallVisioPro{
@@ -2792,7 +2813,7 @@ function InstallVisioPro{
 
     <Add Channel="MonthlyEnterprise">
       <Product ID="VisioProRetail">
-        <Language ID="en-us" />
+        <Language ID="en-uk" />
         <Language ID="da-dk" />
       </Product>
     </Add>
@@ -3259,7 +3280,7 @@ function InstallOpera{
     # Install exe
     $InstallFile = "$SoftwareFolderFullName\installer.exe"
     $CommandLineOptions = "--silent --setdefaultbrowser=0 --startmenushortcut=0 --desktopshortcut=0 --pintotaskbar=0 --pin-additional-shortcuts=0 --launchbrowser=0"
-    Start-Process $InstallFile $CommandLineOptions -NoNewWindow -Wait
+    Start-Process -FilePath $InstallFile -ArgumentList $CommandLineOptions -NoNewWindow -Wait
     Write-Output "Installation done for $SoftwareName"
   }
 }
@@ -4656,15 +4677,127 @@ function ReplaceDefaultWallpapers{
   3840x2160 - img0_3840x2160.jpg
   #>
 
-  $WallPaperPath=($env:SystemDrive+"\Windows\Web\4K\Wallpaper\Windows")
+  $WallPaperPath=($env:SystemDrive+"\Windows\Web\Wallpaper\Windows")
+  $WallPprPath4k=($env:SystemDrive+"\Windows\Web\4K\Wallpaper\Windows")
+  $AdminUser = ${env:UserName}
 
-  Start-Process takeown -ArgumentList "/f $WallPaperPath\*.*" -Wait -NoNewWindow | Out-Null
-  Start-Process icacls -ArgumentList "$WallPaperPath\*.* /Grant 'Administrators:(F)'" | Out-Null
-  Remove-Item $WallPaperPath\*.* -Recurse
+  Start-Process takeown -ArgumentList "/R /A /F $WallPaperPath" -Wait -WindowStyle Hidden
+  Start-Process takeown -ArgumentList "/R /A /F $WallPprPath4k" -Wait -WindowStyle Hidden
 
-  if (Test-Path -Path "$PSScriptRoot\pictures\wallpaper") {
-    Copy-Item "$PSScriptRoot\pictures\wallpaper\img0*" $WallPaperPath -Recurse
+  $AllArguments = $WallPaperPath+"\* /grant $AdminUser"+":(F) /Q"
+  Start-Process icacls -ArgumentList $AllArguments -Wait -WindowStyle Hidden
+  
+  $AllArguments = $WallPprPath4k+"\* /grant $AdminUser"+":(F) /Q"
+  Start-Process icacls -ArgumentList $AllArguments -Wait -WindowStyle Hidden
+
+  if (Test-Path -Path "$PSScriptRoot\pictures\wallpaper\img0*") {
+    Remove-Item $WallPprPath4k\*.* -Recurse -ErrorAction SilentlyContinue
+    Copy-Item "$PSScriptRoot\pictures\wallpaper\img0*" $WallPprPath4k -Recurse -Force | Out-Null
   }
+
+  # default (light mode) wallpaper
+  if (Test-Path -Path "$PSScriptRoot\pictures\wallpaper\img0.jpg") {
+    Remove-Item $WallPprPath4k\img0.jpg -Force -ErrorAction SilentlyContinue
+    Copy-Item "$PSScriptRoot\pictures\wallpaper\img0.jpg" $WallPaperPath -Force
+  }
+
+  # dark mode wallpaper
+  if (Test-Path -Path "$PSScriptRoot\pictures\wallpaper\img19.jpg") {
+    Remove-Item $WallPprPath4k\img19.jpg -Force -ErrorAction SilentlyContinue
+    Copy-Item "$PSScriptRoot\pictures\wallpaper\img0.jpg" $WallPaperPath -Force
+  }
+}
+
+function SetCustomLockScreen {  
+ 
+  Write-Output "###"
+  Write-Output "Setting custom lock screen..."
+  
+  $LockScreenPath = ($env:SystemDrive+"\Windows\Web\Screen")
+  $LockScreenImageName = "img0.jpg"
+  $LockScreenImageFullName = Join-Path -Path $LockScreenPath -ChildPath $LockScreenImageName
+  $LockScreenSourcePath = "$PSScriptRoot\pictures\lockscreen"
+  $NumberOfLockScreenImgs = (Get-ChildItem $LockScreenSourcePath\* | Measure-Object).Count
+
+  if (Test-Path -Path "$LockScreenImageFullName") {
+    Remove-Item $LockScreenImageFullName -Recurse -Force -ErrorAction SilentlyContinue
+  }
+
+  if ($NumberOfLockScreenImgs -eq 1) {
+    # Copy the single file found in  lock screen source path to new lock screen
+    $SingleFileFoundName = (Get-ChildItem $LockScreenSourcePath\* ).FullName
+    Copy-Item "$SingleFileFoundName" "$LockScreenImageFullName" -Recurse -Force | Out-Null
+  } elseif (Test-Path -Path "$LockScreenSourcePath\$LockScreenImage") {
+    # Copy default lock screen image to lock screen
+    Copy-Item "$LockScreenSourcePath\$LockScreenImage" $LockScreenImageFullName -Recurse -Force | Out-Null
+  } elseif (Test-Path -Path "$PSScriptRoot\pictures\wallpaper\$LockScreenImageName") {
+    # Copy default wallpaper to lock screen
+    Copy-Item "$PSScriptRoot\pictures\wallpaper\$LockScreenImageName" $LockScreenImageFullName -Recurse -Force | Out-Null
+  }
+
+  $WindowsEdition=(Get-WindowsEdition -Online).Edition
+
+  if ($WindowsEdition -eq 'Enterprise') {
+    # https://admx.help/?Category=Windows_11_2022&Policy=Microsoft.Policies.ControlPanelDisplay::CPL_Personalization_ForceDefaultLockScreen
+    # This only applies to Enterprise, Education, and Server SKUs
+
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization")) {
+      New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization" -Name "LockScreenImage" -Type String -Value "$LockScreenImageFullName"
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization" -Name "LockScreenOverlaysDisabled" -Type DWORD -Value 1
+
+  } elseif ($WindowsEdition -eq 'Professional') {
+
+    # Only if it's a Windows Pro
+    If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP")) {
+      New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP" -Name "LockScreenImagePath" -Type String -Value "$LockScreenImageFullName"
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP" -Name "LockScreenImageUrl" -Type String -Value "$LockScreenImageFullName"
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP" -Name "LockScreenImageStatus" -Type DWORD -Value 1
+
+    $SystemDataPath = "C:\ProgramData\Microsoft\Windows\SystemData"
+    
+    Start-Process takeown -ArgumentList "/R /A /F /D ""Y"" $SystemDataPath" -Wait -WindowStyle Hidden
+    $AllArguments = "$SystemDataPath+  /reset /t /c /l"
+    Start-Process icacls -ArgumentList $AllArguments -Wait -WindowStyle Hidden
+    
+  }
+}
+
+function SetDefaultLockScreen {  
+  Write-Output "###"
+  Write-Output "Setting default lock screen..."
+  
+  $LockScreenPath = ($env:SystemDrive+"\Windows\Web\Screen")
+  $LockScreenImageName = "img0.jpg"
+  $LockScreenImageFullName = Join-Path -Path $LockScreenPath -ChildPath $LockScreenImageName
+
+  if (Test-Path -Path "$LockScreenImageFullName") {
+    Remove-Item $LockScreenImageFullName -Recurse -Force -ErrorAction SilentlyContinue
+  }
+
+  $WindowsEdition=(Get-WindowsEdition -Online).Edition
+
+  if ($WindowsEdition -eq 'Enterprise') {
+    # https://admx.help/?Category=Windows_11_2022&Policy=Microsoft.Policies.ControlPanelDisplay::CPL_Personalization_ForceDefaultLockScreen
+    # This only applies to Enterprise, Education, and Server SKUs
+
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization" -Name "LockScreenImage" -Force -ErrorAction SilentlyContinue
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization" -Name "LockScreenOverlaysDisabled" -Force -ErrorAction SilentlyContinue
+
+  } elseif ($WindowsEdition -eq 'Professional') {
+
+    # Only if it's a Windows Pro
+
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP" -Name "LockScreenImagePath" -Force -ErrorAction SilentlyContinue
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP" -Name "LockScreenImageUrl" -Force -ErrorAction SilentlyContinue
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP" -Name "LockScreenImageStatus" -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP" -Force -ErrorAction SilentlyContinue | Out-Null
+    
+  }
+  Write-Output "Default lock screen restored."
 }
 
 # Installation of Lenovo Commercial Vantage software package. 
@@ -4714,8 +4847,8 @@ function InstallLenovoVantage{
   Write-Output "Downloaded: $FileFullName"
 
   try {
-    Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName #| Out-Null
-	  #Remove-Item -Path $FileFullName -ErrorAction Ignore
+    Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName 
+	  Remove-Item -Path $FileFullName -ErrorAction Ignore
     Write-Output "Unzipped to: $SoftwareFolderFullName"
   }
   catch {
@@ -7579,6 +7712,46 @@ Function SetTaskbarAlignmentMiddle {
   Write-Output "###"
 	Write-Output "Centering taskbar..."
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarAl" -ErrorAction SilentlyContinue
+}
+
+# Remove Edge Tabs From Alt-Tab
+Function RemoveEdgeTabsFromAltTab {
+  Write-Output "###"
+	Write-Output "Removing Edge Tabs From Alt-Tab..."
+	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced")) {
+		New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "MultiTaskingAltTabFilter" -Type DWord -Value 3
+}
+
+# Default behaviour - Show Open windows and 5 most recent tabs in Microsoft Edge
+Function SetEdgeTabsWindowsAnd5tabs {
+  Write-Output "###"
+	Write-Output "Set Alt-Tab behaviour to show open windows and 5 most recent Edge tabs..."
+	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced")) {
+		New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "MultiTaskingAltTabFilter" -Type DWord -Value 1
+}
+
+# Show Open windows and 3 most recent tabs in Microsoft Edge
+Function SetEdgeTabsWindowsAnd3tabs {
+  Write-Output "###"
+	Write-Output "Set Alt-Tab behaviour to show open windows and 3 most recent Edge tabs..."
+	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced")) {
+		New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "MultiTaskingAltTabFilter" -Type DWord -Value 2
+}
+
+# Show Open windows and all tabs in Microsoft Edge
+Function SetEdgeTabsWindowsAndAll {
+  Write-Output "###"
+	Write-Output "Set Alt-Tab behaviour to show open windows and all Edge tabs..."
+	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced")) {
+		New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "MultiTaskingAltTabFilter" -Type DWord -Value 0
 }
 
 ##########
