@@ -16,7 +16,7 @@ DisableBuiltinAdministrator
 DisableFriendlyURLFormat      # UnconfigureFriendlyURLFormat
 EnableRunAsInStartMenu        # DisableRunAsInStartMenu
 EnableInternetPrinting        # DisableInternetPrinting
-EnableMemoryIntegrity         # DisableMemoryIntegrity
+# EnableMemoryIntegrity       # DisableMemoryIntegrity
 SetRegionalSettings
 
 ### Privacy configurations  ###
@@ -35,7 +35,7 @@ DisableWinHttpAutoProxySvc    # EnableWinHttpAutoProxySvc
 DisableIEProxyAutoconfig
 DisableAutoconfigURL          # EnableAutoconfigURL
 DisableMulticastDNS           # EnableMulticastDNS
-GetTelemetryBlockingHostfile  # SetDefaultHostsfile
+# GetTelemetryBlockingHostfile # SetDefaultHostsfile
 
 ### Windows Subsystem for Linux  ###
 # EnableWSL                   # DisableWSL
@@ -53,13 +53,17 @@ InstallGit4Win                #
 # InstallAtom                 # RemoveAtom
 GetSysmonSwiftXML             # GetSysmonOlafXML
 InstallSysmon64               # 
-InstallOffice365              # 
-RemoveTeamsWideInstaller
-# InstallVisioPro             # 
 # InstallVMwareWorkstation    # RemoveVMwareWorkstation
 # SetVMDirUserhome            # SetVMDirDocuments
 # InstallThunderbird          # 
 # InstallJoplin
+
+### Office Apps ###
+DisableOneDrive               # EnableOneDrive
+UninstallOneDrive             # InstallOneDrive
+InstallOffice365              # 
+# RemoveTeamsWideInstaller
+# InstallVisioPro             # 
 
 ### System Tools ###
 # GetSysinternalsSuite        # 
@@ -93,7 +97,7 @@ InstallFirefox                # RemoveFirefox
 CreateFirefoxPreferenceFiles
 InstallChrome                 # RemoveChrome
 CreateChromePreferenceFiles
-InstallOpera                  #
+# InstallOpera                #
 
 ### Forensic Tools ###
 # InstallAutopsy              #
@@ -129,6 +133,7 @@ InstallOpera                  #
 ### Customization  ###
 InstallFonts
 ReplaceDefaultWallpapers
+# SetCustomLockScreen         # SetDefaultLockScreen
 # InstallLenovoVantage        # RemoveLenovoVantage
 
 ### Privacy Tweaks ###
@@ -246,8 +251,8 @@ EnableNTFSLongPaths             # DisableNTFSLongPaths
 DisableActionCenter             # EnableActionCenter
 # DisableLockScreen             # EnableLockScreen
 # DisableLockScreenRS1          # EnableLockScreenRS1
-HideNetworkFromLockScreen       # ShowNetworkOnLockScreen
-HideShutdownFromLockScreen      # ShowShutdownOnLockScreen
+# HideNetworkFromLockScreen     # ShowNetworkOnLockScreen
+# HideShutdownFromLockScreen    # ShowShutdownOnLockScreen
 DisableLockScreenBlur           # EnableLockScreenBlur
 # DisableAeroShake              # EnableAeroShake
 DisableAccessibilityKeys        # EnableAccessibilityKeys
@@ -285,6 +290,8 @@ DisableF1HelpKey                # EnableF1HelpKey
 DisableTaskbarWidgets           # EnableTaskbarWidgets
 DisableTaskbarChat              # EnableTaskbarChat
 # SetTaskbarAlignmentLeft       # SetTaskbarAlignmentMiddle
+RemoveEdgeTabsFromAltTab        # SetEdgeTabsWindowsAnd5tabs    # SetEdgeTabsWindowsAnd3tabs   # SetEdgeTabsWindowsAndAll
+
 
 ### Explorer UI Tweaks ###
 # ShowExplorerTitleFullPath     # HideExplorerTitleFullPath
@@ -306,7 +313,7 @@ HideRecentShortcuts             # ShowRecentShortcuts
 SetExplorerThisPC               # SetExplorerQuickAccess
 HideQuickAccess                 # ShowQuickAccess
 # HideRecycleBinFromDesktop     # ShowRecycleBinOnDesktop
-ShowThisPCOnDesktop             # HideThisPCFromDesktop
+# ShowThisPCOnDesktop           # HideThisPCFromDesktop
 # ShowUserFolderOnDesktop       # HideUserFolderFromDesktop
 # ShowControlPanelOnDesktop     # HideControlPanelFromDesktop
 # ShowNetworkOnDesktop          # HideNetworkFromDesktop
@@ -335,8 +342,6 @@ DisableThumbnailCache           # EnableThumbnailCache
 DisableThumbsDBOnNetwork        # EnableThumbsDBOnNetwork
 
 ### Application Tweaks ###
-DisableOneDrive                 # EnableOneDrive
-UninstallOneDrive               # InstallOneDrive
 UninstallMsftBloat              # InstallMsftBloat
 UninstallThirdPartyBloat        # InstallThirdPartyBloat
 # UninstallWindowsStore         # InstallWindowsStore
@@ -384,8 +389,8 @@ RemoveFaxPrinter                # AddFaxPrinter
 CleanPublicDesktop
 
 ### Operational Tasks  ###
-GetWindowsUpdatesWithPwsh
-CleanLocalWindowsUpdateCache
+# GetWindowsUpdatesWithPwsh
+# CleanLocalWindowsUpdateCache
 # RunDiskCleanup
 # RunSysprepGeneralizeOOBE
 
@@ -399,6 +404,8 @@ SetDefaultBitLockerAES256     # SetDefaultBitLockerAES128
 # EnableEnhancedPIN            # DisableEnhancedPIN
 # EnableAdvancedAuthAtStart    # DisableAdvancedAuthAtStart
 # EnableBitlockerTPMandPIN     # EnableBitlocker             # DisableBitlocker
+# AddBitlockerRecoveryPswd
+# DisplayBitlockerRecoveryPwd
 
 ### Auxiliary Functions ###
 WaitForKey
