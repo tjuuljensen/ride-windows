@@ -18,6 +18,7 @@ EnableRunAsInStartMenu        # DisableRunAsInStartMenu
 EnableInternetPrinting        # DisableInternetPrinting
 # EnableMemoryIntegrity       # DisableMemoryIntegrity
 SetRegionalSettings
+CopyRegionSettingsToAll         # CopyRegionSettingsWelcome   # CopyRegionSettingsNewUser
 
 ### Privacy configurations  ###
 DisableInkingAndTypingData    # EnableInkingAndTypingData
@@ -57,12 +58,15 @@ InstallSysmon64               #
 # SetVMDirUserhome            # SetVMDirDocuments
 # InstallThunderbird          # 
 # InstallJoplin
+# InstallImageMagick          # InstallImageMagickPortable
+# InstallSignal
 
 ### Office Apps ###
 DisableOneDrive               # EnableOneDrive
 UninstallOneDrive             # InstallOneDrive
 InstallOffice365              # 
-# RemoveTeamsWideInstaller
+DisableTeamsAutoStart         # ResetTeamsAutoStart     # RemoveTeamsWideInstaller
+RemoveTeamsStoreApp
 # InstallVisioPro             # 
 
 ### System Tools ###

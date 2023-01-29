@@ -207,6 +207,37 @@ function SetRegionalSettings{
   Set-TimeZone $TimeZone
 }
 
+function CopyRegionSettingsToAll {
+  # Major version = 10 -> either Windows 10 or 11 / Build over 22000 -> Windows 11
+  $SupportedOS=(([Environment]::OSVersion.Version).Major -eq "10") -and ([int]([Environment]::OSVersion.Version).Build -ge 22000)
+  if ($SupportedOS) { 
+      Copy-UserInternationalSettingsToSystem -WelcomeScreen $True -NewUser $True
+  } else {
+    Write-Output "This Feature is only available on Windows 11."
+  }
+}
+
+function CopyRegionSettingsWelcome {
+  # Major version = 10 -> either Windows 10 or 11 / Build over 22000 -> Windows 11
+  $SupportedOS=(([Environment]::OSVersion.Version).Major -eq "10") -and ([int]([Environment]::OSVersion.Version).Build -ge 22000)
+  if ($SupportedOS) { 
+      Copy-UserInternationalSettingsToSystem -WelcomeScreen $True
+  } else {
+    Write-Output "This Feature is only available on Windows 11."
+  }
+}
+
+function CopyRegionSettingsNewUser {
+  # Major version = 10 -> either Windows 10 or 11 / Build over 22000 -> Windows 11
+  $SupportedOS=(([Environment]::OSVersion.Version).Major -eq "10") -and ([int]([Environment]::OSVersion.Version).Build -ge 22000)
+  if ($SupportedOS) { 
+      Copy-UserInternationalSettingsToSystem -NewUser $True
+  } else {
+    Write-Output "This Feature is only available on Windows 11."
+  }
+}
+
+
 ################################################################
 ###### Privacy configurations  ###
 ################################################################
@@ -755,13 +786,13 @@ function RunDiskCleanup{
 
 function RunSysprepGeneralizeOOBE{
   Write-Output "###"
+  Write-Output "Sysprepping image. Will shut down when finished..."
   # Sysprep installation - for templates
   # https://theitbros.com/sysprep-windows-machine/
-  # FIXME: Should be tested if it works (check stackoverflow link below): Start-Process -FilePath C:\Windows\System32\Sysprep\Sysprep.exe -ArgumentList "/generalize /oobe /shutdown /quiet"
-  # https://stackoverflow.com/questions/52144405/run-sysprep-remotely-through-commands-from-azure-powershell
-  $sysprep = 'C:\Windows\System32\Sysprep\Sysprep.exe'
-  $arg = '/generalize /oobe /shutdown /quiet'
-  Invoke-Command -ScriptBlock {param($sysprep,$arg) Start-Process -FilePath $sysprep -ArgumentList $arg} -ArgumentList $sysprep,$arg
+  
+  $SysprepExecutable = Join-Path -Path $Env:windir -ChildPath "\System32\Sysprep\Sysprep.exe"
+  $AllArguments = '/generalize /oobe /shutdown'
+  Start-Process -FilePath $SysprepExecutable -ArgumentList $AllArguments
 
   # Handle Activation on Sysprep
   # Check this (old article - WIn7)
@@ -2729,22 +2760,34 @@ function InstallOffice365{
   # Download Office binaries
   Start-Process $FileFullName "/quiet /extract:""$SoftwareFolderFullName""" -NoNewWindow -Wait -ErrorAction SilentlyContinue
 
-  $ConfigFileFullName = "$SoftwareFolderFullName\setupcustom-Office365-x86.xml"
+  # Build a custom XML at https://config.office.com/deploymentsettings
+  $ConfigFileFullName = "$SoftwareFolderFullName\setupcustom-Office365.xml"
   '<!-- Office 365 client configuration file for custom downloads -->
 
   <Configuration>
 
-    <Add Channel="MonthlyEnterprise">
+    <Add Channel="Current">
       <Product ID="O365ProPlusRetail">
         <Language ID="en-uk" />
         <Language ID="da-dk" />
+        <Language ID="MatchOS"/>
+      </Product>
+      <Product ID="LanguagePack">
+        <Language ID="en-uk" />
+        <Language ID="da-dk" />
+        <Language ID="MatchOS"/>
       </Product>
     </Add>
-
-  <Updates Enabled="TRUE" Channel="MonthlyEnterprise" />
-  <Display Level="None" AcceptEULA="TRUE" />
-  <Property Name="AUTOACTIVATE" Value="1" />
-  <Property Name="FORCEAPPSSHUTDOWN" Value="TRUE" />
+    <RemoveMSI/>
+    <AppSettings>
+    <User Key="software\microsoft\office\16.0\excel\options" Name="defaultformat" Value="51" Type="REG_DWORD" App="excel16" Id="L_SaveExcelfilesas"/>
+    <User Key="software\microsoft\office\16.0\powerpoint\options" Name="defaultformat" Value="27" Type="REG_DWORD" App="ppt16" Id="L_SavePowerPointfilesas"/>
+    <User Key="software\microsoft\office\16.0\word\options" Name="defaultformat" Value="" Type="REG_SZ" App="word16" Id="L_SaveWordfilesas"/>
+    </AppSettings>
+    <Updates Enabled="TRUE" Channel="Current" />
+    <Display Level="None" AcceptEULA="TRUE" />
+    <Property Name="AUTOACTIVATE" Value="1" />
+    <Property Name="FORCEAPPSSHUTDOWN" Value="TRUE" />
   </Configuration>' | Out-File $ConfigFileFullName -Force
 
   Set-Location $SoftwareFolderFullName
@@ -2761,13 +2804,73 @@ function InstallOffice365{
   Set-Location $DefaultDownloadDir 
 }
 
+Function DisableTeamsAutoStart {
+  Write-Output "###"
+	Write-Output "Disabling automatic start of Teams after boot..."
+	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "com.squirrel.Teams.Teams" -ErrorAction SilentlyContinue
+}
+
+# Enable access to messaging from UWP apps
+Function ResetTeamsAutoStart {
+  Write-Output "###"
+	Write-Output "Resetting Teams startup settings..."
+
+  # This is a modification of the script found at https://www.prajwaldesai.com/disable-microsoft-teams-auto-startup
+  $TeamsDesktopConfigJsonPath = [System.IO.Path]::Combine($env:APPDATA, 'Microsoft', 'Teams', 'desktop-config.json')
+  $TeamsUpdatePath = [System.IO.Path]::Combine($env:LOCALAPPDATA, 'Microsoft', 'Teams', 'Update.exe')
+
+  $teamsProc = Get-Process -name Teams -ErrorAction SilentlyContinue
+  if ($null -ne $teamsProc) { # Teams is runnning
+      Stop-Process -Name Teams -Force
+      Start-Sleep 5
+  } 
+  # is Teams process still running
+  $teamsProc = Get-Process -name Teams -ErrorAction SilentlyContinue
+
+  if($null -eq $teamsProc) {
+    Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Office\Teams" -Name "LoggedInOnce" -ErrorAction SilentlyContinue
+    Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Office\Teams" -Name "HomeUserUpn" -ErrorAction SilentlyContinue
+    Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Office\Teams" -Name "DeadEnd" -ErrorAction SilentlyContinue
+    Remove-Item -Path "HKCU:\Software\Microsoft\Office\Outlook\Addins\TeamsAddin.FastConnect" -ErrorAction SilentlyContinue
+    
+    If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run")) {
+      New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Server\ServerManager" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run" -Name "com.squirrel.Teams.Teams" -Value "$TeamsUpdatePath --processStart ""Teams.exe"" --process-start-args ""--system-initiated""" -Force
+
+    # Removing entries 'isLoggedOut' and 'openAtLogin' in the desktop-config.json file
+    if (Test-Path -Path $TeamsDesktopConfigJsonPath) {
+        # open desktop-config.json file
+        $desktopConfigFile = Get-Content -path $TeamsDesktopConfigJsonPath -Raw | ConvertFrom-Json
+        $desktopConfigFile.PSObject.Properties.Remove("guestTenantId")
+        $desktopConfigFile.PSObject.Properties.Remove("isLoggedOut")
+        try {
+            $desktopConfigFile.appPreferenceSettings.openAtLogin = $true
+        } catch {
+          # Do nothing
+        }
+        $desktopConfigFile | ConvertTo-Json -Compress | Set-Content -Path $TeamsDesktopConfigJsonPath -Force
+    }
+    Write-Host "Teams autostart functions restored to default"	
+  } else {
+      Write-Host  "ERROR: Teams process did not shut down in time. No actions performed."
+  }
+}
+
 function RemoveTeamsWideInstaller{
   Write-Output "###"
   # Remove Teams Machine-Wide Installer
-  Write-Output "Removing Teams Machine-wide Installer" #-ForegroundColor Yellow
+  Write-Output "Removing Teams Machine-wide Installer" 
 
   $MachineWide = Get-WmiObject -Class Win32_Product | Where-Object{$_.Name -eq "Teams Machine-Wide Installer"}
   $MachineWide.Uninstall() | Out-Null
+}
+
+function RemoveTeamsStoreApp{
+  Write-Output "###"
+  Write-Output "Removing Teams Store App" 
+
+  Get-AppxPackage 'MicrosoftTeams' | Remove-AppxPackage
 }
 
 function InstallVisioPro{
@@ -2806,22 +2909,28 @@ function InstallVisioPro{
 
   # Download Visio
   Start-Process $FileFullName "/quiet /extract:$SoftwareFolderFullName" -NoNewWindow -Wait
-  $ConfigFileFullName = "$SoftwareFolderFullName\custom-visio-x86.xml"
+  $ConfigFileFullName = "$SoftwareFolderFullName\custom-visio.xml"
   '<!-- Office 365 client configuration file for custom downloads -->
 
   <Configuration>
 
-    <Add Channel="MonthlyEnterprise">
+    <Add Channel="Current">
       <Product ID="VisioProRetail">
         <Language ID="en-uk" />
         <Language ID="da-dk" />
+        <Language ID="MatchOS"/>
       </Product>
+      <Product ID="LanguagePack">
+      <Language ID="en-uk" />
+      <Language ID="da-dk" />
+      <Language ID="MatchOS"/>
+    </Product>
     </Add>
-
-  <Updates Enabled="TRUE" Channel="MonthlyEnterprise" />
-  <Display Level="None" AcceptEULA="TRUE" />
-  <Property Name="AUTOACTIVATE" Value="1" />
-  <Property Name="FORCEAPPSSHUTDOWN" Value="TRUE" />
+    <RemoveMSI/>
+    <Updates Enabled="TRUE" Channel="Current" />
+    <Display Level="None" AcceptEULA="TRUE" />
+    <Property Name="AUTOACTIVATE" Value="1" />
+    <Property Name="FORCEAPPSSHUTDOWN" Value="TRUE" />
   </Configuration>' | Out-File $ConfigFileFullName
   
   Set-Location $SoftwareFolderFullName
@@ -3001,7 +3110,170 @@ function InstallJoplin{
   }
 }
 
+function InstallImageMagick {
+  Write-Output "###"
 
+  $SoftwareName = "ImageMagick"
+  Write-Output "Installing $SoftwareName..."
+  
+  $Url="https://imagemagick.org/script/download.php#windows"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_.href -Like "*x64*" -And $_.href -Like "*exe" -And $_.href -Like "*HDRI*" -And $_.href -Like "*dll*"} | Select-Object -First 1).href
+
+  if (-not $FullDownloadURL) {
+	Write-Output "Error: $SoftwareName not found"
+	return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Install exe 
+    $InstallFile = $FileFullName
+    $CommandLineOptions = "/SILENT /NORESTART"
+    Start-Process -FilePath $InstallFile -ArgumentList $CommandLineOptions -NoNewWindow -Wait
+    Write-Output "Installation done for $SoftwareName"
+  }
+}
+
+function InstallImageMagickPortable {
+  Write-Output "###"
+
+  $SoftwareName = "ImageMagickPortable"
+  Write-Output "Installing $SoftwareName..."
+  
+  $Url="https://imagemagick.org/script/download.php#windows"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_.href -Like "*x64*" -And $_.href -Like "*zip" -And $_.href -Like "*HDRI*" -And $_.href -Like "*portable*"} | Select-Object -First 1).href
+
+  if (-not $FullDownloadURL) {
+	Write-Output "Error: $SoftwareName not found"
+	return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+	  New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+    # Unzip
+    $NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
+    Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
+    Remove-Item -Path $NewFileFullName -ErrorAction Ignore
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+  }
+}
+
+function InstallSignal {
+  Write-Output "###"
+
+  $SoftwareName = "Signal"
+  Write-Output "Installing $SoftwareName..."
+  
+  $SubUrl = "https://updates.signal.org/desktop"
+  $Url="$SubUrl/latest.yml"
+  $YAMLfileraw = (Invoke-WebRequest -UseBasicParsing -Uri $Url).rawcontent
+  $Regex = [Regex]::new("(?<=url: )(.*)")
+  $FileName = $Regex.Match($YAMLfileraw).Value
+  $FullDownloadURL = "$SubUrl/$FileName"
+
+  if (-not $FileName) {
+	Write-Output "Error: $SoftwareName not found"
+	return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Install exe 
+    $InstallFile = $FileFullName
+    $CommandLineOptions = "/S"
+    Start-Process -FilePath $InstallFile -ArgumentList $CommandLineOptions -NoNewWindow -Wait
+    Write-Output "Installation done for $SoftwareName"
+  }
+}
 
 ################################################################
 ###### Browsers and Internet ###
@@ -3294,11 +3566,6 @@ function InstallAutorunner{
   Write-Output "###"
   $SoftwareName = "autorunner"
   Write-Output "Installing $SoftwareName..."
-
-  $author="woanware"
-  $repo="autorunner"
-  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
-  $FullDownloadURL = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
 
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
