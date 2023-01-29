@@ -5076,15 +5076,21 @@ function InstallLenovoVantage{
   Write-Output "Installing $SoftwareName..."
   
   # Temp fix to missing dynamic version identification:
-  $FullDownloadURL="https://download.lenovo.com/pccbbs/thinkvantage_en/metroapps/Vantage/LenovoCommercialVantage_10.2210.33.0_v3.zip"
+  $SubUrl="https://support.lenovo.com"
+  $Url = "$SubUrl/gb/en/solutions/hf003321"
+  $HTML = Invoke-RestMethod -UseBasicParsing -Uri $Url
+  $HTML -match '/gb/en/api/v4/contents(.*)js' | Out-Null
+  $ScriptFile = $matches[0]
 
-  <# This section can be uncommented when a dynamic way of getting the latest filename is found
-  $Url = "https://support.lenovo.com/gb/en/solutions/hf003321"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*zip" }).href
-  $FullDownloadURL = "$Url$SoftwareUri" 
-  #>
+  if (-not $ScriptFile) {
+    Write-Output "Error: $SoftwareName not found"
+    return
+  }
   
+  $ScriptContent=Invoke-RestMethod -UseBasicParsing -Uri $SubUrl$ScriptFile
+  $ScriptContent -match 'href=\\"(?<url>.*zip)\\"' | Out-Null
+  $FullDownloadURL=$matches.url
+
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
 	return

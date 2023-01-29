@@ -9,7 +9,6 @@
 - [ ] BitLocker CD/USB bootable check
 - [ ] Java for Bloodhound, sharphound etc
 - [ ] Update readme (config.ini example)
-- [ ] Fix dynamic Lenovo Vantage Tools Download - https://support.lenovo.com/gb/en/solutions/hf003321
 
 
 ### Prority B - Improvements:
@@ -78,7 +77,7 @@
 - [x] Check Sysprep
 - [x] Uninstall Teams AppXPackage (comes with Windows 11) - Get-AppxPackage 'MicrosoftTeams'
 - [x] Signal - https://signal.org/en/download/windows/
-
+- [x] Fix dynamic Lenovo Vantage Tools Download - https://support.lenovo.com/gb/en/solutions/hf003321
 
 &nbsp;
 
