@@ -1,0 +1,126 @@
+[General]
+SoftwareCount=9
+GroupCount=3
+Name=Forensic Tools
+
+[Group0]
+name=Registry Tools
+
+[Group1]
+name=Event Log Tools
+
+[Group2]
+Name=Browser Forensics
+
+[Group3]
+Name=Acquisition Tools
+
+[Group4]
+Name=Other Tools
+
+[Group5]
+Name=Filesystem Tools
+
+[Group6]
+name=All Tools
+ShowAll=1
+
+[Software0]
+exe=autorunner.exe
+exe64=
+url=https://github.com/woanware/autorunner
+group=0
+Name=Autorunner
+AppName=Autorunner
+ShortDesc=Finding Autoruns
+LongDesc=Automated Authenticode checking for binaries designed to auto-start on a host. Uses sigcheck.exe from Sysinternals.
+;help=https://github.com/woanware/autorunner/blob/master/Documents/Help.md
+
+[Software1]
+exe=chainsaw.exe
+exe64=
+url=https://github.com/WithSecureLabs/chainsaw
+group=1
+Name=Chainsaw
+AppName=Chainsaw
+ShortDesc=Rapidly Search and Hunt through Windows Forensic Artefacts
+LongDesc=Chainsaw provides a powerful ‘first-response’ capability to quickly identify threats within Windows forensic artefacts such as Event Logs and MFTs. Chainsaw offers a generic and fast method of searching through event logs for keywords, and by identifying threats using built-in support for Sigma detection rules, and via custom Chainsaw detection rules.
+;help=https://github.com/WithSecureLabs/chainsaw/wiki
+
+[Software2]
+exe=ChromeParser.py
+exe64=
+url=https://github.com/marleyjaffe/ChromeSyncParser
+group=2
+Name=Chrome Sync Parser
+AppName=Defraggler Command-line
+ShortDesc=Chrome Browser Sync Data Forensics 
+LongDesc=This program will help forensic examiners analyze the contents of the SyncData.sqlite3. This database is created when an account is synced with the Google Chrome Browser.
+;help=https://github.com/marleyjaffe/ChromeSyncParser
+
+[Software3]
+exe=CyLR.exe
+exe64=
+url=https://github.com/orlikoski/CyLR
+group=3
+Name=CyLR
+AppName=CyLR
+ShortDesc=Acquisition
+LongDesc=Live Response Collection tool by Alan Orlikoski and Jason Yegge
+;help=https://github.com/orlikoski/CyLR
+
+[Software4]
+exe=dejsonlz4.exe
+exe64=
+url=https://github.com/avih/dejsonlz4
+group=2
+Name=dejsonlz4
+AppName=dejsonlz4
+ShortDesc=Decompress Mozilla Firefox bookmarks backup files
+LongDesc=Current Firefox bookmarks backup files are stored as non-standard file format based on lz4 compression. These files have a .jsonlz4 extension. Use dejsonlz4 to decompress them.
+;help=https://github.com/avih/dejsonlz4
+
+[Software5]
+exe=hex2text.py
+exe64=
+url=https://github.com/gh05t-4/hex2text
+group=4
+Name=hex2text
+AppName=hex2text
+ShortDesc=This program lets you convert hexadecimal values to text.
+LongDesc=This program lets you convert hexadecimal values to text.
+;help=https://github.com/gh05t-4/hex2text
+
+[Software6]
+exe=hindsight_gui.exe
+exe64=
+url=https://github.com/obsidianforensics/hindsight
+group=2
+Name=Hindsight
+AppName=Hindsight
+ShortDesc=Internet history forensics for Google Chrome/Chromium
+LongDesc=Hindsight is a free tool for analyzing web artifacts. It started with the browsing history of the Google Chrome web browser and has expanded to support other Chromium-based applications (with more to come!). Hindsight can parse a number of different types of web artifacts, including URLs, download history, cache records, bookmarks, autofill records, saved passwords, preferences, browser extensions, HTTP cookies, and Local Storage records (HTML5 cookies). Once the data is extracted from each file, it is correlated with data from other history files and placed in a timeline.
+;help=https://github.com/obsidianforensics/hindsight/tree/master/documentation
+
+[Software7]
+exe=loki.exe
+exe64=
+url=https://github.com/Neo23x0/Loki
+group=4
+Name=Loki
+AppName=Loki
+ShortDesc=Simple IOC and YARA Scanner
+LongDesc=IOC and YARA Scanner based on four detection methods; File Name IOC (Regex match on full file path/name), Yara Rule Check (Yara signature match on file data and process memory), Hash Check (Compares known malicious hashes (MD5, SHA1, SHA256) with scanned files) and C2 Back Connect Check (Compares process connection endpoints with C2 IOCs - new since version v.10).
+;help=https://github.com/Neo23x0/Loki
+
+[Software8]
+exe=Nucleus-Kernel-FAT-NFTS.exe
+exe64=
+url=https://www.nucleustechnologies.com/data-recovery.html
+group=5
+Name=Nucleus-Kernel-FAT-NFTS
+AppName=Nucleus-Kernel-FAT-NFTS
+ShortDesc=Windows filesystem recovery tool
+LongDesc=Kernel for Windows Data Recovery Tool is designed to recover lost files/folders after Windows corruption.
+;help=https://www.nucleustechnologies.com/data-recovery.html
+

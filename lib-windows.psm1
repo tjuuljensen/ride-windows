@@ -8,6 +8,10 @@
 ###### Windows configuration  ###
 ################################################################
 
+function StopComputer {
+  Stop-Computer
+}
+
 function ActivateWindows{
   Write-Output "###"
 
@@ -271,7 +275,7 @@ function ExcludeBootstrapDirDefender{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -285,7 +289,7 @@ function RemoveBootstrapDirDefender{
   
   # Get Bootstrap folder
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
 
   Remove-MpPreference -ExclusionPath $BootstrapFolder
 }
@@ -536,6 +540,15 @@ function DisableIEProxyAutoconfig{
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections" -Name DefaultConnectionSettings -Value $data
 }
 
+function EnableIEProxyAutoconfig{
+  Write-Output "###"
+    # Enable IE proxy autoconfig by editing binary registry value
+    Write-Output "Enabling Internet Explorer Proxy autoconfig..."
+    $data = (Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections" -Name DefaultConnectionSettings).DefaultConnectionSettings
+    $data[8] = 9
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections" -Name DefaultConnectionSettings -Value $data
+}
+
 function DisableMulticastDNS{
   Write-Output "###"
     # Specifies that link local multicast name resolution (LLMNR) is disabled on client computers.
@@ -555,16 +568,20 @@ function EnableMulticastDNS{
 }
 
 
-function GetTelemetryBlockingHostfile{
+function GetNoTelemetryHostsFile{
   Write-Output "###"
 
     # Null-routing hostfile to block Microsoft and NVidia telemetry
-    # read more here: https://encrypt-the-planet.com/windows-10-anti-spy-host-file/
-    # Fetching from encrypt-the-planet and overwrite current host file
+    # Originated from: https://encrypt-the-planet.com
 
-    Write-Output "Enabling blocking hostsfile from encrypt-the-planet.com..."
-    $Hostsfile=Join-Path -Path $Env:windir -ChildPath "\System32\Drivers\etc\hosts"
-    Invoke-WebRequest https://www.encrypt-the-planet.com/downloads/hosts -OutFile $Hostsfile
+    Write-Output "Enabling blocking hosts file ..."
+    $SourceFile = Join-Path -Path $PSScriptRoot -ChildPath "components\files\hosts"
+    $DestinationFile=Join-Path -Path $Env:windir -ChildPath "\System32\Drivers\etc\hosts"
+
+    if ((Test-Path -Path $SourceFile)) {
+        Copy-Item $SourceFile $DestinationFile -Force
+        Write-Output "Hostfile copied to $DestinationFile"
+    }
 
 }
 
@@ -696,7 +713,7 @@ function InstallWSLFedora{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -823,7 +840,7 @@ function InstallGit4Win{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -847,9 +864,17 @@ function InstallGit4Win{
   if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Install exe
     $CommandLineOptions = "/SILENT /LOG"
-    Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
+    Start-Process -FilePath $FileFullName -ArgumentList $CommandLineOptions -NoNewWindow -Wait
     Write-Output "Installation done for $SoftwareName"
   }
+}
+
+function RemoveGit4Win {
+  Write-Output "###"
+  Write-Output "Removing Git4Win..."
+  $UninstallString=Get-ChildItem "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Git*"  | ForEach-Object { Get-ItemProperty $_.PsPath } | Select-Object UninstallString 
+  $AllArguments = " "
+  Start-Process -FilePath $UninstallString -ArgumentList $AllArguments -NoNewWindow -Wait
 }
 
 function InstallAtom{
@@ -869,7 +894,7 @@ function InstallAtom{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -899,6 +924,7 @@ function InstallAtom{
 }
 
 function RemoveAtom {
+  Import-Module PackageManagement
   Write-Output "###"
   Write-Output "Removing Atom..."
   Uninstall-Package -InputObject ( Get-Package -Name "Atom")
@@ -922,7 +948,7 @@ function InstallNotepadPlusPlus{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -952,6 +978,7 @@ function InstallNotepadPlusPlus{
 }
 
 function RemoveNotepadPlusPlus{
+  Import-Module PackageManagement
   Write-Output "###"
   Write-Output "Removing Notepad++..."
   Uninstall-Package -InputObject ( Get-Package -Name "Notepad++")
@@ -973,7 +1000,7 @@ function Install7Zip{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -1003,6 +1030,7 @@ function Install7Zip{
 }
 
 function Remove7Zip{
+  Import-Module PackageManagement
   Write-Output "###"
   Write-Output "Removing 7-Zip..."
   Uninstall-Package -InputObject ( Get-Package -Name "7-Zip")
@@ -1018,7 +1046,7 @@ function InstallVSCode{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -1052,7 +1080,7 @@ function InstallVSCode{
 }
 
 function RemoveVSCode{
-  # Require nuget 
+  Import-Module PackageManagement
   Write-Output "###"
   Write-Output "Removing VSCode..."
   Uninstall-Package -InputObject (Get-Package -Name 'Microsoft Visual Studio Code*')
@@ -1080,7 +1108,7 @@ function GetSysmonSwiftXML{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -1108,7 +1136,7 @@ function GetSysmonSwiftXML{
       # Set default tools folder
       $ToolsFolder = "\Tools"
     }
-    #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1135,7 +1163,7 @@ function GetSysmonOlafXML{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -1163,7 +1191,7 @@ function GetSysmonOlafXML{
       # Set default tools folder
       $ToolsFolder = "\Tools"
     }
-    #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1190,7 +1218,7 @@ function InstallSysmon64{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -1218,7 +1246,7 @@ function InstallSysmon64{
 	  # Set default tools folder
     $ToolsFolder = "\Tools"
   }
-  #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+  
 
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1256,6 +1284,31 @@ function InstallSysmon64{
   }
 }
 
+function RemoveSysmon64 {
+  Write-Output "###"
+  $SoftwareName = "Sysmon64"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+
+  Get-Service -Name $SoftwareName | Stop-Service | Out-Null
+  $CommandLineOptions += "-u force"
+  $InstallFileFullName = "$NewSoftwareFolderFullName\Sysmon64.exe"
+  Start-Process $InstallFileFullName $CommandLineOptions -NoNewWindow -Wait
+    
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
 
 function GetSysinternalsSuite{
   Write-Output "###"
@@ -1266,7 +1319,7 @@ function GetSysinternalsSuite{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -1288,33 +1341,54 @@ function GetSysinternalsSuite{
   Write-Output "Downloaded: $FileFullName"
 
   if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
-	# Get tools folder
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+    # Unzip
+    $NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
+    Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
+    Remove-Item -Path $NewFileFullName -ErrorAction Ignore
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+  }
+}
+
+function RemoveSysinternalsSuite {
+  Write-Output "###"
+  $SoftwareName = "SysinternalsSuite"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
 	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
 	if (-not $ToolsFolder) {
 	  # Set default tools folder
-	  $ToolsFolder = "\Tools"
+    $ToolsFolder = "\Tools"
   }
-  #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
-
-	# Create tools folder if not existing
-	if (-not (Test-Path -Path $ToolsFolder)) {
-	  New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
-	}
-
-	# Copy to tools folder (overwrite existing)
-	$NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
-	if (Test-Path -Path $NewSoftwareFolderFullName) {
-	  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
-	}
-	Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
-	Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
-
-	# Unzip
-	$NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
-	Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
-	Remove-Item -Path $NewFileFullName -ErrorAction Ignore
-	Write-Output "Unzipped to: $NewSoftwareFolderFullName"
-  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
 }
 
 
@@ -1342,7 +1416,7 @@ function InstallNirsoftLauncher(){
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -1375,7 +1449,7 @@ function InstallNirsoftLauncher(){
         # Set default tools folder
         $ToolsFolder = "\Tools"
       }
-      #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+      
 
       # Create tools folder if not existing
       if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1406,6 +1480,27 @@ function InstallNirsoftLauncher(){
   }
 }
 
+function RemoveNirsoftLauncher {
+  Write-Output "###"
+  $SoftwareName = "NirsoftLauncher"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
+
 function InstallNirsoftPkgFiles{
   
   Write-Output "###"
@@ -1417,7 +1512,7 @@ function InstallNirsoftPkgFiles{
   
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -1470,7 +1565,7 @@ function InstallNirsoftPkgFiles{
 
   # If repo NLP file can be identified, copy to Bootstrap and to Tools directory
   if ($PSScriptRoot) {
-      $SourceDir = Join-Path -Path $PSScriptRoot -ChildPath "files"
+      $SourceDir = Join-Path -Path $PSScriptRoot -ChildPath "components\files"
       $SourceFile = Join-Path -Path $SourceDir -ChildPath $NLPfile
       $DestinationFile = Join-Path -Path $SoftwareFolderFullName -ChildPath $NLPfile
 
@@ -1494,15 +1589,20 @@ function InstallNirsoftPkgFiles{
   $NLPfile = "piriform.nlp"
   $NLPpackage = "CCleaner"
 
-  $NLPFileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $NLPfile
-  (Get-Content $NLPFileFullName).Replace(".\Speccy\Speccy", "Speccy").Replace(".\Recuva\Recuva", "recuva").Replace(".\Defraggler\df", "df").Replace(".\Defraggler\Defraggler", "Defraggler").Replace(".\CCleaner\CCleaner", "CCleaner") | Out-File $NLPFileFullName -Force -Encoding ascii
+  $SourceFile = Join-Path -Path $SoftwareFolderFullName -ChildPath $NLPfile
+  $DestinationDir = Join-Path -Path $ToolsFolder -ChildPath $NLPpackage
+
+  (Get-Content $SourceFile).Replace(".\Speccy\Speccy", "Speccy").Replace(".\Recuva\Recuva", "recuva").Replace(".\Defraggler\df", "df").Replace(".\Defraggler\Defraggler", "Defraggler").Replace(".\CCleaner\CCleaner", "CCleaner") | Out-File $SourceFile -Force -Encoding ascii
 
   # Copy CCleaner package file to Tools Package directory
   if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
       $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $NLPpackage
       $ToolsNLPFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $NLPfile
-      Copy-Item $NLPFileFullName $ToolsNLPFileFullName -Force
-      Write-Output "File $NLPfile copied to $NewSoftwareFolderFullName"
+
+      if ((Test-Path -Path $SourceFile) -And (Test-Path -Path $DestinationDir)) {
+        Copy-Item $NLPFileFullName $ToolsNLPFileFullName -Force
+        Write-Output "File $NLPfile copied to $NewSoftwareFolderFullName"
+      }
   }
   
   # Copy SysInternals NLP file to Tools folder
@@ -1562,6 +1662,27 @@ function InstallNirsoftPkgFiles{
   }
 }
 
+function RemoveNirsoftPkgFiles {
+  Write-Output "###"
+  $SoftwareName = "NirsoftLauncherPackages"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
+
 function InstallNirsoftToolsX64(){
 
   Write-Output "###"
@@ -1586,7 +1707,7 @@ function InstallNirsoftToolsX64(){
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -1617,7 +1738,7 @@ function InstallNirsoftToolsX64(){
         # Set default tools folder
         $ToolsFolder = "\Tools"
       }
-      #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+      
 
       # Create tools folder if not existing
       if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1648,6 +1769,27 @@ function InstallNirsoftToolsX64(){
   }
 }
 
+function RemoveNirsoftToolsX64 {
+  Write-Output "###"
+  $SoftwareName = "NirsoftTools"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
+
 function InstallJoeWare(){
   Write-Output "###"
   # http://www.joeware.net/freetools/index.htm
@@ -1664,7 +1806,7 @@ function InstallJoeWare(){
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -1704,7 +1846,7 @@ function InstallJoeWare(){
       # Set default tools folder
       $ToolsFolder = "\Tools"
     }
-    #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    
   
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1730,6 +1872,27 @@ function InstallJoeWare(){
   }
 }
 
+function RemoveJoeWare {
+  Write-Output "###"
+  $SoftwareName = "JoeWare"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
+
 function InstallCCleaner(){
 
   Write-Output "###"
@@ -1738,7 +1901,7 @@ function InstallCCleaner(){
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -1785,7 +1948,7 @@ function InstallCCleaner(){
       # Set default tools folder
       $ToolsFolder = "\Tools"
     }
-    #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1825,6 +1988,27 @@ function InstallCCleaner(){
   }
 }
 
+function RemoveCCleaner {
+  Write-Output "###"
+  $SoftwareName = "CCleaner"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
+
 function InstallMitec(){
   Write-Output "###"
   # http://www.mitec.cz
@@ -1843,7 +2027,7 @@ function InstallMitec(){
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -1892,7 +2076,7 @@ function InstallMitec(){
       # Set default tools folder
       $ToolsFolder = "\Tools"
     }
-    #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    
   
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1918,6 +2102,27 @@ function InstallMitec(){
   }
 }
 
+function RemoveMitec {
+  Write-Output "###"
+  $SoftwareName = "Mitec"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
+
 function InstallNtcore(){
   Write-Output "###"
   
@@ -1939,7 +2144,7 @@ function InstallNtcore(){
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -1989,7 +2194,7 @@ function InstallNtcore(){
       # Set default tools folder
       $ToolsFolder = "\Tools"
     }
-    #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    
   
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -2015,6 +2220,27 @@ function InstallNtcore(){
   }
 }
 
+function RemoveNTCore {
+  Write-Output "###"
+  $SoftwareName = "NTCore"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
+
 function InstallOpenJDK{
   Write-Output "###"
   # We select version 11 instead of 17 because Neo4j/BloodHound require 11
@@ -2031,7 +2257,7 @@ function InstallOpenJDK{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -2109,7 +2335,7 @@ function InstallNeo4j{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -2143,7 +2369,7 @@ function InstallNeo4j{
 	  # Set default tools folder
     $ToolsFolder = "\Tools"
   }
-  #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+  
 
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
@@ -2203,7 +2429,7 @@ function GetBloodhound {
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -2231,7 +2457,7 @@ function GetBloodhound {
 	  # Set default tools folder
     $ToolsFolder = "\Tools"
   }
-  #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+  
 
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
@@ -2259,6 +2485,26 @@ function GetBloodhound {
   }
 }
 
+function RemoveBloodhound {
+  Write-Output "###"
+  $SoftwareName = "Bloodhound"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
 
 function GetSharphound {
   Write-Output "###"
@@ -2279,7 +2525,7 @@ function GetSharphound {
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -2307,7 +2553,7 @@ function GetSharphound {
       # Set default tools folder
       $ToolsFolder = "\Tools"
     }
-    #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -2324,6 +2570,26 @@ function GetSharphound {
   }
 }
 
+function RemoveSharphound {
+  Write-Output "###"
+  $SoftwareName = "Sharphound"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
 
 function GetAzurehound {
   Write-Output "###"
@@ -2344,7 +2610,7 @@ function GetAzurehound {
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -2372,7 +2638,7 @@ function GetAzurehound {
       # Set default tools folder
       $ToolsFolder = "\Tools"
     }
-    #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -2389,6 +2655,26 @@ function GetAzurehound {
   }
 }
 
+function RemoveAzurehound {
+  Write-Output "###"
+  $SoftwareName = "Azurehound"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
 
 function GetImproHound{
   Write-Output "###"
@@ -2406,7 +2692,7 @@ function GetImproHound{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -2434,7 +2720,7 @@ function GetImproHound{
       # Set default tools folder
       $ToolsFolder = "\Tools"
     }
-    #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -2451,7 +2737,26 @@ function GetImproHound{
   }
 }
 
+function RemoveImprohound {
+  Write-Output "###"
+  $SoftwareName = "Improhound"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
 
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
 function GetPingCastle{
   Write-Output "###"
   $SoftwareName = "PingCastle"
@@ -2470,7 +2775,7 @@ function GetPingCastle{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -2498,7 +2803,7 @@ function GetPingCastle{
 	  # Set default tools folder
     $ToolsFolder = "\Tools"
   }
-  #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+  
 
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
@@ -2521,6 +2826,27 @@ function GetPingCastle{
   }
 }
 
+function RemovePingCastle {
+  Write-Output "###"
+  $SoftwareName = "PingCastle"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
+
 function InstallVirtIOGuestTool{
   Write-Output "###"
 
@@ -2539,7 +2865,7 @@ function InstallVirtIOGuestTool{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -2577,7 +2903,7 @@ function InstallSpiceGuestTool{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -2616,7 +2942,7 @@ function InstallSpiceWebDAV{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -2654,7 +2980,7 @@ function InstallGPGwin{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -2693,7 +3019,7 @@ function InstallThunderbird{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -2736,7 +3062,7 @@ function InstallOffice365{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -2886,7 +3212,7 @@ function InstallVisioPro{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -2967,7 +3293,7 @@ function InstallVMwareWorkstation{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -3000,6 +3326,7 @@ function InstallVMwareWorkstation{
 }
 
 function RemoveVMwareWorkstation{
+  Import-Module PackageManagement
   Write-Output "###"
   Write-Output "Removing VMware Workstation..."
   Uninstall-Package -InputObject ( Get-Package -Name "VMware Workstation")
@@ -3081,7 +3408,7 @@ function InstallJoplin{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -3127,7 +3454,7 @@ function InstallImageMagick {
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -3174,7 +3501,7 @@ function InstallImageMagickPortable {
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -3202,7 +3529,7 @@ function InstallImageMagickPortable {
       # Set default tools folder
       $ToolsFolder = "\Tools"
     }
-    #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
+    
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -3225,6 +3552,27 @@ function InstallImageMagickPortable {
   }
 }
 
+function RemoveImageMagickPortable {
+  Write-Output "###"
+  $SoftwareName = "ImageMagickPortable"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
+
 function InstallSignal {
   Write-Output "###"
 
@@ -3245,7 +3593,7 @@ function InstallSignal {
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -3310,7 +3658,7 @@ function InstallFirefox{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -3341,7 +3689,10 @@ function InstallFirefox{
 function RemoveFirefox{
   Write-Output "###"
   Write-Output "Removing Mozilla Firefox..."
-  Get-ChildItem "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Mozilla Firefox*"  | ForEach-Object { Get-ItemProperty $_.PsPath } | Select-Object UninstallString
+  
+  $UninstallString=Get-ChildItem "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Mozilla Firefox*"  | ForEach-Object { Get-ItemProperty $_.PsPath } | Select-Object UninstallString
+  $AllArguments = " "
+  Start-Process -FilePath $UninstallString -ArgumentList $AllArguments -NoNewWindow -Wait
 }
 
 function CreateFirefoxPreferenceFiles {
@@ -3417,7 +3768,7 @@ function InstallChrome{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -3445,15 +3796,36 @@ function InstallChrome{
   }
 }
 
+function RemoveFirefoxPreferenceFiles {
+  Write-Output "###"
+  Write-Output "Removing prefence files for Mozilla Firefox..."
+
+  $InstallDir = [System.Environment]::GetFolderPath("ProgramFilesX86")+"\Mozilla Firefox\"
+
+  # Remove mozilla.cfg
+  $FileFullName = Join-Path -Path  $InstallDir -ChildPath "mozilla.cfg"
+  Remove-Item $FileFullName -Recurse -Force -ErrorAction SilentlyContinue
+
+  # Remove autoconfig.js 
+  $FileFullName = Join-Path -Path  $InstallDir -ChildPath "defaults\pref\autoconfig.js"
+  Remove-Item $FileFullName -Recurse -Force -ErrorAction SilentlyContinue
+
+  # Remove override.ini
+  $FileFullName = Join-Path -Path  $InstallDir -ChildPath "browser\override.ini"
+  Remove-Item $FileFullName -Recurse -Force -ErrorAction SilentlyContinue
+
+}
+
 function RemoveChrome{
+  Import-Module PackageManagement
   Write-Output "###"
   Write-Output "Removing Google Chrome..."
   Uninstall-Package -InputObject ( Get-Package -Name "Google Chrome")
 }
 
-function CreateChromePreferenceFiles {
+function CreateChromePreferenceFile {
   Write-Output "###"
-Write-Output "Creating preference files for Google Chrome..."
+Write-Output "Creating preference file for Google Chrome..."
 
   $ChromeInstallDir = [System.Environment]::GetFolderPath("ProgramFilesX86")+"\Google\Chrome\Application\"
 
@@ -3503,6 +3875,15 @@ New-Item ($chromeInstallDir+"master_preferences") -type file -force -value "{
 " | Out-Null
 }
 
+function RemoveChromePreferenceFile {
+  Write-Output "###"
+  Write-Output "Removing prefence files for Mozilla Firefox..."
+
+  $InstallDir = [System.Environment]::GetFolderPath("ProgramFilesX86")+"\Google\Chrome\Application\"
+  $FileFullName = Join-Path -Path  $InstallDir -ChildPath "master_preferences"
+
+  Remove-Item $FileFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
 
 function InstallOpera{
   Write-Output "###"
@@ -3523,7 +3904,7 @@ function InstallOpera{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -3564,8 +3945,14 @@ function InstallOpera{
 
 function InstallAutorunner{
   Write-Output "###"
-  $SoftwareName = "autorunner"
+  $SoftwareName = "Autorunner"
   Write-Output "Installing $SoftwareName..."
+  # https://github.com/woanware/autorunner
+
+  $author="woanware"
+  $repo="autorunner"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $FullDownloadURL = ((Invoke-WebRequest -UseBasicParsing -Uri $Url).content | ConvertFrom-Json).assets.browser_download_url
 
   if (-not $FullDownloadURL) {
   Write-Output "Error: $SoftwareName not found"
@@ -3574,7 +3961,7 @@ function InstallAutorunner{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -3595,12 +3982,56 @@ function InstallAutorunner{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Unzip
-  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
-  Remove-Item -Path $FileFullName -ErrorAction Ignore
-  Write-Output "Unzipped to: $SoftwareFolderFullName"
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+    # Unzip
+    $NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
+    Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
+    Remove-Item -Path $NewFileFullName -ErrorAction Ignore
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+  }
 }
 
+function RemoveAutorunner {
+  Write-Output "###"
+  $SoftwareName = "Autorunner"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
 
 function InstallChainsaw{
   Write-Output "###"
@@ -3620,7 +4051,7 @@ function InstallChainsaw{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -3641,14 +4072,70 @@ function InstallChainsaw{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Unzip
-  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
-  Remove-Item -Path $FileFullName -ErrorAction Ignore
-  Write-Output "Unzipped to: $SoftwareFolderFullName"
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+    # Unzip
+    $NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
+    Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
+    Remove-Item -Path $NewFileFullName -ErrorAction Ignore
+    
+    # If directory is nested, move contents one directory up
+    $SubPath = Get-ChildItem $NewSoftwareFolderFullName -Name 
+    if ($SubPath.count -eq 1) {
+      $FullSubPath =Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
+      $FolderIsNested = (Get-ChildItem -Path "$NewSoftwareFolderFullName" -Directory).count -eq (Get-ChildItem -Path "$NewSoftwareFolderFullName" ).count
+      if ($FolderIsNested) {
+        Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $NewSoftwareFolderFullName
+        Remove-Item -Path $FullSubPath -ErrorAction SilentlyContinue -Recurse -Force
+      }  
+    }
+
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+  }
 }
 
+function RemoveChainsaw {
+  Write-Output "###"
+  $SoftwareName = "Chainsaw"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
 
-function GetChromeParser{
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
+
+function GetChromeParser {
   Write-Output "###"
   $SoftwareName = "ChromeParser"
   Write-Output "Get $SoftwareName..."
@@ -3660,7 +4147,7 @@ function GetChromeParser{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -3680,6 +4167,50 @@ function GetChromeParser{
   $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
+
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+  }
+}
+function RemoveChromeParser {
+  Write-Output "###"
+  $SoftwareName = "ChromeParser"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
 }
 
 function InstallCyLR{
@@ -3700,7 +4231,7 @@ function InstallCyLR{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -3721,15 +4252,60 @@ function InstallCyLR{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Unzip
-  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
-  Remove-Item -Path $FileFullName -ErrorAction Ignore
-  Write-Output "Unzipped to: $SoftwareFolderFullName"
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+    # Unzip
+    $NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
+    Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
+    Remove-Item -Path $NewFileFullName -ErrorAction Ignore
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+  }
+}
+
+function RemoveCyLR {
+  Write-Output "###"
+  $SoftwareName = "CyLR"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
 }
 
 function InstallDejsonlz4{
   Write-Output "###"
-  $SoftwareName = "dejsonlz4"
+  $SoftwareName = "Dejsonlz4"
   Write-Output "Installing $SoftwareName..."
   
   $author="avih"
@@ -3744,7 +4320,7 @@ function InstallDejsonlz4{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -3765,16 +4341,60 @@ function InstallDejsonlz4{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Unzip
-  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
-  Remove-Item -Path $FileFullName -ErrorAction Ignore
-  Write-Output "Unzipped to: $SoftwareFolderFullName"
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+    # Unzip
+    $NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
+    Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
+    Remove-Item -Path $NewFileFullName -ErrorAction Ignore
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+  }
 }
 
+function RemoveDejsonlz4 {
+  Write-Output "###"
+  $SoftwareName = "Dejsonlz4"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
 
 function GetHex2text{
   Write-Output "###"
-  $SoftwareName = "hex2text"
+  $SoftwareName = "Hex2text"
   Write-Output "Get $SoftwareName..."
   $FullDownloadURL = "https://raw.githubusercontent.com/gh05t-4/hex2text/master/hex2text.py"
   if (-not $FullDownloadURL) {
@@ -3784,7 +4404,7 @@ function GetHex2text{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -3804,8 +4424,52 @@ function GetHex2text{
   $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
+
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+  }
 }
 
+function RemoveHex2text {
+  Write-Output "###"
+  $SoftwareName = "Hex2text"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
 
 function InstallHindsight{
   Write-Output "###"
@@ -3825,7 +4489,7 @@ function InstallHindsight{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -3845,7 +4509,49 @@ function InstallHindsight{
   $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
 
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+  }
+}
+
+function RemoveHindsight {
+  Write-Output "###"
+  $SoftwareName = "Hindsight"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
 }
 
 function InstallLoki{
@@ -3866,7 +4572,7 @@ function InstallLoki{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -3887,16 +4593,71 @@ function InstallLoki{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Unzip
-  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
-  Remove-Item -Path $FileFullName -ErrorAction Ignore
-  Write-Output "Unzipped to: $SoftwareFolderFullName"
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+    # Unzip
+    $NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
+    Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
+    Remove-Item -Path $NewFileFullName -ErrorAction Ignore
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+    
+    # If directory is nested, move contents one directory up
+    $SubPath = Get-ChildItem $NewSoftwareFolderFullName -Name 
+    if ($SubPath.count -eq 1) {
+      $FullSubPath =Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
+      $FolderIsNested = (Get-ChildItem -Path "$NewSoftwareFolderFullName" -Directory).count -eq (Get-ChildItem -Path "$NewSoftwareFolderFullName" ).count
+      if ($FolderIsNested) {
+        Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $NewSoftwareFolderFullName
+        Remove-Item -Path $FullSubPath -ErrorAction SilentlyContinue -Recurse -Force
+      }  
+    }
+  }
 }
 
-
-function InstallNucleusKernelFATNFTS{
+function RemoveLoki {
   Write-Output "###"
-  $SoftwareName = "Nucleus_Kernel_FAT_NFTS"
+  $SoftwareName = "Loki"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
+
+function InstallNucleusKernelFATNTFS{
+  Write-Output "###"
+  $SoftwareName = "NucleusKernelFATNTFS"
   Write-Output "Get $SoftwareName..."
   $Url = "https://www.nucleustechnologies.com/data-recovery.html"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
@@ -3907,7 +4668,7 @@ function InstallNucleusKernelFATNFTS{
   }
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -3923,11 +4684,18 @@ function InstallNucleusKernelFATNFTS{
 
   # Download
   Write-Output "Downloading file from: $FullDownloadURL"
-  $FileName = "Nucleus-Kernel-FAT-NFTS.exe"
+  $FileName = "Nucleus-Kernel-FAT-NTFS.exe"
   $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Install exe 
+    $InstallFile = $FileFullName
+    $CommandLineOptions = "/VERYSILENT /NORESTART /LOG /SUPPRESSMSGBOXES"
+    Start-Process -FilePath $InstallFile -ArgumentList $CommandLineOptions -NoNewWindow -Wait
+    Write-Output "Installation done for $SoftwareName"
+  }
 }
 
 
@@ -3943,7 +4711,7 @@ function GetOSTViewer{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -3964,6 +4732,13 @@ function GetOSTViewer{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Install exe 
+    $InstallFile = $FileFullName
+    $CommandLineOptions = "/SILENT /NORESTART"
+    Start-Process -FilePath $InstallFile -ArgumentList $CommandLineOptions -NoNewWindow -Wait
+    Write-Output "Installation done for $SoftwareName"
+  }
 }
 
 
@@ -3979,7 +4754,7 @@ function GetPSTViewer{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -4000,6 +4775,13 @@ function GetPSTViewer{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Install exe 
+    $InstallFile = $FileFullName
+    $CommandLineOptions = "/SILENT /NORESTART"
+    Start-Process -FilePath $InstallFile -ArgumentList $CommandLineOptions -NoNewWindow -Wait
+    Write-Output "Installation done for $SoftwareName"
+  }
 }
 
 
@@ -4015,7 +4797,7 @@ function GetShimCacheParser{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -4035,8 +4817,52 @@ function GetShimCacheParser{
   $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
+
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+  }
 }
 
+function RemoveShimCacheParser {
+  Write-Output "###"
+  $SoftwareName = "ShimCacheParser"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
 
 function InstallSqlitebrowser{
   Write-Output "###"
@@ -4054,7 +4880,7 @@ function InstallSqlitebrowser{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -4074,6 +4900,13 @@ function InstallSqlitebrowser{
   $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
+
+  # Install MSI 
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Install msi
+    Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" /quiet" -Wait -NoNewWindow
+    Write-Output "Installation done for $SoftwareName"
+  }
 }
 
 function InstallSrumDump{
@@ -4094,7 +4927,7 @@ function InstallSrumDump{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -4115,8 +4948,50 @@ function InstallSrumDump{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+  }
 }
 
+function RemoveSrumDump {
+  Write-Output "###"
+  $SoftwareName = "SrumDump"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
 
 function InstallSrumMonkey{
   Write-Output "###"
@@ -4136,7 +5011,7 @@ function InstallSrumMonkey{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -4156,10 +5031,54 @@ function InstallSrumMonkey{
   $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
+
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+  }
 }
 
+function RemoveSrumMonkey {
+  Write-Output "###"
+  $SoftwareName = "SrumMonkey"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
 
-function InstallSSView{
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
+
+function InstallSSView {
   Write-Output "###"
   $SoftwareName = "SSView"
   Write-Output "Get $SoftwareName..."
@@ -4171,7 +5090,7 @@ function InstallSSView{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -4192,14 +5111,59 @@ function InstallSSView{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Unzip
-  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
-  Remove-Item -Path $FileFullName -ErrorAction Ignore
-  Write-Output "Unzipped to: $SoftwareFolderFullName"
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+    # Unzip
+    $NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
+    Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
+    Remove-Item -Path $NewFileFullName -ErrorAction Ignore
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+  }
 
 }
 
-function InstallThumbcacheviewer{
+function RemoveSSView {
+  Write-Output "###"
+  $SoftwareName = "SSView"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
+
+function InstallThumbcacheviewer {
   Write-Output "###"
   $SoftwareName = "ThumbCacheViewer"
   Write-Output "Installing $SoftwareName..."
@@ -4217,7 +5181,7 @@ function InstallThumbcacheviewer{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -4238,16 +5202,60 @@ function InstallThumbcacheviewer{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Unzip
-  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
-  Remove-Item -Path $FileFullName -ErrorAction Ignore
-  Write-Output "Unzipped to: $SoftwareFolderFullName"
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+    # Unzip
+    $NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
+    Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
+    Remove-Item -Path $NewFileFullName -ErrorAction Ignore
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+  }
 }
 
-
-function InstallSuperFetch_Tools2{
+function RemoveThumbcacheviewer {
   Write-Output "###"
-  $SoftwareName = "SuperFetch_Tools2"
+  $SoftwareName = "Thumbcacheviewer"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
+
+function InstallSuperFetchTools2 {
+  Write-Output "###"
+  $SoftwareName = "SuperFetchTools2"
   Write-Output "Get $SoftwareName..."
   $FullDownloadURL = "https://www.tmurgent.com/download/SuperFetch_Tools2.zip"
   if (-not $FullDownloadURL) {
@@ -4257,7 +5265,7 @@ function InstallSuperFetch_Tools2{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -4278,14 +5286,58 @@ function InstallSuperFetch_Tools2{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Unzip
-  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
-  Remove-Item -Path $FileFullName -ErrorAction Ignore
-  Write-Output "Unzipped to: $SoftwareFolderFullName"
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+    # Unzip
+    $NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
+    Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
+    Remove-Item -Path $NewFileFullName -ErrorAction Ignore
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+  }
 }
 
+function RemoveSuperFetchTools2 {
+  Write-Output "###"
+  $SoftwareName = "SuperFetchTools2"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
 
-function InstallUserAssist{
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
+
+function InstallUserAssist {
   Write-Output "###"
   $SoftwareName = "UserAssist"
   Write-Output "Installing $SoftwareName..."
@@ -4301,7 +5353,7 @@ function InstallUserAssist{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -4322,12 +5374,68 @@ function InstallUserAssist{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Unzip
-  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
-  Remove-Item -Path $FileFullName -ErrorAction Ignore
-  Write-Output "Unzipped to: $SoftwareFolderFullName"
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+    # Unzip
+    $NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
+    Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
+    Remove-Item -Path $NewFileFullName -ErrorAction SilentlyContinue -Force
+    
+    # If directory is nested, move contents one directory up
+    $SubPath = Get-ChildItem $NewSoftwareFolderFullName -Name 
+    if ($SubPath.count -eq 1) {
+      $FullSubPath =Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
+      $FolderIsNested = (Get-ChildItem -Path "$NewSoftwareFolderFullName" -Directory).count -eq (Get-ChildItem -Path "$NewSoftwareFolderFullName" ).count
+      if ($FolderIsNested) {
+        Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $NewSoftwareFolderFullName -ErrorAction SilentlyContinue
+        Remove-Item -Path $FullSubPath -ErrorAction SilentlyContinue -Recurse -Force
+      }  
+    }
+    
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+  }
 }
 
+function RemoveUserAssist {
+  Write-Output "###"
+  $SoftwareName = "UserAssist"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
 
 function InstallThumbsviewer{
   Write-Output "###"
@@ -4347,7 +5455,7 @@ function InstallThumbsviewer{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -4368,10 +5476,55 @@ function InstallThumbsviewer{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Unzip
-  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
-  Remove-Item -Path $FileFullName -ErrorAction Ignore
-  Write-Output "Unzipped to: $SoftwareFolderFullName"
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+    # Unzip
+    $NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
+    Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
+    Remove-Item -Path $NewFileFullName -ErrorAction Ignore
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+  }
+}
+
+function RemoveThumbsviewer {
+  Write-Output "###"
+  $SoftwareName = "Thumbsviewer"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
 }
 
 function InstallRegRipper{
@@ -4387,7 +5540,7 @@ function InstallRegRipper{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -4408,11 +5561,54 @@ function InstallRegRipper{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+  }
 }
 
-function InstallWinhex{
+function RemoveRegRipper {
   Write-Output "###"
-  $SoftwareName = "winhex"
+  $SoftwareName = "RegRipper3.0"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
+
+function InstallWinhex {
+  Write-Output "###"
+  $SoftwareName = "Winhex"
   Write-Output "Get $SoftwareName..."
   $FullDownloadURL = "http://www.x-ways.net/winhex.zip"
   if (-not $FullDownloadURL) {
@@ -4422,7 +5618,7 @@ function InstallWinhex{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -4443,11 +5639,56 @@ function InstallWinhex{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Unzip
-  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
-  Remove-Item -Path $FileFullName -ErrorAction Ignore
-  Write-Output "Unzipped to: $SoftwareFolderFullName"
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
 
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+    # Unzip
+    $NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
+    Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
+    Remove-Item -Path $NewFileFullName -ErrorAction Ignore
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+  }
+
+}
+
+function RemoveWinhex {
+  Write-Output "###"
+  $SoftwareName = "Winhex"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
 }
 
 function InstallWinPmem{
@@ -4468,7 +5709,7 @@ function InstallWinPmem{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -4489,8 +5730,51 @@ function InstallWinPmem{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+  }
 }
 
+function RemoveWinPmem {
+  Write-Output "###"
+  $SoftwareName = "WinPmem"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
 
 function InstallVolatility2{
   Write-Output "###"
@@ -4505,7 +5789,7 @@ function InstallVolatility2{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -4526,11 +5810,67 @@ function InstallVolatility2{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Unzip
-  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
-  Remove-Item -Path $FileFullName -ErrorAction Ignore
-  Write-Output "Unzipped to: $SoftwareFolderFullName"
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
 
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+    # Unzip
+    $NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
+    Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
+    Remove-Item -Path $NewFileFullName -ErrorAction Ignore
+
+    # If directory is nested, move contents one directory up
+    $SubPath = Get-ChildItem $NewSoftwareFolderFullName -Name 
+    if ($SubPath.count -eq 1) {
+      $FullSubPath =Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
+      $FolderIsNested = (Get-ChildItem -Path "$NewSoftwareFolderFullName" -Directory).count -eq (Get-ChildItem -Path "$NewSoftwareFolderFullName" ).count
+      if ($FolderIsNested) {
+        Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $NewSoftwareFolderFullName 
+        Remove-Item -Path $FullSubPath -ErrorAction SilentlyContinue -Recurse -Force
+      }  
+    }
+
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+  }
+}
+
+function RemoveVolatility2 {
+  Write-Output "###"
+  $SoftwareName = "Volatility2"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
 }
 
 function InstallVolatility3{
@@ -4551,7 +5891,7 @@ function InstallVolatility3{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -4576,9 +5916,9 @@ function InstallVolatility3{
 }
 
 
-function InstallPartitionDiagnosticParser{
+function InstallPartDiagParser {
   Write-Output "###"
-  $SoftwareName = "Partition-DiagnosticParser"
+  $SoftwareName = "PartitionDiagnosticParser"
   Write-Output "Get $SoftwareName..."
  
   $author="theAtropos4n6"
@@ -4591,43 +5931,95 @@ function InstallPartitionDiagnosticParser{
     return
     }
   
-    # Create bootstrap folder if not existing
-    $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-    $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
-    if (-not (Test-Path -Path $BootstrapFolder)) {
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
     New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
-    }
-  
-    # Create software folder
-    $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
-    $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
-    $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
-    $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
-    if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
     New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = "$SoftwareName.zip"
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Invoke-WebRequest -Uri $FullDownloadURL -OutFile $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
     }
-  
-    # Download
-    Write-Output "Downloading file from: $FullDownloadURL"
-    $FileName = "$SoftwareName.zip"
-    $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
-    Invoke-WebRequest -Uri $FullDownloadURL -OutFile $FileFullName
-    Write-Output "Downloaded: $FileFullName"
-  
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
     # Unzip
-    Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
-    Remove-Item -Path $FileFullName -ErrorAction Ignore
-    $SubPath = Get-ChildItem $SoftwareFolderFullName -Name
-    $FullSubPath =Join-Path -Path $SoftwareFolderFullName -ChildPath $SubPath
-    Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $SoftwareFolderFullName -Force
-    Remove-Item -Path $FullSubPath -ErrorAction Ignore
-    Write-Output "Unzipped to: $SoftwareFolderFullName"
+    $NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
+    Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
+    Remove-Item -Path $NewFileFullNacdme -ErrorAction Ignore
+
+    # If directory is nested, move contents one directory up
+    $SubPath = Get-ChildItem $NewSoftwareFolderFullName -Name 
+    if ($SubPath.count -eq 1) {
+      $FullSubPath =Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
+      $FolderIsNested = (Get-ChildItem -Path "$NewSoftwareFolderFullName" -Directory).count -eq (Get-ChildItem -Path "$NewSoftwareFolderFullName" ).count
+      if ($FolderIsNested) {
+        Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $NewSoftwareFolderFullName
+        Remove-Item -Path $FullSubPath -ErrorAction SilentlyContinue -Recurse -Force
+      }  
+    }
+
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+  }
 }
 
-
-function InstallGoogleAnalyticCookieCruncher{
+function RemovePartDiagParser {
   Write-Output "###"
-  $SoftwareName = "Google-Analytic-Cookie-Cruncher"
+  $SoftwareName = "PartitionDiagnosticParser"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
+
+function InstallGglCookieCruncher{
+  Write-Output "###"
+  $SoftwareName = "GoogleAnalyticCookieCruncher"
   Write-Output "Get $SoftwareName..."
 
   $author="mdegrazia"
@@ -4641,7 +6033,7 @@ function InstallGoogleAnalyticCookieCruncher{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
   New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -4662,14 +6054,73 @@ function InstallGoogleAnalyticCookieCruncher{
   Invoke-WebRequest -Uri $FullDownloadURL -OutFile $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Unzip
-  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName
-  Remove-Item -Path $FileFullName -ErrorAction Ignore
-  $SubPath = Get-ChildItem $SoftwareFolderFullName -Name
-  $FullSubPath =Join-Path -Path $SoftwareFolderFullName -ChildPath $SubPath
-  Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $SoftwareFolderFullName -Force
-  Remove-Item -Path $FullSubPath -ErrorAction Ignore
-  Write-Output "Unzipped to: $SoftwareFolderFullName"
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+    # Unzip
+    $NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
+    Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
+    Remove-Item -Path $NewFileFullName -ErrorAction Ignore
+    
+    # If directory is nested, move contents one directory up
+    $SubPath = Get-ChildItem $NewSoftwareFolderFullName -Name 
+    if ($SubPath.count -eq 1) {
+      $FullSubPath =Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
+      $FolderIsNested = (Get-ChildItem -Path "$NewSoftwareFolderFullName" -Directory).count -eq (Get-ChildItem -Path "$NewSoftwareFolderFullName" ).count
+      if ($FolderIsNested) {
+        Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $NewSoftwareFolderFullName
+        Remove-Item -Path $FullSubPath -ErrorAction SilentlyContinue -Recurse -Force
+      }  
+    }
+    
+    # Unpack zip file inside the package
+    $ZipFile = (Get-ChildItem -Path  $NewSoftwareFolderFullName -Filter "*.zip" | Select-Object -First 1).FullName
+    Expand-Archive $ZipFile -DestinationPath $NewSoftwareFolderFullName
+    Remove-Item -Path $ZipFile -ErrorAction SilentlyContinue -Force
+
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+
+  }
+}
+
+function RemoveGglCookieCruncher {
+  Write-Output "###"
+  $SoftwareName = "GoogleAnalyticCookieCruncher"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
 }
 
 function InstallWireshark{
@@ -4688,7 +6139,7 @@ function InstallWireshark{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -4719,6 +6170,9 @@ function InstallWireshark{
 }
 
 function RemoveWireshark{
+  Import-Module PackageManagement
+  Write-Output "###"
+  Write-Output "Removing Wireshark..."
   Uninstall-Package -InputObject ( Get-Package -Name "Wireshark*" )
 }
 
@@ -4741,7 +6195,7 @@ function InstallAutopsy{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -4783,7 +6237,7 @@ function InstallZimmermanTools{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -4814,7 +6268,6 @@ function InstallZimmermanTools{
       # Set default tools folder
       $ToolsFolder = "\Tools"
     }
-    #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
   
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -4831,6 +6284,27 @@ function InstallZimmermanTools{
   }
 }
 
+function RemoveZimmermanTools {
+  Write-Output "###"
+  $SoftwareName = "ZimmermanTools"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
+
 function InstallNetworkMiner{
   Write-Output "###"
   $SoftwareName = "NetworkMiner"
@@ -4840,7 +6314,7 @@ function InstallNetworkMiner{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -4868,8 +6342,7 @@ function InstallNetworkMiner{
 	  # Set default tools folder
     $ToolsFolder = "\Tools"
   }
-  #Get-Item $ToolsFolder | Select-Object -ExpandProperty FullName
-
+  
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
 	  New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
@@ -4889,8 +6362,39 @@ function InstallNetworkMiner{
 	Remove-Item -Path $NewFileFullName -ErrorAction Ignore
 	Write-Output "Unzipped to: $NewSoftwareFolderFullName"
   }
+
+  # If directory is nested, move contents one directory up
+  $SubPath = Get-ChildItem $NewSoftwareFolderFullName -Name 
+  if ($SubPath.count -eq 1) {
+    $FullSubPath =Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
+    $FolderIsNested = (Get-ChildItem -Path "$NewSoftwareFolderFullName" -Directory).count -eq (Get-ChildItem -Path "$NewSoftwareFolderFullName" ).count
+    if ($FolderIsNested) {
+      Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $NewSoftwareFolderFullName
+      Remove-Item -Path $FullSubPath -ErrorAction SilentlyContinue -Recurse -Force
+    }  
+  }
 }
 
+function RemoveNetworkMiner {
+  Write-Output "###"
+  $SoftwareName = "NetworkMiner"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
 
 
 ################################################################
@@ -4902,7 +6406,7 @@ function InstallFonts{
     Write-Output "Installing fonts..."
   # Inspired by https://www.powershellgallery.com/packages/PSWinGlue/0.3.3/Content/Functions%5CInstall-Font.ps1
 
-  $FontPath = "$PSScriptRoot\fonts"
+  $FontPath = "$PSScriptRoot\components\fonts"
 #  [Switch]$Recurse = $True
 
   if (Test-Path -Path $FontPath) {
@@ -4957,21 +6461,21 @@ function ReplaceDefaultWallpapers{
   $AllArguments = $WallPprPath4k+"\* /grant $AdminUser"+":(F) /Q"
   Start-Process icacls -ArgumentList $AllArguments -Wait -WindowStyle Hidden
 
-  if (Test-Path -Path "$PSScriptRoot\pictures\wallpaper\img0*") {
+  if (Test-Path -Path "$PSScriptRoot\components\wallpaper\img0*") {
     Remove-Item $WallPprPath4k\*.* -Recurse -ErrorAction SilentlyContinue
-    Copy-Item "$PSScriptRoot\pictures\wallpaper\img0*" $WallPprPath4k -Recurse -Force | Out-Null
+    Copy-Item "$PSScriptRoot\components\wallpaper\img0*" $WallPprPath4k -Recurse -Force | Out-Null
   }
 
   # default (light mode) wallpaper
-  if (Test-Path -Path "$PSScriptRoot\pictures\wallpaper\img0.jpg") {
+  if (Test-Path -Path "$PSScriptRoot\components\wallpaper\img0.jpg") {
     Remove-Item $WallPprPath4k\img0.jpg -Force -ErrorAction SilentlyContinue
-    Copy-Item "$PSScriptRoot\pictures\wallpaper\img0.jpg" $WallPaperPath -Force
+    Copy-Item "$PSScriptRoot\components\wallpaper\img0.jpg" $WallPaperPath -Force
   }
 
   # dark mode wallpaper
-  if (Test-Path -Path "$PSScriptRoot\pictures\wallpaper\img19.jpg") {
+  if (Test-Path -Path "$PSScriptRoot\components\wallpaper\img19.jpg") {
     Remove-Item $WallPprPath4k\img19.jpg -Force -ErrorAction SilentlyContinue
-    Copy-Item "$PSScriptRoot\pictures\wallpaper\img0.jpg" $WallPaperPath -Force
+    Copy-Item "$PSScriptRoot\components\wallpaper\img0.jpg" $WallPaperPath -Force
   }
 }
 
@@ -4983,7 +6487,7 @@ function SetCustomLockScreen {
   $LockScreenPath = ($env:SystemDrive+"\Windows\Web\Screen")
   $LockScreenImageName = "img0.jpg"
   $LockScreenImageFullName = Join-Path -Path $LockScreenPath -ChildPath $LockScreenImageName
-  $LockScreenSourcePath = "$PSScriptRoot\pictures\lockscreen"
+  $LockScreenSourcePath = "$PSScriptRoot\components\lockscreen"
   $NumberOfLockScreenImgs = (Get-ChildItem $LockScreenSourcePath\* | Measure-Object).Count
 
   if (Test-Path -Path "$LockScreenImageFullName") {
@@ -4997,9 +6501,9 @@ function SetCustomLockScreen {
   } elseif (Test-Path -Path "$LockScreenSourcePath\$LockScreenImage") {
     # Copy default lock screen image to lock screen
     Copy-Item "$LockScreenSourcePath\$LockScreenImage" $LockScreenImageFullName -Recurse -Force | Out-Null
-  } elseif (Test-Path -Path "$PSScriptRoot\pictures\wallpaper\$LockScreenImageName") {
+  } elseif (Test-Path -Path "$PSScriptRoot\components\wallpaper\$LockScreenImageName") {
     # Copy default wallpaper to lock screen
-    Copy-Item "$PSScriptRoot\pictures\wallpaper\$LockScreenImageName" $LockScreenImageFullName -Recurse -Force | Out-Null
+    Copy-Item "$PSScriptRoot\components\wallpaper\$LockScreenImageName" $LockScreenImageFullName -Recurse -Force | Out-Null
   }
 
   $WindowsEdition=(Get-WindowsEdition -Online).Edition
@@ -5098,7 +6602,7 @@ function InstallLenovoVantage{
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "Bootstrap"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
@@ -9832,8 +11336,6 @@ Function CleanPublicDesktop(){
 ##########
 #endregion Unpinning
 ##########
-
-
 
 # Export functions
 Export-ModuleMember -Function *

@@ -18,7 +18,7 @@ EnableRunAsInStartMenu        # DisableRunAsInStartMenu
 EnableInternetPrinting        # DisableInternetPrinting
 # EnableMemoryIntegrity       # DisableMemoryIntegrity
 SetRegionalSettings
-CopyRegionSettingsToAll         # CopyRegionSettingsWelcome   # CopyRegionSettingsNewUser
+CopyRegionSettingsToAll       # CopyRegionSettingsWelcome   # CopyRegionSettingsNewUser
 
 ### Privacy configurations  ###
 DisableInkingAndTypingData    # EnableInkingAndTypingData
@@ -33,10 +33,10 @@ DisableUniversalPlugAndPlay   # EnableUniversalPlugAndPlay
 DisableWinHttpAutoProxySvc    # EnableWinHttpAutoProxySvc
 
 ### Network Functions  ###
-DisableIEProxyAutoconfig
+DisableIEProxyAutoconfig      # EnableIEProxyAutoconfig
 DisableAutoconfigURL          # EnableAutoconfigURL
 DisableMulticastDNS           # EnableMulticastDNS
-# GetTelemetryBlockingHostfile # SetDefaultHostsfile
+# GetNoTelemetryHostsFile     # SetDefaultHostsfile
 
 ### Windows Subsystem for Linux  ###
 # EnableWSL                   # DisableWSL
@@ -47,19 +47,20 @@ DisableMulticastDNS           # EnableMulticastDNS
 
 ### Install programs  ###
 Install7Zip                   # Remove7Zip
-InstallGit4Win                #
-# InstallVSCode               # ReomeVSCode
+InstallGit4Win                # RemoveGit4Win
+# InstallVSCode               # RemoveVSCode
 # InstallGPGwin               # 
 # InstallNotepadPlusPlus      # RemoveNotepadPlusPlus
 # InstallAtom                 # RemoveAtom
 GetSysmonSwiftXML             # GetSysmonOlafXML
-InstallSysmon64               # 
+InstallSysmon64               # RemoveSysmon64
 # InstallVMwareWorkstation    # RemoveVMwareWorkstation
 # SetVMDirUserhome            # SetVMDirDocuments
 # InstallThunderbird          # 
-# InstallJoplin
-# InstallImageMagick          # InstallImageMagickPortable
-# InstallSignal
+# InstallJoplin               # 
+# InstallImageMagick          
+# InstallImageMagickPortable  # RemoveImageMagickPortable
+# InstallSignal               # 
 
 ### Office Apps ###
 DisableOneDrive               # EnableOneDrive
@@ -70,25 +71,26 @@ RemoveTeamsStoreApp
 # InstallVisioPro             # 
 
 ### System Tools ###
-# GetSysinternalsSuite        # 
-# InstallJoeWare              #
-# InstallCCleaner             #
-# InstallMitec                #
-# InstallNtcore               #
+# GetSysinternalsSuite        # RemoveSysinternalsSuite
+# InstallJoeWare              # RemoveJoeWare
+# InstallCCleaner             # RemoveCCleaner
+# InstallMitec                # RemoveMitec
+# InstallNtcore               # RemoveNTCore
 # InstallWireshark            # RemoveWireshark
-# InstallZimmermanTools
-# InstallNirsoftLauncher      # InstallNirsoftToolsX64        # 
-# InstallNirsoftPkgFiles
+# InstallZimmermanTools       # RemoveZimmermanTools
+# InstallNirsoftLauncher      # RemoveNirsoftLauncher
+# InstallNirsoftToolsX64      # RemoveNirsoftToolsX64
+# InstallNirsoftPkgFiles      # RemoveNirsoftPkgFiles
 
 ### Active Directory Tools ###
 # InstallRSAT                 # RemoveRSAT
 # InstallOpenJDK              # 
 # InstallNeo4j                # 
-# GetBloodhound				  #
-# GetSharphound				  #
-# GetAzurehound				  #
-# GetImproHound               #
-# GetPingCastle               #
+# GetBloodhound				  # RemoveBloodhound
+# GetSharphound				  # RemoveSharphound
+# GetAzurehound				  # RemoveAzurehound
+# GetImproHound               # RemoveImproHound
+# GetPingCastle               # RemovePingCastle
 
 ### For Linux VMs ###
 # InstallVirtIOGuestTool      #
@@ -98,41 +100,41 @@ RemoveTeamsStoreApp
 ### Browsers and Internet  ###
 DisableEdgePagePrediction
 InstallFirefox                # RemoveFirefox
-CreateFirefoxPreferenceFiles
+CreateFirefoxPreferenceFiles  # RemoveFirefoxPreferenceFiles
 InstallChrome                 # RemoveChrome
-CreateChromePreferenceFiles
+CreateChromePreferenceFile    # RemoveChromePreferenceFile
 # InstallOpera                #
 
 ### Forensic Tools ###
 # InstallAutopsy              #
-# InstallNetworkMiner         #
-# InstallAutorunner
-# InstallChainsaw
-# GetChromeParser
-# InstallCyLR
-# InstallDejsonlz4
-# GetHex2text
-# InstallHindsight
-# InstallSqlitebrowser
-# GetShimCacheParser
-# GetPSTViewer
-# GetOSTViewer
-# InstallNucleusKernelFATNFTS
-# InstallLoki
-# InstallSSView
-# InstallSrumMonkey
-# InstallSrumDump
-# InstallThumbcacheviewer
-# InstallSuperFetch_Tools2
-# InstallUserAssist
-# InstallThumbsviewer
-# InstallRegRipper
-# InstallWinhex
-# InstallWinPmem
-# InstallVolatility2
-# InstallVolatility3
-# InstallPartitionDiagnosticParser
-# InstallGoogleAnalyticCookieCruncher
+# InstallNetworkMiner         # RemoveNetworkMiner
+# InstallAutorunner           # RemoveAutorunner
+# InstallChainsaw             # RemoveChainsaw
+# GetChromeParser             # RemoveChromeParser
+# InstallCyLR                 # RemoveCyLR
+# InstallDejsonlz4            # RemoveDejsonlz4
+# GetHex2text                 # RemoveHex2text
+# InstallHindsight            # RemoveHindsight
+# InstallSqlitebrowser        # 
+# GetShimCacheParser          # RemoveShimCacheParser
+# GetPSTViewer                # 
+# GetOSTViewer                # 
+# InstallNucleusKernelFATNFTS # 
+# InstallLoki                 # RemoveLoki
+# InstallSSView               # RemoveSSView
+# InstallSrumMonkey           # RemoveSrumMonkey
+# InstallSrumDump             # RemoveSrumDump
+# InstallThumbcacheviewer     # RemoveThumbcacheviewer
+# InstallSuperFetchTools2     # RemoveSuperFetchTools2
+# InstallUserAssist           # RemoveUserAssist
+# InstallThumbsviewer         # RemoveThumbsviewer
+# InstallRegRipper            # RemoveRegRipper
+# InstallWinhex               # RemoveWinhex
+# InstallWinPmem              # RemoveWinPmem
+# InstallVolatility2          # RemoveVolatility2
+# InstallVolatility3          # 
+# InstallPartDiagParser       # RemovePartDiagParser
+# InstallGglCookieCruncher    # RemoveGglCookieCruncher
 
 ### Customization  ###
 InstallFonts
@@ -413,4 +415,4 @@ SetDefaultBitLockerAES256     # SetDefaultBitLockerAES128
 
 ### Auxiliary Functions ###
 WaitForKey
-Restart
+Restart                        # StopComputer

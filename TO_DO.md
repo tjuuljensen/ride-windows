@@ -1,13 +1,17 @@
-# Ride-Windows Task list
+# ride-windows tasks
 
 ## Burndown list:
 
 ### Priority A - Issues:
+
 - [ ] Missing Uninstall functions (msi & exe) 
   * Office365 - https://support.microsoft.com/en-us/office/uninstall-office-automatically-9ad57b43-fa12-859a-9cf0-b694637b3b05
-- [ ] Forensic downloads - add installation
 - [ ] BitLocker CD/USB bootable check
+- [ ] Nucleus Filesystem recovery prompt (do not install on...)
 - [ ] Java for Bloodhound, sharphound etc
+- [ ] Fix InstallVolatility3  
+- [ ] Doubble nested InstallGoogleAnalyticCookieCruncher (zip inside)
+- [ ] Install python for windows and test python scripts
 - [ ] Update readme (config.ini example)
 
 
@@ -78,6 +82,8 @@
 - [x] Uninstall Teams AppXPackage (comes with Windows 11) - Get-AppxPackage 'MicrosoftTeams'
 - [x] Signal - https://signal.org/en/download/windows/
 - [x] Fix dynamic Lenovo Vantage Tools Download - https://support.lenovo.com/gb/en/solutions/hf003321
+- [x] Forensic downloads - add installation
+
 
 &nbsp;
 
