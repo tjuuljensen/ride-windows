@@ -10,7 +10,7 @@
 - [ ] Nucleus Filesystem recovery prompt (do not install on...)
 - [ ] Java for Bloodhound, sharphound etc
 - [ ] Fix InstallVolatility3  
-- [ ] Install python for windows and test python scripts
+- [ ] Install python for windows and test python scripts - https://www.python.org/downloads/windows/
 - [ ] Update readme (config.ini example)
 
 
