@@ -10,7 +10,6 @@
 - [ ] Nucleus Filesystem recovery prompt (do not install on...)
 - [ ] Java for Bloodhound, sharphound etc
 - [ ] Fix InstallVolatility3  
-- [ ] Doubble nested InstallGoogleAnalyticCookieCruncher (zip inside)
 - [ ] Install python for windows and test python scripts
 - [ ] Update readme (config.ini example)
 
@@ -63,6 +62,8 @@
 &nbsp;
 
 ## Finished tasks:
+
+- [x] Double nested InstallGoogleAnalyticCookieCruncher (zip inside)
 - [x] Vmware not installing when serials are loaded?
 - [X] ERROR: Cannot shutdown WinHttpAutoProxySvc (seen on Win11)
 - [x] Random errors on Mitec download (server side) - make 2nd run on error? - Mitec PDESetup.exe error
