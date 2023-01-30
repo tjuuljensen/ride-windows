@@ -16,10 +16,11 @@
 	https://github.com/tjuuljensen/ride-windows/blob/master/README.md
 .EXAMPLE
 	ride.ps1 -include -preset
-	ride.ps1 -ini 
-	ride.ps1 -downloadonly
-    ride.ps1 -log
-	ride.ps1 tweakname !anothertweakname
+	ride.ps1 -include -preset -ini 
+	ride.ps1 -include -preset -downloadonly
+    ride.ps1 -include -preset -log
+	ride.ps1 -include -preset !unwanted_tweakname_from_preset
+	ride.ps1 -include tweakname 
 #>
 
 # Relaunch the script with administrator privileges
