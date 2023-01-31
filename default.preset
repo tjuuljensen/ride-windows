@@ -11,7 +11,7 @@ RequireAdmin
 
 ### Windows configuration ###
 CreateNewLocalAdmin
-DisableBuiltinAdministrator
+DisableBuiltinAdministrator   # MakeLoggedOnUserAdmin      # MakeLoggedOnUserNoAdmin
 # DisableWindowsStoreApp      # EnableWindowsStoreApp
 DisableFriendlyURLFormat      # UnconfigureFriendlyURLFormat
 EnableRunAsInStartMenu        # DisableRunAsInStartMenu

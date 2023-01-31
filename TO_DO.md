@@ -7,11 +7,10 @@
 - [ ] Missing Uninstall functions (msi & exe) 
   * Office365 - https://support.microsoft.com/en-us/office/uninstall-office-automatically-9ad57b43-fa12-859a-9cf0-b694637b3b05
 - [ ] BitLocker CD/USB bootable check
-- [ ] Nucleus Filesystem recovery prompt (do not install on...)
 - [ ] Java for Bloodhound, sharphound etc
 - [ ] Fix InstallVolatility3  
-- [ ] Install python for windows and test python scripts - https://www.python.org/downloads/windows/
 - [ ] Update readme (config.ini example)
+- [ ] Nucleus Filesystem recovery prompt (do not install on...)
 
 
 ### Prority B - Improvements:
@@ -63,7 +62,6 @@
 
 ## Finished tasks:
 
-- [x] Double nested InstallGoogleAnalyticCookieCruncher (zip inside)
 - [x] Vmware not installing when serials are loaded?
 - [X] ERROR: Cannot shutdown WinHttpAutoProxySvc (seen on Win11)
 - [x] Random errors on Mitec download (server side) - make 2nd run on error? - Mitec PDESetup.exe error
@@ -84,8 +82,9 @@
 - [x] Signal - https://signal.org/en/download/windows/
 - [x] Fix dynamic Lenovo Vantage Tools Download - https://support.lenovo.com/gb/en/solutions/hf003321
 - [x] Forensic downloads - add installation
-
-
+- [x] Double nested InstallGoogleAnalyticCookieCruncher (zip inside)
+- [x] Install python for windows and test python scripts - https://www.python.org/downloads/windows/
+ 
 &nbsp;
 
 ## Roadmap tasks - v2:

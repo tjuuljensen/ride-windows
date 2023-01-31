@@ -77,6 +77,39 @@ function DisableBuiltinAdministrator{
   }
 }
 
+function MakeLoggedOnUserAdmin {
+  Write-Output "###"
+  $Group = "Administrators"
+  Write-Output "Adding logged on user to the $Group group..."
+    
+  $Member = (Get-CimInstance -ClassName Win32_ComputerSystem).Username
+  $Group = "Administrators"
+        
+  # Is it an admin
+  if ($null -ne (Get-LocalGroupMember -Group $Group | Where-Object { $_.Name -eq $Member})) {
+      Write-Output "$Member is already a member of the $Group group" 
+  } else {
+      Write-Output "Adding $Member to the $Group group" 
+      Add-LocalGroupMember -Group $Group -Member $Member
+  }
+}
+
+function MakeLoggedOnUserNoAdmin {
+  Write-Output "###"
+  $Group = "Administrators"
+  Write-Output "Removing logged on user from $Group..."
+ 
+  $Member = (Get-CimInstance -ClassName Win32_ComputerSystem).Username
+
+  if ($null -ne (Get-LocalGroupMember -Group $Group | Where-Object { $_.Name -eq $Member})) {
+    Write-Output "Removing $Member from the $Group group" 
+    Remove-LocalGroupMember -Group "$Group" -Member $Member -ErrorAction SilentlyContinue
+  } else {
+    Write-Output "$Member is not a member of the $Group group" 
+  }
+  
+}
+
 function DisableWindowsStoreApp{
   Write-Output "###"
   # Disable Windows Store App - Windows Enterprise Only!!!
@@ -3619,6 +3652,50 @@ function InstallSignal {
     $InstallFile = $FileFullName
     $CommandLineOptions = "/S"
     Start-Process -FilePath $InstallFile -ArgumentList $CommandLineOptions -NoNewWindow -Wait
+    Write-Output "Installation done for $SoftwareName"
+  }
+}
+
+function InstallPython{
+  Write-Output "###"
+  $SoftwareName = "Python"
+  Write-Output "Installing $SoftwareName..."
+
+  $Url = "https://www.python.org/downloads/windows/"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_.href -Like "*amd64*" -and $_.href -Like "*exe*"} | Select-Object -first 1 ).href
+  if (-not $FullDownloadURL) {
+  Write-Output "Error: $SoftwareName not found"
+  return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+  New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+  New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Install exe 
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    $CommandLineOptions = "/quiet"
+    Start-Process -FilePath $FileFullName -ArgumentList $CommandLineOptions -NoNewWindow -Wait
     Write-Output "Installation done for $SoftwareName"
   }
 }
