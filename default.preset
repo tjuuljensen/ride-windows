@@ -61,6 +61,7 @@ InstallSysmon64               # RemoveSysmon64
 # InstallImageMagick          
 # InstallImageMagickPortable  # RemoveImageMagickPortable
 # InstallSignal               # 
+# InstallPython
 
 ### Office Apps ###
 DisableOneDrive               # EnableOneDrive

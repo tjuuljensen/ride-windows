@@ -452,13 +452,25 @@ function EnableBitlockerTPMandPIN{
       }
       while ($pwd1_text -ne $pwd2_text)
   }
-  # Bitlocker will check if bootable CD's are in the drive before enabling BitLocker
+
   # As virtual machines very often have an ISO connected after a fresh install, eject all CD's if in a VM
   $IsVirtual=((Get-WmiObject Win32_ComputerSystem).model -like ("*Virtual*") -or (Get-WmiObject Win32_ComputerSystem).model -like ("*VMware*"))
   if ($IsVirtual) {
     $Eject = New-Object -ComObject "Shell.Application"
     $Eject.Namespace(17).Items() | Where-Object { $_.Type -eq "CD Drive" } | ForEach-Object { $_.InvokeVerb("Eject") }
     }
+
+  # Bitlocker will check if bootable CD's are in the drive before enabling BitLocker
+  $CDMediaLoaded = (Get-WMIObject -Class Win32_CDROMDrive -Property *).MediaLoaded
+  $BootableUSBloaded =  (Get-Disk |Where-Object {$_.IsBoot -eq $true -and $_.BootFromDisk -eq $true -and $_.BusType -eq "USB"}).count -gt 0
+
+  if ($CDMediaLoaded -or  $BootableUSBloaded) {
+    Write-Host "WARNING! Please unload all CD-ROM medias and bootable USB disks before enabling Bitlocker."
+    Write-Host "Failing to do so will prevent Bitlocker from being enabled."
+    Write-Output "`nPress any key to continue..."
+	  [Console]::ReadKey($true) | Out-Null
+  }
+
   Enable-BitLocker -MountPoint "$($env:SystemDrive)" -EncryptionMethod Aes256 -UsedSpaceOnly -Pin $Password -TPMandPinProtector -SkipHardwareTest
 }
 
@@ -1123,7 +1135,7 @@ function InstallRSAT{
   Write-Output "###"
   $SoftwareName = "Remote Server Administration Tool (RSAT)"
   Write-Output "Getting $SoftwareName..."
-  Get-WindowsCapability -Name RSAT* -Online | Add-WindowsCapability -Online | Out-Null
+  Get-WindowsCapability -Name RSAT* -Online | Where-Object { $_.State -ne "Installed"} | Add-WindowsCapability -Online | Out-Null
 }
 
 function RemoveRSAT{
@@ -3694,7 +3706,7 @@ function InstallPython{
 
   # Install exe 
   if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
-    $CommandLineOptions = "/quiet"
+    $CommandLineOptions = "/quiet InstallAllUsers=1 AssociateFiles=1 AppendPath=1" # PrependPath can be used to look in python directories first
     Start-Process -FilePath $FileFullName -ArgumentList $CommandLineOptions -NoNewWindow -Wait
     Write-Output "Installation done for $SoftwareName"
   }
@@ -4814,6 +4826,7 @@ function GetOSTViewer{
     $InstallFile = $FileFullName
     $CommandLineOptions = "/SILENT /NORESTART"
     Start-Process -FilePath $InstallFile -ArgumentList $CommandLineOptions -NoNewWindow -Wait
+    Remove-Item "$Home\Desktop\Kernel OST Viewer*.lnk" -Force -ErrorAction SilentlyContinue
     Write-Output "Installation done for $SoftwareName"
   }
 }
@@ -4857,6 +4870,7 @@ function GetPSTViewer{
     $InstallFile = $FileFullName
     $CommandLineOptions = "/SILENT /NORESTART"
     Start-Process -FilePath $InstallFile -ArgumentList $CommandLineOptions -NoNewWindow -Wait
+    Remove-Item "$Home\Desktop\Kernel Outlook PST Viewer*.lnk" -Force -ErrorAction SilentlyContinue
     Write-Output "Installation done for $SoftwareName"
   }
 }
@@ -5952,7 +5966,7 @@ function RemoveVolatility2 {
 
 function InstallVolatility3{
   Write-Output "###"
-  $SoftwareName = "Volatility3"
+  $SoftwareName = "volatility3"
   Write-Output "Installing $SoftwareName..."
 
   $author="volatilityfoundation"
@@ -5961,35 +5975,27 @@ function InstallVolatility3{
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
   $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*py3*" -and $_ -Like "*.whl*" })
  
-  if (-not $FullDownloadURL) {
-  Write-Output "Error: $SoftwareName not found"
-  return
-  }
+  #if (-not $FullDownloadURL) {
+  #Write-Output "Error: $SoftwareName not found"
+  #return
+  #}
 
-  # Create bootstrap folder if not existing
-  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
-  if (-not (Test-Path -Path $BootstrapFolder)) {
-  New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
-  }
+  Set-Location $BootstrapFolder
 
-  # Create software folder
-  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
-  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  # clone git repo
+  
+  Start-Process git.exe -ArgumentList  "clone https://github.com/volatilityfoundation/volatility3" -NoNewWindow -wait
+
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
   $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-  New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+    Write-Output "Directory $BootstrapFolder was not found. Exiting..."
+    return
   }
 
-  # Download
-  Write-Output "Downloading file from: $FullDownloadURL"
-  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
-  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
-  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
-
-  Write-Output "UNFINISHED: Check install procedure at: https://github.com/volatilityfoundation/volatility3"
+  Set-Location $DefaultDownloadDir
 }
 
 
@@ -6056,7 +6062,7 @@ function InstallPartDiagParser {
     # Unzip
     $NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
     Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
-    Remove-Item -Path $NewFileFullNacdme -ErrorAction Ignore
+    Remove-Item -Path $NewFileFullName -ErrorAction Ignore
 
     # If directory is nested, move contents one directory up
     $SubPath = Get-ChildItem $NewSoftwareFolderFullName -Name 
