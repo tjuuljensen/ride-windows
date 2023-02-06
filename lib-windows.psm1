@@ -2061,7 +2061,7 @@ function InstallMitec(){
   Write-Output "Installing $SoftwareName..."
 
   $Url = "http://www.mitec.cz"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
+  #$ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
   $DownloadPages =  ($ReleasePageLinks | Where-Object { $_.href -Like "*.html" -and  $_.href -NotLike "/*.*"} ).href | Sort-Object | Get-Unique
 
   # ($ReleasePageLinks | Where-Object { $_.href -Like "*.zip" } ).href | Sort-Object | Get-Unique
@@ -2286,6 +2286,129 @@ function RemoveNTCore {
   Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
 }
 
+function InstallArsenalRecon{
+  Write-Output "###"
+  $SoftwareName = "Arsenal Recon"
+  Write-Output "Installing $SoftwareName..."
+
+  ### Step 1 - Set up Arsenal Recon destination directories
+  
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  ### Step 2 - Install mega.io command line tool (always on fixed address)
+
+  $MegaFullDownloadURL = "https://mega.nz/MEGAcmdSetup64.exe"
+
+  # Create software directory in a subdir to the bootstrap software folder
+  $MegaCmdFolderFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath "MegaCmd"
+  if (Test-Path -Path $MegaCmdFolderFullName) {
+  Remove-Item -Path $MegaCmdFolderFullName -Recurse -Force
+  } 
+  New-Item -Path $MegaCmdFolderFullName -ItemType Directory | Out-Null
+  
+  # Get the filename of the MegaCmd file
+  $MegaFileName = ([System.IO.Path]::GetFileName($MegaFullDownloadURL).Replace("%20"," "))
+  $MegaFileFullName = Join-Path -Path $MegaCmdFolderFullName -ChildPath $MegaFileName
+
+  Set-Location $MegaCmdFolderFullName
+
+  # Download to a subdirectory of Arsenal Recon
+  Write-Output "Downloading file from: $MegaFullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($MegaFullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $MegaCmdFolderFullName -ChildPath $MegaFileName
+  Start-BitsTransfer -Source $MegaFullDownloadURL -Destination $MegaFileName
+  Write-Output "Downloaded: $MegaFileFullName"
+
+  # To unpack package, this function depends on 7-Zip
+  $ArchiveTool = [System.Environment]::GetFolderPath("ProgramFiles")+"\7-Zip\7z.exe"
+  # Unzip file
+  if (-not (Test-Path $ArchiveTool)) {
+      Write-Output "Warning: 7-Zip not found. Cannot unpack software"
+  } else {# 
+      Write-Output "Unpacking with 7-zip"
+      & $ArchiveTool x "-o$MegaCmdFolderFullName" $MegaFileName | out-null
+      Write-Output "MegaCmd downloaded and unpacked in $MegaCmdFolderFullName"
+  }    
+
+  ## Step 3 - Fetch all Arsenal Recon files from mega.io
+
+  $Url = "https://arsenalrecon.com/downloads"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
+  $DownloadURLs = ($ReleasePageLinks | where { $_.href -Like "*mega.nz*" } ).href
+  if (-not $DownloadURLs) {
+	Write-Output "Error: $SoftwareName not found"
+	return
+  }
+
+  $MegaCmdExe = Join-Path -Path $MegaCmdFolderFullName -ChildPath "MegaClient.exe"
+  $MegaSrvExe = Join-Path -Path $MegaCmdFolderFullName -ChildPath "MegacmdServer.exe"
+
+  # Download
+  # Start MegaServer in new Window
+  Start-Process $MegaSrvExe -WindowStyle Normal 
+
+  Set-Location $SoftwareFolderFullName
+  # Download all URLs hosted
+  Write-Output "Downloading files from mega.nz:"
+  Foreach ($FullDownloadURL in $DownloadURLs)
+  {
+    Write-Host "Fetching from: $FullDownloadURL "
+    Start-Process -FilePath $MegaCmdExe -ArgumentList "get $FullDownloadURL" -NoNewWindow -ErrorAction Ignore -Wait
+  } 
+    
+  Set-Location  $BootstrapFolder
+  Get-Process "MEGAcmdServer" | Stop-Process -ErrorAction SilentlyContinue -Force
+
+  Write-Output "$SoftwareName tools downloaded"
+  Set-Location $BootstrapFolder
+
+  # Step 4 - unpack Arsenal Zip files in tools directory
+  
+  # Move files to Tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+    New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+      if (Test-Path -Path $NewSoftwareFolderFullName) {
+        Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+      } 
+      New-Item -Path $NewSoftwareFolderFullName -ItemType Directory | Out-Null
+      
+    $ZipFiles = Get-ChildItem $SoftwareFolderFullName -Filter *.zip 
+    
+        foreach ($ZipFile in $ZipFiles) {
+            try { $ZipFile | Expand-Archive -DestinationPath $NewSoftwareFolderFullName  }
+            catch { Write-Output "FAILED to unzip:"$ZipFile -ForegroundColor red }
+        }
+      
+      Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+  }
+}
+
 function InstallOpenJDK{
   Write-Output "###"
   # We select version 11 instead of 17 because Neo4j/BloodHound require 11
@@ -2502,7 +2625,6 @@ function GetBloodhound {
 	  # Set default tools folder
     $ToolsFolder = "\Tools"
   }
-  
 
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
@@ -2599,7 +2721,6 @@ function GetSharphound {
       $ToolsFolder = "\Tools"
     }
     
-
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
 	  New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
@@ -2683,7 +2804,6 @@ function GetAzurehound {
       # Set default tools folder
       $ToolsFolder = "\Tools"
     }
-    
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -3139,14 +3259,17 @@ function InstallOffice365{
 
     <Add Channel="Current">
       <Product ID="O365ProPlusRetail">
-        <Language ID="en-uk" />
+        <Language ID="en-gb" />
+      </Product>
+      <Product ID="LanguagePack">
+        <Language ID="en-gb" />
         <Language ID="da-dk" />
         <Language ID="MatchOS"/>
       </Product>
-      <Product ID="LanguagePack">
-        <Language ID="en-uk" />
+      <Product ID="ProofingTools">
         <Language ID="da-dk" />
-        <Language ID="MatchOS"/>
+        <Language ID="en-us" />
+        <Language ID="en-gb" />
       </Product>
     </Add>
     <RemoveMSI/>
@@ -3287,15 +3410,18 @@ function InstallVisioPro{
 
     <Add Channel="Current">
       <Product ID="VisioProRetail">
-        <Language ID="en-uk" />
+        <Language ID="en-gb" />
+      </Product>
+      <Product ID="LanguagePack">
+        <Language ID="en-gb" />
         <Language ID="da-dk" />
         <Language ID="MatchOS"/>
       </Product>
-      <Product ID="LanguagePack">
-      <Language ID="en-uk" />
-      <Language ID="da-dk" />
-      <Language ID="MatchOS"/>
-    </Product>
+      <Product ID="ProofingTools">
+        <Language ID="da-dk" />
+        <Language ID="en-us" />
+        <Language ID="en-gb" />
+      </Product>
     </Add>
     <RemoveMSI/>
     <Updates Enabled="TRUE" Channel="Current" />
@@ -3706,8 +3832,26 @@ function InstallPython{
 
   # Install exe 
   if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
-    $CommandLineOptions = "/quiet InstallAllUsers=1 AssociateFiles=1 AppendPath=1" # PrependPath can be used to look in python directories first
+    $CommandLineOptions = "/quiet InstallAllUsers=1 AssociateFiles=1 PrependPath=1" 
     Start-Process -FilePath $FileFullName -ArgumentList $CommandLineOptions -NoNewWindow -Wait
+    
+    # Test if python exists as path environment variable and add if it does not
+    $PythonFolder = (Get-Item ([System.Environment]::GetFolderPath("ProgramFiles")+"\Python*")).FullName
+    if ($null -eq $PythonFolder) {
+      Write-Host "Python folder not found. Exiting."
+      break
+    } else { 
+      # The Python folder exist - check if it is in environment variable
+      if (! ($env:path -match "$PythonFolder")) { 
+        # Python is not in path - adding
+        $PythonScripts = Join-Path -Path $PythonFolder -ChildPath "Scripts"
+        $env:Path = "$PythonScripts;$PythonFolder;" + $env:Path
+      }
+    }
+
+    Write-Output "Upgrading pip"
+    $CommandLineOptions = "-m pip install --upgrade pip"
+    Start-Process -FilePath python.exe -ArgumentList $CommandLineOptions -NoNewWindow -Wait
     Write-Output "Installation done for $SoftwareName"
   }
 }
@@ -5971,31 +6115,88 @@ function InstallVolatility3{
 
   $author="volatilityfoundation"
   $repo="volatility3"
-  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
-  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*py3*" -and $_ -Like "*.whl*" })
- 
-  #if (-not $FullDownloadURL) {
-  #Write-Output "Error: $SoftwareName not found"
-  #return
-  #}
+  $Url = "https://github.com/$author/$repo"
+  $PageLinks =  (Invoke-WebRequest -UseBasicParsing -Uri $Url ).links 
+  $SymbolLinks = ($PageLinks | Where-Object { $_ -Like "*symbol*" }).href  
 
-  Set-Location $BootstrapFolder
+  if (-not $SymbolLinks) {
+    Write-Output "Error: Symbol tables not found"
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+    New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Check if repo folder exists and delete it if it does
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $repo
+  if (Test-Path -Path $SoftwareFolderFullName) {
+    Remove-Item -Path $SoftwareFolderFullName -Recurse -Force
+  }
 
   # clone git repo
-  
-  Start-Process git.exe -ArgumentList  "clone https://github.com/volatilityfoundation/volatility3" -NoNewWindow -wait
-
-  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
-  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  Start-Process git.exe -ArgumentList  "clone $Url" -NoNewWindow -wait
   
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-    Write-Output "Directory $BootstrapFolder was not found. Exiting..."
+    Write-Output "Directory $SoftwareFolderFullName was not found. Exiting..."
     return
   }
 
-  Write-Output "Downloaded: $FileFullName"
-  Set-Location $DefaultDownloadDir
+  # Download symbol tables
+  Write-Output "Downloading symbol tables."
+  $SymbolsFolder = Join-Path -Path $SoftwareFolderFullName -ChildPath "$repo\symbols"
+  Set-Location $SymbolsFolder
+  foreach ($File in $SymbolLinks) {
+    Start-BitsTransfer -Source $File
+  }
+  $SymbolsFolder = Join-Path -Path $SoftwareFolderFullName -ChildPath "$repo\symbols"
+  Write-Output "Downloaded symbol tables to: $SymbolsFolder"
+
+  # Install full set of requirements
+  Set-Location $SoftwareFolderFullName
+
+  # Test if python exists as path environment variable and add if it does not
+  $PythonFolder = (Get-Item ([System.Environment]::GetFolderPath("ProgramFiles")+"\Python*")).FullName
+  if ($null -eq $PythonFolder) {
+    Write-Host "Python folder not found. Exiting."
+    break
+  } else { 
+    # The Python folder exist - check if it is in environment variable
+    if (! ($env:path -match "$PythonFolder")) { 
+      # Python is not in path - adding
+      $PythonScripts = Join-Path -Path $PythonFolder -ChildPath "Scripts"
+      $env:Path = "$PythonScripts;$PythonFolder;" + $env:Path
+    }
+  }
+  pip3 install -r requirements.txt       # pip3 install -r requirements-minimal.txt
+  
+  # Copy to tools folder
+  Set-Location $BootstrapFolder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+	  New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+	  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+  }
+
 }
 
 

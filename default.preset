@@ -82,6 +82,7 @@ RemoveTeamsStoreApp
 # InstallNirsoftLauncher      # RemoveNirsoftLauncher
 # InstallNirsoftToolsX64      # RemoveNirsoftToolsX64
 # InstallNirsoftPkgFiles      # RemoveNirsoftPkgFiles
+# InstallArsenalRecon
 
 ### Active Directory Tools ###
 # InstallRSAT                 # RemoveRSAT

@@ -3,25 +3,20 @@
 ## Burndown list:
 
 ### Priority A - Issues:
-
 - [ ] Missing Uninstall functions (msi & exe) 
   * Office365 - https://support.microsoft.com/en-us/office/uninstall-office-automatically-9ad57b43-fa12-859a-9cf0-b694637b3b05
 - [ ] Java for Bloodhound, sharphound etc
-- [ ] Fix InstallVolatility3  
-- [ ] Update readme (config.ini example)
-- [ ] Nucleus Filesystem recovery prompt (do not install on...)
-
 
 ### Prority B - Improvements:
 - [ ] Add-WiFi
-- [ ] Use High performance power schema on host machne when used as virtual host - https://winaero.com/how-to-change-power-plan-in-windows-11/
+- [ ] Use High performance power schema on host machine when used as virtual host - https://winaero.com/how-to-change-power-plan-in-windows-11/
 - [ ] InstallLanguagePacks
   * https://www.stefandingemanse.com/2022/08/27/install-language-packs-on-windows-10-11-the-easy-way/
   * Get-AppxPackage -AllUsers 'Microsoft.LanguageExperiencePacken-GB' | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 - [ ] Unload modules in ride.ps1 (remove-module INCLUDED_MODULES_ARRAY)
 - [ ] Explorer view, default view 3 timestamps
 - [ ] Windows - screen capture - https://getsharex.com/downloads
-- [ ] Fix nuget requirements (uninstall-package)
+- [ ] Fix nuget requirements (uninstall-package?!)
 - [ ] Log overwrite (or rotate)
 - [ ] VSCode config - disable telemetry, install markdown plugin...
 - [ ] Adjust activation (serial number checks)
@@ -29,12 +24,11 @@
 - [ ] Stage Office365 deployment, so custom XML can be used for installation - https://config.office.com/deploymentsettings
 - [ ] Bitlocker Recoverykey export to AD
   * Export to AD: https://arconnetblog.wordpress.com/2018/09/04/retrieve-bitlocker-recovery-key/
-
+- [ ] Nucleus Filesystem recovery prompt (do not install on...)
 
 ### Priority C - New Packages:
 - [ ] Slack
 - [ ] Retire Atom (deprecated))
-- [ ] Arsenal Image Mounter (mega.nz downloads https://arsenalrecon.com/downloads)
 - [ ] CyberChef
   * https://github.com/thalesgroup-cert/FAST/blob/main/Softwares/CyberChef/CyberChef.py
 - [ ] Forensics plugins for Firefox
@@ -86,7 +80,10 @@
 - [x] Double nested InstallGoogleAnalyticCookieCruncher (zip inside)
 - [x] Install python for windows and test python scripts - https://www.python.org/downloads/windows/
 - [x] BitLocker CD/USB bootable check
-
+- [X] Fix InstallVolatility3  
+- [x] Check if path to python exists and alter path if it does not
+- [x] Arsenal Image Mounter (mega.nz downloads https://arsenalrecon.com/downloads)
+- [x] Update readme (config.ini example)
 
 &nbsp;
 

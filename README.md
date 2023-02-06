@@ -4,12 +4,12 @@
 
 ## Description
 
-This repo is a PowerShell script for automation of routine tasks done after a fresh installation of Windows 10/11 and Windows Server 2016 / 2019. The repo does not hold a complete set of all existing Windows tweaks, nor is it a complete way of creating the fully hardened/locked down machine.
-
-The functions of the script are focused on minimizing windows telemetry traffic and on the installation and configuration of a lot of standard tools for the typical technical user.
+This RIDE repo (Remove - Install - Disable - Enable) is a PowerShell script for automation of routine tasks done after a fresh installation of Windows 10/11 and Windows Server 2016 / 2019. While the repo originally was centered on minimizing windows telemetry traffic and on a few must-have installations and configurations, it has evolved over the years and now includes a long list of installations, primarily focused on forensic investigation and analysis. 
+The repo does not hold a complete set of all existing Windows tweaks, nor is it a complete way of creating the fully hardened/locked down machine. 
 
 
 ## Contents
+ - [Introduction](#introduction)
  - [Installation](#installation)
  - [History](#history)
  - [FAQ](#faq)
@@ -21,8 +21,24 @@ The functions of the script are focused on minimizing windows telemetry traffic 
 
 &nbsp;
 
+## Introduction
+
+I am a Linux user and I use this script to make sure I remember a lot of small steps and configuration tweaks when I make a new Windows virtual or a physical machine. I can create a fully configured machine in short time with the latest software from the originating source. 
+
+These are my guiding principles:
+- I want to have an updated version of Windows 10/11 privacy/hardening tweaks that I frequently use or that I might use in an emergency.
+- The script should take away 80-90% percent of "initial configuration" and cumbersome installations having multiple steps.
+- The script cuts installation time down from days/hours to minutes
+- Anyone with a decent amount of tecnical understanding, should be able to adopt the installation on their own terms.
+- The script must support physical machines as well as virtual machines
+- If there is a way in PowerShell, I choose that way. But I'd rather use a few builtin Windows command line tools instead of wasting weeks on "the clean PS path".
+- I prefer a script that is maintanable and choose to have a lot of redundant code in my repo.
+   
+I have a Linux repo and use the same script architecture in my Fedora Linux configuration: https://github.com/tjuuljensen/bootstrap-fedora.
+
 ## Installation
-If you just want to run the script with the default preset, download and unpack the [latest release](https://github.com/tjuuljensen/ride-windows) and then simply double-click on the *default.cmd* file and confirm *User Account Control* prompt. Make sure your account is a member of *Administrators* group as the script attempts to run with elevated privileges.
+Make sure your account is a member of *Administrators* group as the script attempts to run with elevated privileges. If you just want to run the script with the *default* preset, download and unpack the [latest release](https://github.com/tjuuljensen/ride-windows) and then simply double-click on the *default.cmd* file and confirm *User Account Control* prompt. 
+While you can use it as a non-admin user and run it with elevated rigths as an admin user, some things will NOT work this way. Read the code or figure out yourself - but the safe way is to make the primary user admin and run it elevated. For security reasons, the script has features to remove the user from the admin group after installation.
 
 The script supports command line options and parameters which can help you customize the tweak selection or even add your own custom tweaks, however these features require some basic knowledge of command line usage and PowerShell scripting. Refer to [Advanced usage](#advanced-usage) section for more details.
 
@@ -31,32 +47,16 @@ The script supports command line options and parameters which can help you custo
 
 ## History
 
-
 When Windows 10 was released, a lot of discussions emerged about the telemetry and dial-back functions that Microsoft implemented and which had very few configuration options for the normal user. Some people required a machine with a low footprint for privacy reasons, some just needed a machine that were more silent when listening on the network.
 
-For years I maintained a PowerShell lockdown script to handle my Windows installations, but at some point
-I realized that it was a hard game catching up with all the new changes every time a new Windows version was released. A part of the "catch-up game" was to search the internet (github rules!) for clever guys who had been collecting information and putting things into scripts. Most people did not use PowerShell to change the options configuration, so I often had to translate command line/GUI guides into PowerShell.
+For years I maintained a smaller PowerShell lockdown and configuration script to handle my Windows installations, but at some point I realized that it was a hard game catching up with all the new changes every time a new Windows version was released. A part of the "catch-up game" was to search the internet (github rules!) for clever guys who had been collecting information and putting things into scripts. Most people did not use PowerShell to change the options configuration, so I often had to translate command line/GUI guides into PowerShell.
 
-The purpose of my scripting was easy:
-- maintain a PowerShell script of Windows 10 privacy/hardening features
-- the script should take away 80-90% percent of "initial configuration" of a new Windows box (which meant I added browser, editors and VMware Workstation installation as part of the actions)
-- cut installation time down from days/hours to minutes
-- should be easy to share so other people had access to my work
-- the script should be available for use on physical machines as well as VM's
-- have it easily available ready for use everywhere/anytime (easy one - put it on github)
+One day I visited Disassembler0's (now archived) Win10-Initial-Setup-Script on github (https://github.com/Disassembler0/Win10-Initial-Setup-Script). It covered 80% of the stuff I did and had an adjustable command line interface. I immediately discarded a lot of my old code and was using the Disassembler0 repo for years next to a slimmer version of my own.
 
-Even though the script worked and saved me hours of installation time, the ugly truth about my scripting was also:
-- I was not catching up with recent Windows changes as often as I would
-- It was not *easily* available for others (it was one long list of functions)
+When Disassembler0 archived his repo in 2021 (Thanks for all the fish!), I adopted all that code in this repo - and I am back to maintaining my bootstrap script myself.
 
-And then some day I visited Disassembler0's Win10-Initial-Setup-Script on github (https://github.com/Disassembler0/Win10-Initial-Setup-Script).
-Wow. I immediately discarded a lot of my code and used the Disassembler0 repo for years next to a slimmer version of my own - now adjusted to fit the code structure of the Disassembler0 repo.
-
-Disassembler0 archived his repo in 2021 (Thanks for all the fish!), so I adopted all his code in this repo - and I am back to maintaining my bootstrap script myself.
-
-So why do I do it?
-I am a Linux user and I created this script to make sure I remembered a lot of steps when installing a Windows machine. I like that I can spin up a fully configured machine in short time - no matter whether it is a VM or a physical pc.
-I have a Linux repo and use the same script architecture in my Fedora Linux configuration: https://github.com/tjuuljensen/bootstrap-fedora.
+The repo has grown a lot over the last few years. Especially with software installations. I work as a forensic investigator and use a lot of tools, some free and some with license. If you use the script and install software from these sources, I urge you to support the authors of the software. Send them a few bucks if they have a "Buy me a Beer/Coffee" button, or buy a license if they have a licensing option. 
+And please be aware, that even though some the software is free for private use, many of the tools require a license if you use it professionally as I do. 
 
 
 &nbsp;
@@ -67,13 +67,14 @@ I have a Linux repo and use the same script architecture in my Fedora Linux conf
 **A:** Definitely not. You have to understand what the functions do and what will be the implications for you if you run them. Some functions lower security, hide controls or uninstall applications. **If you're not sure what the script does, do not attempt to run it!**
 
 **Q:** Can I run the script repeatedly?  
-**A:** Yes! In fact the script has been written to support exactly that, as it's not uncommon that big Windows Updates reset some of the settings.
+**A:** Yes (at least that I my goal). All of the tweaks and configuration done in registry has been written to support exactly that. A few of the configurations cannot be undone though (replacing default windows wallpaper is one example).
 
 **Q:** Which versions and editions of Windows are supported?  
-**A:** The script aims to be fully compatible with the most up-to-date 64bit version of Windows 10 / 11 receiving updates from semi-annual channel, however if you create your own preset and exclude the incompatible tweaks, it will work also on LTSB/LTSC and possibly also on 32bit systems. Vast majority of the tweaks will work on all Windows editions. Some of them rely on group policy settings, so there may be a few limitations for Home and Education editions.
+**A:** The script aims to be fully compatible with the most up-to-date 64bit version of Windows 10/11 receiving updates from semi-annual channel, however if you create your own preset and exclude the incompatible tweaks, it will work also on LTSB/LTSC. Many of the functions will work on 32 bit Windows, *but some will not*. 
+The vast majority of the tweaks will work on all Windows editions. Some of them rely on group policy settings, so there may be a few limitations for Home and Education editions.
 
 **Q:** Can I run the script on Windows Server 2016 or 2019?  
-**A:** Yes. Starting from version 2.5, Windows Server is supported. There are even few tweaks specific to Server environment. Keep in mind though, that the script is still primarily designed for Windows 10 / 11, so you have to create your own preset.
+**A:** Yes. Windows Server is supported. There are even few tweaks specific to Server environment. Keep in mind though, that the script is still primarily designed for Windows 10 / 11, so you have to create your own preset.
 
 **Q:** Can I run the script on Windows 7, 8, 8.1 or other versions of Windows?  
 **A:** No. Although some tweaks may work also on older versions of Windows, the script is developed only for Windows 10 /11 and Windows Server 2016 / 2019. There are no plans to support older versions.
@@ -82,10 +83,10 @@ I have a Linux repo and use the same script architecture in my Fedora Linux conf
 **A:** Yes, to certain extent. Some tweaks (most notably UI tweaks) are set only for the user currently executing the script. As stated above, the script can be run repeatedly; therefore it's possible to run it multiple times, each time as different user. Due to the nature of authentication and privilege escalation mechanisms in Windows, most of the tweaks can be successfully applied only by users belonging to *Administrators* group. Standard users will get an UAC prompt asking for admin credentials which then causes the tweaks to be applied to the given admin account instead of the original non-privileged one. There are a few ways how this can be circumvented programmatically, but I'm not planning to include any as it would negatively impact code complexity and readability. If you still wish to try to use the script in multi-user environment, check [this answer in issue #29](https://github.com/Disassembler0/Win10-Initial-Setup-Script/issues/29#issuecomment-333040591) for some pointers.
 
 **Q:** Did you test the script?  
-**A:** Yes. I'm testing new additions on up-to-date 64bit Enterprise editions in VMs. I'm also regularly using it for all my home installations after all bigger updates.
+**A:** Yes. I'm testing new additions on up-to-date 64bit Pro editions of Windows 10 and 11 in VMs. I'm also regularly using it for most of my work and home installations.
 
 **Q:** I've run the script and it did something I don't like, how can I undo it?  
-**A:** For every tweak, there is also a corresponding function which restores the default settings. The default is considered freshly installed Windows 10 or Windows Server 2016 with no adjustments made during or after the installation. Use the tweaks to create and run new preset. Alternatively, since some functions are just automation for actions which can be done using GUI, find appropriate control and modify it manually.
+**A:** For every tweak (with a few exceptions), there is also a corresponding function which restores the default settings. The default is considered freshly installed Windows 10 / 11 or Windows Server 2016 with no adjustments made during or after the installation. Use the tweaks to create and run new preset. Alternatively, since some functions are just automation for actions which can be done using GUI, find appropriate control and modify it manually.
 
 **Q:** I've run the script and some controls are now greyed out and display message "*Some settings are hidden or managed by your organization*", why?  
 **A:** To ensure that system-wide tweaks are applied smoothly and reliably, some of them make use of *Group Policy Objects* (*GPO*). The same mechanism is employed also in companies managing their computers in large scale, so the users without administrative privileges can't change the settings. If you wish to change a setting locked by GPO, apply the appropriate restore tweak and the control will become available again.
@@ -94,16 +95,22 @@ I have a Linux repo and use the same script architecture in my Fedora Linux conf
 **A:** I don't care. Also, that's not a question.
 
 **Q:** I'm using a tweak for &lt;feature&gt; on my installation, can you add it?  
-**A:** Submit a PR, create a feature request issue or drop me a message. If I find the functionality simple, useful and not dependent on any 3rd party modules or executables (including also *Chocolatey*, *NuGet*, *Ninite* or other automation solutions), I might add it.
+**A:** Submit a PR, create a feature request issue or drop me a message. If I find the functionality simple and useful, I might add it. I want to stay clean of any 3rd party modules and executables to do configurations (including also *Chocolatey*, *NuGet*, *Ninite* or other automation solutions), so if your are asking for something in that area, please don't expect me to incorporate it.
+
+**Q:** I'm using a freely available piece of forensic software to examine &lt;some artifact&gt;, can you add it?  
+**A:** Submit a PR, create a feature request issue or drop me a message. If I like the software or can see the use of it for some of my fellow forensic colleagues, I might add it. 
 
 **Q:** Can I use the script or modify it for my / my company's needs?  
-**A:** Sure, knock yourself out. Just don't forget to include copyright notice as per MIT license requirements. I'd also suggest including a link to this GitHub repo as it's very likely that something will be changed, added or improved to keep track with future versions of Windows 10.
+**A:** Sure, knock yourself out. Just don't forget to include copyright notice as per MIT license requirements. I'd also suggest including a link to this GitHub repo as it's very likely that something will be changed, added or improved to keep track with future versions of Windows 10 / 11.
 
 **Q:** Why are there repeated pieces of code throughout some functions?  
 **A:** So you can directly take a function block or a line from within a function and use it elsewhere, without elaborating on any dependencies.
 
 **Q:** For how long are you going to maintain the script?  
-**A:** As long as I find it useful.
+**A:** As long as I find it useful. I have maintained it since 2014, so I'll probably continue for some time.
+
+**Q:** A single function or a few functions does not work, why don't you fix it?  
+**A:** I run Linux on all of my primary pc's. This is just a hobby project. :-) But by all means - Submit a PR, create a feature request issue or drop me a message. It is likely that I do not know that something broke, and I will fix the features in the script once they are added.
 
 &nbsp;
 
@@ -131,6 +138,7 @@ I have a Linux repo and use the same script architecture in my Fedora Linux conf
 | Version |        Code name        |     Marketing name     | Build |
 | :-----: | ----------------------- | ---------------------- | :---: |
 |  21H2   | N/A                     | October 2021 Update    | 22000 |
+|  22H2   | N/A                     | September 2022 Update  | 22621 |
 
 &nbsp;
 
@@ -153,7 +161,7 @@ The tweak names can be prefixed with exclamation mark (`!`) which will instead c
 
 To supply a customized preset, you can either pass the function names directly as arguments.
 
-    powershell.exe -NoProfile -ExecutionPolicy Bypass -File ride.ps1 -include Win10.psm1 EnableFirewall EnableDefender
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File ride.ps1 -include lib-windows.psm1 EnableFirewall EnableDefender
 
 Or you can create a file where you write the function names (one function name per line, no commas or quotes, whitespaces allowed, comments starting with `#`) and then pass the filename using `-preset` parameter.  
 Example of a preset file `mypreset.txt`:
@@ -168,7 +176,7 @@ Example of a preset file `mypreset.txt`:
 
 Command using the preset file above:
 
-    powershell.exe -NoProfile -ExecutionPolicy Bypass -File ride.ps1 -include Win10.psm1 -preset mypreset.txt
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File ride.ps1 -include lib-windows.psm1 -preset mypreset.txt
 
 ### Includes
 
@@ -203,7 +211,7 @@ Example of a preset file `otherpreset.txt`:
 
 Command using all three examples combined:
 
-    powershell.exe -NoProfile -ExecutionPolicy Bypass -File ride.ps1 -include Win10.psm1 -include mytweaks.psm1 -preset mypreset.txt -preset otherpreset.txt Restart
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File ride.ps1 -include lib-windows.psm1 -include mytweaks.psm1 -preset mypreset.txt -preset otherpreset.txt Restart
 
 &nbsp;
 
@@ -211,7 +219,7 @@ Command using all three examples combined:
 
 If you'd like to store output from the script execution, you can do so using `-log` parameter followed by a filename of the log file you want to create. For example:
 
-    powershell.exe -NoProfile -ExecutionPolicy Bypass -File ride.ps1 -include Win10.psm1 -preset mypreset.txt -log myoutput.log
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File ride.ps1 -include lib-windows.psm1 -preset mypreset.txt -log myoutput.log
 
 The logging is done using PowerShell `Start-Transcript` cmdlet, which writes extra information about current environment (date, machine and user name, command used for execution etc.) to the beginning of the file and logs both standard output and standard error streams.
 
@@ -219,7 +227,7 @@ The logging is done using PowerShell `Start-Transcript` cmdlet, which writes ext
 
 You can load personal settings to the script using an INI file with certain parameters. The parameters relate to specific functions in the config script. The table shows the functions where the feature is implemented and the default values.
 
-|       Function             |       Section       |     Key             | Default value          |
+|       Function / Tweak     |    Ini Section      |     Ini Key         | Default value          |
 | -------------------------- | ------------------- | ------------------- | ---------------------- |
 |  CreateNewLocalAdmin       | LocalAdmin          | AdminUser           | Admin                  |
 |  CreateNewLocalAdmin       | LocalAdmin          | AdminPassword       | -                      |
@@ -231,11 +239,11 @@ You can load personal settings to the script using an INI file with certain para
 |  SetRegionalSettings       | Language            | SystemLocale        | da-DK                  |
 |  SetRegionalSettings       | Language            | TimeZone            | Romance Standard Time  |
 |  InstallVMwareWorkstation  | VMwareWorkstation   | VMWAREWORKSTATION16 | -                      |
-
+|  Many software installs    | Customization       | ToolsFolder         | \Tools                 |
 
 ## Maintaining own forks
 
-The easiest way to customize the script settings it is to create your own preset and, if needed, your own tweak scripts as described above. For easy start, you can base the modifications on the *default.cmd* and *default.preset* and maintain just that. If you choose to fork the script anyway, you don't need to comment or remove the actual functions in *Win10.psm1*, because if they are not called, they are not used.
+The easiest way to customize the script settings it is to create your own preset and, if needed, your own tweak scripts as described above. For easy start, you can base the modifications on the *default.cmd* and *default.preset* and maintain just that. If you choose to fork the script anyway, you don't need to comment or remove the actual functions in *lib-windows.psm1*, because if they are not called, they are not used.
 
 If you wish to make more elaborate modifications of the basic script and incorporate some personal tweaks or adjustments, then I suggest doing it in a following way:
 
@@ -352,5 +360,5 @@ Function DisableSomeFeature {
 Disassembler0's (now archived) Win10-Initial-Setup-Script repo:
 https://github.com/Disassembler0/Win10-Initial-Setup-Script
 
-Telemetry blocking hosts file is fetched from:
+Windows 10 Telemetry blocking hosts file was fetched from:
 https://www.encrypt-the-planet.com/downloads/hosts
