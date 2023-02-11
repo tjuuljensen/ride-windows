@@ -53,6 +53,7 @@ function GetPackageInfo {
                 }
                 }
             default { $64bit |Foreach-Object {Write-Host  $_.DisplayName,  $_.UninstallString }
+            }
         }
     }
 }

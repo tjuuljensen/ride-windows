@@ -62,6 +62,7 @@ InstallSysmon64               # RemoveSysmon64
 # InstallImageMagickPortable  # RemoveImageMagickPortable
 # InstallSignal               # 
 # InstallPython
+# InstallYara                 # RemoveYara
 
 ### Office Apps ###
 DisableOneDrive               # EnableOneDrive
@@ -137,6 +138,10 @@ CreateChromePreferenceFile    # RemoveChromePreferenceFile
 # InstallVolatility3          # 
 # InstallPartDiagParser       # RemovePartDiagParser
 # InstallGglCookieCruncher    # RemoveGglCookieCruncher
+
+### Offensive Tools ###
+# InstallHashcat              # RemoveHashcat
+# InstallHashcatLauncher      # RemoveHashcatLauncher
 
 ### Customization  ###
 InstallFonts

@@ -9,6 +9,8 @@
 
 ### Prority B - Improvements:
 - [ ] Add-WiFi
+- [ ] Adjust activation function (Check for OEM serial number & use for activation)
+- [ ] Backup Serial number before SysPrep
 - [ ] Use High performance power schema on host machine when used as virtual host - https://winaero.com/how-to-change-power-plan-in-windows-11/
 - [ ] InstallLanguagePacks
   * https://www.stefandingemanse.com/2022/08/27/install-language-packs-on-windows-10-11-the-easy-way/
@@ -16,11 +18,8 @@
 - [ ] Unload modules in ride.ps1 (remove-module INCLUDED_MODULES_ARRAY)
 - [ ] Explorer view, default view 3 timestamps
 - [ ] Windows - screen capture - https://getsharex.com/downloads
-- [ ] Fix nuget requirements (uninstall-package?!)
 - [ ] Log overwrite (or rotate)
 - [ ] VSCode config - disable telemetry, install markdown plugin...
-- [ ] Adjust activation (serial number checks)
-  * https://scribbleghost.net/2019/08/23/how-to-find-and-backup-your-windows-10-license-key/
 - [ ] Stage Office365 deployment, so custom XML can be used for installation - https://config.office.com/deploymentsettings
 - [ ] Bitlocker Recoverykey export to AD
   * Export to AD: https://arconnetblog.wordpress.com/2018/09/04/retrieve-bitlocker-recovery-key/
@@ -84,11 +83,14 @@
 - [x] Check if path to python exists and alter path if it does not
 - [x] Arsenal Image Mounter (mega.nz downloads https://arsenalrecon.com/downloads)
 - [x] Update readme (config.ini example)
-
+- [x] Install yara & yara-python
+- [x] Fix nuget requirements (uninstall-package?!)
+- [x] Add Hashcat & hashcat.launcher - https://hashcat.net/forum/thread-9151.html / https://github.com/s77rt/hashcat.launcher/releases
+ 
 &nbsp;
 
 ## Roadmap tasks - v2:
-- [ ] Download tool installer if only the installer is not already present
+- [ ] Download tool installer if only the installer is not already present (install from repo version)
 - [ ] Add PingCastle license with ini file
 - [ ] Test running twice, and fix any issues
 - [ ] Change all MSI installs to this: Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" /quiet" -Wait -NoNewWindow

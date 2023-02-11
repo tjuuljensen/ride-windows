@@ -1794,7 +1794,7 @@ function InstallNirsoftToolsX64(){
       $PasswordFileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath "zip_password.txt"
       $ZipPassword | Out-File -FilePath $PasswordFileFullName 
 
-       # Create software directory in Tools folder
+      # Create software directory in Tools folder
       $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
       if (Test-Path -Path $NewSoftwareFolderFullName) {
       Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
@@ -2328,8 +2328,8 @@ function InstallArsenalRecon{
 
   # Download to a subdirectory of Arsenal Recon
   Write-Output "Downloading file from: $MegaFullDownloadURL"
-  $FileName = ([System.IO.Path]::GetFileName($MegaFullDownloadURL).Replace("%20"," "))
-  $FileFullName = Join-Path -Path $MegaCmdFolderFullName -ChildPath $MegaFileName
+  #$FileName = ([System.IO.Path]::GetFileName($MegaFullDownloadURL).Replace("%20"," "))
+  #$FileFullName = Join-Path -Path $MegaCmdFolderFullName -ChildPath $MegaFileName
   Start-BitsTransfer -Source $MegaFullDownloadURL -Destination $MegaFileName
   Write-Output "Downloaded: $MegaFileFullName"
 
@@ -3794,7 +3794,7 @@ function InstallSignal {
   }
 }
 
-function InstallPython{
+function InstallPython {
   Write-Output "###"
   $SoftwareName = "Python"
   Write-Output "Installing $SoftwareName..."
@@ -3854,6 +3854,96 @@ function InstallPython{
     Start-Process -FilePath python.exe -ArgumentList $CommandLineOptions -NoNewWindow -Wait
     Write-Output "Installation done for $SoftwareName"
   }
+}
+
+function InstallYara {
+  Write-Output "###"
+  $SoftwareName = "Yara"
+  Write-Output "Installing $SoftwareName..."
+
+  $author="VirusTotal"
+  $repo="yara"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*win*" -and $_ -Like "*64*" -and $_ -Like "*zip*" })
+  
+  if (-not $FullDownloadURL) {
+  Write-Output "Error: $SoftwareName not found"
+  return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+  New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+  New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+    # Unzip
+    $NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
+    Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
+    Remove-Item -Path $NewFileFullName -ErrorAction Ignore
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+  }
+}
+
+function RemoveYara {
+  Write-Output "###"
+  $SoftwareName = "Yara"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
 }
 
 ################################################################
@@ -5986,7 +6076,6 @@ function InstallWinPmem{
     }
     Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
     Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
-
   }
 }
 
@@ -6199,7 +6288,6 @@ function InstallVolatility3{
 
 }
 
-
 function InstallPartDiagParser {
   Write-Output "###"
   $SoftwareName = "PartitionDiagnosticParser"
@@ -6389,6 +6477,210 @@ function InstallGglCookieCruncher{
 function RemoveGglCookieCruncher {
   Write-Output "###"
   $SoftwareName = "GoogleAnalyticCookieCruncher"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
+
+function InstallHashcat { 
+  Write-Output "###"
+  $SoftwareName = "Hashcat"
+  Write-Output "Get $SoftwareName..."
+
+  $BaseUrl = "https://hashcat.net"
+  $Url = "$BaseUrl/hashcat/"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
+  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*7z" }).href | Select-Object -First 1
+  $FullDownloadURL = "$BaseUrl$SoftwareUri"
+  
+  if (-not $SoftwareUri) {
+	Write-Output "Error: $SoftwareName not found"
+	return
+  }
+ 
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+  New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+  New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Invoke-WebRequest -Uri $FullDownloadURL -OutFile $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Create software directory in Tools folder
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+    Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force | Out-Null
+    } 
+    New-Item -Path $NewSoftwareFolderFullName -ItemType Directory | Out-Null
+    
+    # To unpack package, this function depends on 7-Zip
+    $ArchiveTool = [System.Environment]::GetFolderPath("ProgramFiles")+"\7-Zip\7z.exe"
+    # Unzip password protected file
+    if (-not (Test-Path $ArchiveTool)) {
+        Write-Output "Warning: 7-Zip not found. Cannot unpack software"
+    } else {
+      Write-Output "Unpacking with 7-zip"
+      & $ArchiveTool x "-o$NewSoftwareFolderFullName" $FileFullName | out-null
+    Write-Output "Installation done for $SoftwareName"
+    }   
+    
+    # If directory is nested, move contents one directory up
+    $SubPath = Get-ChildItem $NewSoftwareFolderFullName -Name 
+    if ($SubPath.count -eq 1) {
+      $FullSubPath =Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
+      $FolderIsNested = (Get-ChildItem -Path "$NewSoftwareFolderFullName" -Directory).count -eq (Get-ChildItem -Path "$NewSoftwareFolderFullName" ).count
+      if ($FolderIsNested) {
+        Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $NewSoftwareFolderFullName
+        Remove-Item -Path $FullSubPath -ErrorAction SilentlyContinue -Recurse -Force
+      }  
+    }
+
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+
+  }
+}
+
+function RemoveHashcat {
+  Write-Output "###"
+  $SoftwareName = "Hashcat"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
+
+function InstallHashcatLauncher {
+  # https://github.com/s77rt/hashcat.launcher
+  Write-Output "###"
+  $SoftwareName = "HashcatLauncher"
+  Write-Output "Installing $SoftwareName..."
+
+  $author="s77rt"
+  $repo="hashcat.launcher"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*7z" -And $_ -Like "*windows*"})
+  
+  if (-not $FullDownloadURL) {
+  Write-Output "Error: $SoftwareName not found"
+  return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+  New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+  New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+      # Create software directory in Tools folder
+      $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+      if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+      } 
+      New-Item -Path $NewSoftwareFolderFullName -ItemType Directory | Out-Null
+      
+      # To unpack package, this function depends on 7-Zip
+      $ArchiveTool = [System.Environment]::GetFolderPath("ProgramFiles")+"\7-Zip\7z.exe"
+      # Unzip password protected file
+      if (-not (Test-Path $ArchiveTool)) {
+          Write-Output "Warning: 7-Zip not found. Cannot unpack software"
+      } else {
+        Write-Output "Unpacking with 7-zip"
+        & $ArchiveTool x "-o$NewSoftwareFolderFullName" $FileFullName | out-null
+        Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+      }    
+  }
+}
+
+
+function RemoveHashcatLauncher {
+  Write-Output "###"
+  $SoftwareName = "HashcatLauncher"
   Write-Output "Removing $SoftwareName..."
   
   # Get software folder name
@@ -6713,7 +7005,6 @@ function InstallFonts{
       }
   }
 }
-
 
 function ReplaceDefaultWallpapers{
   Write-Output "###"
