@@ -9,12 +9,14 @@
 
 ### Prority B - Improvements:
 - [ ] Add-WiFi
+- [ ] Re-add firewall functions
 - [ ] Adjust activation function (Check for OEM serial number & use for activation)
 - [ ] Backup Serial number before SysPrep
 - [ ] Use High performance power schema on host machine when used as virtual host - https://winaero.com/how-to-change-power-plan-in-windows-11/
 - [ ] InstallLanguagePacks
   * https://www.stefandingemanse.com/2022/08/27/install-language-packs-on-windows-10-11-the-easy-way/
   * Get-AppxPackage -AllUsers 'Microsoft.LanguageExperiencePacken-GB' | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+- [ ] Warn when enabling advanced Bitlocker PIN and current keyboard layout does not match installed  
 - [ ] Unload modules in ride.ps1 (remove-module INCLUDED_MODULES_ARRAY)
 - [ ] Explorer view, default view 3 timestamps
 - [ ] Windows - screen capture - https://getsharex.com/downloads
