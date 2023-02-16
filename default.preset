@@ -15,7 +15,7 @@ DisableBuiltinAdministrator   # MakeLoggedOnUserAdmin      # MakeLoggedOnUserNoA
 # DisableWindowsStoreApp      # EnableWindowsStoreApp
 DisableFriendlyURLFormat      # UnconfigureFriendlyURLFormat
 EnableRunAsInStartMenu        # DisableRunAsInStartMenu
-EnableInternetPrinting        # DisableInternetPrinting
+# EnableInternetPrinting      # DisableInternetPrinting
 # EnableMemoryIntegrity       # DisableMemoryIntegrity
 SetRegionalSettings
 CopyRegionSettingsToAll       # CopyRegionSettingsWelcome   # CopyRegionSettingsNewUser
