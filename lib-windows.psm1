@@ -6845,7 +6845,7 @@ function InstallZimmermanTools{
   Write-Output "Downloaded: $FileFullName"
 
   # Run ps1 file which will download the tools
-  Start-Process $FileFullName -ArgumentList "-Dest $SoftwareFolderFullName"
+  Invoke-Expression "$FileFullName -Dest $SoftwareFolderFullName"
   
   if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Get tools folder
