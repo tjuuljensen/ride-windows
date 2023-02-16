@@ -2462,15 +2462,20 @@ function InstallNeo4j{
   $SoftwareName = "Neo4j Community"
   Write-Output "Installing $SoftwareName..."
 
+  ### DISCLAIMER ###
+  # Official recommendation (February 2023) is to install Neo4j version 4.4.0.13
+  # Download link selection below will reflect this recommendation until further notice
+  # https://bloodhound.readthedocs.io/en/latest/installation/windows.html#install-java
+  
+  # Process is in two steps. First APOC - then bloodhound.
   # Get the latest Neo4j APOC version number and download link
   # We don't want the latest Neo4j if a compatible APOC is not out yet
   $author="neo4j-contrib"
   $repo="neo4j-apoc-procedures"
-  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
-  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
-  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*all.jar" })
 
-  $ApocFullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*extended.jar" } | select-object -First 1)
+  $Url = "https://api.github.com/repos/$author/$repo/releases"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+  $ApocFullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*4.4.0.13-all.jar" })
   if (-not $ApocFullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
 	return
@@ -2531,29 +2536,28 @@ function InstallNeo4j{
   Write-Output "Downloaded: $ApocFileFullName"
 
   if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
-	# Get tools folder
-	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
-	if (-not $ToolsFolder) {
-	  # Set default tools folder
-    $ToolsFolder = "\Tools"
-  }
-  
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
 
-	# Create tools folder if not existing
-	if (-not (Test-Path -Path $ToolsFolder)) {
-	  New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
-	}
-
-	# Copy to tools folder (overwrite existing)
-	$NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
-	if (Test-Path -Path $NewSoftwareFolderFullName) {
-	  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
-	}
-	Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
-	Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
 
     # Unzip
-	$NewNeo4jFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $Neo4jFileName
+    $NewNeo4jFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $Neo4jFileName
     Expand-Archive $NewNeo4jFileFullName -DestinationPath $NewSoftwareFolderFullName
     Remove-Item -Path $NewNeo4jFileFullName -ErrorAction Ignore
     Write-Output "Unzipped to: $NewSoftwareFolderFullName"
@@ -2561,19 +2565,24 @@ function InstallNeo4j{
     # Move APOC to plugin folder
     $NewApocFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $ApocFileName
     $Neo4jRootDirFullName = (Get-ChildItem $NewSoftwareFolderFullName -Directory).FullName
-	$FinalApocFileFullName = Join-Path -Path $Neo4jRootDirFullName -ChildPath "plugins\$ApocFileName"
-	Move-Item -Path $NewApocFileFullName -Destination $FinalApocFileFullName
+    $FinalApocFileFullName = Join-Path -Path $Neo4jRootDirFullName -ChildPath "plugins\$ApocFileName"
+    Move-Item -Path $NewApocFileFullName -Destination $FinalApocFileFullName
     Write-Output "Moved APOC plugin to: $FinalApocFileFullName"
 
     # Config - Allow APOC queries
-	$ConfigFileFullName = Join-Path -Path $Neo4jRootDirFullName -ChildPath "conf\neo4j.conf"
+    $ConfigFileFullName = Join-Path -Path $Neo4jRootDirFullName -ChildPath "conf\neo4j.conf"
     (Get-Content $ConfigFileFullName).replace('#dbms.security.procedures.unrestricted=my.extensions.example,my.procedures.*', 'dbms.security.procedures.unrestricted=apoc.*') | Set-Content $ConfigFileFullName
 
     # Install service
-	$InstallFileFullName = Join-Path -Path $Neo4jRootDirFullName -ChildPath "bin\neo4j.bat"
-    Start-Process $InstallFileFullName "install-service" -NoNewWindow -Wait
-    net start neo4j
-    Write-Output "Installation done for $SoftwareName"
+    $JavaIsInstalled=Get-Command java -ErrorAction SilentlyContinue
+    if ($null -ne $JavaIsInstalled) {
+      $InstallFileFullName = Join-Path -Path $Neo4jRootDirFullName -ChildPath "bin\neo4j.bat"
+      Start-Process $InstallFileFullName "install-service" -NoNewWindow -Wait
+      net start neo4j
+      Write-Output "Installation done for $SoftwareName"
+    } else {
+      Write-Output "Java not found. Installation did not finish for $SoftwareName"
+    }
   }
 }
 
