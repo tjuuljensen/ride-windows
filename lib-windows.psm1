@@ -3851,7 +3851,8 @@ function InstallPython {
       break
     } else { 
       # The Python folder exist - check if it is in environment variable
-      if (! ($env:path -match "$PythonFolder")) { 
+      $PythonFolderInPath = $env:path -split ";" | Where-Object { $_ -eq $PythonFolder }
+      if ($null -eq $PythonFolderInPath ) { 
         # Python is not in path - adding
         $PythonScripts = Join-Path -Path $PythonFolder -ChildPath "Scripts"
         $env:Path = "$PythonScripts;$PythonFolder;" + $env:Path

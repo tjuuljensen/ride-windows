@@ -10,6 +10,7 @@
 ### Prority B - Improvements:
 - [ ] Add-WiFi
 - [ ] Re-add firewall functions
+- [ ] Add PSScriptTools - https://github.com/jdhitsolutions/PSScriptTools
 - [ ] Adjust activation function (Check for OEM serial number & use for activation)
 - [ ] Backup Serial number before SysPrep
 - [ ] Use High performance power schema on host machine when used as virtual host - https://winaero.com/how-to-change-power-plan-in-windows-11/
