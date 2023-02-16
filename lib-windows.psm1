@@ -2348,7 +2348,7 @@ function InstallArsenalRecon{
 
   $Url = "https://arsenalrecon.com/downloads"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $DownloadURLs = ($ReleasePageLinks | where { $_.href -Like "*mega.nz*" } ).href
+  $DownloadURLs = ($ReleasePageLinks | Where-Object { $_.href -Like "*mega.nz*" } ).href
   if (-not $DownloadURLs) {
 	Write-Output "Error: $SoftwareName not found"
 	return
@@ -7034,6 +7034,8 @@ function ReplaceDefaultWallpapers{
 
   $WallPaperPath=($env:SystemDrive+"\Windows\Web\Wallpaper\Windows")
   $WallPprPath4k=($env:SystemDrive+"\Windows\Web\4K\Wallpaper\Windows")
+  $WallPprSourcePath = "$PSScriptRoot\components\wallpaper"
+  $NumberOfWallPprImgs = (Get-ChildItem $WallPprSourcePath\* -Include ('*.png','*.jpg')| Measure-Object).Count
   $AdminUser = ${env:UserName}
 
   Start-Process takeown -ArgumentList "/R /A /F $WallPaperPath" -Wait -WindowStyle Hidden
@@ -7045,21 +7047,31 @@ function ReplaceDefaultWallpapers{
   $AllArguments = $WallPprPath4k+"\* /grant $AdminUser"+":(F) /Q"
   Start-Process icacls -ArgumentList $AllArguments -Wait -WindowStyle Hidden
 
-  if (Test-Path -Path "$PSScriptRoot\components\wallpaper\img0*") {
-    Remove-Item $WallPprPath4k\*.* -Recurse -ErrorAction SilentlyContinue
-    Copy-Item "$PSScriptRoot\components\wallpaper\img0*" $WallPprPath4k -Recurse -Force | Out-Null
-  }
 
-  # default (light mode) wallpaper
-  if (Test-Path -Path "$PSScriptRoot\components\wallpaper\img0.jpg") {
-    Remove-Item $WallPprPath4k\img0.jpg -Force -ErrorAction SilentlyContinue
-    Copy-Item "$PSScriptRoot\components\wallpaper\img0.jpg" $WallPaperPath -Force
-  }
-
-  # dark mode wallpaper
-  if (Test-Path -Path "$PSScriptRoot\components\wallpaper\img19.jpg") {
-    Remove-Item $WallPprPath4k\img19.jpg -Force -ErrorAction SilentlyContinue
-    Copy-Item "$PSScriptRoot\components\wallpaper\img0.jpg" $WallPaperPath -Force
+  if ($NumberOfWallPprImgs -eq 1) { # If there is only one image in wallpaper folder
+    # Copy the single file found in wallpaper source path to new wallpaper file
+    $SingleFileFoundName = (Get-ChildItem $WallPprSourcePath\* -Include ('*.png','*.jpg')).FullName
+    Copy-Item "$SingleFileFoundName" "$WallPprPath4k" -Recurse -Force | Out-Null
+    Copy-Item "$SingleFileFoundName" "$WallPprPath" -Recurse -Force | Out-Null
+  } else {  
+    # If img0* files exist, copy images to wallpaper folder
+    if (Test-Path -Path "$WallPprSourcePath\img0*") {
+      Remove-Item $WallPprPath4k\*.* -Recurse -ErrorAction SilentlyContinue
+      Copy-Item "$WallPprSourcePath\img0*" $WallPprPath4k -Recurse -Force | Out-Null
+    }
+  
+    # default (light mode) wallpaper
+    if (Test-Path -Path "$WallPprSourcePath\img0.jpg") {
+      Remove-Item $WallPprPath\img0.jpg -Force -ErrorAction SilentlyContinue
+      Copy-Item "$WallPprSourcePath\img0.jpg" $WallPprPath -Force
+    }
+  
+    # dark mode wallpaper 
+    if (Test-Path -Path "$WallPprSourcePath\img19.jpg") {
+      Remove-Item $WallPprPath4k\img19.jpg -Force -ErrorAction SilentlyContinue
+      Copy-Item "$WallPprSourcePath\img19.jpg" $WallPprPath4k -Force
+    }
+  
   }
 }
 
@@ -7072,24 +7084,26 @@ function SetCustomLockScreen {
   $LockScreenImageName = "img0.jpg"
   $LockScreenImageFullName = Join-Path -Path $LockScreenPath -ChildPath $LockScreenImageName
   $LockScreenSourcePath = "$PSScriptRoot\components\lockscreen"
-  $NumberOfLockScreenImgs = (Get-ChildItem $LockScreenSourcePath\* | Measure-Object).Count
+  $NumberOfLockScreenImgs = (Get-ChildItem $LockScreenSourcePath\* -Include ('*.png','*.jpg')| Measure-Object).Count
 
+  # Cleanup if this function was run before - check for img0.jpg which is not standard
   if (Test-Path -Path "$LockScreenImageFullName") {
     Remove-Item $LockScreenImageFullName -Recurse -Force -ErrorAction SilentlyContinue
   }
 
-  if ($NumberOfLockScreenImgs -eq 1) {
-    # Copy the single file found in  lock screen source path to new lock screen
-    $SingleFileFoundName = (Get-ChildItem $LockScreenSourcePath\* ).FullName
+  if ($NumberOfLockScreenImgs -eq 1) { # If there is only one image in lockscreen folder
+    # Copy the single file found in lockscreen source path to new lockscreen file
+    $SingleFileFoundName = (Get-ChildItem $LockScreenSourcePath\* -Include ('*.png','*.jpg')).FullName
     Copy-Item "$SingleFileFoundName" "$LockScreenImageFullName" -Recurse -Force | Out-Null
-  } elseif (Test-Path -Path "$LockScreenSourcePath\$LockScreenImage") {
+  } elseif (Test-Path -Path "$LockScreenSourcePath\$LockScreenImage") { # If lockscreen\img0.jpg exist
     # Copy default lock screen image to lock screen
     Copy-Item "$LockScreenSourcePath\$LockScreenImage" $LockScreenImageFullName -Recurse -Force | Out-Null
-  } elseif (Test-Path -Path "$PSScriptRoot\components\wallpaper\$LockScreenImageName") {
+  } elseif (Test-Path -Path "$PSScriptRoot\components\wallpaper\$LockScreenImageName") { # If a wallpaper exists, use this
     # Copy default wallpaper to lock screen
     Copy-Item "$PSScriptRoot\components\wallpaper\$LockScreenImageName" $LockScreenImageFullName -Recurse -Force | Out-Null
   }
 
+  # Get windows version and handle registry settings different whether it's pro or enterprise
   $WindowsEdition=(Get-WindowsEdition -Online).Edition
 
   if ($WindowsEdition -eq 'Enterprise') {
