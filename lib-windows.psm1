@@ -7058,7 +7058,7 @@ function ReplaceDefaultWallpapers{
     # Copy the single file found in wallpaper source path to new wallpaper file
     $SingleFileFoundName = (Get-ChildItem $WallPprSourcePath\* -Include ('*.png','*.jpg')).FullName
     Copy-Item "$SingleFileFoundName" "$WallPprPath4k" -Recurse -Force | Out-Null
-    Copy-Item "$SingleFileFoundName" "$WallPprPath" -Recurse -Force | Out-Null
+    Copy-Item "$SingleFileFoundName" "$WallPaperPath" -Recurse -Force | Out-Null
   } else {  
     # If img0* files exist, copy images to wallpaper folder
     if (Test-Path -Path "$WallPprSourcePath\img0*") {
@@ -7068,8 +7068,8 @@ function ReplaceDefaultWallpapers{
   
     # default (light mode) wallpaper
     if (Test-Path -Path "$WallPprSourcePath\img0.jpg") {
-      Remove-Item $WallPprPath\img0.jpg -Force -ErrorAction SilentlyContinue
-      Copy-Item "$WallPprSourcePath\img0.jpg" $WallPprPath -Force
+      Remove-Item $WallPaperPath\img0.jpg -Force -ErrorAction SilentlyContinue
+      Copy-Item "$WallPprSourcePath\img0.jpg" $WallPaperPath -Force
     }
   
     # dark mode wallpaper 
@@ -7106,7 +7106,7 @@ function SetCustomLockScreen {
     Copy-Item "$LockScreenSourcePath\$LockScreenImage" $LockScreenImageFullName -Recurse -Force | Out-Null
   } elseif (Test-Path -Path "$PSScriptRoot\components\wallpaper\$LockScreenImageName") { # If a wallpaper exists, use this
     # Copy default wallpaper to lock screen
-    Copy-Item "$PSScriptRoot\components\wallpaper\$LockScreenImageName" $LockScreenImageFullName -Recurse -Force | Out-Null
+    Copy-Item "$PSScriptRoot\components\wallpaper\$LockScreenImageName" $LockScreenImageFullName -Force | Out-Null
   }
 
   # Get windows version and handle registry settings different whether it's pro or enterprise
