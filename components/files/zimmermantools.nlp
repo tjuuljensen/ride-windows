@@ -1,15 +1,18 @@
 [General]
-SoftwareCount=21
-GroupCount=3
+SoftwareCount=35
+GroupCount=4
 Name=Eric Zimmerman Tools
 
 [Group0]
-name=Command-Line Utilities
+name=Forensic Command-Line
 
 [Group1]
-name=GUI Utilities
+name=Forensic GUI Utilities
 
 [Group2]
+name=Other Tools
+
+[Group3]
 name=All Utilities
 ShowAll=1
 
@@ -32,7 +35,7 @@ ShortDesc=AppCompatCache aka ShimCache parser. Handles locked files
 LongDesc=
 
 [Software2]
-exe=JumpList Explorer\JLECmd.exe
+exe=JLECmd.exe
 url=https://f001.backblazeb2.com/file/EricZimmermanTools/JLECmd.zip
 group=0
 Name=JLECmd
@@ -41,7 +44,7 @@ ShortDesc=Jump List parser
 LongDesc=
 
 [Software3]
-exe=JumpList Explorer\JumpListExplorer.exe
+exe=JumpListExplorer\JumpListExplorer.exe
 url=https://f001.backblazeb2.com/file/EricZimmermanTools/JumpListExplorer.zip
 group=1
 Name=JumpListExplorer
@@ -86,7 +89,7 @@ ShortDesc=RecentFileCache parser
 LongDesc=
 
 [Software8]
-exe=ShellBags Explorer\SBECmd.exe
+exe=SBECmd.exe
 url=https://ericzimmerman.github.io/Software/SDBExplorer.zip
 group=0
 Name=SBECmd
@@ -104,7 +107,7 @@ ShortDesc=Shim database GUI
 LongDesc=
 
 [Software10]
-exe=ShellBags Explorer\ShellBagsExplorer.exe
+exe=ShellBagsExplorer\ShellBagsExplorer.exe
 url=https://f001.backblazeb2.com/file/EricZimmermanTools/ShellBagsExplorer.zip
 group=1
 Name=ShellBagsExplorer
@@ -114,7 +117,7 @@ ShortDesc=GUI for browsing shellbags data. Handles locked files
 LongDesc=
 
 [Software11]
-exe=Timeline explorer\TimelineExplorer.exe
+exe=TimelineExplorer\TimelineExplorer.exe
 url=https://f001.backblazeb2.com/file/EricZimmermanTools/TimelineExplorer.zip
 group=1
 Name=TimelineExplorer
@@ -132,22 +135,22 @@ ShortDesc=Windows 10 Timeline database parser
 LongDesc=
 
 [Software13]
-exe=Registry Explorer RECmd\RegistryExplorer.exe
-help=Registry Explorer RECmd\RegistryExplorerManual.pdf
-url=Registy viewer with searching, multi-hive support, plugins, and more. Handles locked files
+exe=RegistryExplorer\RegistryExplorer.exe
+help=RegistryExplorer\RegistryExplorerManual.pdf
+url=https://f001.backblazeb2.com/file/EricZimmermanTools/RegistryExplorer.zip
 group=1
 Name=RegistryExplorer
 AppName=RegistryExplorer
-ShortDesc=Registy viewer with searching, multi-hive support, plugins, and more
+ShortDesc=Registy viewer with searching, multi-hive support, plugins, and more. Handles locked files
 LongDesc=
 
 [Software14]
-exe=Registry Explorer RECmd\RECmd\RECmd.exe
-url=Registy viewer with searching, multi-hive support, plugins, and more. Handles locked files
+exe=RECmd\RECmd.exe
+url=https://f001.backblazeb2.com/file/EricZimmermanTools/RECmd.zip
 group=0
 Name=RECmd
 AppName=RECmd
-ShortDesc=Registy viewer with searching, multi-hive support, plugins, and more
+ShortDesc=Registy viewer with searching, multi-hive support, plugins, and more. Handles locked files
 LongDesc=
 
 [Software15]
@@ -189,7 +192,7 @@ LongDesc=
 [Software19]
 exe=TimeApp.exe
 url=https://f001.backblazeb2.com/file/EricZimmermanTools/TimeApp.zip
-group=1
+group=2
 Name=TimeApp
 AppName=TimeApp
 ShortDesc=	A simple app that shows current time (local and UTC) and optionally, public IP address. Great for testing
@@ -198,8 +201,134 @@ LongDesc=
 [Software20]
 exe=iisGeolocate\iisGeolocate.exe
 url=https://f001.backblazeb2.com/file/EricZimmermanTools/iisGeolocate.zip
-group=0
+group=2
 Name=iisGeolocate
 AppName=isiGeolocate
 ShortDesc=Geolocate IP addresses found in IIS logs
+LongDesc=
+
+[Software21]
+exe=EvtxECmd\EvtxECmd.exe
+url=https://f001.backblazeb2.com/file/EricZimmermanTools/EvtxECmd.zip
+group=0
+Name=EvtxECmd
+AppName=EvtxECmd
+ShortDesc=Event log (evtx) parser with standardized CSV, XML, and json output! Custom maps, locked file support, and more!
+LongDesc=
+
+[Software22]
+exe=EZViewer\EZViewer.exe
+url=https://f001.backblazeb2.com/file/EricZimmermanTools/EZViewer.zip
+group=1
+Name=EZViewer
+AppName=EZViewer
+ShortDesc=Standalone, zero dependency viewer for .doc, .docx, .xls, .xlsx, .txt, .log, .rtf, .otd, .htm, .html, .mht, .csv, and .pdf. Any non-supported files are shown in a hex editor (with data interpreter!)
+LongDesc=
+
+[Software23]
+exe=MFTExplorer\MFTExplorer.exe
+url=https://f001.backblazeb2.com/file/EricZimmermanTools/MFTExplorer.zip
+group=1
+Name=MFTExplorer
+AppName=MFTExplorer
+ShortDesc=Graphical $MFT viewer
+LongDesc=
+
+[Software24]
+exe=SQLECmd\SQLECmd.exe
+url=https://f001.backblazeb2.com/file/EricZimmermanTools/SQLECmd.zip
+group=0
+Name=SQLECmd
+AppName=SQLECmd
+ShortDesc=Find and process SQLite files according to your needs with maps!
+LongDesc=
+
+[Software25]
+exe=SrumECmd.exe
+url=https://f001.backblazeb2.com/file/EricZimmermanTools/SrumECmd.zip
+group=0
+Name=SrumECmd
+AppName=SrumECmd
+ShortDesc=Process SRUDB.dat and (optionally) SOFTWARE hive for network, process, and energy info!
+LongDesc=
+
+[Software26]
+exe=XWFIM\XWFIM.exe
+url=https://f001.backblazeb2.com/file/EricZimmermanTools/XWFIM.zip
+group=2
+Name=XWFIM
+AppName=XWFIM
+ShortDesc=X-Ways Forensics installation manager
+LongDesc=
+
+[Software27]
+exe=RLA.exe
+url=https://f001.backblazeb2.com/file/EricZimmermanTools/RLA.zip
+group=0
+Name=RLA
+AppName=RLA
+ShortDesc=Replay transaction logs and update Registry hives so they are no longer dirty. Useful when tools do not know how to handle transaction logs
+LongDesc=
+
+[Software28]
+exe=SumECmd.exe
+url=https://f001.backblazeb2.com/file/EricZimmermanTools/SumECmd.zip
+group=0
+Name=SumECmd
+AppName=SumECmd
+ShortDesc=Process Microsoft User Access Logs found under 'C:\Windows\System32\LogFiles\SUM'
+LongDesc=
+
+[Software29]
+exe=Get-ZimmermanTools.ps1
+url=https://f001.backblazeb2.com/file/EricZimmermanTools/Get-ZimmermanTools.zip
+group=2
+Name=Get-ZimmermanTools
+AppName=Get-ZimmermanTools
+ShortDesc=PowerShell script to auto discover and update ZimmermanTools
+LongDesc=
+
+[Software30]
+exe=Get-ZimmermanTools.cmd
+url=https://raw.githubusercontent.com/tjuuljensen/ride-windows/master/components/files/Get-ZimmermanTools.cmd
+group=2
+Name=Get-ZimmermanTools
+AppName=Get-ZimmermanTools
+ShortDesc=Start Get-ZimmermanTools PowerShell update script
+LongDesc=
+
+[Software31]
+exe=../kape/kape.exe
+url=https://www.kroll.com/en/services/cyber-risk/incident-response-litigation-support/kroll-artifact-parser-extractor-kape
+group=2
+Name=KAPE
+AppName=KAPE
+ShortDesc=Kroll Artifact Parser/Extractor: Flexible, high speed collection of files as well as processing of files. Many many features
+LongDesc=
+
+[Software32]
+exe=../kape/gkape.exe
+url=https://www.kroll.com/en/services/cyber-risk/incident-response-litigation-support/kroll-artifact-parser-extractor-kape
+group=2
+Name=gKAPE
+AppName=gKAPE
+ShortDesc=GUI for Kroll Artifact Parser/Extractor: Flexible, high speed collection of files as well as processing of files.
+LongDesc=
+
+[Software33]
+exe=../kape/Get-KAPEUpdate.ps1
+url=https://www.kroll.com/en/services/cyber-risk/incident-response-litigation-support/kroll-artifact-parser-extractor-kape
+group=2
+Name=Get-KAPEUpdate
+AppName=Get-KAPEUpdate
+ShortDesc=Update KAPE using PowerShell
+LongDesc=
+
+[Software34]
+exe=../kape/Get-KAPEUpdate.cmd
+url=https://raw.githubusercontent.com/tjuuljensen/ride-windows/master/components/files/Get-KAPEUpdate.cmd
+group=2
+Name=Get-KAPEUpdate
+AppName=Get-KAPEUpdate
+ShortDesc=Start KAPE PowerShell update script
 LongDesc=
