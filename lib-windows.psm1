@@ -6163,7 +6163,7 @@ function InstallVolatility3{
   $repo="volatility3"
   $Url = "https://github.com/$author/$repo"
   $PageLinks =  (Invoke-WebRequest -UseBasicParsing -Uri $Url ).links 
-  $SymbolLinks = ($PageLinks | Where-Object { $_ -Like "*symbol*" }).href  
+  $SymbolLinks = ($PageLinks | Where-Object { $_ -Like "*symbols*" }).href  
 
   if (-not $SymbolLinks) {
     Write-Output "Error: Symbol tables not found"
@@ -6178,12 +6178,13 @@ function InstallVolatility3{
 
   # Check if repo folder exists and delete it if it does
   $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
-  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $repo
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
   if (Test-Path -Path $SoftwareFolderFullName) {
     Remove-Item -Path $SoftwareFolderFullName -Recurse -Force
   }
 
   # clone git repo
+  Set-Location $BootstrapFolder
   Start-Process git.exe -ArgumentList  "clone $Url" -NoNewWindow -wait
   
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
@@ -6211,13 +6212,17 @@ function InstallVolatility3{
     break
   } else { 
     # The Python folder exist - check if it is in environment variable
-    if (! ($env:path -match "$PythonFolder")) { 
+    $PythonFolderInPath = $env:path -split ";" | Where-Object { $_ -eq $PythonFolder }
+    if ($null -eq $PythonFolderInPath ) { 
       # Python is not in path - adding
       $PythonScripts = Join-Path -Path $PythonFolder -ChildPath "Scripts"
       $env:Path = "$PythonScripts;$PythonFolder;" + $env:Path
     }
   }
-  pip3 install -r requirements.txt       # pip3 install -r requirements-minimal.txt
+  $CommandLineOptions = "setup.py build"
+  Start-Process python.exe -ArgumentList $CommandLineOptions -NoNewWindow -Wait
+  $CommandLineOptions = "setup.py install"
+  Start-Process python.exe -ArgumentList $CommandLineOptions -NoNewWindow -Wait
   
   # Copy to tools folder
   Set-Location $BootstrapFolder
@@ -7000,7 +7005,7 @@ function ReplaceDefaultWallpapers{
     # Copy the single file found in wallpaper source path to new wallpaper file
     $SingleFileFoundName = (Get-ChildItem $WallPprSourcePath\* -Include ('*.png','*.jpg')).FullName
     Copy-Item "$SingleFileFoundName" "$WallPprPath4k" -Recurse -Force | Out-Null
-    Copy-Item "$SingleFileFoundName" "$WallPprPath" -Recurse -Force | Out-Null
+    Copy-Item "$SingleFileFoundName" "$WallPaperPath" -Recurse -Force | Out-Null
   } else {  
     # If img0* files exist, copy images to wallpaper folder
     if (Test-Path -Path "$WallPprSourcePath\img0*") {
@@ -7010,8 +7015,8 @@ function ReplaceDefaultWallpapers{
   
     # default (light mode) wallpaper
     if (Test-Path -Path "$WallPprSourcePath\img0.jpg") {
-      Remove-Item $WallPprPath\img0.jpg -Force -ErrorAction SilentlyContinue
-      Copy-Item "$WallPprSourcePath\img0.jpg" $WallPprPath -Force
+      Remove-Item $WallPaperPath\img0.jpg -Force -ErrorAction SilentlyContinue
+      Copy-Item "$WallPprSourcePath\img0.jpg" $WallPaperPath -Force
     }
   
     # dark mode wallpaper 
@@ -7048,7 +7053,7 @@ function SetCustomLockScreen {
     Copy-Item "$LockScreenSourcePath\$LockScreenImage" $LockScreenImageFullName -Recurse -Force | Out-Null
   } elseif (Test-Path -Path "$PSScriptRoot\components\wallpaper\$LockScreenImageName") { # If a wallpaper exists, use this
     # Copy default wallpaper to lock screen
-    Copy-Item "$PSScriptRoot\components\wallpaper\$LockScreenImageName" $LockScreenImageFullName -Recurse -Force | Out-Null
+    Copy-Item "$PSScriptRoot\components\wallpaper\$LockScreenImageName" $LockScreenImageFullName -Force | Out-Null
   }
 
   # Get windows version and handle registry settings different whether it's pro or enterprise
