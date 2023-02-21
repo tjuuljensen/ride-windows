@@ -2,14 +2,9 @@
 
 ## Burndown list:
 
-### Priority A - Issues:
-- [ ] Missing Uninstall functions (msi & exe) 
-  * Office365 - https://support.microsoft.com/en-us/office/uninstall-office-automatically-9ad57b43-fa12-859a-9cf0-b694637b3b05
-- [ ] Java for Bloodhound, sharphound etc
-
-### Prority B - Improvements:
+### Priority A - Improvements:
+- [ ] Unload modules in ride.ps1 when closing (remove-module INCLUDED_MODULES_ARRAY)
 - [ ] Add-WiFi
-- [ ] Re-add firewall functions
 - [ ] Add PSScriptTools - https://github.com/jdhitsolutions/PSScriptTools
 - [ ] Adjust activation function (Check for OEM serial number & use for activation)
 - [ ] Backup Serial number before SysPrep
@@ -18,19 +13,18 @@
   * https://www.stefandingemanse.com/2022/08/27/install-language-packs-on-windows-10-11-the-easy-way/
   * Get-AppxPackage -AllUsers 'Microsoft.LanguageExperiencePacken-GB' | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 - [ ] Warn when enabling advanced Bitlocker PIN and current keyboard layout does not match installed  
-- [ ] Unload modules in ride.ps1 (remove-module INCLUDED_MODULES_ARRAY)
+- [ ] Bitlocker Recoverykey export to AD
 - [ ] Explorer view, default view 3 timestamps
-- [ ] Windows - screen capture - https://getsharex.com/downloads
 - [ ] Log overwrite (or rotate)
 - [ ] VSCode config - disable telemetry, install markdown plugin...
 - [ ] Stage Office365 deployment, so custom XML can be used for installation - https://config.office.com/deploymentsettings
-- [ ] Bitlocker Recoverykey export to AD
+
   * Export to AD: https://arconnetblog.wordpress.com/2018/09/04/retrieve-bitlocker-recovery-key/
 - [ ] Nucleus Filesystem recovery prompt (do not install on...)
 
-### Priority C - New Packages:
+### Priority B - New Packages:
+- [ ] Windows screen capture - https://getsharex.com/downloads
 - [ ] Slack
-- [ ] Retire Atom (deprecated))
 - [ ] CyberChef
   * https://github.com/thalesgroup-cert/FAST/blob/main/Softwares/CyberChef/CyberChef.py
 - [ ] Forensics plugins for Firefox
@@ -39,16 +33,16 @@
 - [ ] https://www.niwcatlantic.navy.mil/scap/
 - [ ] xmind
 - [ ] PowerToys
+- [ ] Windows Firewall Notifier - https://github.com/wokhan/WFN
 
 
-### Priority D - Under Consideration:
+### Priority C - Under Consideration:
 - [ ] PowerShell Whois
   * https://powershellisfun.com/2022/06/12/get-whois-information-using-powershell/
   * https://www.powershellgallery.com/packages/PSScriptTools/2.9.0/Content/functions%5CGet-WhoIs.ps1
 - [ ] AXIOM Free Tools (incl EDD)
   * https://support.magnetforensics.com/s/software-and-downloads?productTag=free-tools
 - [ ] FTK Imager
-  * https://accessdata.com/product-download-page
   * https://d1kpmuwb7gvu1i.cloudfront.net/AccessData_FTK_Imager_4.7.1.exe
   * https://d1kpmuwb7gvu1i.cloudfront.net/Imager/4_7_1/FTKImager_UserGuide.pdf
   * https://d1kpmuwb7gvu1i.cloudfront.net/Imager/Imager_4.7.1_RN.pdf
@@ -58,7 +52,6 @@
 &nbsp;
 
 ## Finished tasks:
-
 - [x] Vmware not installing when serials are loaded?
 - [X] ERROR: Cannot shutdown WinHttpAutoProxySvc (seen on Win11)
 - [x] Random errors on Mitec download (server side) - make 2nd run on error? - Mitec PDESetup.exe error
@@ -89,7 +82,11 @@
 - [x] Install yara & yara-python
 - [x] Fix nuget requirements (uninstall-package?!)
 - [x] Add Hashcat & hashcat.launcher - https://hashcat.net/forum/thread-9151.html / https://github.com/s77rt/hashcat.launcher/releases
- 
+- [x] Java for Bloodhound, sharphound etc
+- [x] Retire Atom (deprecated))
+- [x] Re-add firewall functions
+
+
 &nbsp;
 
 ## Roadmap tasks - v2:

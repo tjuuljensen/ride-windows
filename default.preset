@@ -51,7 +51,6 @@ InstallGit4Win                # RemoveGit4Win
 # InstallVSCode               # RemoveVSCode
 # InstallGPGwin               # 
 # InstallNotepadPlusPlus      # RemoveNotepadPlusPlus
-# InstallAtom                 # RemoveAtom
 GetSysmonSwiftXML             # GetSysmonOlafXML
 InstallSysmon64               # RemoveSysmon64
 # InstallVMwareWorkstation    # RemoveVMwareWorkstation
