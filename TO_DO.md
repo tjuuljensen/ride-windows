@@ -14,12 +14,11 @@
   * Get-AppxPackage -AllUsers 'Microsoft.LanguageExperiencePacken-GB' | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 - [ ] Warn when enabling advanced Bitlocker PIN and current keyboard layout does not match installed  
 - [ ] Bitlocker Recoverykey export to AD
+  * Export to AD: https://arconnetblog.wordpress.com/2018/09/04/retrieve-bitlocker-recovery-key/
 - [ ] Explorer view, default view 3 timestamps
 - [ ] Log overwrite (or rotate)
 - [ ] VSCode config - disable telemetry, install markdown plugin...
 - [ ] Stage Office365 deployment, so custom XML can be used for installation - https://config.office.com/deploymentsettings
-
-  * Export to AD: https://arconnetblog.wordpress.com/2018/09/04/retrieve-bitlocker-recovery-key/
 - [ ] Nucleus Filesystem recovery prompt (do not install on...)
 
 ### Priority B - New Packages:
