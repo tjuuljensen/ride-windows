@@ -137,6 +137,7 @@ CreateChromePreferenceFile    # RemoveChromePreferenceFile
 # InstallVolatility3          # 
 # InstallPartDiagParser       # RemovePartDiagParser
 # InstallGglCookieCruncher    # RemoveGglCookieCruncher
+# InstallSigma                # RemoveSigma
 
 ### Offensive Tools ###
 # InstallHashcat              # RemoveHashcat
