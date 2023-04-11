@@ -298,7 +298,7 @@ ShortDesc=Start Get-ZimmermanTools PowerShell update script
 LongDesc=
 
 [Software31]
-exe=../kape/kape.exe
+exe=..\kape\kape.exe
 url=https://www.kroll.com/en/services/cyber-risk/incident-response-litigation-support/kroll-artifact-parser-extractor-kape
 group=2
 Name=KAPE
@@ -307,7 +307,7 @@ ShortDesc=Kroll Artifact Parser/Extractor: Flexible, high speed collection of fi
 LongDesc=
 
 [Software32]
-exe=../kape/gkape.exe
+exe=..\kape\gkape.exe
 url=https://www.kroll.com/en/services/cyber-risk/incident-response-litigation-support/kroll-artifact-parser-extractor-kape
 group=2
 Name=gKAPE
@@ -316,7 +316,7 @@ ShortDesc=GUI for Kroll Artifact Parser/Extractor: Flexible, high speed collecti
 LongDesc=
 
 [Software33]
-exe=../kape/Get-KAPEUpdate.ps1
+exe=..\kape\Get-KAPEUpdate.ps1
 url=https://www.kroll.com/en/services/cyber-risk/incident-response-litigation-support/kroll-artifact-parser-extractor-kape
 group=2
 Name=Get-KAPEUpdate
@@ -325,7 +325,7 @@ ShortDesc=Update KAPE using PowerShell
 LongDesc=
 
 [Software34]
-exe=../kape/Get-KAPEUpdate.cmd
+exe=..\kape\Get-KAPEUpdate.cmd
 url=https://raw.githubusercontent.com/tjuuljensen/ride-windows/master/components/files/Get-KAPEUpdate.cmd
 group=2
 Name=Get-KAPEUpdate

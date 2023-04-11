@@ -22,6 +22,7 @@
 - [ ] Nucleus Filesystem recovery prompt (do not install on...)
 
 ### Priority B - New Packages:
+- [ ] Add: Balena Etcher - https://www.balena.io/etcher#download-etcher
 - [ ] Windows screen capture - https://getsharex.com/downloads
 - [ ] Slack
 - [ ] CyberChef
