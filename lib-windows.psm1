@@ -3882,9 +3882,110 @@ function InstallYara {
   }
 }
 
+
 function RemoveYara {
   Write-Output "###"
   $SoftwareName = "Yara"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
+
+
+function InstallCaffeine {
+  Write-Output "###"
+  $SoftwareName = "Caffeine"
+  Write-Output "Get $SoftwareName..."
+
+  $FullDownloadURL = "https://www.zhornsoftware.co.uk/caffeine/caffeine.zip"
+  
+  if (-not $FullDownloadURL) {
+  Write-Output "Error: $SoftwareName not found"
+  return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+  New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+  New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = "$SoftwareName.zip"
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Invoke-WebRequest -Uri $FullDownloadURL -OutFile $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Copy to tools folder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+
+    # Unzip
+    $NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
+    Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
+    Remove-Item -Path $NewFileFullName -ErrorAction Ignore
+    
+    # If directory is nested, move contents one directory up
+    $SubPath = Get-ChildItem $NewSoftwareFolderFullName -Name 
+    if ($SubPath.count -eq 1) {
+      $FullSubPath =Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
+      $FolderIsNested = (Get-ChildItem -Path "$NewSoftwareFolderFullName" -Directory).count -eq (Get-ChildItem -Path "$NewSoftwareFolderFullName" ).count
+      if ($FolderIsNested) {
+        Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $NewSoftwareFolderFullName
+        Remove-Item -Path $FullSubPath -ErrorAction SilentlyContinue -Recurse -Force
+      }  
+    }
+    
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+
+  }
+}
+
+function RemoveCaffeine {
+  Write-Output "###"
+  $SoftwareName = "Caffeine"
   Write-Output "Removing $SoftwareName..."
   
   # Get software folder name
@@ -4318,7 +4419,7 @@ function InstallChainsaw{
   $SoftwareName = "chainsaw"
   Write-Output "Installing $SoftwareName..."
 
-  $author="countercept"
+  $author="WithSecureLabs"
   $repo="chainsaw"
   $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url

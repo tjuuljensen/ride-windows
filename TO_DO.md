@@ -34,6 +34,7 @@
 - [ ] xmind
 - [ ] PowerToys
 - [ ] Windows Firewall Notifier - https://github.com/wokhan/WFN
+- [ ] ADReplStatus https://github.com/ryanries/ADReplStatus
 
 
 ### Priority C - Under Consideration:
