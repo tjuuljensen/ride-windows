@@ -1,0 +1,1 @@
+@powershell.exe -NoProfile -ExecutionPolicy Bypass .\caffeine.ps1
