@@ -8380,6 +8380,20 @@ Function EnableAdminShares {
 	Remove-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" -Name "AutoShareWks" -ErrorAction SilentlyContinue
 }
 
+# Hide from computer browser service by not sending announcements to browsers on the domain. 
+Function DisableBrowserSvcView {
+  Write-Output "###"
+	Write-Output "Hiding from computer browser service..."
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" -Name "Hidden" -Type DWord -Value 1
+}
+
+# Show in computer browser service 
+Function EnableBrowserServiceView {
+  Write-Output "###"
+	Write-Output "Enabling implicit administrative shares..."
+	Remove-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" -Name "Hidden" -ErrorAction SilentlyContinue
+}
+
 # Disable Firewall
 Function DisableFirewall {
   Write-Output "###"

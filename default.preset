@@ -197,6 +197,7 @@ DisableUWPBackgroundApps        # EnableUWPBackgroundApps
 # SetUACLow                     # SetUACHigh
 # EnableSharingMappedDrives     # DisableSharingMappedDrives
 DisableAdminShares              # EnableAdminShares
+# DisableBrowserServiceView     # EnableBrowserServiceView
 # DisableFirewall               # EnableFirewall
 # HideDefenderTrayIcon          # ShowDefenderTrayIcon
 # DisableDefender               # EnableDefender
