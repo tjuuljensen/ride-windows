@@ -1,3 +1,25 @@
+# Disable WSUS updates on Domain networks - it will revert as soon as the computer is reconnected to the domain
+Function DisableWSUS {
+  Write-Output "###"
+  Write-Output "Disabling Windows Update over WSUS..."
+  Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "UseWUServer" -Type DWord -Value 0
+
+  If (Get-Service "wuauserv" -ErrorAction SilentlyContinue) {
+      Restart-Service "wuauserv" -WarningAction SilentlyContinue
+  }
+}
+
+# Enable WSUS updates on Domain networks 
+Function EnableWSUS {
+  Write-Output "###"
+  Write-Output "Enabling Windows Update over WSUS..."
+  Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "UseWUServer" -Type DWord -Value 1
+
+  If (Get-Service "wuauserv" -ErrorAction SilentlyContinue) {
+      Restart-Service "wuauserv" -WarningAction SilentlyContinue
+  }
+}
+
 # Enable Firewall on Domain networks
 Function EnableFirewallDomain {
   Write-Output "###"
