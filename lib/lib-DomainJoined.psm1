@@ -7,6 +7,10 @@ Function DisableWSUS {
   If (Get-Service "wuauserv" -ErrorAction SilentlyContinue) {
       Restart-Service "wuauserv" -WarningAction SilentlyContinue
   }
+  If (Get-Service "BITS" -ErrorAction SilentlyContinue) {
+    Restart-Service "BITS" -WarningAction SilentlyContinue
+  }
+ 
 }
 
 # Enable WSUS updates on Domain networks 
