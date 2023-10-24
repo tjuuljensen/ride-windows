@@ -62,6 +62,7 @@ InstallSysmon64               # RemoveSysmon64
 # InstallSignal               # 
 # InstallPython
 # InstallYara                 # RemoveYara
+# GetCyberChef                # RemoveCyberChef
 # InstallCaffeine             # RemoveCaffeine
 
 ### Office Apps ###

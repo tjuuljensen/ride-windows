@@ -3,6 +3,7 @@
 ## Burndown list:
 
 ### Priority A - Improvements:
+- [ ] Add git-lfs ad executable to script https://git-lfs.com/
 - [ ] Unload modules in ride.ps1 when closing (remove-module INCLUDED_MODULES_ARRAY)
 - [ ] Add-WiFi
 - [ ] Add PSScriptTools - https://github.com/jdhitsolutions/PSScriptTools
@@ -25,8 +26,7 @@
 - [ ] Add: Balena Etcher - https://www.balena.io/etcher#download-etcher
 - [ ] Windows screen capture - https://getsharex.com/downloads
 - [ ] Slack
-- [ ] CyberChef
-  * https://github.com/thalesgroup-cert/FAST/blob/main/Softwares/CyberChef/CyberChef.py
+- [x] CyberChef - https://github.com/gchq/CyberChef
 - [ ] Forensics plugins for Firefox
 - [ ] https://www.brimdata.io/download/
 - [ ] https://github.com/secdev/scapy
