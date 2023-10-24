@@ -32,6 +32,7 @@ Function RequireAdmin {
 }
 
 $tweaks = @()
+$ModulesIncluded = @()
 $PSCommandArgs = @()
 
 Function AddOrRemoveTweak($tweak) {
@@ -81,6 +82,8 @@ While ($i -lt $args.Length) {
 		$PSCommandArgs += "-include `"$include`""
 		# Import the included file as a module
 		Import-Module -Name $include -ErrorAction Stop
+		# Save module name in array to unload at script end
+		$ModulesIncluded += [System.IO.Path]::GetFileNameWithoutExtension("$include")
 	} ElseIf ($args[$i].ToLower() -eq "-preset") {
 		# Resolve full path to the preset file
 		$preset = Resolve-Path $args[++$i] -ErrorAction Stop
@@ -112,3 +115,6 @@ While ($i -lt $args.Length) {
 
 # Call the desired tweak functions
 $tweaks | ForEach-Object { Invoke-Expression $_ }
+
+# Unload loaded modules after execution of tweaks
+if ($ModulesIncluded.Length -gt 0 ) { $ModulesIncluded | ForEach-Object { Remove-Module -Name $_ -Force -ErrorAction Stop } }

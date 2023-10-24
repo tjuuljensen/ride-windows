@@ -3,8 +3,8 @@
 ## Burndown list:
 
 ### Priority A - Improvements:
-- [ ] Add git-lfs ad executable to script https://git-lfs.com/
-- [ ] Unload modules in ride.ps1 when closing (remove-module INCLUDED_MODULES_ARRAY)
+- [ ] Add git-lfs executable to script https://git-lfs.com/
+- [x] Unload modules in ride.ps1 when closing (remove-module INCLUDED_MODULES_ARRAY)
 - [ ] Add-WiFi
 - [ ] Add PSScriptTools - https://github.com/jdhitsolutions/PSScriptTools
 - [ ] Adjust activation function (Check for OEM serial number & use for activation)
@@ -35,7 +35,7 @@
 - [ ] PowerToys
 - [ ] Windows Firewall Notifier - https://github.com/wokhan/WFN
 - [ ] ADReplStatus https://github.com/ryanries/ADReplStatus
-
+- [ ] WinDirStat https://windirstat.net/download.html
 
 ### Priority C - Under Consideration:
 - [ ] PowerShell Whois
