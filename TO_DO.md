@@ -3,7 +3,7 @@
 ## Burndown list:
 
 ### Priority A - Improvements:
-- [ ] Add git-lfs executable to script https://git-lfs.com/
+- [x] Add git-lfs executable to script https://git-lfs.com/
 - [x] Unload modules in ride.ps1 when closing (remove-module INCLUDED_MODULES_ARRAY)
 - [ ] Add-WiFi
 - [ ] Add PSScriptTools - https://github.com/jdhitsolutions/PSScriptTools

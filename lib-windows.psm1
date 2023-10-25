@@ -867,6 +867,51 @@ function RunSysprepGeneralizeOOBE{
 ###### Install programs  ###
 ################################################################
 
+function InstallGitLFS{
+  Write-Output "###"
+  $SoftwareName = "Git-LFS"
+  Write-Output "Installing $SoftwareName..."
+
+  $author="git-lfs"
+  $repo="git-lfs"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*exe*" -and $_ -Like "*windows*" })
+  if (-not $FullDownloadURL) {
+	Write-Output "Error: $SoftwareName not found"
+	return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Install exe
+    $CommandLineOptions = "/SILENT /LOG"
+    Start-Process -FilePath $FileFullName -ArgumentList $CommandLineOptions -NoNewWindow -Wait
+    Write-Output "Installation done for $SoftwareName"
+  }
+}
+
+function RemoveGitLFS {
+  Import-Module PackageManagement
+  Write-Output "###"
+  Write-Output "Removing GitLFS..."
+  Uninstall-Package -InputObject ( Get-Package -Name "*Git LFS*" )
+}
+
 function InstallGit4Win{
   Write-Output "###"
   $SoftwareName = "Git4Win"
@@ -1184,7 +1229,6 @@ function GetSysmonOlafXML{
       $ToolsFolder = "\Tools"
     }
     
-
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
 	  New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
@@ -1239,7 +1283,6 @@ function InstallSysmon64{
     $ToolsFolder = "\Tools"
   }
   
-
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
 	  New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
@@ -1441,7 +1484,6 @@ function InstallNirsoftLauncher(){
         # Set default tools folder
         $ToolsFolder = "\Tools"
       }
-      
 
       # Create tools folder if not existing
       if (-not (Test-Path -Path $ToolsFolder)) {
@@ -1731,7 +1773,6 @@ function InstallNirsoftToolsX64(){
         $ToolsFolder = "\Tools"
       }
       
-
       # Create tools folder if not existing
       if (-not (Test-Path -Path $ToolsFolder)) {
       New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
@@ -1838,7 +1879,6 @@ function InstallJoeWare(){
       # Set default tools folder
       $ToolsFolder = "\Tools"
     }
-    
   
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
@@ -3656,7 +3696,6 @@ function InstallImageMagickPortable {
       # Set default tools folder
       $ToolsFolder = "\Tools"
     }
-    
 
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {

@@ -47,6 +47,7 @@ DisableMulticastDNS           # EnableMulticastDNS
 
 ### Install programs  ###
 Install7Zip                   # Remove7Zip
+# InstallGitLFS               # RemoveGitLFS
 InstallGit4Win                # RemoveGit4Win
 # InstallVSCode               # RemoveVSCode
 # InstallGPGwin               # 
