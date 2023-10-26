@@ -967,6 +967,87 @@ function RemoveGit4Win {
   Start-Process -FilePath $UninstallString -ArgumentList $AllArguments -NoNewWindow -Wait
 }
 
+function InstallPSScriptTools{
+  Write-Output "###"
+  $SoftwareName = "PSScriptTools"
+  Write-Output "Installing $SoftwareName..."
+
+  $author="jdhitsolutions"
+  $repo="PSScriptTools"
+  $Url = "https://github.com/$author/$repo"
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+    New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Check if repo folder exists and delete it if it does
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (Test-Path -Path $SoftwareFolderFullName) {
+    Remove-Item -Path $SoftwareFolderFullName -Recurse -Force
+  }
+
+  # Clone git repo
+  Set-Location $BootstrapFolder
+  Start-Process git.exe -ArgumentList  "clone $Url" -NoNewWindow -wait
+  
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+    Write-Output "Directory $SoftwareFolderFullName was not found. Exiting..."
+    return
+  }
+
+  # Copy to tools folder
+  Set-Location $BootstrapFolder
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+	  New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+	  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+  }
+
+}
+
+
+function RemovePSScriptTools {
+  Write-Output "###"
+  $SoftwareName = "PSScriptTools"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
+
+
 function InstallNotepadPlusPlus{
   Write-Output "###"
   $SoftwareName = "NotepadPlusPlus"

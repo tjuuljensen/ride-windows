@@ -49,6 +49,7 @@ DisableMulticastDNS           # EnableMulticastDNS
 Install7Zip                   # Remove7Zip
 # InstallGitLFS               # RemoveGitLFS
 InstallGit4Win                # RemoveGit4Win
+# InstallPSScriptTools        # RemovePSScriptTools
 # InstallVSCode               # RemoveVSCode
 # InstallGPGwin               # 
 # InstallNotepadPlusPlus      # RemoveNotepadPlusPlus
