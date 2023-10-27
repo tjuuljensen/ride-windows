@@ -3,10 +3,6 @@
 ## Burndown list:
 
 ### Priority A - Improvements:
-- [x] Add git-lfs executable to script https://git-lfs.com/
-- [x] Unload modules in ride.ps1 when closing (remove-module INCLUDED_MODULES_ARRAY)
-- [ ] Add-WiFi
-- [x] Add PSScriptTools - https://github.com/jdhitsolutions/PSScriptTools
 - [ ] Adjust activation function (Check for OEM serial number & use for activation)
 - [ ] Backup Serial number before SysPrep
 - [ ] Use High performance power schema on host machine when used as virtual host - https://winaero.com/how-to-change-power-plan-in-windows-11/
@@ -26,7 +22,6 @@
 - [ ] Add: Balena Etcher - https://www.balena.io/etcher#download-etcher
 - [ ] Windows screen capture - https://getsharex.com/downloads
 - [ ] Slack
-- [x] CyberChef - https://github.com/gchq/CyberChef
 - [ ] Forensics plugins for Firefox
 - [ ] https://www.brimdata.io/download/
 - [ ] https://github.com/secdev/scapy
@@ -53,6 +48,11 @@
 &nbsp;
 
 ## Finished tasks:
+- [x] CyberChef - https://github.com/gchq/CyberChef
+- [x] Add git-lfs executable to script https://git-lfs.com/
+- [x] Unload modules in ride.ps1 when closing (remove-module INCLUDED_MODULES_ARRAY)
+- [x] Add-WiFi
+- [x] Add PSScriptTools - https://github.com/jdhitsolutions/PSScriptTools
 - [x] Vmware not installing when serials are loaded?
 - [X] ERROR: Cannot shutdown WinHttpAutoProxySvc (seen on Win11)
 - [x] Random errors on Mitec download (server side) - make 2nd run on error? - Mitec PDESetup.exe error

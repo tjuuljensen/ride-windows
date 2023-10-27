@@ -2,7 +2,7 @@
 # default config file for Windows
 # preset for Windowns 10/11, Server 2016 & Server 2019
 # Author: Torsten Juul-Jensen
-# Version: v1.4.1, 2022-01-27
+# Version: v2.5.0, 2023-10-27
 # Source: https://github.com/tjuuljensen/ride-windows
 #######
 
@@ -12,6 +12,7 @@ RequireAdmin
 ### Windows configuration ###
 CreateNewLocalAdmin
 DisableBuiltinAdministrator   # MakeLoggedOnUserAdmin      # MakeLoggedOnUserNoAdmin
+# AddWifi
 # DisableWindowsStoreApp      # EnableWindowsStoreApp
 DisableFriendlyURLFormat      # UnconfigureFriendlyURLFormat
 EnableRunAsInStartMenu        # DisableRunAsInStartMenu

@@ -1,7 +1,7 @@
-# Win 10 / Server 2016 / Server 2019 Setup Script
+# Windows 10 / Windows 11 / Server 2016 / Server 2019 Setup Script
 # Author: Torsten Juul-Jensen
-# Version: v2.1, 2021-12-25
-# Source: https://github.com/tjuuljensen/ride-windows/lib-win-config.psm1
+# Version: v2.5, 2023-10-27
+# Source: https://github.com/tjuuljensen/ride-windows/lib-windows.psm1
 #
 
 ################################################################
@@ -109,6 +109,81 @@ function MakeLoggedOnUserNoAdmin {
   }
   
 }
+
+function AddWiFi {
+  # Add Wifi profiles based on data from INI file 
+  # Original source: https://www.cyberdrain.com/automating-with-powershell-deploying-wifi-profiles/
+  # 
+  # If PSK password is not defined in INI file, or if INI line contains "[prompt]", password will be prompted at run time
+
+  # Reference to variable names SSID, SSID1, ... defined in INI file [WiFi] section
+  $SSIDvars = @("RIDEVAR-WiFi-SSID","RIDEVAR-WiFi-SSID1","RIDEVAR-WiFi-SSID2")
+  $SSIDpwdvars = @("RIDEVAR-WiFi-SSIDpwd","RIDEVAR-WiFi-SSIDpwd1","RIDEVAR-WiFi-SSIDpwd2")
+
+  $i = 0
+  foreach ($SSIDname in $SSIDvars) {
+
+    # Get SSID name and PSK from environment variables
+    $SSID = [Environment]::GetEnvironmentVariable($SSIDname, "Process")
+    if ($SSID) {
+      $PSK = [Environment]::GetEnvironmentVariable($SSIDpwdvars[$i], "Process")
+      if (-not $PSK -or "[prompt]" -eq $PSK.tolower) {
+        # Read PSK from console
+        if ($PSVersionTable.PSVersion -ge [version]"7.1") {
+          $PSK = Read-Host -MaskInput "Enter password for SSID ${SSID} "
+          }
+        else {
+          $PSK = Read-Host "Enter password for SSID ${SSID} "
+          }
+        }
+        
+        # Create XML file with WiFi data to import
+        $guid = New-Guid
+        $HexArray = $SSID.ToCharArray() | foreach-object { [System.String]::Format("{0:X}", [System.Convert]::ToUInt32($_)) }
+			  $HexSSID = $HexArray -join ""
+@"
+<?xml version="1.0"?>
+<WLANProfile xmlns="http://www.microsoft.com/networking/WLAN/profile/v1">
+	<name>$($SSID)</name>
+	<SSIDConfig>
+		<SSID>
+			<hex>$($HexSSID)</hex>
+			<name>$($SSID)</name>
+		</SSID>
+	</SSIDConfig>
+	<connectionType>ESS</connectionType>
+	<connectionMode>auto</connectionMode>
+	<MSM>
+		<security>
+			<authEncryption>
+				<authentication>WPA2PSK</authentication>
+				<encryption>AES</encryption>
+				<useOneX>false</useOneX>
+			</authEncryption>
+			<sharedKey>
+				<keyType>passPhrase</keyType>
+				<protected>false</protected>
+				<keyMaterial>$($PSK)</keyMaterial>
+			</sharedKey>
+		</security>
+	</MSM>
+	<MacRandomization xmlns="http://www.microsoft.com/networking/WLAN/profile/v3">
+		<enableRandomization>false</enableRandomization>
+		<randomizationSeed>1451755948</randomizationSeed>
+	</MacRandomization>
+</WLANProfile>
+"@ 			| out-file "$($ENV:TEMP)\$guid.SSID"
+		
+        # Add WiFi profile
+        netsh wlan add profile filename="$($ENV:TEMP)\$guid.SSID" user=all
+        
+        # Remove temp file
+        remove-item "$($ENV:TEMP)\$guid.SSID" -Force
+    }
+  $i = $i +1  
+  }
+}
+
 
 function DisableWindowsStoreApp{
   Write-Output "###"
