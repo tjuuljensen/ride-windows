@@ -14,6 +14,7 @@ function StopComputer {
 
 function ActivateWindows{
   Write-Output "###"
+  Write-Output "Activating Windows from INI file/Environment variable..."
 
   # Determine variable name holding Windows License Key - loaded from ini file
   if (([Environment]::OSVersion.Version).Major -eq "10") { # Either Windows 10 or 11
@@ -38,6 +39,119 @@ function ActivateWindows{
     $service.RefreshLicenseStatus()
   }
 }
+
+
+function ActivateWindowsOEM{
+  Write-Output "###"
+  Write-Output "Activating Windows with OEM license in BIOS..."
+
+  # implement decoder
+  $code = @'
+// original implementation: https://github.com/mrpeardotnet/WinProdKeyFinder
+using System;
+using System.Collections;
+
+  public static class Decoder
+  {
+        public static string DecodeProductKeyWin7(byte[] digitalProductId)
+        {
+            const int keyStartIndex = 52;
+            const int keyEndIndex = keyStartIndex + 15;
+            var digits = new[]
+            {
+                'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'M', 'P', 'Q', 'R',
+                'T', 'V', 'W', 'X', 'Y', '2', '3', '4', '6', '7', '8', '9',
+            };
+            const int decodeLength = 29;
+            const int decodeStringLength = 15;
+            var decodedChars = new char[decodeLength];
+            var hexPid = new ArrayList();
+            for (var i = keyStartIndex; i <= keyEndIndex; i++)
+            {
+                hexPid.Add(digitalProductId[i]);
+            }
+            for (var i = decodeLength - 1; i >= 0; i--)
+            {
+                // Every sixth char is a separator.
+                if ((i + 1) % 6 == 0)
+                {
+                    decodedChars[i] = '-';
+                }
+                else
+                {
+                    // Do the actual decoding.
+                    var digitMapIndex = 0;
+                    for (var j = decodeStringLength - 1; j >= 0; j--)
+                    {
+                        var byteValue = (digitMapIndex << 8) | (byte)hexPid[j];
+                        hexPid[j] = (byte)(byteValue / 24);
+                        digitMapIndex = byteValue % 24;
+                        decodedChars[i] = digits[digitMapIndex];
+                    }
+                }
+            }
+            return new string(decodedChars);
+        }
+
+        public static string DecodeProductKey(byte[] digitalProductId)
+        {
+            var key = String.Empty;
+            const int keyOffset = 52;
+            var isWin8 = (byte)((digitalProductId[66] / 6) & 1);
+            digitalProductId[66] = (byte)((digitalProductId[66] & 0xf7) | (isWin8 & 2) * 4);
+
+            const string digits = "BCDFGHJKMPQRTVWXY2346789";
+            var last = 0;
+            for (var i = 24; i >= 0; i--)
+            {
+                var current = 0;
+                for (var j = 14; j >= 0; j--)
+                {
+                    current = current*256;
+                    current = digitalProductId[j + keyOffset] + current;
+                    digitalProductId[j + keyOffset] = (byte)(current/24);
+                    current = current%24;
+                    last = current;
+                }
+                key = digits[current] + key;
+            }
+
+            var keypart1 = key.Substring(1, last);
+            var keypart2 = key.Substring(last + 1, key.Length - (last + 1));
+            key = keypart1 + "N" + keypart2;
+
+            for (var i = 5; i < key.Length; i += 6)
+            {
+                key = key.Insert(i, "-");
+            }
+
+            return key;
+        }
+   }
+'@
+  # compile c#:
+  Add-Type -TypeDefinition $code
+ 
+  # get raw product key:
+  $digitalId = (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name DigitalProductId).DigitalProductId
+  
+  # use static c# method to get LicenseKey
+  $LicenseKey = [Decoder]::DecodeProductKey($digitalId)
+
+  # Install licence key 
+  if ( $null -ne $LicenseKey ) {
+    Write-Output "OEM license: $LicenseKey"
+    $computer = Get-Content Env:ComputerName
+
+    $service = Get-WmiObject -Query "select * from SoftwareLicensingService" -ComputerName $computer
+    $service.InstallProductKey($LicenseKey)
+    $service.RefreshLicenseStatus()
+    }
+  else {
+    Write-Output "OEM license not found..."
+  }
+}
+
 
 function CreateNewLocalAdmin{
   Write-Output "###"
@@ -272,6 +386,41 @@ function DisableMemoryIntegrity{
   Write-Output "Disabling Memory Integrity..."
 	Remove-ItemProperty -Path  "HKLM:\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios" -Name "HypervisorEnforcedCodeIntegrity" -ErrorAction SilentlyContinue
 }
+
+function InstallLanguagePackGB{
+  $LanguagePack="en-GB"
+  Write-Output "###"
+  Write-Output "Installing LanguagePack $LanguagePack"
+
+  Install-Language $LanguagePack 
+  
+}
+
+function InstallLanguagePackDK{
+  $LanguagePack="da-DK"
+  Write-Output "###"
+  Write-Output "Installing LanguagePack $LanguagePack"
+
+  Install-Language $LanguagePack 
+  
+}
+
+function InstallLanguagePackCustom{
+  # This function reads from environment variables defined in INI file
+  $LanguagePack = [Environment]::GetEnvironmentVariable("RIDEVAR-Language-LanguagePack", "Process")
+  Write-Output "###"
+  Write-Output "Installing LanguagePack $LanguagePack"
+
+  if ( $LanguagePack -ne $null ) {
+    Install-Language $LanguagePack 
+  } 
+  else {
+    Write-Host "No LanguagePack specified. Check command line options or LanguagePack value in [Language] section of INI file."
+  }
+  
+
+}
+
 
 function SetRegionalSettings{
   Write-Output "###"

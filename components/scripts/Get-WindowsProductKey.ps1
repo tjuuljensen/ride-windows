@@ -110,3 +110,5 @@ using System.Collections;
     [Decoder]::DecodeProductKey($digitalId)
   }
 }
+
+return Get-WindowsProductKey

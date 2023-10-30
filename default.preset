@@ -10,6 +10,7 @@
 RequireAdmin
 
 ### Windows configuration ###
+# ActivateWindows             # ActivateWindowsOEM
 CreateNewLocalAdmin
 DisableBuiltinAdministrator   # MakeLoggedOnUserAdmin      # MakeLoggedOnUserNoAdmin
 # AddWifi

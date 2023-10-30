@@ -3,12 +3,8 @@
 ## Burndown list:
 
 ### Priority A - Improvements:
-- [ ] Adjust activation function (Check for OEM serial number & use for activation)
 - [ ] Backup Serial number before SysPrep
 - [ ] Use High performance power schema on host machine when used as virtual host - https://winaero.com/how-to-change-power-plan-in-windows-11/
-- [ ] InstallLanguagePacks
-  * https://www.stefandingemanse.com/2022/08/27/install-language-packs-on-windows-10-11-the-easy-way/
-  * Get-AppxPackage -AllUsers 'Microsoft.LanguageExperiencePacken-GB' | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 - [ ] Warn when enabling advanced Bitlocker PIN and current keyboard layout does not match installed  
 - [ ] Bitlocker Recoverykey export to AD
   * Export to AD: https://arconnetblog.wordpress.com/2018/09/04/retrieve-bitlocker-recovery-key/
@@ -48,6 +44,10 @@
 &nbsp;
 
 ## Finished tasks:
+- [x] InstallLanguagePacks
+  * https://www.stefandingemanse.com/2022/08/27/install-language-packs-on-windows-10-11-the-easy-way/
+  * Get-AppxPackage -AllUsers 'Microsoft.LanguageExperiencePacken-GB' | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+- [x] Adjust activation function (Check for OEM serial number & use for activation)
 - [x] CyberChef - https://github.com/gchq/CyberChef
 - [x] Add git-lfs executable to script https://git-lfs.com/
 - [x] Unload modules in ride.ps1 when closing (remove-module INCLUDED_MODULES_ARRAY)
