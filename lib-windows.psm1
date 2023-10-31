@@ -626,6 +626,32 @@ Function DisableLockOutThreshold {
 function EnableEnhancedPIN{
   Write-Output "###"
   Write-Output "Enabling Enhanced PIN..."
+
+  # Verify if current keyboard matches installed UI keyboard.
+
+  # Get Installed LCID (Language Culture ID)
+  # A reference list of LCID values can be found here: https://limagito.com/list-of-locale-id-lcid-values/
+  $InstalledUICulture = [CultureInfo]::InstalledUICulture
+
+  # Get languagelist
+  $LanguageList = Get-WinUserLanguageList
+
+  # Start from top of LanguageList and look for first InputMethodTips entry and extract keyboard LCID
+  foreach ( $LanguageConfig in $LanguageList) {
+    if ( -not "" -eq $LanguageConfig.InputMethodTips ) 
+      { $CurrentUIKeyboard = $LanguageConfig.InputMethodTips.Substring(9,4)
+        break }
+  }
+  # Check if current keyboard corresponds to installed UI keyboard
+  If ($CurrentUIKeyboard -ne $InstalledUICulture) {
+    Write-Host  "WARNING! " -NoNewline -ForegroundColor red
+    Write-Output "Current keyboard setting does not match installed (OS) language."
+    Write-Output "Bitlocker enhanced PIN will always use original installed keyboard!"
+    Write-Output "`nPress any key to continue..."
+	  [Console]::ReadKey($true) | Out-Null
+  }
+  
+  # Set registry keys
   If (!(Test-Path "HKLM:\Software\Policies\Microsoft\FVE")) {
     New-Item -Path "HKLM:\Software\Policies\Microsoft\FVE" -Force | Out-Null
   }
