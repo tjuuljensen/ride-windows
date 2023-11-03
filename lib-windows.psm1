@@ -499,8 +499,10 @@ function CopyRegionSettingsNewUser {
 }
 
 function SetPowerSchemeBalanced{
+  Write-Output "###"
   # Define target scheme
   $PowerScheme="Balanced"
+  Write-Output "Setting Power Scheme $PowerScheme..."
 
   # Define default (known) power schemes
   $DefaultPowerSchemes=('Balanced',"Power Saver","High Performance","Ultimate Performance")
@@ -541,9 +543,12 @@ function SetPowerSchemeBalanced{
 }
 
 function SetPowerSchemeHighPerf{
+  Write-Output "###"
   # Define target scheme
   $PowerScheme="High Performance"
-
+  Write-Output "Setting Power Scheme $PowerScheme..."
+  
+  
   # Define default (known) power schemes
   $DefaultPowerSchemes=('Balanced',"Power Saver","High Performance","Ultimate Performance")
 
@@ -583,8 +588,10 @@ function SetPowerSchemeHighPerf{
 }
 
 function SetPowerSchemeUltimate{
+  Write-Output "###"
   # Define target scheme
   $PowerScheme="Ultimate Performance"
+  Write-Output "Setting Power Scheme $PowerScheme..."
 
   # Define default (known) power schemes
   $DefaultPowerSchemes=('Balanced',"Power Saver","High Performance","Ultimate Performance")
@@ -622,6 +629,61 @@ function SetPowerSchemeUltimate{
       Write-Output "The power scheme ""$PowerScheme"" was not found on this system"
       Exit 1
   }
+}
+
+function SetPwrSchemeDesktopMenu{
+
+  Write-Output "###"
+  Write-Output "Adding power scheme desktop menu option..."
+  # Define default (known) power schemes
+  $DefaultPowerSchemes=('Balanced',"Power Saver","High Performance","Ultimate Performance")
+  
+  # Get Power schemes on this device
+  $DevicePowerSchemes = powercfg.exe /list
+  
+  # Create menu item in desktop context menu
+  If (!(Test-Path "HKCR:")) {
+		New-PSDrive -Name "HKCR" -PSProvider "Registry" -Root "HKEY_CLASSES_ROOT" | Out-Null
+	}
+
+  If (!(Test-Path "HKCR:\DesktopBackground\Shell\Switch Power Plan")) {
+    New-Item -Path "HKCR:\DesktopBackground\Shell\Switch Power Plan" | Out-Null
+    }
+  
+  Set-ItemProperty -Path "HKCR:\DesktopBackground\Shell\Switch Power Plan" -Name "Icon" -Type String -Value "powercpl.dll"
+  Set-ItemProperty -Path "HKCR:\DesktopBackground\Shell\Switch Power Plan" -Name "MUIVerb" -Type String -Value "Switch Power Plan"
+  Set-ItemProperty -Path "HKCR:\DesktopBackground\Shell\Switch Power Plan" -Name "Position" -Type String -Value "Top"
+  Set-ItemProperty -Path "HKCR:\DesktopBackground\Shell\Switch Power Plan" -Name "SubCommands" -Type String -Value ""
+  
+  $DefaultPowerSchemes | ForEach-Object {
+    # MUST start with a test to see if this power scheme exist on the computer
+    If ( ($DevicePowerSchemes | Out-String) -match $_ ) {
+          Write-Output "Adding Power Scheme $_ to menu..."
+          $GUIDRegEx = "(?<TargetGUID>[A-Fa-f0-9]{8}-(?:[A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}).*(\b$_\b)"
+          If ( ($DevicePowerSchemes | Out-String) -match $GUIDRegEx ) {
+              If (!(Test-Path "HKCR:\DesktopBackground\Shell\Switch Power Plan\Shell\$_")) {
+                  New-Item -Path "HKCR:\DesktopBackground\Shell\Switch Power Plan\Shell\$_" -force | Out-Null
+                  }
+              
+              Set-ItemProperty -Path "HKCR:\DesktopBackground\Shell\Switch Power Plan\Shell\$_" -Name "Icon" -Type String -Value "powercpl.dll"
+              Set-ItemProperty -Path "HKCR:\DesktopBackground\Shell\Switch Power Plan\Shell\$_" -Name "MUIVerb" -Type String -Value "$_"
+              
+              If (!(Test-Path "HKCR:\DesktopBackground\Shell\Switch Power Plan\Shell\$_\Command")) {
+                  New-Item -Path "HKCR:\DesktopBackground\Shell\Switch Power Plan\Shell\$_\Command" -force | Out-Null
+                  }
+              Set-ItemProperty -Path "HKCR:\DesktopBackground\Shell\Switch Power Plan\Shell\$_\Command" -Name "(Default)" -Type String -Value "powercfg.exe -setactive $matches[""TargetGUID""]"
+          }
+    }
+    }
+  }
+
+function RemovePwrSchemeDesktopMenu{
+  Write-Output "###"
+  Write-Output "Removing power scheme desktop menu option..."
+  If (!(Test-Path "HKCR:")) {
+		New-PSDrive -Name "HKCR" -PSProvider "Registry" -Root "HKEY_CLASSES_ROOT" | Out-Null
+	}
+  Remove-Item -Path "HKCR:\DesktopBackground\Shell\Switch Power Plan" -Recurse -ErrorAction SilentlyContinue
 }
 
 ################################################################

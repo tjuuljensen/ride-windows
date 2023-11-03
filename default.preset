@@ -22,6 +22,7 @@ EnableRunAsInStartMenu        # DisableRunAsInStartMenu
 SetRegionalSettings
 CopyRegionSettingsToAll       # CopyRegionSettingsWelcome   # CopyRegionSettingsNewUser
 # SetPowerSchemeBalanced      # SetPowerSchemeHighPerf      # SetPowerSchemeUltimate
+# SetPwrSchemeDesktopMenu     # RemovePwrSchemeDesktopMenu
 
 ### Privacy configurations  ###
 DisableInkingAndTypingData    # EnableInkingAndTypingData
