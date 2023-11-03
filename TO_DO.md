@@ -3,11 +3,8 @@
 ## Burndown list:
 
 ### Priority A - Improvements:
-- [ ] Backup Serial number before SysPrep
-- [ ] Use High performance power schema on host machine when used as virtual host - https://winaero.com/how-to-change-power-plan-in-windows-11/
 - [ ] Bitlocker Recoverykey export to AD
   * Export to AD: https://arconnetblog.wordpress.com/2018/09/04/retrieve-bitlocker-recovery-key/
-- [ ] Explorer view, default view 3 timestamps
 - [ ] Log overwrite (or rotate)
 - [ ] VSCode config - disable telemetry, install markdown plugin...
 - [ ] Stage Office365 deployment, so custom XML can be used for installation - https://config.office.com/deploymentsettings
@@ -17,7 +14,7 @@
 - [ ] Add: Balena Etcher - https://www.balena.io/etcher#download-etcher
 - [ ] Windows screen capture - https://getsharex.com/downloads
 - [ ] Slack
-- [ ] Forensics plugins for Firefox
+- [ ] Forensic plugins for Firefox
 - [ ] https://www.brimdata.io/download/
 - [ ] https://github.com/secdev/scapy
 - [ ] https://www.niwcatlantic.navy.mil/scap/
@@ -38,11 +35,18 @@
   * https://d1kpmuwb7gvu1i.cloudfront.net/Imager/4_7_1/FTKImager_UserGuide.pdf
   * https://d1kpmuwb7gvu1i.cloudfront.net/Imager/Imager_4.7.1_RN.pdf
 - [ ] Windows - pwd cracking - https://kraken.nswardh.com/home
-
+- [ ] Explorer view, default view 3 timestamps (pretty easy in GUI)
+  * https://github.com/LesFerch/WinSetView/tree/main
+  * https://stackoverflow.com/questions/65166834/enforce-list-view-on-all-windows-explorer-views-including-all-media-folders
+  * https://stackoverflow.com/questions/4491999/configure-windows-explorer-folder-options-through-powershell
 
 &nbsp;
 
 ## Finished tasks:
+- [x] Backup Serial number before SysPrep
+- [x] Use High performance power schema on host machine when used as virtual host
+  * https://winaero.com/how-to-change-power-plan-in-windows-11/
+  * https://powers-hell.com/2018/12/10/control-advanced-power-settings-with-powercfg-powershell/
 - [x] Warn when enabling advanced Bitlocker PIN and current keyboard layout does not match installed 
 - [x] InstallLanguagePacks
   * https://www.stefandingemanse.com/2022/08/27/install-language-packs-on-windows-10-11-the-easy-way/

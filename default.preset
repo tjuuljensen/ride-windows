@@ -21,6 +21,7 @@ EnableRunAsInStartMenu        # DisableRunAsInStartMenu
 # EnableMemoryIntegrity       # DisableMemoryIntegrity
 SetRegionalSettings
 CopyRegionSettingsToAll       # CopyRegionSettingsWelcome   # CopyRegionSettingsNewUser
+# SetPowerSchemeBalanced      # SetPowerSchemeHighPerf      # SetPowerSchemeUltimate
 
 ### Privacy configurations  ###
 DisableInkingAndTypingData    # EnableInkingAndTypingData
@@ -412,6 +413,7 @@ CleanPublicDesktop
 # GetWindowsUpdatesWithPwsh
 # CleanLocalWindowsUpdateCache
 # RunDiskCleanup
+# GetWindowsProductKey
 # RunSysprepGeneralizeOOBE
 
 ### Other Functions ###

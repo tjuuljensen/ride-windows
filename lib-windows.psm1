@@ -498,6 +498,131 @@ function CopyRegionSettingsNewUser {
   }
 }
 
+function SetPowerSchemeBalanced{
+  # Define target scheme
+  $PowerScheme="Balanced"
+
+  # Define default (known) power schemes
+  $DefaultPowerSchemes=('Balanced',"Power Saver","High Performance","Ultimate Performance")
+
+  # Get Power schemes on this device
+  $DevicePowerSchemes = powercfg.exe /list
+
+  # Regex to identify power scheme GUID 
+  $GUIDRegEx = "(?<TargetGUID>[A-Fa-f0-9]{8}-(?:[A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}).*(\b$PowerScheme\b)"
+
+  If ( ($DevicePowerSchemes | Out-String) -match $GUIDRegEx ) {
+      powercfg.exe /setactive $matches["TargetGUID"]
+  }
+  elseif ($PowerScheme -in $DefaultPowerSchemes ) {
+      # default power schemes can be re-created if not on the system
+      switch ( $PowerScheme.ToLower() )
+      {
+          'power saver' { $NewGUID = "a1841308-3541-4fab-bc81-f71556f20b4a" }
+          'balanced' { $NewGUID = "381b4222-f694-41f0-9685-ff5bb260df2e" }
+          'high performance' { $NewGUID = "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c" }
+          'ultimate performance' { $NewGUID = "e9a42b02-d5df-448d-aa00-03f14749eb61" }
+      }
+      # Re-create the power scheme and set it as active scheme
+      powercfg.exe -duplicatescheme $NewGUID
+      if ( $LASTEXITCODE -eq 0) {
+          powercfg.exe -setactive $NewGUID 
+          Exit 0
+      }
+      else {
+          Write-Output "#ERROR# Error while recreating power scheme ""$PowerScheme""."
+      }
+      Exit 1
+  }
+  else {
+      Write-Output "The power scheme ""$PowerScheme"" was not found on this system"
+      Exit 1
+  }
+}
+
+function SetPowerSchemeHighPerf{
+  # Define target scheme
+  $PowerScheme="High Performance"
+
+  # Define default (known) power schemes
+  $DefaultPowerSchemes=('Balanced',"Power Saver","High Performance","Ultimate Performance")
+
+  # Get Power schemes on this device
+  $DevicePowerSchemes = powercfg.exe /list
+
+  # Regex to identify power scheme GUID 
+  $GUIDRegEx = "(?<TargetGUID>[A-Fa-f0-9]{8}-(?:[A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}).*(\b$PowerScheme\b)"
+
+  If ( ($DevicePowerSchemes | Out-String) -match $GUIDRegEx ) {
+      powercfg.exe /setactive $matches["TargetGUID"]
+  }
+  elseif ($PowerScheme -in $DefaultPowerSchemes ) {
+      # default power schemes can be re-created if not on the system
+      switch ( $PowerScheme.ToLower() )
+      {
+          'power saver' { $NewGUID = "a1841308-3541-4fab-bc81-f71556f20b4a" }
+          'balanced' { $NewGUID = "381b4222-f694-41f0-9685-ff5bb260df2e" }
+          'high performance' { $NewGUID = "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c" }
+          'ultimate performance' { $NewGUID = "e9a42b02-d5df-448d-aa00-03f14749eb61" }
+      }
+      # Re-create the power scheme and set it as active scheme
+      powercfg.exe -duplicatescheme $NewGUID
+      if ( $LASTEXITCODE -eq 0) {
+          powercfg.exe -setactive $NewGUID 
+          Exit 0
+      }
+      else {
+          Write-Output "#ERROR# Error while recreating power scheme ""$PowerScheme""."
+      }
+      Exit 1
+  }
+  else {
+      Write-Output "The power scheme ""$PowerScheme"" was not found on this system"
+      Exit 1
+  }
+}
+
+function SetPowerSchemeUltimate{
+  # Define target scheme
+  $PowerScheme="Ultimate Performance"
+
+  # Define default (known) power schemes
+  $DefaultPowerSchemes=('Balanced',"Power Saver","High Performance","Ultimate Performance")
+
+  # Get Power schemes on this device
+  $DevicePowerSchemes = powercfg.exe /list
+
+  # Regex to identify power scheme GUID 
+  $GUIDRegEx = "(?<TargetGUID>[A-Fa-f0-9]{8}-(?:[A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}).*(\b$PowerScheme\b)"
+
+  If ( ($DevicePowerSchemes | Out-String) -match $GUIDRegEx ) {
+      powercfg.exe /setactive $matches["TargetGUID"]
+  }
+  elseif ($PowerScheme -in $DefaultPowerSchemes ) {
+      # default power schemes can be re-created if not on the system
+      switch ( $PowerScheme.ToLower() )
+      {
+          'power saver' { $NewGUID = "a1841308-3541-4fab-bc81-f71556f20b4a" }
+          'balanced' { $NewGUID = "381b4222-f694-41f0-9685-ff5bb260df2e" }
+          'high performance' { $NewGUID = "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c" }
+          'ultimate performance' { $NewGUID = "e9a42b02-d5df-448d-aa00-03f14749eb61" }
+      }
+      # Re-create the power scheme and set it as active scheme
+      powercfg.exe -duplicatescheme $NewGUID
+      if ( $LASTEXITCODE -eq 0) {
+          powercfg.exe -setactive $NewGUID 
+          Exit 0
+      }
+      else {
+          Write-Output "#ERROR# Error while recreating power scheme ""$PowerScheme""."
+      }
+      Exit 1
+  }
+  else {
+      Write-Output "The power scheme ""$PowerScheme"" was not found on this system"
+      Exit 1
+  }
+}
 
 ################################################################
 ###### Privacy configurations  ###
@@ -1095,6 +1220,106 @@ function RunDiskCleanup{
       Remove-ItemProperty -Path HKLM:\$strKeyPath\$subkey -Name $strValueName -ErrorAction SilentlyContinue | Out-Null
   }
 }
+
+function GetWindowsProductKey{
+  # This function is included to easily extract the Window sproduct key before running sysprep on the machine
+
+  # implement decoder
+  $code = @'
+// original implementation: https://github.com/mrpeardotnet/WinProdKeyFinder
+using System;
+using System.Collections;
+
+  public static class Decoder
+  {
+        public static string DecodeProductKeyWin7(byte[] digitalProductId)
+        {
+            const int keyStartIndex = 52;
+            const int keyEndIndex = keyStartIndex + 15;
+            var digits = new[]
+            {
+                'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'M', 'P', 'Q', 'R',
+                'T', 'V', 'W', 'X', 'Y', '2', '3', '4', '6', '7', '8', '9',
+            };
+            const int decodeLength = 29;
+            const int decodeStringLength = 15;
+            var decodedChars = new char[decodeLength];
+            var hexPid = new ArrayList();
+            for (var i = keyStartIndex; i <= keyEndIndex; i++)
+            {
+                hexPid.Add(digitalProductId[i]);
+            }
+            for (var i = decodeLength - 1; i >= 0; i--)
+            {
+                // Every sixth char is a separator.
+                if ((i + 1) % 6 == 0)
+                {
+                    decodedChars[i] = '-';
+                }
+                else
+                {
+                    // Do the actual decoding.
+                    var digitMapIndex = 0;
+                    for (var j = decodeStringLength - 1; j >= 0; j--)
+                    {
+                        var byteValue = (digitMapIndex << 8) | (byte)hexPid[j];
+                        hexPid[j] = (byte)(byteValue / 24);
+                        digitMapIndex = byteValue % 24;
+                        decodedChars[i] = digits[digitMapIndex];
+                    }
+                }
+            }
+            return new string(decodedChars);
+        }
+
+        public static string DecodeProductKey(byte[] digitalProductId)
+        {
+            var key = String.Empty;
+            const int keyOffset = 52;
+            var isWin8 = (byte)((digitalProductId[66] / 6) & 1);
+            digitalProductId[66] = (byte)((digitalProductId[66] & 0xf7) | (isWin8 & 2) * 4);
+
+            const string digits = "BCDFGHJKMPQRTVWXY2346789";
+            var last = 0;
+            for (var i = 24; i >= 0; i--)
+            {
+                var current = 0;
+                for (var j = 14; j >= 0; j--)
+                {
+                    current = current*256;
+                    current = digitalProductId[j + keyOffset] + current;
+                    digitalProductId[j + keyOffset] = (byte)(current/24);
+                    current = current%24;
+                    last = current;
+                }
+                key = digits[current] + key;
+            }
+
+            var keypart1 = key.Substring(1, last);
+            var keypart2 = key.Substring(last + 1, key.Length - (last + 1));
+            key = keypart1 + "N" + keypart2;
+
+            for (var i = 5; i < key.Length; i += 6)
+            {
+                key = key.Insert(i, "-");
+            }
+
+            return key;
+        }
+  }
+'@
+  # compile c#:
+  Add-Type -TypeDefinition $code
+  
+  # get raw product key:
+  $digitalId = (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name DigitalProductId).DigitalProductId
+  
+  # use static c# method to get LicenseKey
+  $LicenseKey = [Decoder]::DecodeProductKey($digitalId)
+
+  Write-Output "Product key is: $LicenseKey"
+}
+
 
 function RunSysprepGeneralizeOOBE{
   Write-Output "###"
