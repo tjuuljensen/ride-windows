@@ -70,6 +70,8 @@ InstallSysmon64               # RemoveSysmon64
 # InstallYara                 # RemoveYara
 # GetCyberChef                # RemoveCyberChef
 # InstallCaffeine             # RemoveCaffeine
+# InstallPutty                # RemovePutty
+# InstallWinSCP               # RemoveWinCSP
 
 ### Office Apps ###
 DisableOneDrive               # EnableOneDrive
