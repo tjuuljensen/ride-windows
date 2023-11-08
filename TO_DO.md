@@ -7,7 +7,8 @@
   * Export to AD: https://arconnetblog.wordpress.com/2018/09/04/retrieve-bitlocker-recovery-key/
 - [ ] Log overwrite (or rotate)
 - [ ] VSCode config - disable telemetry, install markdown plugin...
-- [ ] Stage Office365 deployment, so custom XML can be used for installation - https://config.office.com/deploymentsettings
+- [ ] Stage Office365 deployment, so custom XML can be used for installation
+  * https://config.office.com/deploymentsettings
 - [ ] Nucleus Filesystem recovery prompt (do not install on...)
 
 ### Priority B - New Packages:
