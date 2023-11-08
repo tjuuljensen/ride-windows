@@ -4872,7 +4872,7 @@ function InstallWinSCP {
 
   # WinSCP webserver is not playing nice. 
   $ServerResponse = Invoke-WebRequest $FullDownloadURL -MaximumRedirection 0 -UseBasicParsing
-  $WinscpDownloadURL = $ServerResponse.Links | where {$_.outerHTML -match "Direct download"}  | Select -ExpandProperty href
+  $WinscpDownloadURL = $ServerResponse.Links | Where-Object {$_.outerHTML -match "Direct download"}  | Select-Object -ExpandProperty href
   # $filename = ([uri]$WinscpDownloadURL).Segments[-1]
   Invoke-WebRequest -UseBasicParsing -Uri $WinscpDownloadURL -OutFile $FileFullName
 
