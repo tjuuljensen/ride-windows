@@ -3674,6 +3674,9 @@ function InstallVirtIOGuestTool{
 
 
 function InstallSpiceGuestTool{
+  # Windows SPICE Guest Tools contains optional drivers and services that can be installed in the 
+  # Windows guest to improve SPICE performance and integration. This includes the qxl video driver 
+  # and the SPICE guest agent (for copy and paste, automatic resolution switching, ...)
   Write-Output "###"
   $SoftwareName = "Spice Guest Tool"
   Write-Output "Installing $SoftwareName..."
