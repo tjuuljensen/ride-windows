@@ -3583,7 +3583,6 @@ function GetPingCastle{
     $ToolsFolder = "\Tools"
   }
   
-
 	# Create tools folder if not existing
 	if (-not (Test-Path -Path $ToolsFolder)) {
 	  New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
