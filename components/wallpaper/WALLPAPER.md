@@ -1,6 +1,6 @@
 # Custom Wallpaper
-Add wallpaper file "img0.jpg" in this directory.
-Preferably use a 4K image. If there is only one jpg or png in this directory, this file will be used.
+Add wallpaper file "img0.jpg" in this directory. Preferably use a 4K image. 
+If there is only one jpg or png in this directory, that file will be used.
 
 
 Consider making copies of the files with alternate resolutions.

@@ -8143,12 +8143,12 @@ function RemoveNetworkMiner {
 ################################################################
 
 function InstallFonts{
-  Write-Output "###"
-    Write-Output "Installing fonts..."
-  # Inspired by https://www.powershellgallery.com/packages/PSWinGlue/0.3.3/Content/Functions%5CInstall-Font.ps1
 
-  $FontPath = "$PSScriptRoot\components\fonts"
-#  [Switch]$Recurse = $True
+  param ( [string] $FontPath = "$PSScriptRoot\components\fonts")
+
+  Write-Output "###"
+  Write-Output "Installing fonts..."
+  # Inspired by https://www.powershellgallery.com/packages/PSWinGlue/0.3.3/Content/Functions%5CInstall-Font.ps1
 
   if (Test-Path -Path $FontPath) {
       $FontItem = Get-Item -Path $FontPath
@@ -8172,8 +8172,17 @@ function InstallFonts{
 }
 
 function ReplaceDefaultWallpapers{
+
+  param( [string] $WallpaperSourcePath = "$PSScriptRoot\components\wallpaper" )
+
   Write-Output "###"
   Write-Output "Replacing wallpapers..."
+
+  if ( ! (Test-Path -Path "$WallpaperSourcePath" )) {
+    Write-Output "ERROR: Wallpaper source directory not found at: $WallpaperSourcePath. Cannot continue."
+    return
+  }
+
   <#
   https://ccmexec.com/2015/08/replacing-default-wallpaper-in-windows-10-using-scriptmdtsccm/
   Default 4k images in C:\Windows\Web\4K\Wallpaper\Windows:
@@ -8188,44 +8197,44 @@ function ReplaceDefaultWallpapers{
   3840x2160 - img0_3840x2160.jpg
   #>
 
-  $WallPaperPath=($env:SystemDrive+"\Windows\Web\Wallpaper\Windows")
-  $WallPprPath4k=($env:SystemDrive+"\Windows\Web\4K\Wallpaper\Windows")
-  $WallPprSourcePath = "$PSScriptRoot\components\wallpaper"
-  $NumberOfWallPprImgs = (Get-ChildItem $WallPprSourcePath\* -Include ('*.png','*.jpg')| Measure-Object).Count
+  $WallpaperPath=($env:SystemDrive+"\Windows\Web\Wallpaper\Windows")
+  $WallpaperPath4k=($env:SystemDrive+"\Windows\Web\4K\Wallpaper\Windows")
+  
+  $NumberOfWallpaperImgs = (Get-ChildItem $WallpaperSourcePath\* -Include ('*.png','*.jpg')| Measure-Object).Count
   $AdminUser = ${env:UserName}
 
-  Start-Process takeown -ArgumentList "/R /A /F $WallPaperPath" -Wait -WindowStyle Hidden
-  Start-Process takeown -ArgumentList "/R /A /F $WallPprPath4k" -Wait -WindowStyle Hidden
+  Start-Process takeown -ArgumentList "/R /A /F $WallpaperPath" -Wait -WindowStyle Hidden
+  Start-Process takeown -ArgumentList "/R /A /F $WallpaperPath4k" -Wait -WindowStyle Hidden
 
-  $AllArguments = $WallPaperPath+"\* /grant $AdminUser"+":(F) /Q"
+  $AllArguments = $WallpaperPath+"\* /grant $AdminUser"+":(F) /Q"
   Start-Process icacls -ArgumentList $AllArguments -Wait -WindowStyle Hidden
   
-  $AllArguments = $WallPprPath4k+"\* /grant $AdminUser"+":(F) /Q"
+  $AllArguments = $WallpaperPath4k+"\* /grant $AdminUser"+":(F) /Q"
   Start-Process icacls -ArgumentList $AllArguments -Wait -WindowStyle Hidden
 
 
-  if ($NumberOfWallPprImgs -eq 1) { # If there is only one image in wallpaper folder
+  if ($NumberOfWallpaperImgs -eq 1) { # If there is only one image in wallpaper folder
     # Copy the single file found in wallpaper source path to new wallpaper file
-    $SingleFileFoundName = (Get-ChildItem $WallPprSourcePath\* -Include ('*.png','*.jpg')).FullName
-    Copy-Item "$SingleFileFoundName" "$WallPprPath4k" -Recurse -Force | Out-Null
-    Copy-Item "$SingleFileFoundName" "$WallPaperPath" -Recurse -Force | Out-Null
+    $SingleFileFoundName = (Get-ChildItem $WallpaperSourcePath\* -Include ('*.png','*.jpg')).FullName
+    Copy-Item "$SingleFileFoundName" "$WallpaperPath4k" -Recurse -Force | Out-Null
+    Copy-Item "$SingleFileFoundName" "$WallpaperPath" -Recurse -Force | Out-Null
   } else {  
     # If img0* files exist, copy images to wallpaper folder
-    if (Test-Path -Path "$WallPprSourcePath\img0*") {
-      Remove-Item $WallPprPath4k\*.* -Recurse -ErrorAction SilentlyContinue
-      Copy-Item "$WallPprSourcePath\img0*" $WallPprPath4k -Recurse -Force | Out-Null
+    if (Test-Path -Path "$WallpaperSourcePath\img0*") {
+      Remove-Item $WallpaperPath4k\*.* -Recurse -ErrorAction SilentlyContinue
+      Copy-Item "$WallpaperSourcePath\img0*" $WallpaperPath4k -Recurse -Force | Out-Null
     }
   
     # default (light mode) wallpaper
-    if (Test-Path -Path "$WallPprSourcePath\img0.jpg") {
-      Remove-Item $WallPaperPath\img0.jpg -Force -ErrorAction SilentlyContinue
-      Copy-Item "$WallPprSourcePath\img0.jpg" $WallPaperPath -Force
+    if (Test-Path -Path "$WallpaperSourcePath\img0.jpg") {
+      Remove-Item $WallpaperPath\img0.jpg -Force -ErrorAction SilentlyContinue
+      Copy-Item "$WallpaperSourcePath\img0.jpg" $WallpaperPath -Force
     }
   
     # dark mode wallpaper 
-    if (Test-Path -Path "$WallPprSourcePath\img19.jpg") {
-      Remove-Item $WallPprPath4k\img19.jpg -Force -ErrorAction SilentlyContinue
-      Copy-Item "$WallPprSourcePath\img19.jpg" $WallPprPath4k -Force
+    if (Test-Path -Path "$WallpaperSourcePath\img19.jpg") {
+      Remove-Item $WallpaperPath4k\img19.jpg -Force -ErrorAction SilentlyContinue
+      Copy-Item "$WallpaperSourcePath\img19.jpg" $WallpaperPath4k -Force
     }
   
   }
@@ -8233,17 +8242,28 @@ function ReplaceDefaultWallpapers{
 
 function SetCustomLockScreen {  
  
+  param( [string] $LockScreenSourcePath = "$PSScriptRoot\components\lockscreen" )
+
   Write-Output "###"
   Write-Output "Setting custom lock screen..."
   
+  if ( ! (Test-Path -Path "$LockScreenSourcePath" )) {
+    if ((Test-Path -Path "$PSScriptRoot\components\wallpaper" )) {
+      Write-Output "Expected lockscreen source directory not found at: $LockScreenSourcePath, using wallpaper path"
+    }
+    else {
+    Write-Output "ERROR: Lockscreen source directory not found at: $LockScreenSourcePath. Cannot continue."}
+    return
+  }
+
   $LockScreenPath = ($env:SystemDrive+"\Windows\Web\Screen")
   $LockScreenImageName = "img0.jpg"
   $LockScreenImageFullName = Join-Path -Path $LockScreenPath -ChildPath $LockScreenImageName
-  $LockScreenSourcePath = "$PSScriptRoot\components\lockscreen"
   $NumberOfLockScreenImgs = (Get-ChildItem $LockScreenSourcePath\* -Include ('*.png','*.jpg')| Measure-Object).Count
 
   # Cleanup if this function was run before - check for img0.jpg which is not standard
   if (Test-Path -Path "$LockScreenImageFullName") {
+    Write-Output "Cleaning up old custom lockscreen file."
     Remove-Item $LockScreenImageFullName -Recurse -Force -ErrorAction SilentlyContinue
   }
 
