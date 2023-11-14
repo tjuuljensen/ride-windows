@@ -73,6 +73,7 @@ InstallSysmon64               # RemoveSysmon64
 # InstallPutty                # RemovePutty
 # InstallWinSCP               # RemoveWinCSP
 # InstallKAPE                 # RemoveKAPE
+# InstallVeraCrypt            # InstallVeraCryptPortable
 
 ### Office Apps ###
 DisableOneDrive               # EnableOneDrive
