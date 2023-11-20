@@ -1058,7 +1058,7 @@ function GetNoTelemetryHostsFile{
 
     Write-Output "Enabling blocking hosts file ..."
     $SourceFile = Join-Path -Path $PSScriptRoot -ChildPath "components\files\hosts"
-    $DestinationFile=Join-Path -Path $Env:windir -ChildPath "\System32\Drivers\etc\hosts"
+    $DestinationFile= Join-Path -Path $Env:windir -ChildPath "\System32\Drivers\etc\hosts"
 
     if ((Test-Path -Path $SourceFile)) {
         Copy-Item $SourceFile $DestinationFile -Force
@@ -1071,7 +1071,7 @@ function SetDefaultHostsfile{
   Write-Output "###"
   # Use a default Windows 10 hostfile
   Write-Output "Setting hosts file to default (empty file)..."
-  $Hostsfile=Join-Path -Path $Env:windir -ChildPath "\System32\Drivers\etc\hosts"
+  $Hostsfile= Join-Path -Path $Env:windir -ChildPath "\System32\Drivers\etc\hosts"
 
   '# Copyright (c) 1993-2009 Microsoft Corp.
 #
@@ -4717,7 +4717,7 @@ function InstallCaffeine {
     # If directory is nested, move contents one directory up
     $SubPath = Get-ChildItem $NewSoftwareFolderFullName -Name 
     if ($SubPath.count -eq 1) {
-      $FullSubPath =Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
+      $FullSubPath = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
       $FolderIsNested = (Get-ChildItem -Path "$NewSoftwareFolderFullName" -Directory).count -eq (Get-ChildItem -Path "$NewSoftwareFolderFullName" ).count
       if ($FolderIsNested) {
         Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $NewSoftwareFolderFullName
@@ -5608,7 +5608,7 @@ function InstallChainsaw{
     # If directory is nested, move contents one directory up
     $SubPath = Get-ChildItem $NewSoftwareFolderFullName -Name 
     if ($SubPath.count -eq 1) {
-      $FullSubPath =Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
+      $FullSubPath = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
       $FolderIsNested = (Get-ChildItem -Path "$NewSoftwareFolderFullName" -Directory).count -eq (Get-ChildItem -Path "$NewSoftwareFolderFullName" ).count
       if ($FolderIsNested) {
         Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $NewSoftwareFolderFullName
@@ -6130,7 +6130,7 @@ function InstallLoki{
     # If directory is nested, move contents one directory up
     $SubPath = Get-ChildItem $NewSoftwareFolderFullName -Name 
     if ($SubPath.count -eq 1) {
-      $FullSubPath =Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
+      $FullSubPath = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
       $FolderIsNested = (Get-ChildItem -Path "$NewSoftwareFolderFullName" -Directory).count -eq (Get-ChildItem -Path "$NewSoftwareFolderFullName" ).count
       if ($FolderIsNested) {
         Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $NewSoftwareFolderFullName
@@ -6912,7 +6912,7 @@ function InstallUserAssist {
     # If directory is nested, move contents one directory up
     $SubPath = Get-ChildItem $NewSoftwareFolderFullName -Name 
     if ($SubPath.count -eq 1) {
-      $FullSubPath =Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
+      $FullSubPath = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
       $FolderIsNested = (Get-ChildItem -Path "$NewSoftwareFolderFullName" -Directory).count -eq (Get-ChildItem -Path "$NewSoftwareFolderFullName" ).count
       if ($FolderIsNested) {
         Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $NewSoftwareFolderFullName -ErrorAction SilentlyContinue
@@ -7347,7 +7347,7 @@ function InstallVolatility2{
     # If directory is nested, move contents one directory up
     $SubPath = Get-ChildItem $NewSoftwareFolderFullName -Name 
     if ($SubPath.count -eq 1) {
-      $FullSubPath =Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
+      $FullSubPath = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
       $FolderIsNested = (Get-ChildItem -Path "$NewSoftwareFolderFullName" -Directory).count -eq (Get-ChildItem -Path "$NewSoftwareFolderFullName" ).count
       if ($FolderIsNested) {
         Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $NewSoftwareFolderFullName 
@@ -7544,7 +7544,7 @@ function InstallPartDiagParser {
     # If directory is nested, move contents one directory up
     $SubPath = Get-ChildItem $NewSoftwareFolderFullName -Name 
     if ($SubPath.count -eq 1) {
-      $FullSubPath =Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
+      $FullSubPath = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
       $FolderIsNested = (Get-ChildItem -Path "$NewSoftwareFolderFullName" -Directory).count -eq (Get-ChildItem -Path "$NewSoftwareFolderFullName" ).count
       if ($FolderIsNested) {
         Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $NewSoftwareFolderFullName
@@ -7644,7 +7644,7 @@ function InstallGglCookieCruncher{
     # If directory is nested, move contents one directory up
     $SubPath = Get-ChildItem $NewSoftwareFolderFullName -Name 
     if ($SubPath.count -eq 1) {
-      $FullSubPath =Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
+      $FullSubPath = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
       $FolderIsNested = (Get-ChildItem -Path "$NewSoftwareFolderFullName" -Directory).count -eq (Get-ChildItem -Path "$NewSoftwareFolderFullName" ).count
       if ($FolderIsNested) {
         Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $NewSoftwareFolderFullName
@@ -7836,7 +7836,7 @@ function InstallHashcat {
     # If directory is nested, move contents one directory up
     $SubPath = Get-ChildItem $NewSoftwareFolderFullName -Name 
     if ($SubPath.count -eq 1) {
-      $FullSubPath =Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
+      $FullSubPath = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
       $FolderIsNested = (Get-ChildItem -Path "$NewSoftwareFolderFullName" -Directory).count -eq (Get-ChildItem -Path "$NewSoftwareFolderFullName" ).count
       if ($FolderIsNested) {
         Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $NewSoftwareFolderFullName
@@ -8209,7 +8209,7 @@ function InstallNetworkMiner{
   # If directory is nested, move contents one directory up
   $SubPath = Get-ChildItem $NewSoftwareFolderFullName -Name 
   if ($SubPath.count -eq 1) {
-    $FullSubPath =Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
+    $FullSubPath = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
     $FolderIsNested = (Get-ChildItem -Path "$NewSoftwareFolderFullName" -Directory).count -eq (Get-ChildItem -Path "$NewSoftwareFolderFullName" ).count
     if ($FolderIsNested) {
       Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $NewSoftwareFolderFullName
