@@ -8,55 +8,54 @@ function Get-RIDEvars(){
 
 function Get-PackageInfo {
 
-    $appname = read-host "Enter your program name"
+    param( $appname=(read-host "Enter your program name") )
 
-    Write-Output "Get-Package:"
-    (Get-Package -Name "*$appname*").name
-    Write-Output ""
-    Write-Output "Get-AppXpackage:"
-    (Get-AppxPackage -Name "*$appname*").name
-    Write-Output ""
-    Write-Output "Uninstallstring:"
-    #Get-ChildItem "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\" -Filter  "*$InpuString*"  | where-Object {$_.DisplayName -like "*$InpuString*"} | ForEach-Object { Write-Output $_.PSChildName }
+    $PackageName = (Get-Package -Name "*$appname*").name
+    $AppxPackageName = (Get-AppxPackage -Name "*$appname*").name
 
-    $32bit = get-itemproperty 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*' | Select-Object DisplayName, DisplayVersion, UninstallString, PSChildName | Where-Object { $_.DisplayName -match "^*$appname*"}
-    $64bit = get-itemproperty 'HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*' | Select-Object DisplayName, DisplayVersion, UninstallString, PSChildName | Where-Object { $_.DisplayName -match "^*$appname*"}
+    $32bit = get-itemproperty 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*' | Where-Object { $_.DisplayName -match "^*$appname*"}
+    $64bit = get-itemproperty 'HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*' | Where-Object { $_.DisplayName -match "^*$appname*"}
 
     
     if ($64bit -eq "" -or $64bit.count -eq 0) {
     
         switch ($32bit.DisplayName.count) {
-            0 {Write-Host "Cannot find the uninstall string" -ForegroundColor Red}
+            0 { $PackageUninstallString = "Cannot find the uninstall string"}
             1 {
                 if ($32bit -match "msiexec.exe") {
-                $32bit.UninstallString -replace 'msiexec.exe /i','msiexec.exe /x'
+                    $PackageUninstallString= $32bit.UninstallString -replace 'msiexec.exe /i','msiexec.exe /x'
                 }
                 else
                 {
-                    $32bit.UninstallString 
+                    $PackageUninstallString = $32bit.UninstallString 
                 }
                 }
-            default { $32bit |Foreach-Object {Write-Host  $_.DisplayName,  $_.UninstallString  }} 
+            default { $PackageUninstallString=$32bit |Foreach-Object {Write-Host  $_.DisplayName,  $_.UninstallString  }} 
         }
     }
     else {
     
         switch ($64bit.DisplayName.count) {
-            0 {Write-Host "Cannot find the uninstall string" -ForegroundColor Red}
+            0 {$PackageUninstallString = "Cannot find the uninstall string"
+               return}
             1 {
                 if ($64bit -match "msiexec.exe") {
-                    $64bit.UninstallString -replace 'msiexec.exe /i','msiexec.exe /x'
+                    $PackageUninstallString = $64bit.UninstallString -replace 'msiexec.exe /i','msiexec.exe /x'
                 }
                 else
                 {
-                    $64bit.UninstallString 
+                    $PackageUninstallString = $64bit.UninstallString 
                 }
                 }
-            default { $64bit |Foreach-Object {Write-Host  $_.DisplayName,  $_.UninstallString }
+            default { $PackageUninstallString=$64bit |Foreach-Object {Write-Host  $_.DisplayName,  $_.UninstallString }
             }
         }
     }
+    Write-Output "Get-Package: $PackageName" 
+    Write-Output "Get-AppXpackage: $AppxPackageName"
+    Write-Output "Uninstallstring: $PackageUninstallString"
 }
+
 
 Function Test-FunctionName {
     [CmdletBinding()]
