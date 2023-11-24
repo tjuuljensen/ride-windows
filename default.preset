@@ -158,7 +158,7 @@ CreateChromePreferenceFile    # RemoveChromePreferenceFile
 ### Customization  ###
 InstallFonts
 ReplaceDefaultWallpapers
-# SetCustomLockScreen         # SetDefaultLockScreen
+# SetLockScreen               # SetDefaultLockScreen
 # InstallLenovoVantage        # RemoveLenovoVantage
 
 ### Privacy Tweaks ###

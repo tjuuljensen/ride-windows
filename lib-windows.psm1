@@ -8342,7 +8342,7 @@ function ReplaceDefaultWallpapers{
   }
 }
 
-function SetCustomLockScreen {  
+function SetLockScreen {  
  
   param( [string] $LockScreenSourcePath = "$PSScriptRoot\components\lockscreen" )
 
