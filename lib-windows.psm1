@@ -3796,7 +3796,7 @@ function InstallThunderbird{
   $SoftwareName = "Thunderbird"
   Write-Output "Installing $SoftwareName..."
 
-  $FullDownloadURL = "https://download.mozilla.org/?product=thunderbird-latest&os=win&lang=en-US"
+  $FullDownloadURL = "https://download.mozilla.org/?product=thunderbird-latest&os=win&lang=en-GB"
 
   # Create bootstrap folder if not existing
   $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
@@ -4874,9 +4874,9 @@ function InstallWinSCP {
 
   # WinSCP webserver is not playing nice. 
   $ServerResponse = Invoke-WebRequest $FullDownloadURL -MaximumRedirection 0 -UseBasicParsing
-  $WinscpDownloadURL = $ServerResponse.Links | Where-Object {$_.outerHTML -match "Direct download"}  | Select-Object -ExpandProperty href
-  # $filename = ([uri]$WinscpDownloadURL).Segments[-1]
-  Invoke-WebRequest -UseBasicParsing -Uri $WinscpDownloadURL -OutFile $FileFullName
+  $ResponseDownloadURL = $ServerResponse.Links | Where-Object {$_.outerHTML -match "Direct download"}  | Select-Object -ExpandProperty href
+  # $filename = ([uri]$ResponseDownloadURL).Segments[-1]
+  Invoke-WebRequest -UseBasicParsing -Uri $ResponseDownloadURL -OutFile $FileFullName
 
   if (Test-Path -Path $FileFullName) {
     Write-Output "Downloaded: $FileFullName"}
