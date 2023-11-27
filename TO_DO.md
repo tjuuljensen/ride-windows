@@ -13,7 +13,6 @@
 
 ### Priority B - New Packages:
 - [ ] Add: Balena Etcher - https://www.balena.io/etcher#download-etcher
-- [ ] Windows screen capture - https://getsharex.com/downloads
 - [ ] Slack
 - [ ] Forensic plugins for Firefox
 - [ ] https://www.brimdata.io/download/
@@ -36,6 +35,7 @@
 &nbsp;
 
 ## Finished tasks:
+- [x] Windows screen capture - https://getsharex.com/downloads
 - [x] WinDirStat https://windirstat.net/download.html
 - [x] Windows Firewall Notifier - https://github.com/wokhan/WFN
 - [x] ADReplStatus https://github.com/ryanries/ADReplStatus

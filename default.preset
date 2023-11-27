@@ -77,6 +77,8 @@ InstallSysmon64               # RemoveSysmon64
 # InstallADReplStatus         # RemoveADReplStatus
 # InstallFirewallNotifier     # RemoveFirewallNotifier
 # InstallWinDirStat           # RemoveWinDirStat
+# InstallShareX               # RemoveShareX
+# InstallShareXportable       # RemoveShareXportable
 
 ### Office Apps ###
 DisableOneDrive               # EnableOneDrive

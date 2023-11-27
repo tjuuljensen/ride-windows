@@ -5369,6 +5369,166 @@ function RemoveWinDirStat{
 
 }
 
+function InstallShareX{
+
+  Write-Output "###"
+  $SoftwareName = "ShareX"
+  Write-Output "Installing $SoftwareName..."
+ 
+  $author="sharex"
+  $repo="sharex"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*exe*" })
+  if (-not $FullDownloadURL) {
+	Write-Output "Error: $SoftwareName not found"
+	return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  
+  if (Test-Path -Path $FileFullName) {
+    Write-Output "Downloaded: $FileFullName"}
+  else {
+    Write-Output "Error downloading: $FileFullName" 
+  }
+
+  # Install exe 
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    $CommandLineOptions = "/SILENT /NORESTART" 
+    Start-Process -FilePath $FileFullName -ArgumentList $CommandLineOptions -NoNewWindow 
+    Write-Output "Installation done for $SoftwareName"
+  }
+}
+
+function RemoveShareX {
+  Write-Output "###"
+  $SoftwareName = "ShareX"
+  Write-Output "Removing $SoftwareName..."
+  
+  $UninstallString=(get-itemproperty 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*' | Where-Object { $_.DisplayName -Like "ShareX"}).UninstallString
+  $AllArguments = "/SILENT /CLOSEAPPLICATIONS"
+  Start-Process -FilePath $UninstallString -ArgumentList $AllArguments -NoNewWindow -Wait
+
+}
+
+function InstallShareXportable{
+
+  Write-Output "###"
+  $SoftwareName = "ShareXportable"
+  Write-Output "Installing $SoftwareName..."
+ 
+  $author="sharex"
+  $repo="sharex"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*portable*" })
+  if (-not $FullDownloadURL) {
+	Write-Output "Error: $SoftwareName not found"
+	return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  
+  if (Test-Path -Path $FileFullName) {
+    Write-Output "Downloaded: $FileFullName"}
+  else {
+    Write-Output "Error downloading: $FileFullName" 
+  }
+  
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+  
+    # Copy to tools folder (overwrite existing)
+    $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+    if (Test-Path -Path $NewSoftwareFolderFullName) {
+      Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force
+    }
+    Copy-Item -Path $SoftwareFolderFullName -Recurse -Destination $ToolsFolder
+    Write-Output "$SoftwareName copied to $NewSoftwareFolderFullName"
+  
+    # Unzip
+    $NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
+    Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
+    Remove-Item -Path $NewFileFullName -ErrorAction Ignore
+    Write-Output "Unzipped to: $NewSoftwareFolderFullName"
+  }
+  
+}
+
+function RemoveShareXportable {
+  Write-Output "###"
+  $SoftwareName = "ShareXportable"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Get software folder name
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+
+  # Get tools folder name
+	$ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+	if (-not $ToolsFolder) {
+	  # Set default tools folder
+    $ToolsFolder = "\Tools"
+  }
+  $NewSoftwareFolderFullName = Join-Path -Path $ToolsFolder -ChildPath $SoftwareFolderName
+  
+  Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
+}
+
 
 ################################################################
 ###### Browsers and Internet ###
@@ -5572,7 +5732,7 @@ function RemoveChrome{
 
 function CreateChromePreferenceFile {
   Write-Output "###"
-Write-Output "Creating preference file for Google Chrome..."
+  Write-Output "Creating preference file for Google Chrome..."
 
   $ChromeInstallDir = [System.Environment]::GetFolderPath("ProgramFilesX86")+"\Google\Chrome\Application\"
 
