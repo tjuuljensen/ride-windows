@@ -76,6 +76,7 @@ InstallSysmon64               # RemoveSysmon64
 # InstallVeraCrypt            # InstallVeraCryptPortable
 # InstallADReplStatus         # RemoveADReplStatus
 # InstallFirewallNotifier     # RemoveFirewallNotifier
+# InstallWinDirStat           # RemoveWinDirStat
 
 ### Office Apps ###
 DisableOneDrive               # EnableOneDrive

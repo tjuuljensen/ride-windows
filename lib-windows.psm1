@@ -5312,6 +5312,63 @@ function RemoveFirewallNotifier {
   Remove-Item -Path $NewSoftwareFolderFullName -Recurse -Force -ErrorAction SilentlyContinue
 }
 
+function InstallWinDirStat{
+
+  Write-Output "###"
+  $SoftwareName = "WinDirStat"
+  Write-Output "Installing $SoftwareName..."
+
+  $FullDownloadURL = "https://windirstat.net/wds_current_setup.exe"
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  
+  if (Test-Path -Path $FileFullName) {
+    Write-Output "Downloaded: $FileFullName"}
+  else {
+    Write-Output "Error downloading: $FileFullName" 
+  }
+
+  # Install exe 
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    $CommandLineOptions = "/S" 
+    Start-Process -FilePath $FileFullName -ArgumentList $CommandLineOptions -NoNewWindow -Wait
+    Write-Output "Installation done for $SoftwareName"
+  }
+}
+
+function RemoveWinDirStat{
+  Write-Output "###"
+  $SoftwareName = "WinDirStat"
+  Write-Output "Removing $SoftwareName..."
+
+  $InstallRoot = ${Env:ProgramFiles(x86)}
+  $UninstallFile = "$InstallRoot\WinDirStat\Uninstall.exe"
+  
+  $CommandLineOptions = "/S" 
+  Start-Process -FilePath $UninstallFile -ArgumentList $CommandLineOptions -NoNewWindow -Wait
+
+}
+
 
 ################################################################
 ###### Browsers and Internet ###

@@ -21,7 +21,7 @@
 - [ ] https://www.niwcatlantic.navy.mil/scap/
 - [ ] xmind
 - [ ] PowerToys
-- [ ] WinDirStat https://windirstat.net/download.html
+
 
 ### Priority C - Under Consideration:
 - [ ] PowerShell Whois
@@ -36,6 +36,7 @@
 &nbsp;
 
 ## Finished tasks:
+- [x] WinDirStat https://windirstat.net/download.html
 - [x] Windows Firewall Notifier - https://github.com/wokhan/WFN
 - [x] ADReplStatus https://github.com/ryanries/ADReplStatus
 - [x] Backup Serial number before SysPrep
