@@ -5,8 +5,8 @@
 # November 10, 2023
 #>
 
-$author="tjuuljensen"
-$repo="ride-windows"
+param( $Author="tjuuljensen", $Repo="ride-windows" )
+
 
 Function RequireAdmin {
 	If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator")) {
@@ -141,6 +141,7 @@ While ($i -lt $args.Length) {
     RequireAdmins
     DownloadFile 
     Write-Output "Edit preset file in Notepad before running installation..."
+    # Start-Process notepad.exe -ArgumentList PATH_TO_PRESET_FILE
     # Do stuff (notepad presetfile + ride preset + include)
 	} 
   Else {
