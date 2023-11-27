@@ -74,6 +74,8 @@ InstallSysmon64               # RemoveSysmon64
 # InstallWinSCP               # RemoveWinCSP
 # InstallKAPE                 # RemoveKAPE
 # InstallVeraCrypt            # InstallVeraCryptPortable
+# InstallADReplStatus         # RemoveADReplStatus
+# InstallFirewallNotifier     # RemoveFirewallNotifier
 
 ### Office Apps ###
 DisableOneDrive               # EnableOneDrive

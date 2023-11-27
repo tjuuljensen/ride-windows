@@ -21,8 +21,6 @@
 - [ ] https://www.niwcatlantic.navy.mil/scap/
 - [ ] xmind
 - [ ] PowerToys
-- [ ] Windows Firewall Notifier - https://github.com/wokhan/WFN
-- [ ] ADReplStatus https://github.com/ryanries/ADReplStatus
 - [ ] WinDirStat https://windirstat.net/download.html
 
 ### Priority C - Under Consideration:
@@ -38,6 +36,8 @@
 &nbsp;
 
 ## Finished tasks:
+- [x] Windows Firewall Notifier - https://github.com/wokhan/WFN
+- [x] ADReplStatus https://github.com/ryanries/ADReplStatus
 - [x] Backup Serial number before SysPrep
 - [x] Use High performance power schema on host machine when used as virtual host
   * https://winaero.com/how-to-change-power-plan-in-windows-11/
