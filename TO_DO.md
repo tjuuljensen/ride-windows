@@ -12,8 +12,9 @@
 - [ ] Nucleus Filesystem recovery prompt (do not install on...)
 
 ### Priority B - New Packages:
+- [ ] Rufus - https://rufus.ie/en/
 - [ ] Add: Balena Etcher - https://www.balena.io/etcher#download-etcher
-- [ ] Slack
+- [ ] Slack https://slack.com/downloads/windows
 - [ ] Forensic plugins for Firefox
 - [ ] https://www.brimdata.io/download/
 - [ ] https://github.com/secdev/scapy
