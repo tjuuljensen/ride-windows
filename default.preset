@@ -79,6 +79,7 @@ InstallSysmon64               # RemoveSysmon64
 # InstallWinDirStat           # RemoveWinDirStat
 # InstallShareX               # RemoveShareX
 # InstallShareXportable       # RemoveShareXportable
+# InstallPowerShell
 
 ### Office Apps ###
 DisableOneDrive               # EnableOneDrive
