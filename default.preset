@@ -23,6 +23,7 @@ SetRegionalSettings
 CopyRegionSettingsToAll       # CopyRegionSettingsWelcome   # CopyRegionSettingsNewUser
 # SetPowerSchemeBalanced      # SetPowerSchemeHighPerf      # SetPowerSchemeUltimate
 # SetPwrSchemeDesktopMenu     # RemovePwrSchemeDesktopMenu
+AddUserBinToPath
 
 ### Privacy configurations  ###
 DisableInkingAndTypingData    # EnableInkingAndTypingData

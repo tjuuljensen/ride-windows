@@ -24,9 +24,6 @@
 
 
 ### Priority C - Under Consideration:
-- [ ] PowerShell Whois
-  * https://powershellisfun.com/2022/06/12/get-whois-information-using-powershell/
-  * https://www.powershellgallery.com/packages/PSScriptTools/2.9.0/Content/functions%5CGet-WhoIs.ps1
 - [ ] Windows - pwd cracking - https://kraken.nswardh.com/home
 - [ ] Explorer view, default view 3 timestamps (pretty easy in GUI)
   * https://github.com/LesFerch/WinSetView/tree/main
@@ -36,6 +33,7 @@
 &nbsp;
 
 ## Finished tasks:
+- [x] PowerShell Whois - solution changed to adding %SUERPROFILE%\bin to path (sysinternals whois can be copied manually)
 - [x] Windows screen capture - https://getsharex.com/downloads
 - [x] WinDirStat https://windirstat.net/download.html
 - [x] Windows Firewall Notifier - https://github.com/wokhan/WFN

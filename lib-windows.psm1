@@ -686,6 +686,26 @@ function RemovePwrSchemeDesktopMenu{
   Remove-Item -Path "HKCR:\DesktopBackground\Shell\Switch Power Plan" -Recurse -ErrorAction SilentlyContinue
 }
 
+
+function AddUserBinToPath{
+  # Test if folder exists as path environment variable and add if it does not
+  $UserBinPath = ([System.Environment]::GetFolderPath("USERPROFILE")+"\bin")
+  
+  # Create UserBin directory if it does not exist
+  if (-not (Test-Path -Path $UserBinPath)) {
+    Write-Host "Creating directory ${UserBinPath}."
+    New-Item -Path $UserBinPath -ItemType Directory | Out-Null
+  } 
+  
+  # Check if folder exist in path
+  $FolderExistInPath = $env:path -split ";" | Where-Object { $_ -eq $UserBinPath }
+  if ($null -eq $FolderExistInPath ) { 
+  # Folder is not in path - adding
+  $env:Path = "$UserBinPath;" + $env:Path
+  }
+}
+
+
 ################################################################
 ###### Privacy configurations  ###
 ################################################################
