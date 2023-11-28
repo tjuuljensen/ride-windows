@@ -8414,10 +8414,14 @@ function InstallWireshark{
 }
 
 function RemoveWireshark{
-  Import-Module PackageManagement
   Write-Output "###"
-  Write-Output "Removing Wireshark..."
-  Uninstall-Package -InputObject ( Get-Package -Name "Wireshark*" )
+  $SoftwareName = "Wireshark"
+  Write-Output "Removing $SoftwareName..."
+  
+  # Use 64-bit uninstall string
+  $UninstallString=(get-itemproperty 'HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*' | Where-Object { $_.DisplayName -Like "Wireshark*"}).UninstallString
+  $AllArguments = "/S"
+  Start-Process -FilePath $UninstallString -ArgumentList $AllArguments -NoNewWindow -Wait
 }
 
 function InstallAutopsy{
