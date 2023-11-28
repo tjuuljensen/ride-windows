@@ -34,7 +34,7 @@ These are my guiding principles:
 - If there is a way in PowerShell, I choose that way. But I'd rather use a few built-in Windows command line tools instead of wasting weeks on "the clean PS path".
 - I prefer a script that is maintainable and choose to have a lot of redundant code in my repo.
    
-I have a Linux repo and use the same script architecture in my Fedora Linux configuration: https://github.com/tjuuljensen/bootstrap-fedora.
+I have a Linux repo and use the same script architecture in my Fedora Linux configuration: https://github.com/tjuuljensen/ride-fedora.
 
 ## Installation
 Make sure your account is a member of the *Administrators* group as the script attempts to run with elevated privileges. If you just want to run the script with the *default* preset, download and unpack the [latest release](https://github.com/tjuuljensen/ride-windows) and then simply double-click on the *default.cmd* file and confirm *User Account Control* prompt. 
@@ -97,6 +97,9 @@ The vast majority of the tweaks will work on all Windows editions. Some of them 
 **Q:** I'm using a tweak for &lt;feature&gt; on my installation, can you add it?  
 **A:** Submit a PR, create a feature request issue or drop me a message. If I find the functionality simple and useful, I might add it. I want to stay clear of any 3rd party modules and executables to do configurations (including also *Chocolatey*, *NuGet*, *Ninite* or other automation solutions), so if you are asking for something in that area, please don't expect me to incorporate it.
 
+**Q:** Didn't you just say, that you wanted to stay clear of 3rd party modules like NuGet? I see that you use it to install the Nuget module PSWindowsUpdate. Why?  
+**A:** Oh, you read this far - and you actually verified the code. I'm impressed. Microsoft does not support this functionality (yet) using native Powershell. I still want to stay clear of 3rd party modules, but I needed the PowerShell enabled Windows Update functionality on a machine, so I broke my own rules. It sucks, I know. But life is hard, right? 
+
 **Q:** I'm using a freely available piece of forensic software to examine &lt;some artifact&gt;, can you add it?  
 **A:** Submit a PR, create a feature request issue or drop me a message. If I like the software or can see the use of it for some of my fellow forensic colleagues, I might add it. 
 
@@ -111,6 +114,9 @@ The vast majority of the tweaks will work on all Windows editions. Some of them 
 
 **Q:** A single function or a few functions does not work, why don't you fix it?  
 **A:** I run Linux on all of my primary PCs. This is just a hobby project. :-) But by all means - Submit a PR, create a feature request issue or drop me a message. It is likely that I do not know that something broke, and I will fix the features in the script once they are added.
+
+**Q:** Being a Linux user, why haven't you written the code in this repository to support multiple platforms, so it could run under Linux as well?
+**A:** Because it is a Windows bootstrap script. Everything is centered around Windows, so why should I write code that configure a Windows machine but runs under Linux? Only reason that I can think of is, that I sometimes forget which platform I am on, and I write code for this repo on my Linux pc. When I test it in the built-in VS Code terminal, some of the functionality fails (because there is no BITS service on Linux). But hey - even I need to wake up sometimes. My Linux bootstrapper is written in bash. Go check it out here: https://github.com/tjuuljensen/ride-fedora.
 
 &nbsp;
 
