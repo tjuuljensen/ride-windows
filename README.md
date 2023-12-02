@@ -73,11 +73,11 @@ And please be aware, that even though some of the software is free for private u
 **A:** The script aims to be fully compatible with the most up-to-date 64-bit version of Windows 10/11 receiving updates from the semi-annual channel, however if you create your own preset and exclude the incompatible tweaks, it will also work on LTSB/LTSC. Many of the functions will work on 32-bit Windows, *but some will not*. 
 The vast majority of the tweaks will work on all Windows editions. Some of them rely on group policy settings, so there may be a few limitations for Home and Education editions.
 
-**Q:** Can I run the script on Windows Server 2016 or 2019?  
+**Q:** Can I run the script on Windows Server 2016, 2019 or 2022?  
 **A:** Yes. Windows Server is supported. There are even a few tweaks specific to a Server environment. Keep in mind though, that the script is still primarily designed for Windows 10 / 11, so you have to create your own preset.
 
 **Q:** Can I run the script on Windows 7, 8, 8.1 or other versions of Windows?  
-**A:** No. Although some tweaks may work also on older versions of Windows, the script is developed only for Windows 10 /11 and Windows Server 2016 / 2019. There are no plans to support older versions.
+**A:** No. Although some tweaks may work also on older versions of Windows, the script is developed only for Windows 10 / 11 and Windows Server 2016 / 2019 / 2022. There are no plans to support older versions.
 
 **Q:** Can I run the script in a multi-user environment?  
 **A:** Yes, to a certain extent. Some tweaks (most notably UI tweaks) are set only for the user currently executing the script. As stated above, the script can be run repeatedly; therefore it's possible to run it multiple times, each time as a different user. Due to the nature of authentication and privilege escalation mechanisms in Windows, most of the tweaks can be successfully applied only by users belonging to the *Administrators* group. Standard users will get a UAC prompt asking for admin credentials which then causes the tweaks to be applied to the given admin account instead of the original non-privileged one. There are a few ways this can be circumvented programmatically, but I'm not planning to include any as it would negatively impact code complexity and readability. If you still wish to try to use the script in a multi-user environment, check [this answer in issue #29](https://github.com/Disassembler0/Win10-Initial-Setup-Script/issues/29#issuecomment-333040591) for some pointers.
@@ -98,7 +98,7 @@ The vast majority of the tweaks will work on all Windows editions. Some of them 
 **A:** Submit a PR, create a feature request issue or drop me a message. If I find the functionality simple and useful, I might add it. I want to stay clear of any 3rd party modules and executables to do configurations (including also *Chocolatey*, *NuGet*, *Ninite* or other automation solutions), so if you are asking for something in that area, please don't expect me to incorporate it.
 
 **Q:** Didn't you just say, that you wanted to stay clear of 3rd party modules like NuGet? I see that you use it to install the Nuget module PSWindowsUpdate. Why?  
-**A:** Oh, you read this far - and you actually verified the code. I'm impressed. Microsoft does not support this functionality (yet) using native Powershell. I still want to stay clear of 3rd party modules, but I needed the PowerShell enabled Windows Update functionality on a machine, so I broke my own rules. It sucks, I know. But life is hard, right? 
+**A:** Oh, you read this far - and you actually verified the code. Kudos to you. Microsoft does not support this functionality (yet) using native Powershell. I still want to stay clear of 3rd party modules, but I needed the PowerShell enabled Windows Update functionality on a machine, so I broke my own rules. It sucks, I know. But life is hard, right? 
 
 **Q:** I'm using a freely available piece of forensic software to examine &lt;some artifact&gt;, can you add it?  
 **A:** Submit a PR, create a feature request issue or drop me a message. If I like the software or can see the use of it for some of my fellow forensic colleagues, I might add it. 
@@ -116,7 +116,7 @@ The vast majority of the tweaks will work on all Windows editions. Some of them 
 **A:** I run Linux on all of my primary PCs. This is just a hobby project. :-) But by all means - Submit a PR, create a feature request issue or drop me a message. It is likely that I do not know that something broke, and I will fix the features in the script once they are added.
 
 **Q:** Being a Linux user, why haven't you written the code in this repository to support multiple platforms, so it could run under Linux as well?
-**A:** Because it is a Windows bootstrap script. Everything is centered around Windows, so why should I write code that configure a Windows machine but runs under Linux? Only reason that I can think of is, that I sometimes forget which platform I am on, and I write code for this repo on my Linux pc. When I test it in the built-in VS Code terminal, some of the functionality fails (because there is no BITS service on Linux). But hey - even I need to wake up sometimes. My Linux bootstrapper is written in bash. Go check it out here: https://github.com/tjuuljensen/ride-fedora.
+**A:** Because it is a Windows bootstrap script. Everything is centered around Windows, so why bother writing code that configure a Windows machine but runs under Linux? Only reason that I can think of is, that I sometimes forget which platform I am on, and I write code for this repo on my Linux pc. When I test it in the built-in VS Code terminal, some of the functionality fails (because there is no BITS service on Linux). But hey - even I need to wake up sometimes. BTW: My Linux bootstrapper is written in bash. Go check it out here: https://github.com/tjuuljensen/ride-fedora.
 
 &nbsp;
 
