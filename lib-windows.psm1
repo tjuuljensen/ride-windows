@@ -498,6 +498,32 @@ function CopyRegionSettingsNewUser {
   }
 }
 
+
+function AddUserBinToPath{
+  # Test if folder exists as path environment variable and add if it does not
+  $FolderInPath = Join-Path -Path ([System.Environment]::GetFolderPath("USERPROFILE")) -ChildPath "bin"
+  
+  # Create directory if it does not exist
+  if (-not (Test-Path -Path $FolderInPath)) {
+    Write-Host "Creating directory ${FolderInPath}."
+    New-Item -Path $FolderInPath -ItemType Directory | Out-Null
+  } 
+  
+  # Check if folder exist in path
+  $FolderExistInPath = $env:path -split ";" | Where-Object { $_ -eq $FolderInPath }
+  if ($null -eq $FolderExistInPath ) { 
+    # Folder is not in path - adding
+    $env:Path = "$FolderInPath;" + $env:Path
+    [Environment]::SetEnvironmentVariable( "Path", $Path, [System.EnvironmentVariableTarget]::User )
+  }
+}
+
+
+################################################################
+###### Power Scheme Settings  ###
+################################################################
+
+
 function SetPowerSchemeBalanced{
   Write-Output "###"
   # Define target scheme
@@ -686,24 +712,58 @@ function RemovePwrSchemeDesktopMenu{
   Remove-Item -Path "HKCR:\DesktopBackground\Shell\Switch Power Plan" -Recurse -ErrorAction SilentlyContinue
 }
 
-
-function AddUserBinToPath{
-  # Test if folder exists as path environment variable and add if it does not
-  $UserBinPath = ([System.Environment]::GetFolderPath("USERPROFILE")+"\bin")
+function SetLidCloseActionBattSleep{
+	# Define constants
+	$DoNothing=0
+	$Sleep=1
+	$Hibernate=2
+	$ShutDown=3
   
-  # Create UserBin directory if it does not exist
-  if (-not (Test-Path -Path $UserBinPath)) {
-    Write-Host "Creating directory ${UserBinPath}."
-    New-Item -Path $UserBinPath -ItemType Directory | Out-Null
-  } 
-  
-  # Check if folder exist in path
-  $FolderExistInPath = $env:path -split ";" | Where-Object { $_ -eq $UserBinPath }
-  if ($null -eq $FolderExistInPath ) { 
-  # Folder is not in path - adding
-  $env:Path = "$UserBinPath;" + $env:Path
+	Write-Output "###"
+	Write-Output "Setting Lid close action on battery to sleep ..."
+	powercfg -setdcvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 5ca83367-6e45-459f-a27b-476b1d01c936 $Sleep
+	#powercfg -SetActive SCHEME_CURRENT
   }
-}
+  
+  function SetLidCloseActionBattDoNothing{
+    # Define constants
+    $DoNothing=0
+    $Sleep=1
+    $Hibernate=2
+    $ShutDown=3
+    
+    Write-Output "###"
+    Write-Output "Setting Lid close action on battery to do nothing ..."
+    powercfg -setdcvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 5ca83367-6e45-459f-a27b-476b1d01c936 $DoNothing
+    powercfg -SetActive SCHEME_CURRENT
+  }
+  
+  function SetLidCloseActionPwrSleep{
+    # Define constants
+    $DoNothing=0
+    $Sleep=1
+    $Hibernate=2
+    $ShutDown=3
+    
+    Write-Output "###"
+    Write-Output "Setting Lid close action when plugged in to sleep ..."
+    powercfg -setacvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 5ca83367-6e45-459f-a27b-476b1d01c936 $Sleep
+    powercfg -SetActive SCHEME_CURRENT
+  }
+  
+  function SetLidCloseActionPwrDoNothing{
+    # Define constants
+    $DoNothing=0
+    $Sleep=1
+    $Hibernate=2
+    $ShutDown=3
+    
+    Write-Output "###"
+    Write-Output "Setting Lid close action when plugged in to do nothing ..."
+    powercfg -setacvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 5ca83367-6e45-459f-a27b-476b1d01c936 $DoNothing
+    powercfg -SetActive SCHEME_CURRENT
+  }
+  
 
 
 ################################################################
@@ -4483,7 +4543,8 @@ function InstallPython {
       if ($null -eq $PythonFolderInPath ) { 
         # Python is not in path - adding
         $PythonScripts = Join-Path -Path $PythonFolder -ChildPath "Scripts"
-        $env:Path = "$PythonScripts;$PythonFolder;" + $env:Path
+        $Path = "$PythonScripts;$PythonFolder;" + $env:Path
+        [Environment]::SetEnvironmentVariable( "Path", $Path, [System.EnvironmentVariableTarget]::User )
       }
     }
 
@@ -7918,7 +7979,8 @@ function InstallVolatility3{
     if ($null -eq $PythonFolderInPath ) { 
       # Python is not in path - adding
       $PythonScripts = Join-Path -Path $PythonFolder -ChildPath "Scripts"
-      $env:Path = "$PythonScripts;$PythonFolder;" + $env:Path
+      $Path = "$PythonScripts;$PythonFolder;" + $env:Path
+      [Environment]::SetEnvironmentVariable( "Path", $Path, [System.EnvironmentVariableTarget]::User )
     }
   }
   $CommandLineOptions = "setup.py build"

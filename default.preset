@@ -21,9 +21,13 @@ EnableRunAsInStartMenu        # DisableRunAsInStartMenu
 # EnableMemoryIntegrity       # DisableMemoryIntegrity
 SetRegionalSettings
 CopyRegionSettingsToAll       # CopyRegionSettingsWelcome   # CopyRegionSettingsNewUser
+AddUserBinToPath
+
+### Power Scheme Settings  ###
 # SetPowerSchemeBalanced      # SetPowerSchemeHighPerf      # SetPowerSchemeUltimate
 # SetPwrSchemeDesktopMenu     # RemovePwrSchemeDesktopMenu
-AddUserBinToPath
+# SetLidCloseActionBattSleep  # SetLidCloseActionBattDoNothing 
+# SetLidCloseActionPwrDoNothing # SetLidCloseActionPwrSleep
 
 ### Privacy configurations  ###
 DisableInkingAndTypingData    # EnableInkingAndTypingData
