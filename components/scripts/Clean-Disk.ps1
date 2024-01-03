@@ -1,7 +1,7 @@
 # Windows 10/11 disk cleanup script for VM's
 # Author: Torsten Juul-Jensen
 # Version: v1.0, 2022-12-28
-# Source: https://github.com/tjuuljensen/ride-windows/disk-clean/disk-clean.ps1
+# Source: https://github.com/tjuuljensen/ride-windows/tree/master/components/scripts
 #
 
 Function RequireAdmin {
