@@ -1215,6 +1215,8 @@ function EnableWSL{
      Write-Output "Setting Windows Subsystem for Linux version 2 as default WSL..."
      wsl --set-default-version 2
   }
+
+  wsl --update
 }
 
 function DisableWSL{
@@ -1272,7 +1274,7 @@ function InstallWSLFedora{
   $SoftwareName = "WSL Fedora"
   Write-Output "Installing $SoftwareName..."
 
-  # get lastest Fedora version
+  # get latest Fedora version
   $FedoraReleaseUri="https://download.fedoraproject.org/pub/fedora/linux/releases/"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $FedoraReleaseUri).Links
   $FedoraVersion= ($ReleasePageLinks.href | ForEach-Object{$_.Substring(0, $_.length - 1) -as [int]}  | Sort-Object -Descending | Select-Object -First 1)
@@ -1280,7 +1282,7 @@ function InstallWSLFedora{
   # Get second latest release page (most likely yesterday)
   $url="https://koji.fedoraproject.org/koji/packageinfo?packageID=26387"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $BuildPage = ("https://koji.fedoraproject.org/koji/" + ($ReleasePageLinks | Where-Object { $_.outerHTML -Like "*Container*" -and $_.outerHTML -Like "*$FedoraVersion*" } | Select-Object -Skip 1 -First 1).href)
+  $BuildPage = ("https://koji.fedoraproject.org/koji/" + ($ReleasePageLinks | Where-Object { $_.outerHTML -Like "*Container*" -and $_.outerHTML -Like "*Base-$FedoraVersion*" } | Select-Object -First 1).href)
 
   # Get rootfs image link in page
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $BuildPage).Links
@@ -1309,17 +1311,39 @@ function InstallWSLFedora{
   Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
   Write-Output "Downloaded: $FileFullName"
 
-  # Install (FIXME)
-  # & 'C:\Program Files\7-Zip\7z.exe' x .\Fedora-Container-Base-35-20220212.0.x86_64.tar.xz
-  #  & 'C:\Program Files\7-Zip\7z.exe' e .\Fedora-Container-Base-35-20220212.0.x86_64.tar 64f3db080638d17ae803eb06b0515b6f99fb90a9b490f310bd98a02b8a5df6c4\layer.tar
-  # Move layer.tar to fedora-35-rootfs.tar
 
-  # mkdir $HOME\wsl\fedora
-  # wsl --import fedora $HOME\wsl\fedora $HOME\Downloads\fedora-35-rootfs.tar
-  # set this as defaul: wsl -s fedora
+  # To unpack package, this function depends on 7-Zip
+  $ArchiveTool = [System.Environment]::GetFolderPath("ProgramFiles")+"\7-Zip\7z.exe"
+  # Unzip password protected file
+  if (-not (Test-Path $ArchiveTool)) {
+      Write-Output "Warning: 7-Zip not found. Cannot unpack software"
+  } else {# 
+    Write-Output "Unpacking with 7-zip"
+    & $ArchiveTool x "-o$SoftwareFolderFullName" $FileFullName | out-null
+    Remove-Item $FileFullName
 
+    $TarFile = $FileFullName.Substring(0,$FileFullName.Length-3)
+    & $ArchiveTool e "-o$SoftwareFolderFullName" $TarFile layer.tar -r | out-null 
+    Remove-Item $TarFile
 
-  Write-Output "Installation done for $SoftwareName"
+    Write-Output "$SoftwareName extracted to $NewSoftwareFolderFullName"
+
+    $RootFSsource = Join-Path -Path $SoftwareFolderFullName -ChildPath layer.tar
+    $RootFSfile = Join-Path -Path $SoftwareFolderFullName -ChildPath "fedora-$FedoraVersion-rootfs.tar" 
+    Move-Item $RootFSsource $RootFSfile  
+
+    $FedoraWSLfolder = Join-Path -Path $env:USERPROFILE -ChildPath wsl\fedora
+    if (-not (Test-Path -Path $FedoraWSLfolder)) {
+      New-Item -Path $FedoraWSLfolder -ItemType Directory | Out-Null
+      }
+    
+    wsl --import fedora $FedoraWSLfolder $RootFSfile
+    # set this as default: wsl --set-default fedora
+    
+    Write-Output "Installation done for $SoftwareName"
+    
+  } 
+    
 }
 
 ################################################################
@@ -8657,7 +8681,7 @@ function InstallZimmermanTools{
   Write-Output "Downloaded: $FileFullName"
 
   # Run ps1 file which will download the tools
-  Invoke-Expression "$FileFullName -Dest $SoftwareFolderFullName"
+  Invoke-Expression "$FileFullName -NetVersion 0 -Dest $SoftwareFolderFullName" 
   
   if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
     # Get tools folder
