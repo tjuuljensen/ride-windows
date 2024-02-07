@@ -714,10 +714,10 @@ function RemovePwrSchemeDesktopMenu{
 
 function SetLidCloseActionBattSleep{
 	# Define constants
-	$DoNothing=0
+	#$DoNothing=0
 	$Sleep=1
-	$Hibernate=2
-	$ShutDown=3
+	#$Hibernate=2
+	#$ShutDown=3
   
 	Write-Output "###"
 	Write-Output "Setting Lid close action on battery to sleep ..."
@@ -728,9 +728,9 @@ function SetLidCloseActionBattSleep{
   function SetLidCloseActionBattDoNothing{
     # Define constants
     $DoNothing=0
-    $Sleep=1
-    $Hibernate=2
-    $ShutDown=3
+    #$Sleep=1
+    #$Hibernate=2
+    #$ShutDown=3
     
     Write-Output "###"
     Write-Output "Setting Lid close action on battery to do nothing ..."
@@ -740,10 +740,10 @@ function SetLidCloseActionBattSleep{
   
   function SetLidCloseActionPwrSleep{
     # Define constants
-    $DoNothing=0
+    #$DoNothing=0
     $Sleep=1
-    $Hibernate=2
-    $ShutDown=3
+    #$Hibernate=2
+    #$ShutDown=3
     
     Write-Output "###"
     Write-Output "Setting Lid close action when plugged in to sleep ..."
@@ -754,9 +754,9 @@ function SetLidCloseActionBattSleep{
   function SetLidCloseActionPwrDoNothing{
     # Define constants
     $DoNothing=0
-    $Sleep=1
-    $Hibernate=2
-    $ShutDown=3
+    #$Sleep=1
+    #$Hibernate=2
+    #$ShutDown=3
     
     Write-Output "###"
     Write-Output "Setting Lid close action when plugged in to do nothing ..."
@@ -783,7 +783,20 @@ function ExcludeToolsDirDefender{
   Write-Output "###"
   # Exclude C:\Tools from Defender Antivirus scan
   Write-Output "Exclude C:\Tools from Defender Antivirus scans..."
-  Add-MpPreference -ExclusionPath C:\Tools
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Get tools folder
+    $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
+    if (-not $ToolsFolder) {
+      # Set default tools folder
+      $ToolsFolder = "\Tools"
+    }
+    
+    # Create tools folder if not existing
+    if (-not (Test-Path -Path $ToolsFolder)) {
+      New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
+    }
+  }
+  Add-MpPreference -ExclusionPath $ToolsFolder
 }
 
 function RemoveToolsDirDefender{
@@ -4926,7 +4939,7 @@ function InstallWinSCP {
   $BaseUrl = "https://winscp.net"
   $Url = "https://winscp.net/eng/downloads.php"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | Where-Object { ($_.href -Like "*Portable.zip") -and ( $_.href -NotLike "*beta*") }).href
+  $SoftwareUri = ($ReleasePageLinks | Where-Object { ($_.href -Like "*Portable.zip") -and ( $_.href -NotLike "*beta*") } | Select-Object -First 1).href
   $FullDownloadURL = "${BaseUrl}${SoftwareUri}"
   if (-not $SoftwareUri) {
 	Write-Output "Error: $SoftwareName not found"
