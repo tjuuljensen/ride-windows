@@ -2784,7 +2784,7 @@ function InstallMitec(){
   Write-Output "Installing $SoftwareName..."
 
   $Url = "http://www.mitec.cz"
-  #$ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
   $DownloadPages =  ($ReleasePageLinks | Where-Object { $_.href -Like "*.html" -and  $_.href -NotLike "/*.*"} ).href | Sort-Object | Get-Unique
 
   # ($ReleasePageLinks | Where-Object { $_.href -Like "*.zip" } ).href | Sort-Object | Get-Unique
@@ -3124,7 +3124,7 @@ function InstallArsenalRecon{
     $ZipFiles = Get-ChildItem $SoftwareFolderFullName -Filter *.zip 
     
         foreach ($ZipFile in $ZipFiles) {
-            try { $ZipFile | Expand-Archive -DestinationPath $NewSoftwareFolderFullName  }
+            try { $ZipFile | Expand-Archive -DestinationPath $NewSoftwareFolderFullName -Force }
             catch { Write-Output "FAILED to unzip:"$ZipFile -ForegroundColor red }
         }
       
@@ -5121,6 +5121,17 @@ function InstallKAPE {
 	$NewFileFullName = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $FileName
 	Expand-Archive $NewFileFullName -DestinationPath $NewSoftwareFolderFullName
 	Remove-Item -Path $NewFileFullName -ErrorAction Ignore
+
+  $SubPath = Get-ChildItem $NewSoftwareFolderFullName -Name 
+  if ($SubPath.count -eq 1) {
+    $FullSubPath = Join-Path -Path $NewSoftwareFolderFullName -ChildPath $SubPath
+    $FolderIsNested = (Get-ChildItem -Path "$NewSoftwareFolderFullName" -Directory).count -eq (Get-ChildItem -Path "$NewSoftwareFolderFullName" ).count
+    if ($FolderIsNested) {
+      Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $NewSoftwareFolderFullName
+      Remove-Item -Path $FullSubPath -ErrorAction SilentlyContinue -Recurse -Force
+    }  
+  }
+
 	Write-Output "Unzipped to: $NewSoftwareFolderFullName"
   
 }
