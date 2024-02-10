@@ -13766,7 +13766,7 @@ Function EnableAudio {
 Function DisableAudio {
   Write-Output "###"
 	Write-Output "Disabling Audio..."
-	Stop-Service "Audiosrv" -WarningAction SilentlyContinue
+	Stop-Service "Audiosrv" -Force -WarningAction SilentlyContinue
 	Set-Service "Audiosrv" -StartupType Manual
 }
 
