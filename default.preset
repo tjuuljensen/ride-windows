@@ -419,6 +419,7 @@ RemoveFaxPrinter                # AddFaxPrinter
 # DisableCtrlAltDelLogin        # EnableCtrlAltDelLogin
 # DisableIEEnhancedSecurity     # EnableIEEnhancedSecurity
 # EnableAudio                   # DisableAudio
+# AudioMute                     # AudioUnmute 
 
 ### Unpinning ###
 # UnpinStartMenuTiles
