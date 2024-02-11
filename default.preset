@@ -19,6 +19,7 @@ DisableFriendlyURLFormat      # UnconfigureFriendlyURLFormat
 EnableRunAsInStartMenu        # DisableRunAsInStartMenu
 # EnableInternetPrinting      # DisableInternetPrinting
 # EnableMemoryIntegrity       # DisableMemoryIntegrity
+InstallLanguagePackGB         # InstallLanguagePackDK       # InstallLanguagePackCustom
 SetRegionalSettings
 CopyRegionSettingsToAll       # CopyRegionSettingsWelcome   # CopyRegionSettingsNewUser
 AddUserBinToPath

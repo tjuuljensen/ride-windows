@@ -1,6 +1,6 @@
 # Windows 10 / Windows 11 / Server 2016 / Server 2019 Setup Script
 # Author: Torsten Juul-Jensen
-# Version: v2.5, 2023-10-27
+# Version: v2.6, 2024-02-11
 # Source: https://github.com/tjuuljensen/ride-windows/lib-windows.psm1
 #
 
@@ -155,10 +155,9 @@ using System.Collections;
 
 function CreateNewLocalAdmin{
   Write-Output "###"
-  # Tested on Windows 10 Pro 10.0.19044
-
   $DefaultAdminName="admin"
   $LocalAdminUser = if ($null -eq [Environment]::GetEnvironmentVariable("RIDEVAR-LocalAdmin-AdminUser", "Process")) {$DefaultAdminName}  else {[Environment]::GetEnvironmentVariable("RIDEVAR-LocalAdmin-AdminUser", "Process")}
+  Write-Output "Creating new admin user: $LocalAdminUser"
 
   if ((Get-LocalUser $LocalAdminUser -ErrorAction Ignore).count -eq 1) {
     write-output "ERROR: User $LocalAdminUser exists - Exiting."
@@ -174,7 +173,17 @@ function CreateNewLocalAdmin{
     Write-Output "Creating local admin user: $LocalAdminUser"
     New-LocalUser $LocalAdminUser -Password $Password -FullName "Local Administrator" -Description "Replacement for default Administrator Account" | Out-Null
 
-    Add-LocalGroupMember -Group "Administrators" -Member $LocalAdminUser
+    # Finding localized BUILTIN\Administrators name. Create a new SecurityIdentifier object with the Administrators group SID
+    $sid = New-Object System.Security.Principal.SecurityIdentifier("S-1-5-32-544")
+
+    # Translate the SID to a NTAccount
+    $Group = $sid.Translate([System.Security.Principal.NTAccount])
+
+    # Split the value on the backslash and select the last part
+    $GroupName = $Group.Value.Split('\')[-1]
+
+    # Add the LocalAdminUser to the local administrator group
+    Add-LocalGroupMember -Group $GroupName -Member $LocalAdminUser
   }
 }
 
@@ -417,13 +426,11 @@ function InstallLanguagePackCustom{
   else {
     Write-Host "No LanguagePack specified. Check command line options or LanguagePack value in [Language] section of INI file."
   }
-  
-
 }
-
 
 function SetRegionalSettings{
   Write-Output "###"
+  Write-Output "Setting regional settings"
   # https://scribbleghost.net/2018/04/30/add-keyboard-language-to-windows-10-with-powershell/
 
   $DefaultWinUserLanguage="en-GB"
@@ -457,6 +464,16 @@ function SetRegionalSettings{
   # Set non-unicode legacy software to use this language as default
   Set-WinSystemLocale -SystemLocale $SystemLocale
 
+  # Install DefaultWinUserLanguage if not installed 
+  if (! (Get-InstalledLanguage  $DefaultWinUserLanguage)) {
+      Install-Language  $DefaultWinUserLanguage
+  }
+
+  # set DefaultWinUserLanguage as default
+  Set-SystemPreferredUILanguage $DefaultWinUserLanguage
+  # Define user language
+  Set-WinUILanguageOverride -Language $DefaultWinUserLanguage
+
   # Copy settings to entire system - Only on Windows 11 and forward
    if (([environment]::OSVersion.Version).Build -ge 22000) {
      Write-Output "Copying sessings to system default..."
@@ -464,11 +481,13 @@ function SetRegionalSettings{
      }
 
   # Set timezone
-  Write-Output "Setting Time Zone"
+  Write-Output "- setting time zone"
   Set-TimeZone $TimeZone
 }
 
 function CopyRegionSettingsToAll {
+  Write-Output "###"
+  Write-Output "Copying regional settings to all users..."
   # Major version = 10 -> either Windows 10 or 11 / Build over 22000 -> Windows 11
   $SupportedOS=(([Environment]::OSVersion.Version).Major -eq "10") -and ([int]([Environment]::OSVersion.Version).Build -ge 22000)
   if ($SupportedOS) { 
@@ -479,6 +498,8 @@ function CopyRegionSettingsToAll {
 }
 
 function CopyRegionSettingsWelcome {
+  Write-Output "###"
+  Write-Output "Copying regional settings to welcome screen..."
   # Major version = 10 -> either Windows 10 or 11 / Build over 22000 -> Windows 11
   $SupportedOS=(([Environment]::OSVersion.Version).Major -eq "10") -and ([int]([Environment]::OSVersion.Version).Build -ge 22000)
   if ($SupportedOS) { 
@@ -489,6 +510,8 @@ function CopyRegionSettingsWelcome {
 }
 
 function CopyRegionSettingsNewUser {
+  Write-Output "###"
+  Write-Output "Copying regional settings to new users..."
   # Major version = 10 -> either Windows 10 or 11 / Build over 22000 -> Windows 11
   $SupportedOS=(([Environment]::OSVersion.Version).Major -eq "10") -and ([int]([Environment]::OSVersion.Version).Build -ge 22000)
   if ($SupportedOS) { 
@@ -500,6 +523,8 @@ function CopyRegionSettingsNewUser {
 
 
 function AddUserBinToPath{
+  Write-Output "###"
+  Write-Output "Adding user bin to path..."
   # Test if folder exists as path environment variable and add if it does not
   $FolderInPath = Join-Path -Path ([System.Environment]::GetFolderPath("USERPROFILE")) -ChildPath "bin"
   
@@ -788,7 +813,7 @@ function ExcludeToolsDirDefender{
     $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
     if (-not $ToolsFolder) {
       # Set default tools folder
-      $ToolsFolder = "\Tools"
+      $ToolsFolder = "$env:SystemDrive+\Tools"
     }
     
     # Create tools folder if not existing
@@ -1648,8 +1673,14 @@ function InstallPSScriptTools{
 
   # Clone git repo
   Set-Location $BootstrapFolder
-  Start-Process git.exe -ArgumentList  "clone $Url" -NoNewWindow -wait
-  
+  $GitIsInstalled=Get-Command git -ErrorAction SilentlyContinue
+  if ($null -ne $GitIsInstalled) {
+    Start-Process git.exe -ArgumentList  "clone $Url" -NoNewWindow -wait
+  } else {
+    Write-Output "ERROR: Git was not found."
+    return
+  }
+
   if (-not (Test-Path -Path $SoftwareFolderFullName)) {
     Write-Output "Directory $SoftwareFolderFullName was not found. Exiting..."
     return
@@ -2119,7 +2150,6 @@ function GetSysinternalsSuite{
       $ToolsFolder = "\Tools"
     }
     
-
     # Create tools folder if not existing
     if (-not (Test-Path -Path $ToolsFolder)) {
       New-Item -Path $ToolsFolder -ItemType Directory | Out-Null
