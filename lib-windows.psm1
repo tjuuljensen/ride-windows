@@ -1642,7 +1642,7 @@ function InstallGit4Win{
     # Add Git folder to path environment variable
     $GitFolder = Join-Path -Path ${env:ProgramFiles} -ChildPath "Git\cmd"
     $GitFolderInPath = $env:path -split ";" | Where-Object { $_ -eq $GitFolder }
-      if ($null -eq $PythonFolderInPath ) { 
+      if ($null -eq $GitFolderInPath ) { 
         # Python is not in path - adding
         $Path = "$GitFolder;" + $env:Path
         [Environment]::SetEnvironmentVariable( "Path", $Path, [System.EnvironmentVariableTarget]::User )
