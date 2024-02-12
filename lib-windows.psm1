@@ -900,8 +900,10 @@ function PutBitlockerShortCutOnDesktop{
   Write-Output "###"
     # Start Bitlocker wizard https://social.technet.microsoft.com/Forums/windows/en-US/12388d10-196a-483a-8421-7dcbffed123b/run-bitlocker-drive-encryption-wizard-from-command-line?forum=w7itprosecurity
     $AppLocation = "$env:SystemDrive\Windows\System32\BitLockerWizardElev.exe"
+    $DesktopPath=[Environment]::GetFolderPath("Desktop")
+    $ShortcutPath = Join-Path -Path $DesktopPath -ChildPath "Bitlocker Wizard.lnk"
     $WshShell = New-Object -ComObject WScript.Shell
-    $Shortcut = $WshShell.CreateShortcut("$Home\Desktop\Bitlocker Wizard.lnk")
+    $Shortcut = $WshShell.CreateShortcut("$ShortcutPath")
     $Shortcut.TargetPath = $AppLocation
     $Shortcut.Arguments ="\ t"
     $Shortcut.Description ="Start Bitlocker Wizard"
@@ -1636,6 +1638,16 @@ function InstallGit4Win{
     # Install exe
     $CommandLineOptions = "/SILENT /LOG"
     Start-Process -FilePath $FileFullName -ArgumentList $CommandLineOptions -NoNewWindow -Wait
+
+    # Add Git folder to path environment variable
+    $GitFolder = Join-Path -Path ${env:ProgramFiles} -ChildPath "Git\cmd"
+    $GitFolderInPath = $env:path -split ";" | Where-Object { $_ -eq $GitFolder }
+      if ($null -eq $PythonFolderInPath ) { 
+        # Python is not in path - adding
+        $Path = "$GitFolder;" + $env:Path
+        [Environment]::SetEnvironmentVariable( "Path", $Path, [System.EnvironmentVariableTarget]::User )
+      }
+
     Write-Output "Installation done for $SoftwareName"
   }
 }
