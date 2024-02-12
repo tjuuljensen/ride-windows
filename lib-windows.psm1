@@ -526,21 +526,41 @@ function AddUserBinToPath{
   Write-Output "###"
   Write-Output "Adding user bin to path..."
   # Test if folder exists as path environment variable and add if it does not
-  $FolderInPath = Join-Path -Path ([System.Environment]::GetFolderPath("USERPROFILE")) -ChildPath "bin"
+  $UserBinaries = Join-Path -Path ([System.Environment]::GetFolderPath("USERPROFILE")) -ChildPath "bin"
   
   # Create directory if it does not exist
   if (-not (Test-Path -Path $FolderInPath)) {
     Write-Host "Creating directory ${FolderInPath}."
-    New-Item -Path $FolderInPath -ItemType Directory | Out-Null
+    New-Item -Path $UserBinaries -ItemType Directory | Out-Null
   } 
   
   # Check if folder exist in path
-  $FolderExistInPath = $env:path -split ";" | Where-Object { $_ -eq $FolderInPath }
+  $FolderExistInPath = $env:path -split ";" | Where-Object { $_ -eq $UserBinaries }
   if ($null -eq $FolderExistInPath ) { 
-    # Folder is not in path - adding
-    $env:Path = "$FolderInPath;" + $env:Path
-    [Environment]::SetEnvironmentVariable( "Path", $Path, [System.EnvironmentVariableTarget]::User )
+    # Folder is not in path - adding (temporarily)
+    $env:Path += ";$UserBinaries"
   }
+
+  # Write $profile file to set user Path
+  $ProfileFile = $profile.CurrentUserCurrentHost
+
+  if (!(Test-Path -Path $ProfileFile)) {
+      New-Item -ItemType File -Path $ProfileFile -Force
+    Add-Content -Path $ProfileFile -Value '# PowerShell Profile file
+# This file was created by ride-windows script'
+  }
+
+  If (Select-String -Path $ProfileFile -Pattern "UserBinaries" -SimpleMatch -Quiet) {
+      echo "Config is already in profile."
+  } else {
+      # Add UserBinary config to $ProfileFile
+    Add-Content -Path $ProfileFile -Value '
+# UserBinaries
+$UserBinaries = Join-Path -Path ([System.Environment]::GetFolderPath("USERPROFILE")) -ChildPath "bin"
+$env:Path += ";$UserBinaries"
+' 
+  }
+
 }
 
 
@@ -1639,13 +1659,12 @@ function InstallGit4Win{
     $CommandLineOptions = "/SILENT /LOG"
     Start-Process -FilePath $FileFullName -ArgumentList $CommandLineOptions -NoNewWindow -Wait
 
-    # Add Git folder to path environment variable
+    # Add Git folder to path environment variable (temporarily)
     $GitFolder = Join-Path -Path ${env:ProgramFiles} -ChildPath "Git\cmd"
-    $GitFolderInPath = $env:path -split ";" | Where-Object { $_ -eq $GitFolder }
+    $GitFolderInPath = $env:Path -split ";" | Where-Object { $_ -eq $GitFolder }
       if ($null -eq $GitFolderInPath ) { 
-        # Python is not in path - adding
-        $Path = "$GitFolder;" + $env:Path
-        [Environment]::SetEnvironmentVariable( "Path", $Path, [System.EnvironmentVariableTarget]::User )
+        # Git\cmd is not in path - adding
+        $env:Path += ";$GitFolder" 
       }
 
     Write-Output "Installation done for $SoftwareName"
@@ -4618,12 +4637,11 @@ function InstallPython {
       break
     } else { 
       # The Python folder exist - check if it is in environment variable
-      $PythonFolderInPath = $env:path -split ";" | Where-Object { $_ -eq $PythonFolder }
+      $PythonFolderInPath = $env:Path -split ";" | Where-Object { $_ -eq $PythonFolder }
       if ($null -eq $PythonFolderInPath ) { 
-        # Python is not in path - adding
+        # Python is not in path - adding temporarily
         $PythonScripts = Join-Path -Path $PythonFolder -ChildPath "Scripts"
-        $Path = "$PythonScripts;$PythonFolder;" + $env:Path
-        [Environment]::SetEnvironmentVariable( "Path", $Path, [System.EnvironmentVariableTarget]::User )
+        $env:Path += ";$PythonScripts;$PythonFolder;" 
       }
     }
 
@@ -8065,12 +8083,11 @@ function InstallVolatility3{
     break
   } else { 
     # The Python folder exist - check if it is in environment variable
-    $PythonFolderInPath = $env:path -split ";" | Where-Object { $_ -eq $PythonFolder }
+    $PythonFolderInPath = $env:Path -split ";" | Where-Object { $_ -eq $PythonFolder }
     if ($null -eq $PythonFolderInPath ) { 
       # Python is not in path - adding
       $PythonScripts = Join-Path -Path $PythonFolder -ChildPath "Scripts"
-      $Path = "$PythonScripts;$PythonFolder;" + $env:Path
-      [Environment]::SetEnvironmentVariable( "Path", $Path, [System.EnvironmentVariableTarget]::User )
+      $env:Path += ";$PythonScripts;$PythonFolder"
     }
   }
   $CommandLineOptions = "setup.py build"
