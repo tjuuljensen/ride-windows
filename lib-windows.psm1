@@ -833,7 +833,7 @@ function ExcludeToolsDirDefender{
     $ToolsFolder = [Environment]::GetEnvironmentVariable("RIDEVAR-Customization-ToolsFolder", "Process")
     if (-not $ToolsFolder) {
       # Set default tools folder
-      $ToolsFolder = "$env:SystemDrive+\Tools"
+      $ToolsFolder = Join-Path -Path $env:SystemDrive -ChildPath "\Tools\"
     }
     
     # Create tools folder if not existing
