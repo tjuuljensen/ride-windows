@@ -551,7 +551,7 @@ function AddUserBinToPath{
   }
 
   If (Select-String -Path $ProfileFile -Pattern "UserBinaries" -SimpleMatch -Quiet) {
-      echo "Config is already in profile."
+      Write-Output "Config is already in profile."
   } else {
       # Add UserBinary config to $ProfileFile
     Add-Content -Path $ProfileFile -Value '
