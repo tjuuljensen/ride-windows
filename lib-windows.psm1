@@ -1592,6 +1592,15 @@ function InstallGitLFS{
   if (-not (Test-Path -Path $BootstrapFolder)) {
 	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
   }
+  
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
 
   # Download
   Write-Output "Downloading file from: $FullDownloadURL"
@@ -3192,6 +3201,67 @@ function InstallArsenalRecon{
       Write-Output "Unzipped to: $NewSoftwareFolderFullName"
   }
 }
+
+
+function InstallWingetAutoUpdate{
+  # https://github.com/Romanitho/Winget-AutoUpdate
+
+  Write-Output "###"
+  $SoftwareName = "Winget-AutoUpdate"
+  Write-Output "Installing $SoftwareName..."
+
+  $author="Romanitho"
+  $repo="Winget-AutoUpdate"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*WAU.zip*"  })
+  if (-not $FullDownloadURL) {
+	Write-Output "Error: $SoftwareName not found"
+	return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Output "Downloaded: $FileFullName"
+
+  # Unzip
+  Expand-Archive $FileFullName -DestinationPath $SoftwareFolderFullName -Force 
+  Remove-Item -Path $FileFullName -ErrorAction Ignore
+  Write-Output "Unzipped to: $SoftwareFolderFullName"
+  
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    
+    # Set command line options
+    $CommandLineOptions = "-Silent -DoNotUpdate -InstallUserContext -StartMenuShortcut -NotificationLevel Full -UpdatesInterval Daily -UpdatesAtLogon"
+   
+    # Install 
+    $WingetAutoUpdateScript=Join-Path -Path $SoftwareFolderFullName -ChildPath "Winget-AutoUpdate-Install.ps1"
+    & $WingetAutoUpdateScript $CommandLineOptions 
+    Write-Output "Installation done for $SoftwareName"
+    }
+    
+}
+
 
 function InstallOpenJDK{
   Write-Output "###"
