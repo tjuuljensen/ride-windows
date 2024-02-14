@@ -547,15 +547,15 @@ function AddUserBinToPath{
   if (!(Test-Path -Path $ProfileFile)) {
       New-Item -ItemType File -Path $ProfileFile -Force
     Add-Content -Path $ProfileFile -Value '# PowerShell Profile file
-# This file was created by ride-windows script'
+# This file was created by ride-windows script
+'
   }
 
   If (Select-String -Path $ProfileFile -Pattern "UserBinaries" -SimpleMatch -Quiet) {
       echo "Config is already in profile."
   } else {
       # Add UserBinary config to $ProfileFile
-    Add-Content -Path $ProfileFile -Value '
-# UserBinaries
+    Add-Content -Path $ProfileFile -Value '# UserBinaries
 $UserBinaries = Join-Path -Path ([System.Environment]::GetFolderPath("USERPROFILE")) -ChildPath "bin"
 $env:Path += ";$UserBinaries"
 ' 
@@ -9053,7 +9053,7 @@ function SetLockScreen {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP" -Name "LockScreenImageUrl" -Type String -Value "$LockScreenImageFullName"
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP" -Name "LockScreenImageStatus" -Type DWORD -Value 1
 
-    $SystemDataPath = "C:\ProgramData\Microsoft\Windows\SystemData"
+    $SystemDataPath = Join-Path -Path $env:SystemDrive -ChildPath "\ProgramData\Microsoft\Windows\SystemData"
     
     Start-Process takeown -ArgumentList "/R /A /F /D ""Y"" $SystemDataPath" -Wait -WindowStyle Hidden
     $AllArguments = "$SystemDataPath+  /reset /t /c /l"
