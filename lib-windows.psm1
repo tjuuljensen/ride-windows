@@ -5844,6 +5844,58 @@ function InstallPowerShell{
 }
 
 
+function InstallAutomatedLab{
+  Write-Output "###"
+  $SoftwareName = "AutomatedLab"
+  Write-Output "Installing $SoftwareName..."
+ 
+  $author="AutomatedLab"
+  $repo="AutomatedLab"
+  $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
+  $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
+
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*msi*" } | Select-Object -First 1)
+  if (-not $FullDownloadURL) {
+	Write-Output "Error: $SoftwareName not found"
+	return
+  }
+
+  # Create bootstrap folder if not existing
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  # Create software folder
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  # Download
+  Write-Output "Downloading file from: $FullDownloadURL"
+  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  
+  if (Test-Path -Path $FileFullName) {
+    Write-Output "Downloaded: $FileFullName"}
+  else {
+    Write-Output "Error downloading: $FileFullName" 
+  }
+  
+  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+    # Install msi
+    Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" /quiet" -Wait -NoNewWindow
+    Write-Output "Installation done for $SoftwareName"
+  }
+}
+
+
 ################################################################
 ###### Browsers and Internet ###
 ################################################################
@@ -13786,6 +13838,19 @@ Function InstallFaxAndScan {
 	Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "FaxServicesClientPackage" } | Enable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
 	Get-WindowsCapability -Online | Where-Object { $_.Name -like "Print.Fax.Scan*" } | Add-WindowsCapability -Online | Out-Null
 }
+
+Function InstallSandbox {
+  Write-Output "###"
+	Write-Output "Installing Windows sandbox..."
+  Enable-WindowsOptionalFeature -Online -FeatureName "Containers-DisposableClientVM" -All -NoRestart | Out-Null
+}
+
+Function RemoveSandbox {
+  Write-Output "###"
+	Write-Output "Installing Windows sandbox..."
+  Disable-WindowsOptionalFeature -Online -FeatureName "Containers-DisposableClientVM" -All -NoRestart | Out-Null
+}
+
 
 ##########
 #endregion Application Tweaks
