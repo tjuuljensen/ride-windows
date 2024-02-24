@@ -10,6 +10,9 @@
 - [ ] Stage Office365 deployment, so custom XML can be used for installation
   * https://config.office.com/deploymentsettings
 - [ ] Nucleus Filesystem recovery prompt (do not install on...)
+- [ ] Install "Workflow" functionality on WSL packages
+  * Workflows are not supported on Powershell 6+, so Schdeuled Tasks will be used
+  * Consider building a complete script file with function declarations and the call of these inside the ps1.
 
 ### Priority B - New Packages:
 - [ ] Rufus - https://rufus.ie/en/
