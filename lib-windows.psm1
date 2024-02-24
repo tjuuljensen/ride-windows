@@ -994,9 +994,9 @@ function DisableEnhancedPIN{
   Set-ItemProperty -Path "HKLM:Software\Policies\Microsoft\FVE" -Name "UseEnhancedPin" -Type DWord -Value 0
 }
 
-function EnableAdvancedAuthAtStart{
+function EnableAdditionalAuthAtStart{
   Write-Output "###"
-  # https://technet.microsoft.com/en-us/library/jj649829(v=wps.630).aspx
+  # https://admx.help/?Category=Windows_10_2016&Policy=Microsoft.Policies.VolumeEncryption::ConfigureAdvancedStartup_Name
   Write-Output "Enabling Additional Authentication at Startup..."
   If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\")) {
     New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\" -Force | Out-Null
@@ -1004,9 +1004,9 @@ function EnableAdvancedAuthAtStart{
   Set-ItemProperty -path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\" -name "UseAdvancedStartup" -value 1
 }
 
-function DisableAdvancedAuthAtStart{
+function DisableAdditionaAuthAtStart{
   Write-Output "###"
-  # https://technet.microsoft.com/en-us/library/jj649829(v=wps.630).aspx
+  # https://admx.help/?Category=Windows_10_2016&Policy=Microsoft.Policies.VolumeEncryption::ConfigureAdvancedStartup_Name
   Write-Output "Enabling Additional Authentication at Startup..."
   If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\")) {
     New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\FVE\" -Force | Out-Null

@@ -446,7 +446,7 @@ SetDefaultBitLockerAES256     # SetDefaultBitLockerAES128
 # PutBitlockerShortCutOnDesktop
 # EnableLockOutThreshold       # DisableLockOutThreshold
 # EnableEnhancedPIN            # DisableEnhancedPIN
-# EnableAdvancedAuthAtStart    # DisableAdvancedAuthAtStart
+# EnableAdditionalAuthAtStart  # DisableAdditionalAuthAtStart
 # EnableBitlockerTPMandPIN     # EnableBitlocker             # DisableBitlocker
 # AddBitlockerRecoveryPswd
 # DisplayBitlockerRecoveryPwd
