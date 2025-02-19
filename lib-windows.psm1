@@ -3203,7 +3203,7 @@ function InstallArsenalRecon{
 }
 
 
-InstallWinget {
+function InstallWinget {
   Write-Output "###"
   $SoftwareName = "Winget"
   Write-Output "Installing $SoftwareName..."
