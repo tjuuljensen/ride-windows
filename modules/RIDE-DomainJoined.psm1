@@ -1,3 +1,5 @@
+# RIDE-DomainJoined Module for Powershell
+
 # Disable WSUS updates on Domain networks - it will revert as soon as the computer is reconnected to the domain
 Function DisableWSUS {
   Write-Output "###"
@@ -88,8 +90,8 @@ Function DisableFirewallPublic {
 }
 
 
-function InstallADConnect {
-  # https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/how-to-connect-install-roadmap#install-azure-ad-connect
+function InstallEntraConnect {
+  # https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/how-to-connect-install-roadmap
 
   Write-Output "###"
   $SoftwareName = "Microsoft Entra Connect"

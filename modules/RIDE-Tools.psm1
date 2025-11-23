@@ -1,3 +1,5 @@
+# RIDE-Tools Module for Powershell
+
 function Get-RIDEvars(){
     $RideVariables=Select-String -Path ./lib-windows.psm1 -Pattern '(RIDEVAR-)[^"]*' | ForEach-Object {$_.matches} | Foreach-Object {if ($_.value -NotLike "*$*" -and $_.value -ne "RIDEVAR-Download-Only") {$_.value}} | Sort-Object | Get-Unique
     foreach ($variable in $RideVariables) {

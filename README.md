@@ -4,7 +4,7 @@
 
 ## Description
 
-This RIDE repo (Remove - Install - Disable - Enable) is a PowerShell script for automation of routine tasks done after a fresh installation of Windows 10/11 and Windows Server 2016 / 2019. While the repo originally was centred on minimizing Windows telemetry traffic and on a few must-have installations and configurations, it has evolved over the years and now includes a long list of installations, primarily focused on forensic investigation and analysis. 
+This RIDE repo (Remove - Install - Disable - Enable) is a PowerShell script for automation of routine tasks done after a fresh installation of Windows 11 and Windows Server. While the repo originally was centred on minimizing Windows telemetry traffic and on a few must-have installations and configurations, it has evolved over the years and now includes a long list of installations, primarily focused on forensic investigation and analysis. 
 The repo does not hold a complete set of all existing Windows tweaks, nor is it a complete way of creating the fully hardened/locked-down machine. 
 
 
@@ -83,7 +83,7 @@ The vast majority of the tweaks will work on all Windows editions. Some of them 
 **A:** Yes, to a certain extent. Some tweaks (most notably UI tweaks) are set only for the user currently executing the script. As stated above, the script can be run repeatedly; therefore it's possible to run it multiple times, each time as a different user. Due to the nature of authentication and privilege escalation mechanisms in Windows, most of the tweaks can be successfully applied only by users belonging to the *Administrators* group. Standard users will get a UAC prompt asking for admin credentials which then causes the tweaks to be applied to the given admin account instead of the original non-privileged one. There are a few ways this can be circumvented programmatically, but I'm not planning to include any as it would negatively impact code complexity and readability. If you still wish to try to use the script in a multi-user environment, check [this answer in issue #29](https://github.com/Disassembler0/Win10-Initial-Setup-Script/issues/29#issuecomment-333040591) for some pointers.
 
 **Q:** Did you test the script?  
-**A:** Yes. I'm testing new additions on up-to-date 64-bit Pro editions of Windows 10 and 11 in VMs. I'm also regularly using it for most of my work and home installations.
+**A:** Yes. I'm testing new additions on an up-to-date 64-bit Pro edition of Windows 11 in a VM. I'm also regularly using it for most of my work and home installations.
 
 **Q:** I've run the script and it did something I don't like, how can I undo it?  
 **A:** For every tweak (with a few exceptions), there is also a corresponding function which restores the default settings. The default is considered freshly installed Windows 10 / 11 or Windows Server 2016 with no adjustments made during or after the installation. Use the tweaks to create and run new presets. Alternatively, since some functions are just automation for actions which can be done using GUI, find appropriate control and modify it manually.
