@@ -4,8 +4,8 @@
 
 ## Description
 
-This RIDE repo (Remove - Install - Disable - Enable) is a PowerShell script for automation of routine tasks done after a fresh installation of Windows 11 and Windows Server. While the repo originally was centred on minimizing Windows telemetry traffic and on a few must-have installations and configurations, it has evolved over the years and now includes a long list of installations, primarily focused on forensic investigation and analysis. 
-The repo does not hold a complete set of all existing Windows tweaks, nor is it a complete way of creating the fully hardened/locked-down machine. 
+This RIDE repo (Remove - Install - Disable - Enable) is a PowerShell script for automating routine tasks after a fresh installation of Windows 11 and Windows Server. While the repo originally was centered on minimizing Windows telemetry traffic and on a few must-have installations and configurations, it has evolved over the years and now includes a long list of installations, primarily focused on forensic investigation and analysis.
+The repo does not hold a complete set of all existing Windows tweaks, nor is it a complete way of creating a fully hardened or locked-down machine.
 
 
 ## Contents
@@ -14,6 +14,7 @@ The repo does not hold a complete set of all existing Windows tweaks, nor is it 
  - [History](#history)
  - [FAQ](#faq)
  - [Windows builds overview](#windows-builds-overview)
+ - [Roadmap and tasks](#roadmap-and-tasks)
  - [Advanced usage](#advanced-usage)
  - [Maintaining own forks](#maintaining-own-forks)
  - [Contribution guidelines](#contribution-guidelines)
@@ -23,22 +24,22 @@ The repo does not hold a complete set of all existing Windows tweaks, nor is it 
 
 ## Introduction
 
-I am a Linux user and I use this script to make sure I remember a lot of small steps and configuration tweaks when I make a new Windows virtual or a physical machine. I can create a fully configured machine in a short time with the latest software from the originating source. 
+I am a Linux user and I use this script to make sure I remember a lot of small steps and configuration tweaks when I make a new Windows virtual or physical machine. I can create a configured machine in a short time with current software from the originating source.
 
 These are my guiding principles:
-- I want to have an updated version of Windows 10/11 privacy/hardening tweaks that I frequently use or that I might use in an emergency.
+- I want to have an updated set of Windows privacy and hardening tweaks that I frequently use or that I might use in an emergency.
 - The script should take away 80-90% percent of "initial configuration" and cumbersome installations having multiple steps.
 - The script cuts installation time down from days/hours to minutes
 - Anyone with a decent amount of technical understanding, should be able to adopt the installation on their own terms.
 - The script must support physical machines as well as virtual machines
 - If there is a way in PowerShell, I choose that way. But I'd rather use a few built-in Windows command line tools instead of wasting weeks on "the clean PS path".
-- I prefer a script that is maintainable and choose to have a lot of redundant code in my repo.
-   
+- I prefer a script that is maintainable, and I accept some redundant code when it makes individual functions easier to reuse.
+
 I have a Linux repo and use the same script architecture in my Fedora Linux configuration: https://github.com/tjuuljensen/ride-fedora.
 
 ## Installation
-Make sure your account is a member of the *Administrators* group as the script attempts to run with elevated privileges. If you just want to run the script with the *default* preset, download and unpack the [latest release](https://github.com/tjuuljensen/ride-windows) and then simply double-click on the *default.cmd* file and confirm *User Account Control* prompt. 
-While you can use it as a non-admin user and run it with elevated rights as an admin user, some things will NOT work this way. Read the code or figure it out yourself - but the safe way is to make the primary user admin and run it elevated. For security reasons, the script has features to remove the user from the admin group after installation.
+Make sure your account is a member of the *Administrators* group as the script attempts to run with elevated privileges. If you just want to run the script with the *default* preset, download and unpack the [latest release](https://github.com/tjuuljensen/ride-windows) and then double-click on the *default.cmd* file and confirm the *User Account Control* prompt.
+While you can use it as a non-admin user and run it with elevated rights as an admin user, some things will NOT work this way. Read the code before running it. The safe path is to make the primary user an administrator during setup and run the script elevated. For security reasons, the script has features to remove the user from the admin group after installation.
 
 The script supports command line options and parameters which can help you customize the tweak selection or even add your own custom tweaks, however, these features require some basic knowledge of command line usage and PowerShell scripting. Refer to the [Advanced usage](#advanced-usage) section for more details.
 
@@ -55,109 +56,111 @@ One day I visited Disassembler0's (now archived) Win10-Initial-Setup-Script on g
 
 When Disassembler0 archived his repo in 2021 (Thanks for all the fish!), I adopted all that code in this repo - and I am back to maintaining my bootstrap script myself.
 
-The repo has grown a lot over the last few years. Especially with software installations. I work as a forensic investigator and use a lot of tools, some free and some with license. If you use the script and install software from these sources, I urge you to support the authors of the software. Send them a few bucks if they have a "Buy me a Beer/Coffee" button, or buy a license if they have a licensing option. 
-And please be aware, that even though some of the software is free for private use, many of the tools require a license if you use it professionally as I do. 
+The repo has grown a lot over the last few years. Especially with software installations. I work as a forensic investigator and use a lot of tools, some free and some with license. If you use the script and install software from these sources, I urge you to support the authors of the software. Send them a few bucks if they have a "Buy me a Beer/Coffee" button, or buy a license if they have a licensing option.
+And please be aware, that even though some of the software is free for private use, many of the tools require a license if you use it professionally as I do.
 
 
 &nbsp;
 
 ## FAQ
 
-**Q:** Can I run the script safely?  
+**Q:** Can I run the script safely?
 **A:** Definitely not. You have to understand what the functions do and what will be the implications for you if you run them. Some functions lower security, hide controls or uninstall applications. **If you're not sure what the script does, do not attempt to run it!**
 
-**Q:** Can I run the script repeatedly?  
-**A:** Yes (at least that I my goal). All of the tweaks and configuration done in registry has been written to support exactly that. A few of the configurations cannot be undone though (replacing the default Windows wallpaper is one example).
+**Q:** Can I run the script repeatedly?
+**A:** Yes (at least that is my goal). All registry-based tweaks have been written to support repeated execution. A few configurations cannot be undone though; replacing the default Windows wallpaper is one example.
 
-**Q:** Which versions and editions of Windows are supported?  
-**A:** The script aims to be fully compatible with the most up-to-date 64-bit version of Windows 10/11 receiving updates from the semi-annual channel, however if you create your own preset and exclude the incompatible tweaks, it will also work on LTSB/LTSC. Many of the functions will work on 32-bit Windows, *but some will not*. 
-The vast majority of the tweaks will work on all Windows editions. Some of them rely on group policy settings, so there may be a few limitations for Home and Education editions.
+**Q:** Which versions and editions of Windows are supported?
+**A:** The script aims to be compatible with current 64-bit Windows 11 releases and supported Windows Server releases. Windows 10 reached end of support on 2025-10-14 for standard editions; Windows 10 support should be treated as legacy/ESU/LTSC-only. If you create your own preset and exclude incompatible tweaks, many functions will still work on older versions, but that is not the primary target. Many functions will work on 32-bit Windows, *but some will not*.
+The vast majority of the tweaks work across editions. Some rely on group policy settings, so there may be limitations for Home and Education editions.
 
-**Q:** Can I run the script on Windows Server 2016, 2019 or 2022?  
-**A:** Yes. Windows Server is supported. There are even a few tweaks specific to a Server environment. Keep in mind though, that the script is still primarily designed for Windows 10 / 11, so you have to create your own preset.
+**Q:** Can I run the script on Windows Server 2016, 2019, 2022 or 2025?
+**A:** Yes. Windows Server is supported. There are even a few tweaks specific to a Server environment. Keep in mind though, that the default preset is still primarily designed for a workstation setup, so you should create your own Server preset.
 
-**Q:** Can I run the script on Windows 7, 8, 8.1 or other versions of Windows?  
-**A:** No. Although some tweaks may work also on older versions of Windows, the script is developed only for Windows 10 / 11 and Windows Server 2016 / 2019 / 2022. There are no plans to support older versions.
+**Q:** Can I run the script on Windows 7, 8, 8.1 or other versions of Windows?
+**A:** No. Although some tweaks may also work on older versions of Windows, the script is developed only for Windows 11, supported Windows Server releases, and legacy Windows 10 cases where explicitly needed. There are no plans to support older versions.
 
-**Q:** Can I run the script in a multi-user environment?  
+**Q:** Can I run the script in a multi-user environment?
 **A:** Yes, to a certain extent. Some tweaks (most notably UI tweaks) are set only for the user currently executing the script. As stated above, the script can be run repeatedly; therefore it's possible to run it multiple times, each time as a different user. Due to the nature of authentication and privilege escalation mechanisms in Windows, most of the tweaks can be successfully applied only by users belonging to the *Administrators* group. Standard users will get a UAC prompt asking for admin credentials which then causes the tweaks to be applied to the given admin account instead of the original non-privileged one. There are a few ways this can be circumvented programmatically, but I'm not planning to include any as it would negatively impact code complexity and readability. If you still wish to try to use the script in a multi-user environment, check [this answer in issue #29](https://github.com/Disassembler0/Win10-Initial-Setup-Script/issues/29#issuecomment-333040591) for some pointers.
 
-**Q:** Did you test the script?  
+**Q:** Did you test the script?
 **A:** Yes. I'm testing new additions on an up-to-date 64-bit Pro edition of Windows 11 in a VM. I'm also regularly using it for most of my work and home installations.
 
-**Q:** I've run the script and it did something I don't like, how can I undo it?  
+**Q:** I've run the script and it did something I don't like, how can I undo it?
 **A:** For every tweak (with a few exceptions), there is also a corresponding function which restores the default settings. The default is considered freshly installed Windows 10 / 11 or Windows Server 2016 with no adjustments made during or after the installation. Use the tweaks to create and run new presets. Alternatively, since some functions are just automation for actions which can be done using GUI, find appropriate control and modify it manually.
 
-**Q:** I've run the script and some controls are now greyed out and display the message "*Some settings are hidden or managed by your organization*", why?  
+**Q:** I've run the script and some controls are now greyed out and display the message "*Some settings are hidden or managed by your organization*", why?
 **A:** To ensure that system-wide tweaks are applied smoothly and reliably, some of them make use of *Group Policy Objects* (*GPO*). The same mechanism is employed also in companies managing their computers in a large scale, so the users without administrative privileges can't change the settings. If you wish to change a setting locked by GPO, apply the appropriate restore tweak and the control will become available again.
 
-**Q:** I've run the script and it broke my computer / killed my neighbour's dog / caused World War 3.  
-**A:** I don't care. Also, that's not a question.
+**Q:** I've run the script and it broke my computer.
+**A:** This is a personal bootstrap script with potentially destructive functions. Read the code and understand the selected preset before running it.
 
-**Q:** I'm using a tweak for &lt;feature&gt; on my installation, can you add it?  
+**Q:** I'm using a tweak for &lt;feature&gt; on my installation, can you add it?
 **A:** Submit a PR, create a feature request issue or drop me a message. If I find the functionality simple and useful, I might add it. I want to stay clear of any 3rd party modules and executables to do configurations (including also *Chocolatey*, *NuGet*, *Ninite* or other automation solutions), so if you are asking for something in that area, please don't expect me to incorporate it.
 
-**Q:** Didn't you just say, that you wanted to stay clear of 3rd party modules like NuGet? I see that you use it to install the Nuget module PSWindowsUpdate. Why?  
-**A:** Oh, you read this far - and you actually verified the code. Kudos to you. Microsoft does not support this functionality (yet) using native Powershell. I still want to stay clear of 3rd party modules, but I needed the PowerShell enabled Windows Update functionality on a machine, so I broke my own rules. It sucks, I know. But life is hard, right? 
+**Q:** Didn't you just say, that you wanted to stay clear of 3rd party modules like NuGet? I see that you use it to install the Nuget module PSWindowsUpdate. Why?
+**A:** Microsoft does not support this functionality using only built-in Windows PowerShell cmdlets in the way this script needs. I still prefer to avoid third-party modules, but I needed PowerShell-enabled Windows Update functionality on a machine, so this is a deliberate exception.
 
-**Q:** I'm using a freely available piece of forensic software to examine &lt;some artifact&gt;, can you add it?  
-**A:** Submit a PR, create a feature request issue or drop me a message. If I like the software or can see the use of it for some of my fellow forensic colleagues, I might add it. 
+**Q:** I'm using a freely available piece of forensic software to examine &lt;some artifact&gt;, can you add it?
+**A:** Submit a PR, create a feature request issue or drop me a message. If I like the software or can see the use of it for some forensic colleagues, I might add it.
 
-**Q:** Can I use the script or modify it for my / my company's needs?  
-**A:** Sure, knock yourself out. Just don't forget to include copyright notice as per MIT license requirements. I'd also suggest including a link to this GitHub repo as it's very likely that something will be changed, added or improved to keep track of future versions of Windows 10 / 11.
+**Q:** Can I use the script or modify it for my / my company's needs?
+**A:** Sure. Just don't forget to include the copyright notice as required by the MIT license. I'd also suggest including a link to this GitHub repo as it is likely that something will be changed, added or improved to keep track of future Windows releases.
 
-**Q:** Why are there repeated pieces of code throughout some functions?  
+**Q:** Why are there repeated pieces of code throughout some functions?
 **A:** So you can directly take a function block or a line from within a function and use it elsewhere, without elaborating on any dependencies.
 
-**Q:** For how long are you going to maintain the script?  
+**Q:** For how long are you going to maintain the script?
 **A:** As long as I find it useful. I have maintained it since 2014, so I'll probably continue for some time.
 
-**Q:** A single function or a few functions does not work, why don't you fix it?  
-**A:** I run Linux on all of my primary PCs. This is just a hobby project. :-) But by all means - Submit a PR, create a feature request issue or drop me a message. It is likely that I do not know that something broke, and I will fix the features in the script once they are added.
+**Q:** A single function or a few functions does not work, why don't you fix it?
+**A:** I run Linux on my primary PCs. This is a personal project. Submit a PR, create a feature request issue, or drop me a message. It is likely that I do not know that something broke, and I will fix features once they are reported.
 
 **Q:** Being a Linux user, why haven't you written the code in this repository to support multiple platforms, so it could run under Linux as well?
-**A:** Because it is a Windows bootstrap script. Everything is centered around Windows, so why bother writing code that configure a Windows machine but runs under Linux? Only reason that I can think of is, that I sometimes forget which platform I am on, and I write code for this repo on my Linux pc. When I test it in the built-in VS Code terminal, some of the functionality fails (because there is no BITS service on Linux). But hey - even I need to wake up sometimes. BTW: My Linux bootstrapper is written in bash. Go check it out here: https://github.com/tjuuljensen/ride-fedora.
+**A:** Because it is a Windows bootstrap script. Everything is centered around Windows, so there is little value in making the script run on Linux while configuring a Windows machine. My Linux bootstrapper is written in bash: https://github.com/tjuuljensen/ride-fedora.
 
 &nbsp;
 
 ## Windows builds overview
-### Windows 10
 
-| Version |        Code name        |     Marketing name     | Build |
-| :-----: | ----------------------- | ---------------------- | :---: |
-|  1507   | Threshold 1 (TH1 / RTM) | N/A                    | 10240 |
-|  1511   | Threshold 2 (TH2)       | November Update        | 10586 |
-|  1607   | Redstone 1 (RS1)        | Anniversary Update     | 14393 |
-|  1703   | Redstone 2 (RS2)        | Creators Update        | 15063 |
-|  1709   | Redstone 3 (RS3)        | Fall Creators Update   | 16299 |
-|  1803   | Redstone 4 (RS4)        | April 2018 Update      | 17134 |
-|  1809   | Redstone 5 (RS5)        | October 2018 Update    | 17763 |
-|  1903   | 19H1                    | May 2019 Update        | 18362 |
-|  1909   | Vanadium                | November 2019 Update   | 18363 |
-|  2004   | Vibranium               | May 2020 Update        | 19041 |
-|  20H2   | Vibranium               | October 2020 Update    | 19042 |
-|  21H1   | Vibranium               | May 2021 Update        | 19043 |
-|  21H2   | Vibranium               | November 2021 Update   | 19044 |
-|  22H2   | Vibranium               | October 2022 Update    | 19045 |
+This is a maintenance overview, not a complete Windows release history. Check Microsoft's Windows release health pages before changing version-specific behavior in the script.
 
-### Windows 11
+| Product | Version | Status | Base build |
+| ------- | ------- | ------ | ---------- |
+| Windows 11 | 26H1 | Current, new-device scoped release; not an in-place feature update for existing 24H2/25H2 devices | 28000 |
+| Windows 11 | 25H2 | Current General Availability Channel release | 26200 |
+| Windows 11 | 24H2 | Supported General Availability Channel and LTSC base | 26100 |
+| Windows 11 | 23H2 | Enterprise/Education still supported; Home/Pro ended | 22631 |
+| Windows 10 | 22H2 | Standard support ended 2025-10-14; ESU only | 19045 |
+| Windows Server | 2025 | Mainstream support ends 2029-11-13; extended support ends 2034-11-14 | 26100-family |
+| Windows Server | 2022 | Mainstream support ends 2026-10-13; extended support ends 2031-10-14 | 20348 |
+| Windows Server | 2019 | Mainstream support ended 2024-01-09; extended support ends 2029-01-09 | 17763 |
+| Windows Server | 2016 | Mainstream support ended 2022-01-11; extended support ends 2027-01-12 | 14393 |
 
-| Version |        Code name        |     Marketing name     | Build |
-| :-----: | ----------------------- | ---------------------- | :---: |
-|  21H2   | Sun Valley              | October 2021 Update    | 22000 |
-|  22H2   | Sun Valley 2            | September 2022 Update  | 22621 |
-|  23H2   | Sun Valley 3            | October 2023 Update    | 22631 |
+Sources:
+
+- Windows 11 release information: https://learn.microsoft.com/en-us/windows/release-health/windows11-release-information
+- Windows 10 release information: https://learn.microsoft.com/en-us/windows/release-health/release-information
+- Windows Server 2025 lifecycle: https://learn.microsoft.com/en-us/lifecycle/products/windows-server-2025
+- Windows Server 2022 lifecycle: https://learn.microsoft.com/en-us/lifecycle/products/windows-server-2022
+- Windows Server 2019 lifecycle: https://learn.microsoft.com/en-us/lifecycle/products/windows-server-2019
+- Windows Server 2016 lifecycle: https://learn.microsoft.com/en-us/lifecycle/products/windows-server-2016
+
+## Roadmap and tasks
+
+The active task list is maintained in [TODO.md](TODO.md). The structured modernization and package intake roadmap is maintained in [docs/ROADMAP.md](docs/ROADMAP.md). Keep the README focused on usage and project orientation; put planning details in the roadmap.
 
 &nbsp;
 
 ## Advanced usage
 
-    powershell.exe -NoProfile -ExecutionPolicy Bypass -File  ride.ps1 [-include filename] [-preset filename] [-log logname] [-ini inifile]  [[!]tweakname]
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File ride.ps1 [-include filename] [-preset filename] [-log logname] [-ini inifile] [-downloadonly] [[!]tweakname]
 
     -include filename       load module with user-defined tweaks
     -preset filename        load preset with tweak names to apply
     -log logname            save script output to a file
     -ini inifile            load values from INI file
+    -downloadonly           download installers without running installation steps
     tweakname               apply tweak with this particular name
     !tweakname              remove tweak with this particular name from the selection
 
@@ -171,7 +174,7 @@ To supply a customized preset, you can either pass the function names directly a
 
     powershell.exe -NoProfile -ExecutionPolicy Bypass -File ride.ps1 -include lib-windows.psm1 EnableFirewall EnableDefender
 
-Or you can create a file where you write the function names (one function name per line, no commas or quotes, whitespaces allowed, comments starting with `#`) and then pass the filename using the `-preset` parameter.  
+Or you can create a file where you write the function names (one function name per line, no commas or quotes, whitespaces allowed, comments starting with `#`) and then pass the filename using the `-preset` parameter.
 Example of a preset file `mypreset.txt`:
 
     # Security tweaks
@@ -209,7 +212,7 @@ Command using the script above:
 
 ### Combination
 
-All features described above can be combined. You can have a preset which includes both tweaks from the original script and your personal ones. Both `-include` and `-preset` options can be used more than once, so you can split your tweaks into groups and then combine them based on your current needs. The `-include` modules are always imported before the first tweak is applied, so the order of the command line parameters doesn't matter and neither does the order of the tweaks (except for `RequireAdmin`, which should always be called first and `Restart`, which should always be called last). It can happen that some tweaks are applied more than once during a single run because you have them in multiple presets. That shouldn't cause any problems as the tweaks are idempotent.  
+All features described above can be combined. You can have a preset which includes both tweaks from the original script and your personal ones. Both `-include` and `-preset` options can be used more than once, so you can split your tweaks into groups and then combine them based on your current needs. The `-include` modules are always imported before the first tweak is applied, so the order of the command line parameters doesn't matter and neither does the order of the tweaks (except for `RequireAdmin`, which should always be called first and `Restart`, which should always be called last). It can happen that some tweaks are applied more than once during a single run because you have them in multiple presets. That shouldn't cause any problems as the tweaks are idempotent.
 Example of a preset file `otherpreset.txt`:
 
     MyTweak1
@@ -302,10 +305,10 @@ If you wish to make more elaborate modifications to the basic script and incorpo
 Following is a list of rules which I'm trying to apply in this project. The rules are not binding and I accept pull requests even if they don't adhere to them, as long as their purpose and content are clear. In cases when there are too many rule violations, I might simply redo the whole functionality and reject the PR while still crediting you. If you'd like to make my work easier, please consider adhering to the following rules too.
 
 ### Function naming
-Try to give a function a meaningful name up to 27 characters long, which gives away the purpose of the function. Use verbs like `Enable`/`Disable`, `Show`/`Hide`, `Install`/`Uninstall`, and `Add`/`Remove` at the beginning of the function name. In case the function doesn't fit any of these verbs, come up with another name, beginning with the verb `Set`, which indicates what the function does, e.g. `SetCurrentNetworkPrivate` and `SetCurrentNetworkPublic`.
+Try to give a function a meaningful name that gives away the purpose of the function. Use verbs like `Enable`/`Disable`, `Show`/`Hide`, `Install`/`Remove`, `Get`, and `Add`/`Remove` at the beginning of the function name. In case the function doesn't fit any of these verbs, come up with another name, beginning with the verb `Set`, which indicates what the function does, e.g. `SetCurrentNetworkPrivate` and `SetCurrentNetworkPublic`.
 
 ### Revert functions
-Always add a function with the opposite name (or equivalent) which reverts the behaviour to default. The default is considered freshly installed Windows 10/11 or Windows Server 2016 / 2019 with no adjustments made during or after the installation. If you don't have access to either of these, create the revert function to the best of your knowledge and I will fill in the rest if necessary.
+Always add a function with the opposite name (or equivalent) which reverts the behaviour to default. The default is considered a freshly installed supported Windows release with no adjustments made during or after installation. If you don't have access to a clean baseline, create the revert function to the best of your knowledge and document the assumption.
 
 ### Function similarities
 Check if there isn't already a function with a similar purpose as the one you're trying to add. As long as the name and objective of the existing function are unchanged, feel free to add your tweak to that function rather than create a new one.
@@ -314,7 +317,10 @@ Check if there isn't already a function with a similar purpose as the one you're
 Try to group functions thematically. There are already several major groups (privacy, security, services etc.), but even within these, some tweaks may be related to each other. In such a case, add a new tweak below the existing one and not to the end of the whole group.
 
 ### Default preset
-Always add a reference to the tweak and its revert function in the *Default.preset*. Add references to both functions on the same line (mind the spaces) and always comment out the revert function. Whether to comment out the tweak in the default preset is a matter of personal preference. The rule of thumb is that if the tweak makes the system faster, smoother, more secure and less obtrusive, it should be enabled by default. Usability has preference over performance (that's why e.g. indexing is kept enabled).
+Always add a reference to the tweak and its revert function in the *default.preset*. Add references to both functions on the same line (mind the spaces) and always comment out the revert function. Whether to comment out the tweak in the default preset is a matter of personal preference. The rule of thumb is that if the tweak makes the system faster, smoother, more secure and less obtrusive, it should be enabled by default. Usability has preference over performance (that's why e.g. indexing is kept enabled).
+
+### Documentation
+Keep documentation changes close to code changes. Update `README.md` when usage, support targets, or contribution rules change. Update `TODO.md` for short actionable backlog items. Update `docs/ROADMAP.md` for modernization phases, package intake policy, and larger design decisions. Verify time-sensitive Windows release or package-source information before committing it.
 
 ### Repeatability
 Unless applied to an unsupported system, all functions have to be applicable repeatedly without any errors. When you're creating a registry key, always check first if the key doesn't happen to already exist. When you're deleting a registry value, always append `-ErrorAction SilentlyContinue` to prevent errors while deleting already deleted values.
