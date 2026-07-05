@@ -10,3 +10,8 @@ dev/*
 # exclude ini files
 config.ini
 serials.ini
+
+# Exclude local/private presets and logs
+private.preset
+*.private.preset
+install-log.log

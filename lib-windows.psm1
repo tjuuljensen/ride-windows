@@ -876,16 +876,6 @@ function RemoveBootstrapDirDefender{
   Remove-MpPreference -ExclusionPath $BootstrapFolder
 }
 
-################################################################
-###### Privacy configurations  ###
-################################################################
-
-function DisableInkingAndTypingData{
-  Write-Output "###"
-  # Disable sending of inking and typing data to Microsoft to improve the language recognition and suggestion capabilities of apps and services.
-  Write-Output "Disabling sending of inking and typing data..."
-  Set-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Input\TIPC\" -name Enabled -value 0
-}
 
 ################################################################
 ###### Bitlocker configuration  ###
@@ -1570,6 +1560,96 @@ function RunSysprepGeneralizeOOBE{
 ###### Install programs  ###
 ################################################################
 
+function Test-RideDownloadOnly {
+  $DownloadOnly = [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")
+  -not [string]::IsNullOrEmpty($DownloadOnly)
+}
+
+function Get-RideBootstrapFolder {
+  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
+  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
+  if (-not (Test-Path -Path $BootstrapFolder)) {
+    New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
+  }
+
+  $BootstrapFolder
+}
+
+function Get-RideSoftwareFolder {
+  param(
+    [Parameter(Mandatory = $true)] [string] $SoftwareName
+  )
+
+  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
+  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
+  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
+  $SoftwareFolderFullName = Join-Path -Path (Get-RideBootstrapFolder) -ChildPath $SoftwareFolderName
+
+  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
+    New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
+  }
+
+  $SoftwareFolderFullName
+}
+
+function Save-RideDownload {
+  param(
+    [Parameter(Mandatory = $true)] [string] $SoftwareName,
+    [Parameter(Mandatory = $true)] [string] $FullDownloadURL,
+    [string] $FileName
+  )
+
+  $SoftwareFolderFullName = Get-RideSoftwareFolder -SoftwareName $SoftwareName
+  if (-not $FileName) {
+    $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
+  }
+
+  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
+  Write-Host "Downloading file from: $FullDownloadURL"
+  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
+  Write-Host "Downloaded: $FileFullName"
+
+  $FileFullName
+}
+
+function Install-RideDownloadedExe {
+  param(
+    [Parameter(Mandatory = $true)] [string] $SoftwareName,
+    [Parameter(Mandatory = $true)] [string] $FullDownloadURL,
+    [string] $FileName,
+    [string] $CommandLineOptions = "",
+    [switch] $RequireValidSignature
+  )
+
+  $FileFullName = Save-RideDownload -SoftwareName $SoftwareName -FullDownloadURL $FullDownloadURL -FileName $FileName
+
+  if ($RequireValidSignature -and ((Get-AuthenticodeSignature $FileFullName).Status -ne 'Valid')) {
+    Write-Output "ERROR installing $SoftwareName. Downloaded file did not pass verification."
+    return
+  }
+
+  if (-not (Test-RideDownloadOnly)) {
+    Start-Process -FilePath $FileFullName -ArgumentList $CommandLineOptions -NoNewWindow -Wait
+    Write-Output "Installation done for $SoftwareName"
+  }
+}
+
+function Install-RideDownloadedMsi {
+  param(
+    [Parameter(Mandatory = $true)] [string] $SoftwareName,
+    [Parameter(Mandatory = $true)] [string] $FullDownloadURL,
+    [string] $FileName,
+    [string] $CommandLineOptions = "/quiet"
+  )
+
+  $FileFullName = Save-RideDownload -SoftwareName $SoftwareName -FullDownloadURL $FullDownloadURL -FileName $FileName
+
+  if (-not (Test-RideDownloadOnly)) {
+    Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" $CommandLineOptions" -Wait -NoNewWindow
+    Write-Output "Installation done for $SoftwareName"
+  }
+}
+
 function InstallGitLFS{
   Write-Output "###"
   $SoftwareName = "Git-LFS"
@@ -1580,41 +1660,13 @@ function InstallGitLFS{
   $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
 
-  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*exe*" -and $_ -Like "*windows*" })
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*exe*" -and $_ -Like "*windows*" } | Select-Object -First 1)
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
 	return
   }
 
-  # Create bootstrap folder if not existing
-  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
-  if (-not (Test-Path -Path $BootstrapFolder)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
-  }
-  
-  # Create software folder
-  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
-  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
-  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
-  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
-  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
-  }
-
-  # Download
-  Write-Output "Downloading file from: $FullDownloadURL"
-  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
-  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
-  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
-  Write-Output "Downloaded: $FileFullName"
-
-  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
-    # Install exe
-    $CommandLineOptions = "/SILENT /LOG"
-    Start-Process -FilePath $FileFullName -ArgumentList $CommandLineOptions -NoNewWindow -Wait
-    Write-Output "Installation done for $SoftwareName"
-  }
+  Install-RideDownloadedExe -SoftwareName $SoftwareName -FullDownloadURL $FullDownloadURL -CommandLineOptions "/SILENT /LOG"
 }
 
 function RemoveGitLFS {
@@ -1634,40 +1686,15 @@ function InstallGit4Win{
   $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
 
-  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*64*" -and $_ -Like "*exe*" -and $_ -notlike "*Portable*" })
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*64*" -and $_ -Like "*exe*" -and $_ -notlike "*Portable*" } | Select-Object -First 1)
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
 	return
   }
 
-  # Create bootstrap folder if not existing
-  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
-  if (-not (Test-Path -Path $BootstrapFolder)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
-  }
+  Install-RideDownloadedExe -SoftwareName $SoftwareName -FullDownloadURL $FullDownloadURL -CommandLineOptions "/SILENT /LOG"
 
-  # Create software folder
-  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
-  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
-  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
-  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
-  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
-  }
-
-  # Download
-  Write-Output "Downloading file from: $FullDownloadURL"
-  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
-  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
-  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
-  Write-Output "Downloaded: $FileFullName"
-
-  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
-    # Install exe
-    $CommandLineOptions = "/SILENT /LOG"
-    Start-Process -FilePath $FileFullName -ArgumentList $CommandLineOptions -NoNewWindow -Wait
-
+  if (-not (Test-RideDownloadOnly)) {
     # Add Git folder to path environment variable (temporarily)
     $GitFolder = Join-Path -Path ${env:ProgramFiles} -ChildPath "Git\cmd"
     $GitFolderInPath = $env:Path -split ";" | Where-Object { $_ -eq $GitFolder }
@@ -1675,8 +1702,6 @@ function InstallGit4Win{
         # Git\cmd is not in path - adding
         $env:Path += ";$GitFolder" 
       }
-
-    Write-Output "Installation done for $SoftwareName"
   }
 }
 
@@ -1791,35 +1816,7 @@ function InstallNotepadPlusPlus{
 	return
   }
 
-  # Create bootstrap folder if not existing
-  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
-  if (-not (Test-Path -Path $BootstrapFolder)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
-  }
-
-  # Create software folder
-  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
-  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
-  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
-  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
-  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
-  }
-
-  # Download
-  Write-Output "Downloading file from: $FullDownloadURL"
-  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
-  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
-  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
-  Write-Output "Downloaded: $FileFullName"
-
-  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
-    # Install exe
-    $CommandLineOptions = "/S"
-    Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
-    Write-Output "Installation done for $SoftwareName"
-  }
+  Install-RideDownloadedExe -SoftwareName $SoftwareName -FullDownloadURL $FullDownloadURL -CommandLineOptions "/S"
 }
 
 function RemoveNotepadPlusPlus{
@@ -1836,42 +1833,14 @@ function Install7Zip{
 
   $Url = "https://www.7-zip.org/"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url).Links
-  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*x64.exe" }).href
+  $SoftwareUri = ($ReleasePageLinks | Where-Object { $_.href -Like "*x64.exe" } | Select-Object -First 1).href
   $FullDownloadURL = "$Url$SoftwareUri"
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
 	return
   }
 
-  # Create bootstrap folder if not existing
-  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
-  if (-not (Test-Path -Path $BootstrapFolder)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
-  }
-
-  # Create software folder
-  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
-  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
-  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
-  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
-  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
-  }
-
-  # Download
-  Write-Output "Downloading file from: $FullDownloadURL"
-  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
-  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
-  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
-  Write-Output "Downloaded: $FileFullName"
-
-  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
-    # Install exe
-    $CommandLineOptions = "/S"
-    Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
-    Write-Output "Installation done for $SoftwareName"
-  }
+  Install-RideDownloadedExe -SoftwareName $SoftwareName -FullDownloadURL $FullDownloadURL -CommandLineOptions "/S"
 }
 
 function Remove7Zip{
@@ -1889,39 +1858,7 @@ function InstallVSCode{
   # Setting the direct download link
   $FullDownloadURL = "https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user"
 
-  # Create bootstrap folder if not existing
-  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
-  if (-not (Test-Path -Path $BootstrapFolder)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
-  }
-
-  # Create software folder
-  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
-  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
-  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
-  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
-  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
-  }
-
-  # Download
-  Write-Output "Downloading file from: $FullDownloadURL"
-  $FileName = "VSCodeSetup-x64.exe"
-  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
-  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
-  if ((Get-AuthenticodeSignature $FileFullName).Status -eq 'Valid') {
-    Write-Output "Downloaded: $FileFullName"
-
-    if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
-      # Install exe
-      $CommandLineOptions = " /SILENT /NORESTART /mergetasks=!runcode"
-      Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
-      Write-Output "Installation done for $SoftwareName"
-    }
-  } else {
-    Write-Output "ERROR installing $SoftwareName. Downloaded file did not pass verification."
-  }
+  Install-RideDownloadedExe -SoftwareName $SoftwareName -FullDownloadURL $FullDownloadURL -FileName "VSCodeSetup-x64.exe" -CommandLineOptions " /SILENT /NORESTART /mergetasks=!runcode" -RequireValidSignature
 }
 
 function RemoveVSCode{
@@ -4677,36 +4614,7 @@ function InstallSignal {
 	return
   }
 
-  # Create bootstrap folder if not existing
-  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
-  if (-not (Test-Path -Path $BootstrapFolder)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
-  }
-
-  # Create software folder
-  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
-  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
-  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
-  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
-  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
-  }
-
-  # Download
-  Write-Output "Downloading file from: $FullDownloadURL"
-  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
-  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
-  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
-  Write-Output "Downloaded: $FileFullName"
-
-  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
-    # Install exe 
-    $InstallFile = $FileFullName
-    $CommandLineOptions = "/S"
-    Start-Process -FilePath $InstallFile -ArgumentList $CommandLineOptions -NoNewWindow -Wait
-    Write-Output "Installation done for $SoftwareName"
-  }
+  Install-RideDownloadedExe -SoftwareName $SoftwareName -FullDownloadURL $FullDownloadURL -CommandLineOptions "/S"
 }
 
 function InstallPython {
@@ -4722,31 +4630,10 @@ function InstallPython {
   return
   }
 
-  # Create bootstrap folder if not existing
-  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
-  if (-not (Test-Path -Path $BootstrapFolder)) {
-  New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
-  }
-
-  # Create software folder
-  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
-  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
-  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
-  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
-  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-  New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
-  }
-
-  # Download
-  Write-Output "Downloading file from: $FullDownloadURL"
-  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
-  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
-  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
-  Write-Output "Downloaded: $FileFullName"
+  $FileFullName = Save-RideDownload -SoftwareName $SoftwareName -FullDownloadURL $FullDownloadURL
 
   # Install exe 
-  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
+  if (-not (Test-RideDownloadOnly)) {
     $CommandLineOptions = "/quiet InstallAllUsers=1 AssociateFiles=1 PrependPath=1" 
     Start-Process -FilePath $FileFullName -ArgumentList $CommandLineOptions -NoNewWindow -Wait
     

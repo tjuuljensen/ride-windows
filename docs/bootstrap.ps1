@@ -35,7 +35,7 @@ function DownloadFile()
 {
   param([String] $release)
   if ( $release ){
-    $BootstrapArchive="https://github.com/${author}/${repo}/archive/refs/tags/$release.zip"  
+    $BootstrapArchive="https://github.com/${author}/${repo}/archive/refs/tags/$release.zip"
     #$Url=https://api.github.com/repos/${author}/${repo}/zipball/refs/tags/$release
     #$Archive=$release
   }
@@ -57,16 +57,14 @@ function DownloadFile()
 	Write-Output "Unzipped to: $TempDir"
 
   # If directory is nested, move contents one directory up
-  $SubPath = Get-ChildItem $TempDir -Name 
+  $SubPath = Get-ChildItem $TempDir -Name
   if ($SubPath.count -eq 1) {
-    $FullSubPath =Join-Path -Path $TempDir -ChildPath $SubPath
+    $FullSubPath = Join-Path -Path $TempDir -ChildPath $SubPath
     $FolderIsNested = (Get-ChildItem -Path "$TempDir" -Directory).count -eq (Get-ChildItem -Path "$TempDir" ).count
     if ($FolderIsNested) {
       Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $TempDir
       Remove-Item -Path $FullSubPath -ErrorAction SilentlyContinue -Recurse -Force
-    }  
-
-  #INSTALLDIR=$(realpath "$TEMPDIR")
+    }
   }
 }
 
@@ -100,7 +98,7 @@ elif [[ "--ride" == *"$1"* ]] ; then
 
 #>
 
-If (($args[0].ToLower() -eq "-help") -or ($args.Length -eq 0 )) {
+If (($args.Length -eq 0) -or ($args[0].ToLower() -eq "-help")) {
   ShowSyntaxHelp
   break
 }
@@ -110,40 +108,40 @@ While ($i -lt $args.Length) {
   # if -help is put anywhere on command line, the script will display help and exit
 	If ($args[$i].ToLower() -eq "-help") {
     ShowSyntaxHelp
-	} 
+	}
   ElseIf ($args[$i].ToLower() -eq "-default") {
     RequireAdmin
     DownloadFile
     Write-Output "Running default Installation..."
     # Do stuff (preset + include)
-	} 
+	}
   ElseIf ($args[$i].ToLower() -eq "-ride") {
     RequireAdmin
     DownloadFile
     Write-Output "Running RIDE installation with custom parameters..."
     # Do stuff (preset + include ALLARGS)
-	} 
+	}
   ElseIf ($args[$i].ToLower() -eq "-release") {
     RequireAdmin
     DownloadFile $args[++$i]
     # do stuff
-	} 
+	}
   ElseIf ($args[$i].ToLower() -eq "-stop") {
     Write-Output "No installation tasks performed. It is up to you now to do the magic."
     if (($TempDir) -and (!( Test-Path $PSScriptRoot/${repo}/ ))) {
       $Repodir = Join-Path -Path $PSScriptRoot -ChildPath "${repo}"
-      Move-Item –Path $TempDir -Destination $Repodir
+      Move-Item -Path $TempDir -Destination $Repodir
       Write-Output "Files can be found in: $Repodir"
       return
     }
-	} 
+	}
   ElseIf ($args[$i].ToLower() -eq "-edit") {
-    RequireAdmins
-    DownloadFile 
+    RequireAdmin
+    DownloadFile
     Write-Output "Edit preset file in Notepad before running installation..."
     # Start-Process notepad.exe -ArgumentList PATH_TO_PRESET_FILE
     # Do stuff (notepad presetfile + ride preset + include)
-	} 
+	}
   Else {
 		ShowSyntaxHelp
     return

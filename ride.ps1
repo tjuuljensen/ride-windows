@@ -36,13 +36,26 @@ $ModulesIncluded = @()
 $PSCommandArgs = @()
 
 Function AddOrRemoveTweak($tweak) {
+	If ($tweak -eq "") {
+		return
+	}
+
 	If ($tweak[0] -eq "!") {
 		# If the name starts with exclamation mark (!), exclude the tweak from selection
 		$script:tweaks = $script:tweaks | Where-Object { $_ -ne $tweak.Substring(1) }
-	} ElseIf ($tweak -ne "") {
+	} Else {
 		# Otherwise add the tweak
 		$script:tweaks += $tweak
 	}
+}
+
+Function Invoke-Tweak($tweak) {
+	$command = Get-Command -Name $tweak -CommandType Function -ErrorAction SilentlyContinue
+	if (-not $command) {
+		throw "Tweak function not found: $tweak"
+	}
+
+	& $command
 }
 
 function Get-IniFile {
@@ -114,7 +127,7 @@ While ($i -lt $args.Length) {
 }
 
 # Call the desired tweak functions
-$tweaks | ForEach-Object { Invoke-Expression $_ }
+$tweaks | ForEach-Object { Invoke-Tweak $_ }
 
 # Unload loaded modules after execution of tweaks
 if ($ModulesIncluded.Length -gt 0 ) { $ModulesIncluded | ForEach-Object { Remove-Module -Name $_ -Force -ErrorAction Stop } }
