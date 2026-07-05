@@ -29,7 +29,7 @@ This file is the short operational backlog. Longer planning, package intake, and
 - [ ] Normalize indentation in touched code as modules are extracted.
 - [ ] Add one-line bootstrap/install entrypoint based on the Fedora RIDE pattern.
 - [ ] Finish or retire `docs/bootstrap.ps1`; it currently parses, but still contains placeholder behavior.
-- [ ] Add a documentation check to validation once the README/roadmap structure settles.
+- [x] Add a documentation check to validation once the README/roadmap structure settles.
 
 ### D. Configuration and Workflows
 

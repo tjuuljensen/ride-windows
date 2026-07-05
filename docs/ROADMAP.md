@@ -29,6 +29,8 @@ Status: mostly complete.
 Completed:
 
 - Added `tools/validate.ps1`.
+- Added GitHub Actions validation on push and pull requests.
+- Added local Markdown link validation, stale planning-note detection, and likely mojibake detection.
 - Validates PowerShell parsing.
 - Validates preset entries against available function names.
 - Reports duplicate function definitions.
@@ -39,9 +41,7 @@ Completed:
 Remaining:
 
 - Decide whether `docs/bootstrap.ps1` should become a supported one-line bootstrapper or be moved to an experimental area.
-- Add CI to run `tools/validate.ps1`.
-- Consider a lightweight encoding/mojibake check.
-- Add lightweight documentation validation for README links, roadmap references, and stale planning-note files.
+- Decide whether repository-local VS Code settings should be tracked or kept as operator-local setup notes.
 
 ## Documentation Maintenance
 

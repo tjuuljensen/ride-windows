@@ -3,7 +3,9 @@
   Run static validation checks for the RIDE Windows repository.
 .DESCRIPTION
   Parses tracked PowerShell files, validates preset function names against the
-  repository functions, and reports duplicate function definitions.
+  repository functions, checks local Markdown links, rejects stale planning
+  note files, checks for likely mojibake, and reports duplicate function
+  definitions.
 #>
 
 [CmdletBinding()]
@@ -67,9 +69,111 @@ function Get-PresetEntries {
   } | Where-Object { $_ }
 }
 
+function Get-RelativePath {
+  param(
+    [string] $RepoRoot,
+    [string] $Path
+  )
+
+  $resolvedRoot = (Resolve-Path -Path $RepoRoot).Path.TrimEnd([IO.Path]::DirectorySeparatorChar, [IO.Path]::AltDirectorySeparatorChar)
+  $resolvedPath = (Resolve-Path -Path $Path).Path
+  $relativePath = $resolvedPath.Substring($resolvedRoot.Length).TrimStart([IO.Path]::DirectorySeparatorChar, [IO.Path]::AltDirectorySeparatorChar)
+  $relativePath -replace "\\", "/"
+}
+
+function Test-LocalMarkdownLink {
+  param(
+    [string] $RepoRoot,
+    [string] $MarkdownPath,
+    [string] $LinkTarget
+  )
+
+  if ($LinkTarget -match "^[a-zA-Z][a-zA-Z0-9+.-]*:") {
+    return
+  }
+
+  if ($LinkTarget.StartsWith("#") -or $LinkTarget.StartsWith("mailto:")) {
+    return
+  }
+
+  $targetWithoutAnchor = ($LinkTarget -split "#", 2)[0]
+  if (-not $targetWithoutAnchor) {
+    return
+  }
+
+  if ($targetWithoutAnchor -match "^[\\/]") {
+    $candidate = Join-Path -Path $RepoRoot -ChildPath $targetWithoutAnchor.TrimStart("\", "/")
+  }
+  else {
+    $candidate = Join-Path -Path (Split-Path -Path $MarkdownPath -Parent) -ChildPath $targetWithoutAnchor
+  }
+
+  if (-not (Test-Path -Path $candidate)) {
+    $relativePath = Get-RelativePath -RepoRoot $RepoRoot -Path $MarkdownPath
+    Add-ValidationError ("{0}: local Markdown link target not found: {1}" -f $relativePath, $LinkTarget)
+  }
+}
+
+function Test-MarkdownLinks {
+  param(
+    [string] $RepoRoot,
+    [string[]] $MarkdownFiles
+  )
+
+  foreach ($file in $MarkdownFiles) {
+    $content = Get-Content -Path $file
+    foreach ($line in $content) {
+      $matches = [regex]::Matches($line, '(?<!\!)\[[^\]]+\]\(([^)]+)\)')
+      foreach ($match in $matches) {
+        $target = $match.Groups[1].Value.Trim()
+        Test-LocalMarkdownLink -RepoRoot $RepoRoot -MarkdownPath $file -LinkTarget $target
+      }
+    }
+  }
+}
+
+function Test-StalePlanningNotes {
+  param([string] $RepoRoot)
+
+  $stalePlanningNotes = @(
+    "RIDEadditions2025.md",
+    "TO_DO.md"
+  )
+
+  foreach ($note in $stalePlanningNotes) {
+    $path = Join-Path -Path $RepoRoot -ChildPath $note
+    if (Test-Path -Path $path) {
+      Add-ValidationError ("Stale planning note found: {0}. Merge content into TODO.md or docs/ROADMAP.md." -f $note)
+    }
+  }
+}
+
+function Test-Mojibake {
+  param([string[]] $Files)
+
+  $textFilePattern = "\.(cmd|ini|md|preset|ps1|psm1|txt|yml|yaml)$"
+  $replacementChar = [char]0xFFFD
+  $latinCapitalAWithTilde = [char]0x00C3
+  $latinSmallAWithCircumflex = [char]0x00E2
+
+  foreach ($file in ($Files | Where-Object { $_ -match $textFilePattern })) {
+    $relativePath = Get-RelativePath -RepoRoot $Root -Path $file
+    $lineNumber = 0
+    foreach ($line in (Get-Content -Path $file)) {
+      $lineNumber++
+      if (($line.IndexOf($replacementChar) -ge 0) -or ($line.IndexOf($latinCapitalAWithTilde) -ge 0) -or ($line.IndexOf($latinSmallAWithCircumflex) -ge 0)) {
+        Add-ValidationError ("{0}:{1}: possible mojibake found" -f $relativePath, $lineNumber)
+      }
+    }
+  }
+}
+
 $trackedFiles = @(Get-TrackedFiles -RepoRoot $Root)
 $powerShellFiles = @(
   $trackedFiles | Where-Object { $_ -match "\.ps(m)?1$" }
+)
+$markdownFiles = @(
+  $trackedFiles | Where-Object { $_ -match "\.md$" }
 )
 
 $allFunctions = New-Object System.Collections.Generic.List[string]
@@ -123,6 +227,10 @@ foreach ($preset in $PresetPath) {
   }
 }
 
+Test-MarkdownLinks -RepoRoot $Root -MarkdownFiles $markdownFiles
+Test-StalePlanningNotes -RepoRoot $Root
+Test-Mojibake -Files $trackedFiles
+
 if ($validationWarnings.Count -gt 0) {
   Write-Warning "Validation warnings:"
   $validationWarnings | ForEach-Object { Write-Warning $_ }
@@ -133,4 +241,4 @@ if ($validationErrors.Count -gt 0) {
   exit 1
 }
 
-Write-Output ("Validation passed. Checked {0} PowerShell file(s) and {1} preset file(s)." -f $powerShellFiles.Count, $PresetPath.Count)
+Write-Output ("Validation passed. Checked {0} PowerShell file(s), {1} preset file(s), and {2} Markdown file(s)." -f $powerShellFiles.Count, $PresetPath.Count, $markdownFiles.Count)
