@@ -1,150 +1,288 @@
-<# 
-# Bootstrap loader to ride-windows repo
-#
-# Torsten Juul-Jensen
-# November 10, 2023
+<#
+.SYNOPSIS
+  Download ride-windows and optionally run the default bootstrap preset.
+.DESCRIPTION
+  This script is the supported one-line bootstrap entrypoint for a fresh
+  Windows machine. It downloads a branch or release archive from GitHub,
+  extracts it to a temporary directory, and can then run ride.ps1 with the
+  repository default module and preset.
+
+  The script intentionally does not run installation tasks unless an execution
+  mode such as -Default, -Edit, or custom -Include/-Preset/-Tweak arguments is
+  supplied.
 #>
 
-param( $Author="tjuuljensen", $Repo="ride-windows" )
+[CmdletBinding()]
+param(
+  [string] $Author = "tjuuljensen",
+  [string] $Repo = "ride-windows",
+  [string] $Branch = "master",
+  [string] $Release = "",
+  [string] $InstallRoot = "",
+  [switch] $Default,
+  [switch] $Edit,
+  [Alias("Stop")]
+  [switch] $NoRun,
+  [switch] $NoAdmin,
+  [switch] $DownloadOnly,
+  [string] $Log = "",
+  [string] $Ini = "",
+  [string[]] $Include = @(),
+  [string[]] $Preset = @(),
+  [string[]] $Tweak = @()
+)
 
-
-Function RequireAdmin {
-	If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator")) {
-		Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`" $PSCommandArgs" -Verb RunAs
-		Exit
-	}
+$ErrorActionPreference = "Stop"
+try {
+  [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+}
+catch {
+  Write-Verbose "Unable to set TLS 1.2 explicitly; continuing with platform defaults."
 }
 
+function Show-SyntaxHelp {
+  $scriptName = Split-Path -Leaf $MyInvocation.ScriptName
+  Write-Output "Usage:"
+  Write-Output "  $scriptName -Default [-Release v1.2.3] [-Log install.log] [-Ini config.ini] [-DownloadOnly]"
+  Write-Output "  $scriptName -Edit [-Release v1.2.3]"
+  Write-Output "  $scriptName -NoRun [-Release v1.2.3]"
+  Write-Output "  $scriptName -Include module.psm1 -Preset preset.preset [-Tweak FunctionName]"
+  Write-Output ""
+  Write-Output "Modes:"
+  Write-Output "  -Default      Run ride.ps1 with lib-windows.psm1 and default.preset."
+  Write-Output "  -Edit         Copy default.preset to custom-bootstrap.preset, edit it in Notepad, then run it."
+  Write-Output "  -NoRun/-Stop  Download and extract only. Print the extracted repository path."
+  Write-Output ""
+  Write-Output "Source selection:"
+  Write-Output "  -Branch name  Download a branch archive. Default: master."
+  Write-Output "  -Release tag  Download a tagged release archive instead of a branch archive."
+}
 
-function ShowSyntaxHelp()
-{
-  $ScriptName=$MyInvocation.MyCommand.Name
-  Write-Output "normal usage:     $ScriptName [-ride <options...>] [-default] [-stop] [-edit | -notepad ]"
-  Write-Output "specific release: $ScriptName -release v1.337"
-  exit 1
+function Test-IsAdministrator {
+  $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
+  $principal = [Security.Principal.WindowsPrincipal]::new($identity)
+  $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+}
+
+function Quote-ProcessArgument {
+  param([string] $Argument)
+
+  if ($null -eq $Argument) {
+    return '""'
+  }
+
+  if ($Argument -notmatch '[\s"`]') {
+    return $Argument
+  }
+
+  '"' + ($Argument -replace '"', '\"') + '"'
+}
+
+function ConvertTo-ProcessArgumentList {
+  param([hashtable] $Parameters)
+
+  $argumentList = New-Object System.Collections.Generic.List[string]
+  $argumentList.Add("-NoProfile")
+  $argumentList.Add("-ExecutionPolicy")
+  $argumentList.Add("Bypass")
+  $argumentList.Add("-File")
+  $argumentList.Add((Quote-ProcessArgument $PSCommandPath))
+
+  foreach ($key in ($Parameters.Keys | Sort-Object)) {
+    $value = $Parameters[$key]
+    if ($value -is [switch]) {
+      if ($value.IsPresent) {
+        $argumentList.Add("-$key")
+      }
+      continue
+    }
+
+    if ($null -eq $value -or $value -eq "") {
+      continue
+    }
+
+    if ($value -is [array]) {
+      foreach ($item in $value) {
+        $argumentList.Add("-$key")
+        $argumentList.Add((Quote-ProcessArgument $item))
+      }
+      continue
+    }
+
+    $argumentList.Add("-$key")
+    $argumentList.Add((Quote-ProcessArgument $value))
+  }
+
+  $argumentList -join " "
+}
+
+function Restart-AsAdministrator {
+  if (-not $PSCommandPath) {
+    throw "Cannot relaunch as administrator because the bootstrapper is not running from a script file."
+  }
+
+  $argumentList = ConvertTo-ProcessArgumentList -Parameters $PSBoundParameters
+  Start-Process -FilePath "powershell.exe" -ArgumentList $argumentList -Verb RunAs | Out-Null
+  exit
 }
 
 function New-TemporaryDirectory {
-  $parent = [System.IO.Path]::GetTempPath()
-  [string] $name = [System.Guid]::NewGuid()
-  New-Item -ItemType Directory -Path (Join-Path $parent $name) | Out-Null
+  $parent = [IO.Path]::GetTempPath()
+  $name = "ride-windows-" + [guid]::NewGuid().ToString("N")
+  New-Item -ItemType Directory -Path (Join-Path -Path $parent -ChildPath $name) -Force
 }
 
+function Get-BootstrapArchiveUrl {
+  if ($Release) {
+    return "https://github.com/$Author/$Repo/archive/refs/tags/$Release.zip"
+  }
 
-function DownloadFile()
-{
-  param([String] $release)
-  if ( $release ){
-    $BootstrapArchive="https://github.com/${author}/${repo}/archive/refs/tags/$release.zip"
-    #$Url=https://api.github.com/repos/${author}/${repo}/zipball/refs/tags/$release
-    #$Archive=$release
+  "https://github.com/$Author/$Repo/archive/refs/heads/$Branch.zip"
+}
+
+function Expand-RideRepository {
+  param([string] $ArchivePath, [string] $DestinationPath)
+
+  Expand-Archive -Path $ArchivePath -DestinationPath $DestinationPath -Force
+  Remove-Item -Path $ArchivePath -ErrorAction SilentlyContinue
+
+  $rideScript = Get-ChildItem -Path $DestinationPath -Filter "ride.ps1" -Recurse -File | Select-Object -First 1
+  if (-not $rideScript) {
+    throw "The downloaded archive did not contain ride.ps1."
+  }
+
+  $rideScript.Directory.FullName
+}
+
+function Download-RideRepository {
+  if (-not $InstallRoot) {
+    $InstallRoot = (New-TemporaryDirectory).FullName
   }
   else {
-    # Direct URL to bootstrap master archive on github
-    $BootstrapArchive="https://github.com/${author}/${repo}/heads/master.zip"
+    New-Item -ItemType Directory -Path $InstallRoot -Force | Out-Null
   }
 
-  # Downloading file
-  $TempDir=New-TemporaryDirectory
-  Write-Output "Downloading $BootstrapArchive => $TempDir"
-  $FileName = ([System.IO.Path]::GetFileName($BootstrapArchive).Replace("%20"," "))
-  $FileFullName = Join-Path -Path $TempDir -ChildPath $FileName
-  Start-BitsTransfer -Source $BootstrapArchive -Destination $FileFullName
+  $archiveUrl = Get-BootstrapArchiveUrl
+  $archivePath = Join-Path -Path $InstallRoot -ChildPath "$Repo.zip"
 
-  # Unzipping
-	Expand-Archive $FileFullName -DestinationPath $TempDir
-	Remove-Item -Path $FileFullName -ErrorAction Ignore
-	Write-Output "Unzipped to: $TempDir"
+  Write-Host "Downloading $archiveUrl"
+  Write-Host "Destination: $InstallRoot"
+  Invoke-WebRequest -Uri $archiveUrl -OutFile $archivePath -UseBasicParsing
 
-  # If directory is nested, move contents one directory up
-  $SubPath = Get-ChildItem $TempDir -Name
-  if ($SubPath.count -eq 1) {
-    $FullSubPath = Join-Path -Path $TempDir -ChildPath $SubPath
-    $FolderIsNested = (Get-ChildItem -Path "$TempDir" -Directory).count -eq (Get-ChildItem -Path "$TempDir" ).count
-    if ($FolderIsNested) {
-      Get-ChildItem -Path "$FullSubPath" -Recurse | Move-Item -Destination $TempDir
-      Remove-Item -Path $FullSubPath -ErrorAction SilentlyContinue -Recurse -Force
-    }
-  }
+  $repoPath = Expand-RideRepository -ArchivePath $archivePath -DestinationPath $InstallRoot
+  Write-Host "Repository extracted to: $repoPath"
+  $repoPath
 }
 
-<#
-# If this file does not exist it's probably because we're bootstrapping a fresh
-# system.  So we download the Git repository and bootstrap from there
-if [[ ! -f "$SCRIPTDIR/${repo}/ride.sh" ]] && [[ ! -f "$SCRIPTDIR/../ride.sh" ]]; then #the ride script does NOT exist in a subdir or one level up (run from repo directory)
-  DownloadFile $@
-elif [[ -f "$SCRIPTDIR/${repo}/ride.sh" ]] ; then
-  INSTALLDIR=$(realpath "$SCRIPTDIR/${repo}/")
-elif [[ -f "$SCRIPTDIR/../ride.sh" ]] ; then
-  INSTALLDIR=$(realpath "$SCRIPTDIR/../")
-fi
+function Add-RidePathArgument {
+  param(
+    [System.Collections.Generic.List[string]] $Arguments,
+    [string] $Name,
+    [string] $Path
+  )
 
-
-elif [[ "--default" == *"$1"* ]] ; then
-  # Start the installation of the default preset
-  cd $INSTALLDIR
-  ./ride.sh --include lib-fedora.sh --preset default.preset
-
-elif [[  "--edit | --vi | -e" == *"$1"* ]] ; then
-  cd $INSTALLDIR
-  cp default.preset custom.preset
-  vi custom.preset
-  ./ride.sh --include lib-fedora.sh --preset custom.preset
-elif [[ "--ride" == *"$1"* ]] ; then
-  # Start the RIDE installation with remaining parameters
-  cd $INSTALLDIR
-  shift
-  ./ride.sh $@
-
-#>
-
-If (($args.Length -eq 0) -or ($args[0].ToLower() -eq "-help")) {
-  ShowSyntaxHelp
-  break
-}
-
-$i = 0
-While ($i -lt $args.Length) {
-  # if -help is put anywhere on command line, the script will display help and exit
-	If ($args[$i].ToLower() -eq "-help") {
-    ShowSyntaxHelp
-	}
-  ElseIf ($args[$i].ToLower() -eq "-default") {
-    RequireAdmin
-    DownloadFile
-    Write-Output "Running default Installation..."
-    # Do stuff (preset + include)
-	}
-  ElseIf ($args[$i].ToLower() -eq "-ride") {
-    RequireAdmin
-    DownloadFile
-    Write-Output "Running RIDE installation with custom parameters..."
-    # Do stuff (preset + include ALLARGS)
-	}
-  ElseIf ($args[$i].ToLower() -eq "-release") {
-    RequireAdmin
-    DownloadFile $args[++$i]
-    # do stuff
-	}
-  ElseIf ($args[$i].ToLower() -eq "-stop") {
-    Write-Output "No installation tasks performed. It is up to you now to do the magic."
-    if (($TempDir) -and (!( Test-Path $PSScriptRoot/${repo}/ ))) {
-      $Repodir = Join-Path -Path $PSScriptRoot -ChildPath "${repo}"
-      Move-Item -Path $TempDir -Destination $Repodir
-      Write-Output "Files can be found in: $Repodir"
-      return
-    }
-	}
-  ElseIf ($args[$i].ToLower() -eq "-edit") {
-    RequireAdmin
-    DownloadFile
-    Write-Output "Edit preset file in Notepad before running installation..."
-    # Start-Process notepad.exe -ArgumentList PATH_TO_PRESET_FILE
-    # Do stuff (notepad presetfile + ride preset + include)
-	}
-  Else {
-		ShowSyntaxHelp
+  if (-not $Path) {
     return
-	}
-	$i++
+  }
+
+  $Arguments.Add($Name)
+  $Arguments.Add($Path)
 }
+
+function Get-RideArguments {
+  param([string] $RepoPath)
+
+  $rideArguments = New-Object System.Collections.Generic.List[string]
+
+  if ($Default -or $Edit) {
+    Add-RidePathArgument -Arguments $rideArguments -Name "-include" -Path (Join-Path -Path $RepoPath -ChildPath "lib-windows.psm1")
+
+    if ($Edit) {
+      $customPreset = Join-Path -Path $RepoPath -ChildPath "custom-bootstrap.preset"
+      Copy-Item -Path (Join-Path -Path $RepoPath -ChildPath "default.preset") -Destination $customPreset -Force
+      Write-Host "Opening preset for editing: $customPreset"
+      Start-Process -FilePath "notepad.exe" -ArgumentList (Quote-ProcessArgument $customPreset) -Wait
+      Add-RidePathArgument -Arguments $rideArguments -Name "-preset" -Path $customPreset
+    }
+    else {
+      Add-RidePathArgument -Arguments $rideArguments -Name "-preset" -Path (Join-Path -Path $RepoPath -ChildPath "default.preset")
+    }
+  }
+
+  foreach ($item in $Include) {
+    Add-RidePathArgument -Arguments $rideArguments -Name "-include" -Path $item
+  }
+
+  foreach ($item in $Preset) {
+    Add-RidePathArgument -Arguments $rideArguments -Name "-preset" -Path $item
+  }
+
+  if ($Ini) {
+    Add-RidePathArgument -Arguments $rideArguments -Name "-ini" -Path $Ini
+  }
+
+  if ($Log) {
+    Add-RidePathArgument -Arguments $rideArguments -Name "-log" -Path $Log
+  }
+
+  if ($DownloadOnly) {
+    $rideArguments.Add("-downloadonly")
+  }
+
+  foreach ($item in $Tweak) {
+    $rideArguments.Add($item)
+  }
+
+  $rideArguments.ToArray()
+}
+
+function Invoke-Ride {
+  param(
+    [string] $RepoPath,
+    [string[]] $RideArguments
+  )
+
+  $rideScript = Join-Path -Path $RepoPath -ChildPath "ride.ps1"
+  if (-not (Test-Path -Path $rideScript)) {
+    throw "ride.ps1 was not found in $RepoPath."
+  }
+
+  Push-Location $RepoPath
+  try {
+    Write-Output "Running ride.ps1..."
+    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $rideScript @RideArguments
+    if ($LASTEXITCODE -ne 0) {
+      throw "ride.ps1 exited with code $LASTEXITCODE."
+    }
+  }
+  finally {
+    Pop-Location
+  }
+}
+
+$hasCustomRideArguments = ($Include.Count -gt 0) -or ($Preset.Count -gt 0) -or ($Tweak.Count -gt 0)
+$hasRunMode = $Default -or $Edit -or $hasCustomRideArguments
+
+if (-not $hasRunMode -and -not $NoRun) {
+  Show-SyntaxHelp
+  exit 1
+}
+
+if ($hasRunMode -and -not $NoAdmin -and -not (Test-IsAdministrator)) {
+  Restart-AsAdministrator
+}
+
+$repoPath = Download-RideRepository
+
+if ($NoRun) {
+  Write-Output "No installation tasks performed."
+  Write-Output "Run manually from: $repoPath"
+  exit 0
+}
+
+$rideArguments = Get-RideArguments -RepoPath $repoPath
+if ($rideArguments.Count -eq 0) {
+  throw "No ride.ps1 arguments were produced."
+}
+
+Invoke-Ride -RepoPath $repoPath -RideArguments $rideArguments

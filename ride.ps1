@@ -1,27 +1,71 @@
 <#
 .SYNOPSIS
-	Win 10 / 11 / Server 2016 / Server 2019 Bootstrap Script
+	Windows setup automation runner for the RIDE tweak library.
 .DESCRIPTION
-	This script is for automation of routine tasks done after a fresh installation of 
-	Windows 10/11 and Windows Server 2016 / 2019. 
-	The repo does not hold a complete set of all existing Windows tweaks, nor is it a 
-	complete way of creating the fully hardened/locked down machine.
-	The functions of the script are focused on minimizing windows telemetry traffic and
-	on the installation and configuration of a lot of standard tools for the typical 
-	technical user or people working with Digital Forensics and Incident Response.
+	RIDE (Remove - Install - Disable - Enable) loads one or more PowerShell
+	modules, selects tweak functions from preset files and command-line
+	arguments, and then invokes the selected functions.
+
+	The script is intended for routine post-installation configuration on
+	supported Windows client and Windows Server systems. It is not a complete
+	hardening baseline and it can make invasive system changes. Read the selected
+	preset and tweak functions before running them.
+.PARAMETER Include
+	One or more PowerShell modules containing RIDE tweak functions. The standard
+	repository module is lib-windows.psm1. Include files are resolved before
+	importing, so relative paths are accepted.
+.PARAMETER Preset
+	One or more preset files containing tweak function names, one per line.
+	Comments beginning with # are ignored. A function name prefixed with ! removes
+	that tweak from the current selection.
+.PARAMETER Ini
+	Optional INI file used to populate RIDEVAR-* process environment variables
+	consumed by selected tweak functions.
+.PARAMETER DownloadOnly
+	Set download-only mode for installer functions that support it. This sets the
+	RIDEVAR-Download-Only process environment variable.
+.PARAMETER Log
+	Optional transcript log path. The path may be relative or absolute.
+.PARAMETER Tweak
+	Additional tweak function names to apply. Prefix a name with ! to remove it
+	from the current selection. This parameter also captures remaining positional
+	arguments so legacy calls such as `ride.ps1 -include lib-windows.psm1 Restart`
+	continue to work.
 .NOTES
-	This script is for Windows only. Though many features might work in 32-bit environments,
-	the script is made for and tested on x64 installations.
+	This script is for Windows only. Though many features might work in 32-bit
+	environments, the script is made for and tested on x64 installations.
 .LINK
 	https://github.com/tjuuljensen/ride-windows/blob/master/README.md
 .EXAMPLE
-	ride.ps1 -include -preset
-	ride.ps1 -include -preset -ini 
-	ride.ps1 -include -preset -downloadonly
-    ride.ps1 -include -preset -log
-	ride.ps1 -include -preset !unwanted_tweakname_from_preset
-	ride.ps1 -include tweakname 
+	powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\ride.ps1 -Include .\lib-windows.psm1 -Preset .\default.preset
+.EXAMPLE
+	powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\ride.ps1 -Include .\lib-windows.psm1 -Preset .\default.preset -DownloadOnly
+.EXAMPLE
+	powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\ride.ps1 -Include .\lib-windows.psm1 -Preset .\default.preset -Ini .\example.ini -Log .\install-log.log
+.EXAMPLE
+	powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\ride.ps1 -Include .\lib-windows.psm1 ShowKnownExtensions !HideKnownExtensions
 #>
+
+[CmdletBinding(PositionalBinding = $false)]
+param(
+	[Parameter()]
+	[string[]] $Include = @(),
+
+	[Parameter()]
+	[string[]] $Preset = @(),
+
+	[Parameter()]
+	[string] $Ini = "",
+
+	[Parameter()]
+	[switch] $DownloadOnly,
+
+	[Parameter()]
+	[string] $Log = "",
+
+	[Parameter(ValueFromRemainingArguments = $true)]
+	[string[]] $Tweak = @()
+)
 
 # Relaunch the script with administrator privileges
 Function RequireAdmin {
@@ -34,6 +78,19 @@ Function RequireAdmin {
 $tweaks = @()
 $ModulesIncluded = @()
 $PSCommandArgs = @()
+
+Function Add-PSCommandArgument {
+	param(
+		[string] $Name,
+		[string] $Value = ""
+	)
+
+	If ($Value -eq "") {
+		$script:PSCommandArgs += $Name
+	} Else {
+		$script:PSCommandArgs += "$Name `"$Value`""
+	}
+}
 
 Function AddOrRemoveTweak($tweak) {
 	If ($tweak -eq "") {
@@ -86,44 +143,41 @@ function Get-IniFile {
 # Clean up env from potentially earlier execution
 Remove-Item -Path env:RIDEVAR-Download-Only -ErrorAction SilentlyContinue
 
-# Parse and resolve paths in passed arguments
-$i = 0
-While ($i -lt $args.Length) {
-	If ($args[$i].ToLower() -eq "-include") {
-		# Resolve full path to the included file
-		$include = Resolve-Path $args[++$i] -ErrorAction Stop
-		$PSCommandArgs += "-include `"$include`""
-		# Import the included file as a module
-		Import-Module -Name $include -ErrorAction Stop
-		# Save module name in array to unload at script end
-		$ModulesIncluded += [System.IO.Path]::GetFileNameWithoutExtension("$include")
-	} ElseIf ($args[$i].ToLower() -eq "-preset") {
-		# Resolve full path to the preset file
-		$preset = Resolve-Path $args[++$i] -ErrorAction Stop
-		$PSCommandArgs += "-preset `"$preset`""
-		# Load tweak names from the preset file
-		Get-Content $preset -ErrorAction Stop | ForEach-Object { AddOrRemoveTweak($_.Split("#")[0].Trim()) }
-	} ElseIf ($args[$i].ToLower() -eq "-ini") {
-		# Resolve full path to the ini file
-		$ini = Resolve-Path $args[++$i] -ErrorAction Stop
-		$PSCommandArgs += "-ini `"$ini`""
-		# Load valuesfrom the ini file
-        Get-IniFile $ini
-	} ElseIf ($args[$i].ToLower() -eq "-downloadonly") {
-		[Environment]::SetEnvironmentVariable("RIDEVAR-Download-Only", $true, "Process")
-		$PSCommandArgs += "-downloadonly"
-	} ElseIf ($args[$i].ToLower() -eq "-log") {
-		# Resolve full path to the output file
-		$log = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($args[++$i])
-		$PSCommandArgs += "-log `"$log`""
-		# Record session to the output file
-		Start-Transcript $log
-	} Else {
-		$PSCommandArgs += $args[$i]
-		# Load tweak names from command line
-		AddOrRemoveTweak($args[$i])
-	}
-	$i++
+# Resolve and import included tweak modules
+foreach ($includePath in $Include) {
+	$resolvedInclude = Resolve-Path $includePath -ErrorAction Stop
+	Add-PSCommandArgument -Name "-Include" -Value $resolvedInclude
+	Import-Module -Name $resolvedInclude -ErrorAction Stop
+	$ModulesIncluded += [System.IO.Path]::GetFileNameWithoutExtension("$resolvedInclude")
+}
+
+# Resolve preset files and load selected tweak names
+foreach ($presetPath in $Preset) {
+	$resolvedPreset = Resolve-Path $presetPath -ErrorAction Stop
+	Add-PSCommandArgument -Name "-Preset" -Value $resolvedPreset
+	Get-Content $resolvedPreset -ErrorAction Stop | ForEach-Object { AddOrRemoveTweak($_.Split("#")[0].Trim()) }
+}
+
+If ($Ini) {
+	$resolvedIni = Resolve-Path $Ini -ErrorAction Stop
+	Add-PSCommandArgument -Name "-Ini" -Value $resolvedIni
+	Get-IniFile $resolvedIni
+}
+
+If ($DownloadOnly) {
+	[Environment]::SetEnvironmentVariable("RIDEVAR-Download-Only", $true, "Process")
+	Add-PSCommandArgument -Name "-DownloadOnly"
+}
+
+If ($Log) {
+	$resolvedLog = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($Log)
+	Add-PSCommandArgument -Name "-Log" -Value $resolvedLog
+	Start-Transcript $resolvedLog
+}
+
+foreach ($tweakName in $Tweak) {
+	Add-PSCommandArgument -Name $tweakName
+	AddOrRemoveTweak($tweakName)
 }
 
 # Call the desired tweak functions

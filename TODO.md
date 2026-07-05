@@ -27,8 +27,8 @@ This file is the short operational backlog. Longer planning, package intake, and
 - [ ] Split `lib-windows.psm1` into focused modules once helper conversion has stabilized.
 - [ ] Keep old function names as compatibility exports while modules are split.
 - [ ] Normalize indentation in touched code as modules are extracted.
-- [ ] Add one-line bootstrap/install entrypoint based on the Fedora RIDE pattern.
-- [ ] Finish or retire `docs/bootstrap.ps1`; it currently parses, but still contains placeholder behavior.
+- [x] Add one-line bootstrap/install entrypoint based on the Fedora RIDE pattern.
+- [x] Finish or retire `docs/bootstrap.ps1`; it currently parses, but still contains placeholder behavior.
 - [x] Add a documentation check to validation once the README/roadmap structure settles.
 
 ### D. Configuration and Workflows

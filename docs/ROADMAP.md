@@ -11,7 +11,7 @@ The main maintenance pressure comes from scale:
 - `lib-windows.psm1` is still a large monolithic module.
 - Many installer functions repeat the same bootstrap-folder, download, and silent-install boilerplate.
 - External downloads are dynamically resolved from GitHub, vendor pages, raw URLs, and scraped HTML with inconsistent verification.
-- Some tooling is still exploratory, especially `docs/bootstrap.ps1`.
+- The supported one-line bootstrapper now lives in `docs/bootstrap.ps1`.
 - Package requests and modernization tasks were split across multiple loose notes.
 
 ## Roadmap Principles
@@ -35,12 +35,12 @@ Completed:
 - Validates preset entries against available function names.
 - Reports duplicate function definitions.
 - Fixed `docs/bootstrap.ps1` parser errors and obvious typo.
+- Replaced the placeholder `docs/bootstrap.ps1` flow with a supported download, inspect, edit, and run bootstrapper.
 - Replaced `Invoke-Expression` in `ride.ps1` with function lookup and direct invocation.
 - Ignored local/private presets and install logs.
 
 Remaining:
 
-- Decide whether `docs/bootstrap.ps1` should become a supported one-line bootstrapper or be moved to an experimental area.
 - Decide whether repository-local VS Code settings should be tracked or kept as operator-local setup notes.
 
 ## Documentation Maintenance
@@ -164,6 +164,7 @@ Existing installers that may get optional winget alternatives:
 A practical next release should include:
 
 - Validation script committed and documented.
+- Supported `docs/bootstrap.ps1` one-line bootstrapper.
 - Safer `ride.ps1` invocation.
 - First batch of shared installer helpers.
 - Initial converted installers.

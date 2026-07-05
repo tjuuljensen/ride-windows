@@ -41,6 +41,20 @@ I have a Linux repo and use the same script architecture in my Fedora Linux conf
 Make sure your account is a member of the *Administrators* group as the script attempts to run with elevated privileges. If you just want to run the script with the *default* preset, download and unpack the [latest release](https://github.com/tjuuljensen/ride-windows) and then double-click on the *default.cmd* file and confirm the *User Account Control* prompt.
 While you can use it as a non-admin user and run it with elevated rights as an admin user, some things will NOT work this way. Read the code before running it. The safe path is to make the primary user an administrator during setup and run the script elevated. For security reasons, the script has features to remove the user from the admin group after installation.
 
+For a fresh machine where you want the repository downloaded first, use the supported bootstrapper:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Invoke-WebRequest -Uri https://raw.githubusercontent.com/tjuuljensen/ride-windows/master/docs/bootstrap.ps1 -OutFile $env:TEMP\ride-bootstrap.ps1; & $env:TEMP\ride-bootstrap.ps1 -Default"
+```
+
+To inspect the downloaded repository before running anything, use `-NoRun`:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Invoke-WebRequest -Uri https://raw.githubusercontent.com/tjuuljensen/ride-windows/master/docs/bootstrap.ps1 -OutFile $env:TEMP\ride-bootstrap.ps1; & $env:TEMP\ride-bootstrap.ps1 -NoRun"
+```
+
+The bootstrapper also supports `-Release <tag>` for a tagged archive, `-Edit` to copy and edit the default preset before execution, `-DownloadOnly` to pass download-only mode through to `ride.ps1`, and custom `-Include`, `-Preset`, and `-Tweak` arguments.
+
 The script supports command line options and parameters which can help you customize the tweak selection or even add your own custom tweaks, however, these features require some basic knowledge of command line usage and PowerShell scripting. Refer to the [Advanced usage](#advanced-usage) section for more details.
 
 
@@ -153,6 +167,22 @@ The active task list is maintained in [TODO.md](TODO.md). The structured moderni
 &nbsp;
 
 ## Advanced usage
+
+### Bootstrapper
+
+`docs/bootstrap.ps1` is the supported fetch-and-run entrypoint. It downloads either the configured branch archive or a tagged release archive from GitHub, extracts it to a temporary folder, and runs `ride.ps1` only when an explicit run mode is selected.
+
+Common examples:
+
+```powershell
+.\docs\bootstrap.ps1 -Default
+.\docs\bootstrap.ps1 -Release v1.2.3 -Default
+.\docs\bootstrap.ps1 -NoRun
+.\docs\bootstrap.ps1 -Edit
+.\docs\bootstrap.ps1 -Include .\lib-windows.psm1 -Preset .\default.preset -Tweak Restart
+```
+
+Use `-NoAdmin` only for inspection or tests where elevation is intentionally not wanted. Most real installation runs should be elevated.
 
     powershell.exe -NoProfile -ExecutionPolicy Bypass -File ride.ps1 [-include filename] [-preset filename] [-log logname] [-ini inifile] [-downloadonly] [[!]tweakname]
 
