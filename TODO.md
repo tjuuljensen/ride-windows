@@ -17,7 +17,8 @@ This file is the short operational backlog. Longer planning, package intake, and
 
 - [x] Add shared download/install helpers for repeated EXE/MSI installer boilerplate.
 - [x] Convert initial EXE installers to shared helpers: Git LFS, Git for Windows, Notepad++, 7-Zip, VS Code, Signal, Python.
-- [ ] Convert common MSI installers to `Install-RideDownloadedMsi`.
+- [x] Convert common MSI installers to `Install-RideDownloadedMsi`.
+- [ ] Add license-aware MSI helper support before converting VeraCrypt's `ACCEPTLICENSE=YES` installer path.
 - [ ] Add optional winget-backed installers for packages where winget is good enough and does not reduce forensic reproducibility.
 - [ ] Stage Office 365 deployment through the Office Deployment Tool so custom XML can be used.
 - [ ] Add PingCastle license/config support through ini variables.

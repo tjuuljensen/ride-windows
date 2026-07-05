@@ -74,11 +74,21 @@ Completed:
   - `InstallVSCode`
   - `InstallSignal`
   - `InstallPython`
+- Converted common MSI installers:
+  - `InstallOpenJDK`
+  - `InstallVirtIOGuestTool`
+  - `InstallSpiceWebDAV`
+  - `InstallPowerShell`
+  - `InstallAutomatedLab`
+  - `InstallFirefox`
+  - `InstallChrome`
+  - `InstallSqlitebrowser`
+  - `InstallAutopsy`
 
 Next steps:
 
-- Convert common MSI installers to `Install-RideDownloadedMsi`.
 - Convert simple EXE installers in small batches.
+- Add license-aware MSI helper support before converting the VeraCrypt `ACCEPTLICENSE=YES` path.
 - Add helper support for:
   - optional expected SHA256
   - optional Authenticode requirement
