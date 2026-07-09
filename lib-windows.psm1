@@ -1639,13 +1639,15 @@ function Install-RideDownloadedMsi {
     [Parameter(Mandatory = $true)] [string] $SoftwareName,
     [Parameter(Mandatory = $true)] [string] $FullDownloadURL,
     [string] $FileName,
-    [string] $CommandLineOptions = "/quiet"
+    [string] $CommandLineOptions = "/quiet",
+    [string[]] $MsiProperty = @()
   )
 
   $FileFullName = Save-RideDownload -SoftwareName $SoftwareName -FullDownloadURL $FullDownloadURL -FileName $FileName
+  $MsiPropertyOptions = if ($MsiProperty.Count -gt 0) { " " + ($MsiProperty -join " ") } else { "" }
 
   if (-not (Test-RideDownloadOnly)) {
-    Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" $CommandLineOptions" -Wait -NoNewWindow
+    Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" $CommandLineOptions$MsiPropertyOptions" -Wait -NoNewWindow
     Write-Output "Installation done for $SoftwareName"
   }
 }
@@ -5203,46 +5205,13 @@ function InstallVeraCrypt {
   $Url = "https://api.github.com/repos/$author/$repo/releases/latest"
   $ReleasePageLinks = (Invoke-WebRequest -UseBasicParsing -Uri $Url | ConvertFrom-Json).assets.browser_download_url
 
-  $FullDownloadURL = $ReleasePageLinks | Where-Object { ($_ -Like "*msi") | Select-Object -First 1 }
+  $FullDownloadURL = ($ReleasePageLinks | Where-Object { $_ -Like "*msi" } | Select-Object -First 1)
   if (-not $FullDownloadURL) {
 	Write-Output "Error: $SoftwareName not found"
 	return
   }
 
-  # Create bootstrap folder if not existing
-  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
-  if (-not (Test-Path -Path $BootstrapFolder)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
-  }
-
-  # Create software folder
-  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
-  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
-  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
-  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
-  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
-  }
-
-  # Download
-  Write-Output "Downloading file from: $FullDownloadURL"
-  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
-  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
-  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName -ErrorAction SilentlyContinue
-
-  if (Test-Path -Path $FileFullName) {
-    Write-Output "Downloaded: $FileFullName"}
-  else {
-    Write-Output "Error downloading: $FileFullName" 
-  }
-
-  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
-    # Install msi
-    Start-Process msiexec.exe -ArgumentList "/I ""$FileFullName"" ACCEPTLICENSE=YES /qn" -Wait -NoNewWindow
-    Write-Output "Installation done for $SoftwareName"
-  }
-  
+  Install-RideDownloadedMsi -SoftwareName $SoftwareName -FullDownloadURL $FullDownloadURL -CommandLineOptions "/qn" -MsiProperty "ACCEPTLICENSE=YES"
 }
 
 

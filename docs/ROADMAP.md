@@ -84,11 +84,11 @@ Completed:
   - `InstallChrome`
   - `InstallSqlitebrowser`
   - `InstallAutopsy`
+  - `InstallVeraCrypt` with explicit `ACCEPTLICENSE=YES` MSI property support
 
 Next steps:
 
 - Convert simple EXE installers in small batches.
-- Add license-aware MSI helper support before converting the VeraCrypt `ACCEPTLICENSE=YES` path.
 - Add helper support for:
   - optional expected SHA256
   - optional Authenticode requirement
