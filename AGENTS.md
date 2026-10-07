@@ -22,6 +22,24 @@ Keep operation IDs stable after publication. If a catalog or profile schema
 must change, document the migration and retain a recovery path. Prefer focused
 changes over broad rewrites.
 
+## Operation reference metadata
+
+- Every `RegistryValue` operation in `catalog/operations.psd1` must include a
+  `DocumentationUri` pointing to Microsoft documentation for the setting,
+  policy, or user-visible behavior it controls. Prefer the exact policy or
+  value reference. When Microsoft documents only the feature behavior, link
+  that page and describe the registry mapping accurately without implying
+  Microsoft documents the specific value.
+- Every `Package` operation must include a `ProductUri` pointing to the
+  product's official information page. Keep this separate from `DownloadUri`,
+  which identifies the artifact source used by the installer.
+- Use stable HTTPS URLs from Microsoft Learn or Microsoft Support for Windows
+  settings, and from the software publisher or project for package information.
+  Do not invent links; flag an undocumented setting for review and use the
+  closest authoritative behavior reference when no direct reference exists.
+- Render these references in generated `docs/OPERATIONS.md` and enforce their
+  presence and URL form in catalog validation and tests.
+
 ## Command-line discoverability and completion
 
 Tab completion is a default part of the RIDE command-line interface. Any

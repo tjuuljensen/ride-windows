@@ -12,6 +12,34 @@ Import-Module (Join-Path $root 'modules/RIDE.Engine.psm1') -Force
 $target = Get-RidePlatform
 if ($target -notin @('Windows 11', 'Windows Server 2025')) { throw "Unsupported integration VM target: $target" }
 
+if ($target -eq 'Windows 11') {
+  $inkingSetting = Get-RideOperation -Id 'windows.inking-typing-data'
+  $inkingOriginal = Get-RideCurrentState -Operation $inkingSetting
+  $inkingState = if ($inkingOriginal.Exists -and $inkingOriginal.Value -eq 0) { 'Enabled' } else { 'Disabled' }
+  $inkingProfile = @{
+    SchemaVersion = 1
+    Name = 'Inking and typing registry integration'
+    Operations = @(@{ Id = $inkingSetting.Id; State = $inkingState })
+  }
+  $inkingRun = @(Invoke-RidePlan -Plan @(Get-RidePlan -Profile $inkingProfile) -Confirm:$false | ForEach-Object { $_ })
+  $inkingRunIdLine = $inkingRun | Where-Object { $_ -match '^Run ID: ' } | Select-Object -Last 1
+  if (-not $inkingRunIdLine) { throw 'Inking and typing integration apply did not return a run ID.' }
+  $inkingRunId = $inkingRunIdLine -replace '^Run ID: ', ''
+  $inkingCurrent = Get-RideCurrentState -Operation $inkingSetting
+  $inkingExpected = $inkingSetting.States[$inkingState]
+  if ($null -eq $inkingExpected) {
+    if ($inkingCurrent.Exists) { throw 'Enabling inking and typing data did not remove the per-user override.' }
+  }
+  elseif (-not $inkingCurrent.Exists -or $inkingCurrent.Value -ne $inkingExpected) {
+    throw 'Disabling inking and typing data did not set the declared registry value.'
+  }
+  Restore-RideRun -RunId $inkingRunId -Confirm:$false
+  $inkingRestored = Get-RideCurrentState -Operation $inkingSetting
+  if ([bool]$inkingRestored.Exists -ne [bool]$inkingOriginal.Exists -or ($inkingOriginal.Exists -and ($inkingRestored.Value -ne $inkingOriginal.Value -or $inkingRestored.ValueType -ne $inkingOriginal.ValueType))) {
+    throw 'Inking and typing exact restore did not recover the initial registry value.'
+  }
+}
+
 $setting = Get-RideOperation -Id 'windows.show-known-extensions'
 $original = Get-RideCurrentState -Operation $setting
 $analystProfile = Get-RideProfile -Path (Join-Path $root 'profiles/analyst-basics.psd1')

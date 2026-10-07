@@ -2,8 +2,10 @@ $script:RideRoot = Split-Path -Parent $PSScriptRoot
 $script:RideCatalogPath = Join-Path $script:RideRoot 'catalog/operations.psd1'
 $script:RideSettingsModule = Join-Path $PSScriptRoot 'RIDE-Settings.psm1'
 $script:RidePackagesModule = Join-Path $PSScriptRoot 'RIDE-Packages.psm1'
+$script:RideDefenderModule = Join-Path $PSScriptRoot 'RIDE-Defender.psm1'
 Import-Module $script:RideSettingsModule -Force -ErrorAction Stop
 Import-Module $script:RidePackagesModule -Force -ErrorAction Stop
+Import-Module $script:RideDefenderModule -Force -ErrorAction Stop
 
 function Get-RideCatalog {
   Import-PowerShellDataFile -Path $script:RideCatalogPath
@@ -54,7 +56,7 @@ function Expand-RideProfileOperations {
   foreach ($selection in $Profile.Operations) {
     $entry = $catalog.Operations | Where-Object { $_.Id -eq $selection.Id } | Select-Object -First 1
     if ($entry) {
-      if ($Action -eq 'Remove' -and $entry.Kind -ne 'Package') { continue }
+      if ($Action -eq 'Remove' -and $entry.Kind -notin @('Package', 'DefenderExclusion')) { continue }
       $state = if ($Action -eq 'Remove') { 'Absent' } elseif ($selection.ContainsKey('State')) { $selection.State } else { $null }
       if ($entry.Kind -eq 'RegistryValue' -and $state -eq 'Baseline') { $state = $entry.BaselineState }
       $expanded.Add([pscustomobject]@{ Operation = $entry; State = $state })
@@ -75,7 +77,7 @@ function Expand-RideProfileOperations {
     foreach ($memberId in $members) {
       $member = $catalog.Operations | Where-Object { $_.Id -eq $memberId } | Select-Object -First 1
       if (-not $member) { throw "Group '$($group.Id)' references unknown operation '$memberId'." }
-      $expanded.Add([pscustomobject]@{ Operation = $member; State = if ($member.Kind -eq 'Package') { $groupState } else { $null } })
+      $expanded.Add([pscustomobject]@{ Operation = $member; State = if ($member.Kind -in @('Package', 'DefenderExclusion')) { $groupState } else { $null } })
     }
   }
 
@@ -89,6 +91,7 @@ function Get-RideOperationValue {
     return $Operation.States[$State]
   }
   if ($Operation.Kind -eq 'Package' -and $State -notin @('Present', 'Absent')) { throw "Package '$($Operation.Id)' requires State Present or Absent." }
+  if ($Operation.Kind -eq 'DefenderExclusion' -and $State -notin @('Present', 'Absent')) { throw "Defender exclusion '$($Operation.Id)' requires State Present or Absent." }
   $State
 }
 
@@ -97,6 +100,7 @@ function Get-RideCurrentState {
   switch ($Operation.Handler) {
     'RegistryValue' { return Get-RideSettingState -Operation $Operation }
     'Package' { return Get-RideInstalledPackage -Operation $Operation }
+    'DefenderExclusion' { return Get-RideDefenderExclusionState -Operation $Operation }
     default { throw "No handler is registered for '$($Operation.Handler)'." }
   }
 }
@@ -117,6 +121,10 @@ function Get-RideCurrentValueText {
   if ($Operation.Kind -eq 'RegistryValue') {
     if (-not $CurrentState.Exists) { return '<unset>' }
     return ConvertTo-RideDisplayValue -Value $CurrentState.Value
+  }
+  if ($Operation.Kind -eq 'DefenderExclusion') {
+    if (-not $CurrentState.Present) { return '<absent>' }
+    return $CurrentState.Path
   }
   if (-not $CurrentState.Present) { return '<absent>' }
   if ($CurrentState.DisplayVersion) {
@@ -147,7 +155,7 @@ function Get-RideCurrentStateName {
     [Parameter(Mandatory = $true)] $CurrentState
   )
 
-  if ($Operation.Kind -eq 'Package') {
+  if ($Operation.Kind -in @('Package', 'DefenderExclusion')) {
     if ($CurrentState.Present) { return 'Present' }
     return 'Absent'
   }
@@ -217,6 +225,9 @@ function Save-RideOperationSnapshot {
       ValueType = $CurrentState.ValueType
     }
   }
+  elseif ($Operation.Kind -eq 'DefenderExclusion') {
+    [ordered]@{ Present = [bool]$CurrentState.Present; Path = $CurrentState.Path }
+  }
   else {
     [ordered]@{ Present = [bool]$CurrentState.Present; Version = $CurrentState.DisplayVersion }
   }
@@ -277,7 +288,7 @@ function Get-RidePlan {
   foreach ($item in $plan) {
     if (-not $item.State) { throw "No state was selected for '$($item.Operation.Id)'." }
     $null = Get-RideOperationValue -Operation $item.Operation -State $item.State
-    if ($Action -eq 'Apply' -and $item.Operation.Kind -eq 'RegistryValue' -and 'Set' -notin $item.Operation.Actions) { throw "'$($item.Operation.Id)' does not support set." }
+    if ($Action -eq 'Apply' -and $item.Operation.Kind -in @('RegistryValue', 'DefenderExclusion') -and 'Set' -notin $item.Operation.Actions) { throw "'$($item.Operation.Id)' does not support set." }
     if ($item.Operation.Kind -eq 'Package' -and $item.State -eq 'Present' -and 'Install' -notin $item.Operation.Actions) { throw "'$($item.Operation.Id)' does not support install." }
     if ($item.Operation.Kind -eq 'Package' -and $item.State -eq 'Absent' -and 'Uninstall' -notin $item.Operation.Actions) { throw "'$($item.Operation.Id)' does not support uninstall." }
   }
@@ -295,16 +306,24 @@ function Get-RideSingleOperationPlan {
   if (-not $operation.ContainsKey('Kind')) { throw "Direct actions require an operation ID, not a group ID: $Id" }
   switch ($Action) {
     'Set' {
-      if ($operation.Kind -ne 'RegistryValue') { throw "'set' requires a Windows setting ID; '$Id' is a $($operation.Kind) operation." }
-      if (-not $State) { throw "The set command requires -State. Available states: $($operation.States.Keys -join ', ')." }
+      if ($operation.Kind -notin @('RegistryValue', 'DefenderExclusion')) { throw "'set' requires a Windows setting ID; '$Id' is a $($operation.Kind) operation." }
+      if (-not $State) {
+        $availableStates = if ($operation.Kind -eq 'RegistryValue') { $operation.States.Keys -join ', ' } else { 'Present, Absent' }
+        throw "The set command requires -State. Available states: $availableStates."
+      }
       if ('Set' -notin $operation.Actions) { throw "'$Id' does not support setting a value." }
     }
     'Unset' {
-      if ($operation.Kind -ne 'RegistryValue') { throw "'unset' requires a Windows setting ID; '$Id' is a $($operation.Kind) operation." }
-      $unsetStates = @($operation.States.Keys | Where-Object { $null -eq $operation.States[$_] })
-      if ($unsetStates.Count -eq 0) { throw "'$Id' has no declared unset state." }
+      if ($operation.Kind -eq 'DefenderExclusion') {
+        $State = 'Absent'
+      }
+      elseif ($operation.Kind -ne 'RegistryValue') { throw "'unset' requires a Windows setting ID; '$Id' is a $($operation.Kind) operation." }
+      if ($operation.Kind -eq 'RegistryValue') {
+        $unsetStates = @($operation.States.Keys | Where-Object { $null -eq $operation.States[$_] })
+        if ($unsetStates.Count -eq 0) { throw "'$Id' has no declared unset state." }
+        $State = $unsetStates[0]
+      }
       if ('Set' -notin $operation.Actions) { throw "'$Id' does not support setting a value." }
-      $State = $unsetStates[0]
     }
     'Install' {
       if ($operation.Kind -ne 'Package') { throw "'install' requires a package ID; '$Id' is a $($operation.Kind) operation." }
@@ -362,6 +381,9 @@ function Invoke-RidePlan {
           else {
             Uninstall-RidePackage -Operation $operation
           }
+        }
+        elseif ($operation.Kind -eq 'DefenderExclusion') {
+          Set-RideDefenderExclusionState -Operation $operation -State $item.State
         }
         $completedOperationIds.Add($operation.Id)
         Write-Output ("Applied: {0} ({1})" -f $operation.Id, $item.State)
@@ -440,7 +462,7 @@ function Show-RideCatalog {
     '^profiles?$' { @($rows | Where-Object Type -eq 'Profile'); break }
     '^packages?$' { @($rows | Where-Object { $_.Type -eq 'Operation' -and $_.Kind -eq 'Package' }); break }
     '^groups?$' { @($rows | Where-Object Type -eq 'Group'); break }
-    '^settings?$' { @($rows | Where-Object { $_.Type -eq 'Operation' -and $_.Kind -eq 'RegistryValue' }); break }
+    '^settings?$' { @($rows | Where-Object { $_.Type -eq 'Operation' -and $_.Kind -in @('RegistryValue', 'DefenderExclusion') }); break }
     default {
       $categoryPart = [regex]::Escape($viewKey)
       @($rows | Where-Object {
@@ -467,7 +489,7 @@ function Show-RideOperation {
         Id = $operation.Id
         Name = $operation.Name
         CurrentValue = Get-RideCurrentValueText -Operation $operation -CurrentState $current
-        CurrentValueType = if ($operation.Kind -eq 'RegistryValue') { $current.ValueType } else { 'Package' }
+        CurrentValueType = if ($operation.Kind -eq 'RegistryValue') { $current.ValueType } elseif ($operation.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } else { 'Package' }
       }
     }
     $members | Format-Table -AutoSize
@@ -480,10 +502,13 @@ function Show-RideOperation {
     if ($key -ne 'States') { $details[$key] = $entry[$key] }
   }
   $details.CurrentValue = Get-RideCurrentValueText -Operation $entry -CurrentState $current
-  $details.CurrentValueType = if ($entry.Kind -eq 'RegistryValue') { $current.ValueType } else { 'Package' }
+  $details.CurrentValueType = if ($entry.Kind -eq 'RegistryValue') { $current.ValueType } elseif ($entry.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } else { 'Package' }
   if ($entry.Kind -eq 'RegistryValue') {
     $baselineValue = Get-RideOperationValue -Operation $entry -State $entry.BaselineState
     $details.BaselineValue = ConvertTo-RideDisplayValue -Value $baselineValue
+  }
+  elseif ($entry.Kind -eq 'DefenderExclusion') {
+    $details.Present = [bool]$current.Present
   }
   else {
     $details.Installed = [bool]$current.Present
@@ -528,7 +553,7 @@ function Test-RideStatusView {
     '^all$' { return $true }
     '^profiles?$' { throw "The 'profiles' view applies to list. For status, select one profile with -Profile <file>." }
     '^packages?$' { return ($Operation.Kind -eq 'Package') }
-    '^settings?$' { return ($Operation.Kind -eq 'RegistryValue') }
+    '^settings?$' { return ($Operation.Kind -in @('RegistryValue', 'DefenderExclusion')) }
     '^groups?$' {
       return [bool]($Catalog.Groups | Where-Object { $Operation.Id -in $_.Members } | Select-Object -First 1)
     }
@@ -565,7 +590,7 @@ function Get-RideStatus {
         InDesiredState = Test-RideCurrentStateMatch -Operation $item.Operation -State $item.State -CurrentState $current
         CurrentState = Get-RideCurrentStateName -Operation $item.Operation -CurrentState $current
         CurrentValue = Get-RideCurrentValueText -Operation $item.Operation -CurrentState $current
-        CurrentValueType = if ($item.Operation.Kind -eq 'RegistryValue') { if ($current.Exists) { $current.ValueType } else { '<unset>' } } else { 'Package' }
+        CurrentValueType = if ($item.Operation.Kind -eq 'RegistryValue') { if ($current.Exists) { $current.ValueType } else { '<unset>' } } elseif ($item.Operation.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } else { 'Package' }
       })
     }
   }
@@ -576,7 +601,7 @@ function Get-RideStatus {
       if (-not (Test-RideStatusView -Operation $operation -View $View -Catalog $catalog)) { continue }
       $current = Get-RideCurrentState -Operation $operation
       $defaults = $operation.TargetDefaults[$target]
-      if ($operation.Kind -eq 'Package') {
+      if ($operation.Kind -in @('Package', 'DefenderExclusion')) {
         $defaultValue = if ($defaults) { $defaults.DefaultValue } else { '<not declared>' }
         $matchesDefault = if ($defaults) { (-not $current.Present) -eq ($defaultValue -eq 'Absent') } else { $null }
       }
@@ -610,7 +635,7 @@ function Get-RideStatus {
         MatchesDefault = $matchesDefault
         CurrentState = Get-RideCurrentStateName -Operation $operation -CurrentState $current
         CurrentValue = Get-RideCurrentValueText -Operation $operation -CurrentState $current
-        CurrentValueType = if ($operation.Kind -eq 'RegistryValue') { if ($current.Exists) { $current.ValueType } else { '<unset>' } } else { 'Package' }
+        CurrentValueType = if ($operation.Kind -eq 'RegistryValue') { if ($current.Exists) { $current.ValueType } else { '<unset>' } } elseif ($operation.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } else { 'Package' }
       })
     }
   }
@@ -667,6 +692,9 @@ function Restore-RideRun {
       elseif (-not $record.Snapshot.Present -and $currentlyInstalled) {
         Uninstall-RidePackage -Operation $operation
       }
+    }
+    elseif ($operation.Kind -eq 'DefenderExclusion') {
+      Restore-RideDefenderExclusionState -Operation $operation -Snapshot $record.Snapshot
     }
     Write-Output "Restored prior state: $($operation.Id)"
   }

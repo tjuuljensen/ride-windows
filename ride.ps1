@@ -112,6 +112,11 @@ param(
       if ($operation.Kind -eq 'RegistryValue') {
         $states = @($operation.States.Keys)
         if ('Baseline' -notin $states) { $states += 'Baseline' }
+      }
+      elseif ($operation.Kind -eq 'DefenderExclusion') {
+        $states = @('Present', 'Absent')
+      }
+      if ($states) {
         foreach ($candidate in $states | Sort-Object -Unique) {
           if ($candidate.StartsWith([string]$wordToComplete, [StringComparison]::OrdinalIgnoreCase)) {
             [System.Management.Automation.CompletionResult]::new($candidate, $candidate, [System.Management.Automation.CompletionResultType]::ParameterValue, $candidate)
@@ -192,7 +197,7 @@ List views:
   software             Show software operations and groups; after status, show package state.
   utilities            Show utility package operations.
   groups               Show multi-operation solutions; after status, show their member package state.
-  settings             Show registry-backed settings; after status, show their defaults or profile state.
+  settings             Show Windows settings and managed exclusions; after status, show defaults or profile state.
   (Status supports all views except profiles; use -Profile <file> to select a profile.)
 
 In an interactive PowerShell session, press Tab after a command or value to

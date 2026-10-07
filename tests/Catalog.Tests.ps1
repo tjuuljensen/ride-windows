@@ -28,6 +28,17 @@ Describe 'RIDE operation catalog' {
       $operation.Rollback | Should -BeIn @('Exact', 'Compensating', 'None')
     }
   }
+
+  It 'provides authoritative documentation references for settings and product references for packages' {
+    foreach ($operation in $script:Catalog.Operations) {
+      if ($operation.Kind -eq 'RegistryValue') {
+        $operation.DocumentationUri | Should -Match '^https://(learn|support)\.microsoft\.com/'
+      }
+      elseif ($operation.Kind -eq 'Package') {
+        $operation.ProductUri | Should -Match '^https://'
+      }
+    }
+  }
 }
 
 Describe 'RIDE profile planning' {
@@ -54,6 +65,21 @@ Describe 'RIDE profile planning' {
     $plan[0].State | Should -Be 'Disabled'
   }
 
+  It 'maps the legacy inking and typing setting to Disabled and restores its baseline by unsetting it' {
+    InModuleScope RIDE.Engine {
+      $operation = Get-RideOperation -Id 'windows.inking-typing-data'
+      Get-RideOperationValue -Operation $operation -State 'Disabled' | Should -Be 0
+      Get-RideOperationValue -Operation $operation -State 'Enabled' | Should -BeNullOrEmpty
+    }
+
+    $defaultProfile = Import-PowerShellDataFile (Join-Path $script:RepositoryRoot 'profiles/default.psd1')
+    $defaultPlan = @(Get-RidePlan -Profile $defaultProfile)
+    ($defaultPlan | Where-Object { $_.Operation.Id -eq 'windows.inking-typing-data' }).State | Should -Be 'Disabled'
+
+    $baselinePlan = @(Get-RidePlan -Profile @{ SchemaVersion = 1; Name = 'Inking and typing baseline'; Operations = @(@{ Id = 'windows.inking-typing-data'; State = 'Baseline' }) })
+    $baselinePlan[0].State | Should -Be 'Enabled'
+  }
+
   It 'allows a declared state to remove a registry value' {
     InModuleScope RIDE.Engine {
       $operation = Get-RideOperation -Id 'windows.script-host-policy'
@@ -61,9 +87,162 @@ Describe 'RIDE profile planning' {
       Get-RideOperationValue -Operation $operation -State $plan[0].State | Should -BeNullOrEmpty
     }
   }
+
+  It 'maps the low-risk network selectors to reversible registry states in the default profile' {
+    InModuleScope RIDE.Engine {
+      $proxy = Get-RideOperation -Id 'windows.proxy-autoconfig-url'
+      Get-RideOperationValue -Operation $proxy -State 'Disabled' | Should -Be ''
+      Get-RideOperationValue -Operation $proxy -State 'Enabled' | Should -BeNullOrEmpty
+      $llmnr = Get-RideOperation -Id 'windows.llmnr-policy'
+      Get-RideOperationValue -Operation $llmnr -State 'Disabled' | Should -Be 0
+      Get-RideOperationValue -Operation $llmnr -State 'Enabled' | Should -BeNullOrEmpty
+    }
+
+    $defaultProfile = Import-PowerShellDataFile (Join-Path $script:RepositoryRoot 'profiles/default.psd1')
+    ($defaultProfile.Operations | Where-Object { $_.Id -in @('windows.proxy-autoconfig-url', 'windows.llmnr-policy') } | ForEach-Object State | Select-Object -Unique) | Should -Be 'Disabled'
+  }
+
+  It 'maps low-risk privacy policy values to Disabled and restores their enabled baseline by unsetting' {
+    $ids = @(
+      'windows.tailored-experiences-policy',
+      'windows.activity-history-feed-policy',
+      'windows.activity-history-publish-policy',
+      'windows.activity-history-upload-policy',
+      'windows.location-service-policy',
+      'windows.location-scripting-policy',
+      'windows.advertising-id-policy',
+      'windows.website-language-list-policy'
+    )
+    foreach ($id in $ids) {
+      $operation = $script:Catalog.Operations | Where-Object Id -eq $id | Select-Object -First 1
+      $operation.States.Disabled | Should -Not -BeNullOrEmpty
+      $operation.States.Enabled | Should -BeNullOrEmpty
+    }
+
+    $defaultProfile = Import-PowerShellDataFile (Join-Path $script:RepositoryRoot 'profiles/default.psd1')
+    ($defaultProfile.Operations | Where-Object { $_.Id -in $ids }).Count | Should -Be $ids.Count
+  }
+
+  It 'maps low-risk service-family registry settings to their declared states' {
+    $defaultProfile = Import-PowerShellDataFile (Join-Path $script:RepositoryRoot 'profiles/default.psd1')
+    $plan = @(Get-RidePlan -Profile $defaultProfile)
+    ($plan | Where-Object { $_.Operation.Id -in @('windows.maintenance-wake-policy', 'windows.maintenance-wake-timer', 'windows.shared-experiences-policy') } | ForEach-Object State | Select-Object -Unique) | Should -Be 'Disabled'
+    ($plan | Where-Object { $_.Operation.Id -eq 'windows.long-paths-policy' }).State | Should -Be 'Enabled'
+
+    $longPaths = $script:Catalog.Operations | Where-Object Id -eq 'windows.long-paths-policy'
+    $longPaths.States.Enabled | Should -Be 1
+    $longPaths.States.Disabled | Should -Be 0
+  }
+
+  It 'maps the first UI Tweaks batch to reversible registry states in the default profile' {
+    $expected = @{
+      'windows.action-center-policy' = @{ State = 'Disabled'; Value = 1 }
+      'windows.toast-notifications-policy' = @{ State = 'Disabled'; Value = 0 }
+      'windows.lock-screen-blur' = @{ State = 'Disabled'; Value = 1 }
+      'windows.sticky-keys-prompts' = @{ State = 'Disabled'; Value = '506' }
+      'windows.toggle-keys-prompts' = @{ State = 'Disabled'; Value = '58' }
+      'windows.filter-keys-prompts' = @{ State = 'Disabled'; Value = '122' }
+      'windows.file-operation-details' = @{ State = 'Enabled'; Value = 1 }
+      'windows.taskbar-search-visibility' = @{ State = 'Hidden'; Value = 0 }
+      'windows.task-view-button' = @{ State = 'Hidden'; Value = 0 }
+    }
+
+    $defaultProfile = Import-PowerShellDataFile (Join-Path $script:RepositoryRoot 'profiles/default.psd1')
+    $planned = @(Get-RidePlan -Profile $defaultProfile)
+    foreach ($id in $expected.Keys) {
+      $operation = $script:Catalog.Operations | Where-Object Id -eq $id | Select-Object -First 1
+      $operation | Should -Not -BeNullOrEmpty
+      $desired = $expected[$id]
+      $plannedOperation = $planned | Where-Object { $_.Operation.Id -eq $id } | Select-Object -First 1
+      $plannedOperation.State | Should -Be $desired.State
+      InModuleScope RIDE.Engine -Parameters @{ Id = $id; State = $desired.State; Value = $desired.Value } {
+        param($Id, $State, $Value)
+        $operation = Get-RideOperation -Id $Id
+        Get-RideOperationValue -Operation $operation -State $State | Should -Be $Value
+      }
+    }
+  }
+
+  It 'maps the second UI Tweaks batch to reversible registry states in the default profile' {
+    $expected = @{
+      'windows.taskbar-combine-primary' = @{ State = 'WhenFull'; Value = 1 }
+      'windows.taskbar-combine-secondary' = @{ State = 'WhenFull'; Value = 1 }
+      'windows.taskbar-people-icon' = @{ State = 'Hidden'; Value = 0 }
+      'windows.tray-icon-promotion' = @{ State = 'ShowAll'; Value = 1 }
+      'windows.store-app-suggestion' = @{ State = 'Disabled'; Value = 1 }
+      'windows.new-app-alert' = @{ State = 'Disabled'; Value = 1 }
+      'windows.startup-sound' = @{ State = 'Disabled'; Value = 1 }
+      'windows.taskbar-widgets' = @{ State = 'Hidden'; Value = 0 }
+      'windows.taskbar-chat' = @{ State = 'Hidden'; Value = 0 }
+    }
+
+    $defaultProfile = Import-PowerShellDataFile (Join-Path $script:RepositoryRoot 'profiles/default.psd1')
+    $planned = @(Get-RidePlan -Profile $defaultProfile)
+    foreach ($id in $expected.Keys) {
+      $operation = $script:Catalog.Operations | Where-Object Id -eq $id | Select-Object -First 1
+      $operation | Should -Not -BeNullOrEmpty
+      $desired = $expected[$id]
+      $plannedOperation = $planned | Where-Object { $_.Operation.Id -eq $id } | Select-Object -First 1
+      $plannedOperation.State | Should -Be $desired.State
+      InModuleScope RIDE.Engine -Parameters @{ Id = $id; State = $desired.State; Value = $desired.Value } {
+        param($Id, $State, $Value)
+        $operation = Get-RideOperation -Id $Id
+        Get-RideOperationValue -Operation $operation -State $State | Should -Be $Value
+      }
+    }
+  }
+
+  It 'maps Edge Alt+Tab tab exclusion to the declared scalar value' {
+    $defaultProfile = Import-PowerShellDataFile (Join-Path $script:RepositoryRoot 'profiles/default.psd1')
+    $planned = @(Get-RidePlan -Profile $defaultProfile | Where-Object { $_.Operation.Id -eq 'windows.edge-tabs-alt-tab' })
+    $planned.Count | Should -Be 1
+    $planned[0].State | Should -Be 'Excluded'
+
+    InModuleScope RIDE.Engine {
+      $operation = Get-RideOperation -Id 'windows.edge-tabs-alt-tab'
+      Get-RideOperationValue -Operation $operation -State 'Excluded' | Should -Be 3
+      Get-RideOperationValue -Operation $operation -State 'RecentTabs' | Should -Be 1
+    }
+  }
+
+  It 'maps low-risk Explorer UI selectors to reversible registry states in the default profile' {
+    $expected = @{
+      'windows.hidden-files-visibility' = @{ State = 'Visible'; Value = 1 }
+      'windows.navigation-pane-auto-expand' = @{ State = 'Enabled'; Value = 1 }
+      'windows.sync-provider-notifications' = @{ State = 'Hidden'; Value = 0 }
+      'windows.explorer-recent-shortcuts' = @{ State = 'Hidden'; Value = 0 }
+      'windows.explorer-frequent-shortcuts' = @{ State = 'Hidden'; Value = 0 }
+      'windows.explorer-start-location' = @{ State = 'ThisPC'; Value = 1 }
+      'windows.thumbnail-cache-creation' = @{ State = 'Disabled'; Value = 1 }
+      'windows.network-thumbnail-database' = @{ State = 'Disabled'; Value = 1 }
+    }
+
+    $defaultProfile = Import-PowerShellDataFile (Join-Path $script:RepositoryRoot 'profiles/default.psd1')
+    $planned = @(Get-RidePlan -Profile $defaultProfile)
+    foreach ($id in $expected.Keys) {
+      $operation = $script:Catalog.Operations | Where-Object Id -eq $id | Select-Object -First 1
+      $operation | Should -Not -BeNullOrEmpty
+      $desired = $expected[$id]
+      $plannedOperation = $planned | Where-Object { $_.Operation.Id -eq $id } | Select-Object -First 1
+      $plannedOperation.State | Should -Be $desired.State
+      InModuleScope RIDE.Engine -Parameters @{ Id = $id; State = $desired.State; Value = $desired.Value } {
+        param($Id, $State, $Value)
+        $operation = Get-RideOperation -Id $Id
+        Get-RideOperationValue -Operation $operation -State $State | Should -Be $Value
+      }
+    }
+  }
 }
 
 Describe 'RIDE desired-state comparison' {
+  It 'matches the inking and typing setting with its declared disabled value' {
+    InModuleScope RIDE.Engine {
+      Mock Get-RideCurrentState { [pscustomobject]@{ Exists = $true; Value = 0; ValueType = 'DWord' } }
+      $operation = Get-RideOperation -Id 'windows.inking-typing-data'
+      Test-RideDesiredState -Operation $operation -State 'Disabled' | Should -BeTrue
+    }
+  }
+
   It 'compares a setting with the declared desired value' {
     InModuleScope RIDE.Engine {
       Mock Get-RideCurrentState { [pscustomobject]@{ Exists = $true; Value = 0; ValueType = 'DWord' } }
@@ -80,10 +259,42 @@ Describe 'RIDE desired-state comparison' {
       Mock Save-RideRunManifest {}
       Mock Save-RideOperationSnapshot {}
       Mock Set-RideSettingState { throw 'simulated registry failure' }
-      $operation = Get-RideOperation -Id 'windows.show-known-extensions'
-      $plan = @([pscustomobject]@{ Operation = $operation; State = 'Enabled' })
+      $operation = Get-RideOperation -Id 'windows.inking-typing-data'
+      $plan = @([pscustomobject]@{ Operation = $operation; State = 'Disabled' })
 
       { Invoke-RidePlan -Plan $plan -Confirm:$false } | Should -Throw '*Run ID:*Saved state:*simulated registry failure*'
+    }
+  }
+
+  It 'applies the legacy disabled value through the registry handler' {
+    InModuleScope RIDE.Engine {
+      Mock Assert-RidePlanAllowed {}
+      Mock Get-RideCurrentState { [pscustomobject]@{ Exists = $false; Value = $null; ValueType = $null } }
+      Mock Test-RideDesiredState { $false }
+      Mock Save-RideRunManifest {}
+      Mock Save-RideOperationSnapshot {}
+      Mock Set-RideSettingState {}
+      $operation = Get-RideOperation -Id 'windows.inking-typing-data'
+      $plan = @([pscustomobject]@{ Operation = $operation; State = 'Disabled' })
+
+      Invoke-RidePlan -Plan $plan -Confirm:$false | Out-Null
+      Should -Invoke Set-RideSettingState -Exactly 1 -ParameterFilter { $Operation.Id -eq 'windows.inking-typing-data' -and $Value -eq 0 }
+    }
+  }
+
+  It 'does not rewrite the inking and typing value when it is already disabled' {
+    InModuleScope RIDE.Engine {
+      Mock Assert-RidePlanAllowed {}
+      Mock Get-RideCurrentState { [pscustomobject]@{ Exists = $true; Value = 0; ValueType = 'DWord' } }
+      Mock Test-RideDesiredState { $true }
+      Mock Save-RideOperationSnapshot {}
+      Mock Set-RideSettingState {}
+      $operation = Get-RideOperation -Id 'windows.inking-typing-data'
+      $plan = @([pscustomobject]@{ Operation = $operation; State = 'Disabled' })
+
+      Invoke-RidePlan -Plan $plan -Confirm:$false | Out-Null
+      Should -Invoke Save-RideOperationSnapshot -Exactly 0
+      Should -Invoke Set-RideSettingState -Exactly 0
     }
   }
 
@@ -110,7 +321,7 @@ Describe 'RIDE desired-state comparison' {
       Mock Test-RideDesiredState { $false }
       Mock Save-RideOperationSnapshot {}
       Mock Set-RideSettingState {}
-      $operation = Get-RideOperation -Id 'windows.show-known-extensions'
+      $operation = Get-RideOperation -Id 'windows.inking-typing-data'
       $plan = @([pscustomobject]@{ Operation = $operation; State = 'Enabled' })
 
       Invoke-RidePlan -Plan $plan -WhatIf -Confirm:$false
@@ -129,6 +340,128 @@ Describe 'RIDE settings snapshot restore' {
       $snapshot = [pscustomobject]@{ Exists = $true; KeyExisted = $true; Value = 42; ValueType = 'QWord' }
       Restore-RideSettingState -Operation $operation -Snapshot $snapshot
       Should -Invoke Set-RideSettingState -Exactly 1 -ParameterFilter { $Value -eq 42 -and $Operation.ValueType -eq 'QWord' }
+    }
+  }
+}
+
+Describe 'RIDE Defender exclusion handler' {
+  BeforeAll {
+    Import-Module (Join-Path $script:RepositoryRoot 'modules/RIDE-Defender.psm1') -Force
+  }
+
+  It 'reads an exclusion and reports its resolved path' {
+    InModuleScope RIDE-Defender {
+      Mock Resolve-RideDefenderExclusionPath { 'C:\Tools' }
+      Mock Get-RideDefenderExclusionPaths { @('C:\Tools') }
+      $state = Get-RideDefenderExclusionState -Operation @{ Id = 'test.tools'; PathResolver = 'ToolsDirectory' }
+      $state.Present | Should -BeTrue
+      $state.Path | Should -Be 'C:\Tools'
+    }
+  }
+
+  It 'adds an absent exclusion and leaves an already present exclusion unchanged' {
+    InModuleScope RIDE-Defender {
+      Mock Resolve-RideDefenderExclusionPath { 'C:\Tools' }
+      Mock Get-RideDefenderExclusionPaths { @('C:\Tools') }
+      Mock Add-RideDefenderExclusion {}
+      Mock Remove-RideDefenderExclusion {}
+      Set-RideDefenderExclusionState -Operation @{ Id = 'test.tools'; PathResolver = 'ToolsDirectory' } -State Present
+      Should -Invoke Add-RideDefenderExclusion -Exactly 0
+      Should -Invoke Remove-RideDefenderExclusion -Exactly 0
+    }
+  }
+
+  It 'adds the exclusion after preparing its managed directory' {
+    InModuleScope RIDE-Defender {
+      Mock Resolve-RideDefenderExclusionPath { 'C:\Tools' }
+      Mock Get-RideDefenderExclusionPaths { @() }
+      Mock Test-Path { $true }
+      Mock Add-RideDefenderExclusion {}
+      Set-RideDefenderExclusionState -Operation @{ Id = 'test.tools'; PathResolver = 'ToolsDirectory' } -State Present
+      Should -Invoke Add-RideDefenderExclusion -Exactly 1 -ParameterFilter { $Path -eq 'C:\Tools' }
+    }
+  }
+
+  It 'removes an existing exclusion and restores captured membership' {
+    InModuleScope RIDE-Defender {
+      Mock Resolve-RideDefenderExclusionPath { 'C:\Tools' }
+      Mock Get-RideDefenderExclusionPaths { @('C:\Tools') }
+      Mock Remove-RideDefenderExclusion {}
+      Mock Add-RideDefenderExclusion {}
+      Set-RideDefenderExclusionState -Operation @{ Id = 'test.tools'; PathResolver = 'ToolsDirectory' } -State Absent
+      Should -Invoke Remove-RideDefenderExclusion -Exactly 1 -ParameterFilter { $Path -eq 'C:\Tools' }
+
+      Mock Get-RideDefenderExclusionPaths { @() }
+      Restore-RideDefenderExclusionState -Operation @{ Id = 'test.tools'; PathResolver = 'ToolsDirectory' } -Snapshot ([pscustomobject]@{ Present = $true; Path = 'C:\CapturedTools' })
+      Should -Invoke Add-RideDefenderExclusion -Exactly 1 -ParameterFilter { $Path -eq 'C:\CapturedTools' }
+    }
+  }
+
+  It 'propagates Defender command failures' {
+    InModuleScope RIDE-Defender {
+      Mock Resolve-RideDefenderExclusionPath { 'C:\Tools' }
+      Mock Get-RideDefenderExclusionPaths { @() }
+      Mock Test-Path { $true }
+      Mock Add-RideDefenderExclusion { throw 'simulated Defender failure' }
+      { Set-RideDefenderExclusionState -Operation @{ Id = 'test.tools'; PathResolver = 'ToolsDirectory' } -State Present } | Should -Throw '*simulated Defender failure*'
+    }
+  }
+}
+
+Describe 'RIDE Defender exclusion planning and apply' {
+  It 'includes both active default selectors as Present and classifies them as settings' {
+    $defaultProfile = Import-PowerShellDataFile (Join-Path $script:RepositoryRoot 'profiles/default.psd1')
+    $plan = @(Get-RidePlan -Profile $defaultProfile)
+    ($plan | Where-Object { $_.Operation.Kind -eq 'DefenderExclusion' }).Count | Should -Be 2
+    ($plan | Where-Object { $_.Operation.Kind -eq 'DefenderExclusion' } | ForEach-Object State | Select-Object -Unique) | Should -Be 'Present'
+    (Show-RideCatalog -View settings | Where-Object Kind -eq 'DefenderExclusion').Count | Should -Be 2
+  }
+
+  It 'plans direct set and unset states and compares live exclusion membership' {
+    $setPlan = @(Get-RideSingleOperationPlan -Id 'windows.defender-tools-exclusion' -Action Set -State Present)
+    $unsetPlan = @(Get-RideSingleOperationPlan -Id 'windows.defender-tools-exclusion' -Action Unset)
+    $setPlan[0].State | Should -Be 'Present'
+    $unsetPlan[0].State | Should -Be 'Absent'
+
+    InModuleScope RIDE.Engine {
+      Mock Get-RideCurrentState { [pscustomobject]@{ Present = $true; Path = 'C:\Tools' } }
+      $operation = Get-RideOperation -Id 'windows.defender-tools-exclusion'
+      Test-RideDesiredState -Operation $operation -State Present | Should -BeTrue
+      Test-RideDesiredState -Operation $operation -State Absent | Should -BeFalse
+    }
+  }
+
+  It 'applies through the mocked handler and does not mutate under WhatIf' {
+    InModuleScope RIDE.Engine {
+      Mock Assert-RidePlanAllowed {}
+      Mock Get-RideCurrentState { [pscustomobject]@{ Present = $false; Path = 'C:\Tools' } }
+      Mock Test-RideDesiredState { $false }
+      Mock Save-RideRunManifest {}
+      Mock Save-RideOperationSnapshot {}
+      Mock Set-RideDefenderExclusionState {}
+      $operation = Get-RideOperation -Id 'windows.defender-tools-exclusion'
+      $plan = @([pscustomobject]@{ Operation = $operation; State = 'Present' })
+
+      Invoke-RidePlan -Plan $plan -WhatIf -Confirm:$false
+      Should -Invoke Save-RideOperationSnapshot -Exactly 0
+      Should -Invoke Set-RideDefenderExclusionState -Exactly 0
+
+      Invoke-RidePlan -Plan $plan -Confirm:$false | Out-Null
+      Should -Invoke Set-RideDefenderExclusionState -Exactly 1 -ParameterFilter { $Operation.Id -eq 'windows.defender-tools-exclusion' -and $State -eq 'Present' }
+    }
+  }
+
+  It 'reports a partial apply failure with the run ID and saved operation' {
+    InModuleScope RIDE.Engine {
+      Mock Assert-RidePlanAllowed {}
+      Mock Get-RideCurrentState { [pscustomobject]@{ Present = $false; Path = 'C:\Tools' } }
+      Mock Test-RideDesiredState { $false }
+      Mock Save-RideRunManifest {}
+      Mock Save-RideOperationSnapshot {}
+      Mock Set-RideDefenderExclusionState { throw 'simulated Defender write failure' }
+      $operation = Get-RideOperation -Id 'windows.defender-tools-exclusion'
+      $plan = @([pscustomobject]@{ Operation = $operation; State = 'Present' })
+      { Invoke-RidePlan -Plan $plan -Confirm:$false } | Should -Throw '*Run ID:*Saved state:*simulated Defender write failure*'
     }
   }
 }

@@ -39,13 +39,17 @@ foreach ($operation in $catalog.Operations) {
     if ($operation.Kind -eq 'RegistryValue' -and -not $defaults.ContainsKey('DefaultValueExists')) {
       Add-Error "Operation '$($operation.Id)' is missing literal default existence for '$target'."
     }
-    if ($operation.Kind -eq 'Package' -and -not $defaults.ContainsKey('DefaultValue')) {
+    if ($operation.Kind -in @('Package', 'DefenderExclusion') -and -not $defaults.ContainsKey('DefaultValue')) {
       Add-Error "Operation '$($operation.Id)' is missing a literal default for '$target'."
     }
   }
   if ($operation.Kind -eq 'RegistryValue') {
     foreach ($field in @('RegistryPath', 'ValueName', 'ValueType', 'States', 'BaselineState')) {
       if (-not $operation.ContainsKey($field)) { Add-Error "Registry operation is missing '$field': $($operation.Id)" }
+    }
+    if (-not $operation.ContainsKey('DocumentationUri')) { Add-Error "Registry operation is missing Microsoft documentation URI: $($operation.Id)" }
+    elseif (-not [Uri]::IsWellFormedUriString([string]$operation.DocumentationUri, [UriKind]::Absolute) -or ([Uri]$operation.DocumentationUri).Scheme -ne 'https' -or ([Uri]$operation.DocumentationUri).Host -notin @('learn.microsoft.com', 'support.microsoft.com')) {
+      Add-Error "Registry operation must use an absolute Microsoft HTTPS documentation URI: $($operation.Id)"
     }
     if (-not $operation.States.ContainsKey($operation.BaselineState)) { Add-Error "Invalid baseline state for $($operation.Id)" }
     if ($operation.Handler -ne 'RegistryValue') { Add-Error "No matching handler for $($operation.Id)" }
@@ -55,7 +59,19 @@ foreach ($operation in $catalog.Operations) {
     foreach ($field in @('PackageId', 'InstallerType', 'DownloadUri', 'InstallerArguments', 'UninstallerArguments', 'DisplayNamePattern')) {
       if (-not $operation.ContainsKey($field)) { Add-Error "Package operation is missing '$field': $($operation.Id)" }
     }
+    if (-not $operation.ContainsKey('ProductUri')) { Add-Error "Package operation is missing product information URI: $($operation.Id)" }
+    elseif (-not [Uri]::IsWellFormedUriString([string]$operation.ProductUri, [UriKind]::Absolute) -or ([Uri]$operation.ProductUri).Scheme -ne 'https') {
+      Add-Error "Package operation must use an absolute HTTPS product URI: $($operation.Id)"
+    }
     if ('Install' -notin $operation.Actions -or 'Uninstall' -notin $operation.Actions) { Add-Error "Package lifecycle must include install and uninstall: $($operation.Id)" }
+  }
+  elseif ($operation.Kind -eq 'DefenderExclusion') {
+    if ($operation.Handler -ne 'DefenderExclusion') { Add-Error "No matching handler for $($operation.Id)" }
+    if ($operation.PathResolver -notin @('ToolsDirectory', 'BootstrapDirectory')) { Add-Error "Invalid Defender exclusion path resolver: $($operation.Id)" }
+    if ('Get' -notin $operation.Actions -or 'Test' -notin $operation.Actions -or 'Set' -notin $operation.Actions -or 'Restore' -notin $operation.Actions) { Add-Error "Defender exclusion lifecycle is incomplete: $($operation.Id)" }
+    foreach ($target in $operation.SupportedTargets) {
+      if ($operation.TargetDefaults[$target].DefaultValue -notin @('Present', 'Absent')) { Add-Error "Invalid Defender exclusion default for $($operation.Id) on '$target'." }
+    }
   }
   else { Add-Error "Unknown operation kind '$($operation.Kind)': $($operation.Id)" }
 }
@@ -81,7 +97,7 @@ foreach ($profileFile in $profilePaths) {
     $operation = $catalog.Operations | Where-Object { $_.Id -eq $selection.Id } | Select-Object -First 1
     $group = $catalog.Groups | Where-Object { $_.Id -eq $selection.Id } | Select-Object -First 1
     if ($operation -and $operation.Kind -eq 'RegistryValue' -and $selection.State -ne 'Baseline' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid state for '$($selection.Id)'" }
-    if (($operation -and $operation.Kind -eq 'Package' -or $group) -and $selection.State -notin @('Present', 'Absent')) { Add-Error "$($profileFile.Name) must use Present or Absent for '$($selection.Id)'" }
+    if ((($operation -and $operation.Kind -in @('Package', 'DefenderExclusion')) -or $group) -and $selection.State -notin @('Present', 'Absent')) { Add-Error "$($profileFile.Name) must use Present or Absent for '$($selection.Id)'" }
   }
 }
 

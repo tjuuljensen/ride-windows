@@ -9,6 +9,6 @@ $env:RIDE_INTEGRATION_VM = '1'
 .\tests\integration\Invoke-RideVmSuite.ps1
 ```
 
-The suite captures the initial Explorer registry value, applies the analyst group twice, confirms status, restores the first run's saved state, applies `profiles/baseline.psd1`, removes the group in reverse order, and confirms both packages are absent. Restore the VM checkpoint after the run.
+On a Windows 11 VM, the suite also captures, applies, and restores the inking/typing setting. The main suite captures the initial Explorer registry value, applies the analyst group twice, confirms status, restores the first run's saved state, applies `profiles/baseline.psd1`, removes the group in reverse order, and confirms both packages are absent. Restore the VM checkpoint after the run.
 
 The unit suite tests partial failure reporting with mocked handlers. A failed VM run prints the run ID and the operations with saved state so an operator can inspect or restore the completed portion.

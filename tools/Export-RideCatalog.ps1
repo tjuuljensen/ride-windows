@@ -15,19 +15,22 @@ $lines.Add('Generated from `catalog/operations.psd1`. Edit catalog metadata, the
 $lines.Add('')
 $lines.Add('## Operations')
 $lines.Add('')
-$lines.Add('| ID | Name | Category | Scope | Admin | Actions | Supported targets | Rollback | Description |')
-$lines.Add('| --- | --- | --- | --- | --- | --- | --- | --- | --- |')
+$lines.Add('| ID | Name | Category | Scope | Admin | Actions | Supported targets | Rollback | Description | Reference |')
+$lines.Add('| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |')
 foreach ($operation in ($catalog.Operations | Sort-Object Category, Name)) {
   $description = ($operation.Description -replace '\|', '\|')
   $targets = $operation.SupportedTargets -join ', '
   $actions = $operation.Actions -join ', '
   $admin = if ($operation.RequiresAdmin) { 'Yes' } else { 'No' }
-  $lines.Add("| $($operation.Id) | $($operation.Name) | $($operation.Category) | $($operation.Scope) | $admin | $actions | $targets | $($operation.Rollback) | $description |")
+  $referenceUri = if ($operation.Kind -eq 'Package') { $operation.ProductUri } else { $operation.DocumentationUri }
+  $referenceLabel = if ($operation.Kind -eq 'Package') { 'Product info' } else { 'Microsoft docs' }
+  $reference = if ($referenceUri) { "[$referenceLabel]($referenceUri)" } else { '' }
+  $lines.Add("| $($operation.Id) | $($operation.Name) | $($operation.Category) | $($operation.Scope) | $admin | $actions | $targets | $($operation.Rollback) | $description | $reference |")
 }
 $lines.Add('')
 $lines.Add('## Target defaults')
 $lines.Add('')
-$lines.Add('Literal defaults describe the registry data or package presence expected on a clean target. Effective defaults describe the behavior Windows uses when those values are in effect.')
+$lines.Add('Literal defaults describe the registry data or managed presence expected on a clean target. Effective defaults describe the behavior Windows uses when those values are in effect.')
 $lines.Add('')
 $lines.Add('| Operation | Target | Literal default | Effective default |')
 $lines.Add('| --- | --- | --- | --- |')

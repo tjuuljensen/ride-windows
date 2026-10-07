@@ -11,7 +11,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\ride.ps1 plan
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\ride.ps1 apply
 ```
 
-The default profile shows file extensions, disables Autoplay and Autorun, and installs 7-Zip. Package and machine policy operations require an elevated PowerShell session. To download the repository and run the default profile on a new machine:
+The default profile shows file extensions, disables Autoplay, Autorun, and inking and typing data collection, and installs 7-Zip. Package and machine policy operations require an elevated PowerShell session. To download the repository and run the default profile on a new machine:
 
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Invoke-WebRequest -Uri https://raw.githubusercontent.com/tjuuljensen/ride-windows/master/docs/bootstrap.ps1 -OutFile $env:TEMP\ride-bootstrap.ps1; & $env:TEMP\ride-bootstrap.ps1 -Default"
@@ -69,7 +69,7 @@ The catalog currently targets Windows 11 and Windows Server 2025. Support is dec
 
 - `catalog/operations.psd1` defines the operation catalog and solution groups.
 - `profiles/*.psd1` defines reusable selections.
-- `modules/RIDE.Engine.psm1` plans and runs operations; focused handler modules implement settings and packages.
+- `modules/RIDE.Engine.psm1` plans and runs operations; focused handler modules implement registry settings, Defender exclusions, and packages.
 - `docs/OPERATIONS.md` is generated from the catalog.
 - `tools/validate.ps1` checks PowerShell syntax, catalog/profile references, and generated docs.
 - `tests/` contains Pester tests. `tests/integration/` documents disposable VM checks.
