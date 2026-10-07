@@ -7,6 +7,7 @@ This file is the short operational backlog. Longer planning, package intake, and
 ### A. Reliability and Safety
 
 - [ ] Test running the default preset twice on a fresh Windows 11 VM and fix non-idempotent behavior.
+- [ ] Review the default `C:\Tools` and bootstrap-folder Defender exclusions for protection gaps, managed-device behavior, and safer narrowly scoped alternatives.
 - [ ] Add log overwrite or rotation behavior for `-log`.
 - [ ] Add checksum verification for high-risk downloads.
 - [ ] Add GPG/signature verification where upstreams publish usable signatures.
@@ -28,6 +29,7 @@ This file is the short operational backlog. Longer planning, package intake, and
 - [ ] Split `lib-windows.psm1` into focused modules once helper conversion has stabilized.
 - [ ] Keep old function names as compatibility exports while modules are split.
 - [ ] Normalize indentation in touched code as modules are extracted.
+- [ ] Define an apply/status/rollback and retirement lifecycle for temporary fixes; use the VLC/Defender workaround under `tools/temporary-fixes` as the first review case.
 - [x] Add one-line bootstrap/install entrypoint based on the Fedora RIDE pattern.
 - [x] Finish or retire `docs/bootstrap.ps1`; it currently parses, but still contains placeholder behavior.
 - [x] Add a documentation check to validation once the README/roadmap structure settles.

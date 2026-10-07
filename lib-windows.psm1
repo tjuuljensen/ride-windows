@@ -1870,6 +1870,23 @@ function RemoveVSCode{
   Uninstall-Package -InputObject (Get-Package -Name 'Microsoft Visual Studio Code*')
 }
 
+function InstallTMOG {
+  Write-Output "###"
+  $SoftwareName = "TMOG"
+  Write-Output "Installing $SoftwareName..."
+
+  $FullDownloadURL = "https://tmog.org/downloads/TMOG-Task-Manager-Setup.exe"
+
+  Install-RideDownloadedExe -SoftwareName $SoftwareName -FullDownloadURL $FullDownloadURL -FileName "TMOG-Task-Manager-Setup.exe" -CommandLineOptions "/VERYSILENT /NORESTART /SUPPRESSMSGBOXES"
+}
+
+function RemoveTMOG {
+  Import-Module PackageManagement
+  Write-Output "###"
+  Write-Output "Removing TMOG..."
+  Uninstall-Package -InputObject (Get-Package -Name "Task Manager TMOG*")
+}
+
 function InstallRSAT{
   Write-Output "###"
   $SoftwareName = "Remote Server Administration Tool (RSAT)"
