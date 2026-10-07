@@ -1,0 +1,2 @@
+# Preserve the Windows command launcher line endings.
+default.cmd text eol=crlf

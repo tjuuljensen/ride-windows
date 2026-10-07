@@ -1,182 +1,31 @@
-# ride-windows Roadmap
+# RIDE-Windows v3 roadmap
 
-This roadmap merges the previous `TODO.md`, `RIDEadditions2025.md`, and the current modernization assessment into one development path.
+## Current state
 
-## Current State
+The repository is cutting over from the v2 function runner to a purpose-built PowerShell engine. The v3 runner loads `.psd1` operation metadata and profiles. The initial catalog includes a reversible Explorer setting, direct installer/uninstaller operations for 7-Zip and Notepad++, and an ordered utility group. The previous function library, preset, and helper modules are under `legacy/v2/` as migration references and are not imported by the new runner.
 
-`ride-windows` is a mature PowerShell bootstrap project for Windows 10/11 and Windows Server setup. Its strengths are the simple preset model, broad coverage, and years of accumulated practical installer and tweak functions.
+The first implementation establishes the catalog, CLI, operation state store, focused handlers, and Windows CI checks. It does not migrate the full v2 library. The current supported targets are Windows 11 and Windows Server 2025, declared per operation.
 
-The main maintenance pressure comes from scale:
+## Architecture rules
 
-- `lib-windows.psm1` is still a large monolithic module.
-- Many installer functions repeat the same bootstrap-folder, download, and silent-install boilerplate.
-- External downloads are dynamically resolved from GitHub, vendor pages, raw URLs, and scraped HTML with inconsistent verification.
-- The supported one-line bootstrapper now lives in `docs/bootstrap.ps1`.
-- Package requests and modernization tasks were split across multiple loose notes.
+- Keep user-facing actions in `catalog/operations.psd1`; keep shared implementation helpers out of the public operation catalog.
+- Keep profiles declarative and versioned in `.psd1` files. Never evaluate a profile as a script.
+- Each operation declares category, description, target OS, scope, privilege, actions, and rollback capability.
+- Settings record the previous value and whether the value/key existed. Baseline states are explicit catalog values applied through profiles.
+- Package uninstall is compensating when reinstalling a removed package cannot guarantee the same version. Expose that limit in catalog metadata and restore output.
+- Add operations by category in small batches. Add catalog tests and applicable VM coverage before claiming new Windows support.
 
-## Roadmap Principles
+## Migration phases
 
-- Keep the preset/function-name contract stable while internals are modernized.
-- Prefer shared helpers for repeated behavior, but do not force every installer into the same shape when special handling is needed.
-- Prefer winget only where it reduces maintenance without weakening reproducibility, licensing clarity, or forensic workstation expectations.
-- Add verification and validation before large module extraction.
-- Keep roadmap files short enough to scan during maintenance.
+1. **Engine foundation** — catalog/profile validation, planning, state snapshots, status, exact settings restore, package lifecycle, generated operation documentation, Pester tests, and a disposable VM workflow.
+2. **High-use setup operations** — migrate default-profile settings and installers from the v2 library. Keep IDs stable once released; record unsupported and one-way actions clearly.
+3. **Grouped software solutions** — add package metadata and install/uninstall order for multi-component forensic and analyst toolsets. Track source verification, license acceptance, and version recovery per package.
+4. **Settings families** — migrate Windows policies, privacy, services, network, UI, account, and Server-specific settings with explicit state discovery and baseline behavior.
+5. **Major release** — publish v3 with new profiles and CLI; v2 remains available through prior release tags. Remove obsolete migration notes once a v2 operation family has been reviewed.
 
-## Phase 1: Guardrails
+## Verification and support
 
-Status: mostly complete.
-
-Completed:
-
-- Added `tools/validate.ps1`.
-- Added GitHub Actions validation on push and pull requests.
-- Added local Markdown link validation, stale planning-note detection, and likely mojibake detection.
-- Validates PowerShell parsing.
-- Validates preset entries against available function names.
-- Reports duplicate function definitions.
-- Fixed `docs/bootstrap.ps1` parser errors and obvious typo.
-- Replaced the placeholder `docs/bootstrap.ps1` flow with a supported download, inspect, edit, and run bootstrapper.
-- Replaced `Invoke-Expression` in `ride.ps1` with function lookup and direct invocation.
-- Ignored local/private presets and install logs.
-
-Remaining:
-
-- Decide whether repository-local VS Code settings should be tracked or kept as operator-local setup notes.
-
-## Documentation Maintenance
-
-Documentation should be maintained as part of the same change that alters behavior:
-
-- Update `README.md` when user-facing usage, supported Windows targets, command-line options, or contribution rules change.
-- Update `TODO.md` for short actionable backlog items.
-- Update `docs/ROADMAP.md` for modernization phases, package intake policy, and larger design decisions.
-- Verify time-sensitive Windows release, lifecycle, package ID, and download-source information before committing it.
-- Avoid creating new loose planning notes when an item belongs in `TODO.md` or `docs/ROADMAP.md`.
-
-## Phase 2: Installer Helpers
-
-Status: started.
-
-Completed:
-
-- Added shared helpers:
-  - `Test-RideDownloadOnly`
-  - `Get-RideBootstrapFolder`
-  - `Get-RideSoftwareFolder`
-  - `Save-RideDownload`
-  - `Install-RideDownloadedExe`
-  - `Install-RideDownloadedMsi`
-- Converted initial installers:
-  - `InstallGitLFS`
-  - `InstallGit4Win`
-  - `InstallNotepadPlusPlus`
-  - `Install7Zip`
-  - `InstallVSCode`
-  - `InstallSignal`
-  - `InstallPython`
-- Converted common MSI installers:
-  - `InstallOpenJDK`
-  - `InstallVirtIOGuestTool`
-  - `InstallSpiceWebDAV`
-  - `InstallPowerShell`
-  - `InstallAutomatedLab`
-  - `InstallFirefox`
-  - `InstallChrome`
-  - `InstallSqlitebrowser`
-  - `InstallAutopsy`
-  - `InstallVeraCrypt` with explicit `ACCEPTLICENSE=YES` MSI property support
-
-Next steps:
-
-- Convert simple EXE installers in small batches.
-- Add helper support for:
-  - optional expected SHA256
-  - optional Authenticode requirement
-  - cache/reuse existing installer
-  - forced refresh
-  - download-only reporting
-- Keep special installers separate until there is a proven shared pattern for archives, portable tools, Git clones, and tools copied into `\Tools`.
-
-## Phase 3: Supply Chain Verification
-
-Goal: make download trust decisions visible and enforceable.
-
-Work items:
-
-- Inventory all external download sources by type:
-  - GitHub release asset
-  - raw GitHub file
-  - vendor HTTPS direct link
-  - vendor HTTP link
-  - scraped vendor page
-  - winget package
-  - Git clone
-- Add SHA256 verification where stable release assets are used.
-- Add GPG/signature verification where upstream makes it practical.
-- Add Authenticode verification for Windows installers where useful.
-- Mark known unverified downloads explicitly in code comments or package metadata.
-- Add an escape hatch such as `-AllowUnverified` only after the default path is clear.
-
-## Phase 4: Module Extraction
-
-Goal: reduce risk in `lib-windows.psm1` without breaking existing presets.
-
-Suggested split:
-
-- `modules/RIDE.Core.psm1`: runner helpers, logging, paths, validation support.
-- `modules/RIDE.Installers.psm1`: shared download/install helpers.
-- `modules/RIDE.WindowsConfig.psm1`: Windows settings, registry, policy, power, Defender, telemetry.
-- `modules/RIDE.Browsers.psm1`: browser install and policy functions.
-- `modules/RIDE.Forensics.psm1`: forensic and incident response tooling.
-- `modules/RIDE.AD.psm1`: AD, domain-joined, Entra, RSAT, PingCastle, BloodHound related functions.
-- `modules/RIDE.Customization.psm1`: fonts, wallpaper, lockscreen, UI customization.
-
-Migration rule:
-
-- Extract one category at a time.
-- Keep current function names.
-- Keep default preset behavior unchanged.
-- Run `tools/validate.ps1` after each extraction.
-
-## Phase 5: Package Intake
-
-Package candidates should be triaged before implementation:
-
-- `direct`: use upstream download because layout, licensing, or reproducibility matters.
-- `winget`: use winget because it is stable enough and reduces maintenance.
-- `manual`: document only, because licensing, prompts, or risk make automation unsuitable.
-- `reject`: not useful enough or too fragile to maintain.
-
-Current candidates from the 2025 note:
-
-| Package | Candidate source | Initial disposition |
-| --- | --- | --- |
-| PDFgear | `PDFgear.PDFgear` from local note | verify current winget ID before implementation |
-| yt-dlp | `yt-dlp.yt-dlp` or GitHub release | direct or winget candidate; verify current source |
-| mpv | winget or upstream | candidate; verify source |
-| HandBrake | `HandBrake.HandBrake` from local note | winget candidate; verify current ID |
-| Beyond Compare | `ScooterSoftware.BeyondCompare.5` from local note | verify current ID and licensing behavior |
-| Everything | `voidtools.Everything` from local note | winget candidate; verify current ID |
-| Office Deployment Tool | `Microsoft.OfficeDeploymentTool` from local note | winget plus custom XML work; verify current ID |
-| OpenSSH Preview | Windows optional feature / winget / Microsoft source | needs investigation |
-
-Existing installers that may get optional winget alternatives:
-
-- 7-Zip
-- Git LFS
-- Visual Studio Code
-- Python
-- Signal
-- Notepad++
-
-## Near-Term Release Target
-
-A practical next release should include:
-
-- Validation script committed and documented.
-- Supported `docs/bootstrap.ps1` one-line bootstrapper.
-- Safer `ride.ps1` invocation.
-- First batch of shared installer helpers.
-- Initial converted installers.
-- `TODO.md` and this roadmap as the single planning source.
-- No duplicate active planning notes.
+- Windows CI runs PowerShell parsing, metadata/profile validation, generated-doc consistency, and Pester unit tests.
+- A resettable Windows 11 VM and Windows Server 2025 VM exercise apply twice, status, saved-state restore, baseline application, group uninstall, and partial failure reporting.
+- Add another Windows target only after its operation support declarations and integration checks are explicit.
+- Run `tools/validate.ps1` and `Invoke-Pester .\tests` for each change. VM tests require a disposable VM; never use a daily workstation as the integration target.

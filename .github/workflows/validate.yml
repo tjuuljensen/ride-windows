@@ -7,11 +7,22 @@ on:
 jobs:
   validate:
     runs-on: windows-latest
+    strategy:
+      matrix:
+        shell: [powershell, pwsh]
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Run repository validation
-        shell: pwsh
+      - name: Install pinned Pester
+        shell: ${{ matrix.shell }}
+        run: Install-Module -Name Pester -RequiredVersion 5.7.1 -Repository PSGallery -Scope CurrentUser -Force -SkipPublisherCheck
+
+      - name: Run catalog and syntax validation
+        shell: ${{ matrix.shell }}
         run: .\tools\validate.ps1
+
+      - name: Run Pester unit tests
+        shell: ${{ matrix.shell }}
+        run: Invoke-Pester -Path .\tests -CI

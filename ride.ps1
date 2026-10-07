@@ -1,187 +1,295 @@
 <#
 .SYNOPSIS
-	Windows setup automation runner for the RIDE tweak library.
+  Declarative Windows setup and maintenance engine.
 .DESCRIPTION
-	RIDE (Remove - Install - Disable - Enable) loads one or more PowerShell
-	modules, selects tweak functions from preset files and command-line
-	arguments, and then invokes the selected functions.
-
-	The script is intended for routine post-installation configuration on
-	supported Windows client and Windows Server systems. It is not a complete
-	hardening baseline and it can make invasive system changes. Read the selected
-	preset and tweak functions before running them.
-.PARAMETER Include
-	One or more PowerShell modules containing RIDE tweak functions. The standard
-	repository module is lib-windows.psm1. Include files are resolved before
-	importing, so relative paths are accepted.
-.PARAMETER Preset
-	One or more preset files containing tweak function names, one per line.
-	Comments beginning with # are ignored. A function name prefixed with ! removes
-	that tweak from the current selection.
-.PARAMETER Ini
-	Optional INI file used to populate RIDEVAR-* process environment variables
-	consumed by selected tweak functions.
-.PARAMETER DownloadOnly
-	Set download-only mode for installer functions that support it. This sets the
-	RIDEVAR-Download-Only process environment variable.
-.PARAMETER Log
-	Optional transcript log path. The path may be relative or absolute.
-.PARAMETER Tweak
-	Additional tweak function names to apply. Prefix a name with ! to remove it
-	from the current selection. This parameter also captures remaining positional
-	arguments so legacy calls such as `ride.ps1 -include lib-windows.psm1 Restart`
-	continue to work.
-.NOTES
-	This script is for Windows only. Though many features might work in 32-bit
-	environments, the script is made for and tested on x64 installations.
-.LINK
-	https://github.com/tjuuljensen/ride-windows/blob/master/README.md
-.EXAMPLE
-	powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\ride.ps1 -Include .\lib-windows.psm1 -Preset .\default.preset
-.EXAMPLE
-	powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\ride.ps1 -Include .\lib-windows.psm1 -Preset .\default.preset -DownloadOnly
-.EXAMPLE
-	powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\ride.ps1 -Include .\lib-windows.psm1 -Preset .\default.preset -Ini .\example.ini -Log .\install-log.log
-.EXAMPLE
-	powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\ride.ps1 -Include .\lib-windows.psm1 ShowKnownExtensions !HideKnownExtensions
+  RIDE loads operation metadata and a profile, then plans, applies, inspects,
+  removes, or restores supported Windows operations.
+.PARAMETER Command
+  One of list, show, plan, apply, status, restore, or remove.
+.PARAMETER Id
+  Operation or group ID for the show command.
+.PARAMETER Profile
+  PowerShell data file containing the selected operations. Defaults to the
+  repository's profiles/default.psd1.
+.PARAMETER RunId
+  Run ID returned by apply or remove, used by restore.
+.PARAMETER State
+  Declared catalog state for the direct set command.
+.PARAMETER Help
+  Display command usage and examples without loading the engine.
+.PARAMETER WhatIf
+  Preview a state-changing command without modifying the machine or state store.
 #>
-
-[CmdletBinding(PositionalBinding = $false)]
+[CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
 param(
-	[Parameter()]
-	[string[]] $Include = @(),
+  [Parameter(Position = 0)]
+  [ValidateSet('list', 'show', 'plan', 'apply', 'install', 'set', 'unset', 'status', 'restore', 'remove')]
+  [string] $Command = 'list',
 
-	[Parameter()]
-	[string[]] $Preset = @(),
+  [Parameter(Position = 1)]
+  [ArgumentCompleter({
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
 
-	[Parameter()]
-	[string] $Ini = "",
+    try {
+      $scriptPath = $commandAst.CommandElements[0].Value
+      if (-not (Test-Path -LiteralPath $scriptPath -PathType Leaf)) {
+        $scriptCommand = Get-Command -Name $commandName -CommandType ExternalScript -ErrorAction Stop
+        $scriptPath = $scriptCommand.Source
+      }
+      $catalogPath = Join-Path (Split-Path -Parent (Resolve-Path -LiteralPath $scriptPath).Path) 'catalog/operations.psd1'
+      $catalog = Import-PowerShellDataFile -Path $catalogPath -ErrorAction Stop
+      $ids = @($catalog.Operations + $catalog.Groups | ForEach-Object { $_.Id } | Sort-Object -Unique)
+      $listViews = @('all', 'profiles', 'packages', 'groups', 'settings')
+      foreach ($category in @($catalog.Operations + $catalog.Groups | ForEach-Object { $_.Category } | Sort-Object -Unique)) {
+        foreach ($part in ($category -split '\s*/\s*')) {
+          $view = ($part -replace '\s+', '-').ToLowerInvariant()
+          if ($view -and $view -notin $listViews) { $listViews += $view }
+        }
+      }
+      $isListCommand = $commandAst.CommandElements.Count -gt 1 -and $commandAst.CommandElements[1].Value -eq 'list'
+      if ($isListCommand) { $ids += $listViews }
+      $isStatusCommand = $commandAst.CommandElements.Count -gt 1 -and $commandAst.CommandElements[1].Value -eq 'status'
+      if ($isStatusCommand) { $ids += @($listViews | Where-Object { $_ -ne 'profiles' }) }
 
-	[Parameter()]
-	[switch] $DownloadOnly,
+      foreach ($candidate in @($ids | Sort-Object -Unique)) {
+        if ($candidate.StartsWith([string]$wordToComplete, [StringComparison]::OrdinalIgnoreCase)) {
+          [System.Management.Automation.CompletionResult]::new(
+            $candidate,
+            $candidate,
+            [System.Management.Automation.CompletionResultType]::ParameterValue,
+            $candidate
+          )
+        }
+      }
+    }
+    catch {
+      # Completion should stay quiet if the catalog is unavailable or invalid.
+    }
+  })]
+  [string] $Id = '',
 
-	[Parameter()]
-	[string] $Log = "",
-
-	[Parameter(ValueFromRemainingArguments = $true)]
-	[string[]] $Tweak = @()
+  [ArgumentCompleter({
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    try {
+      $scriptPath = $commandAst.CommandElements[0].Value
+      if (-not (Test-Path -LiteralPath $scriptPath -PathType Leaf)) {
+        $scriptPath = (Get-Command -Name $commandName -CommandType ExternalScript -ErrorAction Stop).Source
+      }
+      $repoRoot = Split-Path -Parent (Resolve-Path -LiteralPath $scriptPath).Path
+      $prefix = [string]$wordToComplete
+      foreach ($profileFile in @(Get-ChildItem -LiteralPath (Join-Path $repoRoot 'profiles') -Filter '*.psd1' -File -ErrorAction Stop)) {
+        $candidate = Resolve-Path -LiteralPath $profileFile.FullName -Relative
+        $repositoryRelativePath = 'profiles\' + $profileFile.Name
+        if ($candidate.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase) -or
+            $repositoryRelativePath.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase) -or
+            $profileFile.Name.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)) {
+          $completionText = if ($candidate.Contains(' ')) { '"' + $candidate + '"' } else { $candidate }
+          [System.Management.Automation.CompletionResult]::new(
+            $completionText,
+            $profileFile.Name,
+            [System.Management.Automation.CompletionResultType]::ParameterValue,
+            $profileFile.Name
+          )
+        }
+      }
+    }
+    catch {
+      # Completion should stay quiet if the repository or profiles are unavailable.
+    }
+  })]
+  [string] $Profile = '',
+  [ArgumentCompleter({
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    try {
+      if (-not $fakeBoundParameters.ContainsKey('Id')) { return }
+      $scriptPath = $commandAst.CommandElements[0].Value
+      if (-not (Test-Path -LiteralPath $scriptPath -PathType Leaf)) {
+        $scriptPath = (Get-Command -Name $commandName -CommandType ExternalScript -ErrorAction Stop).Source
+      }
+      $catalogPath = Join-Path (Split-Path -Parent (Resolve-Path -LiteralPath $scriptPath).Path) 'catalog/operations.psd1'
+      $catalog = Import-PowerShellDataFile -Path $catalogPath -ErrorAction Stop
+      $operation = $catalog.Operations | Where-Object { $_.Id -eq $fakeBoundParameters.Id } | Select-Object -First 1
+      if ($operation.Kind -eq 'RegistryValue') {
+        $states = @($operation.States.Keys)
+        if ('Baseline' -notin $states) { $states += 'Baseline' }
+        foreach ($candidate in $states | Sort-Object -Unique) {
+          if ($candidate.StartsWith([string]$wordToComplete, [StringComparison]::OrdinalIgnoreCase)) {
+            [System.Management.Automation.CompletionResult]::new($candidate, $candidate, [System.Management.Automation.CompletionResultType]::ParameterValue, $candidate)
+          }
+        }
+      }
+    }
+    catch { }
+  })]
+  [Parameter(Position = 2)]
+  [string] $State = '',
+  [ArgumentCompleter({
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    try {
+      $stateRoots = @(
+        (Join-Path ([Environment]::GetFolderPath('CommonApplicationData')) 'RIDE/State'),
+        (Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) 'RIDE/State')
+      )
+      $runIds = foreach ($stateRoot in $stateRoots) {
+        Get-ChildItem -LiteralPath $stateRoot -Directory -ErrorAction SilentlyContinue |
+          Where-Object { Test-Path -LiteralPath (Join-Path $_.FullName '_manifest.json') } |
+          ForEach-Object { $_.Name }
+      }
+      foreach ($candidate in @($runIds | Sort-Object -Unique)) {
+        if ($candidate.StartsWith([string]$wordToComplete, [StringComparison]::OrdinalIgnoreCase)) {
+          [System.Management.Automation.CompletionResult]::new(
+            $candidate,
+            $candidate,
+            [System.Management.Automation.CompletionResultType]::ParameterValue,
+            $candidate
+          )
+        }
+      }
+    }
+    catch {
+      # Completion should stay quiet if state storage is unavailable.
+    }
+  })]
+  [string] $RunId = '',
+  [switch] $Help
 )
 
-# Relaunch the script with administrator privileges
-Function RequireAdmin {
-	If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator")) {
-		Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`" $PSCommandArgs" -Verb RunAs
-		Exit
-	}
+if ($Help) {
+  @'
+RIDE-Windows - declarative Windows setup and maintenance
+
+Usage:
+  .\ride.ps1 <command> [options]
+
+Commands:
+  list [view]          List catalog objects; filter with a list view below.
+  show <id>            Show metadata and current value; settings include the baseline value.
+  plan                 Show current values beside the profile's desired values.
+  apply                Apply the profile and record prior state.
+  install <package-id> Install one catalog package and record its prior state.
+  set <setting-id>     Set one catalog setting to a declared state; use -State <state>.
+  unset <setting-id>   Remove one setting value when its catalog declares an unset state.
+  status [view]         Show default or profile status, optionally filtered.
+  restore -RunId <id>  Restore values recorded before a prior run.
+  remove [package-id]  Uninstall one package or packages selected by the profile.
+
+Options:
+  -Profile <file>      Select a profile (default: profiles/default.psd1).
+  -Id <id|view>        ID for show, or a view after list/status.
+  -State <state>       Declared state for set; press Tab to complete available states.
+  -RunId <id>          Run ID required by restore.
+  -WhatIf              Preview apply, remove, or restore.
+  -Confirm             Ask before each supported change.
+  -Help                Display this help.
+
+List views:
+  all                  Show operations, groups, and profiles.
+  profiles             Show available profile files and the operations they select.
+  packages             Show software install and uninstall operations.
+  windows              Show Windows setting operations; after status, show their defaults or profile state.
+  explorer             Show Explorer-related settings; after status, show their defaults or profile state.
+  security             Show security-related settings; after status, show their defaults or profile state.
+  software             Show software operations and groups; after status, show package state.
+  utilities            Show utility package operations.
+  groups               Show multi-operation solutions; after status, show their member package state.
+  settings             Show registry-backed settings; after status, show their defaults or profile state.
+  (Status supports all views except profiles; use -Profile <file> to select a profile.)
+
+In an interactive PowerShell session, press Tab after a command or value to
+complete commands, operation and group IDs, profiles, and saved run IDs.
+
+Examples:
+  .\ride.ps1 list
+  .\ride.ps1 list packages
+  .\ride.ps1 list profiles
+  .\ride.ps1 list windows
+  .\ride.ps1 status explorer
+  .\ride.ps1 status packages -Profile .\profiles\analyst-basics.psd1
+  .\ride.ps1 install package.7zip -WhatIf
+  .\ride.ps1 set windows.show-known-extensions Enabled -WhatIf
+  .\ride.ps1 unset windows.script-host-policy -WhatIf
+  .\ride.ps1 remove package.7zip -WhatIf
+  .\ride.ps1 show <Tab>  Complete an operation or group ID.
+  .\ride.ps1 show windows.show-known-extensions
+  .\ride.ps1 plan -Profile .\profiles\analyst-basics.psd1
+  .\ride.ps1 apply -Profile .\profiles\analyst-basics.psd1 -WhatIf
+  .\ride.ps1 status
+  .\ride.ps1 restore -RunId <run-id> -WhatIf
+  .\ride.ps1 remove -Profile .\profiles\analyst-basics.psd1 -WhatIf
+'@
+  return
 }
 
-$tweaks = @()
-$ModulesIncluded = @()
-$PSCommandArgs = @()
+$ErrorActionPreference = 'Stop'
+if (-not $Profile) { $Profile = Join-Path $PSScriptRoot 'profiles/default.psd1' }
+Import-Module (Join-Path $PSScriptRoot 'modules/RIDE.Engine.psm1') -Force -ErrorAction Stop
 
-Function Add-PSCommandArgument {
-	param(
-		[string] $Name,
-		[string] $Value = ""
-	)
-
-	If ($Value -eq "") {
-		$script:PSCommandArgs += $Name
-	} Else {
-		$script:PSCommandArgs += "$Name `"$Value`""
-	}
-}
-
-Function AddOrRemoveTweak($tweak) {
-	If ($tweak -eq "") {
-		return
-	}
-
-	If ($tweak[0] -eq "!") {
-		# If the name starts with exclamation mark (!), exclude the tweak from selection
-		$script:tweaks = $script:tweaks | Where-Object { $_ -ne $tweak.Substring(1) }
-	} Else {
-		# Otherwise add the tweak
-		$script:tweaks += $tweak
-	}
-}
-
-Function Invoke-Tweak($tweak) {
-	$command = Get-Command -Name $tweak -CommandType Function -ErrorAction SilentlyContinue
-	if (-not $command) {
-		throw "Tweak function not found: $tweak"
-	}
-
-	& $command
-}
-
-function Get-IniFile {
-# Inspired by: https://stackoverflow.com/a/422529
-# Read contents of ini file into a variable
-# Inspired by https://stackoverflow.com/questions/43690336/powershell-to-read-single-value-from-simple-ini-file
-    param(
-        [parameter(Mandatory = $true)] [string] $filePath
-	)
-
-    # Create a default section if none exist in the file. Like a java prop file.
-    $section = "NO_SECTION"
-
-    switch -regex -file $filePath {
-        "^\[(.+)\]$" {
-            $section = $matches[1].Trim()
-        }
-        "^\s*([^#].+?)\s*=\s*(.*)" {
-            $name,$value = $matches[1..2]
-            # skip comments that start with semicolon:
-            if (!($name.StartsWith(";"))) {
-                [Environment]::SetEnvironmentVariable("RIDEVAR-$section-$name", $value.Trim(), "Process")
-            }
-        }
+switch ($Command) {
+  'list' {
+    Show-RideCatalog -View $(if ($Id) { $Id } else { 'all' })
+  }
+  'show' {
+    if (-not $Id) { throw 'The show command requires an operation or group ID.' }
+    Show-RideOperation -Id $Id
+  }
+  'plan' {
+    $loadedProfile = Get-RideProfile -Path $Profile
+    $plan = @(Get-RidePlan -Profile $loadedProfile)
+    Show-RidePlan -Plan $plan
+  }
+  'apply' {
+    $loadedProfile = Get-RideProfile -Path $Profile
+    $plan = @(Get-RidePlan -Profile $loadedProfile)
+    if ($WhatIf) { Show-RidePlan -Plan $plan }
+    Invoke-RidePlan -Plan $plan -WhatIf:$WhatIf -Confirm:$Confirm
+  }
+  'install' {
+    if (-not $Id) { throw 'The install command requires a package ID.' }
+    if ($PSBoundParameters.ContainsKey('Profile')) { throw 'The install command accepts one package ID and does not use -Profile.' }
+    $plan = @(Get-RideSingleOperationPlan -Id $Id -Action Install)
+    if ($WhatIf) { Show-RidePlan -Plan $plan }
+    Invoke-RidePlan -Plan $plan -WhatIf:$WhatIf -Confirm:$Confirm
+  }
+  'set' {
+    if (-not $Id) { throw 'The set command requires a setting ID.' }
+    if (-not $State) { throw 'The set command requires -State. Press Tab after the setting ID to complete declared states.' }
+    if ($PSBoundParameters.ContainsKey('Profile')) { throw 'The set command accepts one setting ID and does not use -Profile.' }
+    $plan = @(Get-RideSingleOperationPlan -Id $Id -Action Set -State $State)
+    if ($WhatIf) { Show-RidePlan -Plan $plan }
+    Invoke-RidePlan -Plan $plan -WhatIf:$WhatIf -Confirm:$Confirm
+  }
+  'unset' {
+    if (-not $Id) { throw 'The unset command requires a setting ID.' }
+    if ($PSBoundParameters.ContainsKey('Profile')) { throw 'The unset command accepts one setting ID and does not use -Profile.' }
+    $plan = @(Get-RideSingleOperationPlan -Id $Id -Action Unset)
+    if ($WhatIf) { Show-RidePlan -Plan $plan }
+    Invoke-RidePlan -Plan $plan -WhatIf:$WhatIf -Confirm:$Confirm
+  }
+  'status' {
+    $statusView = if ($Id) { $Id } else { 'all' }
+    if ($PSBoundParameters.ContainsKey('Profile')) {
+      $loadedProfile = Get-RideProfile -Path $Profile
+      Get-RideStatus -Profile $loadedProfile -View $statusView | Format-Table -AutoSize
     }
+    else {
+      Get-RideStatus -View $statusView | Format-Table -AutoSize
+    }
+  }
+  'restore' {
+    if (-not $RunId) { throw 'The restore command requires -RunId.' }
+    Restore-RideRun -RunId $RunId -WhatIf:$WhatIf -Confirm:$Confirm
+  }
+  'remove' {
+    if ($Id) {
+      if ($PSBoundParameters.ContainsKey('Profile')) { throw 'Use either a single package ID or -Profile, not both.' }
+      $plan = @(Get-RideSingleOperationPlan -Id $Id -Action Remove)
+    }
+    else {
+      $loadedProfile = Get-RideProfile -Path $Profile
+      $plan = @(Get-RidePlan -Profile $loadedProfile -Action Remove)
+    }
+    if ($plan.Count -eq 0) { throw 'The selected profile contains no removable package operations.' }
+    if ($WhatIf) { Show-RidePlan -Plan $plan }
+    Invoke-RidePlan -Plan $plan -WhatIf:$WhatIf -Confirm:$Confirm
+  }
 }
-
-# Clean up env from potentially earlier execution
-Remove-Item -Path env:RIDEVAR-Download-Only -ErrorAction SilentlyContinue
-
-# Resolve and import included tweak modules
-foreach ($includePath in $Include) {
-	$resolvedInclude = Resolve-Path $includePath -ErrorAction Stop
-	Add-PSCommandArgument -Name "-Include" -Value $resolvedInclude
-	Import-Module -Name $resolvedInclude -ErrorAction Stop
-	$ModulesIncluded += [System.IO.Path]::GetFileNameWithoutExtension("$resolvedInclude")
-}
-
-# Resolve preset files and load selected tweak names
-foreach ($presetPath in $Preset) {
-	$resolvedPreset = Resolve-Path $presetPath -ErrorAction Stop
-	Add-PSCommandArgument -Name "-Preset" -Value $resolvedPreset
-	Get-Content $resolvedPreset -ErrorAction Stop | ForEach-Object { AddOrRemoveTweak($_.Split("#")[0].Trim()) }
-}
-
-If ($Ini) {
-	$resolvedIni = Resolve-Path $Ini -ErrorAction Stop
-	Add-PSCommandArgument -Name "-Ini" -Value $resolvedIni
-	Get-IniFile $resolvedIni
-}
-
-If ($DownloadOnly) {
-	[Environment]::SetEnvironmentVariable("RIDEVAR-Download-Only", $true, "Process")
-	Add-PSCommandArgument -Name "-DownloadOnly"
-}
-
-If ($Log) {
-	$resolvedLog = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($Log)
-	Add-PSCommandArgument -Name "-Log" -Value $resolvedLog
-	Start-Transcript $resolvedLog
-}
-
-foreach ($tweakName in $Tweak) {
-	Add-PSCommandArgument -Name $tweakName
-	AddOrRemoveTweak($tweakName)
-}
-
-# Call the desired tweak functions
-$tweaks | ForEach-Object { Invoke-Tweak $_ }
-
-# Unload loaded modules after execution of tweaks
-if ($ModulesIncluded.Length -gt 0 ) { $ModulesIncluded | ForEach-Object { Remove-Module -Name $_ -Force -ErrorAction Stop } }
