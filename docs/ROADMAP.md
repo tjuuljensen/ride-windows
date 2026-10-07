@@ -17,6 +17,8 @@ The first implementation establishes the catalog, CLI, operation state store, fo
 
 ## Migration phases
 
+The batch inventory, test demand, and preset/function reconciliation list are maintained in [MIGRATION-PLAN.md](MIGRATION-PLAN.md).
+
 1. **Engine foundation** — catalog/profile validation, planning, state snapshots, status, exact settings restore, package lifecycle, generated operation documentation, Pester tests, and a disposable VM workflow.
 2. **High-use setup operations** — migrate default-profile settings and installers from the v2 library. Keep IDs stable once released; record unsupported and one-way actions clearly.
 3. **Grouped software solutions** — add package metadata and install/uninstall order for multi-component forensic and analyst toolsets. Track source verification, license acceptance, and version recovery per package.
