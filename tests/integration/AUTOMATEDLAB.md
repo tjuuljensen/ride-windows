@@ -10,7 +10,7 @@ Validate it on a separate pilot before redirecting an active lab.
 
 - A Windows Pro, Enterprise, Education, or Windows Server host with hardware virtualization enabled and the Hyper-V role/feature installed. Hyper-V is not included with Windows Home.
 - Hyper-V management tools and the Hyper-V Virtual Machine Management service (`vmms`) installed and running.
-- An elevated host PowerShell session, or an account in **Hyper-V Administrators** with effective Hyper-V CIM access. After changing group membership, sign out and back in before retrying.
+- An elevated host PowerShell session. Hyper-V Administrators membership can grant Hyper-V access but does not satisfy AutomatedLab's administrator-token checks.
 - AutomatedLab installed and configured, including its LabSources directory. Follow the upstream [AutomatedLab installation guide](https://automatedlab.org/en/stable/Wiki/Basic/install/) and [Getting Started](https://automatedlab.org/en/stable/Wiki/Basic/gettingstarted/) guide first.
 - The ISO for the selected guest OS in the `ISOs` directory under the configured LabSources location. For reference, Microsoft provides the [Windows 11 Enterprise Evaluation](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-11-enterprise) and [Windows Server 2025 evaluation](https://www.microsoft.com/en-us/evalcenter/download-windows-server-2025) downloads.
 - Enough host storage for the ISO and VM files. The script reports available space and recommends at least 120 GB. The initial guest allocation is 8 GB and 4 virtual processors; adjust it with `-MemoryGB` and `-ProcessorCount` for the host and guest.
@@ -58,7 +58,74 @@ Review the target and parameters from the `-WhatIf` output, then repeat without 
 
 Windows Update is not automated because update and reboot behavior differs across guest releases and editions. By default, the script pauses after installation so you can complete Windows Update in the guest, including restarts, then press Enter on the host. To proceed without waiting, specify `-WindowsUpdateMode Continue`; the script warns that the checkpoint will capture the guest's current update state.
 
-The checkpoint name is consistently `RIDE-clean-test-base` for each VM. Checkpoints belong to an individual VM, so using the same name for separate Windows 11 and Server 2025 VMs does not collide. Restore the checkpoint before each integration run, then copy the current checkout again because the checkpoint is created before the checkout copy.
+The checkpoint defaults to `RIDE-clean-test-base`; customize it with `-CheckpointName`. Checkpoints belong to an individual VM, so separate VMs may use the same checkpoint name. Restore before each integration run and stage the current checkout again because the clean checkpoint precedes staging.
+
+## Local configuration and downstream inheritance
+
+Copy `provisioning.win11.example.psd1` or `provisioning.server2025.example.psd1`
+outside the checkout, for example to `C:\RIDE-Automation\server2025.psd1`.
+Choose the exact OS name and distinct lab, VM, network and storage values.
+The Server template deliberately requires the real ISO entry before use.
+
+```powershell
+.\tests\integration\New-RideAutomatedLabVm.ps1 `
+    -ConfigurationPath 'C:\RIDE-Automation\server2025.psd1' -PreflightOnly
+.\tests\integration\New-RideAutomatedLabVm.ps1 `
+    -ConfigurationPath 'C:\RIDE-Automation\server2025.psd1' -WhatIf
+# After reviewing preflight/preview, repeat without -WhatIf to provision.
+```
+
+Explicit CLI values override the local file; omitted values use the file and
+then documented defaults. For example, `-MemoryGB 12` overrides the file's 8 GiB.
+Tab completes `WindowsUpdateMode`; `OperatingSystemName` completion reads only
+an already imported AutomatedLab ISO cache, silently returning no suggestions
+when unavailable. It never imports AutomatedLab or scans media for completion.
+
+| Field | Meaning and downstream use |
+| --- | --- |
+| `OperatingSystemName`, optional `IsoPath` | Exact ISO image/edition/install mode; IsoPath disambiguates multiple media. The selected OS object, including its ISO path, is passed to AutomatedLab so it cannot select a newer duplicate silently. Registration records the ISO hash. |
+| `LabName` | AutomatedLab definition imported by the controller for every request. |
+| `VMName` | Guest computer/Hyper-V name, at most 15 characters. Provisioning discovers its GUID; registration verifies name and GUID together. |
+| `VMPath` | New or empty host storage for this lab; not a guest path or test source path. |
+| `NetworkName` | New NAT switch. Existing switches are never replaced or assumed compatible; choose a distinct name per lab. |
+| `MemoryGB`, `ProcessorCount` | Provisioning resources; registration records actual VM settings. Defaults: 8 GiB and 4 processors. |
+| `DisableTpm`, `DisableSecureBoot` | Boolean provisioning choices. Both default false; the existing Windows 11 VM is not reconfigured. |
+| `WindowsUpdateMode` | `Wait` requires operator confirmation after updates; `Continue` preserves the current update state. Tests do not update Windows. |
+| `GuestRepositoryPath` | Actual staged checkout inside the guest; must end with `ride-windows`. Used unchanged by test requests. |
+| `CheckpointName` | Clean baseline created before source staging. Registration pins its discovered GUID. |
+| `AutomationName` | Controller name/task/result namespace; defaults to LabName. One configuration per VM. |
+| `CIRepositoryPath` | Separate host CI checkout used only for `-Source CI`; Local uses the provisioning checkout. |
+| `AutomationSeedPath` | New local `.json` registration seed; requires CIRepositoryPath. Existing files are not overwritten. |
+
+The inheritance path is **local provisioning PSD1 → provisioned VM → generated
+controller JSON seed → registered protected configuration → test request**.
+No values are inherited from whichever lab happens to be imported in a shell.
+Registration remains explicit:
+
+```powershell
+.\tests\integration\Register-RideVmTestTask.ps1 `
+    -ConfigurationPath 'C:\RIDE-Automation\server2025-controller.json' -WhatIf
+# Review, then register from elevated PowerShell without -WhatIf.
+```
+
+The generated seed includes discovered VM identity and source/guest paths.
+Registration pins checkpoint identity, account, dependencies, ISO hash and
+installed controller hashes. Each request selects that registered configuration;
+it cannot substitute another VM. Guest credentials stay in AutomatedLab's
+existing lab storage and are never emitted into the seed.
+
+Server 2025 provisioning and runtime acceptance await its ISO. Other future
+ISO images may be provisioned, but the integration suite and operation support
+declarations remain independently limited to tested targets.
+
+Windows supports one WinNAT network per host. Distinct network names do not
+remove that limit. This script creates a new NAT, so preflight blocks creation
+when any NAT already exists, including the current Windows 11 lab's NAT.
+It never removes or reconfigures that working network. Concurrent independent
+labs on this host need a separately reviewed shared-switch/address-allocation
+design, or provisioning on another host. The templates prepare identities and
+test handoff; they do not establish shared-network support.
+[Microsoft's NAT limitations](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/setup-nat-network#multiple-nat-networks-are-not-supported).
 
 The script can be run again in `-PreflightOnly` mode to diagnose host access. Do not rerun provisioning against an existing lab name; use a new lab and VM name for another guest OS or a clean installation.
 

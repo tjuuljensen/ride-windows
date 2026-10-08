@@ -99,6 +99,9 @@ in a disposable Windows VM. The VM runner includes it; workstation checks exclud
 For repeatable VM runs with host UAC enabled, see the opt-in
 [AutomatedLab task controller](tests/integration/AUTOMATEDLAB-TASKS.md), including
 on-demand execution, local edit watching, CI and the pilot acceptance checklist.
+For additional OS images, use the [provisioning configuration and field guide](tests/integration/AUTOMATEDLAB.md).
+The [verification matrix](docs/PACKAGE-VERIFICATION-MATRIX.md) explains artifact
+retention and importing reviewed VM evidence into the shared metadata library.
 
 The previous function-based implementation is retained as a migration reference under `legacy/v2/`; the new runner does not load it. The migration is incomplete, so the current catalog deliberately exposes only operations implemented by the new engine.
 

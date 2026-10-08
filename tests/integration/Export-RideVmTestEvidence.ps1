@@ -36,8 +36,9 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.1.0
+  Version: 0.2.0
   Changelog:
+  - 0.2.0: Collect observations from the configured guest repository after failure.
     - 0.1.0: Initial bounded failure-evidence collection.
   Internal bounded collector. It writes evidence directories but does not invoke RIDE handlers or
   integration scenarios.
@@ -53,7 +54,7 @@
 
 [CmdletBinding()]
 param([string] $ConfigurationPath, [ValidatePattern('^[0-9a-f]{32}$')][string] $RunId, [string] $ResultDirectory, [switch] $Version)
-$script:ScriptVersion = '0.1.0'
+$script:ScriptVersion = '0.2.0'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -Force
@@ -64,10 +65,12 @@ $session = $null
 try {
   $session = New-LabPSSession -ComputerName $config.VMName -Retries 1 -Interval 1
   $guestPath = "C:\RIDE\TestResults\$RunId"
-  Invoke-Command -Session $session -ArgumentList $guestPath -ScriptBlock {
-    param($Path)
+  Invoke-Command -Session $session -ArgumentList @($guestPath, $config.GuestRepositoryPath) -ScriptBlock {
+    param($Path, $RepositoryPath)
     $ErrorActionPreference = 'Stop'
     New-Item -ItemType Directory -Path $Path -Force | Out-Null
+    $observations = Join-Path $RepositoryPath 'catalog\artifact-observations.json'
+    if (Test-Path -LiteralPath $observations) { Copy-Item -LiteralPath $observations -Destination (Join-Path $Path 'artifact-observations.json') -Force }
     foreach ($scope in @('Machine', 'User')) {
       $base = if ($scope -eq 'Machine') { [Environment]::GetFolderPath('CommonApplicationData') } else { [Environment]::GetFolderPath('LocalApplicationData') }
       $source = Join-Path $base 'RIDE\State'

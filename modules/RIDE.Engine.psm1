@@ -35,8 +35,9 @@
   Recovery: Restore-RideRun recovers captured settings/presence. Read catalog rollback limits before
   applying packages or grouped changes.
   Author: RIDE-Windows maintainers.
-  Version: 0.1.0
+  Version: 0.2.0
   Changelog:
+  - 0.2.0: Load larger catalogs through the bounded data-only reader.
     0.1.0: Establish the versioned PowerShell help contract during the 2026-10-08 walkthrough.
 
 .LINK
@@ -48,10 +49,11 @@
 #>
 
 
-$script:ModuleVersion = '0.1.0'
+$script:ModuleVersion = '0.2.0'
 
 $script:RideRoot = Split-Path -Parent $PSScriptRoot
 $script:RideCatalogPath = Join-Path $script:RideRoot 'catalog/operations.psd1'
+Import-Module (Join-Path $PSScriptRoot 'RIDE.CatalogData.psm1') -Force
 $script:RideSettingsModule = Join-Path $PSScriptRoot 'RIDE-Settings.psm1'
 $script:RidePackagesModule = Join-Path $PSScriptRoot 'RIDE-Packages.psm1'
 $script:RideDefenderModule = Join-Path $PSScriptRoot 'RIDE-Defender.psm1'
@@ -91,7 +93,7 @@ function Get-RideCatalog {
 
   #>
 
-  Import-PowerShellDataFile -Path $script:RideCatalogPath
+  Import-RideCatalogData -Path $script:RideCatalogPath
 }
 
 function Get-RideOperation {

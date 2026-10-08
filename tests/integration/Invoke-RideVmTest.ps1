@@ -72,8 +72,9 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.3.0
+  Version: 0.4.0
   Changelog:
+  - 0.4.0: Export acquisition observations with correlated guest evidence.
     - 0.3.0: Wait for guest WinRM before staging files and running commands.
   - 0.2.0: Add opt-in correlated result export for the task controller.
   - 0.1.0: Initial versioned VM test runner.
@@ -104,7 +105,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.3.0'
+$script:ScriptVersion = '0.4.0'
 if ($Version) {
   Write-Output $script:ScriptVersion
   return
@@ -174,6 +175,8 @@ try {
         $summary.Guest = @{ OS = (Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, BuildNumber); Account = $identity.Name; SID = $identity.User.Value; PowerShell = $PSVersionTable.PSVersion.ToString() }
       }
       Import-Module Pester -RequiredVersion '5.7.1' -ErrorAction Stop
+      $env:RIDE_TEST_EVIDENCE_PATH = $ResultsPath
+      $env:RIDE_TEST_RUN_ID = $ResultRunId
       & .\tools\Export-RideCatalog.ps1
       & .\tools\validate.ps1
       $summary.ValidationPassed = $true
@@ -202,6 +205,8 @@ try {
     finally {
       if ($ResultsPath) {
         try {
+          $observations = Join-Path $GuestPath 'catalog\artifact-observations.json'
+          if (Test-Path -LiteralPath $observations) { Copy-Item -LiteralPath $observations -Destination (Join-Path $ResultsPath 'artifact-observations.json') -Force }
           foreach ($scope in @('Machine', 'User')) {
             $base = if ($scope -eq 'Machine') { [Environment]::GetFolderPath('CommonApplicationData') } else { [Environment]::GetFolderPath('LocalApplicationData') }
             $statePath = Join-Path $base 'RIDE\State'

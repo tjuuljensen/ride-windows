@@ -34,6 +34,60 @@ evidence below; no new state-changing integration run occurred in the walkthroug
 
 ## Migration inventory
 
+### Unattended migration session, 2026-10-08
+
+Git for Windows now passed installation, repeat installation, local repository
+init/add/commit/HEAD verification and uninstall in the Windows 11 VM (run
+`20cb460af8be447dafcfc62662f99d35`, 103 guest tests passed). Latest patch releases
+with four-part installer filenames are supported. The Git publisher's exact
+release-note SHA-256 is checked separately from GitHub's asset digest.
+
+The accepted batch adds standalone Git LFS, Joplin, ShareX, WinDirStat and PowerShell
+7. New MSI support handles quiet install/removal and the declared restart-needed
+exit code without rebooting implicitly. User packages query HKCU instead of
+mistaking a machine installation for current-user presence. Git LFS requires
+Git; the ordered `solution.git-development` group expresses install/removal
+order. Full Windows 11 request `9744844940fd4ca498ef6486092ac831` passed 128
+guest tests and integration, including all five install/repeat/remove scenarios
+and the installed PowerShell executable/version check. Both new user policies
+passed apply/repeat/exact-restore/WindowsDefault checks. Collection and checkpoint
+recovery succeeded; the VM is off at the pinned clean baseline and host UAC is
+unchanged. Native host checks passed 127 isolated tests on PowerShell 5.1 and 7.
+See [the session results](migrations/2026-10-08-unattended-results.md) for run IDs,
+corrected failures, coverage limits and remaining work.
+
+All **53 Install programs selectors** are individually reconciled in
+[the disposition ledger](migrations/install-programs-dispositions.md), including
+specific deferred work. Reconciliation does not mean every selector is
+implemented. No portable tool tree, Defender exclusion, license acceptance or
+replacement community Sysmon policy is applied implicitly.
+
+The Windows Configuration family gains `windows.edge-friendly-url-format`
+and `windows.start-run-as-different-user`, selected in `profiles/default.psd1`.
+They cover `DisableFriendlyURLFormat`/`UnconfigureFriendlyURLFormat` and
+`EnableRunAsInStartMenu`/`DisableRunAsInStartMenu`. The Start policy uses the
+documented **HKCU user scope**, correcting the legacy HKLM write. Its Disabled
+state is explicit zero; WindowsDefault removes the override. Both operations
+capture exact prior values; VM tests cover repeat, baseline and restore.
+Other selectors in that family remain pending.
+
+The larger catalog exceeds PowerShell 5.1's whole-file safe-data complexity
+limit. A bounded metadata reader evaluates each literal operation/group with
+SafeGetValue, rejects executable entries and preserves schema 1. Execution,
+validation, generation and read-only completion use that same reader.
+
+Provisioning now accepts a local PSD1 and generates a per-VM controller seed;
+the runbook explains every field and downstream inheritance. Server 2025 media
+is unavailable, so its creation and runtime acceptance remain pending.
+Concurrent multi-lab networking also requires a reviewed shared-NAT design:
+the script now blocks creating a second host NAT instead of risking the
+working Windows 11 network. Unique VM/controller names do not solve WinNAT's
+one-network limitation.
+
+Publisher/signature investigations and the evidence workflow are maintained in
+[PACKAGE-VERIFICATION-MATRIX.md](PACKAGE-VERIFICATION-MATRIX.md). The shared
+library contains observations, not an approval policy or automatic signer gate.
+
 Each group lists exact legacy function names found in the preset. Test demand is required for every batch; complex Windows integration checks are deferred to the later VM phase.
 
 **Batch 1 implemented:** Settings / Privacy configurations migrates `DisableInkingAndTypingData` to `windows.inking-typing-data` and adds it to the workstation default profile. Catalog validation and the Pester 5.7 unit suite pass; the Windows 11 disposable-VM check remains deferred. The reverse `EnableInkingAndTypingData` selector has no legacy implementation and remains unresolved below.
@@ -66,7 +120,7 @@ Each group lists exact legacy function names found in the preset. Test demand is
 
 **Family 14/30 active default migrated:** BitLocker adds `windows.bitlocker-encryption-method`, mapping the legacy AES-256 selector to the exact reversible `EncryptionMethod=4` policy value. The operation is Windows 11-only pending target-specific integration coverage and describes that it affects future encryption, not existing encrypted drives. Catalog validation and 53 mocked Pester tests pass; the Windows 11 disposable-VM round trip passes. Windows Server support remains undeclared.
 
-**Family 15/30 in progress:** The `InstallGit4Win` default maps to `package.git-for-windows`, which joins the existing 7-Zip pilot on the latest-release download adapter. The Notepad++ optional package remains available through the same path. The SwiftOnSecurity Sysmon XML is a standalone `Artifact`, resolved to an immutable commit URL and available through `download artifact.sysmon-swift-config`; it cannot be selected as desired Windows state and is never applied by package installation. `package.sysmon64` resolves the version from Microsoft's Sysinternals page, downloads the official ZIP, installs with Sysmon's default configuration, detects its service, and uninstalls with `-u force`. Catalog validation passes for 91 operations; all 93 tests pass across the catalog and test-automation suites. The latest full Windows 11 VM suite passed, including the Sysmon install, idempotence, and uninstall scenario. The suite still does not exercise Git for Windows installation. Other Install programs selectors remain to migrate.
+**Family 15/30 reconciled, implementation incomplete:** The active Git default has passed install, repeat, local init/add/commit/HEAD and removal in Windows 11. 7-Zip, Notepad++, Sysmon and standalone Git LFS, Joplin, ShareX, WinDirStat and PowerShell 7 use the package lifecycle. The XML artifact remains download-only at an immutable commit; Sysmon installation uses its default configuration. All 53 selectors have an explicit disposition in [the ledger](migrations/install-programs-dispositions.md). Deferred selectors require the stated handler/source/licensing work before implementation; the current batch's acceptance is recorded in the session section above.
 
 ### Settings
 
@@ -428,6 +482,15 @@ Each group lists exact legacy function names found in the preset. Test demand is
 ### Accounts and configuration
 
 #### Windows configuration (windows-configuration)
+
+**Current disposition:** The two registry-policy defaults for Edge URL copying
+and Start's Run as different user command are migrated. Account creation,
+administrator membership, built-in-account changes, language packs and copying
+regional settings require account/locale handlers and multi-user recovery
+coverage. `AddUserBinToPath` requires exact per-user environment capture and
+restore; it is not represented as an installer or a machine PATH change.
+The remaining optional selectors need their own component, credential/network,
+activation or security-policy workflows before migration.
 
 **Test demand:** Required per batch: mocked Pester tests for user/locale/configuration discovery, apply, restore or compensating behavior, and failures. Defer multi-user, locale, and machine-wide scenarios to disposable VMs.
 

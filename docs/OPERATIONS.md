@@ -7,10 +7,15 @@ Generated from `catalog/operations.psd1`. Edit catalog metadata, then run `tools
 | ID | Name | Category | Scope | Admin | Actions | Supported targets | Rollback | Description | Reference |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | package.git-for-windows | Git for Windows | Software / Development Tools | Machine | Yes | Get, Test, Download, Install, Uninstall, Restore | Windows 11 | Compensating | Download, install, or remove the current 64-bit Git for Windows release. | [Product info](https://gitforwindows.org/) |
+| package.git-lfs | Git LFS (standalone installer) | Software / Development Tools | Machine | Yes | Get, Test, Download, Install, Uninstall, Restore | Windows 11 | Compensating | Install the standalone Git LFS package after machine-wide Git for Windows. Remove Git LFS before Git. The bundled Git component is a separate installation. | [Product info](https://git-lfs.com/) |
+| package.powershell | PowerShell 7 | Software / Development Tools | Machine | Yes | Get, Test, Download, Install, Uninstall, Restore | Windows 11 | Compensating | Install or remove the latest stable x64 PowerShell MSI; Windows PowerShell remains separate. | [Product info](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows) |
+| package.joplin | Joplin | Software / Productivity | User | No | Get, Test, Download, Install, Uninstall, Restore | Windows 11 | Compensating | Install or remove the current-user Joplin desktop application; notebooks are preserved by the publisher uninstaller. | [Product info](https://joplinapp.org/) |
+| package.sharex | ShareX | Software / Productivity | Machine | Yes | Get, Test, Download, Install, Uninstall, Restore | Windows 11 | Compensating | Install or remove the current x64 ShareX desktop application. | [Product info](https://getsharex.com/) |
 | artifact.sysmon-swift-config | SwiftOnSecurity Sysmon configuration | Software / Security | User | No | Download | Windows 11, Windows Server 2025 | None | Download the latest SwiftOnSecurity Sysmon XML configuration as a separately versioned file. It is never applied automatically. | [Product info](https://github.com/SwiftOnSecurity/sysmon-config) |
 | package.sysmon64 | Sysmon | Software / Security | Machine | Yes | Get, Test, Download, Install, Uninstall, Restore | Windows 11, Windows Server 2025 | Compensating | Download and install the latest Microsoft Sysmon archive with its default configuration, or remove its service and driver. A community XML configuration is never applied implicitly. | [Product info](https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon) |
 | package.7zip | 7-Zip | Software / Utilities | Machine | Yes | Get, Test, Download, Install, Uninstall, Restore | Windows 11, Windows Server 2025 | Compensating | Download, install, or remove the current 64-bit 7-Zip release. | [Product info](https://www.7-zip.org/) |
 | package.notepadpp | Notepad++ | Software / Utilities | Machine | Yes | Get, Test, Download, Install, Uninstall, Restore | Windows 11, Windows Server 2025 | Compensating | Download, install, or remove the current 64-bit Notepad++ release. | [Product info](https://notepad-plus-plus.org/) |
+| package.windirstat | WinDirStat | Software / Utilities | Machine | Yes | Get, Test, Download, Install, Uninstall, Restore | Windows 11 | Compensating | Install or remove the current x64 WinDirStat MSI package. | [Product info](https://windirstat.net/) |
 | windows.3d-objects-folder-this-pc | 3D Objects folder in This PC | Windows settings / Explorer | Machine | Yes | Get, Test, Set, Restore | Windows 11 | Exact | Hide or show the 3D Objects entry in This PC by managing its Shell namespace registration key. Hidden leaves the 3D Objects folder and its contents in place. | [Microsoft docs](https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction) |
 | windows.autoplay-policy | Autoplay policy | Windows settings / Explorer | User | No | Get, Test, Set, Restore | Windows 11, Windows Server 2025 | Exact | Set the current user's Autoplay preference. | [Microsoft docs](https://learn.microsoft.com/en-us/windows/win32/shell/autoplay-reg) |
 | windows.explorer-start-location | File Explorer start location | Windows settings / Explorer | User | No | Get, Test, Set, Restore | Windows 11 | Exact | Open File Explorer to This PC instead of Home. | [Microsoft docs](https://support.microsoft.com/en-us/windows/experience/fileexplorer/file-explorer-in-windows) |
@@ -96,6 +101,8 @@ Generated from `catalog/operations.psd1`. Edit catalog metadata, then run `tools
 | windows.toast-notifications-policy | Toast notifications | Windows settings / User interface | User | No | Get, Test, Set, Restore | Windows 11 | Exact | Disable toast notifications for the current user. | [Microsoft docs](https://support.microsoft.com/en-us/windows/experience/notifications-and-do-not-disturb-in-windows) |
 | windows.toggle-keys-prompts | Toggle Keys prompts | Windows settings / User interface | User | No | Get, Test, Set, Restore | Windows 11 | Exact | Disable the Toggle Keys accessibility prompt for the current user. | [Microsoft docs](https://support.microsoft.com/en-us/accessibility/windows/make-your-mouse-keyboard-and-other-input-devices-easier-to-use) |
 | windows.startup-sound | Windows startup sound | Windows settings / User interface | Machine | Yes | Get, Test, Set, Restore | Windows 11 | Exact | Control playback of the Windows startup sound. | [Microsoft docs](https://support.microsoft.com/en-us/windows/experience/personalization/personalize-your-windows-experience-with-themes) |
+| windows.edge-friendly-url-format | Edge copied URL format | Windows settings / Windows Configuration | User | No | Get, Test, Set, Restore | Windows 11 | Exact | Choose plain-text or titled hyperlink copying in Edge for the current user, or remove the policy override. Edge may require restart to reflect the policy. | [Microsoft docs](https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/configurefriendlyurlformat) |
+| windows.start-run-as-different-user | Run as different user on Start | Windows settings / Windows Configuration | User | No | Get, Test, Set, Restore | Windows 11 | Exact | Show the Run as different user command on Start for applications that support it. Uses the documented current-user policy instead of the legacy machine-hive write; other Run as methods remain available. | [Microsoft docs](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-startmenu#showrunasdifferentuserinstart) |
 | windows.microsoft-product-updates | Microsoft product updates | Windows settings / Windows Update | Machine | Yes | Get, Test, Set, Restore | Windows 11 | Exact | Allow Windows Update to scan for updates to other Microsoft products by setting the documented device preference AllowMUUpdateService. | [Microsoft docs](https://learn.microsoft.com/en-us/windows/apps/develop/settings/settings-common) |
 
 ## Target defaults
@@ -105,6 +112,10 @@ Literal defaults describe the registry data or managed presence expected on a cl
 | Operation | Target | Literal default | Effective default |
 | --- | --- | --- | --- |
 | package.git-for-windows | Windows 11 | Absent | Not installed in the default Windows image |
+| package.git-lfs | Windows 11 | Absent | Not installed in the default Windows image |
+| package.powershell | Windows 11 | Absent | PowerShell 7 is not installed in the default Windows image |
+| package.joplin | Windows 11 | Absent | Not installed in the default Windows image |
+| package.sharex | Windows 11 | Absent | Not installed in the default Windows image |
 | artifact.sysmon-swift-config | Windows 11 | DownloadOnly | A downloaded configuration file does not change Sysmon or Windows state |
 | artifact.sysmon-swift-config | Windows Server 2025 | DownloadOnly | A downloaded configuration file does not change Sysmon or Windows state |
 | package.sysmon64 | Windows 11 | Absent | Standalone Sysmon is not installed in the default Windows image |
@@ -113,6 +124,7 @@ Literal defaults describe the registry data or managed presence expected on a cl
 | package.7zip | Windows Server 2025 | Absent | Not installed in the default Windows image |
 | package.notepadpp | Windows 11 | Absent | Not installed in the default Windows image |
 | package.notepadpp | Windows Server 2025 | Absent | Not installed in the default Windows image |
+| package.windirstat | Windows 11 | Absent | Not installed in the default Windows image |
 | windows.3d-objects-folder-this-pc | Windows 11 | PlatformDefined | Windows and its registered Shell namespace extensions determine whether the 3D Objects entry appears in This PC |
 | windows.autoplay-policy | Windows 11 | <unset> | Enabled (AutoPlay is allowed by this preference) |
 | windows.autoplay-policy | Windows Server 2025 | <unset> | Enabled (AutoPlay is allowed by this preference) |
@@ -206,6 +218,8 @@ Literal defaults describe the registry data or managed presence expected on a cl
 | windows.toast-notifications-policy | Windows 11 | <unset> | Toast notifications use the Windows default when no user value exists |
 | windows.toggle-keys-prompts | Windows 11 | 62 | Windows accessibility default flags enable the Toggle Keys prompt |
 | windows.startup-sound | Windows 11 | <unset> | Startup sound behavior follows the Windows default when no explicit value exists |
+| windows.edge-friendly-url-format | Windows 11 | <unset> | Edge user preference controls copied URLs when no policy is configured |
+| windows.start-run-as-different-user | Windows 11 | <unset> | Run as different user is hidden on Start without an enabled policy |
 | windows.microsoft-product-updates | Windows 11 | <unset> | Other Microsoft product updates are disabled until Microsoft Update is enabled. |
 
 ## Groups
@@ -213,4 +227,5 @@ Literal defaults describe the registry data or managed presence expected on a cl
 | ID | Name | Category | Members, in apply order | Actions | Rollback | Description |
 | --- | --- | --- | --- | --- | --- | --- |
 | solution.analyst-basics | Analyst basics | Software / Groups | package.7zip, package.notepadpp | Install, Uninstall | Compensating | A small utility bundle with 7-Zip and Notepad++. |
+| solution.git-development | Git and standalone Git LFS | Software / Groups | package.git-for-windows, package.git-lfs | Install, Uninstall | Compensating | Install Git before standalone Git LFS; remove them in reverse order. |
 

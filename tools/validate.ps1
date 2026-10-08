@@ -37,8 +37,9 @@
   PowerShell sources.
   Recovery: Read-only checks; fix authoritative inputs before regenerating documentation.
   Author: RIDE-Windows maintainers.
-  Version: 0.1.0
+  Version: 0.2.0
   Changelog:
+  - 0.2.0: Validate larger catalogs, MSI lifecycle metadata and prerequisites.
     0.1.0: Establish the versioned PowerShell help contract during the 2026-10-08 walkthrough.
 
 #>
@@ -50,7 +51,7 @@ param([string] $Root = '',
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.1.0'
+$script:ScriptVersion = '0.2.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 if ($Help) { Get-Help -Name $PSCommandPath -Full; return }
 
@@ -62,12 +63,13 @@ function Add-Error([string] $Message) { $errors.Add($Message) }
 
 $catalogPath = Join-Path $Root 'catalog/operations.psd1'
 $profilePaths = @(Get-ChildItem -LiteralPath (Join-Path $Root 'profiles') -Filter '*.psd1' -File)
-$catalog = Import-PowerShellDataFile -Path $catalogPath
+Import-Module (Join-Path $Root 'modules/RIDE.CatalogData.psm1') -Force
+$catalog = Import-RideCatalogData -Path $catalogPath
 if ($catalog.SchemaVersion -ne 1) { Add-Error 'Catalog must declare SchemaVersion 1.' }
 
 $artifactObservationPath = Join-Path $Root 'catalog/artifact-observations.json'
 try {
-  $artifactLibrary = Get-Content -LiteralPath $artifactObservationPath -Raw | ConvertFrom-Json -ErrorAction Stop
+  $artifactLibrary = Get-Content -LiteralPath $artifactObservationPath -Raw -Encoding UTF8 | ConvertFrom-Json -ErrorAction Stop
   if ($artifactLibrary.SchemaVersion -ne 1 -or 'Observations' -notin $artifactLibrary.PSObject.Properties.Name) { Add-Error 'Artifact observation library must declare SchemaVersion 1 and an Observations array.' }
   foreach ($observation in @($artifactLibrary.Observations)) {
     foreach ($field in @('Version', 'FileName', 'OriginUri', 'SourceUri', 'ObservedAtUtc', 'Route', 'Sha256')) {
@@ -140,6 +142,12 @@ foreach ($operation in $catalog.Operations) {
     if ($operation.Handler -ne 'RegistryValue') { Add-Error "No matching handler for $($operation.Id)" }
   }
   elseif ($operation.Kind -eq 'Package') {
+    if ($operation.InstallerType -notin @('Exe', 'Msi', 'SysmonZip')) { Add-Error "Unsupported installer type: $($operation.Id)" }
+    if ($operation.InstallerType -eq 'Msi' -and ($operation.InstallerArguments -notmatch '/qn' -or $operation.InstallerArguments -notmatch '/norestart')) { Add-Error "MSI packages require quiet, no-restart arguments: $($operation.Id)" }
+    if ($operation.PrerequisitePackageId) {
+      if ($operation.PrerequisitePackageId -notin @($catalog.Operations | Where-Object Kind -eq 'Package' | ForEach-Object Id)) { Add-Error "Unknown package prerequisite: $($operation.Id)" }
+      if (-not $operation.PrerequisiteProgramFilesExecutable -or [IO.Path]::IsPathRooted($operation.PrerequisiteProgramFilesExecutable) -or $operation.PrerequisiteProgramFilesExecutable -match '(^|[\\/])\.\.([\\/]|$)|["\r\n:*?]') { Add-Error "Invalid prerequisite executable: $($operation.Id)" }
+    }
     if ($operation.Handler -ne 'Package') { Add-Error "No matching handler for $($operation.Id)" }
     foreach ($field in @('PackageId', 'InstallerType', 'DownloadUri', 'InstallerArguments', 'UninstallerArguments', 'DisplayNamePattern')) {
       if (-not $operation.ContainsKey($field)) { Add-Error "Package operation is missing '$field': $($operation.Id)" }

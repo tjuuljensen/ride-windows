@@ -7,6 +7,8 @@
   Name = 'Default workstation'
   Description = 'A small starter configuration for a new Windows workstation.'
   Operations = @(
+    @{ Id = 'windows.edge-friendly-url-format'; State = 'PlainText' }
+    @{ Id = 'windows.start-run-as-different-user'; State = 'Enabled' }
     @{ Id = 'windows.show-known-extensions'; State = 'Enabled' }
     @{ Id = 'windows.autoplay-policy'; State = 'Disabled' }
     @{ Id = 'windows.autorun-policy'; State = 'Disabled' }

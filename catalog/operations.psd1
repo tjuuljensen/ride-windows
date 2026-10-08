@@ -6,6 +6,46 @@
   SchemaVersion = 1
   Operations = @(
     @{
+      Id = 'windows.edge-friendly-url-format'
+      Name = 'Edge copied URL format'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Windows Configuration'
+      Description = 'Choose plain-text or titled hyperlink copying in Edge for the current user, or remove the policy override. Edge may require restart to reflect the policy.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/configurefriendlyurlformat'
+      SupportedTargets = @('Windows 11')
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKCU:\SOFTWARE\Policies\Microsoft\Edge'
+      ValueName = 'ConfigureFriendlyURLFormat'
+      ValueType = 'DWord'
+      States = @{ PlainText = 1; TitledHyperlink = 3; WindowsDefault = $null }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Edge user preference controls copied URLs when no policy is configured' } }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.start-run-as-different-user'
+      Name = 'Run as different user on Start'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Windows Configuration'
+      Description = 'Show the Run as different user command on Start for applications that support it. Uses the documented current-user policy instead of the legacy machine-hive write; other Run as methods remain available.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-startmenu#showrunasdifferentuserinstart'
+      SupportedTargets = @('Windows 11')
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer'
+      ValueName = 'ShowRunAsDifferentUserInStart'
+      ValueType = 'DWord'
+      States = @{ Enabled = 1; Disabled = 0; WindowsDefault = $null }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Run as different user is hidden on Start without an enabled policy' } }
+      Rollback = 'Exact'
+    }
+    @{
       Id = 'windows.background-apps-policy'
       Name = 'Background apps policy'
       Kind = 'RegistryValue'
@@ -1652,11 +1692,12 @@
         'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' }
       }
       PackageId = 'git-for-windows'
+      PublisherChecksumSource = 'ReleaseNotes'
       InstallerType = 'Exe'
       DisplayNamePattern = '^Git(?:$| version\b)'
       DownloadUri = 'https://api.github.com/repos/git-for-windows/git/releases/latest'
       DownloadProvider = 'GitHubReleaseApi'
-      AssetPattern = '^Git-\d+\.\d+\.\d+-64-bit\.exe$'
+      AssetPattern = '^Git-\d+\.\d+\.\d+(?:\.\d+)?-64-bit\.exe$'
       Architecture = 'x64'
       ProductUri = 'https://gitforwindows.org/'
       InstallerArguments = '/VERYSILENT /NORESTART /NOCANCEL /SP-'
@@ -2024,6 +2065,131 @@
       }
       Rollback = 'Exact'
     }
+    @{
+      Id = 'package.git-lfs'
+      Name = 'Git LFS (standalone installer)'
+      Kind = 'Package'
+      Category = 'Software / Development Tools'
+      Description = 'Install the standalone Git LFS package after machine-wide Git for Windows. Remove Git LFS before Git. The bundled Git component is a separate installation.'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' } }
+      PackageId = 'git-lfs'
+      PrerequisitePackageId = 'package.git-for-windows'
+      PrerequisiteProgramFilesExecutable = 'Git\cmd\git.exe'
+      InstallerType = 'Exe'
+      DisplayNamePattern = '^Git LFS(?:\s|$)'
+      DownloadUri = 'https://api.github.com/repos/git-lfs/git-lfs/releases/latest'
+      DownloadProvider = 'GitHubReleaseApi'
+      AssetPattern = '^git-lfs-windows-v\d+(?:\.\d+)+\.exe$'
+      Architecture = 'x64'
+      ProductUri = 'https://git-lfs.com/'
+      InstallerArguments = '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-'
+      UninstallerArguments = '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-'
+      Rollback = 'Compensating'
+    }
+    @{
+      Id = 'package.joplin'
+      Name = 'Joplin'
+      Kind = 'Package'
+      Category = 'Software / Productivity'
+      Description = 'Install or remove the current-user Joplin desktop application; notebooks are preserved by the publisher uninstaller.'
+      SupportedTargets = @('Windows 11')
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' } }
+      PackageId = 'joplin'
+      InstallerType = 'Exe'
+      DisplayNamePattern = '^Joplin(?:\s|$)'
+      DownloadUri = 'https://api.github.com/repos/laurent22/joplin/releases/latest'
+      DownloadProvider = 'GitHubReleaseApi'
+      AssetPattern = '^Joplin-Setup-\d+(?:\.\d+)+\.exe$'
+      Architecture = 'x64'
+      ProductUri = 'https://joplinapp.org/'
+      InstallerArguments = '/S /currentuser'
+      UninstallerArguments = '/S'
+      Rollback = 'Compensating'
+    }
+    @{
+      Id = 'package.sharex'
+      Name = 'ShareX'
+      Kind = 'Package'
+      Category = 'Software / Productivity'
+      Description = 'Install or remove the current x64 ShareX desktop application.'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' } }
+      PackageId = 'sharex'
+      InstallerType = 'Exe'
+      DisplayNamePattern = '^ShareX(?:\s|$)'
+      DownloadUri = 'https://api.github.com/repos/ShareX/ShareX/releases/latest'
+      DownloadProvider = 'GitHubReleaseApi'
+      AssetPattern = '^ShareX-\d+(?:\.\d+)+-setup-x64\.exe$'
+      Architecture = 'x64'
+      ProductUri = 'https://getsharex.com/'
+      InstallerArguments = '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP- /ALLUSERS'
+      UninstallerArguments = '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-'
+      Rollback = 'Compensating'
+    }
+    @{
+      Id = 'package.windirstat'
+      Name = 'WinDirStat'
+      Kind = 'Package'
+      Category = 'Software / Utilities'
+      Description = 'Install or remove the current x64 WinDirStat MSI package.'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' } }
+      PackageId = 'windirstat'
+      InstallerType = 'Msi'
+      DisplayNamePattern = '^WinDirStat(?:\s|$)'
+      DownloadUri = 'https://api.github.com/repos/windirstat/windirstat/releases/latest'
+      DownloadProvider = 'GitHubReleaseApi'
+      TagPrefix = 'release/'
+      AssetPattern = '^WinDirStat-x64\.msi$'
+      Architecture = 'x64'
+      ProductUri = 'https://windirstat.net/'
+      InstallerArguments = '/qn /norestart'
+      UninstallerArguments = '/qn /norestart'
+      SuccessExitCodes = @(0, 3010)
+      Rollback = 'Compensating'
+    }
+    @{
+      Id = 'package.powershell'
+      Name = 'PowerShell 7'
+      Kind = 'Package'
+      Category = 'Software / Development Tools'
+      Description = 'Install or remove the latest stable x64 PowerShell MSI; Windows PowerShell remains separate.'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'PowerShell 7 is not installed in the default Windows image' } }
+      PackageId = 'powershell'
+      InstallerType = 'Msi'
+      DisplayNamePattern = '^PowerShell 7(?:-x64|(?:\.\d+)*)(?:\s|$)'
+      DownloadUri = 'https://api.github.com/repos/PowerShell/PowerShell/releases/latest'
+      DownloadProvider = 'GitHubReleaseApi'
+      AssetPattern = '^PowerShell-\d+(?:\.\d+)+-win-x64\.msi$'
+      Architecture = 'x64'
+      ProductUri = 'https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows'
+      InstallerArguments = '/qn /norestart ADD_PATH=1'
+      UninstallerArguments = '/qn /norestart'
+      SuccessExitCodes = @(0, 3010)
+      Rollback = 'Compensating'
+    }
   )
   Groups = @(
     @{
@@ -2032,6 +2198,15 @@
       Category = 'Software / Groups'
       Description = 'A small utility bundle with 7-Zip and Notepad++.'
       Members = @('package.7zip', 'package.notepadpp')
+      Actions = @('Install', 'Uninstall')
+      Rollback = 'Compensating'
+    }
+    @{
+      Id = 'solution.git-development'
+      Name = 'Git and standalone Git LFS'
+      Category = 'Software / Groups'
+      Description = 'Install Git before standalone Git LFS; remove them in reverse order.'
+      Members = @('package.git-for-windows', 'package.git-lfs')
       Actions = @('Install', 'Uninstall')
       Rollback = 'Compensating'
     }

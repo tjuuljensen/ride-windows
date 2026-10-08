@@ -41,8 +41,10 @@
   Error-handling exception: Existing read policy, explicit Check-mode throws, and throwing .NET
   writes are retained.
   Author: RIDE-Windows maintainers.
-  Version: 0.1.0
+  Version: 0.2.0
   Changelog:
+  - 0.2.0: Generate documentation from the bounded data-only catalog reader;
+    sort hashtable keys explicitly for consistent PowerShell 5.1/7 output.
     0.1.0: Establish the versioned PowerShell help contract during the 2026-10-08 walkthrough.
 
 #>
@@ -56,14 +58,15 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.1.0'
+$script:ScriptVersion = '0.2.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 if ($Help) { Get-Help -Name $PSCommandPath -Full; return }
 
 if (-not $Root) { $Root = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path) }
 $catalogPath = Join-Path $Root 'catalog/operations.psd1'
 $outputPath = Join-Path $Root 'docs/OPERATIONS.md'
-$catalog = Import-PowerShellDataFile -Path $catalogPath
+Import-Module (Join-Path $Root 'modules/RIDE.CatalogData.psm1') -Force
+$catalog = Import-RideCatalogData -Path $catalogPath
 $lines = New-Object System.Collections.Generic.List[string]
 $lines.Add('# RIDE operation catalog')
 $lines.Add('')
@@ -73,7 +76,7 @@ $lines.Add('## Operations')
 $lines.Add('')
 $lines.Add('| ID | Name | Category | Scope | Admin | Actions | Supported targets | Rollback | Description | Reference |')
 $lines.Add('| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |')
-foreach ($operation in ($catalog.Operations | Sort-Object Category, Name)) {
+foreach ($operation in ($catalog.Operations | Sort-Object { $_.Category }, { $_.Name })) {
   $description = ($operation.Description -replace '\|', '\|')
   $targets = $operation.SupportedTargets -join ', '
   $actions = $operation.Actions -join ', '
@@ -90,7 +93,7 @@ $lines.Add('Literal defaults describe the registry data or managed presence expe
 $lines.Add('')
 $lines.Add('| Operation | Target | Literal default | Effective default |')
 $lines.Add('| --- | --- | --- | --- |')
-foreach ($operation in ($catalog.Operations | Sort-Object Category, Name)) {
+foreach ($operation in ($catalog.Operations | Sort-Object { $_.Category }, { $_.Name })) {
   foreach ($target in $operation.SupportedTargets) {
     $defaults = $operation.TargetDefaults[$target]
     if ($operation.Kind -eq 'RegistryValue') {
@@ -108,7 +111,7 @@ $lines.Add('## Groups')
 $lines.Add('')
 $lines.Add('| ID | Name | Category | Members, in apply order | Actions | Rollback | Description |')
 $lines.Add('| --- | --- | --- | --- | --- | --- | --- |')
-foreach ($group in ($catalog.Groups | Sort-Object Category, Name)) {
+foreach ($group in ($catalog.Groups | Sort-Object { $_.Category }, { $_.Name })) {
   $members = $group.Members -join ', '
   $actions = $group.Actions -join ', '
   $lines.Add("| $($group.Id) | $($group.Name) | $($group.Category) | $members | $actions | $($group.Rollback) | $($group.Description) |")

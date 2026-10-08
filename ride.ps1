@@ -67,8 +67,9 @@
   machine/user RIDE state stores. Package observations use catalog/artifact-observations.json.
   Recovery: Use restore -RunId for captured state. Package recovery has the catalog-declared limits.
   Author: RIDE-Windows maintainers.
-  Version: 0.1.0
+  Version: 0.2.0
   Changelog:
+  - 0.2.0: Use bounded data-only catalog loading for execution and read-only completion.
     0.1.0: Establish the versioned PowerShell help contract during the 2026-10-08 walkthrough.
 
 .LINK
@@ -97,7 +98,8 @@ param(
         $scriptPath = $scriptCommand.Source
       }
       $catalogPath = Join-Path (Split-Path -Parent (Resolve-Path -LiteralPath $scriptPath).Path) 'catalog/operations.psd1'
-      $catalog = Import-PowerShellDataFile -Path $catalogPath -ErrorAction Stop
+      Import-Module (Join-Path (Split-Path -Parent $catalogPath) '../modules/RIDE.CatalogData.psm1') -ErrorAction Stop
+      $catalog = Import-RideCatalogData -Path $catalogPath -ErrorAction Stop
       $ids = @($catalog.Operations + $catalog.Groups | ForEach-Object { $_.Id } | Sort-Object -Unique)
       $listViews = @('all', 'profiles', 'packages', 'groups', 'settings')
       foreach ($category in @($catalog.Operations + $catalog.Groups | ForEach-Object { $_.Category } | Sort-Object -Unique)) {
@@ -167,7 +169,8 @@ param(
         $scriptPath = (Get-Command -Name $commandName -CommandType ExternalScript -ErrorAction Stop).Source
       }
       $catalogPath = Join-Path (Split-Path -Parent (Resolve-Path -LiteralPath $scriptPath).Path) 'catalog/operations.psd1'
-      $catalog = Import-PowerShellDataFile -Path $catalogPath -ErrorAction Stop
+      Import-Module (Join-Path (Split-Path -Parent $catalogPath) '../modules/RIDE.CatalogData.psm1') -ErrorAction Stop
+      $catalog = Import-RideCatalogData -Path $catalogPath -ErrorAction Stop
       $operation = $catalog.Operations | Where-Object { $_.Id -eq $fakeBoundParameters.Id } | Select-Object -First 1
       if ($operation.Kind -in @('RegistryValue', 'RegistryKeySet')) {
         $states = @($operation.States.Keys)
@@ -221,7 +224,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.1.0'
+$script:ScriptVersion = '0.2.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 
 if ($Help) {

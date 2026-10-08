@@ -4,7 +4,19 @@
 
 The repository is cutting over from the v2 function runner to a purpose-built PowerShell engine. The v3 runner loads `.psd1` operation metadata and profiles. The initial catalog includes a reversible Explorer setting, direct installer/uninstaller operations for 7-Zip and Notepad++, and an ordered utility group. The previous function library, preset, and helper modules are under `legacy/v2/` as migration references and are not imported by the new runner.
 
-The first implementation establishes the catalog, CLI, operation state store, focused handlers, and Windows CI checks. It does not migrate the full v2 library. The current supported targets are Windows 11 and Windows Server 2025, declared per operation.
+The catalog now contains 98 operations and two ordered package groups. Settings
+support exact restore; EXE, MSI and Sysmon archive packages use compensating
+recovery. Git functionality is verified in the disposable Windows 11 VM. Five
+additional package lifecycles and two Windows Configuration policies passed the
+full Windows 11 batch (128 guest tests plus integration). The full v2 library
+remains incomplete; see the
+selector disposition ledger linked from the migration plan.
+
+Windows 11 VM tests run through the registered elevated task controller from an
+ordinary signed-in prompt, including a locked session. Provisioning examples
+and an explicit configuration handoff prepare additional images. Windows
+Server 2025 runtime acceptance awaits its ISO; support remains declared per
+operation and is not inferred from Windows 11 results.
 
 ## Architecture rules
 
@@ -28,6 +40,6 @@ The batch inventory, test demand, and preset/function reconciliation list are ma
 ## Verification and support
 
 - Windows CI runs PowerShell parsing, metadata/profile validation, generated-doc consistency, and Pester unit tests.
-- A resettable Windows 11 VM and Windows Server 2025 VM exercise apply twice, status, saved-state restore, baseline application, group uninstall, and partial failure reporting.
+- The resettable Windows 11 VM exercises apply twice, status, saved-state restore, baseline application, group uninstall and partial failure reporting. A separately provisioned Server 2025 VM must repeat applicable checks before acceptance.
 - Add another Windows target only after its operation support declarations and integration checks are explicit.
 - Run `tools/validate.ps1` and `Invoke-Pester .\tests` for each change. VM tests require a disposable VM; never use a daily workstation as the integration target.

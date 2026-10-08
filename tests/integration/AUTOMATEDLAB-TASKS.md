@@ -240,6 +240,45 @@ baseline rather than resetting unrelated configuration to Windows defaults.
 
 ## Pilot acceptance and replication evidence
 
+### Runtime evidence, 2026-10-08
+
+The user confirmed the locked-PC full-suite test passed. Ordinary-shell
+controller request `20cb460af8be447dafcfc62662f99d35` also passed all 103 guest
+tests and integration, including Git installation, local commit verification,
+repeat installation and removal. Failure requests
+`a2a2539763bf43e4a2981404d33a39e2` and
+`e58d341c3b7d443e8807a34f3834972b` collected observations and state, reported
+failure and completed checkpoint recovery with unchanged host UAC. A failed
+unit-test request `92e7d36ff7b34f94a5055441ad85fe4d` also failed explicitly.
+These are useful runtime results, not full pilot certification.
+
+Full request `9744844940fd4ca498ef6486092ac831` passed 128 guest tests and
+integration, including Git functionality, standalone Git LFS, Joplin, ShareX,
+WinDirStat, PowerShell 7, Sysmon and two new user-policy round trips. It ran
+2026-10-08 13:15:56-13:33:55 UTC. Collection and cleanup errors were null; UAC
+remained 1/5/1. A separate native Hyper-V read confirmed `RIDE-Win11-Test` was
+Off and its pinned `RIDE-clean-test-base` checkpoint GUID remained
+`a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9`. This confirms ordinary-shell requests
+can drive the approved lab while the user is away; the user-confirmed locked
+run supplies the separate locked-session evidence.
+
+The registered worker may retain older protected runner/collector copies.
+The guest suite exports observations through the existing results-path handoff;
+new source versions make that handoff explicit and collect observations on
+failure. Apply those protected-copy updates through elevated registration when
+the worker is idle; editing repository copies alone does not update installed
+controller hashes. Do not overwrite protected binaries manually.
+
+Watcher, CI dispatch/push, overlapping local/CI requests, timeout/interruption
+recovery and Server acceptance below still need runtime evidence. Keep
+`evidence.json` validation status unchanged until those requirements pass.
+
+Acquisition observations are collected as metadata in each request's
+`guest/artifact-observations.json`. Review and merge using
+`tools/Import-RideArtifactObservations.ps1`; see the verification matrix for
+retention and interpretation. Installer caches are excluded from collection
+and disappear when the checkpoint is restored.
+
 Do not label this configuration stable until all applicable checks pass:
 
 1. Three consecutive complete Windows 11 runs: ordinary-shell request,

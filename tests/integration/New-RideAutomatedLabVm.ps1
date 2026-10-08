@@ -9,11 +9,12 @@
   VM memory, processor count, TPM, and Secure Boot settings are configurable.
   RIDE's integration suite has its own narrower supported-target declarations.
   - Uses Invoke-LabCommand for guest connectivity and Pester setup, creates a
-  shared-name clean checkpoint, then stages the current checkout (step 6A).
+  per-VM clean checkpoint, then stages the current checkout (step 6A).
   - Waits for guest Windows Update by default; -WindowsUpdateMode Continue
   proceeds without requiring the update pause.
   - Creates a Hyper-V VM, AutomatedLab NAT network, and clean checkpoint.
-  - Installs Pester 5.7.1 in the guest, then copies this checkout to C:\RIDE\ride-windows.
+  - Installs Pester 5.7.1 in the guest and stages at GuestRepositoryPath.
+  - Optionally writes a controller registration seed; never registers a task implicitly.
 
 .PARAMETER OperatingSystemName
   Exact unique ISO OS name returned by Get-LabAvailableOperatingSystem; required unless
@@ -31,8 +32,29 @@
   Host VM storage path; required unless PreflightOnly. Preflight reports storage headroom.
 
 .PARAMETER GuestRepositoryPath
-  Reported guest checkout path; defaults to C:\RIDE\ride-windows. Current staging is hard-coded to
-  that default; do not override until fixed.
+  Guest checkout path; defaults to C:\RIDE\ride-windows and must end with ride-windows.
+
+.PARAMETER ConfigurationPath
+  Local SchemaVersion 1 provisioning PSD1. Explicit CLI values override its fields.
+
+.PARAMETER AutomationSeedPath
+  Optional new local JSON seed for Register-RideVmTestTask; requires CIRepositoryPath.
+  Registration remains an explicit elevated step.
+
+.PARAMETER AutomationName
+  Per-VM controller name; defaults to LabName when generating a seed.
+
+.PARAMETER CIRepositoryPath
+  Separate host CI checkout path recorded in the generated controller seed.
+
+.PARAMETER IsoPath
+  Optional exact ISO path used to disambiguate matching OperatingSystemName entries.
+
+.PARAMETER NetworkName
+  New NAT virtual-switch name; defaults to RIDE-Internet. Existing switches are not replaced.
+
+.PARAMETER CheckpointName
+  Clean checkpoint name; defaults to RIDE-clean-test-base and is scoped to this VM.
 
 .PARAMETER MemoryGB
   VM memory in GiB, range 2-64; defaults to 8.
@@ -71,7 +93,7 @@
 
 .NOTES
   Compatibility: Windows PowerShell 5.1 or PowerShell 7 on a Windows Hyper-V host.
-  Prerequisites: - Run elevated or as a Hyper-V Administrators member with an effective token.
+  Prerequisites: - Run elevated; AutomatedLab requires an administrator process token.
   - Hardware virtualization enabled, Hyper-V/VMMS operational, LabSources and
   VM storage available, and enough host disk/memory for the selected guest.
   File/environment inputs: - Exact OS name from Get-LabAvailableOperatingSystem and unique lab/VM
@@ -80,11 +102,11 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.1.0
+  Version: 0.2.0
   Changelog:
+    - 0.2.0: Add local provisioning data, explicit controller seed handoff, collision checks,
+      configurable network/checkpoint names and custom guest path staging.
     - 0.1.0: Initial OS-selectable AutomatedLab provisioning workflow.
-  Known limitation: nondefault GuestRepositoryPath is not honored by the staging code; documented
-  for a separate tested correction.
 
 .LINK
   tests/integration/AUTOMATEDLAB-TASKS.md
@@ -97,6 +119,25 @@
 
 [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
 param(
+  [string] $ConfigurationPath,
+  [string] $AutomationSeedPath,
+  [string] $AutomationName,
+  [string] $CIRepositoryPath,
+  [string] $IsoPath,
+  [string] $NetworkName = 'RIDE-Internet',
+  [string] $CheckpointName = 'RIDE-clean-test-base',
+  [ArgumentCompleter({
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    try {
+      # Cache-only enumeration: do not import AutomatedLab or inspect live VMs.
+      if ((Get-Module -Name AutomatedLab) -and (Get-Command Get-LabAvailableOperatingSystem -ErrorAction SilentlyContinue)) {
+        Get-LabAvailableOperatingSystem -UseOnlyCache -NoDisplay -ErrorAction Stop |
+          Select-Object -ExpandProperty OperatingSystemName -Unique |
+          Where-Object { $_.StartsWith($wordToComplete.Trim("'", '"'), [StringComparison]::OrdinalIgnoreCase) } |
+          Sort-Object | ForEach-Object { [Management.Automation.CompletionResult]::new("'" + $_.Replace("'", "''") + "'", $_, 'ParameterValue', $_) }
+      }
+    } catch { }
+  })]
   [string] $OperatingSystemName,
   [ValidatePattern('^[A-Za-z0-9][A-Za-z0-9-]{0,30}$')]
   [string] $LabName,
@@ -116,15 +157,17 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.1.0'
+$script:ScriptVersion = '0.2.0'
 if ($Version) {
   Write-Output $script:ScriptVersion
   return
 }
 
 $ErrorActionPreference = 'Stop'
-$snapshotName = 'RIDE-clean-test-base'
-$networkName = 'RIDE-Internet'
+Import-Module (Join-Path $PSScriptRoot 'RIDE.LabProvisioning.psm1') -Force
+$provisioning = Resolve-RideLabProvisioningConfiguration -ConfigurationPath $ConfigurationPath -ExplicitParameters $PSBoundParameters
+foreach ($key in $provisioning.Keys) { Set-Variable -Name $key -Value $provisioning[$key] }
+$snapshotName = $CheckpointName
 $checks = [System.Collections.Generic.List[object]]::new()
 
 function Add-PreflightCheck {
@@ -166,10 +209,7 @@ if (-not $IsWindows -and $PSVersionTable.PSEdition -eq 'Core') {
 }
 
 $isAdmin = Test-HostAdministrator
-$identity = [Security.Principal.WindowsIdentity]::GetCurrent()
-$hyperVAdministratorsSid = [Security.Principal.SecurityIdentifier]::new('S-1-5-32-578')
-$isHyperVAdministratorsMember = @($identity.Groups | ForEach-Object { $_.Translate([Security.Principal.SecurityIdentifier]) } | Where-Object { $_.Value -eq $hyperVAdministratorsSid.Value }).Count -gt 0
-Add-PreflightCheck -Name 'Host privilege context' -Passed ($isAdmin -or $isHyperVAdministratorsMember) -Required $false -Detail $(if ($isAdmin) { 'Current process is elevated.' } elseif ($isHyperVAdministratorsMember) { 'Hyper-V Administrators membership is present; the CIM access check below determines whether it is effective.' } else { 'Neither elevated nor in Hyper-V Administrators. Try elevated PowerShell or add the account to the group, then sign out and back in.' })
+Add-PreflightCheck -Name 'Host privilege context' -Passed $isAdmin -Required $true -Detail $(if ($isAdmin) { 'Current process is elevated.' } else { 'AutomatedLab provisioning requires elevated PowerShell; Hyper-V Administrators membership alone is insufficient.' })
 
 if (Get-Module -ListAvailable -Name AutomatedLab) {
   try {
@@ -197,7 +237,7 @@ if (-not $getVMHostCommand) {
   } catch {
     $permissionMessage = 'Get-VMHost failed: ' + $_.Exception.Message
     if ($permissionMessage -match 'access|denied|CIM resource') {
-      $permissionMessage += ' Try elevated PowerShell. Alternatively add the account to Hyper-V Administrators and sign out/in, then rerun. Hyper-V Manager is a partial manual workaround, but AutomatedLab needs CIM access.'
+      $permissionMessage += ' Provisioning requires elevated PowerShell and Hyper-V CIM access. Registered disposable-VM tests use the separate task controller from an ordinary signed-in prompt.'
     }
     Add-PreflightCheck -Name 'Hyper-V CIM access' -Passed $false -Required $true -Detail $permissionMessage
   }
@@ -210,6 +250,7 @@ try {
   $labSources = Get-LabSourcesLocation
   $isoDirectory = Join-Path $labSources 'ISOs'
   $availableOperatingSystems = @(Get-LabAvailableOperatingSystem -Path $isoDirectory)
+  if ($IsoPath) { $availableOperatingSystems = @($availableOperatingSystems | Where-Object { [IO.Path]::GetFullPath([string]$_.IsoPath) -eq [IO.Path]::GetFullPath($IsoPath) }) }
   Add-PreflightCheck -Name 'AutomatedLab LabSources' -Passed (Test-Path -LiteralPath $isoDirectory -PathType Container) -Required $true -Detail "ISO directory: $isoDirectory; available OS entries: $($availableOperatingSystems.Count)."
 } catch {
   $labSources = $null
@@ -221,6 +262,24 @@ if ($OperatingSystemName) {
   $matchedOperatingSystem = @($availableOperatingSystems | Where-Object { $_.OperatingSystemName -eq $OperatingSystemName })
   Add-PreflightCheck -Name 'Selected OS ISO' -Passed ($matchedOperatingSystem.Count -eq 1) -Required $true -Detail $(if ($matchedOperatingSystem.Count -eq 1) { "Found exact OS entry '$OperatingSystemName'." } else { "No unique exact match for '$OperatingSystemName'. Choose a listed value from Get-LabAvailableOperatingSystem -Path '$isoDirectory'." })
 }
+
+if ($LabName -and (Get-Command Get-Lab -ErrorAction SilentlyContinue)) {
+  $existingLabs = @(Get-Lab -List)
+  Add-PreflightCheck -Name 'Lab name collision' -Passed ($LabName -notin $existingLabs) -Required $true -Detail "Lab name '$LabName' must be unused. Existing labs are never replaced."
+}
+if ($VMName -and (Get-Command Get-VM -ErrorAction SilentlyContinue)) {
+  $existingVM = @(Get-VM -Name $VMName -ErrorAction SilentlyContinue)
+  Add-PreflightCheck -Name 'VM name collision' -Passed ($existingVM.Count -eq 0) -Required $true -Detail "VM name '$VMName' must be unused."
+}
+if ($VMPath) {
+  $storageEmpty = -not (Test-Path -LiteralPath $VMPath) -or @(Get-ChildItem -LiteralPath $VMPath -Force -ErrorAction Stop).Count -eq 0
+  Add-PreflightCheck -Name 'VM storage collision' -Passed $storageEmpty -Required $true -Detail 'Choose a new or empty per-lab VMPath; existing storage is never replaced.'
+}
+if ($NetworkName -and (Get-Command Get-VMSwitch -ErrorAction SilentlyContinue)) {
+  $existingSwitch = @(Get-VMSwitch -Name $NetworkName -ErrorAction SilentlyContinue)
+  Add-PreflightCheck -Name 'Virtual-switch collision' -Passed ($existingSwitch.Count -eq 0) -Required $true -Detail "Use a distinct NetworkName for each new lab. Existing '$NetworkName' compatibility is not assumed."
+}
+if ($AutomationSeedPath -and (Test-Path -LiteralPath $AutomationSeedPath)) { throw 'AutomationSeedPath already exists; existing local configuration is never overwritten.' }
 
 if ($VMPath) {
   try {
@@ -237,10 +296,10 @@ if ($VMPath) {
 
 try {
   $existingNats = @(Get-NetNat -ErrorAction Stop)
-  $natDetail = if ($existingNats.Count -eq 0) { 'No host WinNAT networks found.' } else { 'Existing host WinNAT networks: ' + (($existingNats | ForEach-Object { "$($_.Name) [$($_.InternalIPInterfaceAddressPrefix)]" }) -join '; ') + '. Review for overlap before creating AutomatedLab NAT.' }
-  Add-PreflightCheck -Name 'Host WinNAT state' -Passed $true -Required $false -Detail $natDetail
+  $natDetail = if ($existingNats.Count -eq 0) { 'No host WinNAT networks found.' } else { 'Existing host WinNAT networks: ' + (($existingNats | ForEach-Object { "$($_.Name) [$($_.InternalIPInterfaceAddressPrefix)]" }) -join '; ') + '. This script creates a new NAT; Windows supports one NAT per host. Use a separately reviewed shared-network topology or another host; existing networks are never removed automatically.' }
+  Add-PreflightCheck -Name 'Host WinNAT state' -Passed ($existingNats.Count -eq 0) -Required $true -Detail $natDetail
 } catch {
-  Add-PreflightCheck -Name 'Host WinNAT state' -Passed $false -Required $false -Detail ('Could not inspect WinNAT: ' + $_.Exception.Message)
+  Add-PreflightCheck -Name 'Host WinNAT state' -Passed $false -Required $true -Detail ('Could not inspect WinNAT: ' + $_.Exception.Message)
 }
 
 try {
@@ -264,6 +323,7 @@ if ([string]::IsNullOrWhiteSpace($GuestRepositoryPath) -or $GuestRepositoryPath 
 if ($VMName.Length -gt 15) { throw 'AutomatedLab guest computer names must be 15 characters or fewer.' }
 if (@($availableOperatingSystems | Where-Object { $_.OperatingSystemName -eq $OperatingSystemName }).Count -ne 1) { throw "Operating system '$OperatingSystemName' is not a unique available ISO entry." }
 Show-PreflightReport
+$selectedOS = $matchedOperatingSystem[0]
 
 $repoRootOutput = & git -C $PSScriptRoot rev-parse --show-toplevel
 if ($LASTEXITCODE -ne 0 -or -not $repoRootOutput) { throw 'Could not resolve the RIDE-Windows checkout with git rev-parse.' }
@@ -280,7 +340,7 @@ New-LabDefinition -Name $LabName -DefaultVirtualizationEngine HyperV -VmPath $VM
 Add-LabVirtualNetworkDefinition -Name $networkName -UseNat
 $networkAdapter = New-LabNetworkAdapterDefinition -VirtualSwitch $networkName
 Add-LabMachineDefinition -Name $VMName `
-  -OperatingSystem $OperatingSystemName `
+  -OperatingSystem $selectedOS `
   -Memory ([long]$MemoryGB * 1GB) `
   -Processors $ProcessorCount `
   -InstallationUserCredential $installationCredential `
@@ -328,12 +388,38 @@ Get-LabVMSnapshot -ComputerName $VMName
 Start-LabVM -ComputerName $VMName
 
 Invoke-LabCommand -ComputerName $VMName -Retries 20 -RetryIntervalInSeconds 30 -ScriptBlock {
-  New-Item -ItemType Directory -Path 'C:\RIDE' -Force | Out-Null
+  param($GuestPath)
+  New-Item -ItemType Directory -Path (Split-Path -Parent $GuestPath) -Force | Out-Null
+} -ArgumentList $GuestRepositoryPath
+# Stage under the required leaf name even if the host checkout has another name.
+$stageRoot = Join-Path ([IO.Path]::GetTempPath()) ('ride-provision-' + [guid]::NewGuid().ToString('N'))
+try {
+  $stageRepository = Join-Path $stageRoot 'ride-windows'
+  New-Item -ItemType Directory -Path $stageRepository -Force | Out-Null
+  Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -Force
+  $null = Copy-RideAutomationSnapshot -Source $repoPath -Destination $stageRepository
+  Copy-LabFileItem -Path $stageRepository -ComputerName $VMName -DestinationFolderPath (Split-Path -Parent $GuestRepositoryPath) -Recurse
 }
-Copy-LabFileItem -Path $repoPath -ComputerName $VMName -DestinationFolderPath 'C:\RIDE' -Recurse
+finally {
+  if (Test-Path -LiteralPath $stageRoot) {
+    $resolvedStage = (Resolve-Path -LiteralPath $stageRoot).Path
+    if ($resolvedStage -ne [IO.Path]::GetFullPath($stageRoot) -or (Split-Path -Leaf $resolvedStage) -notmatch '^ride-provision-[0-9a-f]{32}$') { throw 'Unexpected provisioning staging directory.' }
+    Remove-Item -LiteralPath $resolvedStage -Recurse -Force
+  }
+}
 $checkoutPresent = Invoke-LabCommand -ComputerName $VMName -ScriptBlock {
-  Test-Path 'C:\RIDE\ride-windows\tools\validate.ps1'
-} -PassThru
+  param($GuestPath)
+  Test-Path -LiteralPath (Join-Path $GuestPath 'tools\validate.ps1')
+} -ArgumentList $GuestRepositoryPath -PassThru
 if (-not ($checkoutPresent -contains $true)) { throw 'The checkout copy did not pass the guest verification at runbook step 6A.' }
+
+if ($AutomationSeedPath) {
+  $seedIso = if ($IsoPath) { $IsoPath } else { [string]$selectedOS.IsoPath }
+  $vmIdentity = Get-VM -Name $VMName -ErrorAction Stop
+  $seed = New-RideLabAutomationSeed -Configuration $provisioning -VMId $vmIdentity.Id -RepositoryPath $repoPath -IsoPath $seedIso
+  New-Item -ItemType Directory -Path (Split-Path -Parent $AutomationSeedPath) -Force | Out-Null
+  $seed | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $AutomationSeedPath -Encoding UTF8 -ErrorAction Stop
+  Write-Output "Controller seed saved to '$AutomationSeedPath'. Register explicitly with Register-RideVmTestTask.ps1."
+}
 
 Write-Output "AutomatedLab VM '$VMName' is ready. Clean checkpoint: '$snapshotName'. Current checkout copied to '$GuestRepositoryPath'."

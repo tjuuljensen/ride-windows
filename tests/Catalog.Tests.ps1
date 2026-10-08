@@ -40,13 +40,34 @@
 
 BeforeAll {
   $script:RepositoryRoot = Split-Path -Parent $PSScriptRoot
-  $script:Catalog = Import-PowerShellDataFile (Join-Path $script:RepositoryRoot 'catalog/operations.psd1')
+  Import-Module (Join-Path $script:RepositoryRoot 'modules/RIDE.CatalogData.psm1') -Force
+  $script:Catalog = Import-RideCatalogData (Join-Path $script:RepositoryRoot 'catalog/operations.psd1')
   $script:EnginePath = Join-Path $script:RepositoryRoot 'modules/RIDE.Engine.psm1'
   Import-Module $script:EnginePath -Force
   Import-Module (Join-Path $script:RepositoryRoot 'modules/RIDE-RegistryKeySet.psm1') -Force
 }
 
 Describe 'RIDE operation catalog' {
+  It 'detects the stable x64 PowerShell MSI without matching preview or ARM64 editions' {
+    $operation = $script:Catalog.Operations | Where-Object Id -eq 'package.powershell'
+    'PowerShell 7-x64' | Should -Match $operation.DisplayNamePattern
+    'PowerShell 7.6.6' | Should -Match $operation.DisplayNamePattern
+    'PowerShell 7-preview-x64' | Should -Not -Match $operation.DisplayNamePattern
+    'PowerShell 7-arm64' | Should -Not -Match $operation.DisplayNamePattern
+  }
+  It 'orders standalone Git LFS after Git and uses documented user policies' {
+    $group = $script:Catalog.Groups | Where-Object Id -eq 'solution.git-development'
+    $group.Members[0] | Should -Be 'package.git-for-windows'
+    $group.Members[1] | Should -Be 'package.git-lfs'
+    $runAs = $script:Catalog.Operations | Where-Object Id -eq 'windows.start-run-as-different-user'
+    $runAs.RegistryPath | Should -Be 'HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer'
+    $runAs.Scope | Should -Be 'User'
+    $runAs.RequiresAdmin | Should -BeFalse
+    $edge = $script:Catalog.Operations | Where-Object Id -eq 'windows.edge-friendly-url-format'
+    $edge.States.PlainText | Should -Be 1
+    $edge.States.TitledHyperlink | Should -Be 3
+    $edge.States.WindowsDefault | Should -BeNullOrEmpty
+  }
   It 'has unique operation and group IDs' {
     $allIds = @($script:Catalog.Operations.Id) + @($script:Catalog.Groups.Id)
     @($allIds | Select-Object -Unique).Count | Should -Be $allIds.Count
@@ -174,7 +195,10 @@ Describe 'RIDE package download resolution' {
     }
     $library = Get-Content -LiteralPath (Join-Path $script:RepositoryRoot 'catalog/artifact-observations.json') -Raw | ConvertFrom-Json
     $library.SchemaVersion | Should -Be 1
-    $library.Observations.Count | Should -Be 0
+    foreach ($observation in $library.Observations) {
+      $observation.Sha256 | Should -Match '^[0-9a-fA-F]{64}$'
+      $observation.SourceUri | Should -Match '^https://'
+    }
   }
 
   It 'models the SwiftOnSecurity XML as a separate download-only artifact' {
@@ -343,24 +367,25 @@ Describe 'RIDE package download resolution' {
     }
   }
 
-  It 'resolves Git for Windows x64 installer while skipping portable release assets' {
+  It 'resolves Git for Windows x64 patch installer while skipping portable and ARM64 assets' {
     InModuleScope RIDE-Packages {
       Mock Invoke-RestMethod {
         [pscustomobject]@{
-          tag_name = 'v2.56.0.windows.1'
-          html_url = 'https://github.com/git-for-windows/git/releases/tag/v2.56.0.windows.1'
+          tag_name = 'v2.56.0.windows.2'
+          html_url = 'https://github.com/git-for-windows/git/releases/tag/v2.56.0.windows.2'
           assets = @(
-            [pscustomobject]@{ name = 'Git-2.56.0-64-bit.exe'; browser_download_url = 'https://github.com/git-for-windows/git/releases/download/v2.56.0.windows.1/Git-2.56.0-64-bit.exe'; digest = $null }
+            [pscustomobject]@{ name = 'Git-2.56.0.2-64-bit.exe'; browser_download_url = 'https://github.com/git-for-windows/git/releases/download/v2.56.0.windows.2/Git-2.56.0.2-64-bit.exe'; digest = $null }
+            [pscustomobject]@{ name = 'Git-2.56.0.2-arm64.exe'; browser_download_url = 'https://github.com/git-for-windows/git/releases/download/v2.56.0.windows.2/Git-2.56.0.2-arm64.exe'; digest = $null }
             [pscustomobject]@{ name = 'PortableGit-2.56.0-64-bit.7z.exe'; browser_download_url = 'https://github.com/git-for-windows/git/releases/download/v2.56.0.windows.1/PortableGit-2.56.0-64-bit.7z.exe'; digest = $null }
           )
         }
       }
-      $operation = @{ PackageId = 'git-for-windows'; DownloadUri = 'https://api.github.com/repos/git-for-windows/git/releases/latest'; DownloadProvider = 'GitHubReleaseApi'; AssetPattern = '^Git-\d+\.\d+\.\d+-64-bit\.exe$'; Architecture = 'x64' }
+      $operation = @{ PackageId = 'git-for-windows'; DownloadUri = 'https://api.github.com/repos/git-for-windows/git/releases/latest'; DownloadProvider = 'GitHubReleaseApi'; AssetPattern = '^Git-\d+\.\d+\.\d+(?:\.\d+)?-64-bit\.exe$'; Architecture = 'x64' }
 
       $artifact = Resolve-RidePackageArtifact -Operation $operation
-      $artifact.Version | Should -Be '2.56.0.windows.1'
-      $artifact.FileName | Should -Be 'Git-2.56.0-64-bit.exe'
-      $artifact.Uri | Should -Match '/Git-2\.56\.0-64-bit\.exe$'
+      $artifact.Version | Should -Be '2.56.0.windows.2'
+      $artifact.FileName | Should -Be 'Git-2.56.0.2-64-bit.exe'
+      $artifact.Uri | Should -Match '/Git-2\.56\.0\.2-64-bit\.exe$'
     }
   }
 

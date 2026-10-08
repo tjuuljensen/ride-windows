@@ -5,7 +5,8 @@
 .DESCRIPTION
   - Requires an explicit VM environment guard and an elevated session.
   - Applies, verifies, and restores changes; package checks may download installers.
-  - Supports Windows 11 and Windows Server 2025 only.
+  - Windows 11 scenarios are implemented; Server 2025 remains a separate unvalidated target.
+  - Exports acquisition observations before the controller restores the checkpoint.
   - Writes progress and failure details to the pipeline; changes Windows state
   and installs/removes packages as part of the integration scenarios.
 
@@ -33,8 +34,10 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.3.0
+  Version: 0.4.0
   Changelog:
+  - 0.4.0: Verify Git functionality, five additional package lifecycles, two user policies
+    and collected acquisition observations.
     - 0.1.0: Initial versioned integration suite.
   - 0.2.0: Add Windows 11 round-trip checks for network, update, and security settings.
   - 0.3.0: Add exact registry subtree round-trip checks for Explorer folder visibility.
@@ -51,7 +54,7 @@
 [CmdletBinding()]
 param([switch] $Version)
 
-$script:ScriptVersion = '0.3.0'
+$script:ScriptVersion = '0.4.0'
 if ($Version) {
   Write-Output $script:ScriptVersion
   return
@@ -59,6 +62,7 @@ if ($Version) {
 
 $ErrorActionPreference = 'Stop'
 if ($env:RIDE_INTEGRATION_VM -ne '1') { throw "Set RIDE_INTEGRATION_VM=1 only inside a disposable VM before running integration checks." }
+if (-not $env:RIDE_TEST_RUN_ID) { $env:RIDE_TEST_RUN_ID = Get-Variable -Name ResultRunId -ValueOnly -ErrorAction SilentlyContinue }
 $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
 $principal = New-Object Security.Principal.WindowsPrincipal($identity)
 if (-not $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) { throw 'Run the integration suite from an elevated PowerShell session.' }
@@ -69,6 +73,24 @@ $target = Get-RidePlatform
 if ($target -notin @('Windows 11', 'Windows Server 2025')) { throw "Unsupported integration VM target: $target" }
 
 if ($target -eq 'Windows 11') {
+  foreach ($settingScenario in @(@{ Id = 'windows.edge-friendly-url-format'; State = 'PlainText' }, @{ Id = 'windows.start-run-as-different-user'; State = 'Enabled' })) {
+    $operation = Get-RideOperation -Id $settingScenario.Id
+    $original = Get-RideCurrentState -Operation $operation
+    $plan = @(Get-RideSingleOperationPlan -Id $operation.Id -Action Set -State $settingScenario.State)
+    $output = @(Invoke-RidePlan -Plan $plan -Confirm:$false)
+    $runId = ($output | Where-Object { $_ -is [string] -and $_ -match '^Run ID: ' } | Select-Object -Last 1) -replace '^Run ID: ', ''
+    if (-not $runId) { throw "No saved run returned for $($operation.Id)." }
+    try {
+      if (-not (Test-RideDesiredState -Operation $operation -State $settingScenario.State)) { throw "Policy apply failed: $($operation.Id)" }
+      $null = Invoke-RidePlan -Plan $plan -Confirm:$false
+      Restore-RideRun -RunId $runId -Confirm:$false
+      $restored = Get-RideCurrentState -Operation $operation
+      if ([bool]$restored.Exists -ne [bool]$original.Exists -or ($original.Exists -and ($restored.Value -ne $original.Value -or $restored.ValueType -ne $original.ValueType))) { throw "Policy exact restore failed: $($operation.Id)" }
+      $null = Invoke-RidePlan -Plan @(Get-RideSingleOperationPlan -Id $operation.Id -Action Set -State 'WindowsDefault') -Confirm:$false
+      if (-not (Test-RideDesiredState -Operation $operation -State 'WindowsDefault')) { throw "Policy baseline failed: $($operation.Id)" }
+    }
+    finally { Restore-RideRun -RunId $runId -Confirm:$false }
+  }
   $inkingSetting = Get-RideOperation -Id 'windows.inking-typing-data'
   $inkingOriginal = Get-RideCurrentState -Operation $inkingSetting
   $inkingState = if ($inkingOriginal.Exists -and $inkingOriginal.Value -eq 0) { 'Enabled' } else { 'Disabled' }
@@ -198,6 +220,77 @@ try {
     if ((Get-RideCurrentState -Operation $package).Present) { throw "Package removal failed: $id" }
   }
 
+  $gitPackage = Get-RideOperation -Id 'package.git-for-windows'
+  if ((Get-RideCurrentState -Operation $gitPackage).Present) { throw 'Git integration requires a clean checkpoint without Git for Windows.' }
+  $gitWork = Join-Path ([IO.Path]::GetTempPath()) ('RIDE-Git-' + [guid]::NewGuid().ToString('N'))
+  try {
+    $gitPlan = @(Get-RideSingleOperationPlan -Id $gitPackage.Id -Action Install)
+    $null = Invoke-RidePlan -Plan $gitPlan -Confirm:$false
+    $gitState = Get-RideCurrentState -Operation $gitPackage
+    if (-not $gitState.Present -or -not $gitState.DisplayVersion) { throw 'Git installation did not report its version.' }
+    $gitExe = Join-Path $env:ProgramFiles 'Git\cmd\git.exe'
+    $gitVersion = & $gitExe --version
+    if ($LASTEXITCODE -ne 0 -or $gitVersion -notmatch '^git version ') { throw 'Installed Git could not report its version.' }
+    Write-Output "Git functionality check: $gitVersion"
+    New-Item -ItemType Directory -Path $gitWork | Out-Null
+    & $gitExe -C $gitWork init
+    if ($LASTEXITCODE -ne 0) { throw 'Git repository initialization failed.' }
+    'RIDE disposable-VM Git test' | Set-Content -LiteralPath (Join-Path $gitWork 'sample.txt')
+    & $gitExe -C $gitWork add sample.txt
+    if ($LASTEXITCODE -ne 0) { throw 'Git staging failed.' }
+    & $gitExe -C $gitWork -c user.name=RIDE-Test -c user.email=ride-test@example.invalid -c commit.gpgsign=false commit -m 'Verify installed Git'
+    if ($LASTEXITCODE -ne 0) { throw 'Git local commit failed.' }
+    & $gitExe -C $gitWork rev-parse --verify HEAD
+    if ($LASTEXITCODE -ne 0) { throw 'Git commit verification failed.' }
+    $null = Invoke-RidePlan -Plan @(Get-RideSingleOperationPlan -Id $gitPackage.Id -Action Install) -Confirm:$false
+    if ((Get-RideCurrentState -Operation $gitPackage).DisplayVersion -ne $gitState.DisplayVersion) { throw 'Repeated Git installation changed the detected version.' }
+    $null = Invoke-RidePlan -Plan @(Get-RideSingleOperationPlan -Id $gitPackage.Id -Action Remove) -Confirm:$false
+    if ((Get-RideCurrentState -Operation $gitPackage).Present -or (Test-Path -LiteralPath $gitExe)) { throw 'Git uninstall did not remove the package and command executable.' }
+  }
+  finally {
+    if ((Get-RideCurrentState -Operation $gitPackage).Present) { $null = Invoke-RidePlan -Plan @(Get-RideSingleOperationPlan -Id $gitPackage.Id -Action Remove) -Confirm:$false }
+    if (Test-Path -LiteralPath $gitWork) {
+      $resolvedGitWork = (Resolve-Path -LiteralPath $gitWork).Path
+      if ($resolvedGitWork -ne [IO.Path]::GetFullPath($gitWork) -or (Split-Path -Leaf $resolvedGitWork) -notmatch '^RIDE-Git-[0-9a-f]{32}$') { throw 'Unexpected Git test cleanup directory.' }
+      Remove-Item -LiteralPath $resolvedGitWork -Recurse -Force
+    }
+  }
+
+  $packageFailures = [Collections.Generic.List[string]]::new()
+  foreach ($packageId in @('package.git-lfs', 'package.joplin', 'package.sharex', 'package.windirstat', 'package.powershell')) {
+    $package = Get-RideOperation -Id $packageId
+    if ((Get-RideCurrentState -Operation $package).Present) { throw "Package scenario requires an absent clean-baseline package: $packageId" }
+    try {
+      Write-Host "Starting package lifecycle: $packageId"
+      if ($packageId -eq 'package.git-lfs') {
+        $null = Invoke-RidePlan -Plan @(Get-RideSingleOperationPlan -Id $gitPackage.Id -Action Install) -Confirm:$false
+      }
+      $null = Invoke-RidePlan -Plan @(Get-RideSingleOperationPlan -Id $packageId -Action Install) -Confirm:$false
+      $packageState = Get-RideCurrentState -Operation $package
+      if (-not $packageState.Present -or -not $packageState.DisplayVersion) { throw "Package installation did not report its version: $packageId" }
+      Write-Output "Package lifecycle verified installation: $packageId $($packageState.DisplayVersion)"
+      if ($packageId -eq 'package.powershell') {
+        $powerShellVersion = & (Join-Path $env:ProgramFiles 'PowerShell\7\pwsh.exe') -NoLogo -NoProfile -Command '$PSVersionTable.PSVersion.ToString()'
+        if ($LASTEXITCODE -ne 0 -or $powerShellVersion -notmatch '^7\.') { throw 'Installed PowerShell 7 did not execute successfully.' }
+      }
+      $null = Invoke-RidePlan -Plan @(Get-RideSingleOperationPlan -Id $packageId -Action Install) -Confirm:$false
+      if ((Get-RideCurrentState -Operation $package).DisplayVersion -ne $packageState.DisplayVersion) { throw "Repeated installation changed the version: $packageId" }
+      $null = Invoke-RidePlan -Plan @(Get-RideSingleOperationPlan -Id $packageId -Action Remove) -Confirm:$false
+      if ((Get-RideCurrentState -Operation $package).Present) { throw "Package removal failed: $packageId" }
+    }
+    catch {
+      $packageFailures.Add("${packageId}: $($_.Exception.Message)")
+      Write-Warning "Package lifecycle failed: $packageId; $($_.Exception.Message)"
+    }
+    finally {
+      try {
+        if ((Get-RideCurrentState -Operation $package).Present) { $null = Invoke-RidePlan -Plan @(Get-RideSingleOperationPlan -Id $package.Id -Action Remove) -Confirm:$false }
+        if ($packageId -eq 'package.git-lfs' -and (Get-RideCurrentState -Operation $gitPackage).Present) { $null = Invoke-RidePlan -Plan @(Get-RideSingleOperationPlan -Id $gitPackage.Id -Action Remove) -Confirm:$false }
+      }
+      catch { $packageFailures.Add("${packageId} cleanup: $($_.Exception.Message)"); Write-Warning $packageFailures[$packageFailures.Count - 1] }
+    }
+  }
+
   $sysmon = Get-RideOperation -Id 'package.sysmon64'
   if ((Get-RideCurrentState -Operation $sysmon).Present) { throw 'Sysmon VM integration requires a clean snapshot without a pre-existing standalone Sysmon install.' }
   try {
@@ -210,12 +303,22 @@ try {
     if ((Get-RideCurrentState -Operation $sysmon).Present) { throw 'Sysmon uninstallation did not remove its service.' }
   }
   finally {
-    if ((Get-RideCurrentState -Operation $sysmon).Present) { Uninstall-RidePackage -Operation $sysmon }
+    if ((Get-RideCurrentState -Operation $sysmon).Present) { $null = Invoke-RidePlan -Plan @(Get-RideSingleOperationPlan -Id $sysmon.Id -Action Remove) -Confirm:$false }
   }
 
+  if ($packageFailures.Count) { throw ($packageFailures -join "`n") }
   Write-Output "VM integration suite passed on $target. Restore the VM checkpoint before reuse."
 }
 catch {
   Write-Error ("VM integration suite failed on {0}: {1}" -f $target, $_.Exception.Message)
   throw
+}
+finally {
+  # The installed 0.3 runner passes ResultsPath through its caller scope; retain
+  # that handoff until updated protected controller copies are registered.
+  $evidencePath = $env:RIDE_TEST_EVIDENCE_PATH
+  if (-not $evidencePath) { $evidencePath = Get-Variable -Name ResultsPath -ValueOnly -ErrorAction SilentlyContinue }
+  if ($evidencePath) {
+    Copy-Item -LiteralPath (Join-Path $root 'catalog\artifact-observations.json') -Destination (Join-Path $evidencePath 'artifact-observations.json') -Force -ErrorAction Stop
+  }
 }
