@@ -11,6 +11,17 @@
     @{ Id = 'windows.defender-bootstrap-exclusion'; State = 'Present' }
     @{ Id = 'windows.proxy-autoconfig-url'; State = 'Disabled' }
     @{ Id = 'windows.llmnr-policy'; State = 'Disabled' }
+    @{ Id = 'windows.ssdp-discovery-service'; State = 'Disabled' }
+    @{ Id = 'windows.upnp-device-host-service'; State = 'Disabled' }
+    @{ Id = 'windows.winhttp-wpad-policy'; State = 'Disabled' }
+    @{ Id = 'windows.background-apps-policy'; State = 'Disabled' }
+    @{ Id = 'windows.admin-share-workstation'; State = 'Disabled' }
+    @{ Id = 'windows.account-protection-warning'; State = 'Hidden' }
+    @{ Id = 'windows.script-host-policy'; State = 'Disabled' }
+    @{ Id = 'windows.dotnet-strong-crypto-64bit'; State = 'Enabled' }
+    @{ Id = 'windows.dotnet-strong-crypto-32bit'; State = 'Enabled' }
+    @{ Id = 'windows.f8-boot-menu-policy'; State = 'Legacy' }
+    @{ Id = 'windows.dep-boot-policy'; State = 'OptOut' }
     @{ Id = 'windows.tailored-experiences-policy'; State = 'Disabled' }
     @{ Id = 'windows.activity-history-feed-policy'; State = 'Disabled' }
     @{ Id = 'windows.activity-history-publish-policy'; State = 'Disabled' }

@@ -1,5 +1,45 @@
+# Purpose:
+#   Exercise RIDE settings and package lifecycle behavior on a disposable VM.
+#
+# Behavior:
+#   - Requires an explicit VM environment guard and an elevated session.
+#   - Applies, verifies, and restores changes; package checks may download installers.
+#   - Supports Windows 11 and Windows Server 2025 only.
+#
+# Compatibility:
+#   Windows PowerShell 5.1 or PowerShell 7 on Windows 11 or Windows Server 2025.
+#
+# Usage:
+#   .\tests\integration\Invoke-RideVmSuite.ps1 [-Version]
+#
+# Inputs / environment:
+#   - RIDE_INTEGRATION_VM must be set to '1' inside the disposable VM.
+#
+# Outputs / side effects:
+#   - Writes progress and failure details to the pipeline; changes Windows state
+#     and installs/removes packages as part of the integration scenarios.
+#
+# Prerequisites:
+#   - Administrator session and RIDE checkout in the VM; outbound access is
+#     required for package installer downloads.
+#   - Restore the VM's clean checkpoint after the run.
+#
+# Author:
+#   RIDE-Windows maintainers.
+#
+# Version:
+#   0.1.0
+#
+# Changelog:
+#   - 0.1.0: Initial versioned integration suite.
 [CmdletBinding()]
-param()
+param([switch] $Version)
+
+$script:ScriptVersion = '0.1.0'
+if ($Version) {
+  Write-Output $script:ScriptVersion
+  return
+}
 
 $ErrorActionPreference = 'Stop'
 if ($env:RIDE_INTEGRATION_VM -ne '1') { throw "Set RIDE_INTEGRATION_VM=1 only inside a disposable VM before running integration checks." }

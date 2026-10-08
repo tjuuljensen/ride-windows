@@ -124,6 +124,9 @@ operation metadata, profiles, identifiers, logs, help text, and tests.
 Use the PowerShell conventions already established in the repository and
 declare compatibility in user-facing documentation.
 
+- Follow [the RIDE-Windows script model](docs/repository-portfolio/script-repository-model.md)
+  for maintained script headers, versioning, safety, and validation.
+
 - Use CmdletBinding for reusable command-line scripts and
   $ErrorActionPreference = 'Stop' for operational paths unless a deliberate
   exception is documented.

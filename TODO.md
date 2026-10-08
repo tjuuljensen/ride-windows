@@ -22,4 +22,8 @@
 - [ ] Add CI result publishing for Pester and test both Windows PowerShell 5.1 and PowerShell 7.
 - [ ] Validate operation support declarations against the integration matrix before expanding targets.
 
+## Down the road
+
+- [ ] Once the CLI commands and operation lifecycle have stabilized, evaluate exposing a public, importable RIDE PowerShell module for interactive use and integration from other scripts. Keep `ride.ps1` as the standalone entry point; define a stable module API only if there is a clear use case.
+
 Longer migration details live in [docs/ROADMAP.md](docs/ROADMAP.md). The old TODO and package modernization backlog were specific to v2 and will be reconsidered as operations migrate.

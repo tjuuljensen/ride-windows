@@ -42,6 +42,15 @@ foreach ($operation in $catalog.Operations) {
     if ($operation.Kind -in @('Package', 'DefenderExclusion') -and -not $defaults.ContainsKey('DefaultValue')) {
       Add-Error "Operation '$($operation.Id)' is missing a literal default for '$target'."
     }
+    if ($operation.Kind -eq 'WindowsService' -and -not $defaults.ContainsKey('DefaultValue')) {
+      Add-Error "Operation '$($operation.Id)' is missing a literal service default for '$target'."
+    }
+    if ($operation.Kind -eq 'BackgroundAppOverrides' -and -not $defaults.ContainsKey('DefaultValue')) {
+      Add-Error "Operation '$($operation.Id)' is missing a literal override default for '$target'."
+    }
+    if ($operation.Kind -eq 'BootConfiguration' -and -not $defaults.ContainsKey('DefaultValue')) {
+      Add-Error "Operation '$($operation.Id)' is missing a literal boot configuration default for '$target'."
+    }
   }
   if ($operation.Kind -eq 'RegistryValue') {
     foreach ($field in @('RegistryPath', 'ValueName', 'ValueType', 'States', 'BaselineState')) {
@@ -73,6 +82,45 @@ foreach ($operation in $catalog.Operations) {
       if ($operation.TargetDefaults[$target].DefaultValue -notin @('Present', 'Absent')) { Add-Error "Invalid Defender exclusion default for $($operation.Id) on '$target'." }
     }
   }
+  elseif ($operation.Kind -eq 'WindowsService') {
+    if ($operation.Handler -ne 'WindowsService') { Add-Error "No matching handler for $($operation.Id)" }
+    foreach ($field in @('ServiceName', 'States', 'DocumentationUri')) {
+      if (-not $operation.ContainsKey($field)) { Add-Error "Windows service operation is missing '$field': $($operation.Id)" }
+    }
+    if (-not [Uri]::IsWellFormedUriString([string]$operation.DocumentationUri, [UriKind]::Absolute) -or ([Uri]$operation.DocumentationUri).Scheme -ne 'https' -or ([Uri]$operation.DocumentationUri).Host -ne 'learn.microsoft.com') {
+      Add-Error "Windows service operation must use an absolute Microsoft HTTPS documentation URI: $($operation.Id)"
+    }
+    foreach ($stateName in $operation.States.Keys) {
+      $state = $operation.States[$stateName]
+      if ($state.StartupType -notin @('Automatic', 'Manual', 'Disabled') -or $state.Status -notin @('Running', 'Stopped')) {
+        Add-Error "Invalid startup type or running state for '$($operation.Id)' state '$stateName'."
+      }
+    }
+    if ('Get' -notin $operation.Actions -or 'Test' -notin $operation.Actions -or 'Set' -notin $operation.Actions -or 'Restore' -notin $operation.Actions) { Add-Error "Windows service lifecycle is incomplete: $($operation.Id)" }
+  }
+  elseif ($operation.Kind -eq 'BackgroundAppOverrides') {
+    if ($operation.Handler -ne 'BackgroundAppOverrides') { Add-Error "No matching handler for $($operation.Id)" }
+    foreach ($field in @('RegistryPath', 'ValueNames', 'States', 'DocumentationUri')) {
+      if (-not $operation.ContainsKey($field)) { Add-Error "Background app override operation is missing '$field': $($operation.Id)" }
+    }
+    if (-not [Uri]::IsWellFormedUriString([string]$operation.DocumentationUri, [UriKind]::Absolute) -or ([Uri]$operation.DocumentationUri).Scheme -ne 'https' -or ([Uri]$operation.DocumentationUri).Host -ne 'learn.microsoft.com') {
+      Add-Error "Background app override operation must use an absolute Microsoft HTTPS documentation URI: $($operation.Id)"
+    }
+    if ('Reset' -notin $operation.States.Keys) { Add-Error "Background app override operation must declare Reset: $($operation.Id)" }
+    if ('Get' -notin $operation.Actions -or 'Test' -notin $operation.Actions -or 'Set' -notin $operation.Actions -or 'Restore' -notin $operation.Actions) { Add-Error "Background app override lifecycle is incomplete: $($operation.Id)" }
+  }
+  elseif ($operation.Kind -eq 'BootConfiguration') {
+    if ($operation.Handler -ne 'BootConfiguration') { Add-Error "No matching handler for $($operation.Id)" }
+    foreach ($field in @('BcdElement', 'States', 'BaselineState', 'RestartRequired', 'DocumentationUri')) {
+      if (-not $operation.ContainsKey($field)) { Add-Error "Boot configuration operation is missing '$field': $($operation.Id)" }
+    }
+    if ($operation.BcdElement -notin @('bootmenupolicy', 'nx')) { Add-Error "Unsupported BCD element for '$($operation.Id)'." }
+    if (-not [Uri]::IsWellFormedUriString([string]$operation.DocumentationUri, [UriKind]::Absolute) -or ([Uri]$operation.DocumentationUri).Scheme -ne 'https' -or ([Uri]$operation.DocumentationUri).Host -ne 'learn.microsoft.com') {
+      Add-Error "Boot configuration operation must use an absolute Microsoft HTTPS documentation URI: $($operation.Id)"
+    }
+    if (-not $operation.States.ContainsKey($operation.BaselineState)) { Add-Error "Invalid baseline state for $($operation.Id)" }
+    if ('Get' -notin $operation.Actions -or 'Test' -notin $operation.Actions -or 'Set' -notin $operation.Actions -or 'Restore' -notin $operation.Actions) { Add-Error "Boot configuration lifecycle is incomplete: $($operation.Id)" }
+  }
   else { Add-Error "Unknown operation kind '$($operation.Kind)': $($operation.Id)" }
 }
 
@@ -97,6 +145,9 @@ foreach ($profileFile in $profilePaths) {
     $operation = $catalog.Operations | Where-Object { $_.Id -eq $selection.Id } | Select-Object -First 1
     $group = $catalog.Groups | Where-Object { $_.Id -eq $selection.Id } | Select-Object -First 1
     if ($operation -and $operation.Kind -eq 'RegistryValue' -and $selection.State -ne 'Baseline' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid state for '$($selection.Id)'" }
+    if ($operation -and $operation.Kind -eq 'WindowsService' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid service state for '$($selection.Id)'" }
+    if ($operation -and $operation.Kind -eq 'BackgroundAppOverrides' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid background app state for '$($selection.Id)'" }
+    if ($operation -and $operation.Kind -eq 'BootConfiguration' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid boot configuration state for '$($selection.Id)'" }
     if ((($operation -and $operation.Kind -in @('Package', 'DefenderExclusion')) -or $group) -and $selection.State -notin @('Present', 'Absent')) { Add-Error "$($profileFile.Name) must use Present or Absent for '$($selection.Id)'" }
   }
 }

@@ -73,6 +73,8 @@ The catalog currently targets Windows 11 and Windows Server 2025. Support is dec
 - `docs/OPERATIONS.md` is generated from the catalog.
 - `tools/validate.ps1` checks PowerShell syntax, catalog/profile references, and generated docs.
 - `tests/` contains Pester tests. `tests/integration/` documents disposable VM checks.
+- [Script model](docs/repository-portfolio/script-repository-model.md) defines
+  headers, versioning, safety, and validation for maintained PowerShell scripts.
 
 Run static and unit checks on Windows:
 

@@ -34,6 +34,15 @@ Describe 'RIDE operation catalog' {
       if ($operation.Kind -eq 'RegistryValue') {
         $operation.DocumentationUri | Should -Match '^https://(learn|support)\.microsoft\.com/'
       }
+      elseif ($operation.Kind -eq 'WindowsService') {
+        $operation.DocumentationUri | Should -Match '^https://learn\.microsoft\.com/'
+      }
+      elseif ($operation.Kind -eq 'BackgroundAppOverrides') {
+        $operation.DocumentationUri | Should -Match '^https://learn\.microsoft\.com/'
+      }
+      elseif ($operation.Kind -eq 'BootConfiguration') {
+        $operation.DocumentationUri | Should -Match '^https://learn\.microsoft\.com/'
+      }
       elseif ($operation.Kind -eq 'Package') {
         $operation.ProductUri | Should -Match '^https://'
       }
@@ -462,6 +471,171 @@ Describe 'RIDE Defender exclusion planning and apply' {
       $operation = Get-RideOperation -Id 'windows.defender-tools-exclusion'
       $plan = @([pscustomobject]@{ Operation = $operation; State = 'Present' })
       { Invoke-RidePlan -Plan $plan -Confirm:$false } | Should -Throw '*Run ID:*Saved state:*simulated Defender write failure*'
+    }
+  }
+}
+
+Describe 'RIDE Windows service operations' {
+  It 'plans the Hardening Windows defaults and classifies services as settings' {
+    $defaultProfile = Import-PowerShellDataFile (Join-Path $script:RepositoryRoot 'profiles/default.psd1')
+    $plan = @(Get-RidePlan -Profile $defaultProfile)
+    $servicePlan = @($plan | Where-Object { $_.Operation.Kind -eq 'WindowsService' })
+    $servicePlan.Count | Should -Be 2
+    ($servicePlan.State | Select-Object -Unique) | Should -Be 'Disabled'
+    (Show-RideCatalog -View settings | Where-Object Kind -eq 'WindowsService').Count | Should -Be 2
+  }
+
+  It 'discovers service startup mode and running status' {
+    InModuleScope RIDE-Services {
+      Mock Get-Service { [pscustomobject]@{ Status = 'Stopped'; StartType = 'Manual' } }
+      Mock Get-CimInstance { [pscustomobject]@{ StartMode = 'Manual' } }
+      $state = Get-RideWindowsServiceState -Operation @{ ServiceName = 'SSDPSRV' }
+      $state.StartupType | Should -Be 'Manual'
+      $state.Status | Should -Be 'Stopped'
+    }
+  }
+
+  It 'sets and restores both startup mode and running status' {
+    InModuleScope RIDE-Services {
+      $script:serviceStatus = 'Stopped'
+      $script:serviceStartupType = 'Manual'
+      Mock Get-Service { [pscustomobject]@{ Status = $script:serviceStatus; StartType = $script:serviceStartupType } }
+      Mock Set-Service { $script:serviceStartupType = $StartupType }
+      Mock Start-Service { $script:serviceStatus = 'Running' }
+      Mock Stop-Service { $script:serviceStatus = 'Stopped' }
+      $operation = @{ Id = 'test.service'; ServiceName = 'SSDPSRV'; States = @{ Enabled = @{ StartupType = 'Manual'; Status = 'Running' } } }
+      Set-RideWindowsServiceState -Operation $operation -State Enabled
+      Should -Invoke Start-Service -Exactly 1 -ParameterFilter { $Name -eq 'SSDPSRV' }
+      Should -Invoke Set-Service -Exactly 0
+
+      Restore-RideWindowsServiceState -Operation $operation -Snapshot ([pscustomobject]@{ StartupType = 'Disabled'; Status = 'Stopped' })
+      Should -Invoke Set-Service -Exactly 1 -ParameterFilter { $Name -eq 'SSDPSRV' -and $StartupType -eq 'Disabled' }
+      Should -Invoke Stop-Service -Exactly 1 -ParameterFilter { $Name -eq 'SSDPSRV' }
+    }
+  }
+
+  It 'matches the declared Enabled and Disabled service configurations' {
+    InModuleScope RIDE.Engine {
+      $operation = Get-RideOperation -Id 'windows.ssdp-discovery-service'
+      $enabled = [pscustomobject]@{ StartupType = 'Manual'; Status = 'Running' }
+      $disabled = [pscustomobject]@{ StartupType = 'Disabled'; Status = 'Stopped' }
+      Test-RideCurrentStateMatch -Operation $operation -State Enabled -CurrentState $enabled | Should -BeTrue
+      Test-RideCurrentStateMatch -Operation $operation -State Disabled -CurrentState $disabled | Should -BeTrue
+      Test-RideCurrentStateMatch -Operation $operation -State Enabled -CurrentState $disabled | Should -BeFalse
+    }
+  }
+
+  It 'reports service-handler failures without swallowing them' {
+    InModuleScope RIDE-Services {
+      Mock Get-Service { throw 'simulated service manager failure' }
+      { Get-RideWindowsServiceState -Operation @{ ServiceName = 'SSDPSRV' } } | Should -Throw '*simulated service manager failure*'
+    }
+  }
+}
+
+Describe 'RIDE UWP privacy policy migration' {
+  It 'maps UWP privacy selectors to policy and capability registry operations' {
+    $operation = $script:Catalog.Operations | Where-Object Id -eq 'windows.background-apps-policy'
+    $operation.ValueName | Should -Be 'LetAppsRunInBackground'
+    $operation.States.Disabled | Should -Be 2
+    $operation.States.Enabled | Should -BeNullOrEmpty
+
+    $policyOperations = @($script:Catalog.Operations | Where-Object Id -like 'windows.uwp-*' | Where-Object Kind -eq 'RegistryValue')
+    $policyOperations.Count | Should -Be 19
+    foreach ($policy in $policyOperations | Where-Object { $_.Id -notmatch 'documents-library|pictures-library|videos-library|file-system-access|swap-file' }) {
+      $policy.States.Disabled | Should -Be 2
+      $policy.States.Enabled | Should -BeNullOrEmpty
+    }
+    foreach ($id in @('windows.uwp-documents-library-access', 'windows.uwp-pictures-library-access', 'windows.uwp-videos-library-access', 'windows.uwp-broad-file-system-access-access')) {
+      $policy = $script:Catalog.Operations | Where-Object Id -eq $id
+      $policy.States.Denied | Should -Be 'Deny'
+      $policy.States.Allowed | Should -Be 'Allow'
+      $policy.States.UserControlled | Should -BeNullOrEmpty
+    }
+
+    $defaultProfile = Import-PowerShellDataFile (Join-Path $script:RepositoryRoot 'profiles/default.psd1')
+    ($defaultProfile.Operations | Where-Object Id -eq 'windows.background-apps-policy').State | Should -Be 'Disabled'
+  }
+
+  It 'provides direct set planning for the reversible per-app override reset' {
+    $plan = @(Get-RideSingleOperationPlan -Id 'windows.uwp-background-app-user-overrides' -Action Set -State Reset)
+    $plan[0].State | Should -Be 'Reset'
+  }
+
+  It 'captures, clears, and restores app-specific override values' {
+    InModuleScope RIDE-BackgroundApps {
+      $script:applicationKeys = @(
+        [pscustomobject]@{ PSChildName = 'App.One'; PSPath = 'TestDrive:\App.One' }
+      )
+      $script:storedValues = @{ Disabled = 1; DisabledByUser = 1 }
+      Mock Get-ChildItem { $script:applicationKeys }
+      Mock Get-RideSettingState {
+        param($Operation)
+        if ($script:storedValues.ContainsKey($Operation.ValueName)) {
+          [pscustomobject]@{ Exists = $true; Value = $script:storedValues[$Operation.ValueName]; ValueType = 'DWord' }
+        }
+        else { [pscustomobject]@{ Exists = $false; Value = $null; ValueType = $null } }
+      }
+      Mock Remove-ItemProperty { param($Name); $script:storedValues.Remove($Name) | Out-Null }
+      Mock New-ItemProperty {}
+
+      $operation = @{ RegistryPath = 'TestDrive:\BackgroundApps'; ValueNames = @('Disabled', 'DisabledByUser') }
+      $state = Get-RideBackgroundAppOverrides -Operation $operation
+      $state.Present | Should -BeTrue
+      $state.Count | Should -Be 2
+      Reset-RideBackgroundAppOverrides -Operation $operation
+      Should -Invoke Remove-ItemProperty -Exactly 2
+
+      $snapshot = [pscustomobject]@{ Overrides = @(
+        [pscustomobject]@{ SubKey = 'App.One'; ValueName = 'Disabled'; Value = 1; ValueType = 'DWord' },
+        [pscustomobject]@{ SubKey = 'App.One'; ValueName = 'DisabledByUser'; Value = 1; ValueType = 'DWord' }
+      ) }
+      Restore-RideBackgroundAppOverrides -Operation $operation -Snapshot $snapshot
+      Should -Invoke New-ItemProperty -Exactly 2
+    }
+  }
+}
+
+Describe 'RIDE Security Tweaks default migration' {
+  It 'plans the migrated registry and BCD defaults with explicit states' {
+    $profile = Import-PowerShellDataFile (Join-Path $script:RepositoryRoot 'profiles/default.psd1')
+    $plan = @(Get-RidePlan -Profile $profile)
+    $expected = @{
+      'windows.admin-share-workstation' = 'Disabled'
+      'windows.account-protection-warning' = 'Hidden'
+      'windows.script-host-policy' = 'Disabled'
+      'windows.dotnet-strong-crypto-64bit' = 'Enabled'
+      'windows.dotnet-strong-crypto-32bit' = 'Enabled'
+      'windows.f8-boot-menu-policy' = 'Legacy'
+      'windows.dep-boot-policy' = 'OptOut'
+    }
+    foreach ($id in $expected.Keys) {
+      ($plan | Where-Object { $_.Operation.Id -eq $id }).State | Should -Be $expected[$id]
+    }
+    ($script:Catalog.Operations | Where-Object Id -eq 'windows.admin-share-server').SupportedTargets | Should -Be 'Windows Server 2025'
+  }
+
+  It 'compares and names captured boot configuration states' {
+    InModuleScope RIDE.Engine {
+      $operation = Get-RideOperation -Id 'windows.f8-boot-menu-policy'
+      $legacy = [pscustomobject]@{ Exists = $true; Value = 'Legacy' }
+      $default = [pscustomobject]@{ Exists = $false; Value = $null }
+      Test-RideCurrentStateMatch -Operation $operation -State Legacy -CurrentState $legacy | Should -BeTrue
+      Test-RideCurrentStateMatch -Operation $operation -State Standard -CurrentState $default | Should -BeTrue
+      Get-RideCurrentStateName -Operation $operation -CurrentState $legacy | Should -Be 'Legacy'
+    }
+  }
+
+  It 'discovers BCD values and reports command errors' {
+    InModuleScope RIDE-BootConfiguration {
+      Mock bcdedit.exe { 'bootmenupolicy          Legacy'; $global:LASTEXITCODE = 0 }
+      $operation = @{ BcdElement = 'bootmenupolicy' }
+      $state = Get-RideBootConfigurationState -Operation $operation
+      $state.Exists | Should -BeTrue
+      $state.Value | Should -Be 'Legacy'
+
+      Mock bcdedit.exe { 'Access is denied'; $global:LASTEXITCODE = 1 }
+      { Get-RideBootConfigurationState -Operation $operation } | Should -Throw '*BCDEdit query failed*'
     }
   }
 }

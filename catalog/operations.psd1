@@ -2,6 +2,466 @@
   SchemaVersion = 1
   Operations = @(
     @{
+      Id = 'windows.background-apps-policy'
+      Name = 'Background apps policy'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Privacy'
+      Description = 'Set the device App Privacy policy that denies background access to Windows apps, or remove that policy override. Removing the policy does not clear per-app background access values in the current user profile.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy'
+      ValueName = 'LetAppsRunInBackground'
+      ValueType = 'DWord'
+      States = @{ Disabled = 2; Enabled = $null }
+      BaselineState = 'Enabled'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Users control background access when the App Privacy policy value is absent' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.uwp-voice-activation'
+      Name = 'Voice activation access for apps'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Privacy'
+      Description = 'Set the Windows App Privacy policy that denies this capability to all apps, or remove the policy override.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy'
+      ValueName = 'LetAppsActivateWithVoice'
+      ValueType = 'DWord'
+      States = @{ Disabled = 2; Enabled = $null }
+      BaselineState = 'Enabled'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Users control app access when this policy value is absent' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.uwp-voice-activation-above-lock'
+      Name = 'Voice activation above lock for apps'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Privacy'
+      Description = 'Set the Windows App Privacy policy that denies this capability to all apps, or remove the policy override.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy'
+      ValueName = 'LetAppsActivateWithVoiceAboveLock'
+      ValueType = 'DWord'
+      States = @{ Disabled = 2; Enabled = $null }
+      BaselineState = 'Enabled'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Users control app access when this policy value is absent' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.uwp-notifications-access'
+      Name = 'Notifications access for apps'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Privacy'
+      Description = 'Set the Windows App Privacy policy that denies this capability to all apps, or remove the policy override.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy'
+      ValueName = 'LetAppsAccessNotifications'
+      ValueType = 'DWord'
+      States = @{ Disabled = 2; Enabled = $null }
+      BaselineState = 'Enabled'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Users control app access when this policy value is absent' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.uwp-account-info-access'
+      Name = 'Account info access for apps'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Privacy'
+      Description = 'Set the Windows App Privacy policy that denies this capability to all apps, or remove the policy override.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy'
+      ValueName = 'LetAppsAccessAccountInfo'
+      ValueType = 'DWord'
+      States = @{ Disabled = 2; Enabled = $null }
+      BaselineState = 'Enabled'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Users control app access when this policy value is absent' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.uwp-contacts-access'
+      Name = 'Contacts access for apps'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Privacy'
+      Description = 'Set the Windows App Privacy policy that denies this capability to all apps, or remove the policy override.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy'
+      ValueName = 'LetAppsAccessContacts'
+      ValueType = 'DWord'
+      States = @{ Disabled = 2; Enabled = $null }
+      BaselineState = 'Enabled'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Users control app access when this policy value is absent' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.uwp-calendar-access'
+      Name = 'Calendar access for apps'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Privacy'
+      Description = 'Set the Windows App Privacy policy that denies this capability to all apps, or remove the policy override.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy'
+      ValueName = 'LetAppsAccessCalendar'
+      ValueType = 'DWord'
+      States = @{ Disabled = 2; Enabled = $null }
+      BaselineState = 'Enabled'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Users control app access when this policy value is absent' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.uwp-phone-access'
+      Name = 'Phone access for apps'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Privacy'
+      Description = 'Set the Windows App Privacy policy that denies this capability to all apps, or remove the policy override.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy'
+      ValueName = 'LetAppsAccessPhone'
+      ValueType = 'DWord'
+      States = @{ Disabled = 2; Enabled = $null }
+      BaselineState = 'Enabled'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Users control app access when this policy value is absent' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.uwp-call-history-access'
+      Name = 'Call history access for apps'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Privacy'
+      Description = 'Set the Windows App Privacy policy that denies this capability to all apps, or remove the policy override.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy'
+      ValueName = 'LetAppsAccessCallHistory'
+      ValueType = 'DWord'
+      States = @{ Disabled = 2; Enabled = $null }
+      BaselineState = 'Enabled'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Users control app access when this policy value is absent' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.uwp-email-access'
+      Name = 'Email access for apps'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Privacy'
+      Description = 'Set the Windows App Privacy policy that denies this capability to all apps, or remove the policy override.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy'
+      ValueName = 'LetAppsAccessEmail'
+      ValueType = 'DWord'
+      States = @{ Disabled = 2; Enabled = $null }
+      BaselineState = 'Enabled'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Users control app access when this policy value is absent' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.uwp-tasks-access'
+      Name = 'Tasks access for apps'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Privacy'
+      Description = 'Set the Windows App Privacy policy that denies this capability to all apps, or remove the policy override.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy'
+      ValueName = 'LetAppsAccessTasks'
+      ValueType = 'DWord'
+      States = @{ Disabled = 2; Enabled = $null }
+      BaselineState = 'Enabled'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Users control app access when this policy value is absent' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.uwp-messaging-access'
+      Name = 'Messaging access for apps'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Privacy'
+      Description = 'Set the Windows App Privacy policy that denies this capability to all apps, or remove the policy override.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy'
+      ValueName = 'LetAppsAccessMessaging'
+      ValueType = 'DWord'
+      States = @{ Disabled = 2; Enabled = $null }
+      BaselineState = 'Enabled'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Users control app access when this policy value is absent' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.uwp-radios-access'
+      Name = 'Radios access for apps'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Privacy'
+      Description = 'Set the Windows App Privacy policy that denies this capability to all apps, or remove the policy override.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy'
+      ValueName = 'LetAppsAccessRadios'
+      ValueType = 'DWord'
+      States = @{ Disabled = 2; Enabled = $null }
+      BaselineState = 'Enabled'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Users control app access when this policy value is absent' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.uwp-device-sync-access'
+      Name = 'Device synchronization access for apps'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Privacy'
+      Description = 'Set the Windows App Privacy policy that denies this capability to all apps, or remove the policy override.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy'
+      ValueName = 'LetAppsSyncWithDevices'
+      ValueType = 'DWord'
+      States = @{ Disabled = 2; Enabled = $null }
+      BaselineState = 'Enabled'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Users control app access when this policy value is absent' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.uwp-diagnostic-info-access'
+      Name = 'Diagnostic info access for apps'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Privacy'
+      Description = 'Set the Windows App Privacy policy that denies this capability to all apps, or remove the policy override.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy'
+      ValueName = 'LetAppsGetDiagnosticInfo'
+      ValueType = 'DWord'
+      States = @{ Disabled = 2; Enabled = $null }
+      BaselineState = 'Enabled'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Users control app access when this policy value is absent' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.uwp-documents-library-access'
+      Name = 'UWP documentsLibrary access'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Privacy'
+      Description = 'Set the machine capability consent value for documentsLibrary access to Deny, Allow, or user controlled. Microsoft documents app capability behavior, not this specific legacy registry mapping.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/apps/develop/security/app-capability-declarations'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\documentsLibrary'
+      ValueName = 'Value'
+      ValueType = 'String'
+      States = @{ Denied = 'Deny'; Allowed = 'Allow'; UserControlled = $null }
+      BaselineState = 'UserControlled'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'User-controlled app access when no device-level value is set' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.uwp-pictures-library-access'
+      Name = 'UWP picturesLibrary access'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Privacy'
+      Description = 'Set the machine capability consent value for picturesLibrary access to Deny, Allow, or user controlled. Microsoft documents app capability behavior, not this specific legacy registry mapping.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/apps/develop/security/app-capability-declarations'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\picturesLibrary'
+      ValueName = 'Value'
+      ValueType = 'String'
+      States = @{ Denied = 'Deny'; Allowed = 'Allow'; UserControlled = $null }
+      BaselineState = 'UserControlled'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'User-controlled app access when no device-level value is set' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.uwp-videos-library-access'
+      Name = 'UWP videosLibrary access'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Privacy'
+      Description = 'Set the machine capability consent value for videosLibrary access to Deny, Allow, or user controlled. Microsoft documents app capability behavior, not this specific legacy registry mapping.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/apps/develop/security/app-capability-declarations'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\videosLibrary'
+      ValueName = 'Value'
+      ValueType = 'String'
+      States = @{ Denied = 'Deny'; Allowed = 'Allow'; UserControlled = $null }
+      BaselineState = 'UserControlled'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'User-controlled app access when no device-level value is set' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.uwp-broad-file-system-access-access'
+      Name = 'UWP broadFileSystemAccess access'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Privacy'
+      Description = 'Set the machine capability consent value for broadFileSystemAccess to Deny, Allow, or user controlled. Microsoft documents app capability behavior, not this specific legacy registry mapping.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/apps/develop/security/app-capability-declarations'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\broadFileSystemAccess'
+      ValueName = 'Value'
+      ValueType = 'String'
+      States = @{ Denied = 'Deny'; Allowed = 'Allow'; UserControlled = $null }
+      BaselineState = 'UserControlled'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'User-controlled app access when no device-level value is set' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.uwp-swap-file'
+      Name = 'UWP swap file'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / System'
+      Description = 'Set the legacy SwapfileControl registry value to disable or re-enable the UWP swap file. A Windows restart is required. Microsoft documents UWP app lifecycle behavior but does not document this specific registry mapping.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/uwp/launch-resume/optimize-suspend-resume'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management'
+      ValueName = 'SwapfileControl'
+      ValueType = 'DWord'
+      States = @{ Disabled = 0; Enabled = $null }
+      BaselineState = 'Enabled'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Windows manages the UWP swap file when SwapfileControl is absent' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.uwp-background-app-user-overrides'
+      Name = 'Per-app background access overrides'
+      Kind = 'BackgroundAppOverrides'
+      Category = 'Windows settings / Privacy'
+      Description = 'Remove Disabled and DisabledByUser values from current-user background app entries. Applying captures existing values so a run can restore them exactly.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy'
+      SupportedTargets = @('Windows 11')
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'BackgroundAppOverrides'
+      RegistryPath = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications'
+      ValueNames = @('Disabled', 'DisabledByUser')
+      States = @{ Reset = 'Reset' }
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValue = 'No per-app overrides'; EffectiveDefault = 'Background app access is governed by the device policy or each app preference when no per-app override values exist' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
       Id = 'windows.show-known-extensions'
       Name = 'Show known file extensions'
       Kind = 'RegistryValue'
@@ -1100,6 +1560,229 @@
       InstallerArguments = '/S'
       UninstallerArguments = '/S'
       Rollback = 'Compensating'
+    }
+    @{
+      Id = 'windows.admin-share-server'
+      Name = 'Administrative shares for Windows Server'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Security'
+      Description = 'Prevent Windows Server from automatically creating administrative shares, or use the Windows default. Restart the Server service for changes to take effect.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/remove-administrative-shares'
+      SupportedTargets = @('Windows Server 2025')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters'
+      ValueName = 'AutoShareServer'
+      ValueType = 'DWord'
+      States = @{ Disabled = 0; Enabled = $null }
+      BaselineState = 'Enabled'
+      TargetDefaults = @{
+        'Windows Server 2025' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Windows Server creates default administrative shares unless this value is set to 0' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.admin-share-workstation'
+      Name = 'Administrative shares for Windows workstation'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Security'
+      Description = 'Set the legacy AutoShareWks value to control workstation administrative shares. Microsoft documents the analogous AutoShareServer setting, not this Workstation registry value. Restart the Server service for changes to take effect.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/remove-administrative-shares'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters'
+      ValueName = 'AutoShareWks'
+      ValueType = 'DWord'
+      States = @{ Disabled = 0; Enabled = $null }
+      BaselineState = 'Enabled'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Windows workstation creates default administrative shares unless this value is set to 0' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.account-protection-warning'
+      Name = 'Windows Security account protection warning'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Security'
+      Description = 'Hide or restore the current user''s account protection warning in the Windows Security app.'
+      DocumentationUri = 'https://support.microsoft.com/en-gb/windows/security/windows-security/account-protection-in-the-windows-security-app'
+      SupportedTargets = @('Windows 11')
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKCU:\Software\Microsoft\Windows Security Health\State'
+      ValueName = 'AccountProtection_MicrosoftAccount_Disconnected'
+      ValueType = 'DWord'
+      States = @{ Hidden = 1; Shown = $null }
+      BaselineState = 'Shown'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Windows Security displays current account protection information when no override is set' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.dotnet-strong-crypto-64bit'
+      Name = '.NET strong cryptography for 64-bit applications'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Security'
+      Description = 'Configure SchUseStrongCrypto for 64-bit .NET Framework applications. Framework 4.6 and later use strong cryptography by default.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/dotnet/framework/network-programming/tls'
+      SupportedTargets = @('Windows 11', 'Windows Server 2025')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Microsoft\.NETFramework\v4.0.30319'
+      ValueName = 'SchUseStrongCrypto'
+      ValueType = 'DWord'
+      States = @{ Enabled = 1; WindowsDefault = $null }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'The registry value is absent by default; .NET Framework 4.6+ defaults to strong cryptography' }
+        'Windows Server 2025' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'The registry value is absent by default; .NET Framework 4.6+ defaults to strong cryptography' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.dotnet-strong-crypto-32bit'
+      Name = '.NET strong cryptography for 32-bit applications'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Security'
+      Description = 'Configure SchUseStrongCrypto for 32-bit .NET Framework applications. Framework 4.6 and later use strong cryptography by default.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/dotnet/framework/network-programming/tls'
+      SupportedTargets = @('Windows 11', 'Windows Server 2025')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319'
+      ValueName = 'SchUseStrongCrypto'
+      ValueType = 'DWord'
+      States = @{ Enabled = 1; WindowsDefault = $null }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'The registry value is absent by default; .NET Framework 4.6+ defaults to strong cryptography' }
+        'Windows Server 2025' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'The registry value is absent by default; .NET Framework 4.6+ defaults to strong cryptography' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.f8-boot-menu-policy'
+      Name = 'F8 boot menu policy'
+      Kind = 'BootConfiguration'
+      Category = 'Windows settings / Security'
+      Description = 'Choose Standard or Legacy boot menu behavior. Legacy enables the F8 advanced boot options menu; changes take effect after restart.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/drivers/devtest/bcdedit--set'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'BootConfiguration'
+      BcdElement = 'bootmenupolicy'
+      States = @{ Standard = $null; Legacy = 'Legacy' }
+      BaselineState = 'Standard'
+      RestartRequired = $true
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValue = '<not explicitly set>'; EffectiveDefault = 'Standard is the Windows default boot menu policy; this operation changes boot configuration for the next startup.' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.dep-boot-policy'
+      Name = 'Data Execution Prevention boot policy'
+      Kind = 'BootConfiguration'
+      Category = 'Windows settings / Security'
+      Description = 'Windows applies the selected DEP policy during startup. Changes take effect after restart.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/drivers/devtest/bcdedit--set'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'BootConfiguration'
+      BcdElement = 'nx'
+      States = @{ OptIn = $null; OptOut = 'OptOut' }
+      BaselineState = 'OptIn'
+      RestartRequired = $true
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValue = '<not explicitly set>'; EffectiveDefault = 'OptIn is the Windows default DEP policy; this operation changes boot configuration for the next startup.' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.ssdp-discovery-service'
+      Name = 'SSDP Discovery service'
+      Kind = 'WindowsService'
+      Category = 'Windows settings / Security'
+      Description = 'Set SSDP Discovery to disabled and stopped, or to manual and running.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/service-overview-and-network-port-requirements'
+      SupportedTargets = @('Windows 11', 'Windows Server 2025')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'WindowsService'
+      ServiceName = 'SSDPSRV'
+      States = @{
+        Disabled = @{ StartupType = 'Disabled'; Status = 'Stopped' }
+        Enabled = @{ StartupType = 'Manual'; Status = 'Running' }
+      }
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValue = 'Manual / Stopped'; EffectiveDefault = 'Manual, trigger-start service; normally stopped until a client requests SSDP functionality' }
+        'Windows Server 2025' = @{ DefaultValue = 'Manual / Stopped'; EffectiveDefault = 'Manual, trigger-start service; normally stopped until a client requests SSDP functionality' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.upnp-device-host-service'
+      Name = 'UPnP Device Host service'
+      Kind = 'WindowsService'
+      Category = 'Windows settings / Security'
+      Description = 'Set UPnP Device Host to disabled and stopped, or to manual and running.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-systemservices'
+      SupportedTargets = @('Windows 11', 'Windows Server 2025')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'WindowsService'
+      ServiceName = 'upnphost'
+      States = @{
+        Disabled = @{ StartupType = 'Disabled'; Status = 'Stopped' }
+        Enabled = @{ StartupType = 'Manual'; Status = 'Running' }
+      }
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValue = 'Manual / Stopped'; EffectiveDefault = 'Manual, trigger-start service; normally stopped until a client requests UPnP hosting' }
+        'Windows Server 2025' = @{ DefaultValue = 'Manual / Stopped'; EffectiveDefault = 'Manual, trigger-start service; normally stopped until a client requests UPnP hosting' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.winhttp-wpad-policy'
+      Name = 'WinHTTP WPAD detection'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Network'
+      Description = 'Disable WinHTTP WPAD detection using the documented machine registry value; this does not disable the WinHTTP Auto-Proxy service or proxy auto-discovery in every application.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/disable-http-proxy-auth-features'
+      SupportedTargets = @('Windows 11', 'Windows Server 2025')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\WinHttp'
+      ValueName = 'DisableWpad'
+      ValueType = 'DWord'
+      States = @{ Disabled = 1; Enabled = $null }
+      BaselineState = 'Enabled'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'WinHTTP WPAD detection is enabled when DisableWpad is absent; other applications may use separate proxy discovery settings' }
+        'Windows Server 2025' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'WinHTTP WPAD detection is enabled when DisableWpad is absent; other applications may use separate proxy discovery settings' }
+      }
+      Rollback = 'Exact'
     }
   )
   Groups = @(
