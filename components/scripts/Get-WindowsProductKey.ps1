@@ -1,6 +1,63 @@
-﻿function Get-WindowsProductKey
+﻿<#
+.SYNOPSIS
+  Decode the registry DigitalProductId using the bundled C# decoder.
+
+.DESCRIPTION
+  Compiles the adapted decoder and reads HKLM DigitalProductId, then returns the decoded string. The
+  existing OS-version branch is retained. Output may contain a sensitive product key. This script
+  does not activate Windows or change licensing.
+
+.PARAMETER Help
+  Display help and return before operational work.
+
+.PARAMETER Version
+  Print the script version and return before operational work.
+
+.EXAMPLE
+  .\components\scripts\Get-WindowsProductKey.ps1 -Help
+
+.EXAMPLE
+  .\components\scripts\Get-WindowsProductKey.ps1 -Version
+
+.INPUTS
+  None. Parameters are supplied explicitly.
+
+.OUTPUTS
+  System.String. Decoded product key; treat operational output as sensitive.
+
+.NOTES
+  Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows; system integration remains
+  unverified in this walkthrough.
+  Prerequisites: Windows registry read access and Add-Type C# compilation.
+  File/environment inputs: HKLM/SOFTWARE/Microsoft/Windows NT/CurrentVersion DigitalProductId.
+  Recovery: No Windows state changes. Use an isolated session to discard the loaded Decoder type.
+  Error-handling exception: Existing operational error policy is retained; globally enabling Stop
+  requires a separate tested change.
+  Author: RIDE-Windows maintainers.
+  Version: 0.1.0
+  Changelog:
+    0.1.0: Establish the versioned PowerShell help contract during the 2026-10-08 walkthrough.
+  Based on: https://github.com/mrpeardotnet/WinProdKeyFinder (embedded attribution retained). Upstream license provenance needs separate verification before redistribution changes.
+
+.LINK
+  https://github.com/mrpeardotnet/WinProdKeyFinder
+
+#>
+
+
+[CmdletBinding()]
+param(
+  [switch] $Help,
+  [switch] $Version
+)
+
+$script:ScriptVersion = '0.1.0'
+if ($Version) { Write-Output $script:ScriptVersion; return }
+if ($Help) { Get-Help -Name $PSCommandPath -Full; return }
+
+function Get-WindowsProductKey
 {
-  # test whether this is Windows 7 or older:
+  # The retained predicate selects the legacy decoder for every reported OS major version <= 6.
   function Test-Win7
   {
     $OSVersion = [System.Environment]::OSVersion.Version

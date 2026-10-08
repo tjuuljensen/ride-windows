@@ -124,8 +124,15 @@ operation metadata, profiles, identifiers, logs, help text, and tests.
 Use the PowerShell conventions already established in the repository and
 declare compatibility in user-facing documentation.
 
-- Follow [the RIDE-Windows script model](docs/repository-portfolio/script-repository-model.md)
+- Follow [the RIDE-Windows script model](docs/models/script-repository-model.md)
   for maintained script headers, versioning, safety, and validation.
+- Store repository-specific models in `docs/models/`. The
+  `docs/repository-portfolio/` name is reserved for network-devices governance.
+- Use native PowerShell comment-based help for maintained `.ps1` headers and
+  exported module commands. Use `.SYNOPSIS`, `.DESCRIPTION`, `.PARAMETER`,
+  `.EXAMPLE`, `.INPUTS`, `.OUTPUTS`, and `.NOTES` as applicable; put compatibility,
+  prerequisites, attribution, version, and changelog in `.NOTES`. Generic
+  shell-style section labels alone do not satisfy the header contract.
 
 - Use CmdletBinding for reusable command-line scripts and
   $ErrorActionPreference = 'Stop' for operational paths unless a deliberate

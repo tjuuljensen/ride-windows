@@ -1,10 +1,93 @@
 <#
 .SYNOPSIS
-  Download ride-windows and optionally run a profile with the RIDE engine.
+  Download a selected RIDE source archive and optionally run its profile command.
+
 .DESCRIPTION
-  Downloads a branch or release archive, extracts it to a temporary directory,
-  and runs the declarative RIDE command selected by the operator.
+  Downloads a GitHub tag when Release is supplied, otherwise Branch (master by
+  default). Extracts below InstallRoot or a new temporary directory. NoRun only
+  downloads/extracts. Default, Edit, Profile, or an explicit non-apply command
+  select execution; the default command is apply. Execution normally relaunches
+  with elevation. Edit copies the default profile and waits for Notepad.
+  This bootstrapper has no ShouldProcess preview; selecting apply changes Windows.
+
+.PARAMETER Author
+  GitHub repository owner; defaults to tjuuljensen.
+
+.PARAMETER Repo
+  Repository name; defaults to ride-windows.
+
+.PARAMETER Branch
+  Branch archive used when Release is empty; defaults to master.
+
+.PARAMETER Release
+  Optional Git tag archive. Prefer a reviewed tagged release for distribution.
+
+.PARAMETER InstallRoot
+  Extraction directory; omitted selects a new temporary directory. Existing files may be overwritten
+  during extraction.
+
+.PARAMETER Default
+  Explicitly select the downloaded default profile for execution.
+
+.PARAMETER Edit
+  Copy the default profile to custom.profile.psd1, edit in Notepad, then run the selected command.
+
+.PARAMETER NoRun
+  Download and extract without launching RIDE; Stop is an alias.
+
+.PARAMETER NoAdmin
+  Suppress the normal elevated relaunch. Machine operations still require elevation.
+
+.PARAMETER Command
+  list, plan, apply, status, or remove; defaults to apply. Use an explicit run selector for apply.
+
+.PARAMETER Profile
+  Explicit profile path; relative paths resolve from the caller working directory.
+
+.PARAMETER Help
+  Display help and return before operational work.
+
+.PARAMETER Version
+  Print the script version and return before operational work.
+
+.EXAMPLE
+  .\docs\bootstrap.ps1 -NoRun -Branch master
+  Download the branch source without running it; use -Release with a reviewed tag for distribution.
+
+.EXAMPLE
+  .\docs\bootstrap.ps1 -Help
+
+.EXAMPLE
+  .\docs\bootstrap.ps1 -Version
+
+.INPUTS
+  None. Parameters are supplied explicitly.
+
+.OUTPUTS
+  System.String. Progress and diagnostic messages.
+
+.NOTES
+  Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows; system integration remains
+  unverified in this walkthrough.
+  Prerequisites: GitHub HTTPS access, Expand-Archive, powershell.exe, and permissions to the
+  extraction directory; elevation for machine application.
+  File/environment inputs: GitHub archive selection and optional profile file; launches Windows
+  PowerShell with -NoProfile.
+  Recovery: Retain extracted sources for inspection. Use RIDE saved state for applied operations;
+  archive extraction itself has no rollback.
+  Author: RIDE-Windows maintainers.
+  Version: 0.1.0
+  Changelog:
+    0.1.0: Establish the versioned PowerShell help contract during the 2026-10-08 walkthrough.
+  Known limitation: see docs/migrations/powershell-script-walkthrough.md for child-process argument
+  handling and preview boundaries.
+
+.LINK
+  docs/migrations/powershell-script-walkthrough.md
+
 #>
+
+
 [CmdletBinding()]
 param(
   [string] $Author = 'tjuuljensen',
@@ -18,8 +101,14 @@ param(
   [switch] $NoAdmin,
   [ValidateSet('list', 'plan', 'apply', 'status', 'remove')]
   [string] $Command = 'apply',
-  [string] $Profile = ''
+  [string] $Profile = '',
+  [switch] $Help,
+  [switch] $Version
 )
+
+$script:ScriptVersion = '0.1.0'
+if ($Version) { Write-Output $script:ScriptVersion; return }
+if ($Help) { Get-Help -Name $PSCommandPath -Full; return }
 
 $ErrorActionPreference = 'Stop'
 try {

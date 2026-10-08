@@ -1,32 +1,58 @@
 <#
 .SYNOPSIS
-Use a Windows OpenSSH client that supports the requested KEX algorithm.
+  Select or install a Windows OpenSSH client with the requested KEX support.
 
 .DESCRIPTION
-Checks executable OpenSSH clients before installing anything. The default
-requirement is the exact ML-KEM algorithm name. If no existing client meets
-the requirement, Win32-OpenSSH Preview is installed as a client-only MSI
-feature through winget. If the selected compatible client is not already the
-one PowerShell resolves, profile wrappers are created when its ssh.exe,
-scp.exe, and sftp.exe are all present.
-
-The wrappers apply only to the PowerShell profile selected by $PROFILE for
-the current user and host. Other applications may resolve SSH independently.
+  Probes existing ssh.exe clients before installation. Selects a client supporting at least one
+  exact RequiredKex value. If none qualifies, installs Microsoft.OpenSSH.Preview through winget with
+  ADDLOCAL=Client. May write managed ssh/scp/sftp profile wrappers. Refuses automatic repair/upgrade
+  of an already registered incompatible Preview package. No ShouldProcess preview is implemented.
 
 .PARAMETER RequiredKex
-Exact KEX algorithm names. A client meets the requirement if it supports at
-least one supplied name. For ML-KEM only, use the default. To accept either
-SNTRUP spelling, supply both SNTRUP names.
+  Accepted exact KEX names; defaults to mlkem768x25519-sha256. Any one supplied algorithm satisfies
+  the requirement; declared values support tab completion.
 
 .PARAMETER RemoveProfileWrappers
-Remove this script's managed wrappers from the current $PROFILE and exit.
+  Remove this helper's managed and recognized legacy wrapper blocks from the current PROFILE and
+  return.
+
+.PARAMETER Help
+  Display help and return before operational work.
+
+.PARAMETER Version
+  Print the script version and return before operational work.
+
+.EXAMPLE
+  .\tools\development\openssh-preview\Install-OpenSSH.ps1 -Help
+
+.EXAMPLE
+  .\tools\development\openssh-preview\Install-OpenSSH.ps1 -Version
+
+.INPUTS
+  None. Parameters are supplied explicitly.
+
+.OUTPUTS
+  None. Host diagnostics, warnings, and possibly package/profile changes.
 
 .NOTES
-Examples:
-  .\Install-OpenSSH.ps1
-  .\Install-OpenSSH.ps1 -RequiredKex @('sntrup761x25519-sha512', 'sntrup761x25519-sha512@openssh.com')
-  .\Install-OpenSSH.ps1 -RemoveProfileWrappers
+  Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows; system integration remains
+  unverified in this walkthrough.
+  Prerequisites: Windows OpenSSH candidates or winget; permission for MSI installation and writing
+  the current PowerShell profile.
+  File/environment inputs: PATH, WINDIR, ProgramFiles, LOCALAPPDATA WinGet cache, and current
+  PROFILE.
+  Recovery: Back up the profile first. RemoveProfileWrappers removes managed wrappers; package
+  removal remains a separate reviewed action.
+  Author: RIDE-Windows maintainers.
+  Version: 0.1.0
+  Changelog:
+    0.1.0: Establish the versioned PowerShell help contract during the 2026-10-08 walkthrough.
+
+.LINK
+  tools/development/README.md
+
 #>
+
 
 [CmdletBinding()]
 param(
@@ -39,8 +65,14 @@ param(
     [string[]] $RequiredKex = @('mlkem768x25519-sha256'),
 
     [Parameter()]
-    [switch] $RemoveProfileWrappers
+    [switch] $RemoveProfileWrappers,
+  [switch] $Help,
+  [switch] $Version
 )
+
+$script:ScriptVersion = '0.1.0'
+if ($Version) { Write-Output $script:ScriptVersion; return }
+if ($Help) { Get-Help -Name $PSCommandPath -Full; return }
 
 $ErrorActionPreference = 'Stop'
 $script:ManagedBegin = '# BEGIN ride-windows OpenSSH wrappers'

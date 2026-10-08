@@ -1,3 +1,50 @@
+<#
+.SYNOPSIS
+  Inspect and manage the catalog Windows Defender path exclusions.
+
+.DESCRIPTION
+  Resolves the tools or Downloads/bootstrap path, reads exclusion membership, and adds/removes only
+  the selected exclusion. Adding may create the directory; Restore only recovers exclusion
+  membership, not folder contents.
+
+.EXAMPLE
+  Import-Module .\modules\RIDE-Defender.psm1
+  Import definitions; inspect exported commands with Get-Help before use.
+
+.INPUTS
+  None. Parameters are supplied explicitly.
+
+.OUTPUTS
+  None on import. Exported commands return the types documented in their individual help.
+
+.NOTES
+  Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows; system integration remains
+  unverified in this walkthrough.
+  Prerequisites: Defender cmdlets; elevation for exclusion changes; current-user shell-folder
+  metadata.
+  File/environment inputs: RIDEVAR-Customization-ToolsFolder, SystemDrive, Downloads shell folder,
+  and RIDEVAR-Download-Only affect path/directory resolution.
+  Recovery: State-changing handlers are engine-internal: use ride.ps1 preview and captured-run
+  restoration. Direct calls bypass ShouldProcess and snapshot capture.
+  Author: RIDE-Windows maintainers.
+  Version: 0.1.0
+  Changelog:
+    0.1.0: Establish documented module ownership, version, and exported-command help during this
+    walkthrough.
+  Supported targets are declared per operation in catalog/operations.psd1. This walkthrough
+  validates syntax/help, not Windows state transitions.
+
+.LINK
+  docs/models/script-repository-model.md
+
+.LINK
+  docs/OPERATIONS.md
+
+#>
+
+
+$script:ModuleVersion = '0.1.0'
+
 $ErrorActionPreference = 'Stop'
 
 function Resolve-RideDefenderExclusionPath {
@@ -62,6 +109,32 @@ function Test-RideDefenderExclusionPresent {
 }
 
 function Get-RideDefenderExclusionState {
+  <#
+  .SYNOPSIS
+    Resolve a declared path and inspect Defender exclusion membership.
+
+  .DESCRIPTION
+    Uses the catalog PathResolver and current-user environment/shell-folder inputs. Compares
+    normalized paths without changing Defender preferences.
+
+  .PARAMETER Operation
+    Catalog operation metadata for this focused handler; use the engine to select and validate it.
+
+  .EXAMPLE
+    Get-Help Get-RideDefenderExclusionState -Full
+    Inspect this command's contract without invoking its implementation.
+
+  .INPUTS
+    None. Parameters are supplied explicitly.
+
+  .OUTPUTS
+    System.Management.Automation.PSCustomObject. Present and Path.
+
+  .NOTES
+    Ownership: RIDE-Windows maintainers. Version and compatibility follow the module overview.
+
+  #>
+
   param([Parameter(Mandatory = $true)][hashtable] $Operation)
 
   $path = Resolve-RideDefenderExclusionPath -Operation $Operation
@@ -82,6 +155,36 @@ function Ensure-RideDefenderExclusionDirectory {
 }
 
 function Set-RideDefenderExclusionState {
+  <#
+  .SYNOPSIS
+    Add or remove the catalog Defender path exclusion.
+
+  .DESCRIPTION
+    Present creates the directory if needed and adds a missing exclusion; Absent removes an existing
+    exclusion. Directory creation observes RIDEVAR-Download-Only for ToolsDirectory. Direct calls
+    bypass engine preview/snapshots.
+
+  .PARAMETER Operation
+    Catalog operation metadata for this focused handler; use the engine to select and validate it.
+
+  .PARAMETER State
+    Declared desired state for the selected catalog operation.
+
+  .EXAMPLE
+    Get-Help Set-RideDefenderExclusionState -Full
+    Inspect this command's contract without invoking its implementation.
+
+  .INPUTS
+    None. Parameters are supplied explicitly.
+
+  .OUTPUTS
+    None.
+
+  .NOTES
+    Ownership: RIDE-Windows maintainers. Version and compatibility follow the module overview.
+
+  #>
+
   param(
     [Parameter(Mandatory = $true)][hashtable] $Operation,
     [Parameter(Mandatory = $true)][ValidateSet('Present', 'Absent')][string] $State
@@ -98,6 +201,35 @@ function Set-RideDefenderExclusionState {
 }
 
 function Restore-RideDefenderExclusionState {
+  <#
+  .SYNOPSIS
+    Restore captured Defender exclusion membership.
+
+  .DESCRIPTION
+    Uses the saved resolved path when available and adds/removes only its membership. Does not
+    recreate/delete directory contents. Use Restore-RideRun.
+
+  .PARAMETER Operation
+    Catalog operation metadata for this focused handler; use the engine to select and validate it.
+
+  .PARAMETER Snapshot
+    Captured pre-change state for this operation, read from the matching saved run.
+
+  .EXAMPLE
+    Get-Help Restore-RideDefenderExclusionState -Full
+    Inspect this command's contract without invoking its implementation.
+
+  .INPUTS
+    None. Parameters are supplied explicitly.
+
+  .OUTPUTS
+    None.
+
+  .NOTES
+    Ownership: RIDE-Windows maintainers. Version and compatibility follow the module overview.
+
+  #>
+
   param([Parameter(Mandatory = $true)][hashtable] $Operation, [Parameter(Mandatory = $true)] $Snapshot)
 
   $path = [string]$Snapshot.Path

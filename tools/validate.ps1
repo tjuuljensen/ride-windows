@@ -1,5 +1,58 @@
+<#
+.SYNOPSIS
+  Validate RIDE catalog, profiles, PowerShell syntax, and generated documentation.
+
+.DESCRIPTION
+  Checks catalog schema, declared operation lifecycle and references, artifact observations, profile
+  selections, and script parsing. Invokes the catalog generator in Check mode. Throws aggregated
+  validation failures; does not invoke handlers or installers.
+
+.PARAMETER Root
+  Repository root; defaults to the parent of the tools directory.
+
+.PARAMETER Help
+  Display help and return before operational work.
+
+.PARAMETER Version
+  Print the script version and return before operational work.
+
+.EXAMPLE
+  .\tools\validate.ps1
+
+.EXAMPLE
+  .\tools\validate.ps1 -Version
+
+.INPUTS
+  None. Parameters are supplied explicitly.
+
+.OUTPUTS
+  System.String. Progress and diagnostic messages.
+
+.NOTES
+  Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows; system integration remains
+  unverified in this walkthrough.
+  Prerequisites: Windows-native PowerShell; a complete repository checkout with generated operation
+  documentation.
+  File/environment inputs: Catalog, artifact observation JSON, profile data files, and repository
+  PowerShell sources.
+  Recovery: Read-only checks; fix authoritative inputs before regenerating documentation.
+  Author: RIDE-Windows maintainers.
+  Version: 0.1.0
+  Changelog:
+    0.1.0: Establish the versioned PowerShell help contract during the 2026-10-08 walkthrough.
+
+#>
+
+
 [CmdletBinding()]
-param([string] $Root = '')
+param([string] $Root = '',
+  [switch] $Help,
+  [switch] $Version
+)
+
+$script:ScriptVersion = '0.1.0'
+if ($Version) { Write-Output $script:ScriptVersion; return }
+if ($Help) { Get-Help -Name $PSCommandPath -Full; return }
 
 $ErrorActionPreference = 'Stop'
 if (-not $Root) { $Root = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path) }
@@ -11,6 +64,23 @@ $catalogPath = Join-Path $Root 'catalog/operations.psd1'
 $profilePaths = @(Get-ChildItem -LiteralPath (Join-Path $Root 'profiles') -Filter '*.psd1' -File)
 $catalog = Import-PowerShellDataFile -Path $catalogPath
 if ($catalog.SchemaVersion -ne 1) { Add-Error 'Catalog must declare SchemaVersion 1.' }
+
+$artifactObservationPath = Join-Path $Root 'catalog/artifact-observations.json'
+try {
+  $artifactLibrary = Get-Content -LiteralPath $artifactObservationPath -Raw | ConvertFrom-Json -ErrorAction Stop
+  if ($artifactLibrary.SchemaVersion -ne 1 -or 'Observations' -notin $artifactLibrary.PSObject.Properties.Name) { Add-Error 'Artifact observation library must declare SchemaVersion 1 and an Observations array.' }
+  foreach ($observation in @($artifactLibrary.Observations)) {
+    foreach ($field in @('Version', 'FileName', 'OriginUri', 'SourceUri', 'ObservedAtUtc', 'Route', 'Sha256')) {
+      if (-not $observation.$field) { Add-Error "Artifact observation is missing '$field'." }
+    }
+    if (-not $observation.PackageId -and -not $observation.ArtifactId) { Add-Error 'Artifact observation must identify a package or artifact.' }
+    if ($observation.Sha256 -notmatch '^[0-9a-f]{64}$') { Add-Error "Artifact observation has an invalid SHA-256 for '$($observation.PackageId)' $($observation.Version)." }
+    foreach ($uriField in @('SourceUri', 'OriginUri')) {
+      if (-not [Uri]::IsWellFormedUriString([string]$observation.$uriField, [UriKind]::Absolute) -or ([Uri]$observation.$uriField).Scheme -ne 'https') { Add-Error "Artifact observation '$uriField' must be an absolute HTTPS URI for '$($observation.PackageId)' $($observation.Version)." }
+    }
+  }
+}
+catch { Add-Error "Artifact observation library is invalid: $($_.Exception.Message)" }
 
 $ids = @{}
 foreach ($operation in $catalog.Operations) {
@@ -39,8 +109,11 @@ foreach ($operation in $catalog.Operations) {
     if ($operation.Kind -eq 'RegistryValue' -and -not $defaults.ContainsKey('DefaultValueExists')) {
       Add-Error "Operation '$($operation.Id)' is missing literal default existence for '$target'."
     }
-    if ($operation.Kind -in @('Package', 'DefenderExclusion') -and -not $defaults.ContainsKey('DefaultValue')) {
+  if ($operation.Kind -in @('Package', 'Artifact', 'DefenderExclusion') -and -not $defaults.ContainsKey('DefaultValue')) {
       Add-Error "Operation '$($operation.Id)' is missing a literal default for '$target'."
+    }
+    if ($operation.Kind -eq 'RegistryKeySet' -and -not $defaults.ContainsKey('DefaultValue')) {
+      Add-Error "Registry key-set operation '$($operation.Id)' is missing a literal default for '$target'."
     }
     if ($operation.Kind -eq 'WindowsService' -and -not $defaults.ContainsKey('DefaultValue')) {
       Add-Error "Operation '$($operation.Id)' is missing a literal service default for '$target'."
@@ -50,6 +123,9 @@ foreach ($operation in $catalog.Operations) {
     }
     if ($operation.Kind -eq 'BootConfiguration' -and -not $defaults.ContainsKey('DefaultValue')) {
       Add-Error "Operation '$($operation.Id)' is missing a literal boot configuration default for '$target'."
+    }
+    if ($operation.Kind -eq 'NetworkProfile' -and -not $defaults.ContainsKey('DefaultValue')) {
+      Add-Error "Operation '$($operation.Id)' is missing a network-profile default for '$target'."
     }
   }
   if ($operation.Kind -eq 'RegistryValue') {
@@ -73,6 +149,33 @@ foreach ($operation in $catalog.Operations) {
       Add-Error "Package operation must use an absolute HTTPS product URI: $($operation.Id)"
     }
     if ('Install' -notin $operation.Actions -or 'Uninstall' -notin $operation.Actions) { Add-Error "Package lifecycle must include install and uninstall: $($operation.Id)" }
+    if ('Download' -in $operation.Actions) {
+      foreach ($field in @('DownloadProvider', 'AssetPattern', 'Architecture')) {
+        if (-not $operation.ContainsKey($field)) { Add-Error "Downloadable package is missing '$field': $($operation.Id)" }
+      }
+      if (-not [Uri]::IsWellFormedUriString([string]$operation.DownloadUri, [UriKind]::Absolute) -or ([Uri]$operation.DownloadUri).Scheme -ne 'https') {
+        Add-Error "Downloadable package must use an absolute HTTPS source URI: $($operation.Id)"
+      }
+      if ($operation.DownloadProvider -eq 'GitHubReleaseApi') {
+        if ([Uri]::IsWellFormedUriString([string]$operation.DownloadUri, [UriKind]::Absolute) -and ([Uri]$operation.DownloadUri).Host -ne 'api.github.com') { Add-Error "GitHub release API provider must use api.github.com: $($operation.Id)" }
+      }
+      elseif ($operation.DownloadProvider -eq 'SysinternalsSysmonPage') {
+        if (-not $operation.ContainsKey('VersionUri') -or -not [Uri]::IsWellFormedUriString([string]$operation.VersionUri, [UriKind]::Absolute) -or ([Uri]$operation.VersionUri).Host -ne 'learn.microsoft.com') { Add-Error "Sysmon latest provider must resolve the version from Microsoft Learn: $($operation.Id)" }
+        if (([Uri]$operation.DownloadUri).Host -ne 'download.sysinternals.com' -or $operation.AssetName -ne 'Sysmon.zip' -or $operation.InstallerType -ne 'SysmonZip') { Add-Error "Invalid Microsoft Sysmon archive metadata: $($operation.Id)" }
+      }
+      else { Add-Error "Unsupported package download provider '$($operation.DownloadProvider)': $($operation.Id)" }
+      if (-not $operation.AssetPattern -or $operation.Architecture -notin @('x64', 'x86', 'arm64')) { Add-Error "Invalid package asset pattern or architecture: $($operation.Id)" }
+    }
+  }
+  elseif ($operation.Kind -eq 'Artifact') {
+    if ($operation.Handler -ne 'Artifact') { Add-Error "No matching handler for $($operation.Id)" }
+    foreach ($field in @('ArtifactId', 'DownloadUri', 'DownloadProvider', 'Repository', 'AssetPath', 'Architecture', 'ProductUri')) {
+      if (-not $operation.ContainsKey($field)) { Add-Error "Download-only artifact is missing '$field': $($operation.Id)" }
+    }
+    if (@($operation.Actions).Count -ne 1 -or 'Download' -notin $operation.Actions) { Add-Error "Download-only artifact must expose only Download: $($operation.Id)" }
+    if ($operation.DownloadProvider -ne 'GitHubFileCommitApi' -or ([Uri]$operation.DownloadUri).Host -ne 'api.github.com') { Add-Error "Unsupported download-only artifact provider or URI: $($operation.Id)" }
+    if (-not [Uri]::IsWellFormedUriString([string]$operation.ProductUri, [UriKind]::Absolute) -or ([Uri]$operation.ProductUri).Scheme -ne 'https') { Add-Error "Artifact product URI must be an absolute HTTPS URI: $($operation.Id)" }
+    if ($operation.Architecture -notin @('neutral', 'x64', 'x86', 'arm64')) { Add-Error "Invalid artifact architecture: $($operation.Id)" }
   }
   elseif ($operation.Kind -eq 'DefenderExclusion') {
     if ($operation.Handler -ne 'DefenderExclusion') { Add-Error "No matching handler for $($operation.Id)" }
@@ -121,6 +224,41 @@ foreach ($operation in $catalog.Operations) {
     if (-not $operation.States.ContainsKey($operation.BaselineState)) { Add-Error "Invalid baseline state for $($operation.Id)" }
     if ('Get' -notin $operation.Actions -or 'Test' -notin $operation.Actions -or 'Set' -notin $operation.Actions -or 'Restore' -notin $operation.Actions) { Add-Error "Boot configuration lifecycle is incomplete: $($operation.Id)" }
   }
+  elseif ($operation.Kind -eq 'NetworkProfile') {
+    if ($operation.Handler -ne 'NetworkProfile') { Add-Error "No matching handler for $($operation.Id)" }
+    foreach ($field in @('States', 'BaselineState', 'DocumentationUri')) {
+      if (-not $operation.ContainsKey($field)) { Add-Error "Network profile operation is missing '$field': $($operation.Id)" }
+    }
+    if (-not [Uri]::IsWellFormedUriString([string]$operation.DocumentationUri, [UriKind]::Absolute) -or ([Uri]$operation.DocumentationUri).Scheme -ne 'https' -or ([Uri]$operation.DocumentationUri).Host -ne 'learn.microsoft.com') {
+      Add-Error "Network profile operation must use an absolute Microsoft HTTPS documentation URI: $($operation.Id)"
+    }
+    if (-not $operation.States.ContainsKey($operation.BaselineState)) { Add-Error "Invalid baseline state for $($operation.Id)" }
+    foreach ($stateName in $operation.States.Keys) {
+      if ($operation.States[$stateName] -notin @('Private', 'Public')) { Add-Error "Invalid network category in '$($operation.Id)' state '$stateName'." }
+    }
+    if ('Get' -notin $operation.Actions -or 'Test' -notin $operation.Actions -or 'Set' -notin $operation.Actions -or 'Restore' -notin $operation.Actions) { Add-Error "Network profile lifecycle is incomplete: $($operation.Id)" }
+  }
+  elseif ($operation.Kind -eq 'RegistryKeySet') {
+    if ($operation.Handler -ne 'RegistryKeySet') { Add-Error "No matching handler for $($operation.Id)" }
+    foreach ($field in @('RegistryPaths', 'States', 'BaselineState', 'DocumentationUri')) {
+      if (-not $operation.ContainsKey($field)) { Add-Error "Registry key-set operation is missing '$field': $($operation.Id)" }
+    }
+    if (@($operation.RegistryPaths).Count -eq 0) { Add-Error "Registry key-set operation has no paths: $($operation.Id)" }
+    foreach ($path in $operation.RegistryPaths) {
+      if ([string]$path -notmatch '^HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\\{[0-9A-Fa-f-]{36}\}$') {
+        Add-Error "Registry key-set path is outside the supported This PC Shell namespace roots: $($operation.Id)"
+      }
+    }
+    if (@($operation.RegistryPaths | Select-Object -Unique).Count -ne @($operation.RegistryPaths).Count) { Add-Error "Registry key-set paths must be unique: $($operation.Id)" }
+    if (-not [Uri]::IsWellFormedUriString([string]$operation.DocumentationUri, [UriKind]::Absolute) -or ([Uri]$operation.DocumentationUri).Scheme -ne 'https' -or ([Uri]$operation.DocumentationUri).Host -ne 'learn.microsoft.com') {
+      Add-Error "Registry key-set operation must use an absolute Microsoft HTTPS documentation URI: $($operation.Id)"
+    }
+    if (-not $operation.States.ContainsKey($operation.BaselineState)) { Add-Error "Invalid baseline state for $($operation.Id)" }
+    foreach ($stateName in $operation.States.Keys) {
+      if ($operation.States[$stateName] -notin @('Present', 'Absent')) { Add-Error "Invalid registry key-set value in '$($operation.Id)' state '$stateName'." }
+    }
+    if ('Get' -notin $operation.Actions -or 'Test' -notin $operation.Actions -or 'Set' -notin $operation.Actions -or 'Restore' -notin $operation.Actions) { Add-Error "Registry key-set lifecycle is incomplete: $($operation.Id)" }
+  }
   else { Add-Error "Unknown operation kind '$($operation.Kind)': $($operation.Id)" }
 }
 
@@ -145,9 +283,12 @@ foreach ($profileFile in $profilePaths) {
     $operation = $catalog.Operations | Where-Object { $_.Id -eq $selection.Id } | Select-Object -First 1
     $group = $catalog.Groups | Where-Object { $_.Id -eq $selection.Id } | Select-Object -First 1
     if ($operation -and $operation.Kind -eq 'RegistryValue' -and $selection.State -ne 'Baseline' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid state for '$($selection.Id)'" }
+    if ($operation -and $operation.Kind -eq 'Artifact') { Add-Error "$($profileFile.Name) cannot select download-only artifact '$($selection.Id)' as a desired Windows state." }
     if ($operation -and $operation.Kind -eq 'WindowsService' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid service state for '$($selection.Id)'" }
     if ($operation -and $operation.Kind -eq 'BackgroundAppOverrides' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid background app state for '$($selection.Id)'" }
     if ($operation -and $operation.Kind -eq 'BootConfiguration' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid boot configuration state for '$($selection.Id)'" }
+    if ($operation -and $operation.Kind -eq 'NetworkProfile' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid network-profile state for '$($selection.Id)'" }
+    if ($operation -and $operation.Kind -eq 'RegistryKeySet' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid registry key-set state for '$($selection.Id)'" }
     if ((($operation -and $operation.Kind -in @('Package', 'DefenderExclusion')) -or $group) -and $selection.State -notin @('Present', 'Absent')) { Add-Error "$($profileFile.Name) must use Present or Absent for '$($selection.Id)'" }
   }
 }

@@ -1,0 +1,57 @@
+name: Disposable VM integration
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ride-vm-integration
+  cancel-in-progress: false
+
+jobs:
+  vm-tests:
+    # Enable only after the separate pilot acceptance checklist is complete.
+    if: github.ref == 'refs/heads/master' && vars.RIDE_VM_TESTS_ENABLED == 'true'
+    runs-on: [self-hosted, Windows, X64, ride-hyperv]
+    timeout-minutes: 105
+    env:
+      RIDE_AUTOMATION_CONFIGURATION: ${{ vars.RIDE_AUTOMATION_CONFIGURATION }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Request the registered elevated task
+        id: test
+        shell: powershell
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if (-not $env:RIDE_AUTOMATION_CONFIGURATION) { throw 'Set RIDE_AUTOMATION_CONFIGURATION to the installed configuration.json path.' }
+          $config = Get-Content -LiteralPath $env:RIDE_AUTOMATION_CONFIGURATION -Raw | ConvertFrom-Json
+          if ((Resolve-Path -LiteralPath $env:GITHUB_WORKSPACE).Path.TrimEnd('\') -ne $config.CIRepositoryPath.TrimEnd('\')) { throw 'Runner checkout does not match the approved CIRepositoryPath.' }
+          $client = Join-Path (Split-Path -Parent $env:RIDE_AUTOMATION_CONFIGURATION) 'bin\Invoke-RideVmTestTask.ps1'
+          $receipt = Join-Path $env:RUNNER_TEMP 'ride-vm-request.json'
+          if (Test-Path -LiteralPath $receipt) { Remove-Item -LiteralPath $receipt -Force }
+          try { & $client -ConfigurationPath $env:RIDE_AUTOMATION_CONFIGURATION -Source CI -ReceiptPath $receipt }
+          finally {
+            if (Test-Path -LiteralPath $receipt) {
+              $request = Get-Content -LiteralPath $receipt -Raw | ConvertFrom-Json
+              "results=$($request.ResultDirectory)" | Add-Content -LiteralPath $env:GITHUB_OUTPUT
+              "run_id=$($request.RunId)" | Add-Content -LiteralPath $env:GITHUB_OUTPUT
+            }
+          }
+      - name: Upload this request's evidence
+        if: always() && steps.test.outputs.results != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: ride-vm-${{ steps.test.outputs.run_id }}
+          if-no-files-found: warn
+          path: |
+            ${{ steps.test.outputs.results }}/result.json
+            ${{ steps.test.outputs.results }}/controller*.log
+            ${{ steps.test.outputs.results }}/collection*.log
+            ${{ steps.test.outputs.results }}/source-files.json
+            ${{ steps.test.outputs.results }}/guest/**

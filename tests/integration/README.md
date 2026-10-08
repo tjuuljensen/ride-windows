@@ -6,9 +6,11 @@ The VM is for integration tests that change Windows state. Routine validation an
 
 ## What this pilot covers
 
-The current VM suite checks the existing end-to-end lifecycle for Explorer settings, the inking and typing setting on Windows 11, and the analyst profile's 7-Zip and Notepad++ install/remove behavior. It does **not yet** perform real-Windows round-trip tests for the newly migrated service, UWP per-app override, or boot configuration handlers. Those should be added after this VM setup has been exercised once.
+The current VM suite checks Explorer settings; install, idempotence, and removal for 7-Zip, Notepad++, and Sysmon; the inking and typing setting; network category apply/restore for all non-domain profiles; Remote Assistance policy; the Microsoft product updates preference; and the BitLocker encryption-method policy on Windows 11. Git for Windows installation is not yet covered. The suite does **not yet** perform real-Windows round-trip tests for the service, UWP per-app override, or boot configuration handlers.
 
 The package checks download installers from their declared upstream sources, so the guest needs outbound internet access while the suite runs. The VM does not need access to shared host folders or production credentials.
+
+When using AutomatedLab, the runner waits up to five minutes for a guest PowerShell remoting session before staging files. A timeout indicates the guest is still starting or its WinRM listener/network firewall is unavailable; no RIDE test code runs until that session is established.
 
 ## 1. Check the Hyper-V host
 
@@ -54,7 +56,7 @@ For the Hyper-V wizard and PowerShell alternatives, see Microsoft's [create a vi
 
 ### Optional: provision this VM with AutomatedLab
 
-The Hyper-V Manager flow above remains the primary setup path. If you want repeatable PowerShell provisioning, use the separate [AutomatedLab setup guide](AUTOMATEDLAB.md). It covers VM creation, guest dependencies, Windows updates, and the clean checkpoint; after that guide, continue here at step 6 to copy the checkout and run the suite. AutomatedLab is an external dependency and is not installed or invoked by RIDE.
+The Hyper-V Manager flow above remains the primary setup path. For repeatable, host-driven provisioning, use the [AutomatedLab setup guide](AUTOMATEDLAB.md) and its OS-selectable script. The script checks host permissions and lab prerequisites, installs Pester through `Invoke-LabCommand`, creates the clean checkpoint, and performs the AutomatedLab copy step. AutomatedLab is an external dependency and is not installed by RIDE.
 
 ## 4. Install the test dependency in the guest
 
@@ -78,7 +80,7 @@ Restore this checkpoint after each integration run. The integration suite change
 
 Run the copy from PowerShell with the current directory set anywhere inside this Git checkout. `git rev-parse` finds the checkout root, so you do not need to enter your Windows profile name.
 
-### If the VM was created with AutomatedLab
+### 6A. If the VM was created with AutomatedLab
 
 AutomatedLab's `Copy-LabFileItem` copies files and directory trees to a lab VM using its lab connection context. Import the lab with its actual lab name; the current example uses `RIDEWin11Test`. The VM name is `RIDE-Win11-Test`.
 
@@ -91,7 +93,7 @@ if ($LASTEXITCODE -ne 0 -or -not $repoRootOutput) {
 }
 $repoPath = $repoRootOutput.Trim()
 
-Import-Lab -Name $labName
+Import-Lab -Name $labName -NoValidation
 Invoke-LabCommand -ComputerName $vmName -ScriptBlock {
   New-Item -ItemType Directory -Path 'C:\RIDE' -Force | Out-Null
 }
@@ -101,9 +103,9 @@ Invoke-LabCommand -ComputerName $vmName -ScriptBlock {
 } -PassThru
 ```
 
-The final command should return `True`. AutomatedLab's [file-copy command](https://automatedlab.org/en/stable/AutomatedLabCore/en-us/Copy-LabFileItem/) supports recursive directory copies, and [Invoke-LabCommand](https://automatedlab.org/en/stable/AutomatedLabCore/en-us/Invoke-LabCommand/) runs the directory checks inside the guest. This path reuses the lab's guest access; it does not prompt for the guest username again.
+The final command should return `True`. Here, `-NoValidation` avoids rechecking installation-media paths after the VM has already been provisioned; it skips all lab-definition validators, so do not use it to provision a new lab. AutomatedLab's [Import-Lab reference](https://automatedlab.org/en/latest/AutomatedLabCore/en-us/Import-Lab/) documents the switch. Its [file-copy command](https://automatedlab.org/en/stable/AutomatedLabCore/en-us/Copy-LabFileItem/) supports recursive directory copies, and [Invoke-LabCommand](https://automatedlab.org/en/stable/AutomatedLabCore/en-us/Invoke-LabCommand/) runs the directory checks inside the guest. This path reuses the lab's guest access; it does not prompt for the guest username again.
 
-### If the VM was created manually in Hyper-V Manager
+### 6B. If the VM was created manually in Hyper-V Manager
 
 PowerShell Direct copies files without enabling PowerShell remoting over the VM network. Run this on the host from anywhere inside the checkout; `git rev-parse` supplies the repo path automatically. This fallback prompts once for the guest's local account credentials:
 
@@ -127,6 +129,11 @@ Remove-PSSession $session
 If PowerShell Direct cannot connect, confirm the VM is running, the guest has completed setup, and Hyper-V integration services are enabled. Microsoft's [PowerShell Direct guide](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/powershell-direct) lists requirements and troubleshooting steps.
 
 ## 7. Run validation and the integration suite
+
+For an opt-in elevated task, local watcher and GitHub Actions entry point that
+keep host UAC enabled, follow [the task controller runbook](AUTOMATEDLAB-TASKS.md).
+The existing direct commands below retain their default behavior. Validate the
+new controller on a separate pilot before agreeing a cutover.
 
 You can run the checks from the Hyper-V host after copying the current checkout into the guest (step 6). The shared script block regenerates the catalog documentation, runs validation and Pester, then runs the guarded integration suite. It checks Pester's returned result and stops if any tests failed.
 
@@ -169,7 +176,7 @@ Run the following from the host after importing the lab. `Invoke-LabCommand -Pas
 ```powershell
 $labName = 'RIDEWin11Test' # Change only if your existing lab uses another name.
 $vmName = 'RIDE-Win11-Test'
-Import-Lab -Name $labName
+Import-Lab -Name $labName -NoValidation
 Invoke-LabCommand -ComputerName $vmName -ScriptBlock $remoteScript -PassThru
 ```
 

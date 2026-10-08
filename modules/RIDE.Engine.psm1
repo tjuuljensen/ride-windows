@@ -1,3 +1,55 @@
+<#
+.SYNOPSIS
+  Load the RIDE catalog, build plans, and manage operation lifecycles.
+
+.DESCRIPTION
+  Imports focused handlers, expands profiles/groups, checks supported targets, inspects state,
+  executes ShouldProcess-gated plans, captures per-scope pre-change snapshots/manifests, and
+  restores saved runs. Package restoration may use the latest release rather than the exact previous
+  version. Import establishes paths and command definitions; handlers are invoked only by explicit
+  commands.
+
+.EXAMPLE
+  Import-Module .\modules\RIDE.Engine.psm1
+
+.EXAMPLE
+  Get-RideCatalog
+
+.EXAMPLE
+  Get-RideProfile
+
+.INPUTS
+  None. Parameters are supplied explicitly.
+
+.OUTPUTS
+  None on import. Exported commands return catalog/profile objects, plan/status records, formatted
+  views, or lifecycle progress strings.
+
+.NOTES
+  Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows; system integration remains
+  unverified in this walkthrough.
+  Prerequisites: Windows-native PowerShell and the focused modules; target/elevation requirements
+  are checked per catalog operation.
+  File/environment inputs: catalog/operations.psd1, profiles/*.psd1, ProgramData/RIDE/State for
+  machine scope, LocalApplicationData/RIDE/State for user scope, and artifact observations.
+  Recovery: Restore-RideRun recovers captured settings/presence. Read catalog rollback limits before
+  applying packages or grouped changes.
+  Author: RIDE-Windows maintainers.
+  Version: 0.1.0
+  Changelog:
+    0.1.0: Establish the versioned PowerShell help contract during the 2026-10-08 walkthrough.
+
+.LINK
+  docs/OPERATIONS.md
+
+.LINK
+  docs/models/script-repository-model.md
+
+#>
+
+
+$script:ModuleVersion = '0.1.0'
+
 $script:RideRoot = Split-Path -Parent $PSScriptRoot
 $script:RideCatalogPath = Join-Path $script:RideRoot 'catalog/operations.psd1'
 $script:RideSettingsModule = Join-Path $PSScriptRoot 'RIDE-Settings.psm1'
@@ -6,18 +58,67 @@ $script:RideDefenderModule = Join-Path $PSScriptRoot 'RIDE-Defender.psm1'
 $script:RideServicesModule = Join-Path $PSScriptRoot 'RIDE-Services.psm1'
 $script:RideBackgroundAppsModule = Join-Path $PSScriptRoot 'RIDE-BackgroundApps.psm1'
 $script:RideBootConfigurationModule = Join-Path $PSScriptRoot 'RIDE-BootConfiguration.psm1'
+$script:RideNetworkProfilesModule = Join-Path $PSScriptRoot 'RIDE-NetworkProfiles.psm1'
+$script:RideRegistryKeySetModule = Join-Path $PSScriptRoot 'RIDE-RegistryKeySet.psm1'
 Import-Module $script:RideSettingsModule -Force -ErrorAction Stop
 Import-Module $script:RidePackagesModule -Force -ErrorAction Stop
 Import-Module $script:RideDefenderModule -Force -ErrorAction Stop
 Import-Module $script:RideServicesModule -Force -ErrorAction Stop
 Import-Module $script:RideBackgroundAppsModule -Force -ErrorAction Stop
 Import-Module $script:RideBootConfigurationModule -Force -ErrorAction Stop
+Import-Module $script:RideNetworkProfilesModule -Force -ErrorAction Stop
+Import-Module $script:RideRegistryKeySetModule -Force -ErrorAction Stop
 
 function Get-RideCatalog {
+  <#
+  .SYNOPSIS
+    Read the authoritative RIDE catalog data.
+
+  .DESCRIPTION
+    Imports catalog/operations.psd1 as data. Does not inspect or change Windows state.
+
+  .EXAMPLE
+    Get-RideCatalog
+
+  .INPUTS
+    None. Parameters are supplied explicitly.
+
+  .OUTPUTS
+    System.Collections.Hashtable. Catalog SchemaVersion, Operations, and Groups.
+
+  .NOTES
+    Ownership: RIDE-Windows maintainers. Version and compatibility follow the module overview.
+
+  #>
+
   Import-PowerShellDataFile -Path $script:RideCatalogPath
 }
 
 function Get-RideOperation {
+  <#
+  .SYNOPSIS
+    Find one catalog operation or group by ID.
+
+  .DESCRIPTION
+    Returns the first matching operation, then group; unknown IDs throw. No handlers are invoked.
+
+  .PARAMETER Id
+    Stable operation or group ID from the catalog; the command checks applicable kinds.
+
+  .EXAMPLE
+    Get-RideOperation -Id windows.show-known-extensions
+
+  .INPUTS
+    None. Parameters are supplied explicitly.
+
+  .OUTPUTS
+    System.Collections.Hashtable. Selected operation or group metadata.
+
+  .NOTES
+    Ownership: RIDE-Windows maintainers. Version and compatibility follow the module overview.
+
+  #>
+
   param([Parameter(Mandatory = $true)][string] $Id)
   $catalog = Get-RideCatalog
   $operation = $catalog.Operations | Where-Object { $_.Id -eq $Id } | Select-Object -First 1
@@ -28,6 +129,31 @@ function Get-RideOperation {
 }
 
 function Get-RideProfile {
+  <#
+  .SYNOPSIS
+    Read and validate a profile data file.
+
+  .DESCRIPTION
+    Requires a file, SchemaVersion 1, and selected operations. Does not inspect or apply Windows
+    state.
+
+  .PARAMETER Path
+    Profile path; defaults to profiles/default.psd1 below the repository root.
+
+  .EXAMPLE
+    Get-RideProfile
+
+  .INPUTS
+    None. Parameters are supplied explicitly.
+
+  .OUTPUTS
+    System.Collections.Hashtable. Profile metadata and desired operations.
+
+  .NOTES
+    Ownership: RIDE-Windows maintainers. Version and compatibility follow the module overview.
+
+  #>
+
   param([string] $Path = (Join-Path $script:RideRoot 'profiles/default.psd1'))
   if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) { throw "Profile file not found: $Path" }
   $profile = Import-PowerShellDataFile -Path $Path
@@ -37,6 +163,29 @@ function Get-RideProfile {
 }
 
 function Get-RidePlatform {
+  <#
+  .SYNOPSIS
+    Resolve the engine's Windows target classification from registry data.
+
+  .DESCRIPTION
+    Reads build and product type. Returns Windows 11, Windows Server 2025, or an unsupported-target
+    message; catalog support remains per operation. Does not mutate system configuration.
+
+  .EXAMPLE
+    Get-Help Get-RidePlatform -Full
+    Inspect this command's contract without invoking its implementation.
+
+  .INPUTS
+    None. Parameters are supplied explicitly.
+
+  .OUTPUTS
+    System.String. Resolved or unsupported Windows target.
+
+  .NOTES
+    Ownership: RIDE-Windows maintainers. Version and compatibility follow the module overview.
+
+  #>
+
   $versionKey = Get-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -ErrorAction Stop
   $productOptions = Get-ItemProperty -LiteralPath 'HKLM:\SYSTEM\CurrentControlSet\Control\ProductOptions' -ErrorAction Stop
   $build = [int]$versionKey.CurrentBuildNumber
@@ -102,6 +251,14 @@ function Get-RideOperationValue {
     if (-not $Operation.States.ContainsKey($State)) { throw "State '$State' is not supported by '$($Operation.Id)'." }
     return $Operation.States[$State]
   }
+  if ($Operation.Kind -eq 'NetworkProfile') {
+    if (-not $Operation.States.ContainsKey($State)) { throw "State '$State' is not supported by '$($Operation.Id)'." }
+    return $Operation.States[$State]
+  }
+  if ($Operation.Kind -eq 'RegistryKeySet') {
+    if (-not $Operation.States.ContainsKey($State)) { throw "State '$State' is not supported by '$($Operation.Id)'" }
+    return $Operation.States[$State]
+  }
   if ($Operation.Kind -eq 'BootConfiguration') {
     if (-not $Operation.States.ContainsKey($State)) { throw "State '$State' is not supported by '$($Operation.Id)'." }
     return $Operation.States[$State]
@@ -111,14 +268,44 @@ function Get-RideOperationValue {
 }
 
 function Get-RideCurrentState {
+  <#
+  .SYNOPSIS
+    Dispatch read-only live inspection to the catalog handler.
+
+  .DESCRIPTION
+    Selects registry, package, Defender, service, background-app, BCD, network, or registry-tree
+    inspection. Download-only artifacts return a synthetic absence record. No apply/remove handlers
+    are invoked.
+
+  .PARAMETER Operation
+    Catalog operation metadata for this focused handler; use the engine to select and validate it.
+
+  .EXAMPLE
+    Get-Help Get-RideCurrentState -Full
+    Inspect this command's contract without invoking its implementation.
+
+  .INPUTS
+    None. Parameters are supplied explicitly.
+
+  .OUTPUTS
+    System.Management.Automation.PSCustomObject. Handler-specific captured current state.
+
+  .NOTES
+    Ownership: RIDE-Windows maintainers. Version and compatibility follow the module overview.
+
+  #>
+
   param([Parameter(Mandatory = $true)][hashtable] $Operation)
   switch ($Operation.Handler) {
     'RegistryValue' { return Get-RideSettingState -Operation $Operation }
     'Package' { return Get-RideInstalledPackage -Operation $Operation }
+    'Artifact' { return [pscustomobject]@{ Present = $false; DisplayName = 'Download-only artifact'; DisplayVersion = $null } }
     'DefenderExclusion' { return Get-RideDefenderExclusionState -Operation $Operation }
     'WindowsService' { return Get-RideWindowsServiceState -Operation $Operation }
     'BackgroundAppOverrides' { return Get-RideBackgroundAppOverrides -Operation $Operation }
     'BootConfiguration' { return Get-RideBootConfigurationState -Operation $Operation }
+    'NetworkProfile' { return Get-RideNetworkProfileState -Operation $Operation }
+    'RegistryKeySet' { return Get-RideRegistryKeyTreeState -Operation $Operation }
     default { throw "No handler is registered for '$($Operation.Handler)'." }
   }
 }
@@ -140,11 +327,20 @@ function Get-RideCurrentValueText {
     if (-not $CurrentState.Exists) { return '<unset>' }
     return ConvertTo-RideDisplayValue -Value $CurrentState.Value
   }
+  if ($Operation.Kind -eq 'Artifact') { return 'Download only; no configuration is applied' }
   if ($Operation.Kind -eq 'DefenderExclusion') {
     if (-not $CurrentState.Present) { return '<absent>' }
     return $CurrentState.Path
   }
   if ($Operation.Kind -eq 'WindowsService') { return '{0} / {1}' -f $CurrentState.StartupType, $CurrentState.Status }
+  if ($Operation.Kind -eq 'NetworkProfile') {
+    if (@($CurrentState.Profiles).Count -eq 0) { return '<no reported non-domain profiles>' }
+    return (@($CurrentState.Profiles | ForEach-Object { '{0}: {1}' -f $_.Name, $_.NetworkCategory }) -join '; ')
+  }
+  if ($Operation.Kind -eq 'RegistryKeySet') {
+    $stateName = Get-RideCurrentStateName -Operation $Operation -CurrentState $CurrentState
+    return '{0} ({1}/{2} keys registered)' -f $stateName, $CurrentState.PresentCount, $CurrentState.TotalCount
+  }
   if ($Operation.Kind -eq 'BootConfiguration') { if ($CurrentState.Exists) { return [string]$CurrentState.Value }; return '<Windows default>' }
   if ($Operation.Kind -eq 'BackgroundAppOverrides') {
     if (-not $CurrentState.Present) { return '<no per-app overrides>' }
@@ -173,6 +369,16 @@ function Test-RideCurrentStateMatch {
     $desired = Get-RideOperationValue -Operation $Operation -State $State
     return ($CurrentState.StartupType -eq $desired.StartupType -and $CurrentState.Status -eq $desired.Status)
   }
+  if ($Operation.Kind -eq 'NetworkProfile') {
+    $desired = [string](Get-RideOperationValue -Operation $Operation -State $State)
+    $profiles = @($CurrentState.Profiles)
+    return ($profiles.Count -gt 0 -and @($profiles | Where-Object { $_.NetworkCategory -ne $desired }).Count -eq 0)
+  }
+  if ($Operation.Kind -eq 'RegistryKeySet') {
+    $desired = Get-RideOperationValue -Operation $Operation -State $State
+    if ($desired -eq 'Absent') { return ($CurrentState.PresentCount -eq 0) }
+    return ($CurrentState.PresentCount -eq $CurrentState.TotalCount)
+  }
   if ($Operation.Kind -eq 'BootConfiguration') {
     $desired = Get-RideOperationValue -Operation $Operation -State $State
     if ($null -eq $desired) { return (-not $CurrentState.Exists) }
@@ -195,6 +401,18 @@ function Get-RideCurrentStateName {
       if ($CurrentState.StartupType -eq $desired.StartupType -and $CurrentState.Status -eq $desired.Status) { return $stateName }
     }
     return 'Custom'
+  }
+  if ($Operation.Kind -eq 'NetworkProfile') {
+    $profiles = @($CurrentState.Profiles)
+    if ($profiles.Count -eq 0) { return 'Unconfigured' }
+    $categories = @($profiles.NetworkCategory | Select-Object -Unique)
+    if ($categories.Count -eq 1) { return [string]$categories[0] }
+    return 'Mixed'
+  }
+  if ($Operation.Kind -eq 'RegistryKeySet') {
+    if ($CurrentState.PresentCount -eq 0) { return 'Hidden' }
+    if ($CurrentState.PresentCount -eq $CurrentState.TotalCount) { return 'Visible' }
+    return 'Mixed'
   }
   if ($Operation.Kind -eq 'BootConfiguration') {
     foreach ($stateName in $Operation.States.Keys) {
@@ -227,6 +445,35 @@ function Get-RideCurrentStateName {
 }
 
 function Test-RideDesiredState {
+  <#
+  .SYNOPSIS
+    Inspect whether one operation matches its declared desired state.
+
+  .DESCRIPTION
+    Reads current state and compares literal data, presence, service configuration, profile
+    categories, or managed tree presence as applicable. Does not apply the requested state.
+
+  .PARAMETER Operation
+    Catalog operation metadata for this focused handler; use the engine to select and validate it.
+
+  .PARAMETER State
+    Declared desired state for the selected catalog operation.
+
+  .EXAMPLE
+    Get-Help Test-RideDesiredState -Full
+    Inspect this command's contract without invoking its implementation.
+
+  .INPUTS
+    None. Parameters are supplied explicitly.
+
+  .OUTPUTS
+    System.Boolean. Whether the live operation matches the desired state.
+
+  .NOTES
+    Ownership: RIDE-Windows maintainers. Version and compatibility follow the module overview.
+
+  #>
+
   param([hashtable] $Operation, [string] $State)
   $current = Get-RideCurrentState -Operation $Operation
   Test-RideCurrentStateMatch -Operation $Operation -State $State -CurrentState $current
@@ -291,6 +538,12 @@ function Save-RideOperationSnapshot {
   elseif ($Operation.Kind -eq 'BootConfiguration') {
     [ordered]@{ Exists = [bool]$CurrentState.Exists; Value = $CurrentState.Value }
   }
+  elseif ($Operation.Kind -eq 'NetworkProfile') {
+    [ordered]@{ Profiles = @($CurrentState.Profiles | ForEach-Object { [ordered]@{ InterfaceIndex = $_.InterfaceIndex; Name = $_.Name; NetworkCategory = $_.NetworkCategory } }) }
+  }
+  elseif ($Operation.Kind -eq 'RegistryKeySet') {
+    [ordered]@{ Trees = @($CurrentState.Trees) }
+  }
   else {
     [ordered]@{ Present = [bool]$CurrentState.Present; Version = $CurrentState.DisplayVersion }
   }
@@ -343,6 +596,34 @@ function Assert-RidePlanAllowed {
 }
 
 function Get-RidePlan {
+  <#
+  .SYNOPSIS
+    Expand and validate desired operation states without applying them.
+
+  .DESCRIPTION
+    Expands ordered group members, reverses removal order, resolves baseline states, and validates
+    declared lifecycle actions. Does not inspect live Windows state or write snapshots.
+
+  .PARAMETER Profile
+    Schema-version-1 profile data containing desired catalog IDs and states.
+
+  .PARAMETER Action
+    Apply (default) or Remove; removal selects applicable package/exclusion operations.
+
+  .EXAMPLE
+    Get-RidePlan -Profile (Get-RideProfile)
+
+  .INPUTS
+    None. Parameters are supplied explicitly.
+
+  .OUTPUTS
+    System.Management.Automation.PSCustomObject. Ordered Operation and State entries.
+
+  .NOTES
+    Ownership: RIDE-Windows maintainers. Version and compatibility follow the module overview.
+
+  #>
+
   param(
     [Parameter(Mandatory = $true)][hashtable] $Profile,
     [ValidateSet('Apply', 'Remove')][string] $Action = 'Apply'
@@ -351,7 +632,7 @@ function Get-RidePlan {
   foreach ($item in $plan) {
     if (-not $item.State) { throw "No state was selected for '$($item.Operation.Id)'." }
     $null = Get-RideOperationValue -Operation $item.Operation -State $item.State
-    if ($Action -eq 'Apply' -and $item.Operation.Kind -in @('RegistryValue', 'DefenderExclusion', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration') -and 'Set' -notin $item.Operation.Actions) { throw "'$($item.Operation.Id)' does not support set." }
+    if ($Action -eq 'Apply' -and $item.Operation.Kind -in @('RegistryValue', 'DefenderExclusion', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration', 'NetworkProfile', 'RegistryKeySet') -and 'Set' -notin $item.Operation.Actions) { throw "'$($item.Operation.Id)' does not support set." }
     if ($item.Operation.Kind -eq 'Package' -and $item.State -eq 'Present' -and 'Install' -notin $item.Operation.Actions) { throw "'$($item.Operation.Id)' does not support install." }
     if ($item.Operation.Kind -eq 'Package' -and $item.State -eq 'Absent' -and 'Uninstall' -notin $item.Operation.Actions) { throw "'$($item.Operation.Id)' does not support uninstall." }
   }
@@ -359,6 +640,37 @@ function Get-RidePlan {
 }
 
 function Get-RideSingleOperationPlan {
+  <#
+  .SYNOPSIS
+    Build a validated plan for one direct catalog action.
+
+  .DESCRIPTION
+    Requires an appropriate operation ID rather than a group. Resolves Set, Unset, Install, or
+    Remove into a synthetic profile and returns the normal plan without applying it.
+
+  .PARAMETER Id
+    Stable operation or group ID from the catalog; the command checks applicable kinds.
+
+  .PARAMETER Action
+    Set, Unset, Install, or Remove; determines applicable operation kinds and desired states.
+
+  .PARAMETER State
+    Declared setting state for Set; required for that action, otherwise derived from the action.
+
+  .EXAMPLE
+    Get-RideSingleOperationPlan -Id package.7zip -Action Install
+
+  .INPUTS
+    None. Parameters are supplied explicitly.
+
+  .OUTPUTS
+    System.Management.Automation.PSCustomObject. Ordered Operation and State entries.
+
+  .NOTES
+    Ownership: RIDE-Windows maintainers. Version and compatibility follow the module overview.
+
+  #>
+
   param(
     [Parameter(Mandatory = $true)][string] $Id,
     [ValidateSet('Set', 'Unset', 'Install', 'Remove')][string] $Action,
@@ -369,9 +681,9 @@ function Get-RideSingleOperationPlan {
   if (-not $operation.ContainsKey('Kind')) { throw "Direct actions require an operation ID, not a group ID: $Id" }
   switch ($Action) {
     'Set' {
-      if ($operation.Kind -notin @('RegistryValue', 'DefenderExclusion', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration')) { throw "'set' requires a Windows setting ID; '$Id' is a $($operation.Kind) operation." }
+      if ($operation.Kind -notin @('RegistryValue', 'DefenderExclusion', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration', 'NetworkProfile', 'RegistryKeySet')) { throw "'set' requires a Windows setting ID; '$Id' is a $($operation.Kind) operation." }
       if (-not $State) {
-        $availableStates = if ($operation.Kind -in @('RegistryValue', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration')) { $operation.States.Keys -join ', ' } else { 'Present, Absent' }
+        $availableStates = if ($operation.Kind -in @('RegistryValue', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration', 'NetworkProfile', 'RegistryKeySet')) { $operation.States.Keys -join ', ' } else { 'Present, Absent' }
         throw "The set command requires -State. Available states: $availableStates."
       }
       if ('Set' -notin $operation.Actions) { throw "'$Id' does not support setting a value." }
@@ -407,7 +719,76 @@ function Get-RideSingleOperationPlan {
   Get-RidePlan -Profile $profile
 }
 
+function Save-RidePackage {
+  <#
+  .SYNOPSIS
+    Download a catalog package or standalone artifact without installing it.
+
+  .DESCRIPTION
+    Requires a declared Download action and Package/Artifact kind. Uses ShouldProcess before
+    network/file writes. Downloads do not create pre-change Windows setting snapshots.
+
+  .PARAMETER Id
+    Stable operation or group ID from the catalog; the command checks applicable kinds.
+
+  .PARAMETER Destination
+    Artifact destination root; defaults to the user RIDE state root Artifacts directory.
+
+  .EXAMPLE
+    Save-RidePackage -Id package.7zip -WhatIf
+
+  .INPUTS
+    None. Parameters are supplied explicitly.
+
+  .OUTPUTS
+    System.Management.Automation.PSCustomObject. Artifact retention record when approved.
+
+  .NOTES
+    Ownership: RIDE-Windows maintainers. Version and compatibility follow the module overview.
+
+  #>
+
+  [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Low')]
+  param(
+    [Parameter(Mandatory = $true)][string] $Id,
+    [string] $Destination = (Join-Path (Get-RideStateRoot -Scope User) 'Artifacts')
+  )
+
+  $operation = Get-RideOperation -Id $Id
+  if ($operation.Kind -notin @('Package', 'Artifact')) { throw "The download command requires a package or artifact ID; '$Id' is a $($operation.Kind) operation." }
+  if ('Download' -notin $operation.Actions) { throw "Catalog item '$Id' does not support download." }
+  if ($PSCmdlet.ShouldProcess($operation.Name, "Download latest artifact to '$Destination'")) {
+    Save-RidePackageArtifact -Operation $operation -DestinationDirectory $Destination
+  }
+}
+
 function Invoke-RidePlan {
+  <#
+  .SYNOPSIS
+    Apply ordered desired states with preview and pre-change capture.
+
+  .DESCRIPTION
+    Checks target/elevation, skips matching states, and uses ShouldProcess before
+    snapshots/handlers. Writes manifests and per-scope snapshots only for approved changes. Failure
+    reports run ID plus saved/completed operations; prior approved changes can remain.
+
+  .PARAMETER Plan
+    Ordered operation/state objects returned by Get-RidePlan or Get-RideSingleOperationPlan.
+
+  .EXAMPLE
+    Invoke-RidePlan -Plan (Get-RidePlan -Profile (Get-RideProfile)) -WhatIf
+
+  .INPUTS
+    None. Parameters are supplied explicitly.
+
+  .OUTPUTS
+    System.String. Applied/already-matching/no-change messages and saved Run ID.
+
+  .NOTES
+    Ownership: RIDE-Windows maintainers. Version and compatibility follow the module overview.
+
+  #>
+
   [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
   param(
     [Parameter(Mandatory = $true)][object[]] $Plan
@@ -457,6 +838,12 @@ function Invoke-RidePlan {
         elseif ($operation.Kind -eq 'BootConfiguration') {
           Set-RideBootConfigurationState -Operation $operation -State $item.State
         }
+        elseif ($operation.Kind -eq 'NetworkProfile') {
+          Set-RideNetworkProfileState -Operation $operation -State $item.State
+        }
+        elseif ($operation.Kind -eq 'RegistryKeySet') {
+          Set-RideRegistryKeySetState -Operation $operation -State $item.State
+        }
         $completedOperationIds.Add($operation.Id)
         Write-Output ("Applied: {0} ({1})" -f $operation.Id, $item.State)
       }
@@ -477,6 +864,32 @@ function Invoke-RidePlan {
 }
 
 function Show-RideCatalog {
+  <#
+  .SYNOPSIS
+    Return pipeline-friendly catalog and profile discovery objects.
+
+  .DESCRIPTION
+    Builds one object collection of operations, groups, and profiles. Filters by a named view or
+    catalog category; unknown/empty views throw. No handlers are invoked.
+
+  .PARAMETER View
+    all (default), profiles, packages, artifacts, groups, settings, or a catalog category.
+
+  .EXAMPLE
+    Show-RideCatalog -View packages
+
+  .INPUTS
+    None. Parameters are supplied explicitly.
+
+  .OUTPUTS
+    System.Management.Automation.PSCustomObject. Type, Id, Name, Category, Kind, scope/actions,
+    members/path, and description.
+
+  .NOTES
+    Ownership: RIDE-Windows maintainers. Version and compatibility follow the module overview.
+
+  #>
+
   param([string] $View = 'all')
 
   $catalog = Get-RideCatalog
@@ -533,8 +946,9 @@ function Show-RideCatalog {
     '^all$' { $rows; break }
     '^profiles?$' { @($rows | Where-Object Type -eq 'Profile'); break }
     '^packages?$' { @($rows | Where-Object { $_.Type -eq 'Operation' -and $_.Kind -eq 'Package' }); break }
+    '^artifacts?$' { @($rows | Where-Object { $_.Type -eq 'Operation' -and $_.Kind -eq 'Artifact' }); break }
     '^groups?$' { @($rows | Where-Object Type -eq 'Group'); break }
-    '^settings?$' { @($rows | Where-Object { $_.Type -eq 'Operation' -and $_.Kind -in @('RegistryValue', 'DefenderExclusion', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration') }); break }
+    '^settings?$' { @($rows | Where-Object { $_.Type -eq 'Operation' -and $_.Kind -in @('RegistryValue', 'DefenderExclusion', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration', 'NetworkProfile', 'RegistryKeySet') }); break }
     default {
       $categoryPart = [regex]::Escape($viewKey)
       @($rows | Where-Object {
@@ -543,11 +957,37 @@ function Show-RideCatalog {
       })
     }
   }
-  if (-not $filtered -or @($filtered).Count -eq 0) { throw "Unknown or empty list view '$View'. Use all, profiles, packages, groups, settings, or a catalog category such as windows, explorer, or security." }
+  if (-not $filtered -or @($filtered).Count -eq 0) { throw "Unknown or empty list view '$View'. Use all, profiles, packages, artifacts, groups, settings, or a catalog category such as windows, explorer, or security." }
   $filtered | Sort-Object Type, Category, Name
 }
 
 function Show-RideOperation {
+  <#
+  .SYNOPSIS
+    Display operation metadata with its live value or group member state.
+
+  .DESCRIPTION
+    Reads focused current-state handlers, includes a registry baseline value, and formats operation
+    details or group members for human inspection. Does not change Windows state.
+
+  .PARAMETER Id
+    Stable operation or group ID from the catalog; the command checks applicable kinds.
+
+  .EXAMPLE
+    Get-Help Show-RideOperation -Full
+    Inspect this command's contract without invoking its implementation.
+
+  .INPUTS
+    None. Parameters are supplied explicitly.
+
+  .OUTPUTS
+    Microsoft.PowerShell.Commands.Internal.Format formatting records for list/table display.
+
+  .NOTES
+    Ownership: RIDE-Windows maintainers. Version and compatibility follow the module overview.
+
+  #>
+
   param([Parameter(Mandatory = $true)][string] $Id)
   $entry = Get-RideOperation -Id $Id
   if (-not $entry.ContainsKey('Kind')) {
@@ -561,7 +1001,7 @@ function Show-RideOperation {
         Id = $operation.Id
         Name = $operation.Name
         CurrentValue = Get-RideCurrentValueText -Operation $operation -CurrentState $current
-        CurrentValueType = if ($operation.Kind -eq 'RegistryValue') { $current.ValueType } elseif ($operation.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } elseif ($operation.Kind -eq 'WindowsService') { 'Service configuration' } elseif ($operation.Kind -eq 'BackgroundAppOverrides') { 'Per-app registry values' } elseif ($operation.Kind -eq 'BootConfiguration') { 'Boot configuration' } else { 'Package' }
+        CurrentValueType = if ($operation.Kind -eq 'RegistryValue') { $current.ValueType } elseif ($operation.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } elseif ($operation.Kind -eq 'WindowsService') { 'Service configuration' } elseif ($operation.Kind -eq 'BackgroundAppOverrides') { 'Per-app registry values' } elseif ($operation.Kind -eq 'BootConfiguration') { 'Boot configuration' } elseif ($operation.Kind -eq 'NetworkProfile') { 'Connection profiles' } elseif ($operation.Kind -eq 'RegistryKeySet') { 'Registry key set' } else { 'Package' }
       }
     }
     $members | Format-Table -AutoSize
@@ -574,7 +1014,7 @@ function Show-RideOperation {
     if ($key -ne 'States') { $details[$key] = $entry[$key] }
   }
   $details.CurrentValue = Get-RideCurrentValueText -Operation $entry -CurrentState $current
-  $details.CurrentValueType = if ($entry.Kind -eq 'RegistryValue') { $current.ValueType } elseif ($entry.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } elseif ($entry.Kind -eq 'WindowsService') { 'Service configuration' } elseif ($entry.Kind -eq 'BackgroundAppOverrides') { 'Per-app registry values' } elseif ($entry.Kind -eq 'BootConfiguration') { 'Boot configuration' } else { 'Package' }
+  $details.CurrentValueType = if ($entry.Kind -eq 'RegistryValue') { $current.ValueType } elseif ($entry.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } elseif ($entry.Kind -eq 'WindowsService') { 'Service configuration' } elseif ($entry.Kind -eq 'BackgroundAppOverrides') { 'Per-app registry values' } elseif ($entry.Kind -eq 'BootConfiguration') { 'Boot configuration' } elseif ($entry.Kind -eq 'NetworkProfile') { 'Connection profiles' } elseif ($entry.Kind -eq 'RegistryKeySet') { 'Registry key set' } elseif ($entry.Kind -eq 'Artifact') { 'Download-only artifact' } else { 'Package' }
   if ($entry.Kind -eq 'RegistryValue') {
     $baselineValue = Get-RideOperationValue -Operation $entry -State $entry.BaselineState
     $details.BaselineValue = ConvertTo-RideDisplayValue -Value $baselineValue
@@ -591,6 +1031,15 @@ function Show-RideOperation {
   elseif ($entry.Kind -eq 'BootConfiguration') {
     $details.CurrentState = Get-RideCurrentStateName -Operation $entry -CurrentState $current
   }
+  elseif ($entry.Kind -eq 'NetworkProfile') {
+    $details.CurrentState = Get-RideCurrentStateName -Operation $entry -CurrentState $current
+    $details.Profiles = @($current.Profiles)
+  }
+  elseif ($entry.Kind -eq 'RegistryKeySet') {
+    $details.CurrentState = Get-RideCurrentStateName -Operation $entry -CurrentState $current
+    $details.RegisteredKeyCount = $current.PresentCount
+    $details.RegistryKeyCount = $current.TotalCount
+  }
   else {
     $details.Installed = [bool]$current.Present
   }
@@ -598,6 +1047,32 @@ function Show-RideOperation {
 }
 
 function Show-RidePlan {
+  <#
+  .SYNOPSIS
+    Display current values next to an ordered plan's desired values.
+
+  .DESCRIPTION
+    Inspects live values and desired-state matches, then formats a table with scope/rollback
+    information. Does not apply the plan or create state records.
+
+  .PARAMETER Plan
+    Ordered operation/state objects returned by Get-RidePlan or Get-RideSingleOperationPlan.
+
+  .EXAMPLE
+    Get-Help Show-RidePlan -Full
+    Inspect this command's contract without invoking its implementation.
+
+  .INPUTS
+    None. Parameters are supplied explicitly.
+
+  .OUTPUTS
+    Microsoft.PowerShell.Commands.Internal.Format formatting records for table display.
+
+  .NOTES
+    Ownership: RIDE-Windows maintainers. Version and compatibility follow the module overview.
+
+  #>
+
   param([Parameter(Mandatory = $true)][object[]] $Plan)
   $rows = foreach ($item in $Plan) {
     $current = Get-RideCurrentState -Operation $item.Operation
@@ -638,7 +1113,7 @@ function Test-RideStatusView {
     '^all$' { return $true }
     '^profiles?$' { throw "The 'profiles' view applies to list. For status, select one profile with -Profile <file>." }
     '^packages?$' { return ($Operation.Kind -eq 'Package') }
-    '^settings?$' { return ($Operation.Kind -in @('RegistryValue', 'DefenderExclusion', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration')) }
+    '^settings?$' { return ($Operation.Kind -in @('RegistryValue', 'DefenderExclusion', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration', 'NetworkProfile', 'RegistryKeySet')) }
     '^groups?$' {
       return [bool]($Catalog.Groups | Where-Object { $Operation.Id -in $_.Members } | Select-Object -First 1)
     }
@@ -650,6 +1125,39 @@ function Test-RideStatusView {
 }
 
 function Get-RideStatus {
+  <#
+  .SYNOPSIS
+    Compare live state with target defaults or an explicit profile.
+
+  .DESCRIPTION
+    Without Profile, returns each target-supported operation's literal/effective defaults and
+    interpreted current state. With Profile, compares selected desired states. Applies a catalog
+    view; standalone artifacts are excluded from target-default status.
+
+  .PARAMETER Profile
+    Optional schema-version-1 profile. Omit to inspect platform defaults; supplying it switches to
+    desired-state comparison.
+
+  .PARAMETER View
+    all (default), packages, groups, settings, or a catalog category. profiles is rejected; supply
+    Profile for comparisons.
+
+  .EXAMPLE
+    Get-Help Get-RideStatus -Full
+    Inspect this command's contract without invoking its implementation.
+
+  .INPUTS
+    None. Parameters are supplied explicitly.
+
+  .OUTPUTS
+    System.Management.Automation.PSCustomObject. Current values/states with default or desired-state
+    fields.
+
+  .NOTES
+    Ownership: RIDE-Windows maintainers. Version and compatibility follow the module overview.
+
+  #>
+
   param([hashtable] $Profile, [string] $View = 'all')
 
   if ($View -match '^(?i:profiles?)$') { throw "The 'profiles' view applies to list. For status, select one profile with -Profile <file>." }
@@ -679,13 +1187,14 @@ function Get-RideStatus {
         InDesiredState = Test-RideCurrentStateMatch -Operation $item.Operation -State $item.State -CurrentState $current
         CurrentState = Get-RideCurrentStateName -Operation $item.Operation -CurrentState $current
         CurrentValue = Get-RideCurrentValueText -Operation $item.Operation -CurrentState $current
-        CurrentValueType = if ($item.Operation.Kind -eq 'RegistryValue') { if ($current.Exists) { $current.ValueType } else { '<unset>' } } elseif ($item.Operation.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } elseif ($item.Operation.Kind -eq 'WindowsService') { 'Service configuration' } elseif ($item.Operation.Kind -eq 'BackgroundAppOverrides') { 'Per-app registry values' } elseif ($item.Operation.Kind -eq 'BootConfiguration') { 'Boot configuration' } else { 'Package' }
+        CurrentValueType = if ($item.Operation.Kind -eq 'RegistryValue') { if ($current.Exists) { $current.ValueType } else { '<unset>' } } elseif ($item.Operation.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } elseif ($item.Operation.Kind -eq 'WindowsService') { 'Service configuration' } elseif ($item.Operation.Kind -eq 'BackgroundAppOverrides') { 'Per-app registry values' } elseif ($item.Operation.Kind -eq 'BootConfiguration') { 'Boot configuration' } elseif ($item.Operation.Kind -eq 'NetworkProfile') { 'Connection profiles' } elseif ($item.Operation.Kind -eq 'RegistryKeySet') { 'Registry key set' } else { 'Package' }
       })
     }
   }
   else {
     $target = Get-RidePlatform
-    foreach ($operation in $catalog.Operations) {
+  foreach ($operation in $catalog.Operations) {
+      if ($operation.Kind -eq 'Artifact') { continue }
       if ($target -notin $operation.SupportedTargets) { continue }
       if (-not (Test-RideStatusView -Operation $operation -View $View -Catalog $catalog)) { continue }
       $current = Get-RideCurrentState -Operation $operation
@@ -705,6 +1214,14 @@ function Get-RideStatus {
       elseif ($operation.Kind -eq 'BootConfiguration') {
         $defaultValue = if ($defaults) { $defaults.DefaultValue } else { '<not declared>' }
         $matchesDefault = if ($defaults) { -not $current.Exists } else { $null }
+      }
+      elseif ($operation.Kind -eq 'NetworkProfile') {
+        $defaultValue = if ($defaults) { $defaults.DefaultValue } else { '<not declared>' }
+        $matchesDefault = $null
+      }
+      elseif ($operation.Kind -eq 'RegistryKeySet') {
+        $defaultValue = if ($defaults) { $defaults.DefaultValue } else { '<not declared>' }
+        $matchesDefault = $null
       }
       else {
         $defaultValue = if (-not $defaults) {
@@ -736,7 +1253,7 @@ function Get-RideStatus {
         MatchesDefault = $matchesDefault
         CurrentState = Get-RideCurrentStateName -Operation $operation -CurrentState $current
         CurrentValue = Get-RideCurrentValueText -Operation $operation -CurrentState $current
-        CurrentValueType = if ($operation.Kind -eq 'RegistryValue') { if ($current.Exists) { $current.ValueType } else { '<unset>' } } elseif ($operation.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } elseif ($operation.Kind -eq 'WindowsService') { 'Service configuration' } elseif ($operation.Kind -eq 'BackgroundAppOverrides') { 'Per-app registry values' } elseif ($operation.Kind -eq 'BootConfiguration') { 'Boot configuration' } else { 'Package' }
+        CurrentValueType = if ($operation.Kind -eq 'RegistryValue') { if ($current.Exists) { $current.ValueType } else { '<unset>' } } elseif ($operation.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } elseif ($operation.Kind -eq 'WindowsService') { 'Service configuration' } elseif ($operation.Kind -eq 'BackgroundAppOverrides') { 'Per-app registry values' } elseif ($operation.Kind -eq 'BootConfiguration') { 'Boot configuration' } elseif ($operation.Kind -eq 'NetworkProfile') { 'Connection profiles' } elseif ($operation.Kind -eq 'RegistryKeySet') { 'Registry key set' } else { 'Package' }
       })
     }
   }
@@ -745,6 +1262,33 @@ function Get-RideStatus {
 }
 
 function Restore-RideRun {
+  <#
+  .SYNOPSIS
+    Restore captured pre-change state for a saved run.
+
+  .DESCRIPTION
+    Validates hexadecimal run identity, scopes, target support, and elevation. Uses ShouldProcess
+    before each restore. Captured settings restore prior data/presence; packages may reinstall the
+    latest upstream release, with a warning when exact prior version recovery is unavailable.
+
+  .PARAMETER RunId
+    32 hexadecimal characters identifying a saved run; machine-scoped records require elevation.
+
+  .EXAMPLE
+    Get-Help Restore-RideRun -Full
+    Inspect this command's contract without invoking its implementation.
+
+  .INPUTS
+    None. Parameters are supplied explicitly.
+
+  .OUTPUTS
+    System.String. Per-operation restoration messages.
+
+  .NOTES
+    Ownership: RIDE-Windows maintainers. Version and compatibility follow the module overview.
+
+  #>
+
   [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
   param([Parameter(Mandatory = $true)][string] $RunId)
   if ($RunId -notmatch '^[a-fA-F0-9]{32}$') { throw 'Run ID must be a 32-character hexadecimal value.' }
@@ -806,8 +1350,14 @@ function Restore-RideRun {
     elseif ($operation.Kind -eq 'BootConfiguration') {
       Restore-RideBootConfigurationState -Operation $operation -Snapshot $record.Snapshot
     }
+    elseif ($operation.Kind -eq 'NetworkProfile') {
+      Restore-RideNetworkProfileState -Snapshot $record.Snapshot
+    }
+    elseif ($operation.Kind -eq 'RegistryKeySet') {
+      Restore-RideRegistryKeySetState -Trees @($record.Snapshot.Trees)
+    }
     Write-Output "Restored prior state: $($operation.Id)"
   }
 }
 
-Export-ModuleMember -Function Get-RideCatalog, Get-RideOperation, Get-RideProfile, Get-RidePlan, Get-RideSingleOperationPlan, Invoke-RidePlan, Show-RideCatalog, Show-RideOperation, Show-RidePlan, Get-RideStatus, Get-RideCurrentState, Test-RideDesiredState, Get-RidePlatform, Restore-RideRun
+Export-ModuleMember -Function Get-RideCatalog, Get-RideOperation, Get-RideProfile, Get-RidePlan, Get-RideSingleOperationPlan, Save-RidePackage, Invoke-RidePlan, Show-RideCatalog, Show-RideOperation, Show-RidePlan, Get-RideStatus, Get-RideCurrentState, Test-RideDesiredState, Get-RidePlatform, Restore-RideRun

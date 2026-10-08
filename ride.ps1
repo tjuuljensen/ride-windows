@@ -1,29 +1,89 @@
 <#
 .SYNOPSIS
-  Declarative Windows setup and maintenance engine.
+  Plan, inspect, and manage declared Windows settings and packages.
+
 .DESCRIPTION
-  RIDE loads operation metadata and a profile, then plans, applies, inspects,
-  removes, or restores supported Windows operations.
+  Loads catalog metadata and dispatches list, show, plan, apply, download, install,
+  set, unset, status, restore, or remove. Command defaults to list. Discovery and
+  completion are read-only. State-changing engine commands use ShouldProcess and
+  save pre-change state for settings and package presence. Package restoration
+  can reinstall the current upstream release; exact prior package versions are
+  not guaranteed. Downloads retain artifacts and observation metadata.
+
 .PARAMETER Command
-  One of list, show, plan, apply, status, restore, or remove.
+  Declared command; defaults to list. Press Tab to discover the supported command set.
+
 .PARAMETER Id
-  Operation or group ID for the show command.
+  Operation/package/group ID, or a view for list/status. Direct actions require an appropriate
+  operation ID.
+
 .PARAMETER Profile
-  PowerShell data file containing the selected operations. Defaults to the
-  repository's profiles/default.psd1.
-.PARAMETER RunId
-  Run ID returned by apply or remove, used by restore.
+  Profile data-file path. Profile commands default to profiles/default.psd1; status compares a
+  profile only when explicitly supplied.
+
 .PARAMETER State
-  Declared catalog state for the direct set command.
+  Catalog state for set, also accepted positionally after the ID. Press Tab for declared states.
+
+.PARAMETER RunId
+  32-character hexadecimal saved run ID for restore; press Tab to discover saved manifests.
+
+.PARAMETER Destination
+  Directory for download artifacts; defaults to the user state root Artifacts directory.
+
 .PARAMETER Help
-  Display command usage and examples without loading the engine.
-.PARAMETER WhatIf
-  Preview a state-changing command without modifying the machine or state store.
+  Display help and return before operational work.
+
+.PARAMETER Version
+  Print the script version and return before operational work.
+
+.EXAMPLE
+  .\ride.ps1 -Help
+
+.EXAMPLE
+  .\ride.ps1 list packages
+
+.EXAMPLE
+  .\ride.ps1 set windows.show-known-extensions Enabled -WhatIf
+
+.EXAMPLE
+  .\ride.ps1 apply -Profile .\profiles\analyst-basics.psd1 -WhatIf
+
+.EXAMPLE
+  .\ride.ps1 -Version
+
+.INPUTS
+  None. Parameters are supplied explicitly.
+
+.OUTPUTS
+  System.Object. Catalog objects, formatted inspection/plan/status data, progress strings, or
+  downloaded artifact records, depending on the command.
+
+.NOTES
+  Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows; system integration remains
+  unverified in this walkthrough.
+  Prerequisites: Windows 11 or Windows Server 2025 as declared per operation; elevate for machine
+  changes. Downloads/installers need their catalog sources.
+  File/environment inputs: catalog/operations.psd1, profiles/*.psd1, focused modules, and
+  machine/user RIDE state stores. Package observations use catalog/artifact-observations.json.
+  Recovery: Use restore -RunId for captured state. Package recovery has the catalog-declared limits.
+  Author: RIDE-Windows maintainers.
+  Version: 0.1.0
+  Changelog:
+    0.1.0: Establish the versioned PowerShell help contract during the 2026-10-08 walkthrough.
+
+.LINK
+  README.md
+
+.LINK
+  docs/models/script-repository-model.md
+
 #>
+
+
 [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
 param(
   [Parameter(Position = 0)]
-  [ValidateSet('list', 'show', 'plan', 'apply', 'install', 'set', 'unset', 'status', 'restore', 'remove')]
+  [ValidateSet('list', 'show', 'plan', 'apply', 'download', 'install', 'set', 'unset', 'status', 'restore', 'remove')]
   [string] $Command = 'list',
 
   [Parameter(Position = 1)]
@@ -109,9 +169,9 @@ param(
       $catalogPath = Join-Path (Split-Path -Parent (Resolve-Path -LiteralPath $scriptPath).Path) 'catalog/operations.psd1'
       $catalog = Import-PowerShellDataFile -Path $catalogPath -ErrorAction Stop
       $operation = $catalog.Operations | Where-Object { $_.Id -eq $fakeBoundParameters.Id } | Select-Object -First 1
-      if ($operation.Kind -eq 'RegistryValue') {
+      if ($operation.Kind -in @('RegistryValue', 'RegistryKeySet')) {
         $states = @($operation.States.Keys)
-        if ('Baseline' -notin $states) { $states += 'Baseline' }
+        if ($operation.Kind -eq 'RegistryValue' -and 'Baseline' -notin $states) { $states += 'Baseline' }
       }
       elseif ($operation.Kind -eq 'DefenderExclusion') {
         $states = @('Present', 'Absent')
@@ -156,8 +216,13 @@ param(
     }
   })]
   [string] $RunId = '',
-  [switch] $Help
+  [string] $Destination = '',
+  [switch] $Help,
+  [switch] $Version
 )
+
+$script:ScriptVersion = '0.1.0'
+if ($Version) { Write-Output $script:ScriptVersion; return }
 
 if ($Help) {
   @'
@@ -171,6 +236,7 @@ Commands:
   show <id>            Show metadata and current value; settings include the baseline value.
   plan                 Show current values beside the profile's desired values.
   apply                Apply the profile and record prior state.
+  download <catalog-id> Download a package or standalone artifact without applying it.
   install <package-id> Install one catalog package and record its prior state.
   set <setting-id>     Set one catalog setting to a declared state; use -State <state>.
   unset <setting-id>   Remove one setting value when its catalog declares an unset state.
@@ -183,14 +249,17 @@ Options:
   -Id <id|view>        ID for show, or a view after list/status.
   -State <state>       Declared state for set; press Tab to complete available states.
   -RunId <id>          Run ID required by restore.
+  -Destination <path>  Retain a downloaded artifact under this directory.
   -WhatIf              Preview apply, remove, or restore.
   -Confirm             Ask before each supported change.
   -Help                Display this help.
+  -Version             Print the script version without loading the engine.
 
 List views:
   all                  Show operations, groups, and profiles.
   profiles             Show available profile files and the operations they select.
   packages             Show software install and uninstall operations.
+  artifacts            Show standalone download-only artifacts.
   windows              Show Windows setting operations; after status, show their defaults or profile state.
   explorer             Show Explorer-related settings; after status, show their defaults or profile state.
   security             Show security-related settings; after status, show their defaults or profile state.
@@ -206,6 +275,9 @@ complete commands, operation and group IDs, profiles, and saved run IDs.
 Examples:
   .\ride.ps1 list
   .\ride.ps1 list packages
+  .\ride.ps1 download package.7zip
+  .\ride.ps1 download package.notepadpp -Destination C:\RIDE\Artifacts
+  .\ride.ps1 download artifact.sysmon-swift-config
   .\ride.ps1 list profiles
   .\ride.ps1 list windows
   .\ride.ps1 status explorer
@@ -247,6 +319,13 @@ switch ($Command) {
     $plan = @(Get-RidePlan -Profile $loadedProfile)
     if ($WhatIf) { Show-RidePlan -Plan $plan }
     Invoke-RidePlan -Plan $plan -WhatIf:$WhatIf -Confirm:$Confirm
+  }
+  'download' {
+    if (-not $Id) { throw 'The download command requires a package or artifact ID.' }
+    if ($PSBoundParameters.ContainsKey('Profile')) { throw 'The download command accepts one catalog ID and does not use -Profile.' }
+    $downloadParameters = @{ Id = $Id; WhatIf = [bool]$WhatIf; Confirm = [bool]$Confirm }
+    if ($Destination) { $downloadParameters.Destination = $Destination }
+    Save-RidePackage @downloadParameters
   }
   'install' {
     if (-not $Id) { throw 'The install command requires a package ID.' }

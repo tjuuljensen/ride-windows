@@ -1,3 +1,7 @@
+# Default workstation desired states. SchemaVersion 1; the selected profile may change machine and user settings and install packages when explicitly applied.
+# Owner: RIDE-Windows maintainers. Keep values as declarative data.
+# Versioning: SchemaVersion governs the data contract; no independent script CLI/version.
+
 @{
   SchemaVersion = 1
   Name = 'Default workstation'
@@ -22,6 +26,10 @@
     @{ Id = 'windows.dotnet-strong-crypto-32bit'; State = 'Enabled' }
     @{ Id = 'windows.f8-boot-menu-policy'; State = 'Legacy' }
     @{ Id = 'windows.dep-boot-policy'; State = 'OptOut' }
+    @{ Id = 'windows.bitlocker-encryption-method'; State = 'AesCbc256' }
+    @{ Id = 'windows.current-network-category'; State = 'Private' }
+    @{ Id = 'windows.remote-assistance-policy'; State = 'Disabled' }
+    @{ Id = 'windows.microsoft-product-updates'; State = 'Enabled' }
     @{ Id = 'windows.tailored-experiences-policy'; State = 'Disabled' }
     @{ Id = 'windows.activity-history-feed-policy'; State = 'Disabled' }
     @{ Id = 'windows.activity-history-publish-policy'; State = 'Disabled' }
@@ -59,8 +67,13 @@
     @{ Id = 'windows.explorer-recent-shortcuts'; State = 'Hidden' }
     @{ Id = 'windows.explorer-frequent-shortcuts'; State = 'Hidden' }
     @{ Id = 'windows.explorer-start-location'; State = 'ThisPC' }
+    @{ Id = 'windows.music-folder-this-pc'; State = 'Hidden' }
+    @{ Id = 'windows.videos-folder-this-pc'; State = 'Hidden' }
+    @{ Id = 'windows.3d-objects-folder-this-pc'; State = 'Hidden' }
     @{ Id = 'windows.thumbnail-cache-creation'; State = 'Disabled' }
     @{ Id = 'windows.network-thumbnail-database'; State = 'Disabled' }
     @{ Id = 'package.7zip'; State = 'Present' }
+    @{ Id = 'package.git-for-windows'; State = 'Present' }
+    @{ Id = 'package.sysmon64'; State = 'Present' }
   )
 }

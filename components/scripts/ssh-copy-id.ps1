@@ -1,49 +1,68 @@
 <#
 .SYNOPSIS
-    ssh-copy-id.ps1
+  Install a local SSH public key in a remote authorized_keys file.
 
-.Description
-    PowerShell implementation of the Linux ssh-copy-id command.
-
-.Functionality
-    Copies a local SSH public key to a remote user's ~/.ssh/authorized_keys file.
-    Creates ~/.ssh and authorized_keys if needed.
-    Avoids duplicate key entries.
-    Uses ssh.exe only; no password or private key material is stored locally.
-    Sends the remote shell script through "sh -s" with LF-normalized line endings for Synology/Linux compatibility.
-    Passes the public key as a safely shell-quoted argument to avoid stdin/script parsing issues.
+.DESCRIPTION
+  Uses ssh.exe to send a POSIX shell script to the selected remote account.
+  Creates .ssh/authorized_keys when needed, avoids duplicate key lines, and sets
+  permissions. Only public key material is sent. DryRun avoids remote changes;
+  WhatIf previews the remote installation after local key validation. Help and
+  Version return before key discovery or SSH execution.
 
 .PARAMETER Destination
-    SSH destination in the form user@host, host, or any ssh.exe-compatible destination string.
+  ssh.exe destination, such as user@host; required for operational invocation.
 
 .PARAMETER Port
-    SSH port. Defaults to 22.
+  SSH port; defaults to 22, range 1-65535.
 
 .PARAMETER IdentityFile
-    Path to the local SSH identity file or public key file.
-    If a private key path is provided, ".pub" is appended automatically.
+  Public key path or private key path with .pub appended. Omitted checks id_ed25519.pub,
+  id_ecdsa.pub, then id_rsa.pub under ~/.ssh.
 
 .PARAMETER DryRun
-    Shows what would be used without making remote changes.
+  Show selected public key and target without contacting the remote account.
 
 .PARAMETER Help
-    Displays this help and exits without making any changes.
+  Display help and return before operational work.
+
+.PARAMETER Version
+  Print the script version and return before operational work.
 
 .EXAMPLE
-    .\ssh-copy-id.ps1 user@server
-    .\ssh-copy-id.ps1 user@server -IdentityFile ~/.ssh/id_ed25519.pub
-    .\ssh-copy-id.ps1 user@server -Port 2222
-    .\ssh-copy-id.ps1 user@server -DryRun
-    .\ssh-copy-id.ps1 user@server -WhatIf
+  .\components\scripts\ssh-copy-id.ps1 user@server -DryRun
 
-    .\ssh-copy-id.ps1 --Help
+.EXAMPLE
+  .\components\scripts\ssh-copy-id.ps1 user@server -WhatIf
 
-.Author
-    Torsten Juul-Jensen 
+.EXAMPLE
+  .\components\scripts\ssh-copy-id.ps1 -Help
 
-.Version
-    1.0.3
+.EXAMPLE
+  .\components\scripts\ssh-copy-id.ps1 -Version
+
+.INPUTS
+  None. Parameters are supplied explicitly.
+
+.OUTPUTS
+  System.String. Progress and diagnostic messages.
+
+.NOTES
+  Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows; system integration remains
+  unverified in this walkthrough.
+  Prerequisites: ssh.exe, a supported local public key, and remote SSH authentication with a POSIX
+  sh environment.
+  File/environment inputs: Only the .pub file is read. ssh.exe manages authentication; no
+  private-key/password material is stored by this script.
+  Recovery: Remove the exact added public-key line on the remote account if needed; no automatic
+  remote backup is created.
+  Author: Torsten Juul-Jensen.
+  Version: 1.1.0
+  Changelog:
+    1.1.0: Add native -Version and recognized help metadata.
+    1.0.3: Previously recorded tool version; earlier release history is not reconstructed here.
+
 #>
+
 
 [CmdletBinding(SupportsShouldProcess = $true)]
 param(
@@ -63,8 +82,12 @@ param(
 
     [Parameter()]
     [Alias('h')]
-    [switch]$Help
+    [switch]$Help,
+  [switch] $Version
 )
+
+$script:ScriptVersion = '1.1.0'
+if ($Version) { Write-Output $script:ScriptVersion; return }
 
 Set-StrictMode -Version 2.0
 $ErrorActionPreference = 'Stop'
@@ -82,6 +105,7 @@ Options:
   -DryRun               Show the selected key and target without making remote changes.
   -WhatIf               Preview the remote installation operation.
   -Help, -h, --Help     Show this help and exit.
+  -Version             Print the script version without resolving a key or host.
 
 Examples:
   $([IO.Path]::GetFileName($MyInvocation.MyCommand.Path)) user@server

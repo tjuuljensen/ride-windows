@@ -1,8 +1,64 @@
+<#
+.SYNOPSIS
+  Generate or check the operation reference from the catalog.
+
+.DESCRIPTION
+  Reads catalog operations, target defaults, and ordered groups. Check compares the generated
+  content without writing; otherwise writes docs/OPERATIONS.md as UTF-8 with LF line endings.
+
+.PARAMETER Check
+  Compare generated text with docs/OPERATIONS.md and throw when missing or stale; no write occurs.
+
+.PARAMETER Root
+  Repository root; defaults to the parent of the tools directory.
+
+.PARAMETER Help
+  Display help and return before operational work.
+
+.PARAMETER Version
+  Print the script version and return before operational work.
+
+.EXAMPLE
+  .\tools\Export-RideCatalog.ps1 -Check
+
+.EXAMPLE
+  .\tools\Export-RideCatalog.ps1 -Version
+
+.INPUTS
+  None. Parameters are supplied explicitly.
+
+.OUTPUTS
+  System.String. Progress and diagnostic messages.
+
+.NOTES
+  Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows; system integration remains
+  unverified in this walkthrough.
+  Prerequisites: PowerShell data-file support and read access to the catalog; write access to docs
+  for generation.
+  File/environment inputs: catalog/operations.psd1 is authoritative; docs/OPERATIONS.md is
+  generated.
+  Recovery: Regenerate from the reviewed catalog. Check mode is read-only.
+  Error-handling exception: Existing read policy, explicit Check-mode throws, and throwing .NET
+  writes are retained.
+  Author: RIDE-Windows maintainers.
+  Version: 0.1.0
+  Changelog:
+    0.1.0: Establish the versioned PowerShell help contract during the 2026-10-08 walkthrough.
+
+#>
+
+
 [CmdletBinding()]
 param(
   [switch] $Check,
-  [string] $Root = ''
+  [string] $Root = '',
+  [switch] $Help,
+  [switch] $Version
 )
+
+$script:ScriptVersion = '0.1.0'
+if ($Version) { Write-Output $script:ScriptVersion; return }
+if ($Help) { Get-Help -Name $PSCommandPath -Full; return }
 
 if (-not $Root) { $Root = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path) }
 $catalogPath = Join-Path $Root 'catalog/operations.psd1'
@@ -22,8 +78,8 @@ foreach ($operation in ($catalog.Operations | Sort-Object Category, Name)) {
   $targets = $operation.SupportedTargets -join ', '
   $actions = $operation.Actions -join ', '
   $admin = if ($operation.RequiresAdmin) { 'Yes' } else { 'No' }
-  $referenceUri = if ($operation.Kind -eq 'Package') { $operation.ProductUri } else { $operation.DocumentationUri }
-  $referenceLabel = if ($operation.Kind -eq 'Package') { 'Product info' } else { 'Microsoft docs' }
+  $referenceUri = if ($operation.Kind -in @('Package', 'Artifact')) { $operation.ProductUri } else { $operation.DocumentationUri }
+  $referenceLabel = if ($operation.Kind -in @('Package', 'Artifact')) { 'Product info' } else { 'Microsoft docs' }
   $reference = if ($referenceUri) { "[$referenceLabel]($referenceUri)" } else { '' }
   $lines.Add("| $($operation.Id) | $($operation.Name) | $($operation.Category) | $($operation.Scope) | $admin | $actions | $targets | $($operation.Rollback) | $description | $reference |")
 }

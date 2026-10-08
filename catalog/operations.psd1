@@ -1,3 +1,7 @@
+# Authoritative operation/group metadata. SchemaVersion 1; edit here and regenerate docs/OPERATIONS.md. Targets, scope, states, sources, and rollback limits are declared per operation.
+# Owner: RIDE-Windows maintainers. Keep values as declarative data.
+# Versioning: SchemaVersion governs the data contract; no independent script CLI/version.
+
 @{
   SchemaVersion = 1
   Operations = @(
@@ -468,7 +472,7 @@
       Category = 'Windows settings / Explorer'
       Description = 'Show file extensions for registered file types in File Explorer.'
       DocumentationUri = 'https://support.microsoft.com/en-us/windows/experience/storage-filemanagement/common-file-name-extensions-in-windows'
-      SupportedTargets = @('Windows 11', 'Windows Server 2025')
+      SupportedTargets = @('Windows 11')
       Scope = 'User'
       RequiresAdmin = $false
       Actions = @('Get', 'Test', 'Set', 'Restore')
@@ -1514,15 +1518,81 @@
       Rollback = 'Exact'
     }
     @{
+      Id = 'windows.music-folder-this-pc'
+      Name = 'Music folder in This PC'
+      Kind = 'RegistryKeySet'
+      Category = 'Windows settings / Explorer'
+      Description = 'Hide or show the Music entries in This PC by managing their Shell namespace registration keys. Hidden leaves the Music folder and its contents in place.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryKeySet'
+      RegistryPaths = @(
+        'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{3dfdf296-dbec-4fb4-81d1-6a3438bcf4de}'
+        'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{1CF1260C-4DD0-4ebb-811F-33C572699FDE}'
+      )
+      States = @{ Hidden = 'Absent'; Visible = 'Present' }
+      BaselineState = 'Visible'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValue = 'PlatformDefined'; EffectiveDefault = 'Windows and its registered Shell namespace extensions determine whether the Music entries appear in This PC' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.videos-folder-this-pc'
+      Name = 'Videos folder in This PC'
+      Kind = 'RegistryKeySet'
+      Category = 'Windows settings / Explorer'
+      Description = 'Hide or show the Videos entries in This PC by managing their Shell namespace registration keys. Hidden leaves the Videos folder and its contents in place.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryKeySet'
+      RegistryPaths = @(
+        'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{f86fa3ab-70d2-4fc7-9c99-fcbf05467f3a}'
+        'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{A0953C92-50DC-43bf-BE83-3742FED03C9C}'
+      )
+      States = @{ Hidden = 'Absent'; Visible = 'Present' }
+      BaselineState = 'Visible'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValue = 'PlatformDefined'; EffectiveDefault = 'Windows and its registered Shell namespace extensions determine whether the Videos entries appear in This PC' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.3d-objects-folder-this-pc'
+      Name = '3D Objects folder in This PC'
+      Kind = 'RegistryKeySet'
+      Category = 'Windows settings / Explorer'
+      Description = 'Hide or show the 3D Objects entry in This PC by managing its Shell namespace registration key. Hidden leaves the 3D Objects folder and its contents in place.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryKeySet'
+      RegistryPaths = @('HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}')
+      States = @{ Hidden = 'Absent'; Visible = 'Present' }
+      BaselineState = 'Visible'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValue = 'PlatformDefined'; EffectiveDefault = 'Windows and its registered Shell namespace extensions determine whether the 3D Objects entry appears in This PC' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
       Id = 'package.7zip'
       Name = '7-Zip'
       Kind = 'Package'
       Category = 'Software / Utilities'
-      Description = 'Install or remove the current 64-bit 7-Zip release.'
+      Description = 'Download, install, or remove the current 64-bit 7-Zip release.'
       SupportedTargets = @('Windows 11', 'Windows Server 2025')
       Scope = 'Machine'
       RequiresAdmin = $true
-      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
       TargetDefaults = @{
         'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' }
@@ -1531,7 +1601,10 @@
       PackageId = '7zip'
       InstallerType = 'Exe'
       DisplayNamePattern = '^7-Zip'
-      DownloadUri = 'https://www.7-zip.org/'
+      DownloadUri = 'https://api.github.com/repos/ip7z/7zip/releases/latest'
+      DownloadProvider = 'GitHubReleaseApi'
+      AssetPattern = '^7z\d+-x64\.exe$'
+      Architecture = 'x64'
       ProductUri = 'https://www.7-zip.org/'
       InstallerArguments = '/S'
       UninstallerArguments = '/S'
@@ -1542,11 +1615,11 @@
       Name = 'Notepad++'
       Kind = 'Package'
       Category = 'Software / Utilities'
-      Description = 'Install or remove the current 64-bit Notepad++ release.'
+      Description = 'Download, install, or remove the current 64-bit Notepad++ release.'
       SupportedTargets = @('Windows 11', 'Windows Server 2025')
       Scope = 'Machine'
       RequiresAdmin = $true
-      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
       TargetDefaults = @{
         'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' }
@@ -1555,10 +1628,92 @@
       PackageId = 'notepadpp'
       InstallerType = 'Exe'
       DisplayNamePattern = '^Notepad\+\+'
-      DownloadUri = 'https://github.com/notepad-plus-plus/notepad-plus-plus/releases/latest/download/npp.installer.x64.exe'
+      DownloadUri = 'https://api.github.com/repos/notepad-plus-plus/notepad-plus-plus/releases/latest'
+      DownloadProvider = 'GitHubReleaseApi'
+      AssetPattern = '^npp\..+\.Installer\.x64\.exe$'
+      Architecture = 'x64'
       ProductUri = 'https://notepad-plus-plus.org/'
       InstallerArguments = '/S'
       UninstallerArguments = '/S'
+      Rollback = 'Compensating'
+    }
+    @{
+      Id = 'package.git-for-windows'
+      Name = 'Git for Windows'
+      Kind = 'Package'
+      Category = 'Software / Development Tools'
+      Description = 'Download, install, or remove the current 64-bit Git for Windows release.'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' }
+      }
+      PackageId = 'git-for-windows'
+      InstallerType = 'Exe'
+      DisplayNamePattern = '^Git(?:$| version\b)'
+      DownloadUri = 'https://api.github.com/repos/git-for-windows/git/releases/latest'
+      DownloadProvider = 'GitHubReleaseApi'
+      AssetPattern = '^Git-\d+\.\d+\.\d+-64-bit\.exe$'
+      Architecture = 'x64'
+      ProductUri = 'https://gitforwindows.org/'
+      InstallerArguments = '/VERYSILENT /NORESTART /NOCANCEL /SP-'
+      UninstallerArguments = '/VERYSILENT /NORESTART /NOCANCEL /SP-'
+      Rollback = 'Compensating'
+    }
+    @{
+      Id = 'artifact.sysmon-swift-config'
+      Name = 'SwiftOnSecurity Sysmon configuration'
+      Kind = 'Artifact'
+      Category = 'Software / Security'
+      Description = 'Download the latest SwiftOnSecurity Sysmon XML configuration as a separately versioned file. It is never applied automatically.'
+      SupportedTargets = @('Windows 11', 'Windows Server 2025')
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Download')
+      Handler = 'Artifact'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValue = 'DownloadOnly'; EffectiveDefault = 'A downloaded configuration file does not change Sysmon or Windows state' }
+        'Windows Server 2025' = @{ DefaultValue = 'DownloadOnly'; EffectiveDefault = 'A downloaded configuration file does not change Sysmon or Windows state' }
+      }
+      ArtifactId = 'sysmon-swift-config'
+      DownloadUri = 'https://api.github.com/repos/SwiftOnSecurity/sysmon-config/commits?path=sysmonconfig-export.xml&per_page=1'
+      DownloadProvider = 'GitHubFileCommitApi'
+      Repository = 'SwiftOnSecurity/sysmon-config'
+      AssetPath = 'sysmonconfig-export.xml'
+      Architecture = 'neutral'
+      ProductUri = 'https://github.com/SwiftOnSecurity/sysmon-config'
+      Rollback = 'None'
+    }
+    @{
+      Id = 'package.sysmon64'
+      Name = 'Sysmon'
+      Kind = 'Package'
+      Category = 'Software / Security'
+      Description = 'Download and install the latest Microsoft Sysmon archive with its default configuration, or remove its service and driver. A community XML configuration is never applied implicitly.'
+      SupportedTargets = @('Windows 11', 'Windows Server 2025')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Standalone Sysmon is not installed in the default Windows image' }
+        'Windows Server 2025' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Sysmon is not installed in the default Windows image' }
+      }
+      PackageId = 'sysmon64'
+      InstallerType = 'SysmonZip'
+      DisplayNamePattern = '^Sysmon'
+      DownloadUri = 'https://download.sysinternals.com/files/Sysmon.zip'
+      VersionUri = 'https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon'
+      DownloadProvider = 'SysinternalsSysmonPage'
+      AssetName = 'Sysmon.zip'
+      AssetPattern = '^Sysmon\.zip$'
+      Architecture = 'x64'
+      ProductUri = 'https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon'
+      InstallerArguments = '-accepteula -i'
+      UninstallerArguments = '-u force'
       Rollback = 'Compensating'
     }
     @{
@@ -1781,6 +1936,91 @@
       TargetDefaults = @{
         'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'WinHTTP WPAD detection is enabled when DisableWpad is absent; other applications may use separate proxy discovery settings' }
         'Windows Server 2025' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'WinHTTP WPAD detection is enabled when DisableWpad is absent; other applications may use separate proxy discovery settings' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.bitlocker-encryption-method'
+      Name = 'BitLocker encryption method policy'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Security'
+      Description = 'Set the legacy BitLocker EncryptionMethod policy value to AES-CBC 256-bit for future drive encryption; this does not convert drives that are already encrypted.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-bitlocker'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\FVE'
+      ValueName = 'EncryptionMethod'
+      ValueType = 'DWord'
+      States = @{ AesCbc128 = 3; AesCbc256 = 4; WindowsDefault = $null }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'With no policy configured, new BitLocker encryption defaults to XTS-AES 128-bit; the legacy selector requests AES-CBC 256-bit for future encryption.' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.current-network-category'
+      Name = 'Current network category'
+      Kind = 'NetworkProfile'
+      Category = 'Windows settings / Network'
+      Description = 'Set every reported non-domain connection profile to Private or Public and restore each profile to its captured category.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/netconnection/set-netconnectionprofile?view=windowsserver2025-ps'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'NetworkProfile'
+      States = @{ Private = 'Private'; Public = 'Public' }
+      BaselineState = 'Public'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValue = 'Assigned per connection'; EffectiveDefault = 'Windows classifies each connection separately; DomainAuthenticated is assigned automatically and this operation leaves those profiles unchanged.' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.remote-assistance-policy'
+      Name = 'Remote Assistance policy'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Network'
+      Description = 'Allow or disallow users from requesting Remote Assistance by setting the documented fAllowToGetHelp behavior value; Quick Assist is managed separately.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/customize/desktop/unattend/microsoft-windows-remoteassistance-exe-fallowtogethelp'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance'
+      ValueName = 'fAllowToGetHelp'
+      ValueType = 'DWord'
+      States = @{ Disabled = 0; Enabled = 1; WindowsDefault = $null }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Remote Assistance is disallowed when fAllowToGetHelp is false; Quick Assist is a separate application.' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.microsoft-product-updates'
+      Name = 'Microsoft product updates'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Windows Update'
+      Description = 'Allow Windows Update to scan for updates to other Microsoft products by setting the documented device preference AllowMUUpdateService.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/apps/develop/settings/settings-common'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings'
+      ValueName = 'AllowMUUpdateService'
+      ValueType = 'DWord'
+      States = @{ Enabled = 1; Disabled = 0; WindowsDefault = $null }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Other Microsoft product updates are disabled until Microsoft Update is enabled.' }
       }
       Rollback = 'Exact'
     }

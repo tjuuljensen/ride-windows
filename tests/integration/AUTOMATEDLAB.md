@@ -1,113 +1,85 @@
-# AutomatedLab setup for the RIDE Windows integration VM
+# AutomatedLab setup for RIDE integration VMs
 
-This is the optional PowerShell provisioning path for the disposable Windows 11 integration VM. The [Hyper-V Manager runbook](README.md) remains the primary path. AutomatedLab creates the lab and installs Windows; the RIDE repository does not install, configure, or invoke AutomatedLab.
+This guide uses the host-side script [New-RideAutomatedLabVm.ps1](New-RideAutomatedLabVm.ps1) to provision and prepare a disposable VM through the AutomatedLab equivalent of runbook steps 1 through 6A. It supports any guest OS that AutomatedLab discovers from an ISO in LabSources. The RIDE integration suite itself still declares its supported Windows targets separately.
 
-## 1. Complete AutomatedLab installation first
+For repeatable on-demand, watcher and CI testing while keeping **host UAC
+enabled**, use the opt-in [task controller runbook](AUTOMATEDLAB-TASKS.md).
+Validate it on a separate pilot before redirecting an active lab.
 
-On a clean host, follow the upstream [AutomatedLab installation guide](https://automatedlab.org/en/stable/Wiki/Basic/install/) and its linked setup instructions in full. Do not start with an isolated `Install-Module` command: the installation guide covers prerequisites and dependencies, host setup, and the LabSources directory structure that a clean machine needs. Use an elevated Windows PowerShell session where the guide requires it.
+## Host and lab prerequisites
 
-Download the Windows 11 Enterprise Evaluation ISO using the [Windows 11 runbook instructions](README.md#2-register-and-download-the-windows-evaluation-iso). Put the ISO in the `ISOs` directory under the LabSources location configured by AutomatedLab. Allow enough disk space for LabSources, the ISO, and the VM files.
+- A Windows Pro, Enterprise, Education, or Windows Server host with hardware virtualization enabled and the Hyper-V role/feature installed. Hyper-V is not included with Windows Home.
+- Hyper-V management tools and the Hyper-V Virtual Machine Management service (`vmms`) installed and running.
+- An elevated host PowerShell session, or an account in **Hyper-V Administrators** with effective Hyper-V CIM access. After changing group membership, sign out and back in before retrying.
+- AutomatedLab installed and configured, including its LabSources directory. Follow the upstream [AutomatedLab installation guide](https://automatedlab.org/en/stable/Wiki/Basic/install/) and [Getting Started](https://automatedlab.org/en/stable/Wiki/Basic/gettingstarted/) guide first.
+- The ISO for the selected guest OS in the `ISOs` directory under the configured LabSources location. For reference, Microsoft provides the [Windows 11 Enterprise Evaluation](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-11-enterprise) and [Windows Server 2025 evaluation](https://www.microsoft.com/en-us/evalcenter/download-windows-server-2025) downloads.
+- Enough host storage for the ISO and VM files. The script reports available space and recommends at least 120 GB. The initial guest allocation is 8 GB and 4 virtual processors; adjust it with `-MemoryGB` and `-ProcessorCount` for the host and guest.
+- Host internet access and a working outbound NAT path for the guest. The script creates an AutomatedLab NAT network named `RIDE-Internet` and reports existing host WinNAT networks for review.
 
-The lab and VM names below are deliberately different. AutomatedLab validates machine names against a 15-character limit; `RIDE-Win11-Test` is exactly 15 characters. The lab name `RIDEWin11Test` is also short and contains only letters and numbers.
+AutomatedLab is an external dependency. This repository script does not install AutomatedLab or download/register OS media. Do not use production credentials or join the disposable VM to a domain.
 
-## 2. Define a VM with outbound network access
+## Check host access and choose an OS
 
-AutomatedLab's Hyper-V network definition defaults to an **Internal** switch. An internal switch alone does not provide the guest with an internet route. Also, `New-LabNetworkAdapterDefinition -VirtualSwitch` expects the name of a network already defined in the current AutomatedLab lab; it does not select a pre-existing host Hyper-V switch. Define the lab network first, then build the adapter from that definition.
-
-For this disposable test VM, the example uses AutomatedLab's `-UseNat` option. AutomatedLab creates an internal Hyper-V switch and host NAT, then configures the guest with an address, gateway, and DNS settings. This gives the guest outbound access without bridging it directly onto your physical LAN. See AutomatedLab's [network definition reference](https://automatedlab.org/en/stable/AutomatedLabDefinition/en-us/Add-LabVirtualNetworkDefinition/), [network documentation](https://automatedlab.org/en/stable/Wiki/Basic/networksandaddresses/), and [network adapter command reference](https://automatedlab.org/en/stable/AutomatedLabDefinition/en-us/New-LabNetworkAdapterDefinition/).
-
-Run the following in an elevated PowerShell session on the Hyper-V host after completing AutomatedLab installation and placing the ISO in LabSources. If the ISO is listed more than once, set `$osName` to the exact Windows 11 Enterprise Evaluation entry you intend to install.
+Open PowerShell on the Hyper-V host and import the module if needed:
 
 ```powershell
-$ErrorActionPreference = 'Stop'
 Import-Module AutomatedLab
-
-$labName = 'RIDEWin11Test'
-$vmName = 'RIDE-Win11-Test'
-$vmPath = 'D:\VMs\RIDE-Test' # Change this to a drive with sufficient free space.
-
 $isoDirectory = Join-Path (Get-LabSourcesLocation) 'ISOs'
-$availableOs = Get-LabAvailableOperatingSystem -Path $isoDirectory
-$availableOs | Format-Table OperatingSystemName, Version, IsoPath -AutoSize
-
-$osName = 'Windows 11 Enterprise Evaluation' # Replace with the exact listed name if it differs.
-$installationCredential = Get-Credential -Message 'Choose a local administrator account for the disposable guest'
-
-New-LabDefinition -Name $labName -DefaultVirtualizationEngine HyperV -VmPath $vmPath
-$networkName = 'RIDE-Internet'
-Add-LabVirtualNetworkDefinition -Name $networkName -UseNat
-$networkAdapter = New-LabNetworkAdapterDefinition -VirtualSwitch $networkName
-
-Add-LabMachineDefinition -Name $vmName `
-    -OperatingSystem $osName `
-    -Memory 8GB `
-    -Processors 4 `
-    -InstallationUserCredential $installationCredential `
-    -HypervProperties @{ EnableTpm = 'true'; EnableSecureBoot = 'on' } `
-    -NetworkAdapter $networkAdapter
-
-Install-Lab
-Show-LabDeploymentSummary
+Get-LabAvailableOperatingSystem -Path $isoDirectory |
+    Format-Table OperatingSystemName, Version, IsoPath -AutoSize
 ```
 
-The order matters: create the lab, define its NAT network, and only then create a network adapter that refers to that definition. Do not add `-UseDhcp` to this adapter; AutomatedLab assigns the guest's address and NAT gateway from the lab network definition.
-
-If you specifically need a bridged connection instead, first define an **External** network using `Add-LabVirtualNetworkDefinition -Name $networkName -HyperVProperties @{ SwitchType = 'External'; AdapterName = '<host adapter name>' }`, then create its adapter with `New-LabNetworkAdapterDefinition -VirtualSwitch $networkName -UseDhcp`. Replace the placeholder with the active host adapter's exact `Name` from `Get-NetAdapter`. An external switch places the VM on the physical LAN and may affect host adapter behavior; use it only on a trusted network.
-
-## 3. Verify guest connectivity and finish Windows setup
-
-After `Install-Lab` finishes, open the VM in VMConnect and sign in with the local guest account. In an elevated PowerShell session inside the guest, verify that AutomatedLab configured an IPv4 address, default route, and DNS server, then check HTTPS:
+Use the exact `OperatingSystemName` from that list. Run a read-only preflight before provisioning:
 
 ```powershell
-Get-NetIPConfiguration
-Test-NetConnection www.powershellgallery.com -Port 443
+.\tests\integration\New-RideAutomatedLabVm.ps1 `
+    -OperatingSystemName 'Windows 11 Enterprise Evaluation' `
+    -PreflightOnly
 ```
 
-Confirm `TcpTestSucceeded` is `True`. If there is no IPv4 address or the connection fails, check that the VM adapter uses the `RIDE-Internet` lab network, that the host itself has internet access, and that the host already has no conflicting WinNAT configuration. Do this before installing packages or running integration tests. The AutomatedLab [`Test-LabMachineInternetConnectivity`](https://automatedlab.org/en/stable/AutomatedLabCore/en-us/Test-LabMachineInternetConnectivity/) cmdlet is another host-side check, but a failed ping can reflect ICMP filtering even when HTTPS works.
+Replace the example OS name with the exact entry for the ISO you plan to install. A Server 2025 ISO may expose a different name, such as a specific edition or installation mode; use its listed value. Choose a distinct lab and VM name for each OS. VM computer names must be 15 characters or fewer.
 
-Use the guest's Windows Settings and a local PowerShell session for updates and Pester as described in steps 4 and 5. These are manual guest setup steps; AutomatedLab is used to provision the VM and manage its checkpoint.
+The preflight checks the current privilege token, AutomatedLab commands, Hyper-V CIM access, the `vmms` service, the LabSources ISO list, VM storage, existing WinNAT state, and host HTTPS access to PowerShell Gallery. It does not create resources. Fix all required failures before proceeding.
 
-## 4. Install Windows updates in the guest
+## Provision through checkpoint and step 6A
 
-Inside the guest, open **Settings > Windows Update**, check for updates, install them, and restart when prompted. Repeat until Windows reports no further updates. Keeping the Windows update path first-party avoids adding another module dependency to the VM setup.
-
-## 5. Install Pester 5.7.1 in the guest
-
-Open **PowerShell as Administrator inside the guest VM**. First install the NuGet provider, then install the same Pester version used by CI and verify it is available:
+Run the script from the repository root. It creates a NAT-backed lab, installs the selected guest, checks guest network access through `Invoke-LabCommand`, installs Pester 5.7.1 through `Invoke-LabCommand`, shuts down the VM and creates a clean checkpoint, starts it, and copies the current checkout into `C:\RIDE\ride-windows` (the AutomatedLab branch of runbook step 6).
 
 ```powershell
-Install-PackageProvider -Name NuGet -MinimumVersion '2.8.5.201' -Scope CurrentUser -Force
-Install-Module -Name Pester -RequiredVersion '5.7.1' -Repository PSGallery -Scope CurrentUser -Force -SkipPublisherCheck
-Import-Module Pester -RequiredVersion '5.7.1'
-Get-Module Pester | Select-Object Name, Version, Path
+.\tests\integration\New-RideAutomatedLabVm.ps1 `
+    -OperatingSystemName 'Windows 11 Enterprise Evaluation' `
+    -LabName 'RIDEWin11Test' `
+    -VMName 'RIDE-Win11-Test' `
+    -VMPath 'D:\VMs\RIDE-Win11-Test' `
+    -WhatIf
 ```
 
-Windows includes Pester 3.4.0 signed by Microsoft; Pester 5.7.1 has a different signing publisher. The [Pester install guide](https://pester.dev/docs/introduction/installation) recommends `-SkipPublisherCheck` for this side-by-side upgrade. Use it only for the pinned Pester package after reviewing the [Pester 5.7.1 Gallery listing](https://www.powershellgallery.com/packages/Pester/5.7.1). The guest needs outbound access to PSGallery. Windows PowerShell is sufficient for this pilot.
+Review the target and parameters from the `-WhatIf` output, then repeat without `-WhatIf` to create the lab. The script prompts for a local administrator account for the guest. It uses `-UseNat` on the lab network so the guest has outbound access without joining the physical LAN. TPM and Secure Boot are enabled by default for Windows 11 and Server 2025; use `-DisableTpm` or `-DisableSecureBoot` only when the selected OS requires different VM settings.
 
-## 6. Create and restore the clean checkpoint
+Windows Update is not automated because update and reboot behavior differs across guest releases and editions. By default, the script pauses after installation so you can complete Windows Update in the guest, including restarts, then press Enter on the host. To proceed without waiting, specify `-WindowsUpdateMode Continue`; the script warns that the checkpoint will capture the guest's current update state.
 
-Once Windows Update and Pester are complete, create a named checkpoint from the host. The VM should be shut down for a consistent clean baseline:
+The checkpoint name is consistently `RIDE-clean-test-base` for each VM. Checkpoints belong to an individual VM, so using the same name for separate Windows 11 and Server 2025 VMs does not collide. Restore the checkpoint before each integration run, then copy the current checkout again because the checkpoint is created before the checkout copy.
 
-```powershell
-$vmName = 'RIDE-Win11-Test'
-$snapshotName = 'RIDE-clean-test-base'
+The script can be run again in `-PreflightOnly` mode to diagnose host access. Do not rerun provisioning against an existing lab name; use a new lab and VM name for another guest OS or a clean installation.
 
-Stop-LabVM -ComputerName $vmName -Wait
-Checkpoint-LabVM -ComputerName $vmName -SnapshotName $snapshotName
-Get-LabVMSnapshot -ComputerName $vmName
-Start-LabVM -ComputerName $vmName
-```
+## Hyper-V access errors and recovery
 
-After each integration run, restore the baseline from an elevated host PowerShell session:
+The preflight calls `Get-VMHost` using the current PowerShell token instead of
+assuming that group membership grants usable access. Earlier restricted-shell
+checks reported unavailable CIM access and an absent `vmms` service. A native
+host inspection on 2026-10-08 found VMMS and WinRM running, accessible VM
+inventory, and host UAC at Windows defaults, while the process itself remained
+unelevated. Restricted-shell failures therefore do not establish that Hyper-V
+is missing. AutomatedLab still requires an actually elevated controller token;
+verify from the elevated host session before changing installation or policies.
 
-```powershell
-Stop-LabVM -ComputerName 'RIDE-Win11-Test' -Wait
-Restore-LabVMSnapshot -ComputerName 'RIDE-Win11-Test' -SnapshotName 'RIDE-clean-test-base'
-Start-LabVM -ComputerName 'RIDE-Win11-Test'
-```
+For a CIM access error:
 
-These are AutomatedLab's [checkpoint](https://automatedlab.org/en/stable/AutomatedLabCore/en-us/Checkpoint-LabVM/) and [restore](https://automatedlab.org/en/stable/AutomatedLabCore/en-us/Restore-LabVMSnapshot/) commands. If starting a new PowerShell session, import AutomatedLab and the lab definition first as described in the upstream [Getting Started guide](https://automatedlab.org/en/stable/Wiki/Basic/gettingstarted/).
+1. Open a new PowerShell window with **Run as administrator** and rerun `-PreflightOnly`.
+2. If using group membership instead, add the account to **Hyper-V Administrators** from an elevated administrative session, then sign out and back in so the new token includes the group. Rerun preflight to confirm `Get-VMHost` succeeds.
+3. If the `vmms` service is missing or stopped, enable/install the Hyper-V role/feature and management tools, reboot if requested, and rerun preflight. A group change cannot replace the Hyper-V role or service.
+4. Check firmware virtualization and host storage if Hyper-V cannot start or create the VM. Review any existing WinNAT networks reported by preflight for address-prefix conflicts; do not remove host NAT entries automatically because other VMs or applications may depend on them.
 
-## 7. Return to the integration runbook
+Hyper-V Manager is a partial workaround when the AutomatedLab CIM path is unavailable: create and install a VM manually, then use the **PowerShellDirect** transport in [the main runbook](README.md#7-run-validation-and-the-integration-suite). This does not make `New-RideAutomatedLabVm.ps1` usable; that script requires working Hyper-V CIM access to provision through AutomatedLab.
 
-Continue with [step 6 in the main runbook](README.md#6-copy-this-working-tree-into-the-guest) to copy the current working tree into the guest. Keep the guest on the `RIDE-Internet` NAT network while package checks need outbound access. Restore `RIDE-clean-test-base` before another integration run; because the checkpoint predates the repository copy, copy the current checkout into the guest again after restoring it.
+After the script finishes, continue with [step 7 of the main integration runbook](README.md#7-run-validation-and-the-integration-suite). The integration suite has its own Windows target checks and should only run on a disposable VM.

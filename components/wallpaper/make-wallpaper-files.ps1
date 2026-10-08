@@ -1,14 +1,68 @@
-﻿# Script to resize a windows wallpaper to the default windows wallpaper sizes
-# Look for more info here:
-# https://ccmexec.com/2015/08/replacing-default-wallpaper-in-windows-10-using-scriptmdtsccm/
-#
-# Landscape modes: 1024 x 768, 1366 x 768, 2560 x 1600, 3840 x 2160
-# Portrait modes : 768 x 1024, 768 x 1366, 1200 x 1920, 1600 x 2560, 2160 x 3840
-#
-# Conversion is done using Open Source tool Imagemagick
-# https://imagemagick.org/index.php
+﻿<#
+.SYNOPSIS
+  Resize an image into the helper's Windows wallpaper filename variants.
 
-param($imageFile="img0.jpg") 
+.DESCRIPTION
+  Reads image dimensions, selects landscape or portrait presets, and invokes ImageMagick resize for
+  each output in the working directory. Resize preserves aspect ratio; target dimensions are bounds
+  rather than guaranteed exact crops. Existing output filenames can be overwritten; native exit
+  codes are not checked.
+
+.PARAMETER imageFile
+  Input image filename; defaults to img0.jpg in the current working directory. Use a local relative
+  filename for this legacy helper.
+
+.PARAMETER Help
+  Display help and return before operational work.
+
+.PARAMETER Version
+  Print the script version and return before operational work.
+
+.EXAMPLE
+  .\components\wallpaper\make-wallpaper-files.ps1 -Help
+
+.EXAMPLE
+  .\components\wallpaper\make-wallpaper-files.ps1 -Version
+
+.INPUTS
+  None. Parameters are supplied explicitly.
+
+.OUTPUTS
+  None. Host messages and img0_<width>x<height>.jpg files in the current directory.
+
+.NOTES
+  Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows; system integration remains
+  unverified in this walkthrough.
+  Prerequisites: magick.exe in PATH, System.Drawing, readable source image, and writable output
+  directory.
+  File/environment inputs: The selected image file and current directory.
+  Recovery: Back up output filenames before generating; restore those backups if replaced.
+  Error-handling exception: Existing operational error policy is retained; globally enabling Stop
+  requires a separate tested change.
+  Author: RIDE-Windows maintainers.
+  Version: 0.1.0
+  Changelog:
+    0.1.0: Establish the versioned PowerShell help contract during the 2026-10-08 walkthrough.
+  Behavior reference: https://ccmexec.com/2015/08/replacing-default-wallpaper-in-windows-10-using-scriptmdtsccm/ (retained from the original header).
+
+.LINK
+  https://imagemagick.org/index.php
+
+.LINK
+  https://ccmexec.com/2015/08/replacing-default-wallpaper-in-windows-10-using-scriptmdtsccm/
+
+#>
+
+
+[CmdletBinding()]
+param($imageFile="img0.jpg",
+  [switch] $Help,
+  [switch] $Version
+)
+
+$script:ScriptVersion = '0.1.0'
+if ($Version) { Write-Output $script:ScriptVersion; return }
+if ($Help) { Get-Help -Name $PSCommandPath -Full; return }
 
 # check if magick is in path
 if ($null -eq (Get-Command "magick.exe" -ErrorAction SilentlyContinue)) 

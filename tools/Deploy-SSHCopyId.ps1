@@ -1,24 +1,59 @@
 <#
 .SYNOPSIS
-    Publish the ride-windows ssh-copy-id tool to the current user's bin folder.
+  Publish the repository ssh-copy-id tool to an existing user directory.
 
 .DESCRIPTION
-    Copies components/scripts/ssh-copy-id.ps1 to the selected existing folder.
-    The repository copy is the source of truth. No other files are changed.
+  Compares source/destination SHA-256 and copies only when different and approved by ShouldProcess.
+  Verifies the copy. Does not create the destination directory or contact SSH hosts.
+
+.PARAMETER DestinationDirectory
+  Existing destination directory; defaults to the current user profile bin directory.
+
+.PARAMETER Help
+  Display help and return before operational work.
+
+.PARAMETER Version
+  Print the script version and return before operational work.
 
 .EXAMPLE
-    .\tools\Deploy-SSHCopyId.ps1 -WhatIf
+  .\tools\Deploy-SSHCopyId.ps1 -WhatIf
 
 .EXAMPLE
-    .\tools\Deploy-SSHCopyId.ps1
+  .\tools\Deploy-SSHCopyId.ps1 -Version
+
+.INPUTS
+  None. Parameters are supplied explicitly.
+
+.OUTPUTS
+  System.String. Progress and diagnostic messages.
+
+.NOTES
+  Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows; system integration remains
+  unverified in this walkthrough.
+  Prerequisites: Existing writable destination directory and repository source tool.
+  File/environment inputs: components/scripts/ssh-copy-id.ps1; USERPROFILE provides the default
+  destination.
+  Recovery: Republish the desired reviewed source version. No destination backup is created.
+  Author: RIDE-Windows maintainers.
+  Version: 0.1.0
+  Changelog:
+    0.1.0: Establish the versioned PowerShell help contract during the 2026-10-08 walkthrough.
+
 #>
+
 
 [CmdletBinding(SupportsShouldProcess = $true)]
 param (
     [Parameter()]
     [ValidateNotNullOrEmpty()]
-    [string]$DestinationDirectory = (Join-Path $env:USERPROFILE 'bin')
+    [string]$DestinationDirectory = (Join-Path $env:USERPROFILE 'bin'),
+  [switch] $Help,
+  [switch] $Version
 )
+
+$script:ScriptVersion = '0.1.0'
+if ($Version) { Write-Output $script:ScriptVersion; return }
+if ($Help) { Get-Help -Name $PSCommandPath -Full; return }
 
 Set-StrictMode -Version 3.0
 $ErrorActionPreference = 'Stop'

@@ -8,6 +8,13 @@ command-line runner, tools, bootstrap and maintenance scripts, and scripts used
 for tests or disposable VM integration. Repository-specific instructions may
 add narrower requirements.
 
+This is the RIDE-specific implementation of the
+[shared script model](https://github.com/tjuuljensen/network-devices/blob/master/docs/repository-portfolio/script-repository-model.md).
+The shared model is authoritative for portfolio policy; this document owns
+RIDE-specific requirements. Repository models belong in `docs/models/`.
+`docs/repository-portfolio/` is reserved for portfolio governance in
+network-devices.
+
 Generated files identify their generator, and vendor or legacy scripts retain
 their applicable upstream metadata and license notices. Scratch files are not
 maintained scripts and should remain outside the repository or clearly marked
@@ -25,47 +32,77 @@ as temporary.
 
 ## Header contract
 
-Each maintained script begins with a concise English header. Include the
-following sections, using spaced comment blocks and the syntax native to the
-script:
+Each maintained `.ps1` script begins with English PowerShell comment-based
+help in a `<# ... #>` block. Use recognized help keywords so `Get-Help` can
+discover the content. A generic `Purpose:`, `Usage:`, or shell-style banner
+does not satisfy this contract.
 
-```text
-Purpose:
-  Short description of the script's job.
+Map the required information to native help sections:
 
-Behavior:
-  - Important normal operation and safety behavior.
+- `.SYNOPSIS`: purpose.
+- `.DESCRIPTION`: behavior, safety, and material side effects.
+- `.PARAMETER <name>`: each declared parameter, defaults, and constraints.
+- `.EXAMPLE`: actual supported commands and important options.
+- `.INPUTS` and `.OUTPUTS`: pipeline input and returned object types; these
+  sections do not describe arbitrary files or environment variables.
+- `.NOTES`: compatibility, prerequisites, file/environment inputs, ownership,
+  upstream attribution and license where applicable, version, and changelog.
+- `.LINK`: related authoritative documentation or runbooks where useful.
 
-Compatibility:
-  - Supported PowerShell edition/version and Windows targets or constraints.
+The following is an illustrative header template. Replace the explanatory
+text with verified behavior and parameter names before using it in a script.
 
-Usage:
-  command [options]
+```powershell
+<#
+.SYNOPSIS
+  Describe the script's purpose.
 
-Inputs / environment:
-  - Parameters, files, environment variables, and credentials.
+.DESCRIPTION
+  Describe its behavior, safety boundaries, and material side effects.
 
-Outputs / side effects:
-  - Output, files, network calls, Windows changes, and exit behavior.
+.PARAMETER Path
+  Describe the actual parameter, its default, and validation constraints.
 
-Prerequisites:
-  - Required tools, versions, permissions, and host assumptions.
+.EXAMPLE
+  .\Example.ps1 -Path .
+  Explain what this supported invocation does.
 
-Author:
-  RIDE-Windows maintainers or known first-party author.
+.INPUTS
+  None. Replace with the accepted pipeline types when applicable.
 
-Version:
-  0.1.0
+.OUTPUTS
+  Describe the returned object types, or None when no objects are returned.
 
-Changelog:
-  - 0.1.0: Initial version.
+.NOTES
+  Compatibility: Verified PowerShell editions/versions and Windows targets.
+  Prerequisites: Required tools, permissions, and host assumptions.
+  File/environment inputs: Required files, variables, and credential sources.
+  Recovery: Relevant state restore or disposable VM checkpoint boundary.
+  Author: Known first-party author or RIDE-Windows maintainers.
+  Version: Current semantic version from the script's version constant.
+  Changelog: Concise entries for established versions and contract changes.
+
+.LINK
+  docs/models/script-repository-model.md
+#>
 ```
 
-Use PowerShell comment-based help (`.SYNOPSIS`, `.DESCRIPTION`, `.PARAMETER`,
-`.EXAMPLE`, and `.NOTES`) where it improves command discovery. Keep the
-metadata readable from the top of the file without requiring the reader to
-infer the script's target, effects, or prerequisites. Do not add decorative
-banners or stale dates.
+Put adapted-code source and license notes in `.NOTES` and preserve existing
+notices. Do not invent author names, version history, or compatibility claims.
+Use blank lines between help sections. Script help precedes executable code;
+if a function declaration is the first statement, leave at least two blank
+lines after the script help to avoid associating it with that function.
+
+Modules (`.psm1`) have a top-level overview and native comment-based help on
+exported commands. Data files (`.psd1`) retain valid data-file syntax and a
+concise ownership/purpose comment; do not invent a CLI or script help for them.
+Generated, vendored, and historical files retain applicable source notices and
+have explicit exceptions recorded during review.
+
+Follow Microsoft's
+[comment-based help reference](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_comment_based_help)
+for keyword semantics and placement. Keep headers readable and concise without
+decorative banners or stale dates.
 
 Headers must describe the current implementation. Update them when parameters,
 compatibility, prerequisites, output, or side effects change. Put detailed
@@ -123,6 +160,10 @@ Run the narrowest relevant validation for a script change:
 - Parse edited PowerShell scripts with the PowerShell language parser.
 - Run `-Help` and `-Version` smoke checks for standalone command-line scripts
   when they can be run safely without changing system state.
+- Inspect `Get-Help <script-path> -Full` and `-Examples` to verify that native
+  help exposes the synopsis, parameters, examples, and notes correctly. For
+  modules, use an isolated session or mocked harness if importing them could
+  change state; inspect each exported command's help there.
 - Use Pester for mocked behavior and disposable Windows VMs for real system
   integration. Never infer Windows support from Linux or WSL results.
 - Use `git diff --check` for whitespace and encoding-related issues.
