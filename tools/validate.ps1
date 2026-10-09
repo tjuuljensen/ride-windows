@@ -129,6 +129,9 @@ foreach ($operation in $catalog.Operations) {
     if ($operation.Kind -eq 'NetworkProfile' -and -not $defaults.ContainsKey('DefaultValue')) {
       Add-Error "Operation '$($operation.Id)' is missing a network-profile default for '$target'."
     }
+    if ($operation.Kind -eq 'PowerSetting' -and -not $defaults.ContainsKey('DefaultValue')) {
+      Add-Error "Operation '$($operation.Id)' is missing a power-setting default for '$target'."
+    }
   }
   if ($operation.Kind -eq 'RegistryValue') {
     foreach ($field in @('RegistryPath', 'ValueName', 'ValueType', 'States', 'BaselineState')) {
@@ -267,6 +270,24 @@ foreach ($operation in $catalog.Operations) {
     }
     if ('Get' -notin $operation.Actions -or 'Test' -notin $operation.Actions -or 'Set' -notin $operation.Actions -or 'Restore' -notin $operation.Actions) { Add-Error "Registry key-set lifecycle is incomplete: $($operation.Id)" }
   }
+  elseif ($operation.Kind -eq 'PowerSetting') {
+    if ($operation.Handler -ne 'PowerSetting') { Add-Error "No matching handler for $($operation.Id)" }
+    foreach ($field in @('PowerSubgroupGuid', 'PowerSettingGuid', 'PowerIndex', 'States', 'DocumentationUri')) {
+      if (-not $operation.ContainsKey($field)) { Add-Error "Power setting operation is missing '$field': $($operation.Id)" }
+    }
+    foreach ($field in @('PowerSubgroupGuid', 'PowerSettingGuid')) {
+      if ([string]$operation.$field -notmatch '^[0-9a-fA-F]{8}-(?:[0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$') { Add-Error "Invalid power setting GUID '$field': $($operation.Id)" }
+    }
+    if ($operation.PowerIndex -notin @('AC', 'DC')) { Add-Error "Power setting index must be AC or DC: $($operation.Id)" }
+    if (-not [Uri]::IsWellFormedUriString([string]$operation.DocumentationUri, [UriKind]::Absolute) -or ([Uri]$operation.DocumentationUri).Scheme -ne 'https' -or ([Uri]$operation.DocumentationUri).Host -ne 'learn.microsoft.com') {
+      Add-Error "Power setting operation must use an absolute Microsoft HTTPS documentation URI: $($operation.Id)"
+    }
+    if (@($operation.States.Keys).Count -lt 2 -or @($operation.States.Values | Select-Object -Unique).Count -ne @($operation.States.Values).Count) { Add-Error "Power setting states must map to unique values: $($operation.Id)" }
+    foreach ($value in $operation.States.Values) { if ($value -notin @(0, 1)) { Add-Error "Unsupported lid-close index in '$($operation.Id)': $value" } }
+    foreach ($target in $operation.SupportedTargets) { if ($operation.TargetDefaults[$target].DefaultValue -ne 'Platform-defined') { Add-Error "Power setting default must remain platform-defined: $($operation.Id)" } }
+    if ('Get' -notin $operation.Actions -or 'Test' -notin $operation.Actions -or 'Set' -notin $operation.Actions -or 'Restore' -notin $operation.Actions) { Add-Error "Power setting lifecycle is incomplete: $($operation.Id)" }
+    if ($operation.ContainsKey('BaselineState')) { Add-Error "Power setting must not invent a RIDE baseline: $($operation.Id)" }
+  }
   else { Add-Error "Unknown operation kind '$($operation.Kind)': $($operation.Id)" }
 }
 
@@ -297,6 +318,7 @@ foreach ($profileFile in $profilePaths) {
     if ($operation -and $operation.Kind -eq 'BootConfiguration' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid boot configuration state for '$($selection.Id)'" }
     if ($operation -and $operation.Kind -eq 'NetworkProfile' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid network-profile state for '$($selection.Id)'" }
     if ($operation -and $operation.Kind -eq 'RegistryKeySet' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid registry key-set state for '$($selection.Id)'" }
+    if ($operation -and $operation.Kind -eq 'PowerSetting' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid power-setting state for '$($selection.Id)'" }
     if ((($operation -and $operation.Kind -in @('Package', 'DefenderExclusion')) -or $group) -and $selection.State -notin @('Present', 'Absent')) { Add-Error "$($profileFile.Name) must use Present or Absent for '$($selection.Id)'" }
   }
 }

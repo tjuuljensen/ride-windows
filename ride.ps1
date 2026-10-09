@@ -172,7 +172,7 @@ param(
       Import-Module (Join-Path (Split-Path -Parent $catalogPath) '../modules/RIDE.CatalogData.psm1') -ErrorAction Stop
       $catalog = Import-RideCatalogData -Path $catalogPath -ErrorAction Stop
       $operation = $catalog.Operations | Where-Object { $_.Id -eq $fakeBoundParameters.Id } | Select-Object -First 1
-      if ($operation.Kind -in @('RegistryValue', 'RegistryKeySet')) {
+      if ($operation.Kind -in @('RegistryValue', 'RegistryKeySet', 'PowerSetting')) {
         $states = @($operation.States.Keys)
         if ($operation.Kind -eq 'RegistryValue' -and 'Baseline' -notin $states) { $states += 'Baseline' }
       }

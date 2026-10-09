@@ -34,10 +34,14 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.4.0
+  Version: 0.8.0
   Changelog:
+  - 0.8.0: Add registry round trips for seven optional Explorer folder options.
+  - 0.7.0: Verify optional Windows 11 desktop icon visibility.
+  - 0.6.0: Verify two additional optional Windows 11 user interface settings.
   - 0.4.0: Verify Git functionality, five additional package lifecycles, two user policies
     and collected acquisition observations.
+  - 0.5.0: Verify Defender exclusion apply, repeat-apply, and exact restoration.
     - 0.1.0: Initial versioned integration suite.
   - 0.2.0: Add Windows 11 round-trip checks for network, update, and security settings.
   - 0.3.0: Add exact registry subtree round-trip checks for Explorer folder visibility.
@@ -54,7 +58,7 @@
 [CmdletBinding()]
 param([switch] $Version)
 
-$script:ScriptVersion = '0.4.0'
+$script:ScriptVersion = '0.8.0'
 if ($Version) {
   Write-Output $script:ScriptVersion
   return
@@ -73,7 +77,20 @@ $target = Get-RidePlatform
 if ($target -notin @('Windows 11', 'Windows Server 2025')) { throw "Unsupported integration VM target: $target" }
 
 if ($target -eq 'Windows 11') {
-  foreach ($settingScenario in @(@{ Id = 'windows.edge-friendly-url-format'; State = 'PlainText' }, @{ Id = 'windows.start-run-as-different-user'; State = 'Enabled' })) {
+  foreach ($settingScenario in @(
+    @{ Id = 'windows.edge-friendly-url-format'; State = 'PlainText' }
+    @{ Id = 'windows.start-run-as-different-user'; State = 'Enabled' }
+    @{ Id = 'windows.taskbar-clock-seconds'; State = 'Shown'; BaselineState = 'Hidden' }
+    @{ Id = 'windows.recycle-bin-delete-confirmation'; State = 'Enabled'; BaselineState = 'Disabled' }
+    @{ Id = 'windows.desktop-icons-visibility'; State = 'Hidden'; BaselineState = 'Visible' }
+    @{ Id = 'windows.explorer-title-full-path'; State = 'Shown' }
+    @{ Id = 'windows.protected-files-visibility'; State = 'Visible' }
+    @{ Id = 'windows.explorer-separate-process'; State = 'Enabled' }
+    @{ Id = 'windows.restore-folder-windows'; State = 'Enabled' }
+    @{ Id = 'windows.sharing-wizard'; State = 'Disabled' }
+    @{ Id = 'windows.item-selection-checkboxes'; State = 'Shown' }
+    @{ Id = 'windows.thumbnail-display'; State = 'Disabled' }
+  )) {
     $operation = Get-RideOperation -Id $settingScenario.Id
     $original = Get-RideCurrentState -Operation $operation
     $plan = @(Get-RideSingleOperationPlan -Id $operation.Id -Action Set -State $settingScenario.State)
@@ -86,11 +103,54 @@ if ($target -eq 'Windows 11') {
       Restore-RideRun -RunId $runId -Confirm:$false
       $restored = Get-RideCurrentState -Operation $operation
       if ([bool]$restored.Exists -ne [bool]$original.Exists -or ($original.Exists -and ($restored.Value -ne $original.Value -or $restored.ValueType -ne $original.ValueType))) { throw "Policy exact restore failed: $($operation.Id)" }
-      $null = Invoke-RidePlan -Plan @(Get-RideSingleOperationPlan -Id $operation.Id -Action Set -State 'WindowsDefault') -Confirm:$false
-      if (-not (Test-RideDesiredState -Operation $operation -State 'WindowsDefault')) { throw "Policy baseline failed: $($operation.Id)" }
+      $baselineState = if ($settingScenario.ContainsKey('BaselineState')) { $settingScenario.BaselineState } else { 'WindowsDefault' }
+      $null = Invoke-RidePlan -Plan @(Get-RideSingleOperationPlan -Id $operation.Id -Action Set -State $baselineState) -Confirm:$false
+      if (-not (Test-RideDesiredState -Operation $operation -State $baselineState)) { throw "Policy baseline failed: $($operation.Id) ($baselineState)" }
     }
     finally { Restore-RideRun -RunId $runId -Confirm:$false }
   }
+  foreach ($exclusionId in @('windows.defender-tools-exclusion', 'windows.defender-bootstrap-exclusion')) {
+    $operation = Get-RideOperation -Id $exclusionId
+    $original = Get-RideCurrentState -Operation $operation
+    $requestedState = if ($original.Present) { 'Absent' } else { 'Present' }
+    $plan = @(Get-RideSingleOperationPlan -Id $operation.Id -Action Set -State $requestedState)
+    $output = @(Invoke-RidePlan -Plan $plan -Confirm:$false)
+    $runIdLine = $output | Where-Object { $_ -is [string] -and $_ -match '^Run ID: ' } | Select-Object -Last 1
+    if (-not $runIdLine) { throw "No saved run returned for $exclusionId." }
+    $runId = $runIdLine -replace '^Run ID: ', ''
+    try {
+      if (-not (Test-RideDesiredState -Operation $operation -State $requestedState)) { throw "Defender exclusion apply failed: $exclusionId" }
+      $null = Invoke-RidePlan -Plan $plan -Confirm:$false
+      Restore-RideRun -RunId $runId -Confirm:$false
+      $restored = Get-RideCurrentState -Operation $operation
+      if ([bool]$restored.Present -ne [bool]$original.Present -or ($original.Present -and $restored.Path -ne $original.Path)) { throw "Defender exclusion exact restore failed: $exclusionId" }
+    }
+    finally { Restore-RideRun -RunId $runId -Confirm:$false }
+  }
+
+  foreach ($powerCase in @(@{ Id = 'windows.lid-close-action-ac'; State = 'DoNothing' }, @{ Id = 'windows.lid-close-action-dc'; State = 'DoNothing' })) {
+    $operation = Get-RideOperation -Id $powerCase.Id
+    $original = Get-RideCurrentState -Operation $operation
+    if (-not $original.Available) {
+      Write-Warning "Skipping $($operation.Id): the disposable VM does not expose a lid-close power setting."
+      continue
+    }
+    $state = if ($original.Index -eq 0) { 'Sleep' } else { $powerCase.State }
+    $plan = @(Get-RideSingleOperationPlan -Id $operation.Id -Action Set -State $state)
+    $output = @(Invoke-RidePlan -Plan $plan -Confirm:$false)
+    $runIdLine = $output | Where-Object { $_ -is [string] -and $_ -match '^Run ID: ' } | Select-Object -Last 1
+    if (-not $runIdLine) { throw "No saved run returned for $($operation.Id)." }
+    $runId = $runIdLine -replace '^Run ID: ', ''
+    try {
+      if (-not (Test-RideDesiredState -Operation $operation -State $state)) { throw "Power setting apply failed: $($operation.Id)" }
+      $null = Invoke-RidePlan -Plan $plan -Confirm:$false
+      Restore-RideRun -RunId $runId -Confirm:$false
+      $restored = Get-RideCurrentState -Operation $operation
+      if ($restored.SchemeGuid -ne $original.SchemeGuid -or [int]$restored.Index -ne [int]$original.Index) { throw "Power setting exact restore failed: $($operation.Id)" }
+    }
+    finally { Restore-RideRun -RunId $runId -Confirm:$false }
+  }
+
   $inkingSetting = Get-RideOperation -Id 'windows.inking-typing-data'
   $inkingOriginal = Get-RideCurrentState -Operation $inkingSetting
   $inkingState = if ($inkingOriginal.Exists -and $inkingOriginal.Value -eq 0) { 'Enabled' } else { 'Disabled' }

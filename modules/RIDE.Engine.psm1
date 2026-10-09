@@ -62,6 +62,7 @@ $script:RideBackgroundAppsModule = Join-Path $PSScriptRoot 'RIDE-BackgroundApps.
 $script:RideBootConfigurationModule = Join-Path $PSScriptRoot 'RIDE-BootConfiguration.psm1'
 $script:RideNetworkProfilesModule = Join-Path $PSScriptRoot 'RIDE-NetworkProfiles.psm1'
 $script:RideRegistryKeySetModule = Join-Path $PSScriptRoot 'RIDE-RegistryKeySet.psm1'
+$script:RidePowerSettingsModule = Join-Path $PSScriptRoot 'RIDE-PowerSettings.psm1'
 Import-Module $script:RideSettingsModule -Force -ErrorAction Stop
 Import-Module $script:RidePackagesModule -Force -ErrorAction Stop
 Import-Module $script:RideDefenderModule -Force -ErrorAction Stop
@@ -70,6 +71,7 @@ Import-Module $script:RideBackgroundAppsModule -Force -ErrorAction Stop
 Import-Module $script:RideBootConfigurationModule -Force -ErrorAction Stop
 Import-Module $script:RideNetworkProfilesModule -Force -ErrorAction Stop
 Import-Module $script:RideRegistryKeySetModule -Force -ErrorAction Stop
+Import-Module $script:RidePowerSettingsModule -Force -ErrorAction Stop
 
 function Get-RideCatalog {
   <#
@@ -247,6 +249,10 @@ function Get-RideOperationValue {
     if (-not $Operation.States.ContainsKey($State)) { throw "State '$State' is not supported by '$($Operation.Id)'." }
     return $Operation.States[$State]
   }
+  if ($Operation.Kind -eq 'PowerSetting') {
+    if (-not $Operation.States.ContainsKey($State)) { throw "State '$State' is not supported by '$($Operation.Id)'." }
+    return $Operation.States[$State]
+  }
   if ($Operation.Kind -eq 'Package' -and $State -notin @('Present', 'Absent')) { throw "Package '$($Operation.Id)' requires State Present or Absent." }
   if ($Operation.Kind -eq 'DefenderExclusion' -and $State -notin @('Present', 'Absent')) { throw "Defender exclusion '$($Operation.Id)' requires State Present or Absent." }
   if ($Operation.Kind -eq 'WindowsService') {
@@ -308,6 +314,7 @@ function Get-RideCurrentState {
     'BootConfiguration' { return Get-RideBootConfigurationState -Operation $Operation }
     'NetworkProfile' { return Get-RideNetworkProfileState -Operation $Operation }
     'RegistryKeySet' { return Get-RideRegistryKeyTreeState -Operation $Operation }
+    'PowerSetting' { return Get-RidePowerSettingState -Operation $Operation }
     default { throw "No handler is registered for '$($Operation.Handler)'." }
   }
 }
@@ -328,6 +335,10 @@ function Get-RideCurrentValueText {
   if ($Operation.Kind -eq 'RegistryValue') {
     if (-not $CurrentState.Exists) { return '<unset>' }
     return ConvertTo-RideDisplayValue -Value $CurrentState.Value
+  }
+  if ($Operation.Kind -eq 'PowerSetting') {
+    if (-not $CurrentState.Available) { return 'Unavailable on this device or active power scheme' }
+    return '{0} index {1} in scheme {2}' -f $CurrentState.PowerIndex, $CurrentState.Index, $CurrentState.SchemeGuid
   }
   if ($Operation.Kind -eq 'Artifact') { return 'Download only; no configuration is applied' }
   if ($Operation.Kind -eq 'DefenderExclusion') {
@@ -367,6 +378,7 @@ function Test-RideCurrentStateMatch {
     if ($null -eq $desired) { return (-not $CurrentState.Exists) }
     return ($CurrentState.Exists -and $CurrentState.ValueType -eq $Operation.ValueType -and $CurrentState.Value -eq $desired)
   }
+  if ($Operation.Kind -eq 'PowerSetting') { return ([bool]$CurrentState.Available -and [int]$CurrentState.Index -eq [int](Get-RideOperationValue -Operation $Operation -State $State)) }
   if ($Operation.Kind -eq 'WindowsService') {
     $desired = Get-RideOperationValue -Operation $Operation -State $State
     return ($CurrentState.StartupType -eq $desired.StartupType -and $CurrentState.Status -eq $desired.Status)
@@ -401,6 +413,13 @@ function Get-RideCurrentStateName {
     foreach ($stateName in $Operation.States.Keys) {
       $desired = $Operation.States[$stateName]
       if ($CurrentState.StartupType -eq $desired.StartupType -and $CurrentState.Status -eq $desired.Status) { return $stateName }
+    }
+    return 'Custom'
+  }
+  if ($Operation.Kind -eq 'PowerSetting') {
+    if (-not $CurrentState.Available) { return 'Unavailable' }
+    foreach ($stateName in $Operation.States.Keys) {
+      if ([int]$CurrentState.Index -eq [int]$Operation.States[$stateName]) { return $stateName }
     }
     return 'Custom'
   }
@@ -546,6 +565,9 @@ function Save-RideOperationSnapshot {
   elseif ($Operation.Kind -eq 'RegistryKeySet') {
     [ordered]@{ Trees = @($CurrentState.Trees) }
   }
+  elseif ($Operation.Kind -eq 'PowerSetting') {
+    [ordered]@{ SchemeGuid = [string]$CurrentState.SchemeGuid; Index = [int]$CurrentState.Index }
+  }
   else {
     [ordered]@{ Present = [bool]$CurrentState.Present; Version = $CurrentState.DisplayVersion }
   }
@@ -634,7 +656,7 @@ function Get-RidePlan {
   foreach ($item in $plan) {
     if (-not $item.State) { throw "No state was selected for '$($item.Operation.Id)'." }
     $null = Get-RideOperationValue -Operation $item.Operation -State $item.State
-    if ($Action -eq 'Apply' -and $item.Operation.Kind -in @('RegistryValue', 'DefenderExclusion', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration', 'NetworkProfile', 'RegistryKeySet') -and 'Set' -notin $item.Operation.Actions) { throw "'$($item.Operation.Id)' does not support set." }
+    if ($Action -eq 'Apply' -and $item.Operation.Kind -in @('RegistryValue', 'DefenderExclusion', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration', 'NetworkProfile', 'RegistryKeySet', 'PowerSetting') -and 'Set' -notin $item.Operation.Actions) { throw "'$($item.Operation.Id)' does not support set." }
     if ($item.Operation.Kind -eq 'Package' -and $item.State -eq 'Present' -and 'Install' -notin $item.Operation.Actions) { throw "'$($item.Operation.Id)' does not support install." }
     if ($item.Operation.Kind -eq 'Package' -and $item.State -eq 'Absent' -and 'Uninstall' -notin $item.Operation.Actions) { throw "'$($item.Operation.Id)' does not support uninstall." }
   }
@@ -683,9 +705,9 @@ function Get-RideSingleOperationPlan {
   if (-not $operation.ContainsKey('Kind')) { throw "Direct actions require an operation ID, not a group ID: $Id" }
   switch ($Action) {
     'Set' {
-      if ($operation.Kind -notin @('RegistryValue', 'DefenderExclusion', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration', 'NetworkProfile', 'RegistryKeySet')) { throw "'set' requires a Windows setting ID; '$Id' is a $($operation.Kind) operation." }
+      if ($operation.Kind -notin @('RegistryValue', 'DefenderExclusion', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration', 'NetworkProfile', 'RegistryKeySet', 'PowerSetting')) { throw "'set' requires a Windows setting ID; '$Id' is a $($operation.Kind) operation." }
       if (-not $State) {
-        $availableStates = if ($operation.Kind -in @('RegistryValue', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration', 'NetworkProfile', 'RegistryKeySet')) { $operation.States.Keys -join ', ' } else { 'Present, Absent' }
+        $availableStates = if ($operation.Kind -in @('RegistryValue', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration', 'NetworkProfile', 'RegistryKeySet', 'PowerSetting')) { $operation.States.Keys -join ', ' } else { 'Present, Absent' }
         throw "The set command requires -State. Available states: $availableStates."
       }
       if ('Set' -notin $operation.Actions) { throw "'$Id' does not support setting a value." }
@@ -846,6 +868,9 @@ function Invoke-RidePlan {
         elseif ($operation.Kind -eq 'RegistryKeySet') {
           Set-RideRegistryKeySetState -Operation $operation -State $item.State
         }
+        elseif ($operation.Kind -eq 'PowerSetting') {
+          Set-RidePowerSettingState -Operation $operation -State $item.State
+        }
         $completedOperationIds.Add($operation.Id)
         Write-Output ("Applied: {0} ({1})" -f $operation.Id, $item.State)
       }
@@ -950,7 +975,7 @@ function Show-RideCatalog {
     '^packages?$' { @($rows | Where-Object { $_.Type -eq 'Operation' -and $_.Kind -eq 'Package' }); break }
     '^artifacts?$' { @($rows | Where-Object { $_.Type -eq 'Operation' -and $_.Kind -eq 'Artifact' }); break }
     '^groups?$' { @($rows | Where-Object Type -eq 'Group'); break }
-    '^settings?$' { @($rows | Where-Object { $_.Type -eq 'Operation' -and $_.Kind -in @('RegistryValue', 'DefenderExclusion', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration', 'NetworkProfile', 'RegistryKeySet') }); break }
+    '^settings?$' { @($rows | Where-Object { $_.Type -eq 'Operation' -and $_.Kind -in @('RegistryValue', 'DefenderExclusion', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration', 'NetworkProfile', 'RegistryKeySet', 'PowerSetting') }); break }
     default {
       $categoryPart = [regex]::Escape($viewKey)
       @($rows | Where-Object {
@@ -1003,7 +1028,7 @@ function Show-RideOperation {
         Id = $operation.Id
         Name = $operation.Name
         CurrentValue = Get-RideCurrentValueText -Operation $operation -CurrentState $current
-        CurrentValueType = if ($operation.Kind -eq 'RegistryValue') { $current.ValueType } elseif ($operation.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } elseif ($operation.Kind -eq 'WindowsService') { 'Service configuration' } elseif ($operation.Kind -eq 'BackgroundAppOverrides') { 'Per-app registry values' } elseif ($operation.Kind -eq 'BootConfiguration') { 'Boot configuration' } elseif ($operation.Kind -eq 'NetworkProfile') { 'Connection profiles' } elseif ($operation.Kind -eq 'RegistryKeySet') { 'Registry key set' } else { 'Package' }
+        CurrentValueType = if ($operation.Kind -eq 'RegistryValue') { $current.ValueType } elseif ($operation.Kind -eq 'PowerSetting') { 'Power setting index' } elseif ($operation.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } elseif ($operation.Kind -eq 'WindowsService') { 'Service configuration' } elseif ($operation.Kind -eq 'BackgroundAppOverrides') { 'Per-app registry values' } elseif ($operation.Kind -eq 'BootConfiguration') { 'Boot configuration' } elseif ($operation.Kind -eq 'NetworkProfile') { 'Connection profiles' } elseif ($operation.Kind -eq 'RegistryKeySet') { 'Registry key set' } else { 'Package' }
       }
     }
     $members | Format-Table -AutoSize
@@ -1016,7 +1041,7 @@ function Show-RideOperation {
     if ($key -ne 'States') { $details[$key] = $entry[$key] }
   }
   $details.CurrentValue = Get-RideCurrentValueText -Operation $entry -CurrentState $current
-  $details.CurrentValueType = if ($entry.Kind -eq 'RegistryValue') { $current.ValueType } elseif ($entry.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } elseif ($entry.Kind -eq 'WindowsService') { 'Service configuration' } elseif ($entry.Kind -eq 'BackgroundAppOverrides') { 'Per-app registry values' } elseif ($entry.Kind -eq 'BootConfiguration') { 'Boot configuration' } elseif ($entry.Kind -eq 'NetworkProfile') { 'Connection profiles' } elseif ($entry.Kind -eq 'RegistryKeySet') { 'Registry key set' } elseif ($entry.Kind -eq 'Artifact') { 'Download-only artifact' } else { 'Package' }
+  $details.CurrentValueType = if ($entry.Kind -eq 'RegistryValue') { $current.ValueType } elseif ($entry.Kind -eq 'PowerSetting') { 'Power setting index' } elseif ($entry.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } elseif ($entry.Kind -eq 'WindowsService') { 'Service configuration' } elseif ($entry.Kind -eq 'BackgroundAppOverrides') { 'Per-app registry values' } elseif ($entry.Kind -eq 'BootConfiguration') { 'Boot configuration' } elseif ($entry.Kind -eq 'NetworkProfile') { 'Connection profiles' } elseif ($entry.Kind -eq 'RegistryKeySet') { 'Registry key set' } elseif ($entry.Kind -eq 'Artifact') { 'Download-only artifact' } else { 'Package' }
   if ($entry.Kind -eq 'RegistryValue') {
     $baselineValue = Get-RideOperationValue -Operation $entry -State $entry.BaselineState
     $details.BaselineValue = ConvertTo-RideDisplayValue -Value $baselineValue
@@ -1041,6 +1066,9 @@ function Show-RideOperation {
     $details.CurrentState = Get-RideCurrentStateName -Operation $entry -CurrentState $current
     $details.RegisteredKeyCount = $current.PresentCount
     $details.RegistryKeyCount = $current.TotalCount
+  }
+  elseif ($entry.Kind -eq 'PowerSetting') {
+    $details.CurrentState = Get-RideCurrentStateName -Operation $entry -CurrentState $current
   }
   else {
     $details.Installed = [bool]$current.Present
@@ -1085,6 +1113,9 @@ function Show-RidePlan {
       $desired = Get-RideOperationValue -Operation $item.Operation -State $item.State
       '{0} / {1}' -f $desired.StartupType, $desired.Status
     }
+    elseif ($item.Operation.Kind -eq 'PowerSetting') {
+      '{0} (index {1})' -f $item.State, (Get-RideOperationValue -Operation $item.Operation -State $item.State)
+    }
     else {
       $item.State
     }
@@ -1115,7 +1146,7 @@ function Test-RideStatusView {
     '^all$' { return $true }
     '^profiles?$' { throw "The 'profiles' view applies to list. For status, select one profile with -Profile <file>." }
     '^packages?$' { return ($Operation.Kind -eq 'Package') }
-    '^settings?$' { return ($Operation.Kind -in @('RegistryValue', 'DefenderExclusion', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration', 'NetworkProfile', 'RegistryKeySet')) }
+    '^settings?$' { return ($Operation.Kind -in @('RegistryValue', 'DefenderExclusion', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration', 'NetworkProfile', 'RegistryKeySet', 'PowerSetting')) }
     '^groups?$' {
       return [bool]($Catalog.Groups | Where-Object { $Operation.Id -in $_.Members } | Select-Object -First 1)
     }
@@ -1189,7 +1220,7 @@ function Get-RideStatus {
         InDesiredState = Test-RideCurrentStateMatch -Operation $item.Operation -State $item.State -CurrentState $current
         CurrentState = Get-RideCurrentStateName -Operation $item.Operation -CurrentState $current
         CurrentValue = Get-RideCurrentValueText -Operation $item.Operation -CurrentState $current
-        CurrentValueType = if ($item.Operation.Kind -eq 'RegistryValue') { if ($current.Exists) { $current.ValueType } else { '<unset>' } } elseif ($item.Operation.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } elseif ($item.Operation.Kind -eq 'WindowsService') { 'Service configuration' } elseif ($item.Operation.Kind -eq 'BackgroundAppOverrides') { 'Per-app registry values' } elseif ($item.Operation.Kind -eq 'BootConfiguration') { 'Boot configuration' } elseif ($item.Operation.Kind -eq 'NetworkProfile') { 'Connection profiles' } elseif ($item.Operation.Kind -eq 'RegistryKeySet') { 'Registry key set' } else { 'Package' }
+        CurrentValueType = if ($item.Operation.Kind -eq 'RegistryValue') { if ($current.Exists) { $current.ValueType } else { '<unset>' } } elseif ($item.Operation.Kind -eq 'PowerSetting') { 'Power setting index' } elseif ($item.Operation.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } elseif ($item.Operation.Kind -eq 'WindowsService') { 'Service configuration' } elseif ($item.Operation.Kind -eq 'BackgroundAppOverrides') { 'Per-app registry values' } elseif ($item.Operation.Kind -eq 'BootConfiguration') { 'Boot configuration' } elseif ($item.Operation.Kind -eq 'NetworkProfile') { 'Connection profiles' } elseif ($item.Operation.Kind -eq 'RegistryKeySet') { 'Registry key set' } else { 'Package' }
       })
     }
   }
@@ -1201,7 +1232,11 @@ function Get-RideStatus {
       if (-not (Test-RideStatusView -Operation $operation -View $View -Catalog $catalog)) { continue }
       $current = Get-RideCurrentState -Operation $operation
       $defaults = $operation.TargetDefaults[$target]
-      if ($operation.Kind -in @('Package', 'DefenderExclusion')) {
+      if ($operation.Kind -eq 'PowerSetting') {
+        $defaultValue = $defaults.DefaultValue
+        $matchesDefault = $null
+      }
+      elseif ($operation.Kind -in @('Package', 'DefenderExclusion')) {
         $defaultValue = if ($defaults) { $defaults.DefaultValue } else { '<not declared>' }
         $matchesDefault = if ($defaults) { (-not $current.Present) -eq ($defaultValue -eq 'Absent') } else { $null }
       }
@@ -1255,7 +1290,7 @@ function Get-RideStatus {
         MatchesDefault = $matchesDefault
         CurrentState = Get-RideCurrentStateName -Operation $operation -CurrentState $current
         CurrentValue = Get-RideCurrentValueText -Operation $operation -CurrentState $current
-        CurrentValueType = if ($operation.Kind -eq 'RegistryValue') { if ($current.Exists) { $current.ValueType } else { '<unset>' } } elseif ($operation.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } elseif ($operation.Kind -eq 'WindowsService') { 'Service configuration' } elseif ($operation.Kind -eq 'BackgroundAppOverrides') { 'Per-app registry values' } elseif ($operation.Kind -eq 'BootConfiguration') { 'Boot configuration' } elseif ($operation.Kind -eq 'NetworkProfile') { 'Connection profiles' } elseif ($operation.Kind -eq 'RegistryKeySet') { 'Registry key set' } else { 'Package' }
+        CurrentValueType = if ($operation.Kind -eq 'RegistryValue') { if ($current.Exists) { $current.ValueType } else { '<unset>' } } elseif ($operation.Kind -eq 'PowerSetting') { 'Power setting index' } elseif ($operation.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } elseif ($operation.Kind -eq 'WindowsService') { 'Service configuration' } elseif ($operation.Kind -eq 'BackgroundAppOverrides') { 'Per-app registry values' } elseif ($operation.Kind -eq 'BootConfiguration') { 'Boot configuration' } elseif ($operation.Kind -eq 'NetworkProfile') { 'Connection profiles' } elseif ($operation.Kind -eq 'RegistryKeySet') { 'Registry key set' } else { 'Package' }
       })
     }
   }
@@ -1357,6 +1392,9 @@ function Restore-RideRun {
     }
     elseif ($operation.Kind -eq 'RegistryKeySet') {
       Restore-RideRegistryKeySetState -Trees @($record.Snapshot.Trees)
+    }
+    elseif ($operation.Kind -eq 'PowerSetting') {
+      Restore-RidePowerSettingState -Operation $operation -Snapshot $record.Snapshot
     }
     Write-Output "Restored prior state: $($operation.Id)"
   }

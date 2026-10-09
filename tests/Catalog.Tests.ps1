@@ -573,6 +573,30 @@ Describe 'RIDE profile planning' {
     }
   }
 
+  It 'maps optional UI Tweaks selectors to reversible registry states without adding them to the default profile' {
+    $expected = @{
+      'windows.taskbar-clock-seconds' = @{ State = 'Shown'; Value = 1; ValueName = 'ShowSecondsInSystemClock' }
+      'windows.recycle-bin-delete-confirmation' = @{ State = 'Enabled'; Value = 1; ValueName = 'ConfirmFileDelete' }
+    }
+
+    $defaultProfile = Import-PowerShellDataFile (Join-Path $script:RepositoryRoot 'profiles/default.psd1')
+    $plannedIds = @((Get-RidePlan -Profile $defaultProfile).Operation.Id)
+    foreach ($id in $expected.Keys) {
+      $operation = $script:Catalog.Operations | Where-Object Id -eq $id | Select-Object -First 1
+      $operation | Should -Not -BeNullOrEmpty
+      $operation.ValueName | Should -Be $expected[$id].ValueName
+      $operation.Scope | Should -Be 'User'
+      $operation.Rollback | Should -Be 'Exact'
+      $plannedIds | Should -Not -Contain $id
+      InModuleScope RIDE.Engine -Parameters @{ Id = $id; State = $expected[$id].State; Value = $expected[$id].Value } {
+        param($Id, $State, $Value)
+        $operation = Get-RideOperation -Id $Id
+        Get-RideOperationValue -Operation $operation -State $State | Should -Be $Value
+        Get-RideOperationValue -Operation $operation -State $operation.BaselineState | Should -BeNullOrEmpty
+      }
+    }
+  }
+
   It 'maps Edge Alt+Tab tab exclusion to the declared scalar value' {
     $defaultProfile = Import-PowerShellDataFile (Join-Path $script:RepositoryRoot 'profiles/default.psd1')
     $planned = @(Get-RidePlan -Profile $defaultProfile | Where-Object { $_.Operation.Id -eq 'windows.edge-tabs-alt-tab' })
@@ -584,6 +608,17 @@ Describe 'RIDE profile planning' {
       Get-RideOperationValue -Operation $operation -State 'Excluded' | Should -Be 3
       Get-RideOperationValue -Operation $operation -State 'RecentTabs' | Should -Be 1
     }
+  }
+
+  It 'maps optional desktop icon visibility states without adding the selector to the default profile' {
+    $operation = $script:Catalog.Operations | Where-Object Id -eq 'windows.desktop-icons-visibility' | Select-Object -First 1
+    $operation | Should -Not -BeNullOrEmpty
+    $operation.States.Visible | Should -Be 0
+    $operation.States.Hidden | Should -Be 1
+    $operation.Scope | Should -Be 'User'
+    $operation.Rollback | Should -Be 'Exact'
+    $defaultProfile = Import-PowerShellDataFile (Join-Path $script:RepositoryRoot 'profiles/default.psd1')
+    @($defaultProfile.Operations | Where-Object Id -eq 'windows.desktop-icons-visibility').Count | Should -Be 0
   }
 
   It 'maps low-risk Explorer UI selectors to reversible registry states in the default profile' {

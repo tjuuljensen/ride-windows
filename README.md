@@ -42,6 +42,26 @@ When using PowerShell interactively, press Tab to complete commands, operation a
 
 Use `download package.7zip -Destination <path>` to choose the artifact directory. Use `download artifact.sysmon-swift-config` to retain the latest SwiftOnSecurity XML at an immutable Git commit revision; RIDE does not apply this file automatically. Download records in `catalog/artifact-observations.json` are metadata only; a locally observed SHA-256 is not publisher authentication. See the [package verification matrix](docs/PACKAGE-VERIFICATION-MATRIX.md) for current source evidence. Append `-WhatIf` to a state-changing command to preview a change. An operation's supported actions, privilege needs, scope, and rollback limits are shown by `list`, `show`, and the generated [operation catalog](docs/OPERATIONS.md).
 
+## Future package options
+
+The approved v3 design supports installed and portable editions, with a
+recommended default per product and explicit overrides for tested variants.
+These selection options and general portable support are not implemented yet.
+
+| Choice | Examples | What it determines |
+| --- | --- | --- |
+| Distribution | Installed, portable | How the application lives on the machine |
+| Artifact format | MSI, EXE, ZIP, standalone file | How RIDE installs or extracts it |
+| Provider | Direct publisher download, WinGet | Who acquires and manages the package |
+
+WinGet is a provider that can install different distribution and artifact types.
+Each product keeps one stable catalog ID; its variants declare supported scope
+and lifecycle behavior. Portable packages will use dedicated directories and
+managed-file records to preserve user data during upgrades and removal. Direct
+portable support comes first; WinGet follows as an optional provider. See the
+[package decision in the migration plan](docs/MIGRATION-PLAN.md#package-variants-and-portable-lifecycle)
+for selection, recovery, and validation requirements.
+
 ## Profiles
 
 Profiles are PowerShell data files under `profiles/`. They list operation IDs and desired states. For example:

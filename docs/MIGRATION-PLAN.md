@@ -4,7 +4,7 @@
 
 This is the batch inventory for migrating the selectable commands in `legacy/v2/default.preset` to the v3 catalog and profiles. It includes active and commented selectors. The inventory below contains **732 distinct legacy function names** referenced by the preset across **30 family groups**. Active selectors are marked **default**. Paired legacy commands should become states of one v3 operation only when inspection confirms that they control the same setting or package.
 
-The catalog supports `RegistryValue`, `RegistryKeySet`, `Package`, `DefenderExclusion`, `WindowsService`, `BackgroundAppOverrides`, `BootConfiguration`, and `NetworkProfile`. Migration of the other groups requires the minimum additional operation kinds and focused handlers for Windows components, account/configuration changes, files/assets, and system tasks. Each handler must participate in planning, `ShouldProcess`, state capture or declared compensating behavior, status/reporting, and partial-failure reporting.
+The catalog supports `RegistryValue`, `RegistryKeySet`, `Package`, `DefenderExclusion`, `WindowsService`, `BackgroundAppOverrides`, `BootConfiguration`, `NetworkProfile`, and `PowerSetting`. Migration of the other groups requires the minimum additional operation kinds and focused handlers for Windows components, account/configuration changes, files/assets, and system tasks. Each handler must participate in planning, `ShouldProcess`, state capture or declared compensating behavior, status/reporting, and partial-failure reporting.
 
 ## PowerShell model and script follow-ups
 
@@ -71,6 +71,26 @@ state is explicit zero; WindowsDefault removes the override. Both operations
 capture exact prior values; VM tests cover repeat, baseline and restore.
 Other selectors in that family remain pending.
 
+Follow-up Windows 11 run `64be8db70ffc45d79d9a1ae02ba4c64c` passed validation,
+132 Pester tests, and the full integration suite. It verified both Defender
+exclusions through apply, repeat-apply, and exact restoration. The two lid-close
+operations also passed handler tests; integration correctly reported them as
+unavailable because the disposable Windows 11 VM exposes no lid-close setting.
+The VM returned to its clean checkpoint and off state, and host UAC was
+unchanged. The registered VM runbook remains usable from an unelevated prompt.
+The final unit-only run `b03644c4e24e4d9091e0275586370f00` then passed all
+134 guest Pester tests after adding engine plan/state assertions.
+
+Follow-up Windows 11 run `48ce9b4de1d64daa9d9812273035b01a` passed catalog
+validation, all 136 Pester tests, and the full integration suite. It verified
+the optional taskbar clock seconds, Recycle Bin delete-confirmation, and desktop
+icon visibility settings through apply, repeat-apply, declared baseline, and
+exact restoration. Git LFS, Joplin, ShareX, WinDirStat, and PowerShell package
+lifecycle checks also passed. The two lid-close integration checks were skipped
+because the disposable VM does not expose lid settings. The runner restored the
+VM to its pinned clean checkpoint with no cleanup or collection errors; host UAC
+was unchanged.
+
 The larger catalog exceeds PowerShell 5.1's whole-file safe-data complexity
 limit. A bounded metadata reader evaluates each literal operation/group with
 SafeGetValue, rejects executable entries and preserves schema 1. Execution,
@@ -100,13 +120,13 @@ Each group lists exact legacy function names found in the preset. Test demand is
 
 **Low-risk family 3/5 complete:** Service Tweaks maps four scalar registry values from `DisableMaintenanceWakeUp`, `DisableSharedExperiences`, and `EnableNTFSLongPaths` to reversible operations. The existing Autoplay and Autorun selectors remain complete; COM-based update enrollment and the Windows Update debugger override are deferred.
 
-**Low-risk family 4/5 complete:** UI Tweaks maps 19 scalar registry operations to the default workstation profile in three reviewable batches (9, 9, and 1 operation). This includes Action Center/toast behavior, accessibility prompts, taskbar controls, startup sound, and the Alt+Tab Edge-tab filter. The binary shortcut-name value, Task Manager process/polling behavior, packed visual-effects value, dynamic sound-scheme changes, and OS-branching or special-key settings remain deferred. Catalog/profile validation and mocked Pester checks pass (31 tests total); disposable-VM checks remain required before broadening declared Windows support.
+**Low-risk family 4/5 complete:** UI Tweaks maps 19 scalar registry operations to the default workstation profile in three reviewable batches (9, 9, and 1 operation). A follow-up optional batch adds the taskbar clock seconds and Recycle Bin delete-confirmation selectors as exact-rollback Windows 11 user settings; neither is added to the default profile. This includes Action Center/toast behavior, accessibility prompts, taskbar controls, startup sound, and the Alt+Tab Edge-tab filter. The binary shortcut-name value, Task Manager process/polling behavior, packed visual-effects value, dynamic sound-scheme changes, and OS-branching or special-key settings remain deferred. Catalog/profile validation and mocked Pester checks pass (31 tests total); disposable-VM checks remain required before broadening declared Windows support.
 
-**Low-risk family 5/5 complete:** Explorer UI Tweaks adds eight scalar registry operations in one batch for hidden files, navigation-pane expansion, sync notifications, recent/frequent shortcuts, Explorer start location, and thumbnail cache behavior. The already-migrated Show Known Extensions operation remains the existing equivalent. The initial scalar batch deferred the three This PC folder visibility selectors; those were later migrated under Family 12 using a reversible registry key-set handler.
+**Low-risk family 5/5 complete:** Explorer UI Tweaks adds eight scalar registry operations in one batch for hidden files, navigation-pane expansion, sync notifications, recent/frequent shortcuts, Explorer start location, and thumbnail cache behavior. A follow-up optional batch adds the desktop icon visibility selector as an exact-rollback Windows 11 user setting, outside the default profile. The already-migrated Show Known Extensions operation remains the existing equivalent. The initial scalar batch deferred the three This PC folder visibility selectors; those were later migrated under Family 12 using a reversible registry key-set handler.
 
 **Family 11/30 active defaults migrated:** UI Tweaks maps the active scalar registry defaults into the workstation profile. The binary shortcut-name value, Task Manager process/polling behavior, packed visual-effects value, dynamic sound-scheme changes, and OS-branching or special-key settings remain deferred. Catalog/profile validation and mocked Pester checks pass; full disposable-VM coverage remains outstanding.
 
-**Family 12/30 migrated and validated:** Explorer UI Tweaks includes eight reversible scalar registry settings plus `windows.music-folder-this-pc`, `windows.videos-folder-this-pc`, and `windows.3d-objects-folder-this-pc`. The new allowlisted `RegistryKeySet` handler captures recursive key values, registry types, and security descriptors before changing registration keys, so restore can reconstruct the prior tree. Windows may recalculate the DACL auto-inherited control flag when a key is recreated; validation confirms the restored owner, group, ACL entries, registry values, and value kinds. All active default selectors are represented in the default profile. Catalog validation, all 55 Pester tests, and Windows 11 disposable-VM round trips pass.
+**Family 12/30 migrated and validated:** Explorer UI Tweaks includes eight reversible scalar registry settings, the optional `windows.desktop-icons-visibility` setting, and `windows.music-folder-this-pc`, `windows.videos-folder-this-pc`, and `windows.3d-objects-folder-this-pc`. The desktop icon selector remains outside the default profile. The new allowlisted `RegistryKeySet` handler captures recursive key values, registry types, and security descriptors before changing registration keys, so restore can reconstruct the prior tree. Windows may recalculate the DACL auto-inherited control flag when a key is recreated; validation confirms the restored owner, group, ACL entries, registry values, and value kinds. All active default selectors are represented in the default profile. Catalog validation, all 55 Pester tests, and Windows 11 disposable-VM round trips pass.
 
 **Family 6/30 migrated:** Hardening Windows maps the active defaults `DisableSSDPdiscovery`, `DisableUniversalPlugAndPlay`, and `DisableWinHttpAutoProxySvc`. The first two use a reversible Windows service handler that captures and restores startup mode and running state; both are disabled and stopped by the default workstation profile. Enabled means Manual and Running for both services. The WPAD selector maps to the documented `DisableWpad` WinHTTP registry value; despite its legacy name, it does not disable the WinHTTP Auto-Proxy service. Catalog validation passes. Pester could not run in the restricted execution session because its framework's temporary registry keys are denied; mocked checks and disposable Windows 11 and Server 2025 VM checks remain outstanding.
 
@@ -133,6 +153,19 @@ Each group lists exact legacy function names found in the preset. Test demand is
 `SetPowerSchemeBalanced`, `SetPowerSchemeHighPerf`, `SetPowerSchemeUltimate`, `SetPwrSchemeDesktopMenu`,
 `RemovePwrSchemeDesktopMenu`, `SetLidCloseActionBattSleep`, `SetLidCloseActionBattDoNothing`,
 `SetLidCloseActionPwrDoNothing`, `SetLidCloseActionPwrSleep`
+
+**Partially migrated:** `SetLidCloseActionBattSleep` / `SetLidCloseActionBattDoNothing`
+map to `windows.lid-close-action-dc`; the corresponding `Pwr` pair maps to
+`windows.lid-close-action-ac`. The `PowerSetting` handler captures the active
+scheme and literal AC/DC index for exact restore, and treats the initial value
+as platform-defined rather than claiming a Windows default. Device/scheme
+combinations that do not expose the setting report `Unavailable`; no power
+setting is selected in the workstation profile. Catalog validation, mocked
+handler lifecycle tests, and the Windows 11 VM integration suite pass, but the
+VM had no lid-close control, so actual apply/restore on lid-capable hardware is
+still required. The three named power-plan selectors and two desktop-context
+menu selectors remain deferred because scheme creation/removal and dynamic
+registry-tree rollback need separate designs.
 
 #### Privacy configurations (privacy-configurations)
 
@@ -290,6 +323,47 @@ Each group lists exact legacy function names found in the preset. Test demand is
 
 #### Explorer UI Tweaks (explorer-ui-tweaks)
 
+**Optional registry batch, 2026-10-09:** Seven further current-user folder
+options map 14 legacy selectors to the existing `RegistryValue` lifecycle.
+They remain outside the workstation default profile. Explicit on/off states
+write a DWORD; `WindowsDefault` removes the override and is the declared
+baseline. Removing an override is distinct from restoring the captured prior
+value and registry type.
+
+| Legacy selectors | Catalog operation |
+| --- | --- |
+| `ShowExplorerTitleFullPath`, `HideExplorerTitleFullPath` | `windows.explorer-title-full-path` |
+| `ShowSuperHiddenFiles`, `HideSuperHiddenFiles` | `windows.protected-files-visibility` |
+| `EnableFldrSeparateProcess`, `DisableFldrSeparateProcess` | `windows.explorer-separate-process` |
+| `EnableRestoreFldrWindows`, `DisableRestoreFldrWindows` | `windows.restore-folder-windows` |
+| `DisableSharingWizard`, `EnableSharingWizard` | `windows.sharing-wizard` |
+| `HideSelectCheckboxes`, `ShowSelectCheckboxes` | `windows.item-selection-checkboxes` |
+| `DisableThumbnails`, `EnableThumbnails` | `windows.thumbnail-display` |
+
+The legacy reverse selectors for title paths, folder-window restoration and
+Sharing Wizard removed a value. Their v3 explicit reverse states use zero or
+one; use `WindowsDefault` to reproduce legacy override removal. Protected-file
+visibility also depends on hidden-file visibility. Thumbnail display remains
+separate from cache creation and network thumbnail database settings.
+
+Microsoft's [folder option registry reference](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-gppref/3c837e92-016e-4148-86e5-b4f0381a757f)
+and [additional folder option reference](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-gppref/a6ca3a17-1971-4b22-bf3b-e1a5d5c50fca)
+document six mappings. The checkbox operation links to
+[Microsoft's user-visible option](https://support.microsoft.com/en-us/windows/experience/fileexplorer/file-explorer-in-windows);
+its legacy `AutoCheckSelect` value is retained for review rather than claiming
+that the folder-option specification documents that value (it names
+`UseCheckBoxes`). No Explorer restart, logoff, share creation or cache deletion
+is performed by these operations.
+
+Native catalog/parser/generated-document validation and all 170 isolated tests
+pass on Windows PowerShell 5.1 and PowerShell 7, including 35 new batch tests.
+The existing live-registry test is excluded from workstation validation.
+The VM suite includes apply, repeat, baseline and exact restore scenarios for
+all seven operations. Their clean-profile literal defaults and visible Explorer
+behavior still require disposable Windows 11 verification, including sign-in
+and touch-related behavior; no Windows Server support is added by this batch.
+Other optional Explorer selectors remain pending.
+
 **Test demand:** Required per batch: Pester tests for state discovery, desired-state comparison, apply/restore, idempotence, WhatIf, and mocked failures. Defer complex Windows policy, service, network, and reboot scenarios to disposable-VM integration.
 
 **Legacy selectors:**
@@ -385,6 +459,48 @@ Each group lists exact legacy function names found in the preset. Test demand is
 `InstallNirsoftLauncher`, `RemoveNirsoftLauncher`, `InstallNirsoftToolsX64`, `RemoveNirsoftToolsX64`,
 `InstallNirsoftPkgFiles`, `RemoveNirsoftPkgFiles`, `InstallArsenalRecon`, `InstallWinget`,
 `InstallWingetAutoUpdate`
+
+All 25 selectors have a current reconciliation in the [System Tools disposition ledger](migrations/system-tools-dispositions.md). None is yet represented by a v3 catalog operation.
+
+**Defender and antivirus research (2026-10-09; investigation only):**
+
+- **NirSoft:** Elevated alert risk is confirmed. NirSoft itself says alerts are
+  common for some password-recovery utilities; its historical report includes
+  password, credential, and key-recovery tools, though that report is no longer
+  maintained. This supports a package-specific compatibility review, not a
+  blanket exclusion or a claim that each current binary is safe. The selectors
+  fetch a changing collection, so identify exact files and versions before
+  considering any exception. [NirSoft antivirus report](https://www.nirsoft.net/false_positive_report.html)
+- **JoeWare:** A Defender-related issue is confirmed for **AdFind**, not for
+  every JoeWare utility. The publisher reports Defender blocking AdFind and
+  attributes its reputation to legitimate Active Directory reconnaissance
+  also being used by attackers. The legacy selector downloads the entire linked
+  JoeWare tools collection, so inventory its contents before treating it as a
+  single package or scoping an exception. [JoeWare report](https://blog.joeware.net/2023/02/22/6166/)
+- **NTCore:** No source-confirmed Defender alert was found for the artifacts
+  selected by the legacy function. That is unknown status, not evidence of a
+  clean scan: the script crawls linked pages and collects multiple EXE/ZIP
+  artifacts. Enumerate and pin the intended subset before migration.
+- **Eric Zimmerman tools:** The publisher says all tools are digitally signed
+  and characterizes antivirus hits as false positives after verifying the
+  signature. Treat this as a publisher assertion that must be checked per
+  artifact; the legacy function downloads and executes a mutable `master`
+  PowerShell script before copying the resulting collection. Pin and verify
+  that bootstrap script and record each resulting binary before any execution
+  or exclusion decision. [Official tools and publisher guidance](https://ericzimmerman.github.io/)
+- **Arsenal Recon:** The publisher documents antivirus compatibility steps for
+  Arsenal Image Mounter (AIM), including possible exclusions for its folder or
+  executables, and says AIM may need to allow a `utilman.exe` alert during VM
+  boot. It also documents antivirus-evasion behavior in AIM's guest-VM tools.
+  This establishes known AV interaction, not a confirmed Defender detection
+  for every current artifact. The legacy selector downloads every MEGA link on
+  the publisher page plus MEGAcmd, so resolve exact products, versions,
+  licensing, drivers, and rollback before migration. [AIM walkthrough](https://arsenalrecon.com/arsenal-image-mounter-aim-walkthrough)
+
+No tools were downloaded, executed, or scanned for this review, and no VM or
+integration tests were run. Any Defender exclusion remains a separate,
+package-scoped decision requiring exact artifact evidence and the verification
+described in [Package-specific Defender exclusions](#package-specific-defender-exclusions).
 
 #### Active Directory Tools (active-directory-tools)
 
@@ -609,11 +725,90 @@ Expose the `download` command explicitly through the CLI and keep it separate fr
 
 7-Zip, Notepad++, and Git for Windows now resolve the latest GitHub release to a versioned asset. The release API endpoint remains mutable by design to satisfy the latest-download baseline; each resolved artifact URI and version are recorded in the observation library. Publisher signature verification and reproducible installation from the local artifact repository remain future work.
 
+## Package variants and portable lifecycle
+
+**Approved decision, 2026-10-09; implementation pending:** Support both installed
+and portable distributions, with a recommended default per product and explicit
+overrides. Offer only catalog-declared variants that have been implemented and
+tested; supporting both does not require every product/provider combination.
+The [README package table](../README.md#future-package-options) distinguishes
+distribution (installed or portable), artifact format (MSI, EXE, ZIP or standalone
+file), and provider (direct publisher download or WinGet). Scope remains a
+separate constraint declared by each supported variant.
+
+### Catalog and selection contract
+
+- Keep one stable product ID, such as `package.sharex`, with variants in its
+  catalog record or referenced manifest. Each variant declares acquisition,
+  detection, supported Windows targets, scope, privileges, dependencies,
+  install/removal behavior, and recovery limits. Provider adapters share the
+  package lifecycle rather than duplicating it.
+- Use installed editions by default for ordinary desktop applications where
+  their integration is useful, and portable editions for portable-only products
+  and suitable managed tools. Prefer MSI when features are equivalent and its
+  lifecycle is tested; do not impose one artifact format on every product.
+- Allow optional global distribution/provider preferences in the agreed local
+  configuration. Explicit profile or command selections override preferences;
+  unsupported explicit selections fail clearly. A preference may fall back to
+  the product default when unavailable, with the reason shown in the plan.
+- Resolve the selected variant, provider, scope, and destination during planning
+  and record them with the artifact/version evidence in the saved run. Removal
+  and restoration use that recorded selection rather than re-evaluating current
+  preferences. Installation failures must not trigger a switch of variant or
+  provider; the separate acquisition fallback rules below remain bounded to
+  approved equivalent sources.
+- Report an existing different edition instead of silently installing a second
+  copy or replacing it. Changing installed to portable, or the reverse, requires
+  an explicit migration that accounts for configuration and integration.
+- Preserve existing IDs and profiles: entries without a variant retain their
+  current catalog default. Version any required catalog/profile/state schema
+  change and document its migration and recovery path. Final field/CLI names
+  remain implementation work; new enumerable parameters require read-only
+  completion and synchronized help.
+
+### Managed portable lifecycle
+
+- Install machine portable packages into isolated, deterministic product
+  directories under the configurable `ToolsDirectory`. Any supported user
+  variant must declare its user-scoped destination and state ownership.
+- Record managed files, version, artifact evidence, shortcuts, and PATH changes.
+  Detect presence from both the ownership manifest and actual files, reporting
+  missing or modified files. Do not adopt arbitrary existing files implicitly.
+- Preserve application settings and user-created files during upgrades and
+  removal. Remove only owned package content and integration; never delete the
+  shared tools root or overwrite modified/user files without an explicit policy.
+- Participate in planning, `ShouldProcess`, pre-change capture, idempotence,
+  status, and partial-failure reporting. Exact binary recovery requires retained
+  verified artifacts and captured prior file state; application-data recovery
+  must be declared separately. Otherwise report compensating recovery limits.
+- Declare services, drivers, reboot requirements, and other system changes even
+  for publisher-labelled portable products. Managed-file removal alone cannot
+  recover those side effects. Defender exceptions remain governed by the
+  separate package-specific exclusion decision above.
+
+### Implementation order and acceptance
+
+Implement direct managed-portable support alongside the existing EXE/MSI
+handlers first, then add WinGet as an optional provider. Keep the standalone
+bootstrap usable without requiring WinGet. Resume deferred portable selectors
+from the [Install programs ledger](migrations/install-programs-dispositions.md)
+and [System Tools ledger](migrations/system-tools-dispositions.md) only after
+their package-specific source, ownership, dependencies, and recovery work is
+complete.
+
+Require mocked tests for variant/preference resolution, strict explicit choices,
+existing-edition conflicts, safe extraction and ownership, modified/user-file
+preservation, repeat installation, removal, recovery, `WhatIf`, and partial
+failures. Exercise each offered variant/provider lifecycle in disposable Windows
+VMs on its declared targets before claiming support, including upgrades with
+preserved user data and cleanup of owned shortcuts/PATH changes. This decision
+does not mark any deferred selector implemented or extend Windows support.
+
 ## Multiple package sources
 
 Represent all approved acquisition/install providers for a package in its single package record or referenced manifest. For example, a package can describe both a direct GitHub release artifact and a WinGet source, with each provider's package identifier, exact version mapping, architecture, artifact metadata, and verification requirements. Provider adapters implement the mechanics; package-specific PSM1 files must not duplicate the package lifecycle or make implicit source choices.
 
-Source selection should be deterministic and policy-driven: allow an explicit source choice and a configured preference among approved providers. Auto-selection may move to another provider only when it is approved for the same package/version and satisfies that provider's pinned artifact and trust metadata. A transport or availability failure may permit trying the next approved provider; a version mismatch, hash mismatch, invalid signature, or unexpected publisher must stop the operation and report the integrity failure. Do not silently retry an integrity failure through a different source.
+Source selection should be deterministic and policy-driven: allow an explicit source choice and a configured preference among approved providers. An explicit provider choice must not fall back to another provider. Auto-selection may move to another provider only when it is approved for the same package/version, distribution, and scope and satisfies that provider's pinned artifact and trust metadata. An acquisition transport or availability failure may permit trying the next approved provider, with the resolved provider reported; an installation failure, version mismatch, hash mismatch, invalid signature, or unexpected publisher must stop the operation. Do not silently retry an integrity failure through a different source.
 
 When providers supply different installers or materially different package builds, model them as distinct artifacts with provider-specific metadata and verification, even when they install the same logical package. Record the selected provider and artifact digest in the download manifest and run report so an installation can be reproduced and audited. Tests should cover provider preference, explicit source selection, approved transport fallback, and fail-closed verification errors.
 

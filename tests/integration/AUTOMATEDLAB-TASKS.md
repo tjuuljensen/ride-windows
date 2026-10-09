@@ -255,12 +255,22 @@ These are useful runtime results, not full pilot certification.
 Full request `9744844940fd4ca498ef6486092ac831` passed 128 guest tests and
 integration, including Git functionality, standalone Git LFS, Joplin, ShareX,
 WinDirStat, PowerShell 7, Sysmon and two new user-policy round trips. It ran
-2026-10-08 13:15:56-13:33:55 UTC. Collection and cleanup errors were null; UAC
-remained 1/5/1. A separate native Hyper-V read confirmed `RIDE-Win11-Test` was
-Off and its pinned `RIDE-clean-test-base` checkpoint GUID remained
-`a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9`. This confirms ordinary-shell requests
-can drive the approved lab while the user is away; the user-confirmed locked
-run supplies the separate locked-session evidence.
+2026-10-08 13:15:56-13:33:55 UTC. The user confirmed the host remained locked
+throughout this run, so it supplies additional locked-session evidence.
+Collection and cleanup errors were null; UAC remained 1/5/1. A separate native
+Hyper-V read confirmed `RIDE-Win11-Test` was Off and its pinned
+`RIDE-clean-test-base` checkpoint GUID remained
+`a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9`.
+
+Together with ordinary-shell request `20cb460af8be447dafcfc62662f99d35` and
+watcher-triggered request `fd51fb002a1d4741a938381c41e5acd8`, these provide
+ordinary-shell, locked-session and watcher-triggered full-suite passes in that
+order. The failure requests above occurred between the ordinary-shell and
+locked-session passes, so that earlier trio was not consecutive. A fresh,
+uninterrupted sequence later passed in order: ordinary-shell
+`d5f80c427abc4f83837c50949d5c56f8`, locked-session
+`4140ba445a0844af851f774584fc89e2`, and watcher-triggered
+`a64381f1d64c4d2cb50af20604e9de89`.
 
 The registered worker may retain older protected runner/collector copies.
 The guest suite exports observations through the existing results-path handoff;
@@ -269,9 +279,34 @@ failure. Apply those protected-copy updates through elevated registration when
 the worker is idle; editing repository copies alone does not update installed
 controller hashes. Do not overwrite protected binaries manually.
 
-Watcher, CI dispatch/push, overlapping local/CI requests, timeout/interruption
-recovery and Server acceptance below still need runtime evidence. Keep
-`evidence.json` validation status unchanged until those requirements pass.
+The watcher requirement has runtime evidence from requests
+`fd51fb002a1d4741a938381c41e5acd8` and
+`a64381f1d64c4d2cb50af20604e9de89`. CI dispatch/push, overlapping local/CI
+requests, timeout/interruption recovery and Server acceptance below still need
+runtime evidence. Keep `evidence.json` validation status unchanged until those
+requirements pass.
+
+An earlier sequence attempt began with ordinary-shell request
+`88176dd6babb4bd0809689e4223860b1`, which passed validation, integration and
+134/134 Pester tests on 2026-10-09 06:38:11-07:16:18 UTC. The following full
+request, `d0a464fb89594a309dc6dff4f8633cb5`, passed but the user unlocked the
+host before it finished, so it did not satisfy the locked-session case and
+interrupted that sequence.
+
+A restarted ordered sequence began with ordinary-shell request
+`d5f80c427abc4f83837c50949d5c56f8`, which passed validation, integration and
+134/134 Pester tests on 2026-10-09 10:14:48-10:30:28 UTC. Execution, collection
+and cleanup errors were empty; host UAC remained 1/5/1.
+
+Locked-session request `4140ba445a0844af851f774584fc89e2` passed validation,
+integration and 134/134 Pester tests on 2026-10-09 10:34:05-10:52:18 UTC.
+The user confirmed the host remained locked throughout. Execution, collection
+and cleanup errors were empty; host UAC remained 1/5/1.
+
+Watcher-triggered request `a64381f1d64c4d2cb50af20604e9de89` passed validation,
+integration and 134/134 Pester tests on 2026-10-09 12:12:26-12:30:04 UTC.
+Execution, collection and cleanup errors were empty; host UAC remained 1/5/1.
+This completes the fresh uninterrupted three-run Windows 11 sequence.
 
 Acquisition observations are collected as metadata in each request's
 `guest/artifact-observations.json`. Review and merge using

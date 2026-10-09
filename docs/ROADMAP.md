@@ -4,13 +4,14 @@
 
 The repository is cutting over from the v2 function runner to a purpose-built PowerShell engine. The v3 runner loads `.psd1` operation metadata and profiles. The initial catalog includes a reversible Explorer setting, direct installer/uninstaller operations for 7-Zip and Notepad++, and an ordered utility group. The previous function library, preset, and helper modules are under `legacy/v2/` as migration references and are not imported by the new runner.
 
-The catalog now contains 98 operations and two ordered package groups. Settings
+The catalog now contains 100 operations and two ordered package groups. Settings
 support exact restore; EXE, MSI and Sysmon archive packages use compensating
-recovery. Git functionality is verified in the disposable Windows 11 VM. Five
-additional package lifecycles and two Windows Configuration policies passed the
-full Windows 11 batch (128 guest tests plus integration). The full v2 library
-remains incomplete; see the
-selector disposition ledger linked from the migration plan.
+recovery. Git functionality is verified in the disposable Windows 11 VM. The
+latest full Windows 11 run passed validation, 132 guest tests, and integration,
+including Defender exclusion apply/repeat/restore. Lid-close AC/DC operations
+are catalog-backed with exact restore; the VM has no lid-close control, so
+hardware apply/restore remains pending. The full v2 library remains incomplete;
+see the selector disposition ledger linked from the migration plan.
 
 Windows 11 VM tests run through the registered elevated task controller from an
 ordinary signed-in prompt, including a locked session. Provisioning examples

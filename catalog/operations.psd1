@@ -6,6 +6,146 @@
   SchemaVersion = 1
   Operations = @(
     @{
+      Id = 'windows.explorer-title-full-path'
+      Name = 'Full path in Explorer title bar'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Explorer'
+      Description = 'Show the full folder path in the File Explorer title bar, show only the folder name, or remove the current-user override. Newly opened windows may be needed to reflect the change.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-gppref/3c837e92-016e-4148-86e5-b4f0381a757f'
+      SupportedTargets = @('Windows 11')
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState'
+      ValueName = 'FullPath'
+      ValueType = 'DWord'
+      States = @{ Shown = 1; Hidden = 0; WindowsDefault = $null }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Only the folder name appears in the title bar unless the user enables the full path' } }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.protected-files-visibility'
+      Name = 'Protected operating system files visibility'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Explorer'
+      Description = 'Show or hide protected operating system files in File Explorer, or remove the current-user override. Visibility also depends on the separate hidden-files setting; this operation does not change file attributes or permissions.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-gppref/3c837e92-016e-4148-86e5-b4f0381a757f'
+      SupportedTargets = @('Windows 11')
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
+      ValueName = 'ShowSuperHidden'
+      ValueType = 'DWord'
+      States = @{ Visible = 1; Hidden = 0; WindowsDefault = $null }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValueExists = $true; DefaultValue = 0; EffectiveDefault = 'Protected operating system files are hidden by default' } }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.explorer-separate-process'
+      Name = 'Explorer folder windows in a separate process'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Explorer'
+      Description = 'Enable or disable the current-user option to launch folder windows in a separate process, or remove its override. RIDE does not restart Explorer; process behavior must be checked after reopening folder windows.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-gppref/3c837e92-016e-4148-86e5-b4f0381a757f'
+      SupportedTargets = @('Windows 11')
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
+      ValueName = 'SeparateProcess'
+      ValueType = 'DWord'
+      States = @{ Enabled = 1; Disabled = 0; WindowsDefault = $null }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValueExists = $true; DefaultValue = 0; EffectiveDefault = 'The separate-process folder option is disabled by default' } }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.restore-folder-windows'
+      Name = 'Restore folder windows at logon'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Explorer'
+      Description = 'Enable or disable the current-user preference to restore previous folder windows at logon, or remove its override. RIDE does not sign out or restart applications; actual restoration depends on the Windows build and sign-in settings.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-gppref/3c837e92-016e-4148-86e5-b4f0381a757f'
+      SupportedTargets = @('Windows 11')
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
+      ValueName = 'PersistBrowsers'
+      ValueType = 'DWord'
+      States = @{ Enabled = 1; Disabled = 0; WindowsDefault = $null }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Folder-window restoration is opt-in; Windows sign-in settings can also enable this preference' } }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.sharing-wizard'
+      Name = 'Explorer Sharing Wizard'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Explorer'
+      Description = 'Enable or disable the Sharing Wizard option in File Explorer, or remove the current-user override. This changes the sharing interface preference; it does not create shares or alter existing permissions.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-gppref/a6ca3a17-1971-4b22-bf3b-e1a5d5c50fca'
+      SupportedTargets = @('Windows 11')
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
+      ValueName = 'SharingWizardOn'
+      ValueType = 'DWord'
+      States = @{ Enabled = 1; Disabled = 0; WindowsDefault = $null }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValueExists = $true; DefaultValue = 1; EffectiveDefault = 'The Sharing Wizard option is enabled by default' } }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.item-selection-checkboxes'
+      Name = 'Explorer item selection checkboxes'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Explorer'
+      Description = 'Show or hide item selection checkboxes in File Explorer, or remove the current-user override. The AutoCheckSelect mapping is retained from the legacy selectors for review; Microsoft documents the user-visible option rather than this registry value. Touch-oriented behavior may override the preference.'
+      DocumentationUri = 'https://support.microsoft.com/en-us/windows/experience/fileexplorer/file-explorer-in-windows'
+      SupportedTargets = @('Windows 11')
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
+      ValueName = 'AutoCheckSelect'
+      ValueType = 'DWord'
+      States = @{ Shown = 1; Hidden = 0; WindowsDefault = $null }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValueExists = $true; DefaultValue = 0; EffectiveDefault = 'Item selection checkboxes are normally off; touch-oriented behavior can display them' } }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.thumbnail-display'
+      Name = 'Explorer thumbnail display'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Explorer'
+      Description = 'Allow thumbnail display or request icons only in File Explorer, or remove the current-user override. Thumbnail availability also depends on view size, providers and other policies. This does not modify or clear the thumbnail cache.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-gppref/a6ca3a17-1971-4b22-bf3b-e1a5d5c50fca'
+      SupportedTargets = @('Windows 11')
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
+      ValueName = 'IconsOnly'
+      ValueType = 'DWord'
+      States = @{ Enabled = 0; Disabled = 1; WindowsDefault = $null }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValueExists = $true; DefaultValue = 0; EffectiveDefault = 'Explorer allows thumbnails by default when a thumbnail provider and view support them' } }
+      Rollback = 'Exact'
+    }
+    @{
       Id = 'windows.edge-friendly-url-format'
       Name = 'Edge copied URL format'
       Kind = 'RegistryValue'
@@ -1360,6 +1500,50 @@
       Rollback = 'Exact'
     }
     @{
+      Id = 'windows.taskbar-clock-seconds'
+      Name = 'Taskbar clock seconds'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / User interface'
+      Description = 'Show seconds in the current-user system tray clock. The registry mapping is retained from the legacy selector; Microsoft documents the user-visible setting.'
+      DocumentationUri = 'https://support.microsoft.com/en-us/windows/experience/personalization/set-time-date-and-time-zone-settings-in-windows'
+      SupportedTargets = @('Windows 11')
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
+      ValueName = 'ShowSecondsInSystemClock'
+      ValueType = 'DWord'
+      States = @{ Shown = 1; Hidden = $null }
+      BaselineState = 'Hidden'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'The system tray clock normally hides seconds unless the user enables them' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.recycle-bin-delete-confirmation'
+      Name = 'Recycle Bin delete confirmation'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / User interface'
+      Description = 'Show a confirmation dialog when deleting items to the Recycle Bin. The registry mapping is retained from the legacy selector; Microsoft documents the user-visible setting.'
+      DocumentationUri = 'https://support.microsoft.com/en-us/windows/experience/backup-recovery/windows-backup-settings-catalog'
+      SupportedTargets = @('Windows 11')
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer'
+      ValueName = 'ConfirmFileDelete'
+      ValueType = 'DWord'
+      States = @{ Enabled = 1; Disabled = $null }
+      BaselineState = 'Disabled'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Delete confirmation is off unless the user enables the dialog' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
       Id = 'windows.edge-tabs-alt-tab'
       Name = 'Microsoft Edge tabs in Alt+Tab'
       Kind = 'RegistryValue'
@@ -1378,6 +1562,28 @@
       BaselineState = 'RecentTabs'
       TargetDefaults = @{
         'Windows 11' = @{ DefaultValueExists = $true; DefaultValue = 1; EffectiveDefault = 'Alt+Tab includes open windows and recent Edge tabs by default' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.desktop-icons-visibility'
+      Name = 'Desktop icons visibility'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Explorer'
+      Description = 'Show or hide all icons on the current user desktop. The registry mapping is retained from the legacy selectors; Microsoft documents the user-visible setting.'
+      DocumentationUri = 'https://support.microsoft.com/en-us/windows/experience/personalization/customize-the-desktop-icons-in-windows'
+      SupportedTargets = @('Windows 11')
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
+      ValueName = 'HideIcons'
+      ValueType = 'DWord'
+      States = @{ Visible = 0; Hidden = 1 }
+      BaselineState = 'Visible'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Desktop icons are shown unless the user hides them' }
       }
       Rollback = 'Exact'
     }
@@ -2189,6 +2395,44 @@
       UninstallerArguments = '/qn /norestart'
       SuccessExitCodes = @(0, 3010)
       Rollback = 'Compensating'
+    }
+    @{
+      Id = 'windows.lid-close-action-ac'
+      Name = 'Lid close action on AC power'
+      Kind = 'PowerSetting'
+      Category = 'Windows settings / Power'
+      Description = 'Choose whether closing the lid sleeps or does nothing while the device is connected to AC power.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'PowerSetting'
+      PowerSubgroupGuid = '4f971e89-eebd-4455-a8de-9e59040e7347'
+      PowerSettingGuid = '5ca83367-6e45-459f-a27b-476b1d01c936'
+      PowerIndex = 'AC'
+      States = @{ DoNothing = 0; Sleep = 1 }
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Platform-defined'; EffectiveDefault = 'The active power scheme and device configuration determine the current lid-close action' } }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.lid-close-action-dc'
+      Name = 'Lid close action on battery'
+      Kind = 'PowerSetting'
+      Category = 'Windows settings / Power'
+      Description = 'Choose whether closing the lid sleeps or does nothing while the device is running on battery power.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options'
+      SupportedTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'PowerSetting'
+      PowerSubgroupGuid = '4f971e89-eebd-4455-a8de-9e59040e7347'
+      PowerSettingGuid = '5ca83367-6e45-459f-a27b-476b1d01c936'
+      PowerIndex = 'DC'
+      States = @{ DoNothing = 0; Sleep = 1 }
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Platform-defined'; EffectiveDefault = 'The active power scheme and device configuration determine the current lid-close action' } }
+      Rollback = 'Exact'
     }
   )
   Groups = @(
