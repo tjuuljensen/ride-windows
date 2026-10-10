@@ -6,9 +6,42 @@ The VM is for integration tests that change Windows state. Routine validation an
 
 ## What this pilot covers
 
+The forty-setting follow-up has a package-free acceptance suite. Select it
+explicitly with `Invoke-RideVmTest.ps1 -IntegrationSuite SettingsBatch40` and
+the normal VM transport/evidence parameters; the default remains `Full`.
+`-UnitOnly` cannot be combined with this integration selection. The new script
+`Invoke-RideSettingsBatch.ps1` covers all 81 explicit states, preview, repeat
+apply, baseline removal and exact registry restore. UI and feature behavior
+remain separate acceptance checks; see the
+[batch ledger](../../docs/MIGRATION-PLAN.md#forty-setting-follow-up-2026-10-09).
+
+The 9 October optional-settings migration adds 20 registry round trips across
+UI, privacy, service and Explorer families. They check every explicit state,
+apply/restore preview, repeat apply, override-removal baseline, and exact prior
+value/type recovery. These checks do not exercise visual refresh, sensor or
+biometric hardware, app access, network peer transfers, hibernation, sign-out
+history deletion or actual crash recovery. See the
+[migration results](../../docs/MIGRATION-PLAN.md#optional-windows-settings-session-2026-10-09)
+for executed evidence and remaining acceptance limits.
+
 The current VM suite checks Explorer settings; install, idempotence, and removal for 7-Zip, Notepad++, and Sysmon; the inking and typing setting; network category apply/restore for all non-domain profiles; Remote Assistance policy; the Microsoft product updates preference; and the BitLocker encryption-method policy on Windows 11. Git for Windows installation is not yet covered. The suite does **not yet** perform real-Windows round-trip tests for the service, UWP per-app override, or boot configuration handlers.
 
+The optional [God Mode folder](../../docs/GOD-MODE.md) scenario checks preview,
+repeat apply and exact saved-run restore on Windows 11. Use a clean VM desktop;
+the scenario refuses a nonempty God Mode folder. Manually open the folder in
+Explorer to verify that it displays Control Panel tasks. The folder lifecycle
+scenario passed in the Windows 11 VM on 9 October
+2026 (run `959e8b4c2a374041a792497f42dd2588`); the manual visual check remains
+pending.
+
 The package checks download installers from their declared upstream sources, so the guest needs outbound internet access while the suite runs. The VM does not need access to shared host folders or production credentials.
+
+The host runner launches `Invoke-RideGuestTests.ps1` in a fresh Windows
+PowerShell process inside the VM. This keeps Pester's mock call stack outside
+the remoting thread. The guest entry point requires the host runner's VM marker;
+use the host runner or registered task rather than invoking it on a workstation.
+Refresh an installed controller through registration while its worker is idle
+after reviewing runner changes; see [task setup](AUTOMATEDLAB-TASKS.md#2-register-once).
 
 When using AutomatedLab, the runner waits up to five minutes for a guest PowerShell remoting session before staging files. A timeout indicates the guest is still starting or its WinRM listener/network firewall is unavailable; no RIDE test code runs until that session is established.
 

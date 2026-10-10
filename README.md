@@ -22,7 +22,7 @@ Use `-NoRun` to download and inspect the files without applying anything, or `-E
 ## Commands
 
 Run `.\ride.ps1 -Help` for command usage, options, and examples.
-When using PowerShell interactively, press Tab to complete commands, operation and group IDs, profile paths, and saved run IDs.
+When using PowerShell interactively, press Tab to complete commands, operation and group IDs, profile paths, saved run IDs, and the declared states of registry and desktop Shell folder settings.
 
 | Command | Purpose |
 | --- | --- |
@@ -40,7 +40,27 @@ When using PowerShell interactively, press Tab to complete commands, operation a
 | `remove <package-id>` | Uninstall one catalog package and save its prior state. |
 | `remove -Profile <file>` | Uninstall packages selected by a profile, in reverse group order. |
 
+Image-dependent registry defaults appear as `<platform-defined>` in `status`;
+their `MatchesDefault` field is unknown. See the
+[migration/default contract](docs/MIGRATION-PLAN.md#optional-windows-settings-session-2026-10-09).
+
 Use `download package.7zip -Destination <path>` to choose the artifact directory. Use `download artifact.sysmon-swift-config` to retain the latest SwiftOnSecurity XML at an immutable Git commit revision; RIDE does not apply this file automatically. Download records in `catalog/artifact-observations.json` are metadata only; a locally observed SHA-256 is not publisher authentication. See the [package verification matrix](docs/PACKAGE-VERIFICATION-MATRIX.md) for current source evidence. Append `-WhatIf` to a state-changing command to preview a change. An operation's supported actions, privilege needs, scope, and rollback limits are shown by `list`, `show`, and the generated [operation catalog](docs/OPERATIONS.md).
+
+The optional God Mode desktop shortcut uses the current user's desktop,
+including a redirected desktop. Preview it with
+`.\ride.ps1 set windows.god-mode-shortcut Present -WhatIf`, then omit `-WhatIf`
+to create it. Use `.\ride.ps1 unset windows.god-mode-shortcut` to remove it or
+`restore -RunId <id>` to recover captured prior state. It creates the special
+folder described in the [God Mode guide](https://www.tomshardware.com/how-to/enable-god-mode-windows-11).
+Removal refuses nonempty folders. See the [folder workflow](docs/GOD-MODE.md)
+for profile configuration and recovery details.
+
+Packages and standalone artifacts include publisher license references in the
+catalog and download records. Individual/company reviews stay in local,
+exportable JSON. Use `tools/Manage-RideLicenseReviews.ps1 -Help` for Get, Set,
+Export and Import; Tab completes commands, review statuses and catalog IDs.
+See [Package licensing](docs/PACKAGE-LICENSING.md) for storage and examples.
+Offline bundle creation and its redistribution review step are optional future work.
 
 ## Future package options
 
@@ -90,7 +110,7 @@ The catalog currently targets Windows 11 and Windows Server 2025. Support is dec
 
 - `catalog/operations.psd1` defines the operation catalog and solution groups.
 - `profiles/*.psd1` defines reusable selections.
-- `modules/RIDE.Engine.psm1` plans and runs operations; focused handler modules implement registry settings, Defender exclusions, and packages.
+- `modules/RIDE.Engine.psm1` plans and runs operations; focused handler modules implement registry settings, desktop folders, Defender exclusions, and packages.
 - `docs/OPERATIONS.md` is generated from the catalog.
 - `tools/validate.ps1` checks PowerShell syntax, catalog/profile references, and generated docs.
 - `tests/` contains Pester tests. `tests/integration/` documents disposable VM checks.
@@ -127,4 +147,5 @@ The previous function-based implementation is retained as a migration reference 
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+RIDE is MIT. See [LICENSE](LICENSE). Downloaded third-party products retain
+their own licenses; see the [publisher references](docs/OPERATIONS.md#publisher-licenses).

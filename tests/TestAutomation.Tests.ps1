@@ -5,7 +5,8 @@
 .DESCRIPTION
   Tests configuration/watch filtering, snapshot isolation, task principal/actions, request
   correlation, timeout/error/evidence handling, worker serialization, and checkpoint identity. Uses
-  mocks and TestDrive rather than provisioning or controlling a real VM.
+  mocks and TestDrive rather than provisioning or controlling a real VM. Checks the guest
+  entry point's version, workstation guard and read-only preview.
 
 .EXAMPLE
   Invoke-Pester .\tests\TestAutomation.Tests.ps1
@@ -81,6 +82,33 @@ Describe 'Task configuration and read-only watch selection' {
     (Get-Content (Join-Path $TestDrive 'staged/new.ps1')) | Should -Be 'uncommitted'
   }
 
+  It 'reports the guest entry point version before checking the VM marker' {
+    & (Join-Path $PSScriptRoot 'integration/Invoke-RideGuestTests.ps1') -Version | Should -Be '0.2.0'
+  }
+
+  It 'refuses the guest entry point outside the VM runner' {
+    $previousMarker = $env:RIDE_TEST_GUEST
+    try {
+      $env:RIDE_TEST_GUEST = $null
+      { & (Join-Path $PSScriptRoot 'integration/Invoke-RideGuestTests.ps1') -GuestPath $TestDrive } | Should -Throw '*must not run on a developer workstation*'
+    }
+    finally { $env:RIDE_TEST_GUEST = $previousMarker }
+  }
+
+  It 'previews <Suite> guest tests without starting tests or creating evidence' -ForEach @(@{ Suite = 'Full' }, @{ Suite = 'SettingsBatch40' }) {
+    $source = Join-Path $TestDrive 'guest-preview-checkout'
+    $null = New-Item -ItemType Directory -Path (Join-Path $source 'tools') -Force
+    'throw "Preview must not run validation"' | Set-Content -LiteralPath (Join-Path $source 'tools/validate.ps1')
+    $results = Join-Path $TestDrive 'guest-preview-results'
+    $previousMarker = $env:RIDE_TEST_GUEST
+    try {
+      $env:RIDE_TEST_GUEST = '1'
+      & (Join-Path $PSScriptRoot 'integration/Invoke-RideGuestTests.ps1') -GuestPath $source -ResultsPath $results -ResultRunId ('b' * 32) -Integration -IntegrationSuite $Suite -WhatIf
+      Test-Path -LiteralPath $results | Should -BeFalse
+    }
+    finally { $env:RIDE_TEST_GUEST = $previousMarker }
+  }
+
   It 'previews the existing runner without staging or invoking guest operations' {
     $source = Join-Path $TestDrive 'preview-checkout'
     foreach ($file in @('tools/validate.ps1', 'tools/Export-RideCatalog.ps1', 'tests/Catalog.Tests.ps1')) {
@@ -91,6 +119,26 @@ Describe 'Task configuration and read-only watch selection' {
     $results = Join-Path $TestDrive 'preview-results'
     & (Join-Path $PSScriptRoot 'integration/Invoke-RideVmTest.ps1') -Transport AutomatedLab -LabName RIDEPilot -VMName RIDE-Pilot -RepositoryPath $source -ResultDirectory $results -WhatIf
     Test-Path -LiteralPath $results | Should -BeFalse
+  }
+
+  It 'rejects an integration-suite selection when integration is disabled' {
+    $previousMarker = $env:RIDE_TEST_GUEST
+    try {
+      $env:RIDE_TEST_GUEST = '1'
+      { & (Join-Path $PSScriptRoot 'integration/Invoke-RideGuestTests.ps1') -GuestPath $TestDrive -IntegrationSuite SettingsBatch40 } | Should -Throw '*Specify -Integration*'
+      { & (Join-Path $PSScriptRoot 'integration/Invoke-RideVmTest.ps1') -Transport AutomatedLab -LabName RIDEPilot -UnitOnly -IntegrationSuite SettingsBatch40 } | Should -Throw '*cannot be selected with UnitOnly*'
+    }
+    finally { $env:RIDE_TEST_GUEST = $previousMarker }
+  }
+
+  It 'refuses the forty-setting integration script on a workstation' {
+    & (Join-Path $PSScriptRoot 'integration/Invoke-RideSettingsBatch.ps1') -Version | Should -Be '0.1.0'
+    $previousMarker = $env:RIDE_INTEGRATION_VM
+    try {
+      $env:RIDE_INTEGRATION_VM = $null
+      { & (Join-Path $PSScriptRoot 'integration/Invoke-RideSettingsBatch.ps1') } | Should -Throw '*only inside a disposable VM*'
+    }
+    finally { $env:RIDE_INTEGRATION_VM = $previousMarker }
   }
 
   InModuleScope RIDE.TestAutomation {

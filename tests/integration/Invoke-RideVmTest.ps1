@@ -13,6 +13,8 @@
   - Optional ResultDirectory exports guest transcript, Pester XML, summary and
   saved RIDE state before the task controller restores the checkpoint.
   - Copies the working tree to the guest and runs validation and Pester.
+  - Runs guest tests in a fresh Windows PowerShell process to isolate the mock
+  call stack from the remoting thread.
   - Unless UnitOnly is set, changes guest Windows state and installs/removes
   packages; restore the guest's clean checkpoint after the run.
 
@@ -36,6 +38,10 @@
 .PARAMETER UnitOnly
   Run catalog generation, static validation, and Pester in the guest without the state-changing
   integration suite.
+
+.PARAMETER IntegrationSuite
+  Full (default) runs all integration scenarios. SettingsBatch40 runs the forty-setting
+  registry migration suite without package downloads; cannot be combined with UnitOnly.
 
 .PARAMETER ResultDirectory
   Optional host directory for correlated transcript, Pester XML, summary, and saved-state exports.
@@ -66,14 +72,16 @@
   - AutomatedLab commands for AutomatedLab transport, or a configured
   PowerShell Direct-capable Hyper-V VM.
   File/environment inputs: - Transport, optional lab/VM names and checkout/guest paths, and
-  UnitOnly.
+  UnitOnly and IntegrationSuite.
   - Optional ResultDirectory and RunId correlate guest exports with a host request.
   - PowerShell Direct prompts for a guest administrator credential.
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.4.0
+  Version: 0.6.0
   Changelog:
+  - 0.6.0: Add explicit selection of the settings-only integration suite.
+  - 0.5.0: Run guest validation and tests outside the remoting thread.
   - 0.4.0: Export acquisition observations with correlated guest evidence.
     - 0.3.0: Wait for guest WinRM before staging files and running commands.
   - 0.2.0: Add opt-in correlated result export for the task controller.
@@ -98,6 +106,7 @@ param(
   [string] $RepositoryPath,
   [string] $GuestRepositoryPath = 'C:\RIDE\ride-windows',
   [switch] $UnitOnly,
+  [ValidateSet('Full', 'SettingsBatch40')][string] $IntegrationSuite = 'Full',
   [string] $ResultDirectory,
   [ValidatePattern('^[0-9a-f]{32}$')]
   [string] $RunId = ([guid]::NewGuid().ToString('N')),
@@ -105,7 +114,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.4.0'
+$script:ScriptVersion = '0.6.0'
 if ($Version) {
   Write-Output $script:ScriptVersion
   return
@@ -116,6 +125,7 @@ if (-not $Transport) {
 }
 
 $ErrorActionPreference = 'Stop'
+if ($UnitOnly -and $IntegrationSuite -ne 'Full') { throw 'IntegrationSuite cannot be selected with UnitOnly.' }
 
 if ($Transport -eq 'AutomatedLab' -and -not $LabName) {
   throw "-LabName is required when -Transport is 'AutomatedLab'."
@@ -157,71 +167,25 @@ try {
       [string] $GuestPath,
       [bool] $RunIntegration,
       [string] $ResultsPath,
-      [string] $ResultRunId
+      [string] $ResultRunId,
+      [string] $SelectedSuite
     )
 
     $ErrorActionPreference = 'Stop'
-    Set-Location -LiteralPath $GuestPath
-    $summary = [ordered]@{ SchemaVersion = 1; RunId = $ResultRunId; Status = 'Failed'; ValidationPassed = $false; IntegrationPassed = $false; Pester = $null; Error = $null; StateCollectionError = $null; Guest = $null }
-    $transcribing = $false
+    $guestRunner = Join-Path $GuestPath 'tests\integration\Invoke-RideGuestTests.ps1'
+    if (-not (Test-Path -LiteralPath $guestRunner -PathType Leaf)) { throw 'The staged checkout is missing the guest test runner.' }
+    # Keep Pester's mock call stack on a fresh powershell.exe main thread.
+    $previousGuestMarker = $env:RIDE_TEST_GUEST
     try {
-      if ($ResultsPath) {
-        New-Item -ItemType Directory -Path $ResultsPath -Force | Out-Null
-        Start-Transcript -LiteralPath (Join-Path $ResultsPath 'transcript.log') -Force | Out-Null
-        $transcribing = $true
-        $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
-        $principal = [Security.Principal.WindowsPrincipal]::new($identity)
-        if (-not $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) { throw 'Guest session is not elevated.' }
-        $summary.Guest = @{ OS = (Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, BuildNumber); Account = $identity.Name; SID = $identity.User.Value; PowerShell = $PSVersionTable.PSVersion.ToString() }
-      }
-      Import-Module Pester -RequiredVersion '5.7.1' -ErrorAction Stop
-      $env:RIDE_TEST_EVIDENCE_PATH = $ResultsPath
-      $env:RIDE_TEST_RUN_ID = $ResultRunId
-      & .\tools\Export-RideCatalog.ps1
-      & .\tools\validate.ps1
-      $summary.ValidationPassed = $true
-      if ($ResultsPath) {
-        $pesterConfiguration = New-PesterConfiguration
-        $pesterConfiguration.Run.Path = '.\tests'
-        $pesterConfiguration.Run.PassThru = $true
-        $pesterConfiguration.TestResult.Enabled = $true
-        $pesterConfiguration.TestResult.OutputPath = Join-Path $ResultsPath 'pester.xml'
-        $pesterConfiguration.TestResult.OutputFormat = 'NUnitXml'
-        $pesterResult = Invoke-Pester -Configuration $pesterConfiguration
-      }
-      else { $pesterResult = Invoke-Pester -Path .\tests -PassThru }
-      $summary.Pester = @{ Total = $pesterResult.TotalCount; Passed = $pesterResult.PassedCount; Failed = $pesterResult.FailedCount; Result = [string]$pesterResult.Result; Version = '5.7.1' }
-      if ($pesterResult.FailedCount -gt 0 -or ($ResultsPath -and ($pesterResult.Result -ne 'Passed' -or $pesterResult.TotalCount -lt 1))) { throw "Pester did not pass: $($pesterResult.FailedCount) failing test(s)." }
-      Write-Output ("Pester passed: {0} test(s)." -f $pesterResult.PassedCount)
-      if ($RunIntegration) {
-        $env:RIDE_INTEGRATION_VM = '1'
-        & .\tests\integration\Invoke-RideVmSuite.ps1
-        $summary.IntegrationPassed = $true
-      }
-      else { Write-Output 'VM integration suite skipped by -UnitOnly.' }
-      $summary.Status = 'Passed'
+      $env:RIDE_TEST_GUEST = '1'
+      $arguments = @('-NoLogo', '-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-File', $guestRunner, '-GuestPath', $GuestPath)
+      if ($ResultsPath) { $arguments += @('-ResultsPath', $ResultsPath, '-ResultRunId', $ResultRunId) }
+      # File arguments do not reliably accept Boolean strings on Windows PowerShell 5.1.
+      if ($RunIntegration) { $arguments += @('-Integration', '-IntegrationSuite', $SelectedSuite) }
+      & (Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe') @arguments
+      if ($LASTEXITCODE -ne 0) { throw "Guest test process failed with exit code $LASTEXITCODE." }
     }
-    catch { $summary.Error = $_.Exception.Message; throw }
-    finally {
-      if ($ResultsPath) {
-        try {
-          $observations = Join-Path $GuestPath 'catalog\artifact-observations.json'
-          if (Test-Path -LiteralPath $observations) { Copy-Item -LiteralPath $observations -Destination (Join-Path $ResultsPath 'artifact-observations.json') -Force }
-          foreach ($scope in @('Machine', 'User')) {
-            $base = if ($scope -eq 'Machine') { [Environment]::GetFolderPath('CommonApplicationData') } else { [Environment]::GetFolderPath('LocalApplicationData') }
-            $statePath = Join-Path $base 'RIDE\State'
-            if (Test-Path -LiteralPath $statePath) {
-              $destination = Join-Path $ResultsPath "state\$scope"
-              New-Item -ItemType Directory -Path $destination -Force | Out-Null
-              Get-ChildItem -LiteralPath $statePath -Force | Where-Object Name -NotIn @('Cache', 'Artifacts') | ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination $destination -Recurse -Force }
-            }
-          }
-        }
-        catch { $summary.Status = 'Failed'; $summary.StateCollectionError = $_.Exception.Message }
-        if ($transcribing) { Stop-Transcript | Out-Null }
-        $summary | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath (Join-Path $ResultsPath 'summary.json') -Encoding UTF8
-      }
-    }
+    finally { $env:RIDE_TEST_GUEST = $previousGuestMarker }
   }
 
   if ($Transport -eq 'AutomatedLab') {
@@ -255,7 +219,7 @@ try {
     } -ArgumentList $GuestRepositoryPath | Out-Null
 
     Copy-LabFileItem -Path $stagedRepository -ComputerName $VMName -DestinationFolderPath (Split-Path -Parent $GuestRepositoryPath) -Recurse
-    Invoke-LabCommand -ComputerName $VMName -ScriptBlock $remoteTest -ArgumentList @($GuestRepositoryPath, [bool]$runIntegration, $guestResultsPath, $RunId) -PassThru
+    Invoke-LabCommand -ComputerName $VMName -ScriptBlock $remoteTest -ArgumentList @($GuestRepositoryPath, [bool]$runIntegration, $guestResultsPath, $RunId, $IntegrationSuite) -PassThru
   }
   else {
     $credential = Get-Credential -Message "Enter the local administrator account for guest VM '$VMName'."
@@ -266,7 +230,7 @@ try {
     } -ArgumentList $GuestRepositoryPath | Out-Null
 
     Copy-Item -Path (Join-Path $stagedRepository '*') -Destination $GuestRepositoryPath -ToSession $session -Recurse -Force
-    Invoke-Command -Session $session -ScriptBlock $remoteTest -ArgumentList @($GuestRepositoryPath, [bool]$runIntegration, $guestResultsPath, $RunId)
+    Invoke-Command -Session $session -ScriptBlock $remoteTest -ArgumentList @($GuestRepositoryPath, [bool]$runIntegration, $guestResultsPath, $RunId, $IntegrationSuite)
   }
 
   Write-Output "RIDE VM test completed on '$VMName'. Restore the VM's clean checkpoint before its next integration run."

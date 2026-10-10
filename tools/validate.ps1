@@ -37,8 +37,11 @@
   PowerShell sources.
   Recovery: Read-only checks; fix authoritative inputs before regenerating documentation.
   Author: RIDE-Windows maintainers.
-  Version: 0.2.0
+  Version: 0.5.0
   Changelog:
+  - 0.5.0: Validate publisher license references and keep local reviews out of the catalog.
+  - 0.4.0: Validate nullable registry default existence for image-dependent values.
+  - 0.3.0: Validate the desktop Shell folder metadata and profile states.
   - 0.2.0: Validate larger catalogs, MSI lifecycle metadata and prerequisites.
     0.1.0: Establish the versioned PowerShell help contract during the 2026-10-08 walkthrough.
 
@@ -51,7 +54,7 @@ param([string] $Root = '',
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.2.0'
+$script:ScriptVersion = '0.5.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 if ($Help) { Get-Help -Name $PSCommandPath -Full; return }
 
@@ -86,6 +89,18 @@ catch { Add-Error "Artifact observation library is invalid: $($_.Exception.Messa
 
 $ids = @{}
 foreach ($operation in $catalog.Operations) {
+  foreach ($localField in @('LicenseReviewStatus', 'DistributionNotes', 'LicenseReviewedAt', 'ReviewOwner', 'ReviewedVersion')) {
+    if ($operation.ContainsKey($localField)) { Add-Error "User/company license reviews belong in local storage, not the catalog: $($operation.Id) / $localField" }
+  }
+  if ($operation.Kind -in @('Package', 'Artifact')) {
+    if ([string]::IsNullOrWhiteSpace([string]$operation.License)) { Add-Error "Download operation requires a license summary (Unknown when unavailable): $($operation.Id)" }
+    if (-not [Uri]::IsWellFormedUriString([string]$operation.LicenseUri, [UriKind]::Absolute) -or ([Uri]$operation.LicenseUri).Scheme -ne 'https') {
+      Add-Error "Download operation requires an absolute HTTPS license URI: $($operation.Id)"
+    }
+    if ($operation.ContainsKey('TermsUri') -and (-not [Uri]::IsWellFormedUriString([string]$operation.TermsUri, [UriKind]::Absolute) -or ([Uri]$operation.TermsUri).Scheme -ne 'https')) {
+      Add-Error "Additional terms must use an absolute HTTPS URI: $($operation.Id)"
+    }
+  }
   foreach ($field in @('Id', 'Name', 'Kind', 'Category', 'Description', 'SupportedTargets', 'Scope', 'RequiresAdmin', 'Actions', 'Handler', 'Rollback')) {
     if (-not $operation.ContainsKey($field)) { Add-Error "Operation is missing required field '$field': $($operation.Id)" }
   }
@@ -110,6 +125,14 @@ foreach ($operation in $catalog.Operations) {
     if (-not $defaults.ContainsKey('EffectiveDefault')) { Add-Error "Operation '$($operation.Id)' is missing an effective default for '$target'." }
     if ($operation.Kind -eq 'RegistryValue' -and -not $defaults.ContainsKey('DefaultValueExists')) {
       Add-Error "Operation '$($operation.Id)' is missing literal default existence for '$target'."
+    }
+    if ($operation.Kind -eq 'RegistryValue' -and $defaults.ContainsKey('DefaultValueExists')) {
+      if ($null -ne $defaults.DefaultValueExists -and $defaults.DefaultValueExists -isnot [bool]) {
+        Add-Error "Registry default existence must be a Boolean or null: $($operation.Id) ($target)."
+      }
+      if (-not $defaults.ContainsKey('DefaultValue') -or ($null -eq $defaults.DefaultValueExists -and $null -ne $defaults.DefaultValue)) {
+        Add-Error "Registry defaults require DefaultValue; platform-defined defaults must use null: $($operation.Id) ($target)."
+      }
     }
   if ($operation.Kind -in @('Package', 'Artifact', 'DefenderExclusion') -and -not $defaults.ContainsKey('DefaultValue')) {
       Add-Error "Operation '$($operation.Id)' is missing a literal default for '$target'."
@@ -288,6 +311,16 @@ foreach ($operation in $catalog.Operations) {
     if ('Get' -notin $operation.Actions -or 'Test' -notin $operation.Actions -or 'Set' -notin $operation.Actions -or 'Restore' -notin $operation.Actions) { Add-Error "Power setting lifecycle is incomplete: $($operation.Id)" }
     if ($operation.ContainsKey('BaselineState')) { Add-Error "Power setting must not invent a RIDE baseline: $($operation.Id)" }
   }
+  elseif ($operation.Kind -eq 'ShellFolder') {
+    if ($operation.Handler -ne 'ShellFolder') { Add-Error "No matching handler for $($operation.Id)" }
+    if ($operation.Scope -ne 'User' -or $operation.RequiresAdmin -ne $false -or $operation.PathResolver -ne 'CurrentUserDesktop') { Add-Error "Shell folder must use the current-user desktop: $($operation.Id)" }
+    if ($operation.FolderName -cne 'GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}') { Add-Error "Unsupported Shell folder name: $($operation.Id)" }
+    if (-not $operation.States -or @($operation.States.Keys).Count -ne 2 -or $operation.States.Present -cne 'Present' -or $operation.States.Absent -cne 'Absent' -or $operation.BaselineState -cne 'Absent') { Add-Error "Shell folder must declare Present/Absent and baseline Absent: $($operation.Id)" }
+    if (-not [Uri]::IsWellFormedUriString([string]$operation.DocumentationUri, [UriKind]::Absolute) -or ([Uri]$operation.DocumentationUri).Scheme -ne 'https' -or ([Uri]$operation.DocumentationUri).Host -ne 'learn.microsoft.com') { Add-Error "Shell folder requires Microsoft documentation: $($operation.Id)" }
+    foreach ($target in $operation.SupportedTargets) { if ($operation.TargetDefaults[$target].DefaultValue -cne 'Absent') { Add-Error "Shell folder default must be Absent: $($operation.Id)" } }
+    foreach ($action in @('Get', 'Test', 'Set', 'Restore')) { if ($action -notin $operation.Actions) { Add-Error "Shell folder lifecycle is missing '$action': $($operation.Id)" } }
+    if ($operation.Rollback -ne 'Exact') { Add-Error "Shell folder requires exact restore: $($operation.Id)" }
+  }
   else { Add-Error "Unknown operation kind '$($operation.Kind)': $($operation.Id)" }
 }
 
@@ -319,6 +352,7 @@ foreach ($profileFile in $profilePaths) {
     if ($operation -and $operation.Kind -eq 'NetworkProfile' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid network-profile state for '$($selection.Id)'" }
     if ($operation -and $operation.Kind -eq 'RegistryKeySet' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid registry key-set state for '$($selection.Id)'" }
     if ($operation -and $operation.Kind -eq 'PowerSetting' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid power-setting state for '$($selection.Id)'" }
+    if ($operation -and $operation.Kind -eq 'ShellFolder' -and $selection.State -ne 'Baseline' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid Shell folder state for '$($selection.Id)'" }
     if ((($operation -and $operation.Kind -in @('Package', 'DefenderExclusion')) -or $group) -and $selection.State -notin @('Present', 'Absent')) { Add-Error "$($profileFile.Name) must use Present or Absent for '$($selection.Id)'" }
   }
 }

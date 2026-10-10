@@ -114,6 +114,25 @@ Describe 'RIDE operation catalog' {
     }
   }
 
+  It 'publishes license references without individual or company review decisions' {
+    foreach ($operation in $script:Catalog.Operations) {
+      foreach ($field in @('LicenseReviewStatus', 'DistributionNotes', 'LicenseReviewedAt', 'ReviewOwner', 'ReviewedVersion')) {
+        $operation.ContainsKey($field) | Should -BeFalse
+      }
+      if ($operation.Kind -in @('Package', 'Artifact')) {
+        $operation.License | Should -Not -BeNullOrEmpty
+        $operation.LicenseUri | Should -Match '^https://'
+        ([uri]$operation.LicenseUri).IsAbsoluteUri | Should -BeTrue
+        if ($operation.ContainsKey('TermsUri')) { $operation.TermsUri | Should -Match '^https://' }
+      }
+    }
+    $rows = @(Show-RideCatalog -View packages)
+    foreach ($row in $rows) {
+      $row.License | Should -Not -BeNullOrEmpty
+      $row.LicenseUri | Should -Match '^https://'
+    }
+  }
+
   It 'maps the BitLocker AES-256 selector to the legacy policy value without claiming to encrypt existing drives' {
     $operation = $script:Catalog.Operations | Where-Object Id -eq 'windows.bitlocker-encryption-method'
     $operation.RegistryPath | Should -Be 'HKLM:\SOFTWARE\Policies\Microsoft\FVE'

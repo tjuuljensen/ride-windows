@@ -33,12 +33,46 @@ changes over broad rewrites.
 - Every `Package` operation must include a `ProductUri` pointing to the
   product's official information page. Keep this separate from `DownloadUri`,
   which identifies the artifact source used by the installer.
+- Every `Package` and standalone `Artifact` includes a descriptive `License`
+  and official HTTPS `LicenseUri`; add `TermsUri` for separate applicable terms.
+  Acquire payloads from the declared publisher sources and retain upstream notices.
+- Individual/company `LicenseReviewStatus`, `DistributionNotes`, and
+  `LicenseReviewedAt` belong in the local exportable license review store,
+  never catalog defaults or shared acquisition evidence. See
+  `docs/PACKAGE-LICENSING.md` for version/owner keys and the independent schema.
+- Offline bundle creation and its redistribution review step are optional
+  future development; a local download cache is not distribution approval.
 - Use stable HTTPS URLs from Microsoft Learn or Microsoft Support for Windows
   settings, and from the software publisher or project for package information.
   Do not invent links; flag an undocumented setting for review and use the
   closest authoritative behavior reference when no direct reference exists.
 - Render these references in generated `docs/OPERATIONS.md` and enforce their
   presence and URL form in catalog validation and tests.
+
+## Post-migration setting evaluation
+
+- Review each legacy selector split across multiple operations for user intent,
+  current feature meaning, dependencies, side effects and reverse-state semantics.
+  Registry round trips prove lifecycle behavior, not the user-visible outcome.
+- Split only when each component represents an explainable, independently useful
+  setting. Prefer one focused operation for multiple values that implement one
+  feature; use profiles to compose understood settings into a reviewed outcome.
+- Names and descriptions must identify the target area and individual effect.
+  Unknown numeric registry channels remain experimental and excluded from
+  recommended profiles until current-build evidence establishes their meaning.
+  Do not invent feature labels to make an undocumented mapping appear verified.
+- Identify when a Microsoft link documents only feature behavior. Verify page
+  fragments and prefer a focused, current reference over a broad background page.
+- Reconcile whole legacy bundles, including omitted behavior and whether their
+  reverse selectors remove overrides or write explicit values. Retain stable IDs
+  and recovery paths when changing presentation or proposing retirement.
+- Record decisions and remaining acceptance in
+  `docs/migrations/settings-post-migration-review.md` after each migration batch.
+- After every migration batch, refresh the dated group estimates and rounded
+  total in `docs/MIGRATION-PLAN.md` under "Estimated remaining migration work".
+  Record the batch's estimate adjustment or why rounded ranges remain unchanged.
+  Count legacy feature/product outcomes rather than new catalog IDs; retain
+  partial or deferred scope and track evaluation of implemented settings separately.
 
 ## Command-line discoverability and completion
 

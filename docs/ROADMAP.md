@@ -38,6 +38,16 @@ The batch inventory, test demand, and preset/function reconciliation list are ma
 4. **Settings families** — migrate Windows policies, privacy, services, network, UI, account, and Server-specific settings with explicit state discovery and baseline behavior.
 5. **Major release** — publish v3 with new profiles and CLI; v2 remains available through prior release tags. Remove obsolete migration notes once a v2 operation family has been reviewed.
 
+## Optional future offline bundles
+
+Current package acquisition remains metadata plus direct publisher downloads.
+User/company license findings use the local exportable review store described
+in [Package licensing](PACKAGE-LICENSING.md). Offline bundle creation is optional
+future development: add an exact-version redistribution review step, preserve
+required license/notice/attribution files and source/source offers, and retain
+applicable terms and review evidence with each bundle. Local download caches
+and a `Reviewed` status do not constitute bundle distribution approval.
+
 ## Verification and support
 
 - Windows CI runs PowerShell parsing, metadata/profile validation, generated-doc consistency, and Pester unit tests.

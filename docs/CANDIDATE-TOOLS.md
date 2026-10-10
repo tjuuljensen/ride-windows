@@ -6,6 +6,14 @@ Here, "stealthy" means minimizing unnecessary changes to evidence and limiting e
 
 ## Recommended candidates
 
+The [9 October custom-library review](migrations/custom-ride-dispositions.md)
+reconciles overlapping candidates and additional analyst tools. It found a
+public FTK acquisition route: Exterro's
+[8.3 release page](https://www.exterro.com/ftk-downloads/ftk-imager-8-3) links
+directly to the 8.3.0.27 ZIP; unauthenticated HEAD returned HTTP 200. Resolve the
+link from the vendor page instead of relying on saved private URLs. Archive,
+signature and unattended lifecycle validation remain pending.
+
 | Priority | Tool | Audience and useful capability | Access and licensing | Fit and review notes |
 | --- | --- | --- | --- | --- |
 | 1 | [FTK Imager](https://www.exterro.com/ftk-downloads/ftk-imager-8-3) | Investigators: acquire and preview forensic images, with hash verification; also useful for validating and browsing image files. | Exterro states FTK Imager is free and requires no product license; no license key required. | A practical gap-filler for evidence acquisition and review. Use a hardware write blocker where applicable, independently record and verify hashes, and check current download access and unattended deployment before adding it. An imager does not make live acquisition non-invasive. |

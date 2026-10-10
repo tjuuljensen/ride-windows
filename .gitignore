@@ -18,3 +18,6 @@ install-log.log
 
 # Transient lock for the append-only acquisition evidence library.
 catalog/artifact-observations.json.lock
+
+# Optional checkout-local user/company configuration; never a release default.
+.local/

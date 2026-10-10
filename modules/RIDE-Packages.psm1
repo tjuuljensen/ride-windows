@@ -6,7 +6,8 @@
   Queries uninstall entries or the Sysmon service. Resolves GitHub release/file revisions or the
   Microsoft Sysmon archive; downloads versioned artifacts, checks available provider digests, and
   records SHA-256/Authenticode observations. Install/uninstall run declared commands and check
-  presence; hashes alone are not publisher authentication.
+  presence; hashes alone are not publisher authentication. Downloads retain public license
+  references and GitHub release assets must belong to the declared publisher repository.
 
 .EXAMPLE
   Import-Module .\modules\RIDE-Packages.psm1
@@ -28,8 +29,9 @@
   Recovery: State-changing handlers are engine-internal: use ride.ps1 preview and captured-run
   restoration. Direct calls bypass ShouldProcess and snapshot capture.
   Author: RIDE-Windows maintainers.
-  Version: 0.2.0
+  Version: 0.3.0
   Changelog:
+    0.3.0: Record publisher license references and constrain GitHub assets to the declared project.
     0.2.0: Retain publisher checksums, archive-member signatures and acquisition provenance.
     0.1.0: Establish documented module ownership, version, and exported-command help during this
     walkthrough.
@@ -45,7 +47,7 @@
 #>
 
 
-$script:ModuleVersion = '0.2.0'
+$script:ModuleVersion = '0.3.0'
 
 function Get-RideInstalledPackage {
   <#
@@ -213,6 +215,13 @@ function Resolve-RidePackageArtifact {
   if (-not [uri]::IsWellFormedUriString($uri, [UriKind]::Absolute) -or ([uri]$uri).Scheme -ne 'https') {
     throw "The release asset URL for $($Operation.PackageId) is not a valid HTTPS URL."
   }
+  $repositoryMatch = [regex]::Match(([uri]$Operation.DownloadUri).AbsolutePath, '^/repos/(?<repository>[^/]+/[^/]+)/releases/latest$')
+  if (-not $repositoryMatch.Success) { throw 'GitHub release discovery must identify the declared publisher repository.' }
+  $assetUri = [uri]$uri
+  $publisherPrefix = '/' + $repositoryMatch.Groups['repository'].Value + '/releases/download/'
+  if ($assetUri.Host -ne 'github.com' -or -not $assetUri.IsDefaultPort -or $assetUri.UserInfo -or -not $assetUri.AbsolutePath.StartsWith($publisherPrefix, [StringComparison]::OrdinalIgnoreCase)) {
+    throw "The release asset for $($Operation.PackageId) must come from the declared publisher repository."
+  }
   $version = [string]$release.tag_name
   if ($Operation.TagPrefix -and $version.StartsWith([string]$Operation.TagPrefix, [StringComparison]::Ordinal)) { $version = $version.Substring(([string]$Operation.TagPrefix).Length) }
   if ($version.StartsWith('v', [StringComparison]::OrdinalIgnoreCase)) { $version = $version.Substring(1) }
@@ -284,6 +293,9 @@ function Add-RideArtifactObservation {
     OriginUri = $Artifact.OriginUri
     SourceUri = $Artifact.Uri
     ReleaseUri = $Artifact.SourceUri
+    License = $Artifact.License
+    LicenseUri = $Artifact.LicenseUri
+    TermsUri = $Artifact.TermsUri
     ObservedAtUtc = [DateTime]::UtcNow.ToString('o')
     Route = $Route
     AcquisitionKind = $Artifact.AcquisitionKind
@@ -346,7 +358,8 @@ function Save-RidePackageArtifact {
     Creates item/version directories, downloads when absent, computes SHA-256, checks a supplied
     provider digest and supported publisher checksum, and records file/member observations.
     Always retains a sidecar; warns if shared recording fails. Does not invoke an installer
-    or authenticate the publisher from a local hash.
+    or authenticate the publisher from a local hash. Copies publisher license references
+    into the result and evidence; does not read private user/company license reviews.
 
   .PARAMETER Operation
     Catalog operation metadata for this focused handler; use the engine to select and validate it.
@@ -384,6 +397,10 @@ function Save-RidePackageArtifact {
   )
 
   $artifact = Resolve-RidePackageArtifact -Operation $Operation
+  # Public references accompany the exact retained version; private review decisions stay local.
+  foreach ($field in @('License', 'LicenseUri', 'TermsUri')) {
+    $artifact | Add-Member -NotePropertyName $field -NotePropertyValue $Operation[$field] -Force
+  }
   if ([System.Management.Automation.WildcardPattern]::ContainsWildcardCharacters($DestinationDirectory)) { throw 'The artifact destination must not contain wildcard characters.' }
   $DestinationDirectory = [IO.Path]::GetFullPath($DestinationDirectory)
   New-Item -ItemType Directory -Path $DestinationDirectory -Force | Out-Null
@@ -443,6 +460,9 @@ function Save-RidePackageArtifact {
     Uri = $artifact.Uri
     Sha256 = $sha256
     ProviderDigest = $artifact.ProviderDigest
+    License = $artifact.License
+    LicenseUri = $artifact.LicenseUri
+    TermsUri = $artifact.TermsUri
   }
 }
 

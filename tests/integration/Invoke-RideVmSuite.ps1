@@ -34,8 +34,12 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.8.0
+  Version: 0.12.0
   Changelog:
+  - 0.12.0: Include the forty-setting registry migration suite before package checks.
+  - 0.11.0: Verify twenty optional Windows settings, all explicit states and preview.
+  - 0.10.0: Verify optional God Mode folder preview, repeat apply and exact restore.
+  - 0.9.0: Add registry round trips for empty drives, merge prompts and all folders.
   - 0.8.0: Add registry round trips for seven optional Explorer folder options.
   - 0.7.0: Verify optional Windows 11 desktop icon visibility.
   - 0.6.0: Verify two additional optional Windows 11 user interface settings.
@@ -58,7 +62,7 @@
 [CmdletBinding()]
 param([switch] $Version)
 
-$script:ScriptVersion = '0.8.0'
+$script:ScriptVersion = '0.12.0'
 if ($Version) {
   Write-Output $script:ScriptVersion
   return
@@ -77,7 +81,56 @@ $target = Get-RidePlatform
 if ($target -notin @('Windows 11', 'Windows Server 2025')) { throw "Unsupported integration VM target: $target" }
 
 if ($target -eq 'Windows 11') {
+  & (Join-Path $PSScriptRoot 'Invoke-RideSettingsBatch.ps1')
+  $shellOperation = Get-RideOperation -Id 'windows.god-mode-shortcut'
+  $shellOriginal = Get-RideCurrentState -Operation $shellOperation
+  if ($shellOriginal.HasContents) { throw 'Use a clean VM desktop: the God Mode folder contains files.' }
+  $shellState = if ($shellOriginal.Present) { 'Absent' } else { 'Present' }
+  $shellPlan = @(Get-RideSingleOperationPlan -Id $shellOperation.Id -Action Set -State $shellState)
+  $null = Invoke-RidePlan -Plan $shellPlan -WhatIf -Confirm:$false
+  if ((Get-RideCurrentState -Operation $shellOperation).Present -ne $shellOriginal.Present) { throw 'God Mode preview changed the desktop.' }
+  $shellOutput = @(Invoke-RidePlan -Plan $shellPlan -Confirm:$false)
+  $shellRunId = ($shellOutput | Where-Object { $_ -is [string] -and $_ -match '^Run ID: ' } | Select-Object -Last 1) -replace '^Run ID: ', ''
+  if (-not $shellRunId) { throw 'No saved run returned for the God Mode folder.' }
+  try {
+    if (-not (Test-RideDesiredState -Operation $shellOperation -State $shellState)) { throw 'God Mode folder apply failed.' }
+    $shellRepeat = @(Invoke-RidePlan -Plan $shellPlan -Confirm:$false)
+    if ('No changes were needed; no state record was created.' -notin $shellRepeat) { throw 'God Mode repeat apply was not idempotent.' }
+    $null = Restore-RideRun -RunId $shellRunId -WhatIf -Confirm:$false
+    if (-not (Test-RideDesiredState -Operation $shellOperation -State $shellState)) { throw 'God Mode restore preview changed the desktop.' }
+    Restore-RideRun -RunId $shellRunId -Confirm:$false
+    $shellRestored = Get-RideCurrentState -Operation $shellOperation
+    if ($shellRestored.Present -ne $shellOriginal.Present -or $shellRestored.Path -ne $shellOriginal.Path) { throw 'God Mode presence restore failed.' }
+    if ($shellOriginal.Present) {
+      foreach ($field in @('Attributes', 'CreationTimeUtc', 'LastWriteTimeUtc', 'SecurityDescriptor')) {
+        if ($shellRestored.$field -ne $shellOriginal.$field) { throw "God Mode exact restore failed: $field" }
+      }
+    }
+    Write-Output 'God Mode folder lifecycle passed; manually verify the Control Panel task view in Explorer.'
+  }
+  finally { Restore-RideRun -RunId $shellRunId -Confirm:$false }
+
   foreach ($settingScenario in @(
+    @{ Id = 'windows.lock-screen-network-selection'; State = 'Hidden'; States = @('Hidden', 'Shown') }
+    @{ Id = 'windows.shutdown-without-logon'; State = 'Disabled'; States = @('Disabled', 'Enabled') }
+    @{ Id = 'windows.title-bar-shake'; State = 'Disabled'; States = @('Disabled', 'Enabled') }
+    @{ Id = 'windows.start-recently-added-apps'; State = 'Hidden'; States = @('Hidden', 'UserChoice') }
+    @{ Id = 'windows.title-bar-accent-color'; State = 'Enabled'; States = @('Enabled', 'Disabled') }
+    @{ Id = 'windows.app-color-mode'; State = 'Dark'; States = @('Dark', 'Light') }
+    @{ Id = 'windows.system-color-mode'; State = 'Dark'; States = @('Dark', 'Light') }
+    @{ Id = 'windows.sound-scheme-change-policy'; State = 'Blocked'; States = @('Blocked', 'Allowed') }
+    @{ Id = 'windows.taskbar-alignment'; State = 'Left'; States = @('Left', 'Centered') }
+    @{ Id = 'windows.sensors-policy'; State = 'Disabled'; States = @('Disabled', 'Allowed') }
+    @{ Id = 'windows.biometrics-policy'; State = 'Disabled'; States = @('Disabled', 'Allowed') }
+    @{ Id = 'windows.app-camera-policy'; State = 'ForceDeny'; States = @('ForceDeny', 'ForceAllow', 'UserControl') }
+    @{ Id = 'windows.app-microphone-policy'; State = 'ForceDeny'; States = @('ForceDeny', 'ForceAllow', 'UserControl') }
+    @{ Id = 'windows.delivery-optimization-download-mode'; State = 'HttpOnly'; States = @('HttpOnly', 'LocalNetwork', 'Internet') }
+    @{ Id = 'windows.clear-recent-documents-on-exit'; State = 'Enabled'; States = @('Enabled', 'Disabled') }
+    @{ Id = 'windows.recent-document-history-policy'; State = 'Disabled'; States = @('Disabled', 'Allowed') }
+    @{ Id = 'windows.fast-startup'; State = 'Disabled'; States = @('Disabled', 'Enabled') }
+    @{ Id = 'windows.auto-reboot-on-crash'; State = 'Disabled'; States = @('Disabled', 'Enabled') }
+    @{ Id = 'windows.clipboard-history'; State = 'Enabled'; States = @('Enabled', 'Disabled') }
+    @{ Id = 'windows.navigation-pane-libraries'; State = 'Shown'; States = @('Shown', 'Hidden') }
     @{ Id = 'windows.edge-friendly-url-format'; State = 'PlainText' }
     @{ Id = 'windows.start-run-as-different-user'; State = 'Enabled' }
     @{ Id = 'windows.taskbar-clock-seconds'; State = 'Shown'; BaselineState = 'Hidden' }
@@ -90,15 +143,38 @@ if ($target -eq 'Windows 11') {
     @{ Id = 'windows.sharing-wizard'; State = 'Disabled' }
     @{ Id = 'windows.item-selection-checkboxes'; State = 'Shown' }
     @{ Id = 'windows.thumbnail-display'; State = 'Disabled' }
+    @{ Id = 'windows.empty-drives-visibility'; State = 'Visible' }
+    @{ Id = 'windows.folder-merge-conflicts'; State = 'Shown' }
+    @{ Id = 'windows.navigation-pane-all-folders'; State = 'Enabled' }
   )) {
     $operation = Get-RideOperation -Id $settingScenario.Id
     $original = Get-RideCurrentState -Operation $operation
+    if ($settingScenario.ContainsKey('States')) {
+      # Choose a different literal state so the first apply always creates a snapshot.
+      $settingScenario.State = @($settingScenario.States | Where-Object { -not (Test-RideDesiredState -Operation $operation -State $_) })[0]
+      $null = Invoke-RidePlan -Plan @(Get-RideSingleOperationPlan -Id $operation.Id -Action Set -State $settingScenario.State) -WhatIf -Confirm:$false
+      $preview = Get-RideCurrentState -Operation $operation
+      if (($preview | ConvertTo-Json -Compress) -cne ($original | ConvertTo-Json -Compress)) { throw "Setting preview changed state: $($operation.Id)" }
+      Write-Output "Optional setting initial state: $($operation.Id) = $($original | ConvertTo-Json -Compress)"
+    }
     $plan = @(Get-RideSingleOperationPlan -Id $operation.Id -Action Set -State $settingScenario.State)
     $output = @(Invoke-RidePlan -Plan $plan -Confirm:$false)
     $runId = ($output | Where-Object { $_ -is [string] -and $_ -match '^Run ID: ' } | Select-Object -Last 1) -replace '^Run ID: ', ''
     if (-not $runId) { throw "No saved run returned for $($operation.Id)." }
     try {
       if (-not (Test-RideDesiredState -Operation $operation -State $settingScenario.State)) { throw "Policy apply failed: $($operation.Id)" }
+      if ($settingScenario.ContainsKey('States')) {
+        foreach ($state in $settingScenario.States) {
+          $statePlan = @(Get-RideSingleOperationPlan -Id $operation.Id -Action Set -State $state)
+          $null = Invoke-RidePlan -Plan $statePlan -Confirm:$false
+          if (-not (Test-RideDesiredState -Operation $operation -State $state)) { throw "Setting explicit state failed: $($operation.Id) ($state)" }
+          $repeat = @(Invoke-RidePlan -Plan $statePlan -Confirm:$false)
+          if ('No changes were needed; no state record was created.' -notin $repeat) { throw "Setting repeat failed: $($operation.Id) ($state)" }
+        }
+        $beforeRestorePreview = Get-RideCurrentState -Operation $operation
+        $null = Restore-RideRun -RunId $runId -WhatIf -Confirm:$false
+        if (((Get-RideCurrentState -Operation $operation) | ConvertTo-Json -Compress) -cne ($beforeRestorePreview | ConvertTo-Json -Compress)) { throw "Setting restore preview changed state: $($operation.Id)" }
+      }
       $null = Invoke-RidePlan -Plan $plan -Confirm:$false
       Restore-RideRun -RunId $runId -Confirm:$false
       $restored = Get-RideCurrentState -Operation $operation
@@ -108,6 +184,7 @@ if ($target -eq 'Windows 11') {
       if (-not (Test-RideDesiredState -Operation $operation -State $baselineState)) { throw "Policy baseline failed: $($operation.Id) ($baselineState)" }
     }
     finally { Restore-RideRun -RunId $runId -Confirm:$false }
+    if ($settingScenario.ContainsKey('States')) { Write-Output "Optional setting registry lifecycle passed: $($operation.Id)" }
   }
   foreach ($exclusionId in @('windows.defender-tools-exclusion', 'windows.defender-bootstrap-exclusion')) {
     $operation = Get-RideOperation -Id $exclusionId

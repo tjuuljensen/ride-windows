@@ -171,6 +171,12 @@ documentation and test outputs. Edits during a run yield one subsequent run
 after they settle. Failures are printed without silently disabling the watcher.
 Ctrl+C stops watching; the active task finishes collection and recovery.
 
+At startup, the watcher records the current checkout as its baseline; existing
+uncommitted changes do not trigger a run. For the watcher acceptance check, make
+a new change to a watched path after the `Watching` banner appears, then leave
+it stable through the debounce interval. The watcher prints a request ID when
+the test starts. Stop watching with Ctrl+C only after its final result appears.
+
 ## 5. GitHub Actions
 
 Configure a **repository-scoped** self-hosted Windows x64 runner with label
@@ -240,7 +246,7 @@ baseline rather than resetting unrelated configuration to Windows defaults.
 
 ## Pilot acceptance and replication evidence
 
-### Runtime evidence, 2026-10-08
+### Runtime evidence, 2026-10-08 and 2026-10-09
 
 The user confirmed the locked-PC full-suite test passed. Ordinary-shell
 controller request `20cb460af8be447dafcfc62662f99d35` also passed all 103 guest

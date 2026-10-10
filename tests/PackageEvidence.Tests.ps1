@@ -17,6 +17,16 @@ BeforeDiscovery {
 
 Describe 'Publisher evidence and acquisition provenance' {
   InModuleScope RIDE-Packages {
+    It 'rejects release assets from a mirror or a different GitHub project' {
+      Mock Invoke-RestMethod {
+        [pscustomobject]@{ tag_name = '1.0'; assets = @([pscustomobject]@{ name = 'app.exe'; browser_download_url = $script:untrustedAssetUri }) }
+      }
+      foreach ($uri in @('https://mirror.example.org/app.exe', 'https://github.com/other/project/releases/download/1.0/app.exe', 'https://github.com/publisher/project-other/releases/download/1.0/app.exe')) {
+        $script:untrustedAssetUri = $uri
+        { Resolve-RidePackageArtifact @{ PackageId = 'app'; DownloadProvider = 'GitHubReleaseApi'; DownloadUri = 'https://api.github.com/repos/publisher/project/releases/latest'; AssetPattern = '^app.exe$'; Architecture = 'x64' } } | Should -Throw '*declared publisher repository*'
+      }
+    }
+
     It 'reads the exact installer checksum from publisher release notes' {
       Mock Invoke-RestMethod {
         [pscustomobject]@{ tag_name = 'v2.56.0.windows.2'; html_url = 'https://github.com/git-for-windows/git/releases/tag/v2.56.0.windows.2'; body = '| Git-2.56.0.2-64-bit.exe | ' + ('a' * 64) + ' |'; assets = @([pscustomobject]@{ name = 'Git-2.56.0.2-64-bit.exe'; browser_download_url = 'https://github.com/git-for-windows/git/releases/download/v2.56.0.windows.2/Git-2.56.0.2-64-bit.exe'; digest = $null }) }
@@ -42,7 +52,7 @@ Describe 'Publisher evidence and acquisition provenance' {
       Mock Invoke-WebRequest { 'mock artifact' | Set-Content -LiteralPath $OutFile }
       Mock Get-AuthenticodeSignature { [pscustomobject]@{ Status = 'NotSigned'; SignerCertificate = $null; TimeStamperCertificate = $null } }
       Mock Start-Process { throw 'Acquisition must not start an installer.' }
-      $operation = @{ Kind = 'Package'; PackageId = 'app' }
+      $operation = @{ Kind = 'Package'; PackageId = 'app'; License = 'MIT'; LicenseUri = 'https://example.org/LICENSE'; TermsUri = 'https://example.org/terms' }
       $first = Save-RidePackageArtifact $operation $destination -ObservationPath $library
       $second = Save-RidePackageArtifact $operation $destination -ObservationPath $library
       $records = (Get-Content -LiteralPath $library -Raw | ConvertFrom-Json).Observations
@@ -51,6 +61,13 @@ Describe 'Publisher evidence and acquisition provenance' {
       $records[1].AcquisitionKind | Should -Be 'Cache'
       $records[0].ObservationId | Should -Not -Be $records[1].ObservationId
       Test-Path -LiteralPath ($second.Path + '.ride.json') | Should -BeTrue
+      $records[0].License | Should -Be 'MIT'
+      $records[0].LicenseUri | Should -Be 'https://example.org/LICENSE'
+      $records[1].TermsUri | Should -Be 'https://example.org/terms'
+      $second.LicenseUri | Should -Be $records[1].LicenseUri
+      $sidecar = Get-Content -LiteralPath ($second.Path + '.ride.json') -Raw | ConvertFrom-Json
+      $sidecar.LicenseUri | Should -Be $records[1].LicenseUri
+      'LicenseReviewStatus' | Should -Not -BeIn $sidecar.PSObject.Properties.Name
       Should -Invoke Invoke-WebRequest -Exactly 1
       Should -Invoke Start-Process -Exactly 0
     }

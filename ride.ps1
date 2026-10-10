@@ -67,8 +67,9 @@
   machine/user RIDE state stores. Package observations use catalog/artifact-observations.json.
   Recovery: Use restore -RunId for captured state. Package recovery has the catalog-declared limits.
   Author: RIDE-Windows maintainers.
-  Version: 0.2.0
+  Version: 0.3.0
   Changelog:
+  - 0.3.0: Add optional desktop Shell folder settings and state completion.
   - 0.2.0: Use bounded data-only catalog loading for execution and read-only completion.
     0.1.0: Establish the versioned PowerShell help contract during the 2026-10-08 walkthrough.
 
@@ -172,9 +173,9 @@ param(
       Import-Module (Join-Path (Split-Path -Parent $catalogPath) '../modules/RIDE.CatalogData.psm1') -ErrorAction Stop
       $catalog = Import-RideCatalogData -Path $catalogPath -ErrorAction Stop
       $operation = $catalog.Operations | Where-Object { $_.Id -eq $fakeBoundParameters.Id } | Select-Object -First 1
-      if ($operation.Kind -in @('RegistryValue', 'RegistryKeySet', 'PowerSetting')) {
+      if ($operation.Kind -in @('RegistryValue', 'RegistryKeySet', 'PowerSetting', 'ShellFolder')) {
         $states = @($operation.States.Keys)
-        if ($operation.Kind -eq 'RegistryValue' -and 'Baseline' -notin $states) { $states += 'Baseline' }
+        if ($operation.Kind -in @('RegistryValue', 'ShellFolder') -and 'Baseline' -notin $states) { $states += 'Baseline' }
       }
       elseif ($operation.Kind -eq 'DefenderExclusion') {
         $states = @('Present', 'Absent')
@@ -224,7 +225,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.2.0'
+$script:ScriptVersion = '0.3.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 
 if ($Help) {
@@ -287,6 +288,8 @@ Examples:
   .\ride.ps1 status packages -Profile .\profiles\analyst-basics.psd1
   .\ride.ps1 install package.7zip -WhatIf
   .\ride.ps1 set windows.show-known-extensions Enabled -WhatIf
+  .\ride.ps1 set windows.god-mode-shortcut Present -WhatIf
+  .\ride.ps1 unset windows.god-mode-shortcut -WhatIf
   .\ride.ps1 unset windows.script-host-policy -WhatIf
   .\ride.ps1 remove package.7zip -WhatIf
   .\ride.ps1 show <Tab>  Complete an operation or group ID.

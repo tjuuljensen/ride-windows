@@ -22,11 +22,15 @@
   Recovery: TestDrive contains all generated state; system calls are mocked.
   Author: RIDE-Windows maintainers.
   Version: Repository test fixture; no independent CLI version.
-  Changelog: 2026-10-09: Cover seven optional Explorer settings and saved-run recovery.
+  Changelog: 2026-10-09: Cover ten optional Explorer settings and saved-run recovery,
+    including inverted visibility values for empty drives and folder merge prompts.
 #>
 
 BeforeDiscovery {
   $explorerCases = @(
+    @{ Id = 'windows.empty-drives-visibility'; ValueName = 'HideDrivesWithNoMedia'; Key = 'Advanced'; On = 'Visible'; Off = 'Hidden'; OnValue = 0; OffValue = 1 }
+    @{ Id = 'windows.folder-merge-conflicts'; ValueName = 'HideMergeConflicts'; Key = 'Advanced'; On = 'Shown'; Off = 'Hidden'; OnValue = 0; OffValue = 1 }
+    @{ Id = 'windows.navigation-pane-all-folders'; ValueName = 'NavPaneShowAllFolders'; Key = 'Advanced'; On = 'Enabled'; Off = 'Disabled'; OnValue = 1; OffValue = 0 }
     @{ Id = 'windows.explorer-title-full-path'; ValueName = 'FullPath'; Key = 'CabinetState'; On = 'Shown'; Off = 'Hidden'; OnValue = 1; OffValue = 0 }
     @{ Id = 'windows.protected-files-visibility'; ValueName = 'ShowSuperHidden'; Key = 'Advanced'; On = 'Visible'; Off = 'Hidden'; OnValue = 1; OffValue = 0 }
     @{ Id = 'windows.explorer-separate-process'; ValueName = 'SeparateProcess'; Key = 'Advanced'; On = 'Enabled'; Off = 'Disabled'; OnValue = 1; OffValue = 0 }
