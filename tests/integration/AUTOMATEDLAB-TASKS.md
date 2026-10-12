@@ -4,6 +4,31 @@ This is an **opt-in implementation awaiting pilot validation**, not a certified
 stable configuration. Existing direct VM commands continue to work. Do not
 redirect the current Windows 11 lab until an agreed cutover.
 
+## Handoff checkpoint, 2026-10-12
+
+The last pushed migration-branch commit is `003f2a8`. Hosted
+[`Validate` run `38219385989`](https://github.com/tjuuljensen/ride-windows/actions/runs/38219385989)
+passed on Windows PowerShell 5.1 and PowerShell 7. The VM job for that push was
+skipped because the pilot flag was disabled at the time. Earlier GitHub unit-only
+pilot request `98de728279d84a8ca67e1f1ad351e6e6` passed and uploaded evidence;
+the Full GitHub pilot is still pending. The failed Full request
+`10a427ee62684c00bca52d2c814a0a27` was stopped by a 7-Zip publisher API
+rate limit after guest unit tests passed; it is not a successful integration run.
+
+The operator later enabled the migration pilot variables, but their current
+values must be checked before another push. Keep `RIDE_VM_TESTS_ENABLED=false`
+and do not push a Full pilot while the publisher API reports zero remaining
+requests. The most recent read-only preflight returned HTTP 403 and a reset of
+2026-10-12 08:35:54 UTC (10:35:54 Europe/Copenhagen). That preflight also found
+the Server VM Off, its pinned checkpoint unchanged, task Ready, queues empty,
+and no recovery block. After the reset, check the API once, confirm the runner
+is listening and the pilot mode is `Full`, then make a focused reviewed branch
+push. Correlate its request, guest integration result, source hashes, uploaded
+artifact, UAC values and post-run VM cleanup before recording acceptance.
+Default-branch dispatch and `master` push acceptance remain deferred while v3
+is under migration. Do not mark `evidence.json` validated based on these pilot
+results alone. Detailed run IDs and limits are recorded below.
+
 ## Configuration contract
 
 The finite integration selections include `ApplicationsBatch1` and
@@ -665,8 +690,18 @@ flag was disabled.
 
 A subsequent read-only 7-Zip publisher API request still returned HTTP 403
 with `x-ratelimit-remaining=0` and a new reset at 2026-10-12 07:35:45 UTC
-(09:35:45 Europe/Copenhagen). Keep the pilot disabled and defer another full
-VM run until the release metadata endpoint responds successfully.
+(09:35:45 Europe/Copenhagen). A check after that reset returned HTTP 200 with
+29 requests remaining and a further reset at 08:35:54 UTC. The publisher
+metadata endpoint was available at that check; a full CI pilot could be
+attempted once the migration-branch pilot flag was re-enabled. The operator's
+later runbook commit `003f2a8` launched hosted Validate and skipped the VM job
+while the pilot flag remained disabled.
+
+After the operator re-enabled the pilot, a read-only preflight before any push
+again found HTTP 403 with zero requests remaining. The API reported its next
+reset at 2026-10-12 08:35:54 UTC (10:35:54 Europe/Copenhagen). The VM remained
+Off, the task Ready, both queues empty, no recovery block, and the pinned
+checkpoint unchanged. No Full pilot was triggered against the exhausted API.
 
 The operator staged 185 hash-verified maintained files from the current local
 checkout into the otherwise absent approved CI workspace, with the GitHub
