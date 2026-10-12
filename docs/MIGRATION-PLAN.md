@@ -2,16 +2,51 @@
 
 ## Estimated remaining migration work
 
+Last reviewed: **2026-10-12**. Latest run: [application ledger decision review](#application-ledger-decision-review-2026-10-12).
+All 79 unresolved application-ledger outcomes are assigned once to 13 discussion
+groups. The user selected ImageMagick's x64 Q16 HDRI DLL installer with machine
+scope/PATH and listed Q16 portable build, current-user GnuPG command line/Kleopatra
+without Explorer/Outlook integration, and Wireshark live capture with a separate
+interactive, administrator-only Npcap step without assumed OEM rights.
+These are partial requirements decisions, not
+completed migrations. No new outcome was resolved, retired or excluded; no
+installer, VM or handler ran. All five group ranges and the rounded total below
+were reviewed and remain unchanged, with scope, terms and acceptance retained.
+
+Approximately **150-205 distinct legacy work items**
+remain; use **about 180** for planning. These are candidates for migration,
+retirement, combination or replacement, not a commitment to implement all of them.
+
+| Group | Approximate remaining items | Examples |
+| --- | ---: | --- |
+| Windows and application settings | 38-58 | Deferred UI and Explorer behavior, security/network handlers, services, Server settings and BitLocker enrollment; Task Manager and Computer Browser selectors retired; optional PowerShell appearance accepted outside the legacy count; browser/Sysmon configuration remains in individual review |
+| Packages, portable tools and downloadable artifacts | 58-73 | Remaining forensic tools, system-tool entries, general software/artifacts, AD tools, browsers and other products; 19 newly accepted distributions (7 installed, 12 portable), 10 earlier outcomes and Opera excluded; both ImageMagick variants, Gpg4win components and Wireshark/Npcap selected for preparation with partial scope open |
+| Windows components and optional features | 20-25 | WSL, Hyper-V, Sandbox, OpenSSH, printing features and built-in app management; RSAT remains a component/applicability decision |
+| Accounts, configuration and deployed files/assets | 25-35 | Users and administrator membership, Wi-Fi, regional settings, language packs, browser preferences, fonts and wallpapers; user-bin PATH, bin provisioning and WindowsApps repair remain deferred; VMware directory/profile-file ownership remains under review |
+| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; release discovery passed native/hosted and network-isolated regression, first Full Server CI passed, second integration deferred on quota zero with cleanup accepted; consecutive two-target acceptance and controller certification remain open; package installation and automatic-maintenance policies stay separate in application review |
+| **Total, rounded** | **150-205** | **About 180 for planning** |
+
+### Recent implementation and acceptance context
+
 Latest release-discovery implementation, **2026-10-12**: package module 0.10.0
 adds five-minute bounded metadata reuse, shared release backoff and explicit
 freshness/quota provenance without forwarding credentials or using expired data.
 Focused mocked regression passed 124 selected tests per edition and complete
 native regression passed 1,276 per edition. The one live-registry test stayed
-excluded on the workstation. Consecutive two-target Full acceptance remains pending.
+excluded on the workstation. Hosted CI passed all 1,277 tests per edition and the
+first Full Server CI run passed. The second Server request passed all 1,277 guest
+tests but failed integration when publisher quota reached zero before 7-Zip
+acquisition. Cleanup succeeded; consecutive two-target acceptance remains pending.
+Follow-up Windows PowerShell regression passed all 1,276 selected tests with
+HTTP cmdlet proxy defaults confined to a closed loopback endpoint; no test
+failure required public API access. The shared quota traffic source remains
+unestablished; see the [isolation follow-up](#release-discovery-network-isolation-follow-up-2026-10-12).
+See the [quota failure](#rate-aware-release-discovery-repetition-quota-failure-2026-10-12)
+and [first acceptance run](#rate-aware-release-discovery-first-ci-acceptance-2026-10-12).
 All five group ranges and the rounded total below were reviewed and remain
 unchanged; see the [dated implementation](#rate-aware-release-discovery-implementation-2026-10-12).
 
-Last reviewed: **2026-10-12**, reconciling the last numerical estimate revision
+Numerical reconciliation reviewed **2026-10-12**, reconciling the last numerical estimate revision
 with six subsequently accepted application distributions, Opera's exclusion and
 two accepted setting retirements. Settings decrease by two outcomes and
 packages/artifacts by seven; the other three groups remain unchanged. The
@@ -39,19 +74,6 @@ boundaries and remaining cloud/network/alternate-launch and legacy PATH work.
 No new implementation, acceptance run or resolved legacy outcome is claimed.
 All five group ranges and the rounded total below were reviewed and remain
 unchanged; see the [dated handoff review](#powershell-profile-archive-handoff-review-2026-10-12).
-
-Approximately **150-205 distinct legacy work items**
-remain; use **about 180** for planning. These are candidates for migration,
-retirement, combination or replacement, not a commitment to implement all of them.
-
-| Group | Approximate remaining items | Examples |
-| --- | ---: | --- |
-| Windows and application settings | 38-58 | Deferred UI and Explorer behavior, security/network handlers, services, Server settings and BitLocker enrollment; Task Manager and Computer Browser selectors retired; optional PowerShell appearance accepted outside the legacy count |
-| Packages, portable tools and downloadable artifacts | 58-73 | Remaining forensic tools, system-tool entries, general software/artifacts, AD tools, browsers and other products; 19 newly accepted distributions (7 installed, 12 portable), 10 earlier outcomes and Opera excluded |
-| Windows components and optional features | 20-25 | WSL, Hyper-V, Sandbox, OpenSSH, printing features and built-in app management |
-| Accounts, configuration and deployed files/assets | 25-35 | Users and administrator membership, Wi-Fi, regional settings, language packs, browser preferences, fonts and wallpapers; user-bin PATH, bin provisioning and WindowsApps repair remain deferred |
-| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; bounded release discovery implemented with native/two-target acceptance pending; overall controller certification remains open |
-| **Total, rounded** | **150-205** | **About 180 for planning** |
 
 After **every migration run**, including follow-up implementation, review and
 acceptance runs, update this overview before closing the run. Refresh the review
@@ -443,6 +465,34 @@ library identities remain unchanged; migration estimates remain unchanged.
 
 ## Migration estimate review history
 
+### Application ledger decision review, 2026-10-12
+
+Reviewed all 109 application-ledger outcomes: ten earlier migrations, nineteen
+newly accepted distributions, 79 unresolved review outcomes and one existing
+Opera exclusion. The [discussion map](migrations/application-review-rounds-2026-10-12.md)
+assigns every unresolved outcome once to 13 primary groups and records shared
+runtime, collection, policy and hardware boundaries. Requirements were confirmed
+for four legacy outcomes: ImageMagick's x64 Q16 HDRI DLL installer with machine
+scope/PATH and listed Q16 portable build, current-user Gpg4win command line/Kleopatra
+without Explorer/Outlook integration, and Wireshark live capture with an interactive,
+administrator-only Npcap step without assumed OEM rights. Other editions/scopes,
+integrations, applicable driver terms,
+shared ownership and lifecycle acceptance remain partial/deferred. Npcap adds
+new requested capability beyond the legacy silent install; it is not a newly
+resolved legacy outcome. Other 75 unresolved outcomes retain individual review.
+
+Resolved/retired/excluded this run: **zero**. No application implementation,
+installation, VM test, license approval or support declaration changed. Current
+publisher guidance was checked for the first decision rounds; older release
+observations remain dated. This review refreshed all five ranges and their row
+examples: settings **38-58**, packages/artifacts **58-73**, components **20-25**,
+accounts/assets **25-35**, maintenance **8-12**, rounded **150-205**, about **180**.
+The ranges remain unchanged because confirmed preferences do not close the
+technical or acceptance work. Existing partial/deferred scope and settings
+evaluation are retained separately. The overview table stays immediately below
+the title and review summary; previous implementation/acceptance context is
+preserved below it.
+
 ### Rate-aware release discovery implementation, 2026-10-12
 
 Package module 0.10.0 implements the [release discovery contract](GITHUB-RELEASE-DISCOVERY.md):
@@ -467,6 +517,77 @@ and remain unchanged: sum **149-203**, rounded **150-205**, about **180**.
 Partial bundles and deferred scope remain counted. Release acceptance, remaining
 controller certification and default-branch cutover remain open; master and its
 VM switch are unchanged.
+
+### Rate-aware release discovery first CI acceptance, 2026-10-12
+
+Commit `18d5f5b` passed all 1,277 hosted tests per edition. Full CI request
+`f5ae11428a5248009f891c8e5fee9ac3` passed validation, all 1,277 guest tests
+and applicable Server integration. All 216 source hashes matched. Retained
+7-Zip/Notepad++ acquisition records include API source, fetch/expiry times,
+observed quota and matching provider digests. Collection and checkpoint cleanup
+succeeded with UAC unchanged; both VMs were Off, tasks Ready and queues empty
+afterward. GitHub uploaded correlated artifact `11754039820`.
+
+A single live host lookup through the new resolver at 14:59:33 UTC correctly
+deferred acquisition on quota zero, reported reset 15:37:05 UTC and earliest
+retry 15:37:06 UTC, and performed no payload download or automatic retry.
+Consecutive Server and Windows 11 Full acceptance remains pending; this is
+one successful Server run, not a completed two-target series.
+
+This acceptance and exhausted preflight resolve, retire and exclude **zero legacy
+outcomes**. Settings **38-58**, packages/artifacts **58-73**, Windows components
+**20-25**, accounts/configuration/assets **25-35**, maintenance **8-12** were
+reviewed and remain unchanged: sum **149-203**, rounded **150-205**, about **180**.
+Partial/deferred legacy work remains counted. Overall controller certification,
+scoped authentication design and master/default-branch cutover remain deferred.
+
+### Rate-aware release discovery repetition quota failure, 2026-10-12
+
+After the reported reset, one host lookup at 15:43:54 UTC succeeded with 44
+requests remaining. Other migration chats were idle, VMs Off, tasks Ready,
+queues empty and both worker locks available before submission. Ordinary-shell
+CI-source request `a51320cf5d1e47a0ad13c5c13ebfc41c` ran 15:44:37-16:00:25 UTC
+against unchanged commit `18d5f5b`; all 216 retained source hashes matched.
+Validation and all 1,277 guest tests passed, but Full Server integration failed
+before 7-Zip acquisition: quota zero, reset 16:37:16 UTC, earliest retry
+16:37:17 UTC. The resolver did not use expired data or automatically retry.
+No real release-acquisition success was recorded for this request. Partial
+state collection and checkpoint cleanup succeeded; both VMs were Off, tasks
+Ready, queues empty, locks available, pinned IDs unchanged and UAC 1/5/1.
+This local submission is CI-source evidence, not a new GitHub dispatch/upload.
+
+The successful Server sequence was interrupted; two consecutive Full runs per
+target remain pending. The source of the shared-IP quota drain is not established.
+A native unit investigation with HTTP confined to a closed loopback proxy later
+passed; it excluded the workstation live-registry test. No credentials or
+controller configuration were changed to bypass publisher exhaustion.
+
+This failed acceptance resolves, retires and excludes **zero legacy outcomes**.
+Settings **38-58**, packages/artifacts **58-73**, Windows components **20-25**,
+accounts/configuration/assets **25-35**, maintenance **8-12** were reviewed
+and remain unchanged: sum **149-203**, rounded **150-205**, about **180**.
+Partial/deferred scope, two-target acceptance, overall controller certification
+and master/default-branch cutover remain open.
+
+### Release-discovery network-isolation follow-up, 2026-10-12
+
+An additional Windows PowerShell 5.1 full unit run passed 1,276 selected tests
+in 18 minutes 12.84 seconds with zero failures/skips and one intentionally
+excluded WindowsIntegration test. Invoke-WebRequest and Invoke-RestMethod
+proxy defaults pointed to a closed loopback endpoint in the test process.
+The explicit child-process tests inspect local resolver/evidence behavior.
+No production code or machine integration ran in this follow-up. This supports
+test isolation without identifying the shared-IP quota source. A 50-second
+read-only host connection sample while both VMs were Off found a VS Code
+connection to the API address; that alone cannot attribute requests or quota.
+No unrelated client was stopped or changed.
+
+This investigation resolves, retires and excludes **zero legacy outcomes**.
+Settings **38-58**, packages/artifacts **58-73**, Windows components **20-25**,
+accounts/configuration/assets **25-35**, maintenance **8-12** were reviewed
+and remain unchanged: sum **149-203**, rounded **150-205**, about **180**.
+Partial/deferred scope, repeated two-target Full acceptance, overall controller
+certification and master/default-branch cutover remain open.
 
 ### PowerShell profile archive handoff review, 2026-10-12
 

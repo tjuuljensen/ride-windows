@@ -245,6 +245,86 @@ VM work until a post-reset check confirms availability. Consecutive Full source
 acceptance on both targets remains pending; master/default-branch cutover and
 overall controller certification remain deferred.
 
+## Release-discovery first Full CI acceptance, 2026-10-12
+
+Complete-state commit `18d5f5baf1fc137ca9e144b9f0ad4be3818c909a` published
+all reviewed changes. A post-reset publisher check at 14:38:58 UTC returned
+HTTP 200 with 58 requests remaining; idle VMs/queues were rechecked before push.
+[`Hosted Validate 38264537641`](https://github.com/tjuuljensen/ride-windows/actions/runs/38264537641)
+passed all 1,277 tests per edition with zero failures, skips or not-run tests,
+and validated all 106 published PowerShell files.
+
+[`Full Server CI 38264537680`](https://github.com/tjuuljensen/ride-windows/actions/runs/38264537680)
+submitted request `f5ae11428a5248009f891c8e5fee9ac3` at 14:40:08 UTC.
+Execution 14:40:10-14:56:02 UTC passed: both results correlate the same Full
+CI request, UnitOnly=false, guest validation and integration passed, Pester
+5.7.1 on Windows PowerShell 5.1.26100.33438 passed all 1,277 tests. The retained
+XML reports zero failures/errors/skips/not-run tests. All 216 source hashes
+matched snapshot and clean approved CI checkout at `18d5f5b`, including the
+reviewed package-module hash.
+
+Real 7-Zip 26.04 and Notepad++ 8.9.8.1 acquisition evidence retained the new
+ReleaseMetadata API URI, Network source, original fetch time and five-minute
+expiry, with matching provider digests. Their API response quota observations
+were respectively 13 and 12 remaining; both reported reset 15:37:05 UTC.
+Payload cache use remains a separate evidence field. Applicable Server Full
+scenarios passed; previously declared platform exclusions remain unchanged.
+
+Controller, cleanup, collection and guest state-collection errors were null;
+ten state JSON files were retained. Native postflight at 14:57:13 UTC found
+both VMs Off, both tasks Ready, queues empty, no blocks, unchanged pinned clean
+checkpoint IDs and UAC 1/5/1. GitHub uploaded
+[`ride-vm-f5ae11428a5248009f891c8e5fee9ac3`](https://github.com/tjuuljensen/ride-windows/actions/runs/38264537680/artifacts/11754039820),
+131,116 bytes, SHA-256
+`03cc9c243cfc0046629c1829d38fdeaa6e9282360bdc7b5f0968c97e20525037`,
+for the exact migration branch/source commit.
+
+A single real host preflight through the new resolver at 14:59:33 UTC reported
+acquisition deferred, remaining zero, reset 15:37:05 UTC and earliest retry
+15:37:06 UTC. It did not download a payload or retry. Further submissions wait
+for quota recovery. Two consecutive Full runs per target remain pending; only
+the first Server run is accepted here. Overall controller status stays
+NotValidated, master remains untouched, and all repository variables are unchanged.
+
+## Release-discovery repeated Server quota failure, 2026-10-12
+
+One post-reset host lookup at 15:43:54 UTC succeeded with 44 requests remaining
+and reset 16:37:16 UTC. Other migration chats were idle; native preflight found
+both VMs Off, both tasks Ready, empty queues, no blocks, available worker locks,
+unchanged pinned clean checkpoint IDs and UAC 1/5/1. Approved CI checkout
+`18d5f5baf1fc137ca9e144b9f0ad4be3818c909a` remained clean and unchanged.
+
+Ordinary-shell CI-source Full request `a51320cf5d1e47a0ad13c5c13ebfc41c` ran
+15:44:37-16:00:25 UTC. All 216 source hashes and the reviewed package-module
+hash matched snapshot and published checkout. Guest validation and 1,277/1,277
+tests passed; XML failures/errors/skips/not-run counts were zero. Integration
+failed before 7-Zip acquisition: GitHub quota zero, reset 16:37:16 UTC, earliest
+retry 16:37:17 UTC. The new resolver explicitly deferred acquisition without
+expired metadata, payload download or automatic retry. No successful real
+release observation was retained for this request; it is failed acceptance.
+
+Controller status was Failed with the correlated guest failure; cleanup,
+collection and guest state-collection errors were null. Three partial state
+JSON files, including one run manifest, were retained. Native postflight at
+16:01:25-16:02:27 UTC found both VMs Off, both tasks Ready, queues empty,
+both worker locks available, no blocks, pinned IDs unchanged and UAC 1/5/1.
+This installed-client submission used the approved CI source but has no new
+GitHub workflow dispatch or uploaded workflow artifact.
+
+The earlier Server pass remains valid, but this failure interrupts consecutive
+acceptance. Two consecutive Full runs per target remain pending. Quota may
+change between host preflight and guest integration; its traffic source is not
+established. A native unit network-isolation investigation subsequently passed
+all 1,276 selected Windows PowerShell tests in 18 minutes 12.84 seconds, with
+HTTP cmdlet proxy defaults confined to a closed loopback endpoint. The one
+workstation live-registry test was excluded. A read-only host connection sample
+while both VMs were Off found an active VS Code API connection; this does not
+attribute the quota drain, and no unrelated process was stopped. Do not
+submit another acquisition before the reported retry time. Master, repository
+variables, protected controller binaries and overall NotValidated status remain
+unchanged. Historical locked/watcher acceptance is retained separately from
+the current-source release-discovery and default-branch certification gates.
+
 ## Configuration contract
 
 The finite integration selections include `ApplicationsBatch1` and
