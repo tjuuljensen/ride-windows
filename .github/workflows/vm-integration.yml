@@ -2,7 +2,7 @@ name: Disposable VM integration
 
 on:
   push:
-    branches: [master]
+    branches: [master, codex/ride-v3-migration]
   workflow_dispatch:
 
 permissions:
@@ -14,12 +14,16 @@ concurrency:
 
 jobs:
   vm-tests:
-    # Enable only after the separate pilot acceptance checklist is complete.
-    if: github.ref == 'refs/heads/master' && vars.RIDE_VM_TESTS_ENABLED == 'true'
+    # Keep migration-pilot activation separate from the master cutover switch.
+    if: >-
+      (github.ref == 'refs/heads/master' && vars.RIDE_VM_TESTS_ENABLED == 'true') ||
+      (github.ref == 'refs/heads/codex/ride-v3-migration' && vars.RIDE_VM_PILOT_ENABLED == 'true')
     runs-on: [self-hosted, Windows, X64, ride-hyperv]
     timeout-minutes: 105
     env:
       RIDE_AUTOMATION_CONFIGURATION: ${{ vars.RIDE_AUTOMATION_CONFIGURATION }}
+      RIDE_VM_PILOT: ${{ github.ref == 'refs/heads/codex/ride-v3-migration' }}
+      RIDE_VM_PILOT_MODE: ${{ vars.RIDE_VM_PILOT_MODE || 'UnitOnly' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -35,7 +39,12 @@ jobs:
           $client = Join-Path (Split-Path -Parent $env:RIDE_AUTOMATION_CONFIGURATION) 'bin\Invoke-RideVmTestTask.ps1'
           $receipt = Join-Path $env:RUNNER_TEMP 'ride-vm-request.json'
           if (Test-Path -LiteralPath $receipt) { Remove-Item -LiteralPath $receipt -Force }
-          try { & $client -ConfigurationPath $env:RIDE_AUTOMATION_CONFIGURATION -Source CI -ReceiptPath $receipt }
+          $parameters = @{ ConfigurationPath = $env:RIDE_AUTOMATION_CONFIGURATION; Source = 'CI'; ReceiptPath = $receipt }
+          if ($env:RIDE_VM_PILOT -eq 'true') {
+            if ($env:RIDE_VM_PILOT_MODE -notin @('UnitOnly', 'Full')) { throw 'RIDE_VM_PILOT_MODE must be UnitOnly or Full.' }
+            if ($env:RIDE_VM_PILOT_MODE -eq 'UnitOnly') { $parameters.UnitOnly = $true }
+          }
+          try { & $client @parameters }
           finally {
             if (Test-Path -LiteralPath $receipt) {
               $request = Get-Content -LiteralPath $receipt -Raw | ConvertFrom-Json

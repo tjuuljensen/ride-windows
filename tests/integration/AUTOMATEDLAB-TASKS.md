@@ -218,9 +218,25 @@ Set repository Actions variables:
 | --- | --- |
 | `RIDE_AUTOMATION_CONFIGURATION` | Full path to installed `configuration.json` |
 | `RIDE_VM_TESTS_ENABLED` | `true` only after pilot acceptance and agreed activation |
+| `RIDE_VM_PILOT_ENABLED` | `true` to opt into trusted pushes on `codex/ride-v3-migration` while keeping master cutover disabled |
+| `RIDE_VM_PILOT_MODE` | `UnitOnly` (default) for initial delivery/upload checks; `Full` after the committed integration source is reviewed |
 
 The separate `vm-integration.yml` workflow runs on `master` pushes or manual
-dispatch on `master`. It checks out into the CI workspace, invokes the installed
+dispatch on `master`, gated by `RIDE_VM_TESTS_ENABLED`. A separate opt-in pilot
+runs on pushes to the exact `codex/ride-v3-migration` branch, gated by
+`RIDE_VM_PILOT_ENABLED`; it defaults to unit-only requests and accepts `Full`
+through `RIDE_VM_PILOT_MODE`. Keep `RIDE_VM_TESTS_ENABLED=false` throughout this
+pilot. Other branches and pull requests do not start the VM job.
+
+GitHub requires a dispatchable workflow to exist on the default branch before
+`workflow_dispatch` can be triggered. Until publication to `master`, start the
+branch pilot with a reviewed push, then use GitHub's re-run command to repeat
+that run manually. A manual re-run is not evidence of `workflow_dispatch`;
+record those as separate cases and defer default-branch dispatch and master-push
+acceptance until the migration is ready.
+[GitHub manual-workflow requirements](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow).
+
+The workflow checks out into the CI workspace, invokes the installed
 client, and uploads only that request's logs, summary, hashes and guest evidence
 even after failure. It excludes the staged source snapshot. Repository content
 permissions are read-only. Existing hosted validation for pushes/pull requests
@@ -543,6 +559,46 @@ only the existing branch commits would not reproduce the tested checkout.
 Review the intended publication scope and retain unrelated work before
 preparing a CI source commit; runner setup does not authorize a blanket commit
 or merge of the unfinished workspace.
+
+On 2026-10-12, the operator explicitly deferred publication to `master` while
+v3 migration continues. A subsequent checkout inspection found the migration
+fixes committed and pushed at `3201aff`, with only the current runbook record
+still modified. The prepared pilot workflow permits the exact migration branch
+behind its own opt-in flag, defaults to unit-only requests, and retains the
+separate disabled master-cutover flag. Publishing and exercising this pilot
+remain pending; the earlier master-only policy is superseded for this named
+pilot branch. GitHub dispatch and master-push acceptance remain deferred.
+Static validation passed with actionlint 1.7.12 using the registered custom
+runner label, seven branch/switch gate cases, and five native Windows
+PowerShell 5.1 checks of the actual request step with a mock client. The step
+checks covered master full mode, pilot unit/full modes, invalid pilot mode
+rejection and preservation of receipt outputs after a failed client. These
+checks do not run a real GitHub job or change the VM.
+
+The operator staged 185 hash-verified maintained files from the current local
+checkout into the otherwise absent approved CI workspace, with the GitHub
+runner stopped. Two ordinary-shell unit-only requests then exercised the Local
+and CI source paths concurrently at submission time on 2026-10-12:
+
+| Source | Run ID | Submitted UTC | Execution UTC | Outcome |
+| --- | --- | --- | --- | --- |
+| Local | `100199550d754b5691614fee40af2d1d` | 04:31:46 | 04:31:48-04:45:04 | Passed |
+| CI | `d61fbaa3c0654d6b8c5b62d2cbc0042b` | 04:31:54 | 04:45:04-04:57:25 | Passed |
+
+The archived request timestamps prove the CI submission overlapped the active
+Local run. The CI execution began about 74 milliseconds after the Local
+controller result finished, following its reported checkpoint cleanup. Both
+guest validations and all 1,159 Pester tests per run passed; correlated summaries
+and Pester XML were retained. Controller, cleanup, collection and guest
+state-collection errors were empty, and host UAC remained 1/5/1. All 185 hashes
+in the CI request's source manifest matched the staged CI workspace. No recovery
+block remained and both queues were empty. Native host inspection verified
+VM Off, task Ready and unchanged clean checkpoint ID
+`4a5b49ba-0795-480a-8d01-6f4f670577c8` after the pair.
+This establishes controller serialization
+for overlapping Local/CI-source unit-only requests; the CI request was submitted
+locally and does not establish GitHub dispatch, push-trigger behavior or artifact
+upload acceptance.
 
 Acquisition observations are collected as metadata in each request's
 `guest/artifact-observations.json`. Review and merge using
