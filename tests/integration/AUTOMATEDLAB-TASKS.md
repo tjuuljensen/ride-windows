@@ -6,7 +6,10 @@ redirect the current Windows 11 lab until an agreed cutover.
 
 ## Handoff checkpoint, 2026-10-12
 
-The last pushed migration-branch commit is `003f2a8`. Hosted
+This starting checkpoint is historical; the follow-up sections below record
+later results and the current publication gate.
+
+At the starting handoff, the last pushed migration-branch commit was `003f2a8`. Hosted
 [`Validate` run `38219385989`](https://github.com/tjuuljensen/ride-windows/actions/runs/38219385989)
 passed on Windows PowerShell 5.1 and PowerShell 7. The VM job for that push was
 skipped because the pilot flag was disabled at the time. Earlier GitHub unit-only
@@ -28,6 +31,91 @@ artifact, UAC values and post-run VM cleanup before recording acceptance.
 Default-branch dispatch and `master` push acceptance remain deferred while v3
 is under migration. Do not mark `evidence.json` validated based on these pilot
 results alone. Detailed run IDs and limits are recorded below.
+
+## Full pilot follow-up, 2026-10-12
+
+The operator published `25a3a314a1f7861616c7cb734045c2eb541afedf` and
+authorized continuation. The publisher preflight at 08:36:01 UTC returned
+HTTP 200 with 59 of 60 requests remaining. The migration pilot was enabled
+in `Full` mode, with `RIDE_VM_TESTS_ENABLED=false`.
+
+[`VM run 38224889842`](https://github.com/tjuuljensen/ride-windows/actions/runs/38224889842)
+attempt 1 failed before submitting a request because
+`RIDE_AUTOMATION_CONFIGURATION` contained `true`. After the operator restored
+the installed Server configuration path, attempt 2 submitted Full CI request
+`575ec412969844438bfa5a3aa1812e51` at 08:42:16 UTC. All 210 source-manifest
+hashes matched both the retained snapshot and the clean approved CI checkout
+at `25a3a31`. The request finished at 09:05:22 UTC after 23 minutes 4 seconds.
+Guest catalog validation passed, but Pester 5.7.1 on Windows PowerShell 5.1
+reported 1,233 passed and eight failed out of 1,241 tests. The eight failures
+match the hosted PowerShell 7 failures below. Integration did not start;
+this is not a successful Full pilot or a publisher-rate-limit failure.
+
+Cleanup, collection and guest state-collection errors were empty, as was the
+collection-omissions array. Host UAC remained 1/5/1. Read-only native inspection
+at 09:06:38 UTC found Server VM Off, task Ready, pending/running queues empty,
+no recovery block, and the unchanged pinned checkpoint
+`4a5b49ba-0795-480a-8d01-6f4f670577c8`.
+All five protected controller files still matched the hashes in registration
+evidence. Creating `acceptance.md` beside `evidence.json` was denied by the
+protected directory's ACL; a local copy with registration hashes is retained
+at `.local/automatedlab-controller/RIDESrv2025Test/acceptance.md` for an operator
+to place alongside the installed evidence. No permissions were changed.
+
+GitHub's upload step succeeded and retained artifact
+[`ride-vm-575ec412969844438bfa5a3aa1812e51`](https://github.com/tjuuljensen/ride-windows/actions/runs/38224889842/artifacts/11737210190),
+102,816 bytes, for the same migration branch and exact commit. Its recorded
+SHA-256 digest is
+`220c94e68d48b07f0ee4701639a33f1ab58b3d6d905aaec8b4125dde2a8068e0`.
+
+[`Hosted Validate run 38224889892`](https://github.com/tjuuljensen/ride-windows/actions/runs/38224889892)
+failed on PowerShell 7: 1,233 passed, eight failed, none skipped. The Windows
+PowerShell job was cancelled. Failures include unavailable
+`Get-RideCatalogContext` in registry-authoring tests and missing
+`components/profiles/terminal-color-schemes.psd1` in copied test checkouts.
+
+Separate PowerShell profile acceptance is active on Windows 11. Leave that VM
+alone and defer additional pilot requests until the competing activity ends.
+The already-submitted Server pilot was monitored through host-side evidence;
+its collection and checkpoint recovery were not interrupted. Correct the
+unit regressions and verify the full suite before retrying the Full pilot,
+after competing VM work finishes; correlate hosted validation with that retry.
+Controller validation remains `NotValidated`;
+default-branch dispatch, master publication and remaining acceptance stay deferred.
+
+## Unit regression repair, 2026-10-12
+
+The competing profile-acceptance chat finished before this follow-up. Read-only
+host checks at 10:20:06 UTC found both disposable VMs Off, both controller tasks
+Ready, empty pending/running queues and no recovery blocks. No new VM request
+has been submitted during this repair.
+
+Three fixture changes address the eight failures from `25a3a31`: import the
+public library command after the engine reloads its nested dependencies, and
+include `components/profiles` with both copied metadata checkouts. The existing
+assertions and production handlers are unchanged. An isolated Git archive of
+`25a3a31` plus only these three edited tests excludes unrelated working-tree
+migration changes from validation and publication.
+
+Native PowerShell 7.6.5 and Windows PowerShell 5.1.26100.9549 each passed all
+101 focused checks and all 1,241 full-suite tests with zero failed or skipped.
+Catalog
+validation passed for 303 operations, three groups and five profiles, and the
+three edited scripts parsed successfully. Pester's unused TestRegistry plugin
+was disabled for local checks; temporary-directory publication required the
+native session outside the filesystem sandbox. No integration suite ran.
+
+Before publication, the verified pilot variables were enabled/Full with the
+main switch disabled and the correct Server configuration path. These settings
+are retained. After the full native regression checks passed, the authorized
+focused migration-branch push can run hosted Validate and the Full pilot on the
+same source. Verify publisher availability and host readiness immediately before
+that push, then correlate both jobs and the VM evidence. At 10:50:12 UTC the
+publisher returned HTTP 200 with 17 requests remaining and reset 11:36:25 UTC;
+the Server VM was Off, task Ready, queues empty, no block, pinned checkpoint
+unchanged and UAC 1/5/1. The runner listener was active and competing chats idle.
+Controller validation, remaining
+acceptance and master/default-branch publication remain deferred.
 
 ## Configuration contract
 

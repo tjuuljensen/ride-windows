@@ -19,7 +19,8 @@ BeforeAll {
   $script:Root = Split-Path -Parent $PSScriptRoot
   $script:Helper = Join-Path $script:Root 'tools/New-RideLibrary.ps1'
   $script:Example = Join-Path $script:Root 'examples/authoring/certutil-context-menu.psd1'
-  foreach ($module in @('RIDE.LibraryAuthoring', 'RIDE.LibrarySchema', 'RIDE.CatalogData', 'RIDE.Libraries', 'RIDE.Engine', 'RIDE-Settings')) {
+  # Import the public library commands after the engine reloads its nested dependencies.
+  foreach ($module in @('RIDE.LibraryAuthoring', 'RIDE.LibrarySchema', 'RIDE.CatalogData', 'RIDE.Engine', 'RIDE-Settings', 'RIDE.Libraries')) {
     Import-Module (Join-Path $script:Root ('modules/' + $module + '.psm1')) -Force
   }
 }

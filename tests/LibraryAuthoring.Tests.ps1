@@ -407,11 +407,12 @@ Describe 'Add operations to a generated library' {
 Describe 'Authoring after an update in an existing console' {
   BeforeEach {
     $script:CacheRoot = Join-Path $TestDrive ('cached-checkout-' + [guid]::NewGuid().ToString('N'))
-    foreach ($directory in @('modules', 'catalog', 'tools', 'profiles')) { $null = New-Item -ItemType Directory -Path (Join-Path $script:CacheRoot $directory) -Force }
+    foreach ($directory in @('modules', 'catalog', 'tools', 'profiles', 'components')) { $null = New-Item -ItemType Directory -Path (Join-Path $script:CacheRoot $directory) -Force }
     foreach ($module in @('RIDE.CatalogData', 'RIDE.LibrarySchema', 'RIDE.CatalogValidation', 'RIDE.Libraries', 'RIDE.LibraryAuthoring', 'RIDE.InstallerInspection')) {
       Copy-Item -LiteralPath (Join-Path $script:Root ('modules/' + $module + '.psm1')) -Destination (Join-Path $script:CacheRoot 'modules')
     }
     Copy-Item -LiteralPath (Join-Path $script:Root 'catalog/operations.psd1') -Destination (Join-Path $script:CacheRoot 'catalog')
+    Copy-Item -LiteralPath (Join-Path $script:Root 'components/profiles') -Destination (Join-Path $script:CacheRoot 'components') -Recurse
     Copy-Item -LiteralPath $script:Helper -Destination (Join-Path $script:CacheRoot 'tools')
     $script:CachedHelper = Join-Path $script:CacheRoot 'tools/New-RideLibrary.ps1'
     $script:CachedSchema = Join-Path $script:CacheRoot 'modules/RIDE.LibrarySchema.psm1'
