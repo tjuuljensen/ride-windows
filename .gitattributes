@@ -4,3 +4,6 @@ components/scripts/caffeine.cmd text eol=crlf
 components/scripts/caffeine-light.cmd text eol=crlf
 # Keep importable registry examples in Windows line format.
 examples/hash-context-menu/*.reg text eol=crlf
+
+# The generated catalog is compared as LF text by the validation script.
+docs/OPERATIONS.md text eol=lf

@@ -646,6 +646,18 @@ validation of this correction remain pending; re-running the old commit cannot
 apply the local YAML fix.
 [GitHub context availability](https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#context-availability).
 
+Commit `5be3107` published the shell-context correction. GitHub Validate run
+[`38212269783`](https://github.com/tjuuljensen/ride-windows/actions/runs/38212269783)
+then created both matrix jobs, confirming the workflow YAML is accepted. The
+PowerShell 7 job failed in `tools/validate.ps1` because the generated
+`docs/OPERATIONS.md` appeared stale; GitHub cancelled the other matrix job.
+Reproduction with Windows Git `core.autocrlf=true` showed that the catalog
+checked out with CRLF even though the generator writes and compares LF text.
+The focused fix declares `docs/OPERATIONS.md text eol=lf` in `.gitattributes`.
+An isolated checkout with `core.autocrlf=true` then retained LF and passed
+`Export-RideCatalog.ps1 -Check`. Hosted validation of this correction remains
+pending.
+
 The operator staged 185 hash-verified maintained files from the current local
 checkout into the otherwise absent approved CI workspace, with the GitHub
 runner stopped. Two ordinary-shell unit-only requests then exercised the Local
