@@ -6,6 +6,72 @@
   SchemaVersion = 1
   Operations = @(
     @{
+      Id = 'powershell.windows-powershell51-terminal-colors'
+      Name = 'Windows PowerShell 5.1 session colors'
+      Kind = 'ProfileSetting'
+      Category = 'Profile settings / PowerShell'
+      Description = 'Manage a current-user ConsoleHost startup block. Recommended applies Campbell in normal Windows Terminal sessions and Campbell PowerShell blue when the actual shell token is elevated. AdminBlue changes only elevated sessions. Default removes only this RIDE block; restore recovers captured profile content. Does not edit Terminal settings, PATH, execution policy or tab titles. Existing sessions and other shells are unaffected. Target/visual acceptance is pending.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_profiles'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'ProfileSetting'
+      ProfileRuntime = 'WindowsPowerShell51'
+      ProfileSetting = 'TerminalColors'
+      NormalColorScheme = 'Campbell'
+      AdminColorScheme = 'Campbell PowerShell'
+      States = @{ Recommended = 'Recommended'; AdminBlue = 'AdminBlue'; Default = $null }
+      BaselineState = 'Default'
+      UnsetState = 'Default'
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      SettingPresentation = @{
+        AppliesTo = 'Current user; Windows PowerShell 5.1 ConsoleHost startup in Windows Terminal'
+        Behavior = 'Preference'
+        GuiEffect = 'New normal sessions use Campbell; elevated sessions use blue. Inherited elevation is detected from the actual token. NoProfile and blocked startup scripts bypass this setting.'
+        GuiPath = 'CurrentUserCurrentHost PowerShell startup profile; Terminal settings are preserved'
+        Requirements = @('Installed Windows PowerShell 5.1 and Windows Terminal; profile execution permitted', 'Apply in the intended user context; another administrator account has its own profile', 'Disposable target and visible contrast checks remain pending')
+        OtherSupportedChoices = @('AdminBlue preserves normal-session appearance', 'Default/unset remove the RIDE block; Baseline selects Default', 'Saved-run restore recovers the prior managed content and preserves unrelated edits')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_profiles', 'https://learn.microsoft.com/en-us/windows/terminal/customize-settings/color-schemes', 'https://learn.microsoft.com/en-us/windows/terminal/customize-settings/profile-general#automatically-run-as-administrator')
+      }
+    }
+    @{
+      Id = 'powershell.powershell7-terminal-colors'
+      Name = 'PowerShell 7 session colors'
+      Kind = 'ProfileSetting'
+      Category = 'Profile settings / PowerShell'
+      Description = 'Manage a current-user ConsoleHost startup block. Recommended applies One Half Dark in normal Windows Terminal sessions and Campbell PowerShell blue when the actual shell token is elevated. AdminBlue changes only elevated sessions. Default removes only this RIDE block; restore recovers captured profile content. Does not install PowerShell, edit Terminal settings, PATH, execution policy or tab titles. Existing sessions and other shells are unaffected. Target/visual acceptance is pending.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_profiles'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'ProfileSetting'
+      ProfileRuntime = 'PowerShell7'
+      ProfileSetting = 'TerminalColors'
+      NormalColorScheme = 'One Half Dark'
+      AdminColorScheme = 'Campbell PowerShell'
+      States = @{ Recommended = 'Recommended'; AdminBlue = 'AdminBlue'; Default = $null }
+      BaselineState = 'Default'
+      UnsetState = 'Default'
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      SettingPresentation = @{
+        AppliesTo = 'Current user; installed PowerShell 7 ConsoleHost startup in Windows Terminal'
+        Behavior = 'Preference'
+        GuiEffect = 'New normal sessions use One Half Dark; elevated sessions use blue. Inherited elevation is detected from the actual token. NoProfile and blocked startup scripts bypass this setting.'
+        GuiPath = 'CurrentUserCurrentHost PowerShell startup profile; Terminal settings are preserved'
+        Requirements = @('Installed PowerShell 7 and Windows Terminal; profile execution permitted', 'Apply in the intended user context; another administrator account has its own profile', 'Disposable target and visible contrast checks remain pending')
+        OtherSupportedChoices = @('AdminBlue preserves normal-session appearance', 'Default/unset remove the RIDE block; Baseline selects Default', 'Saved-run restore recovers the prior managed content and preserves unrelated edits')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_profiles', 'https://learn.microsoft.com/en-us/windows/terminal/customize-settings/color-schemes', 'https://learn.microsoft.com/en-us/windows/terminal/customize-settings/profile-general#automatically-run-as-administrator')
+      }
+    }
+    @{
       Id = 'windows.smartscreen-shell-policy'
       Name = 'SmartScreen checks for downloaded apps'
       Kind = 'RegistryValue'

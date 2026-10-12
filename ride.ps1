@@ -37,6 +37,8 @@
 
 .PARAMETER State
   Catalog state for set, also accepted positionally after the ID. Press Tab for declared states.
+  PowerShell profile colors offer Recommended, AdminBlue, Default and the Baseline alias.
+  Default and unset remove only the managed profile block; restore uses captured prior content.
 
 .PARAMETER RunId
   32-character hexadecimal saved run ID for restore; press Tab to discover saved manifests.
@@ -92,8 +94,11 @@
   machine/user RIDE state stores. Package observations use catalog/artifact-observations.json.
   Recovery: Use restore -RunId for captured state. Package recovery has the catalog-declared limits.
   Author: RIDE-Windows maintainers.
-  Version: 0.9.1
+  Version: 0.10.0
   Changelog:
+    0.10.0: Complete managed PowerShell profile color states and baseline removal.
+    0.9.3: Refresh library metadata modules in long-lived PowerShell sessions.
+    0.9.2: Forward effective WhatIf and explicitly bound Confirm to engine commands.
     0.9.1: Explain Thunderbird current-user execution requirements in help.
     0.9.0: Keep setting scope, GUI behavior and requirements visible in status and preview.
     0.8.0: Select and complete package variants for install, remove, download and show.
@@ -138,7 +143,7 @@ param(
       }
       $catalogPath = Join-Path (Split-Path -Parent (Resolve-Path -LiteralPath $scriptPath).Path) 'catalog/operations.psd1'
       Import-Module (Join-Path (Split-Path -Parent $catalogPath) '../modules/RIDE.CatalogData.psm1') -ErrorAction Stop
-      Import-Module (Join-Path (Split-Path -Parent $catalogPath) '../modules/RIDE.Libraries.psm1') -ErrorAction Stop
+      Import-Module (Join-Path (Split-Path -Parent $catalogPath) '../modules/RIDE.Libraries.psm1') -Force -ErrorAction Stop
       $catalog = (Get-RideCatalogContext -Root (Split-Path -Parent (Split-Path -Parent $catalogPath)) -Library $fakeBoundParameters.Library).Catalog
       $ids = @($catalog.Operations + $catalog.Groups | ForEach-Object { $_.Id } | Sort-Object -Unique)
       Import-Module (Join-Path (Split-Path -Parent $catalogPath) '../modules/RIDE.Discovery.psm1') -ErrorAction Stop
@@ -173,7 +178,7 @@ param(
       $scriptPath = $commandAst.CommandElements[0].Value
       if (-not (Test-Path -LiteralPath $scriptPath -PathType Leaf)) { $scriptPath = (Get-Command -Name $commandName -CommandType ExternalScript -ErrorAction Stop).Source }
       $repoRoot = Split-Path -Parent (Resolve-Path -LiteralPath $scriptPath).Path
-      Import-Module (Join-Path $repoRoot 'modules/RIDE.Libraries.psm1') -ErrorAction Stop
+      Import-Module (Join-Path $repoRoot 'modules/RIDE.Libraries.psm1') -Force -ErrorAction Stop
       $catalog = (Get-RideCatalogContext -Root $repoRoot -Library $fakeBoundParameters.Library).Catalog
       $entry = $catalog.Operations | Where-Object { $_.Id -eq $fakeBoundParameters.Id -and $_.Kind -eq 'Package' } | Select-Object -First 1
       if (-not $entry) { return }
@@ -194,7 +199,7 @@ param(
       }
       $repoRoot = Split-Path -Parent (Resolve-Path -LiteralPath $scriptPath).Path
       Import-Module (Join-Path $repoRoot 'modules/RIDE.CatalogData.psm1') -ErrorAction Stop
-      Import-Module (Join-Path $repoRoot 'modules/RIDE.Libraries.psm1') -ErrorAction Stop
+      Import-Module (Join-Path $repoRoot 'modules/RIDE.Libraries.psm1') -Force -ErrorAction Stop
       $catalog = (Get-RideCatalogContext -Root $repoRoot -Library $fakeBoundParameters.Library).Catalog
       foreach ($candidate in @($catalog.Operations.Id) + @($catalog.Groups.Id) | Sort-Object -Unique) {
         if ($candidate.StartsWith([string]$wordToComplete, [StringComparison]::OrdinalIgnoreCase)) {
@@ -233,7 +238,7 @@ param(
       $repoRoot = Split-Path -Parent (Resolve-Path -LiteralPath $scriptPath).Path
       Import-Module (Join-Path $repoRoot 'modules/RIDE.Discovery.psm1') -ErrorAction Stop
       Import-Module (Join-Path $repoRoot 'modules/RIDE.CatalogData.psm1') -ErrorAction Stop
-      Import-Module (Join-Path $repoRoot 'modules/RIDE.Libraries.psm1') -ErrorAction Stop
+      Import-Module (Join-Path $repoRoot 'modules/RIDE.Libraries.psm1') -Force -ErrorAction Stop
       $catalog = (Get-RideCatalogContext -Root $repoRoot -Library $fakeBoundParameters.Library).Catalog
       foreach ($candidate in Get-RideCatalogViews -Catalog $catalog) {
         if ($candidate.StartsWith([string]$wordToComplete, [StringComparison]::OrdinalIgnoreCase)) {
@@ -254,7 +259,7 @@ param(
       }
       $repoRoot = Split-Path -Parent (Resolve-Path -LiteralPath $scriptPath).Path
       $prefix = [string]$wordToComplete
-      Import-Module (Join-Path $repoRoot 'modules/RIDE.Libraries.psm1') -ErrorAction Stop
+      Import-Module (Join-Path $repoRoot 'modules/RIDE.Libraries.psm1') -Force -ErrorAction Stop
       $context = Get-RideCatalogContext -Root $repoRoot -Library $fakeBoundParameters.Library
       foreach ($profileFile in $context.ProfileFiles) {
         $candidate = Resolve-Path -LiteralPath $profileFile.FullName -Relative
@@ -288,12 +293,12 @@ param(
       }
       $catalogPath = Join-Path (Split-Path -Parent (Resolve-Path -LiteralPath $scriptPath).Path) 'catalog/operations.psd1'
       Import-Module (Join-Path (Split-Path -Parent $catalogPath) '../modules/RIDE.CatalogData.psm1') -ErrorAction Stop
-      Import-Module (Join-Path (Split-Path -Parent $catalogPath) '../modules/RIDE.Libraries.psm1') -ErrorAction Stop
+      Import-Module (Join-Path (Split-Path -Parent $catalogPath) '../modules/RIDE.Libraries.psm1') -Force -ErrorAction Stop
       $catalog = (Get-RideCatalogContext -Root (Split-Path -Parent (Split-Path -Parent $catalogPath)) -Library $fakeBoundParameters.Library).Catalog
       $operation = $catalog.Operations | Where-Object { $_.Id -eq $fakeBoundParameters.Id } | Select-Object -First 1
-      if ($operation.Kind -in @('RegistryValue', 'RegistryValueSet', 'RegistryKeySet', 'PowerSetting', 'ShellFolder', 'ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme')) {
+      if ($operation.Kind -in @('RegistryValue', 'RegistryValueSet', 'RegistryKeySet', 'PowerSetting', 'ShellFolder', 'ProfileSetting', 'ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme')) {
         $states = @($operation.States.Keys)
-        if ($operation.Kind -in @('RegistryValue', 'RegistryValueSet', 'ShellFolder') -and 'Baseline' -notin $states) { $states += 'Baseline' }
+        if ($operation.Kind -in @('RegistryValue', 'RegistryValueSet', 'ShellFolder', 'ProfileSetting') -and 'Baseline' -notin $states) { $states += 'Baseline' }
       }
       elseif ($operation.Kind -eq 'DefenderExclusion') {
         $states = @('Present', 'Absent')
@@ -344,7 +349,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.9.1'
+$script:ScriptVersion = '0.10.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 
 if ($Help) {
@@ -364,6 +369,9 @@ Commands:
   install <package-id> Install one catalog package and record its prior state.
   set <setting-id>     Set one catalog setting to a declared state; use -State <state>.
   unset <setting-id>   Remove one setting value when its catalog declares an unset state.
+                      Profile colors: Recommended, AdminBlue, Default or Baseline.
+                      Default/unset remove the RIDE block; restore recovers prior content.
+                      Pending profile operations await disposable target/visual acceptance.
   status [view]         Show default or profile status, optionally filtered.
   restore -RunId <id>  Restore values recorded before a prior run.
   remove [package-id]  Uninstall one package or packages selected by the profile.
@@ -378,7 +386,7 @@ Options:
   -State <state>       Declared state for set; press Tab to complete available states.
   -RunId <id>          Run ID required by restore.
   -Destination <path>  Retain a downloaded artifact under this directory.
-  -WhatIf              Preview apply, remove, or restore.
+  -WhatIf              Preview apply, download, install, set, unset, remove or restore.
   -Confirm             Ask before each supported change.
   -Help                Display this help.
   -Variant <name>      Select a declared package edition; Tab completes its variants.
@@ -412,7 +420,7 @@ matches returns an empty collection. Multiple -Field values use OR matching.
 Examples:
   .\ride.ps1 list
   .\ride.ps1 list packages
-  .\ride.ps1 list -Library .\examples\contoso\ride-library.psd1
+  .\ride.ps1 list -Library .\examples\library\ride-library.psd1
   .\ride.ps1 search desktop-folder
   .\ride.ps1 search 'File Explorer' -Field Name,Description
   .\ride.ps1 search 'Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\'
@@ -442,6 +450,8 @@ Examples:
 }
 
 $ErrorActionPreference = 'Stop'
+$shouldProcessParameters = @{ WhatIf = [bool]$WhatIfPreference }
+if ($PSBoundParameters.ContainsKey('Confirm')) { $shouldProcessParameters.Confirm = $PSBoundParameters['Confirm'] }
 if ($Command -eq 'search') {
   foreach ($parameter in @('Profile', 'State', 'RunId', 'Destination', 'WhatIf', 'Confirm')) {
     if ($PSBoundParameters.ContainsKey($parameter)) { throw "The search command does not accept -$parameter." }
@@ -452,7 +462,7 @@ if ($Command -eq 'search') {
   $searchQuery = if ($PSBoundParameters.ContainsKey('Query')) { $Query } else { $Id }
   if ([string]::IsNullOrWhiteSpace($searchQuery)) { throw 'The search command requires a nonblank query. Quote phrases containing spaces.' }
   Import-Module (Join-Path $PSScriptRoot 'modules/RIDE.Discovery.psm1') -ErrorAction Stop
-  Import-Module (Join-Path $PSScriptRoot 'modules/RIDE.Libraries.psm1') -ErrorAction Stop
+  Import-Module (Join-Path $PSScriptRoot 'modules/RIDE.Libraries.psm1') -Force -ErrorAction Stop
   $context = Get-RideCatalogContext -Root $PSScriptRoot -Library $Library
   $searchParameters = @{ Query = $searchQuery; View = $View; Catalog = $context.Catalog }
   if ($PSBoundParameters.ContainsKey('Field')) { $searchParameters.Field = $Field }
@@ -484,13 +494,13 @@ switch ($Command) {
   'apply' {
     $loadedProfile = Get-RideProfile -Path $Profile
     $plan = @(Get-RidePlan -Profile $loadedProfile)
-    if ($WhatIf) { Show-RidePlan -Plan $plan }
-    Invoke-RidePlan -Plan $plan -WhatIf:$WhatIf -Confirm:$Confirm
+    if ($shouldProcessParameters.WhatIf) { Show-RidePlan -Plan $plan }
+    Invoke-RidePlan -Plan $plan @shouldProcessParameters
   }
   'download' {
     if (-not $Id) { throw 'The download command requires a package or artifact ID.' }
     if ($PSBoundParameters.ContainsKey('Profile')) { throw 'The download command accepts one catalog ID and does not use -Profile.' }
-    $downloadParameters = @{ Id = $Id; Variant = $Variant; WhatIf = [bool]$WhatIf; Confirm = [bool]$Confirm }
+    $downloadParameters = @{ Id = $Id; Variant = $Variant } + $shouldProcessParameters
     if ($Destination) { $downloadParameters.Destination = $Destination }
     Save-RidePackage @downloadParameters
   }
@@ -498,23 +508,23 @@ switch ($Command) {
     if (-not $Id) { throw 'The install command requires a package ID.' }
     if ($PSBoundParameters.ContainsKey('Profile')) { throw 'The install command accepts one package ID and does not use -Profile.' }
     $plan = @(Get-RideSingleOperationPlan -Id $Id -Action Install -Variant $Variant)
-    if ($WhatIf) { Show-RidePlan -Plan $plan }
-    Invoke-RidePlan -Plan $plan -WhatIf:$WhatIf -Confirm:$Confirm
+    if ($shouldProcessParameters.WhatIf) { Show-RidePlan -Plan $plan }
+    Invoke-RidePlan -Plan $plan @shouldProcessParameters
   }
   'set' {
     if (-not $Id) { throw 'The set command requires a setting ID.' }
     if (-not $State) { throw 'The set command requires -State. Press Tab after the setting ID to complete declared states.' }
     if ($PSBoundParameters.ContainsKey('Profile')) { throw 'The set command accepts one setting ID and does not use -Profile.' }
     $plan = @(Get-RideSingleOperationPlan -Id $Id -Action Set -State $State)
-    if ($WhatIf) { Show-RidePlan -Plan $plan }
-    Invoke-RidePlan -Plan $plan -WhatIf:$WhatIf -Confirm:$Confirm
+    if ($shouldProcessParameters.WhatIf) { Show-RidePlan -Plan $plan }
+    Invoke-RidePlan -Plan $plan @shouldProcessParameters
   }
   'unset' {
     if (-not $Id) { throw 'The unset command requires a setting ID.' }
     if ($PSBoundParameters.ContainsKey('Profile')) { throw 'The unset command accepts one setting ID and does not use -Profile.' }
     $plan = @(Get-RideSingleOperationPlan -Id $Id -Action Unset)
-    if ($WhatIf) { Show-RidePlan -Plan $plan }
-    Invoke-RidePlan -Plan $plan -WhatIf:$WhatIf -Confirm:$Confirm
+    if ($shouldProcessParameters.WhatIf) { Show-RidePlan -Plan $plan }
+    Invoke-RidePlan -Plan $plan @shouldProcessParameters
   }
   'status' {
     $statusView = if ($Id) { $Id } else { 'all' }
@@ -530,7 +540,7 @@ switch ($Command) {
   }
   'restore' {
     if (-not $RunId) { throw 'The restore command requires -RunId.' }
-    Restore-RideRun -RunId $RunId -WhatIf:$WhatIf -Confirm:$Confirm
+    Restore-RideRun -RunId $RunId @shouldProcessParameters
   }
   'remove' {
     if ($Id) {
@@ -542,7 +552,7 @@ switch ($Command) {
       $plan = @(Get-RidePlan -Profile $loadedProfile -Action Remove)
     }
     if ($plan.Count -eq 0) { throw 'The selected profile contains no removable package operations.' }
-    if ($WhatIf) { Show-RidePlan -Plan $plan }
-    Invoke-RidePlan -Plan $plan -WhatIf:$WhatIf -Confirm:$Confirm
+    if ($shouldProcessParameters.WhatIf) { Show-RidePlan -Plan $plan }
+    Invoke-RidePlan -Plan $plan @shouldProcessParameters
   }
 }

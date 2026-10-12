@@ -4,8 +4,9 @@ The first v3 library milestone loads **explicit local metadata libraries**.
 Maintainers can keep catalogs and profiles in another repository and reuse
 RIDE's built-in `RegistryValue`, `RegistryValueSet` and `Package` handlers without
 editing the engine.
-Custom handler modules and profile inheritance are still pending release work.
-Library API 1 is the initial contract; runtime VM acceptance remains pending.
+Custom handler modules are still pending release work. General profile
+inheritance is deferred until a demonstrated need justifies it. Library API 1
+is the initial contract; runtime VM acceptance remains pending.
 
 ## Create a library with the guided helper
 
@@ -21,8 +22,29 @@ asks only for that kind's fields. For a package, it first offers an optional
 test download URL or local sample, before the name, scope, targets and architecture
 questions. Choose **Exe** or **Msi**, with direct or **Zip** packaging, a scope,
 architecture, tested targets and download source. EXE silent arguments
-come from the publisher; MSI suggests `/qn /norestart`. It asks for the name
-shown in Windows installed apps and escapes it into an exact detection regex.
+come from the publisher; MSI suggests `/qn /norestart`. If you already know
+the name registered in Windows Installed apps (or Programs and Features), enter
+it. The helper escapes it into an exact detection regex. For Windows 7 Games,
+use the whole product name, `Windows 7 Games for Windows 11, 10 and 8`, rather
+than an included game such as `Solitaire`.
+
+If the product has never been installed, **press Enter at the installed-product
+name prompt**. The helper saves `<library-path>.draft.psd1` with the other
+answers and publishes no executable library. Install the sample manually in a
+disposable Windows VM, observe its Installed apps entry, then resume:
+
+```powershell
+.\tools\New-RideLibrary.ps1 -Path .\my-library -Definition .\my-library.draft.psd1 -ResumeDraft
+```
+
+For a draft started with `-Add`, include `-Add` again when resuming. The draft
+contains literal authoring data and is not loadable with `-Library`. A sample
+EXE resource name is only a hint: an EXE or ZIP cannot reliably reveal its
+future uninstall registration before installation. The helper requires a
+confirmed name before publishing, so an unknown detector cannot make an
+installed package look absent to `show`, `install`, or `remove`. Keep the VM
+evidence with your library review. Reset the VM to its preinstall snapshot
+before testing installation through the completed RIDE library.
 Choose targets you intend to validate; choosing a name does not prove support.
 For registry entries it offers supported types, converts literal values and
 asks for platform defaults rather than reading the author's machine.
@@ -31,8 +53,8 @@ Enter a blank value name for the unnamed `(Default)` value.
 
 Press Enter to omit documentation/product, license/terms and recovery-information links.
 Type `:cancel` at any prompt to stop. You can add several operations in one
-session. The helper writes a manifest, catalog and `profiles/custom.psd1`, and
-validates the project with the normal resolver before publishing it. It never
+session. Once detection is supplied, the helper writes a manifest, catalog and
+`profiles/custom.psd1`, and validates the project before publishing it. It never
 installs anything or applies its generated profile. Creating a library requires a
 new path; use `-Add` below to extend an existing generated library.
 
@@ -41,7 +63,7 @@ new path; use `-Add` below to extend an existing generated library.
 Use the same wizard with `-Add`:
 
 ```powershell
-.\tools\New-RideLibrary.ps1 -Path .\games-library -Add
+.\tools\New-RideLibrary.ps1 -Path .\my-library -Add
 ```
 
 It loads the existing namespace and suggests the next patch version, such as
@@ -151,6 +173,17 @@ licensing terms, package lifecycle acceptance or Server support.
 
 ## Try a different package
 
+The [main example library](../examples/library/README.md) combines registry,
+coordinated-setting and ZIP/EXE package metadata under `example.library`.
+Starter, settings and package profiles are selected separately. The
+[examples index](../examples/README.md) also links small authoring definitions:
+the [Windows 7 Games ZIP/EXE input](../examples/authoring/windows7-games.psd1)
+keeps its original `custom.games` namespace and operator choices. Historical
+Contoso and Games libraries are retained under `examples/recovery/`; use the
+[ID mapping and original manifests](../examples/recovery/README.md) for old runs.
+Games detection, architecture, arguments and licensing still need VM/operator
+review. Consolidation does not migrate saved state or establish acceptance.
+
 The [KeePassXC authoring example](../examples/authoring/keepassxc.psd1) declares
 a pinned MSI from the publisher's [download page](https://keepassxc.org/download/).
 It intentionally omits the optional product URL. The publisher lists an MSVC
@@ -248,7 +281,8 @@ and pass that copy with `-Definition`. Keep published operation IDs stable.
 | `PackageVersion`, `AssetName` | Required for `DirectHttps`: safe version and local `.exe`/`.msi` filename matching installer type, or `.zip` for ZIP packaging. |
 | `ExpectedSha256` | Optional 64-character publisher-provided hash of the download; use the ZIP hash for ZIP packaging. A mismatch stops before installation, including cached payloads. |
 | `AssetPattern` | Required for `GitHubReleaseApi`: valid regex matching exactly one installer asset. |
-| `DisplayNamePattern` | Valid nonblank regex matching the installed app's registered name. Wizard creates an escaped exact-name pattern; versioned names may need review. |
+| `DetectionDisplayName` | Optional authoring input in place of `DisplayNamePattern`: the confirmed full Windows installed-product name. The helper escapes it into an exact pattern in the published catalog. Leave it blank only in an unpublished draft. |
+| `DisplayNamePattern` | Valid nonblank regex matching the installed product's registered name, not a component it installs. Required in the published catalog. Review versioned names and bundles after a VM install. |
 | `InstallerArguments`, `UninstallerArguments` | Publisher-documented silent switches. MSI requires `/qn /norestart` for installation. |
 | `SuccessExitCodes` | Optional integer array; handler defaults to `0`. Wizard MSI includes `3010` for reboot-required success. |
 | `License` | Required text summary; `Unknown` is the wizard default. Describe a license in the installer/archive or a local file here when no online reference exists. |
@@ -273,29 +307,34 @@ path supports a self-contained installer that completes before its process exits
 adjacent payloads, detached workers and portable apps need a different handler.
 Removal and saved-run restore use the existing EXE/MSI compensating lifecycle.
 
-## Try the starter library
+## Try the main example library
 
-Copy `examples/contoso/` to your own working directory or repository. Its
-`ride-library.psd1` names an external catalog and a profile. The setting writes
+Copy `examples/library/` to your own working directory or repository. Its
+`ride-library.psd1` names one external catalog and three profiles. The marker writes
 an inert organization marker under `HKCU:\Software\RIDE\Examples\Contoso`;
 it does not configure a Windows feature. The package group references
 `package.7zip` from the built-in catalog rather than duplicating that product.
+The catalog also contains the Certutil setting and Windows 7 Games package.
+`profiles/custom.psd1` selects only the inert marker; settings.psd1 selects the
+marker and Certutil, while packages.psd1 selects the 7-Zip group and Games.
 
 From the RIDE checkout, using the example in place:
 
 ```powershell
-.\ride.ps1 list -Library .\examples\contoso\ride-library.psd1
-.\ride.ps1 search PreferenceMarker -Library .\examples\contoso\ride-library.psd1
-.\ride.ps1 list profiles -Library .\examples\contoso\ride-library.psd1
-.\ride.ps1 plan -Library .\examples\contoso\ride-library.psd1 -Profile .\examples\contoso\profiles\workstation.psd1
-.\ride.ps1 apply -Library .\examples\contoso\ride-library.psd1 -Profile .\examples\contoso\profiles\workstation.psd1 -WhatIf
+.\ride.ps1 list -Library .\examples\library\ride-library.psd1
+.\ride.ps1 search PreferenceMarker -Library .\examples\library\ride-library.psd1
+.\ride.ps1 list profiles -Library .\examples\library\ride-library.psd1
+.\ride.ps1 plan -Library .\examples\library\ride-library.psd1 -Profile .\examples\library\profiles\custom.psd1
+.\ride.ps1 apply -Library .\examples\library\ride-library.psd1 -Profile .\examples\library\profiles\custom.psd1 -WhatIf
 ```
 
 Replace those paths with your external copy to use it outside the checkout.
 Loading a library never selects or applies a profile automatically. Without
 `-Profile`, profile commands keep their usual built-in default. Review the
 profile before applying it; the example's 7-Zip installation requires elevation.
-Use disposable Windows VMs for development lifecycle checks.
+Use disposable Windows VMs for development lifecycle checks. The old examples
+are [recovery snapshots](../examples/recovery/README.md), not templates to merge
+into this namespace or substitutes for its explicit profiles.
 
 Tab completes manifest filesystem paths. Put `-Library` before the value being
 completed to expose that selection's operation/group IDs, states, category
@@ -308,11 +347,11 @@ data fails quietly; an invalid library passed to a command fails explicitly.
 ```powershell
 @{
   SchemaVersion = 1
-  Id = 'example.contoso'
-  Version = '0.1.0'
+  Id = 'example.library'
+  Version = '0.1.1'
   EngineApiVersion = 1
   Catalog = 'catalog/operations.psd1'
-  Profiles = @('profiles/workstation.psd1')
+  Profiles = @('profiles/custom.psd1', 'profiles/settings.psd1', 'profiles/packages.psd1')
 }
 ```
 
@@ -339,7 +378,7 @@ the bounded reader's 2 MiB limit.
 
 Use the same schema-1 `Operations` and `Groups` structure as
 `catalog/operations.psd1`. Every external operation and group ID starts with
-the manifest ID plus a dot, such as `example.contoso.preference-marker`.
+the manifest ID plus a dot, such as `example.library.preference-marker`.
 Keep published IDs stable. Duplicate IDs are errors, including operation/group
 collisions; libraries cannot override built-in entries. `Library` metadata is
 reserved for ownership assigned by the resolver.
@@ -381,9 +420,9 @@ include their absolute file path. General profile inheritance is not implemented
 ## Validate and export references
 
 ```powershell
-.\tools\validate.ps1 -Library .\examples\contoso\ride-library.psd1
-.\tools\Export-RideCatalog.ps1 -Library .\examples\contoso\ride-library.psd1 -OutputPath .\examples\contoso\OPERATIONS.md
-.\tools\Export-RideCatalog.ps1 -Library .\examples\contoso\ride-library.psd1 -OutputPath .\examples\contoso\OPERATIONS.md -Check
+.\tools\validate.ps1 -Library .\examples\library\ride-library.psd1
+.\tools\Export-RideCatalog.ps1 -Library .\examples\library\ride-library.psd1 -OutputPath .\examples\library\OPERATIONS.md
+.\tools\Export-RideCatalog.ps1 -Library .\examples\library\ride-library.psd1 -OutputPath .\examples\library\OPERATIONS.md -Check
 ```
 
 Validation includes the selected libraries and profiles while still checking

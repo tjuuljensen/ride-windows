@@ -6,8 +6,9 @@
   Returns diagnostic strings without importing handlers or inspecting Windows.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Owner: RIDE-Windows maintainers. Version: 0.10.0.
-  Changelog: 0.10.0: Validate current-user destination and execution contracts.
+  Owner: RIDE-Windows maintainers. Version: 0.11.0.
+  Changelog: 0.11.0: Validate managed profile settings and candidate targets.
+    0.10.0: Validate current-user destination and execution contracts.
     0.9.0: Validate setting presentation evidence and scalar registry scope.
     0.8.0: Validate pinned WinSCP portable publisher sources.
     0.7.0: Validate Signal feeds, user-data preservation and Mozilla locales.
@@ -20,7 +21,7 @@
     0.1.0: Extract the existing validator for shared library validation.
 #>
 
-$script:ModuleVersion = '0.9.0'
+$script:ModuleVersion = '0.11.0'
 
 
 function Get-RideCatalogValidationErrors {
@@ -126,9 +127,9 @@ function Get-RideCatalogValidationErrors {
         }
       }
     }
-    $pendingPackage = $operation.Kind -eq 'Package' -and $operation.PendingAcceptance -eq $true -and @($operation.SupportedTargets).Count -eq 0
-    if ($operation.ContainsKey('PendingAcceptance') -and ($operation.PendingAcceptance -isnot [bool] -or ($operation.PendingAcceptance -and -not $pendingPackage))) { Add-Error "Pending acceptance requires a package with no supported targets: $($operation.Id)" }
-    if ($pendingPackage -and (-not $operation.CandidateTargets -or @($operation.CandidateTargets | Where-Object { $_ -notin @('Windows 11', 'Windows Server 2025') }).Count)) { Add-Error "Pending package requires explicit candidate targets: $($operation.Id)" }
+    $pendingPackage = $operation.Kind -in @('Package', 'ProfileSetting') -and $operation.PendingAcceptance -eq $true -and @($operation.SupportedTargets).Count -eq 0
+    if ($operation.ContainsKey('PendingAcceptance') -and ($operation.PendingAcceptance -isnot [bool] -or ($operation.PendingAcceptance -and -not $pendingPackage))) { Add-Error "Pending acceptance requires a package or profile setting with no supported targets: $($operation.Id)" }
+    if ($pendingPackage -and (-not $operation.CandidateTargets -or @($operation.CandidateTargets | Where-Object { $_ -notin @('Windows 11', 'Windows Server 2025') }).Count)) { Add-Error "Pending operation requires explicit candidate targets: $($operation.Id)" }
     if (@($operation.SupportedTargets).Count -eq 0 -and -not $pendingPackage) { Add-Error "No supported target declared for $($operation.Id)" }
     if (-not $operation.ContainsKey('TargetDefaults')) {
       Add-Error "Operation is missing target defaults: $($operation.Id)"
@@ -454,6 +455,18 @@ function Get-RideCatalogValidationErrors {
       if ('Get' -notin $operation.Actions -or 'Test' -notin $operation.Actions -or 'Set' -notin $operation.Actions -or 'Restore' -notin $operation.Actions) { Add-Error "Power setting lifecycle is incomplete: $($operation.Id)" }
       if ($operation.ContainsKey('BaselineState')) { Add-Error "Power setting must not invent a RIDE baseline: $($operation.Id)" }
     }
+    elseif ($operation.Kind -eq 'ProfileSetting') {
+      if ($operation.Handler -ne 'ProfileSetting' -or $operation.Scope -ne 'User' -or $operation.RequiresAdmin -ne $false) { Add-Error "Profile setting requires its user-scoped handler: $($operation.Id)" }
+      if ($operation.ProfileRuntime -notin @('WindowsPowerShell51', 'PowerShell7') -or $operation.ProfileSetting -ne 'TerminalColors') { Add-Error "Unsupported profile runtime or setting: $($operation.Id)" }
+      if ($operation.States -isnot [hashtable] -or $operation.States.Count -ne 3 -or $operation.States.Recommended -cne 'Recommended' -or $operation.States.AdminBlue -cne 'AdminBlue' -or -not $operation.States.ContainsKey('Default') -or $null -ne $operation.States.Default -or $operation.BaselineState -cne 'Default' -or $operation.UnsetState -cne 'Default') { Add-Error "Profile setting requires Recommended/AdminBlue/Default with explicit removal and baseline: $($operation.Id)" }
+      $palettes = Import-PowerShellDataFile -LiteralPath (Join-Path $PSScriptRoot '../components/profiles/terminal-color-schemes.psd1')
+      if (-not $palettes.ContainsKey([string]$operation.NormalColorScheme) -or -not $palettes.ContainsKey([string]$operation.AdminColorScheme)) { Add-Error "Profile setting requires reviewed color schemes: $($operation.Id)" }
+      foreach ($palette in $palettes.Values) { if ($palette.Count -ne 19 -or @($palette.Values | Where-Object { $_ -cnotmatch '^#[0-9A-Fa-f]{6}$' }).Count) { Add-Error 'Invalid profile color palette data.' } }
+      if (-not [Uri]::IsWellFormedUriString([string]$operation.DocumentationUri, [UriKind]::Absolute) -or ([Uri]$operation.DocumentationUri).Scheme -ne 'https' -or ([Uri]$operation.DocumentationUri).Host -ne 'learn.microsoft.com') { Add-Error "Profile setting requires Microsoft documentation: $($operation.Id)" }
+      foreach ($action in @('Get', 'Test', 'Set', 'Restore')) { if ($action -notin $operation.Actions) { Add-Error "Profile setting lifecycle is missing '$action': $($operation.Id)" } }
+      if ($operation.Rollback -ne 'Exact') { Add-Error "Profile setting requires exact managed-content restore: $($operation.Id)" }
+      foreach ($target in $operation.SupportedTargets) { if (-not $operation.TargetDefaults[$target] -or -not $operation.TargetDefaults[$target].ContainsKey('DefaultValue') -or $operation.TargetDefaults[$target].DefaultValue -cne 'Default') { Add-Error "Profile setting default must describe absent RIDE customization: $($operation.Id)" } }
+    }
     elseif ($operation.Kind -eq 'ShellFolder') {
       if ($operation.Handler -ne 'ShellFolder') { Add-Error "No matching handler for $($operation.Id)" }
       if ($operation.Scope -ne 'User' -or $operation.RequiresAdmin -ne $false -or $operation.PathResolver -ne 'CurrentUserDesktop') { Add-Error "Shell folder must use the current-user desktop: $($operation.Id)" }
@@ -498,6 +511,7 @@ function Get-RideCatalogValidationErrors {
       if ($operation -and $operation.Kind -eq 'RegistryValueSet' -and $selection.State -ne 'Baseline' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid registry value-set state for '$($selection.Id)'" }
       if ($operation -and $operation.Kind -eq 'PowerSetting' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid power-setting state for '$($selection.Id)'" }
       if ($operation -and $operation.Kind -eq 'ShellFolder' -and $selection.State -ne 'Baseline' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid Shell folder state for '$($selection.Id)'" }
+      if ($operation -and $operation.Kind -eq 'ProfileSetting' -and $selection.State -ne 'Baseline' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid profile setting state for '$($selection.Id)'" }
       if ((($operation -and $operation.Kind -in @('Package', 'DefenderExclusion')) -or $group) -and $selection.State -notin @('Present', 'Absent')) { Add-Error "$($profileFile.Name) must use Present or Absent for '$($selection.Id)'" }
     }
   }

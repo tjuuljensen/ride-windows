@@ -169,16 +169,18 @@ Describe 'Custom-library authoring' {
     $file = Join-Path $TestDrive 'bad.psd1'
     Set-Content -LiteralPath $file -Value 'Get-Process; @{ Id = "test.author" }'
     { & $script:Helper -Path $script:ProjectPath -Definition $file } | Should -Throw '*single declarative hashtable*'
-    (& $script:Helper -Version) | Should -Be '0.4.0'
+    (& $script:Helper -Version) | Should -Be '0.5.0'
     (Get-Help $script:Helper -Full).Synopsis | Should -Match 'Guide an author'
     Test-Path -LiteralPath $script:ProjectPath | Should -BeFalse
   }
 
   Context 'Guided console prompts' {
     BeforeEach {
-      $global:RideAuthoringTestPromptState = @{ Index = 0; Responses = @() }
+      $global:RideAuthoringTestPromptState = @{ Index = 0; Responses = @(); Prompts = @() }
       Mock Read-Host {
+        param($Prompt)
         $state = $global:RideAuthoringTestPromptState
+        $state.Prompts += $Prompt
         if ($state.Index -ge $state.Responses.Count) { throw 'Unexpected authoring prompt.' }
         $answer = $state.Responses[$state.Index]; $state.Index++; $answer
       }
@@ -191,9 +193,25 @@ Describe 'Custom-library authoring' {
       $project = & $script:Helper -Path $script:ProjectPath -Confirm:$false
       $operation = Get-GeneratedOperation $project.Manifest
       $operation.DisplayNamePattern | Should -Be '^Example\ App$'
+      @($global:RideAuthoringTestPromptState.Prompts | Where-Object { $_ -like '*Installed product name*not an included app*' }).Count | Should -Be 1
       $operation.InstallerType | Should -Be 'Exe'
       $operation.ContainsKey('ProductUri') | Should -BeFalse
       $global:RideAuthoringTestPromptState.Index | Should -Be $global:RideAuthoringTestPromptState.Responses.Count
+    }
+    It 'saves unknown package detection as a draft and resumes after registration is known' {
+      $global:RideAuthoringTestPromptState.Responses = @('test.author', '', '1', '1', 'app', 'Example App', 'Test-only package', '2', '1', '1', '1', '1', '1',
+        'https://publisher.example.invalid/app.exe', '1.2.3', 'app.exe', '', '', '/S', '/S', 'Unknown', '', '', '', '1', '', '1')
+      & $script:Helper -Path $script:ProjectPath -Confirm:$false
+      $draft = $script:ProjectPath + '.draft.psd1'
+      Test-Path -LiteralPath $script:ProjectPath | Should -BeFalse
+      Test-Path -LiteralPath $draft | Should -BeTrue
+      (Import-PowerShellDataFile -LiteralPath $draft).Operations[0].DetectionDisplayName | Should -BeExactly ''
+      { & $script:Helper -Path $script:ProjectPath -Definition $draft -Confirm:$false } | Should -Throw '*unknown installed-product name*'
+      $global:RideAuthoringTestPromptState = @{ Index = 0; Responses = @('Registered Bundle'); Prompts = @() }
+      $project = & $script:Helper -Path $script:ProjectPath -Definition $draft -ResumeDraft -Confirm:$false
+      (Get-GeneratedOperation $project.Manifest).DisplayNamePattern | Should -Be '^Registered\ Bundle$'
+      $global:RideAuthoringTestPromptState.Index | Should -Be 1
+      Test-Path -LiteralPath $draft | Should -BeTrue
     }
     It 'creates a registry entry with a typed hexadecimal value and no documentation URL' {
       $global:RideAuthoringTestPromptState.Responses = @('test.author', '', '2', 'app', 'Example marker', 'Test-only registry value', '1', '1',

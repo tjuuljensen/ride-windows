@@ -27,6 +27,9 @@ tracks edition- and build-specific setup behavior.
 
 Run `.\ride.ps1 -Help` for command usage, options, and examples.
 When using PowerShell interactively, press Tab to complete commands, operation and group IDs, profile paths, saved run IDs, declared setting states, package variants, and search fields/views.
+State-changing commands honor `-WhatIf` and the caller's `$WhatIfPreference`.
+Use `-WhatIf:$false` to explicitly disable inherited preview for one invocation;
+`-Confirm` requests confirmation for each supported change.
 
 | Command | Purpose |
 | --- | --- |
@@ -68,6 +71,13 @@ their `MatchesDefault` field is unknown. See the
 Setting views distinguish scope, administrator requirements, preference/policy
 behavior and GUI effects. See [setting presentation](docs/SETTING-PRESENTATION.md)
 for requirements, evidence gaps and user identity under elevation.
+
+Optional [PowerShell profile settings](docs/POWERSHELL-PROFILES.md) provide separate
+5.1/7 normal-session palettes and consistent administrator blue. Tab completes
+Recommended, AdminBlue, Default and Baseline; unset/default remove only the managed
+block. The handler is implemented; application awaits disposable target/visual
+acceptance. Inspect it with `list profile-settings` or the optional
+`profiles/powershell-colors.psd1` plan.
 
 Coordinated settings such as `windows.mouse-pointer-precision` and
 `windows.control-panel-view` expose one named state for several related values.
@@ -192,12 +202,17 @@ Create a library with `tools/New-RideLibrary.ps1 -Path .\my-library`; the guided
 helper offers supported package/registry choices and generates validated files.
 For packages, optional early URL/local-file inspection suggests installer details;
 ZIP-contained EXE/MSI installers are supported. Samples are never executed.
+If the installed-product name is unknown, the helper saves an unpublished draft;
+resume it after a test installation in a disposable VM.
 Use `tools/New-RideLibrary.ps1 -Path .\my-library -Add` to add operations to an
 existing generated library, retaining its prior metadata for recovery. Custom
 license links are optional and may use HTTP/HTTPS, including internal/localhost.
 Registry authoring accepts HKCR paths with an explicit User/Machine destination,
 unnamed default values and coordinated `RegistryValueSet` entries. See the
 [Certutil context-menu example](examples/authoring/certutil-context-menu.psd1).
+Start with the [combined example library](examples/library/README.md), with
+separate starter, settings and package profiles. The [examples index](examples/README.md)
+also links small authoring definitions and historical recovery snapshots.
 See the [custom-library plan and release acceptance criteria](docs/MIGRATION-PLAN.md#custom-library-interface-v3-release-requirement).
 
 - `catalog/operations.psd1` defines the operation catalog and solution groups.

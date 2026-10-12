@@ -8,8 +8,9 @@
   Does not download payloads, import the engine or invoke Windows handlers.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Owner: RIDE-Windows maintainers. Version: 0.4.0.
-  Changelog: 0.4.0: Author coordinated registry values and map HKCR to explicit scope roots.
+  Owner: RIDE-Windows maintainers. Version: 0.5.0.
+  Changelog: 0.5.0: Save incomplete package definitions as drafts and derive exact detection patterns from confirmed names.
+    0.4.0: Author coordinated registry values and map HKCR to explicit scope roots.
     0.3.0: Add operations to existing libraries with versioned metadata recovery.
     0.2.0: Accept ZIP packaging and distinct installer-member digest fields.
     0.1.0: Add declarative project generation for the guided helper.
@@ -46,6 +47,41 @@ function ConvertTo-RideLibraryLiteral {
   throw "Unsupported authoring data type: $($Value.GetType().FullName)"
 }
 
+function Save-RideLibraryAuthoringDraft {
+  <#
+  .SYNOPSIS
+    Save incomplete guided authoring answers for later package detection review.
+  .DESCRIPTION
+    Writes only a declarative definition, never a loadable library. Refuses to
+    overwrite an existing draft and honors WhatIf. No Windows state is queried.
+  .PARAMETER Path
+    New .psd1 draft file path.
+  .PARAMETER Definition
+    Guided authoring hashtable to resume later.
+  .EXAMPLE
+    Save-RideLibraryAuthoringDraft -Path .\my-library.draft.psd1 -Definition $answers
+  .INPUTS
+    None.
+  .OUTPUTS
+    System.String. Absolute draft path when written.
+  .NOTES
+    Windows PowerShell 5.1 and PowerShell 7 on Windows. Version 0.5.0.
+  #>
+  [CmdletBinding(SupportsShouldProcess)]
+  param([Parameter(Mandatory)][string] $Path, [Parameter(Mandatory)][hashtable] $Definition)
+  $fullPath = [IO.Path]::GetFullPath($Path)
+  if ([IO.Path]::GetExtension($fullPath) -ne '.psd1') { throw 'Authoring draft path must end in .psd1.' }
+  $parent = Get-Item -LiteralPath (Split-Path -Parent $fullPath) -ErrorAction Stop
+  if (-not $parent.PSIsContainer -or ($parent.Attributes -band [IO.FileAttributes]::ReparsePoint)) { throw 'Draft parent must be a regular directory.' }
+  if (Test-Path -LiteralPath $fullPath) { throw "Draft already exists: $fullPath" }
+  if (-not $PSCmdlet.ShouldProcess($fullPath, 'Save incomplete custom-library authoring draft')) { return }
+  $contents = "# Incomplete RIDE library definition. Resume with New-RideLibrary.ps1 -Definition and -ResumeDraft.`n" + (ConvertTo-RideLibraryLiteral $Definition) + "`n"
+  $bytes = [Text.UTF8Encoding]::new($false).GetBytes($contents)
+  $stream = [IO.File]::Open($fullPath, [IO.FileMode]::CreateNew, [IO.FileAccess]::Write, [IO.FileShare]::None)
+  try { $stream.Write($bytes, 0, $bytes.Length) } finally { $stream.Dispose() }
+  $fullPath
+}
+
 function ConvertTo-RideLibraryProjectData {
   param([hashtable] $Definition, [string] $Root)
   $options = Get-RideLibraryAuthoringOptions -Root $Root
@@ -62,7 +98,7 @@ function ConvertTo-RideLibraryProjectData {
     $common = @('Id', 'Name', 'Kind', 'Description', 'Category', 'Scope', 'SupportedTargets', 'TargetDefaults', 'RecoveryUri')
     $specific = if ($inputOperation.Kind -eq 'Package') {
       @('PackageId', 'InstallerType', 'Architecture', 'DownloadProvider', 'DownloadUri', 'PackageVersion', 'AssetName', 'ExpectedSha256',
-        'AssetPattern', 'DisplayNamePattern', 'InstallerArguments', 'UninstallerArguments', 'SuccessExitCodes', 'ProductUri', 'License', 'LicenseUri', 'TermsUri', 'TagPrefix', 'PublisherChecksumSource', 'ArchiveType', 'InstallerEntry', 'ExpectedInstallerSha256')
+        'AssetPattern', 'DisplayNamePattern', 'DetectionDisplayName', 'InstallerArguments', 'UninstallerArguments', 'SuccessExitCodes', 'ProductUri', 'License', 'LicenseUri', 'TermsUri', 'TagPrefix', 'PublisherChecksumSource', 'ArchiveType', 'InstallerEntry', 'ExpectedInstallerSha256')
     } elseif ($inputOperation.Kind -eq 'RegistryValueSet') { @('RegistryValues', 'States', 'BaselineState', 'DocumentationUri') }
     else { @('RegistryPath', 'ValueName', 'ValueType', 'States', 'BaselineState', 'DocumentationUri') }
     foreach ($field in $inputOperation.Keys) {
@@ -80,6 +116,12 @@ function ConvertTo-RideLibraryProjectData {
     $operation.SupportedTargets = @($operation.SupportedTargets | Sort-Object -Unique)
     if (-not $operation.Category) { $operation.Category = if ($operation.Kind -eq 'Package') { 'Software / Custom library' } else { 'Windows settings / Custom library' } }
     if ($operation.Kind -eq 'Package') {
+      if ($operation.ContainsKey('DetectionDisplayName')) {
+        if ($operation.ContainsKey('DisplayNamePattern')) { throw 'Use either DetectionDisplayName or DisplayNamePattern for package detection.' }
+        if ($operation.DetectionDisplayName -isnot [string] -or [string]::IsNullOrWhiteSpace($operation.DetectionDisplayName)) { throw 'Confirm DetectionDisplayName before publishing the package library.' }
+        $operation.DisplayNamePattern = '^' + [regex]::Escape($operation.DetectionDisplayName) + '$'
+        $operation.Remove('DetectionDisplayName')
+      }
       if ($operation.InstallerType -notin $options.InstallerTypes -or $operation.DownloadProvider -notin $options.DownloadProviders -or $operation.Architecture -notin $options.Architectures) { throw 'Choose a supported installer, download provider and architecture.' }
       $operation.Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       $operation.Rollback = 'Compensating'
@@ -323,4 +365,4 @@ function Add-RideLibraryOperation {
   }
 }
 
-Export-ModuleMember -Function New-RideLibraryProject, Add-RideLibraryOperation
+Export-ModuleMember -Function New-RideLibraryProject, Add-RideLibraryOperation, Save-RideLibraryAuthoringDraft

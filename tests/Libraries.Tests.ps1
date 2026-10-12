@@ -18,8 +18,8 @@
 
 BeforeAll {
   $script:Root = Split-Path -Parent $PSScriptRoot
-  Import-Module (Join-Path $script:Root 'modules/RIDE.Libraries.psm1') -Force
   Import-Module (Join-Path $script:Root 'modules/RIDE.Engine.psm1') -Force
+  Import-Module (Join-Path $script:Root 'modules/RIDE.Libraries.psm1') -Force
   $script:Runner = Join-Path $script:Root 'ride.ps1'
   function Write-LibraryFixture([string] $Path, [string] $Text) {
     [IO.File]::WriteAllText($Path, $Text, [Text.UTF8Encoding]::new($false))
@@ -41,7 +41,8 @@ BeforeAll {
 Describe 'RIDE metadata libraries' {
   BeforeEach {
     $script:LibraryDirectory = Join-Path $TestDrive ('library ' + [guid]::NewGuid().ToString('N'))
-    Copy-Item -LiteralPath (Join-Path $script:Root 'examples/contoso') -Destination $script:LibraryDirectory -Recurse
+    # The historical starter is a focused fixture for published-ID recovery.
+    Copy-Item -LiteralPath (Join-Path $script:Root 'examples/recovery/contoso/0.1.0') -Destination $script:LibraryDirectory -Recurse
     $script:Manifest = Join-Path $script:LibraryDirectory 'ride-library.psd1'
     $script:CatalogFile = Join-Path $script:LibraryDirectory 'catalog/operations.psd1'
     $script:ProfileFile = Join-Path $script:LibraryDirectory 'profiles/workstation.psd1'
@@ -94,7 +95,7 @@ Describe 'RIDE metadata libraries' {
     It 'rejects executable catalog expressions and executable profile data' {
       Replace-LibraryFixture $script:CatalogFile 'Enabled = 1' 'Enabled = (Get-Process)'
       { Get-RideCatalogContext -Root $script:Root -Library $script:Manifest } | Should -Throw
-      Copy-Item -LiteralPath (Join-Path $script:Root 'examples/contoso/catalog/operations.psd1') -Destination $script:CatalogFile -Force
+      Copy-Item -LiteralPath (Join-Path $script:Root 'examples/recovery/contoso/0.1.0/catalog/operations.psd1') -Destination $script:CatalogFile -Force
       Write-LibraryFixture $script:ProfileFile 'Get-Process; @{ SchemaVersion = 1 }'
       { Get-RideCatalogContext -Root $script:Root -Library $script:Manifest } | Should -Throw '*Invalid declarative library data*'
     }

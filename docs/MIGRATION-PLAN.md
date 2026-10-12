@@ -4,7 +4,7 @@
 
 This is the batch inventory for migrating the selectable commands in `legacy/v2/default.preset` to the v3 catalog and profiles. It includes active and commented selectors. The original inventory contained **732 distinct legacy function names** across **30 family groups**; **731** remain in the preset after the user-requested Opera exclusion on 2026-10-11. The excluded outcome remains accounted for in the application ledger. Active selectors are marked **default**. Paired legacy commands should become states of one v3 operation only when inspection confirms that they control the same setting or package.
 
-The catalog supports `ScheduledTask`, `AdapterBinding`, `DefenderPreference`, `SmbProtocol`, `PowerScheme`, `NetBios`, `RemoteDesktopFirewall`, `SoundScheme`, `RegistryValue`, `RegistryValueSet`, `RegistryKeySet`, `Package`, `DefenderExclusion`, `WindowsService`, `BackgroundAppOverrides`, `BootConfiguration`, `NetworkProfile`, `PowerSetting`, and `ShellFolder`. Migration of the other groups requires the minimum additional operation kinds and focused handlers for Windows components, account/configuration changes, files/assets, and system tasks. Each handler must participate in planning, `ShouldProcess`, state capture or declared compensating behavior, status/reporting, and partial-failure reporting.
+The catalog supports `ScheduledTask`, `AdapterBinding`, `DefenderPreference`, `SmbProtocol`, `PowerScheme`, `NetBios`, `RemoteDesktopFirewall`, `SoundScheme`, `RegistryValue`, `RegistryValueSet`, `RegistryKeySet`, `Package`, `DefenderExclusion`, `WindowsService`, `BackgroundAppOverrides`, `BootConfiguration`, `NetworkProfile`, `PowerSetting`, `ShellFolder`, and `ProfileSetting`. Migration of the other groups requires the minimum additional operation kinds and focused handlers for Windows components, account/configuration changes, files/assets, and system tasks. Each handler must participate in planning, `ShouldProcess`, state capture or declared compensating behavior, status/reporting, and partial-failure reporting.
 
 The optional [God Mode desktop folder](GOD-MODE.md) uses the focused `ShellFolder`
 handler. It is a separately requested option, not a migrated legacy selector;
@@ -19,8 +19,9 @@ repository without modifying or forking the core engine. Migration of the
 built-in catalog alone does not satisfy this release requirement.
 
 The initial implementation now accepts explicit local library manifests,
-external catalogs and declared profiles using built-in handlers. General profile
-composition and custom-handler registration remain pending release work.
+external catalogs and declared profiles using built-in handlers. Custom-handler
+registration remains pending release work; general profile inheritance is
+deferred until demonstrated needs justify it.
 The earlier [custom library review](#custom-library-review-2026-10-09) remains a
 disposition of that library's content; it does not replace this interface work.
 
@@ -265,11 +266,124 @@ lifecycle tests; no registry writes or Certutil execution occurred.
 This extends authoring infrastructure, not a legacy migration batch; dated group
 estimates and rounded remaining migration totals remain unchanged.
 
+### Custom-library examples reconciliation, 2026-10-12
+
+The operator chose to relocate the former root `games-library/` into
+`examples/games-library/`. The maintained example preserves `custom.games` and
+`custom.games.classic-msgames`, the profile selection, installer/detection choices
+and pinned archive/member digests. Version 0.1.1 removes the placeholder license
+URL while retaining License=Unknown. The exact original 0.1.0 metadata remains
+under `examples/games-library.history/0.1.0/` for matching saved-run recovery.
+The recovery snapshot was compared byte-for-byte with the original Git blobs.
+
+The new Windows 7 Games authoring definition reproduces the maintained manifest,
+catalog and profile. The examples index links this ZIP/EXE case, KeePassXC MSI,
+the Contoso starter and the current 0.1.2 Certutil icon/HKCR example. Unverified
+games detection, architecture, silent arguments and licensing are called out in
+its README; no replacement metadata or VM acceptance is inferred.
+
+Windows-native checks passed in PowerShell 5.1 and 7.6.5: all three authoring
+definitions generated, the maintained games files matched regenerated metadata,
+the original recovery manifest resolved, and the four current libraries validated
+together (305 operations, 4 groups, 8 profiles, 97 PowerShell files). Built-in
+generated documentation is current. No payload was downloaded or executed and no
+Windows state changed. This reconciles examples rather than migrating a legacy
+outcome; dated estimates and rounded remaining migration totals are unchanged.
+
+### One main custom-library example, 2026-10-12
+
+The approved consolidation replaces the two current starter libraries with
+`examples/library/`, one readable catalog under `example.library`. It combines
+the inert marker, corrected Certutil setting, Windows 7 Games ZIP/EXE metadata
+and a group referencing built-in 7-Zip. Starter custom.psd1 selects only the
+marker; settings.psd1 selects the marker/Certutil, and packages.psd1 selects the
+7-Zip group/Games. The generated-layout custom profile keeps `-Add` usable on a
+copy without changing the two optional profiles.
+
+This introduces new example IDs, documented in `examples/recovery/README.md`;
+it does not rename old saved records or infer a state migration. Exact Contoso
+0.1.0 and Games 0.1.0/0.1.1 catalogs, manifests and profiles are retained under
+`examples/recovery/` for original-identity restore. Their metadata hashes were
+checked before/after relocation. The earlier reconciliation paths above are
+superseded by these recovery paths. Small authoring definitions remain separate
+helper-input examples with their original namespaces. The historical Contoso
+snapshot remains a focused published-ID lifecycle/recovery test fixture.
+
+Validation: **37 focused Pester tests passed** in each of Windows PowerShell 5.1
+and PowerShell 7.6.5, covering the shared catalog, separated profiles, completion,
+copied-library Add, historical identities and existing lifecycle/recovery checks.
+Native validation passed in both editions with the main library: 304 operations,
+4 groups, 7 profiles and 98 PowerShell files; built-in generated documentation is
+current. Original Contoso and Games 0.1.0 metadata also matches the original Git
+blobs. No installers or live registry writers ran.
+
+Games installer/detection choices and pinned digests remain unchanged except
+for the new operation/PackageId namespace. Current examples still require
+disposable-VM acceptance; no download or Windows mutation is part of this merge.
+This consolidates documentation and metadata, not a legacy migration batch;
+dated group estimates and rounded remaining totals remain unchanged.
+
+### CLI preview forwarding and Games detection, 2026-10-12
+
+An operator's install command without WhatIf entered preview, while removal
+reported an installed Games package absent. The CLI forwarded unbound WhatIf and
+Confirm variables rather than common-parameter values; native PowerShell treats
+WhatIf:null as enabled. Runner 0.9.2 now forwards the effective WhatIfPreference
+and only explicitly bound Confirm, including explicit false values. This covers
+apply/install/set/unset/remove, download and restore; inherited preview remains
+effective and the preview plan uses the same flag.
+
+Read-only HKLM uninstall inspection found Windows 7 Games for Windows 11, 10 and 8,
+version 4.3. The original ^Solitaire$ pattern did not match that registered product.
+The main example advances to 0.1.1 with the exact observed product-name pattern;
+the small games definition advances to 0.1.2. Main library 0.1.0 metadata, including
+all profiles, is retained unchanged at examples/recovery/library/0.1.0 for matching
+old-run recovery. The corrected show command reports Installed=True and 4.3.
+
+Validation: **71 focused tests passed** in each of Windows PowerShell 5.1 and
+PowerShell 7.6.5. CLI regression tests run the real runner against an isolated fake
+engine, covering all seven state-changing command paths, explicit/inherited/false
+WhatIf and bound/omitted Confirm without installers or registry writes. Example
+and original-library lifecycle/recovery checks passed alongside them. Native
+validation passed in both editions; no install, remove or download was executed
+against the workstation. Package/menu VM acceptance remains pending. These are
+CLI/detection repairs, not a migration batch; dated estimates remain unchanged.
+
+### Custom-library authoring and resolver reload, 2026-10-12
+
+The guided package prompt now identifies `DisplayNamePattern` as the exact
+registered product name and explains how to verify it in Windows Installed apps
+or a disposable VM. This addresses the Games bundle being entered as
+`Solitaire`, an included game rather than the installed suite.
+
+A long-lived elevated PowerShell session can retain the older API 1 resolver.
+Its rejection text mentions only RegistryValue and Package even though the
+current library accepts RegistryValueSet. Runner 0.9.3 refreshes the resolver
+for commands and completion, and engine import refreshes it for direct callers.
+An isolated regression probe preloads an obsolete resolver and verifies that
+the current example resolves. No library schema or published ID changes were
+needed. This is a CLI/authoring repair, so migration estimates stay unchanged.
+
+### Deferred package detection in guided authoring, 2026-10-12
+
+The registered uninstall DisplayName cannot reliably be inferred from an EXE
+or ZIP before installation. The guided helper now accepts a blank detection
+answer and saves the remaining choices as an unpublished declarative draft.
+After a manual test installation in a disposable VM,
+`-Definition <draft> -ResumeDraft` prompts for the observed full product name and generates the exact
+regex before publishing. `-Add` follows the same path and preserves the original
+library until the draft is complete. This avoids treating an unknown product
+as absent in a loadable library. The published catalog schema and existing
+library identities remain unchanged; migration estimates remain unchanged.
+
 ## Estimated remaining migration work
 
-Last reviewed: **2026-10-11**, after reconciling both remaining-application
-batches and accepting all eighteen batch/continuation application distributions
-on both targets.
+Last reviewed: **2026-10-12**, after adding the requested PowerShell profile
+handler and reconciling its scope against the legacy PATH writers. This implements
+one new optional appearance outcome awaiting target/visual acceptance; it closes
+no legacy outcome. All five group ranges and the rounded total below remain
+unchanged. User-bin startup PATH, directory provisioning and WindowsApps repair
+remain pending. The preceding application acceptance records are retained below.
 Other pending acceptance and unresolved bundle components remain counted.
 The 2026-10-11 [hashing additions](CANDIDATE-TOOLS.md#requested-v3-additions-2026-10-11)
 queue three new outcomes outside the legacy selector inventory. Correcting the
@@ -1731,8 +1845,10 @@ contains 731 of those selectors. See the [application ledger](migrations/applica
 and Start's Run as different user command are migrated. Account creation,
 administrator membership, built-in-account changes, language packs and copying
 regional settings require account/locale handlers and multi-user recovery
-coverage. `AddUserBinToPath` requires exact per-user environment capture and
-restore; it is not represented as an installer or a machine PATH change.
+coverage. `AddUserBinToPath` remains pending as a per-user PowerShell startup PATH
+outcome with separate directory provisioning. Persistent user-environment PATH
+would be a distinct setting with exact capture/restore; this selector does not
+implement it. See [profile migration analysis](POWERSHELL-PROFILES.md).
 The remaining optional selectors need their own component, credential/network,
 activation or security-policy workflows before migration.
 
@@ -1760,6 +1876,38 @@ activation or security-policy workflows before migration.
 
 `InstallFonts` **default**, `ReplaceDefaultWallpapers` **default**, `SetLockScreen`, `SetDefaultLockScreen`,
 `InstallLenovoVantage`, `RemoveLenovoVantage`
+
+#### PowerShell profile settings (requested v3 addition, 2026-10-12)
+
+Add an optional current-user setting that gives elevated Windows Terminal
+PowerShell sessions a blue background, based on the shell's actual token.
+Cover Windows PowerShell 5.1 and installed PowerShell 7, including a normal
+Terminal profile opened as a new tab inside an elevated window. This is shell
+startup configuration, distinct from RIDE's declarative selection profiles and
+the already accepted Terminal default-profile setting.
+
+The implemented Recommended state uses Campbell for normal 5.1 sessions, One Half
+Dark for normal 7 sessions and Campbell PowerShell blue for elevated sessions in
+both. AdminBlue changes only elevated sessions; Default/unset remove the chosen
+block and Baseline resolves to Default. Tab-title customization stays deferred.
+See the [handler and migration analysis](POWERSHELL-PROFILES.md) and the
+[profile appearance decision and acceptance requirements](migrations/settings-post-migration-review.md#powershell-profile-appearance-request-2026-10-12).
+
+The focused reversible profile-file handler discovers each
+runtime's intended-user ConsoleHost profile, manages only an identifiable RIDE
+block, preserves unrelated bytes and concurrent edits, supports preview, and
+captures prior block/file presence for saved-run recovery. Do not invoke the
+legacy writer as a v3 handler. Add read-only inspection, planning and completion
+from the same declared/discovered choices, mocked lifecycle tests and disposable
+Windows VM appearance checks before publishing supported-target metadata.
+
+Two catalog IDs and an optional powershell-colors selection profile are implemented,
+with shared file mechanics, preview, read-only inspection/completion and versioned
+saved-run recovery. They declare no supported targets until disposable Windows
+and visible appearance checks pass. Unit fixtures do not modify workstation
+startup profiles. This resolves no legacy outcome and is outside the
+legacy estimates: settings 40-60, packages/artifacts 65-80, components 20-25,
+accounts/assets 25-35 and maintenance 8-12, rounded to 160-215, about 190.
 
 
 ### System tasks
@@ -1870,6 +2018,28 @@ Before migrating additional packages that are known to trigger Microsoft Defende
 Expose the `download` command explicitly through the CLI and keep it separate from `RIDEVAR-Download-Only` and other legacy environment flags. Mock HTTP requests, digest comparison, and installer processes in Pester; verify that download-only never starts an installer and that installation uses the same acquisition path. Provider digests, when offered and checked, must match the downloaded bytes. Add installer failure, idempotence, and `WhatIf` cases. Future local-repository and signature-enforcement modes remain follow-up work informed by the source matrix.
 
 7-Zip, Notepad++, and Git for Windows now resolve the latest GitHub release to a versioned asset. The release API endpoint remains mutable by design to satisfy the latest-download baseline; each resolved artifact URI and version are recorded in the observation library. Publisher signature verification and reproducible installation from the local artifact repository remain future work.
+
+### Rate-aware GitHub release discovery before unattended VM CI cutover
+
+**Scheduled migration infrastructure work:** The Server 2025 full CI pilot
+failed at 7-Zip release discovery when the shared, unauthenticated GitHub REST
+API budget reached zero; see the [pilot evidence](../tests/integration/AUTOMATEDLAB-TASKS.md).
+The limit applies to the originating IP across GitHub-release packages, so
+substituting another GitHub-hosted test package does not solve it. Complete a
+shared, rate-aware `GitHubReleaseApi` resolver before enabling unattended VM
+testing on the default branch.
+
+Design bounded reuse of release metadata with explicit freshness and source
+provenance, while preserving the declared latest-release behavior and artifact
+digest checks. On 403/429 exhaustion, report the remaining budget and reset time
+and defer the run without hammering the endpoint or claiming a pass. Evaluate
+scoped authentication separately; never commit a token, log it, or automatically
+forward a runner credential into a disposable guest or collected evidence.
+Acceptance requires mocked PowerShell 5.1/7 cases for shared quota, cache
+freshness, expiry, exhaustion and recovery, followed by consecutive full CI VM
+runs on supported targets with source hashes, package verification and cleanup
+evidence. This work adds reliability to acquisition, not a legacy product
+outcome; it does not change the migration estimates.
 
 ## Package variants and portable lifecycle
 

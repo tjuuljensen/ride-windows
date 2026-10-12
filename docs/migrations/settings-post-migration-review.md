@@ -3410,6 +3410,102 @@ registry branches are not accepted as modern mappings. No host, package, catalog
 profile or handler changes accompany approval. Both legacy outcomes remain
 counted pending implementation and feature acceptance; estimates are unchanged.
 
+### PowerShell profile appearance request, 2026-10-12
+
+The user requested elevated-session blue formatting under v3 PowerShell profile
+settings and is considering separate colors for Windows PowerShell 5.1 and
+PowerShell 7. The subsequent implementation request accepts the recommended
+palette and reversible profile handler; title customization remains deferred.
+This is an optional new
+outcome, separate from Terminal default-profile selection and RIDE's declarative
+operation-selection profiles. It is not a migrated legacy selector.
+
+Windows Terminal's
+[elevation reference](https://learn.microsoft.com/en-us/windows/terminal/customize-settings/profile-general#automatically-run-as-administrator)
+explains that a profile with elevate=false still runs elevated when opened in an
+elevated window. Its
+[color schemes](https://learn.microsoft.com/en-us/windows/terminal/customize-settings/color-schemes)
+are selected by Terminal profile; choosing Campbell PowerShell for an explicitly
+named administrator profile alone does not cover elevation inherited by a
+normal-profile tab. Inspect the actual shell token at startup, not profile names,
+account group membership alone or the Terminal profile's elevate flag.
+
+The subsequent implementation request accepts the recommended colors: Campbell
+for normal 5.1, One Half Dark for normal 7, and the same Campbell PowerShell blue
+for elevated sessions in both. Recommended applies those presets; AdminBlue
+preserves normal-session appearance. Optional titles and distinct administrator
+shades remain deferred. Default/unset remove only the managed block; Baseline
+selects Default, while saved-run restore recovers the predecessor.
+
+The earlier proposed startup snippet changes foreground and background through
+terminal escape sequences; it does not select an entire named Terminal color
+scheme. A scheme also defines the ANSI palette, cursor and selection colors.
+The implemented renderer manages reviewed ANSI, foreground/background and cursor
+colors; it preserves configured selection colors and other appearance. Check
+error, warning, PSReadLine, selection and cursor contrast on each supported combination.
+
+Implementation and recovery requirements:
+
+- Resolve the intended user's CurrentUserCurrentHost ConsoleHost profile
+  independently for Windows PowerShell 5.1 and installed PowerShell 7, using
+  runtime-reported paths with profiles disabled during discovery. Do not assume
+  an unredirected Documents directory or use the invoking edition's path for
+  both. Missing optional runtimes and alternate administrator credentials need
+  explicit availability/context reporting. Microsoft's
+  [profile guidance](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_profiles)
+  describes the host-specific paths, execution order and loading limitations.
+- Use a versioned identifiable managed block and focused handler. Preserve
+  existing content, encoding and line endings; do not replace or source an
+  existing profile during inspection. Reject ambiguous blocks and conflicting
+  edits before mutation. The legacy Write-Profile-File.ps1 helper has no v3
+  preview/state/recovery contract and must not be called as the handler.
+- Capture prior managed-block content and file presence. Repeat apply must not
+  duplicate content. Unset removes only the managed customization; saved-run
+  restore recovers its captured predecessor while preserving unrelated changes.
+  Delete a newly created profile only if it still contains exclusively the
+  content created by the operation. Later edits inside the managed block require
+  an explicit conflict report rather than silent replacement.
+- Guard local interactive Windows Terminal ConsoleHost startup and actual
+  elevation detection. An inherited WT_SESSION variable alone is insufficient
+  to establish a suitable host. Preserve configured appearance for normal
+  sessions unless separately requested. Do not change elevation, the default
+  shell, execution policy, unrelated prompt functions or other host profiles.
+- Expose live managed configuration and baseline removal through show, plan and
+  status; distinguish installed configuration from observed session appearance.
+  A missing RIDE block is not a universal Windows color default. Complete finite
+  states and runtime/scheme choices from the execution data, read-only. If named
+  scheme selection is introduced, discover built-in and user-defined schemes
+  from the applicable Terminal configuration instead of a second hard-coded list.
+- Document that NoProfile, blocked profile execution, other shells and later
+  application/profile color overrides prevent an unconditional "always blue"
+  guarantee. Existing tabs need a new shell to load startup changes; do not
+  restart them automatically.
+
+Acceptance remains open: Windows-native mocked lifecycle checks for both editions
+must cover missing/existing profiles, redirected paths, encoding, preview, repeat
+apply, partial failure, conflicting edits and bounded restore. Disposable Windows
+VMs must prove normal and explicitly elevated launches, normal-profile tabs in an
+elevated window, both editions, alternate-user elevation and visible text/selection
+contrast. Claim Windows 11 or Server support only after applicable target checks.
+The implemented ProfileSetting handler and two optional catalog entries follow
+this design; see [architecture, migration dispositions and recovery](../POWERSHELL-PROFILES.md).
+The renderer applies the ANSI palette, foreground/background and cursor; selection
+color and other host appearance remain configured. It never modifies workstation
+profiles during tests. Candidate targets are Windows 11/Server 2025 with no support
+declaration before applicable VM/visual acceptance. Legacy user-bin and WindowsApps
+writers remain deferred, not connected to the engine. No migration estimate is
+reduced by this requested new outcome.
+
+Validation: 36 isolated profile tests and 172 related catalog, discovery,
+presentation, CLI-preview and Shell-folder tests passed in each of Windows
+PowerShell 5.1.26100.9549 and PowerShell 7.6.5 (208 checks per edition). The live
+WindowsIntegration test was intentionally excluded. Native parser/catalog/profile
+and generated-reference checks passed in both editions. A read-only plan resolved
+the intended user's actual OneDrive-redirected paths for both runtimes; no startup
+profile was executed or changed. Pester's optional XML environment export needed
+to be disabled because CIM access is unavailable in this sandbox. Target/visible
+acceptance was not run here; pending entries remain blocked for application.
+
 ### Shortcut-arrow appearance review, 2026-10-11
 
 Propose retaining shortcut-arrow hiding as one optional advanced cosmetic outcome,

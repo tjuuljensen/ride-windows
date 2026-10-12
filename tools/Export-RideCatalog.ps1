@@ -47,8 +47,9 @@
   generated.
   Recovery: Regenerate from the reviewed catalog. Check mode is read-only.
   Author: RIDE-Windows maintainers.
-  Version: 0.12.1
+  Version: 0.13.0
   Changelog:
+    0.13.0: Render managed PowerShell profile states, runtimes and color presets.
     0.12.1: Keep setting evidence ordering identical on PowerShell 5.1/7 and omit empty reference links.
     0.12.0: Render setting scope, policy behavior, GUI effects and requirements.
     0.11.0: Export declared package variants and their recovery limits.
@@ -77,7 +78,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.12.1'
+$script:ScriptVersion = '0.13.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 if ($Help) { Get-Help -Name $PSCommandPath -Full; return }
 $ErrorActionPreference = 'Stop'
@@ -187,6 +188,17 @@ foreach ($operation in ($catalog.Operations | Where-Object { $_.Kind -in @('Sche
   }
   $states = @($operation.States.Keys | Sort-Object | ForEach-Object { '{0}={1}' -f $_, $operation.States[$_] }) -join '; '
   $lines.Add("| $($operation.Id) | $target | $states |")
+}
+$lines.Add('')
+$lines.Add('## PowerShell profile settings')
+$lines.Add('')
+$lines.Add('Optional current-user ConsoleHost startup blocks; see [profile architecture and recovery](POWERSHELL-PROFILES.md). Default/unset remove only the managed block; Baseline resolves to Default. Saved-run restore recovers its captured predecessor. These are fixed reviewed RIDE presets, not edits to Terminal settings.json. show/status inspect configuration rather than observing another session. Pending entries cannot be applied until disposable target and visual acceptance is recorded.')
+$lines.Add('')
+$lines.Add('| Operation | Runtime | Setting | States | Normal Recommended palette | Elevated palette |')
+$lines.Add('| --- | --- | --- | --- | --- | --- |')
+foreach ($operation in ($catalog.Operations | Where-Object Kind -eq 'ProfileSetting' | Sort-Object { $_.Id })) {
+  $states = ($operation.States.Keys | Sort-Object) -join ', '
+  $lines.Add("| $($operation.Id) | $($operation.ProfileRuntime) | $($operation.ProfileSetting) | $states; Baseline alias | $($operation.NormalColorScheme) | $($operation.AdminColorScheme) |")
 }
 $lines.Add('')
 $lines.Add('## Publisher licenses')

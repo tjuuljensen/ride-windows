@@ -13,6 +13,7 @@
   optional HTTP/HTTPS references. Offers an early optional HTTPS sample
   download or local-file inspection before scope, targets and architecture. Never
   executes samples or installs anything; ZIP packaging is separate from EXE/MSI.
+  Unknown package detection saves an unpublished draft for later ResumeDraft.
 .PARAMETER Path
   New output directory, or existing generated library directory with Add. Prompts
   when omitted in interactive mode. WhatIf writes no files or downloads.
@@ -22,6 +23,9 @@
 .PARAMETER Definition
   Optional literal .psd1 authoring definition for repeatable, noninteractive use.
   Requires Path. See docs/CUSTOM-LIBRARIES.md for its fields and examples.
+.PARAMETER ResumeDraft
+  With Definition, prompt for missing installed-product names in a saved draft,
+  then publish when every package has confirmed detection metadata.
 .PARAMETER ShowOptions
   Return supported authoring choices without prompting or writing.
 .PARAMETER Help
@@ -39,10 +43,14 @@
 .EXAMPLE
   .\tools\New-RideLibrary.ps1 -Path .\my-library -Add
   Add another operation; accept the suggested patch version and retain prior metadata.
+.EXAMPLE
+  .\tools\New-RideLibrary.ps1 -Path .\my-library -Definition .\my-library.draft.psd1 -ResumeDraft
+  Finish a draft after checking its product registration in a disposable VM.
 .INPUTS
   None.
 .OUTPUTS
-  System.Management.Automation.PSCustomObject. Project paths/operation IDs, or choice rows.
+  System.Management.Automation.PSCustomObject. Project paths/operation IDs or
+  choice rows. An incomplete interactive package definition saves a draft file.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
   Prerequisites: RIDE checkout; existing writable output parent for generation.
@@ -50,8 +58,10 @@
   Recovery: New mode refuses existing output. Add mode retains prior metadata in
   a sibling history directory and rolls back failed writes. Validation failure
   removes only this run's staging. Package recovery remains compensating.
-  Owner: RIDE-Windows maintainers. Version: 0.4.0.
-  Changelog: 0.4.0: Add coordinated/default registry values and scope-explicit HKCR paths.
+  Owner: RIDE-Windows maintainers. Version: 0.5.0.
+  Changelog: 0.5.0: Save unknown package detection as a draft and resume after VM verification.
+    0.4.1: Explain installed-product detection and where to verify its name.
+    0.4.0: Add coordinated/default registry values and scope-explicit HKCR paths.
     0.3.0: Add to existing libraries; allow optional HTTP/HTTPS license links.
     0.2.1: Refresh cached metadata modules and reject empty choice prompts.
     0.2.0: Inspect optional early samples and author ZIP-contained installers.
@@ -66,12 +76,13 @@ param(
   [string] $Path = '',
   [string] $Definition = '',
   [switch] $Add,
+  [switch] $ResumeDraft,
   [switch] $ShowOptions,
   [switch] $Help,
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.4.0'
+$script:ScriptVersion = '0.5.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 if ($Help) { Get-Help -Name $PSCommandPath -Full; return }
 $ErrorActionPreference = 'Stop'
@@ -83,6 +94,7 @@ if ($ShowOptions) {
   foreach ($name in $options.Keys | Sort-Object) { [pscustomobject]@{ Field = $name; Choices = $options[$name] } }
   return
 }
+if ($ResumeDraft -and -not $Definition) { throw '-ResumeDraft requires -Definition with an existing draft.' }
 
 function Read-AuthoringText {
   param([string] $Label, [string] $Default = '', [switch] $Optional, [scriptblock] $Validate)
@@ -178,6 +190,14 @@ if ($Definition) {
   $statement = $ast.EndBlock.Statements[0]
   if ($statement -isnot [Management.Automation.Language.PipelineAst] -or $statement.PipelineElements.Count -ne 1 -or $statement.PipelineElements[0].Expression -isnot [Management.Automation.Language.HashtableAst]) { throw 'Definition must contain a single declarative hashtable.' }
   $data = $statement.PipelineElements[0].Expression.SafeGetValue()
+  if ($ResumeDraft) {
+    foreach ($operation in @($data.Operations)) {
+      if ($operation.Kind -eq 'Package' -and $operation.ContainsKey('DetectionDisplayName') -and [string]::IsNullOrWhiteSpace($operation.DetectionDisplayName)) {
+        Write-Host ("Confirm the registered Windows product name for {0} after a test installation in a disposable VM." -f $operation.Name)
+        $operation.DetectionDisplayName = Read-AuthoringText 'Installed product name shown in Windows Installed apps'
+      }
+    }
+  }
 } else {
   Write-Host 'Author a custom RIDE library. Optional sample inspection downloads files; no installers or Windows changes run.'
   Write-Host 'Type :cancel at any prompt to stop. Test installation and rollback in a disposable Windows VM.'
@@ -263,8 +283,12 @@ if ($Definition) {
       } else {
         $operation.AssetPattern = Read-AuthoringText 'Regex matching exactly one release installer filename' -Validate { param($value) try { $null = [regex]::new($value); $true } catch { $false } }
       }
-      $displayName = Read-AuthoringText 'Exact name shown in Windows installed apps (used for detection)'
-      $operation.DisplayNamePattern = '^' + [regex]::Escape($displayName) + '$'
+      Write-Host 'Package detection uses the product name registered in Windows Installed apps (or Programs and Features).'
+      Write-Host 'For a games bundle, enter its full installed product name, not an included game such as Solitaire.'
+      Write-Host 'If it is already installed, check its entry in Installed apps. Otherwise press Enter; the helper saves a draft to finish after a test installation in a disposable VM.'
+      Write-Host 'No installable library is published until the detection name is supplied. An incorrect name makes show/install/remove treat an installed package as absent.'
+      if ($sample -and $sample.ProductName) { Write-Host ("Installer resource name (hint only; verify registration): {0}" -f $sample.ProductName) }
+      $operation.DetectionDisplayName = Read-AuthoringText 'Installed product name (Enter to defer; not an included app)' -Optional
       $arguments = if ($operation.InstallerType -eq 'Msi') { '/qn /norestart' } else { '' }
       $operation.InstallerArguments = Read-AuthoringText 'Silent installer arguments from the publisher' -Default $arguments
       $operation.UninstallerArguments = Read-AuthoringText 'Silent uninstaller arguments from the publisher' -Default $arguments
@@ -340,6 +364,19 @@ if ($Definition) {
 # Refresh metadata dependencies before publishing, including an older ZIP validator.
 foreach ($moduleName in @('RIDE.CatalogData', 'RIDE.LibrarySchema', 'RIDE.CatalogValidation', 'RIDE.Libraries', 'RIDE.LibraryAuthoring')) {
   Import-Module (Join-Path $root ('modules/' + $moduleName + '.psm1')) -Force -ErrorAction Stop
+}
+if (@($data.Operations | Where-Object { $_.Kind -eq 'Package' -and $_.ContainsKey('DetectionDisplayName') -and [string]::IsNullOrWhiteSpace($_.DetectionDisplayName) }).Count) {
+  if ($Definition) { throw 'The draft still has an unknown installed-product name. Use -ResumeDraft after a test installation.' }
+  $draftPath = [IO.Path]::GetFullPath($Path + '.draft.psd1')
+  $draftParameters = @{ Path = $draftPath; Definition = $data; WhatIf = [bool]$WhatIfPreference }
+  if ($PSBoundParameters.ContainsKey('Confirm')) { $draftParameters.Confirm = $PSBoundParameters.Confirm }
+  $saved = Save-RideLibraryAuthoringDraft @draftParameters
+  if ($saved) {
+    Write-Host "Draft saved: $saved"
+    Write-Host 'After installing the sample in a disposable VM, run this helper with -Path, -Definition <draft path> and -ResumeDraft to publish.'
+    if ($Add) { Write-Host 'Keep -Add when resuming this draft.' }
+  }
+  return
 }
 Write-Host 'Review the generated profile before applying it. No profile is applied by this helper.'
 $creationParameters = @{ Path = $Path; Definition = $data; Root = $root; WhatIf = $WhatIfPreference }
