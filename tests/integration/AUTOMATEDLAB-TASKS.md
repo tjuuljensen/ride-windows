@@ -565,15 +565,86 @@ v3 migration continues. A subsequent checkout inspection found the migration
 fixes committed and pushed at `3201aff`, with only the current runbook record
 still modified. The prepared pilot workflow permits the exact migration branch
 behind its own opt-in flag, defaults to unit-only requests, and retains the
-separate disabled master-cutover flag. Publishing and exercising this pilot
-remain pending; the earlier master-only policy is superseded for this named
-pilot branch. GitHub dispatch and master-push acceptance remain deferred.
+separate disabled master-cutover flag. Pilot publication and the first execution
+attempt are recorded below; the earlier master-only policy is superseded for
+this named pilot branch. GitHub dispatch and master-push acceptance remain
+deferred.
 Static validation passed with actionlint 1.7.12 using the registered custom
 runner label, seven branch/switch gate cases, and five native Windows
 PowerShell 5.1 checks of the actual request step with a mock client. The step
 checks covered master full mode, pilot unit/full modes, invalid pilot mode
 rejection and preservation of receipt outputs after a failed client. These
 checks do not run a real GitHub job or change the VM.
+
+The operator published pilot commit `fd398e8` on the migration branch and
+started the unelevated runner. GitHub run
+[`38206970308`](https://github.com/tjuuljensen/ride-windows/actions/runs/38206970308)
+picked up `vm-tests` at 2026-10-12 05:12:55 UTC. Checkout succeeded at the exact
+approved CI path and selected that commit. The request step failed at
+05:13:17 UTC because repository variable `RIDE_AUTOMATION_CONFIGURATION` was
+empty. The error preceded invocation of the task client, so no VM request was
+submitted and artifact upload was correctly skipped without a receipt. The
+branch gate and runner delivery are observed; set the repository Actions
+variable to the installed Server configuration path and re-run the failed job
+before accepting the CI execution and upload path.
+
+After correcting the repository variable, manual re-run attempt 2 of that same
+GitHub run succeeded. CI request `98de728279d84a8ca67e1f1ad351e6e6` ran unit-only
+on 2026-10-12 05:26:46-05:42:28 UTC (15 minutes 43 seconds). Guest validation and
+all 1,159 Pester tests passed with Pester 5.7.1. Controller, cleanup, collection
+and guest state-collection errors were empty; host UAC remained 1/5/1. All 180
+source-manifest hashes matched the approved CI checkout, whose GitHub checkout
+log identifies exact commit `fd398e8c4f783302d17681d2f4dbc565cea0031b`.
+Native inspection verified VM Off, task Ready and unchanged pinned checkpoint
+ID `4a5b49ba-0795-480a-8d01-6f4f670577c8`, with no recovery block.
+
+The upload step succeeded and GitHub retained artifact
+[`ride-vm-98de728279d84a8ca67e1f1ad351e6e6`](https://github.com/tjuuljensen/ride-windows/actions/runs/38206970308/artifacts/11728536197),
+99,859 bytes, associated with the same branch and commit. This verifies the
+real GitHub runner, registered-task request, unit-only execution and correlated
+artifact upload path, together with a manual re-run. Full integration through
+GitHub, `workflow_dispatch` and master-push acceptance remain separate checks.
+
+Full-mode attempt 3 of the same GitHub run submitted CI request
+`10a427ee62684c00bca52d2c814a0a27` from the unchanged `fd398e8` commit on
+2026-10-12 05:48:52-06:05:06 UTC. Guest validation and all 1,159 Pester tests
+passed, but integration failed at `package.7zip` before any package operation
+completed. The transcript records GitHub's unauthenticated API rate-limit
+response (403) while resolving the publisher release metadata. This is separate
+from the hosted Validate YAML rejection; the YAML correction was still local
+and unpublished when this attempt ran.
+
+Cleanup, collection and guest state-collection errors were empty; UAC remained
+1/5/1. Native inspection verified VM Off, task Ready and the unchanged pinned
+checkpoint, with no recovery block. GitHub uploaded the failed request's
+correlated evidence as
+[`ride-vm-10a427ee62684c00bca52d2c814a0a27`](https://github.com/tjuuljensen/ride-windows/actions/runs/38206970308/artifacts/11728699809),
+96,718 bytes. This establishes failure reporting, recovery and upload after a
+real integration failure; full integration success remains pending.
+
+A read-only publisher API check at 2026-10-12 06:15:30 UTC confirmed status 403,
+`x-ratelimit-remaining=0`, `x-ratelimit-limit=60`, and reset time
+06:35:40 UTC (08:35:40 Europe/Copenhagen). Unauthenticated REST requests share a
+60-per-hour limit by originating public IP. Respect the returned reset time
+before retrying; a failed full run must not be treated as passing or worked
+around by skipping package verification. For repeated acquisition work, review
+rate-aware metadata caching or scoped authentication as a separate improvement;
+do not commit credentials or automatically pass runner credentials into guests.
+[GitHub rate-limit guidance](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api).
+
+The operator reported a recurring separate failure in the hosted `Validate`
+workflow. Inspection in the in-app browser of
+[`38209551025`](https://github.com/tjuuljensen/ride-windows/actions/runs/38209551025)
+showed GitHub rejected the workflow before creating jobs: lines 19, 23 and 27
+used `matrix.shell` directly in step `shell` fields, where no expression
+context is allowed. Actionlint reproduced all three errors. The local
+correction moves shell selection into job-level `defaults.run.shell`, whose
+context includes `matrix`, preserving both Windows PowerShell 5.1 and
+PowerShell 7 validation jobs without changing their commands. Both hosted and
+VM workflows then passed actionlint 1.7.12. Publication and actual hosted
+validation of this correction remain pending; re-running the old commit cannot
+apply the local YAML fix.
+[GitHub context availability](https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#context-availability).
 
 The operator staged 185 hash-verified maintained files from the current local
 checkout into the otherwise absent approved CI workspace, with the GitHub

@@ -10,19 +10,19 @@ jobs:
     strategy:
       matrix:
         shell: [powershell, pwsh]
+    defaults:
+      run:
+        shell: ${{ matrix.shell }}
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
       - name: Install pinned Pester
-        shell: ${{ matrix.shell }}
         run: Install-Module -Name Pester -RequiredVersion 5.7.1 -Repository PSGallery -Scope CurrentUser -Force -SkipPublisherCheck
 
       - name: Run catalog and syntax validation
-        shell: ${{ matrix.shell }}
         run: .\tools\validate.ps1
 
       - name: Run Pester unit tests
-        shell: ${{ matrix.shell }}
         run: Invoke-Pester -Path .\tests -CI
