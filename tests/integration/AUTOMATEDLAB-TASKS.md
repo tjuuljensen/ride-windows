@@ -157,6 +157,64 @@ Controller certification and default-branch cutover remain deferred. The
 [rate-aware release discovery plan](../../docs/MIGRATION-PLAN.md#rate-aware-github-release-discovery-before-unattended-vm-ci-cutover)
 remains required infrastructure work.
 
+## Full migration-branch CI acceptance, 2026-10-12
+
+The operator-authorized complete-state commit
+`3ffe2941aa2969412b2411fdef3226b23ef8299b` published all 17 reviewed files.
+The publisher preflight at 11:36:46 UTC returned HTTP 200 with 58 requests
+remaining, after the preceding exhaustion. Before the push, both VMs were Off,
+both tasks Ready, queues empty, no recovery blocks, the pinned Server checkpoint
+unchanged, runner listener active and competing migration chats idle. Pilot
+variables remained enabled/Full with `RIDE_VM_TESTS_ENABLED=false` and the
+correct installed configuration path; no variable was changed.
+
+[`Hosted Validate 38243799931`](https://github.com/tjuuljensen/ride-windows/actions/runs/38243799931)
+passed all 1,248 tests per edition with zero failures or skips. Both jobs
+validated 303 operations, three groups, five profiles and all 105 published
+PowerShell files. The preceding local parser count of 106 also included the
+ignored `dev/registry-migration-review/Invoke-RideVmSuite.ps1`; it was not
+published or staged into this request.
+
+[`Full VM pilot 38243799797`](https://github.com/tjuuljensen/ride-windows/actions/runs/38243799797)
+submitted CI request `9706aaca6bab48cea35e7ebeb6a0eb14` at 11:37:33 UTC.
+It ran from 11:37:36 to 11:54:18 UTC, about 16 minutes 42 seconds. Controller
+and guest results both report Passed for the same request; UnitOnly is false,
+both suite fields are Full, ValidationPassed and IntegrationPassed are true.
+Pester 5.7.1 on guest Windows PowerShell 5.1.26100.33438 passed all 1,248 tests;
+the retained XML reports zero failures, errors, skipped or not-run tests.
+All 214 source hashes matched the retained snapshot and clean CI checkout at
+`3ffe294`, including profile module 0.1.2 and its accepted two-target hash.
+
+The Server-applicable Full scenarios passed, including real 7-Zip and Notepad++
+installation/recovery. Acquisition retained 7-Zip 26.04 publisher evidence for
+`7z2604-x64.exe`, SHA-256
+`d54bf805f9f3704d1e8db2fa3498ae7ef2df0312b40b558e7c71c734430a665d`.
+The transcript explicitly skips the Windows 11-only Explorer baseline and Git,
+Git LFS, Joplin, ShareX, WinDirStat and PowerShell package scenarios not declared
+for Server. Passing this pilot does not extend those support declarations or
+establish a Windows 11 Full controller run.
+
+Controller, cleanup, collection and guest state-collection errors were null.
+Ten state JSON files, including three run manifests, were retained. Host UAC
+remained 1/5/1. Native inspection at 11:55:08 UTC found both VMs Off, both tasks
+Ready, queues empty, no recovery blocks and unchanged pinned Server checkpoint
+`4a5b49ba-0795-480a-8d01-6f4f670577c8`.
+GitHub uploaded
+[`ride-vm-9706aaca6bab48cea35e7ebeb6a0eb14`](https://github.com/tjuuljensen/ride-windows/actions/runs/38243799797/artifacts/11745381286),
+124,182 bytes, SHA-256
+`8e54dd5c464556d20751bc7a7eb0738c8fb422aed6c4541d8c2d723a850e9a1c`,
+for the exact branch and source commit.
+
+This completes the Full migration-branch Server CI pilot. Overall controller
+certification remains NotValidated: Windows 11 consecutive/locked/watcher runs,
+remaining failure/recovery scenarios, default-branch dispatch and master push
+acceptance remain deferred. Rate-aware release discovery is still required before
+unattended default-branch cutover; success after quota reset does not resolve it.
+Final result records are published in a documentation-only commit with
+`[skip ci]`, using [GitHub's documented push-skip behavior](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/skip-workflow-runs)
+to avoid queuing a redundant VM request. No implementation changed after the
+tested commit; master remains untouched and the main VM switch stays disabled.
+
 ## Configuration contract
 
 The finite integration selections include `ApplicationsBatch1` and

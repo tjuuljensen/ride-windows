@@ -11,15 +11,16 @@ and evidence. Partial bundles, deferred work and pending acceptance remain
 counted. The new PowerShell appearance setting closes no legacy outcome;
 user-bin startup PATH, directory provisioning and WindowsApps repair remain pending.
 
-Latest controller follow-up, **2026-10-12**: the repaired fixtures passed all
-1,241 hosted tests on both editions and all 1,241 Server guest tests. Full CI
-integration then failed acquiring 7-Zip with HTTP 403; cleanup and evidence
-upload succeeded, with host UAC unchanged. Complete-state native regression then
-passed all 1,248 tests per edition; another Full pilot remains pending until
-publisher quota recovers. No legacy outcome was
+Latest controller follow-up, **2026-10-12**: after publisher quota recovered,
+the complete-state migration-branch CI pilot passed all 1,248 Server guest tests
+and applicable Full integration scenarios. Hosted and local regression passed
+1,248 tests per edition. Evidence upload and checkpoint cleanup succeeded,
+with host UAC unchanged. Overall controller certification and default-branch
+cutover remain deferred. No legacy outcome was
 resolved, retired or excluded. All five group ranges below were reviewed and
 remain unchanged, with partial/deferred scope retained. See the
-[dated retry](#full-controller-retry-2026-10-12),
+[successful Full pilot](#full-controller-ci-acceptance-2026-10-12),
+[preceding retry](#full-controller-retry-2026-10-12),
 [unit repair](#controller-unit-regression-repair-2026-10-12) and
 [preceding failed pilot](#full-github-controller-pilot-review-2026-10-12).
 
@@ -33,7 +34,7 @@ retirement, combination or replacement, not a commitment to implement all of the
 | Packages, portable tools and downloadable artifacts | 58-73 | Remaining forensic tools, system-tool entries, general software/artifacts, AD tools, browsers and other products; 19 newly accepted distributions (7 installed, 12 portable), 10 earlier outcomes and Opera excluded |
 | Windows components and optional features | 20-25 | WSL, Hyper-V, Sandbox, OpenSSH, printing features and built-in app management |
 | Accounts, configuration and deployed files/assets | 25-35 | Users and administrator membership, Wi-Fi, regional settings, language packs, browser preferences, fonts and wallpapers |
-| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; hosted/guest unit regression passed, Full CI acceptance blocked by publisher quota |
+| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; Full Server migration CI pilot passed, overall controller certification and rate-aware discovery remain open |
 | **Total, rounded** | **150-205** | **About 180 for planning** |
 
 After **every migration run**, including follow-up implementation, review and
@@ -519,6 +520,30 @@ groups, five profiles, 106 PowerShell files and current generated documentation.
 This follow-up also resolves, retires and excludes zero legacy outcomes. All
 five ranges and the rounded total above remain unchanged for the same reason;
 partial/deferred legacy scope and controller acceptance remain open.
+
+### Full controller CI acceptance, 2026-10-12
+
+After quota reset, publisher preflight returned HTTP 200 with 58 requests
+remaining. Complete-state commit `3ffe294` passed all 1,248 hosted tests on
+both editions. Full CI request `9706aaca6bab48cea35e7ebeb6a0eb14` then passed
+catalog validation, all 1,248 Server guest tests and the applicable Full
+integration scenarios. All 214 source hashes matched; GitHub uploaded the
+correlated evidence, and collection/checkpoint cleanup succeeded with UAC
+unchanged. Both VMs were Off, tasks Ready, queues empty and no blocks remained.
+See the [dated acceptance evidence](../tests/integration/AUTOMATEDLAB-TASKS.md#full-migration-branch-ci-acceptance-2026-10-12).
+
+This acceptance resolves, retires and excludes **zero legacy outcomes**: it
+validates migration infrastructure and previously implemented operations.
+Settings **38-58**, packages/artifacts **58-73**, Windows components **20-25**,
+accounts/configuration/assets **25-35**, and maintenance **8-12** were reviewed
+and remain unchanged. Sum **149-203**, rounded **150-205**, about **180**.
+Partial bundles and deferred scope remain counted. Separate profile appearance
+acceptance adds no legacy PATH/provisioning outcome. Overall controller
+certification, Windows 11 Full controller scenarios and default-branch cutover
+remain deferred; publisher rate-aware discovery is still open. Server success
+does not accept skipped Windows 11-only or undeclared Server package scenarios.
+Final evidence notes change documentation only and use a push-skip marker to
+avoid another VM request; the tested implementation remains `3ffe294`.
 
 ### Earlier estimate reviews, 2026-10-11
 
