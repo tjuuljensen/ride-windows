@@ -4,7 +4,8 @@
 .DESCRIPTION
   Coordinator registers uniquely named Interactive limited/high guest tasks.
   Worker temporarily uses a controlled Terminal profile with elevate=false,
-  launches both PowerShell editions, collects OSC color responses and screenshots,
+  launches both PowerShell editions, measures screenshot backgrounds and collects
+  optional OSC color responses,
   and closes only its own windows. Probe executes inside the real Terminal shell.
   Original Terminal settings bytes and Recommended profile blocks are recovered.
 .PARAMETER Role
@@ -59,7 +60,7 @@ if ($Role -eq 'Probe') {
     while ([Console]::KeyAvailable) { $null = [Console]::ReadKey($true) }
     [Console]::Write(([string][char]27 + ']' + $resource + ';?' + [char]7))
     $buffer = New-Object Text.StringBuilder
-    $deadline = [datetime]::UtcNow.AddSeconds(8)
+    $deadline = [datetime]::UtcNow.AddSeconds(1)
     while ([datetime]::UtcNow -lt $deadline) {
       if ([Console]::KeyAvailable) {
         $null = $buffer.Append([Console]::ReadKey($true).KeyChar)
@@ -98,7 +99,7 @@ if ($Role -eq 'Coordinator') {
     @{ Id = $taskName; Level = $level } | ConvertTo-Json | Set-Content -LiteralPath $taskCase -Encoding UTF8
     $command = '$env:RIDE_INTEGRATION_VM=''1''; & ' + "'$($PSCommandPath.Replace("'","''"))' -Role Worker -ExpectedComputerName '$ExpectedComputerName' -EvidencePath '$evidence' -CasePath '$taskCase' -DisposableVm -Confirm:`$false *> '$evidence/$taskName.log'"
     $encoded = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($command))
-    $action = New-ScheduledTaskAction -Execute (Join-Path $env:WINDIR 'System32/WindowsPowerShell/v1.0/powershell.exe') -Argument ('-NoLogo -NoProfile -ExecutionPolicy Bypass -EncodedCommand ' + $encoded)
+    $action = New-ScheduledTaskAction -Execute (Join-Path $env:WINDIR 'System32/WindowsPowerShell/v1.0/powershell.exe') -Argument ('-NoLogo -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -EncodedCommand ' + $encoded)
     $principal = New-ScheduledTaskPrincipal -UserId $user -LogonType Interactive -RunLevel $level
     $settings = New-ScheduledTaskSettingsSet -ExecutionTimeLimit (New-TimeSpan -Minutes 10) -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries
     try {
@@ -109,6 +110,8 @@ if ($Role -eq 'Coordinator') {
       while (-not (Test-Path -LiteralPath $resultPath) -and [datetime]::UtcNow -lt $deadline) {
         $info = Get-ScheduledTaskInfo -TaskName $taskName -TaskPath '\RIDE\'
         if ($info.LastTaskResult -gt 65535 -and $info.LastTaskResult -notin @(267009,267011)) { throw "Interactive worker could not start: $($info.LastTaskResult)" }
+        $state = (Get-ScheduledTask -TaskName $taskName -TaskPath '\RIDE\').State
+        if ($info.LastRunTime.Year -gt 2000 -and $state -notin @('Running','Queued') -and $info.LastTaskResult -ne 267009) { throw "Interactive worker exited without evidence: $($info.LastTaskResult); see $taskName.log" }
         Start-Sleep -Seconds 1
       }
       if (-not (Test-Path -LiteralPath $resultPath)) { throw 'Interactive worker timed out; collect its log before checkpoint recovery.' }
@@ -129,6 +132,7 @@ if ($Role -eq 'Coordinator') {
 
 if (-not [Environment]::UserInteractive -or (Get-Process -Id $PID).SessionId -eq 0) { throw 'The visual worker must run in the signed-in guest desktop.' }
 Add-Type -AssemblyName System.Drawing
+Add-Type -AssemblyName System.Windows.Forms
 Add-Type -TypeDefinition @'
 using System;
 using System.Text;
@@ -140,6 +144,7 @@ public static class RideProfileWindows {
   [DllImport("user32.dll", CharSet=CharSet.Unicode)] public static extern int GetWindowText(IntPtr window, StringBuilder text, int count);
   [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr window, out Rect rect);
   [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr window);
+  [DllImport("user32.dll")] public static extern IntPtr GetForegroundWindow();
   [DllImport("user32.dll")] public static extern bool PostMessage(IntPtr window, uint message, IntPtr wparam, IntPtr lparam);
   [DllImport("user32.dll")] public static extern IntPtr OpenInputDesktop(uint flags, bool inherit, uint access);
   [DllImport("user32.dll")] public static extern bool CloseDesktop(IntPtr desktop);
@@ -167,7 +172,7 @@ $settingsPath = Join-Path $env:LOCALAPPDATA 'Packages/Microsoft.WindowsTerminal_
 $settingsExisted = [IO.File]::Exists($settingsPath)
 $settingsBytes = if ($settingsExisted) { [IO.File]::ReadAllBytes($settingsPath) } else { [byte[]]@() }
 $profileId = '{720a4c6f-3d7a-4f57-9d1a-a153a0163882}'
-$settingsText = @{ defaultProfile = $profileId; profiles = @{ list = @(@{ guid = $profileId; name = 'RIDE-Acceptance-Normal'; commandline = 'powershell.exe'; elevate = $false; background = '#101820'; foreground = '#E0E0E0'; cursorColor = '#FFFFFF'; selectionBackground = '#FFFFFF'; font = @{ face = 'Cascadia Mono'; size = 13 }; opacity = 100 }) } } | ConvertTo-Json -Depth 8
+$settingsText = @{ defaultProfile = $profileId; confirmCloseAllTabs = $false; actions = @(@{ command = 'selectAll'; keys = 'ctrl+shift+a' }); profiles = @{ list = @(@{ guid = $profileId; name = 'RIDE-Acceptance-Normal'; commandline = 'powershell.exe'; elevate = $false; background = '#101820'; foreground = '#E0E0E0'; cursorColor = '#FFFFFF'; selectionBackground = '#FFFFFF'; font = @{ face = 'Cascadia Mono'; size = 13 }; opacity = 100 }) } } | ConvertTo-Json -Depth 8
 $null = [IO.Directory]::CreateDirectory((Split-Path -Parent $settingsPath))
 $cases = [Collections.Generic.List[object]]::new()
 $windows = [Collections.Generic.List[string]]::new()
@@ -176,10 +181,10 @@ try {
   [IO.File]::WriteAllText($settingsPath,$settingsText,(New-Object Text.UTF8Encoding($false)))
   foreach ($operation in $operations) {
     $executable = if ($operation.ProfileRuntime -eq 'PowerShell7') { Join-Path $env:ProgramFiles 'PowerShell/7/pwsh.exe' } else { Join-Path $env:WINDIR 'System32/WindowsPowerShell/v1.0/powershell.exe' }
-    $variants = @('Recommended','AdminBlue','Default','NoProfile')
+    $variants = @('Recommended','AdminBlue','Default','NoProfile','BlockedProfile')
     if ($admin) { $variants += 'Inherited' }
     foreach ($variant in $variants) {
-      $state = if ($variant -in @('NoProfile','Inherited')) { 'Recommended' } else { $variant }
+      $state = if ($variant -in @('NoProfile','BlockedProfile','Inherited')) { 'Recommended' } else { $variant }
       Set-RideProfileSettingState $operation $state -Confirm:$false
       $caseId = $operation.ProfileRuntime + '-' + $workerCase.Level + '-' + $variant
       $title = 'RIDE Profile ' + $caseId
@@ -196,7 +201,14 @@ try {
       }
       $arguments = '-w "' + $windowName + '" new-tab -p RIDE-Acceptance-Normal --title "' + $title + '" --suppressApplicationTitle "' + $executable + '" -NoLogo -NoExit '
       if ($variant -eq 'NoProfile') { $arguments += '-NoProfile ' }
-      $arguments += '-ExecutionPolicy Bypass -File "' + $PSCommandPath + '" -Role Probe -ExpectedComputerName "' + $ExpectedComputerName + '" -EvidencePath "' + $evidence + '" -CasePath "' + $caseFile + '" -DisposableVm -Confirm:$false'
+      if ($variant -eq 'BlockedProfile') {
+        # Encoded probe runs despite Restricted startup policy; no file-policy bypass
+        # is applied to the startup profile, which must retain host appearance.
+        $command = '& ([scriptblock]::Create([IO.File]::ReadAllText(' + "'$($PSCommandPath.Replace("'","''"))'))) -Role Probe -ExpectedComputerName '$ExpectedComputerName' -EvidencePath '$evidence' -CasePath '$caseFile' -DisposableVm -Confirm:`$false"
+        $arguments += '-ExecutionPolicy Restricted -EncodedCommand ' + [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($command))
+      } else {
+        $arguments += '-ExecutionPolicy Bypass -File "' + $PSCommandPath + '" -Role Probe -ExpectedComputerName "' + $ExpectedComputerName + '" -EvidencePath "' + $evidence + '" -CasePath "' + $caseFile + '" -DisposableVm'
+      }
       Start-Process -FilePath $terminal -ArgumentList $arguments | Out-Null
       $probeFile = Join-Path $evidence ($caseId + '-probe.json')
       $deadline = [datetime]::UtcNow.AddSeconds(60)
@@ -204,18 +216,71 @@ try {
       if (-not (Test-Path -LiteralPath $probeFile)) { throw "Terminal probe did not finish: $caseId" }
       $probe = Get-Content -LiteralPath $probeFile -Raw | ConvertFrom-Json
       if ($probe.Elevated -ne $admin -or -not $probe.Interactive -or $probe.Redirected -or -not $probe.TerminalSession) { throw 'Terminal shell token/host evidence mismatch.' }
-      $expected = if ($variant -in @('Default','NoProfile') -or ($variant -eq 'AdminBlue' -and -not $admin)) { '#101820' } elseif ($admin) { '#012456' } elseif ($operation.ProfileRuntime -eq 'PowerShell7') { '#282C34' } else { '#0C0C0C' }
+      $expected = if ($variant -in @('Default','NoProfile','BlockedProfile') -or ($variant -eq 'AdminBlue' -and -not $admin)) { '#101820' } elseif ($admin) { '#012456' } elseif ($operation.ProfileRuntime -eq 'PowerShell7') { '#282C34' } else { '#0C0C0C' }
       $raw = [string]$probe.Responses.'11'
       $rgb = if ($raw -match 'rgb:([0-9a-fA-F]+)/([0-9a-fA-F]+)/([0-9a-fA-F]+)') { '#' + $Matches[1].Substring(0,2) + $Matches[2].Substring(0,2) + $Matches[3].Substring(0,2) } else { '<no response>' }
       $window = [RideProfileWindows]::Find($title)
       if ($window -eq [IntPtr]::Zero) { throw 'Could not locate this test Terminal window.' }
       $null = [RideProfileWindows]::SetForegroundWindow($window); Start-Sleep -Milliseconds 800
+      if ([RideProfileWindows]::GetForegroundWindow() -ne $window) { throw 'Test Terminal could not receive foreground input safely.' }
+      # Leave an unexecuted command at the real PSReadLine prompt for contrast review.
+      [Windows.Forms.SendKeys]::SendWait("Get-Process -Name 'example'")
+      Start-Sleep -Milliseconds 500
       $rect = New-Object RideProfileWindows+Rect; $null = [RideProfileWindows]::GetWindowRect($window,[ref]$rect)
       $image = New-Object Drawing.Bitmap ($rect.Right-$rect.Left),($rect.Bottom-$rect.Top)
       $graphics = [Drawing.Graphics]::FromImage($image)
-      try { $graphics.CopyFromScreen($rect.Left,$rect.Top,0,0,$image.Size); $image.Save((Join-Path $evidence ($caseId + '.png')),[Drawing.Imaging.ImageFormat]::Png) } finally { $graphics.Dispose(); $image.Dispose() }
-      $cases.Add([pscustomobject]@{ Id = $caseId; ExpectedBackground = $expected; ReportedBackground = $rgb; Elevated = $probe.Elevated; Sid = $probe.Sid; TerminalVersion = [string]$package.Version; RuntimeVersion = $probe.Runtime; Screenshot = $caseId + '.png'; ProfileElevate = $false })
-      if ($rgb -ine $expected) { throw "Background mismatch in ${caseId}: expected $expected, got $rgb" }
+      try {
+        $graphics.CopyFromScreen($rect.Left,$rect.Top,0,0,$image.Size)
+        $image.Save((Join-Path $evidence ($caseId + '.png')),[Drawing.Imaging.ImageFormat]::Png)
+        # Sample unused viewport space, excluding window chrome, text and taskbar.
+        # Terminal versions need not expose OSC query replies as Console key events.
+        $counts = @{}; $sampleCount = 0
+        for ($y = [int]($image.Height * 0.55); $y -lt [int]($image.Height * 0.80); $y += 5) {
+          for ($x = [int]($image.Width * 0.15); $x -lt [int]($image.Width * 0.85); $x += 5) {
+            $pixel = $image.GetPixel($x,$y)
+            $color = '#{0:X2}{1:X2}{2:X2}' -f $pixel.R,$pixel.G,$pixel.B
+            $counts[$color] = 1 + [int]$counts[$color]; $sampleCount++
+          }
+        }
+        $dominant = $counts.GetEnumerator() | Sort-Object Value -Descending | Select-Object -First 1
+        $measured = [string]$dominant.Key
+        $coverage = [double]$dominant.Value / $sampleCount
+      } finally { $graphics.Dispose(); $image.Dispose() }
+      $cases.Add([pscustomobject]@{ Id = $caseId; ExpectedBackground = $expected; MeasuredBackground = $measured; BackgroundCoverage = $coverage; ReportedBackground = $rgb; Elevated = $probe.Elevated; Sid = $probe.Sid; TerminalVersion = [string]$package.Version; RuntimeVersion = $probe.Runtime; Screenshot = $caseId + '.png'; ProfileElevate = $false })
+      if ($measured -ine $expected -or $coverage -lt 0.75) { throw "Background mismatch in ${caseId}: expected $expected, measured $measured (coverage $coverage)" }
+      [Windows.Forms.SendKeys]::SendWait('^+a')
+      Start-Sleep -Milliseconds 400
+      $selection = New-Object Drawing.Bitmap ($rect.Right-$rect.Left),($rect.Bottom-$rect.Top)
+      $selectionGraphics = [Drawing.Graphics]::FromImage($selection)
+      try {
+        $selectionGraphics.CopyFromScreen($rect.Left,$rect.Top,0,0,$selection.Size)
+        $selection.Save((Join-Path $evidence ($caseId + '-selection.png')),[Drawing.Imaging.ImageFormat]::Png)
+        # Terminal 1.18 overlays selection at 50 percent opacity; 1.24 renders
+        # opaque white with dark text. Accept either observed renderer behavior,
+        # retaining screenshots for human review of text and PSReadLine contrast.
+        $selectionColor = [Drawing.ColorTranslator]::FromHtml($expected)
+        $expectedSelection = @($selectionColor.R,$selectionColor.G,$selectionColor.B) | ForEach-Object { [int][Math]::Round(($_ + 255) / 2,[MidpointRounding]::AwayFromZero) }
+        $matching = 0; $selectionSamples = 0
+        for ($y = [int]($selection.Height * 0.55); $y -lt [int]($selection.Height * 0.80); $y += 5) {
+          for ($x = [int]($selection.Width * 0.15); $x -lt [int]($selection.Width * 0.85); $x += 5) {
+            $pixel = $selection.GetPixel($x,$y)
+            $selectionSamples++
+            if ([Math]::Abs($pixel.R - $expectedSelection[0]) -le 2 -and [Math]::Abs($pixel.G - $expectedSelection[1]) -le 2 -and [Math]::Abs($pixel.B - $expectedSelection[2]) -le 2) { $matching++ }
+          }
+        }
+        $white = 0; $dark = 0; $textSamples = 0
+        for ($y = [int]($selection.Height * 0.12); $y -lt [int]($selection.Height * 0.50); $y += 3) {
+          for ($x = [int]($selection.Width * 0.05); $x -lt [int]($selection.Width * 0.85); $x += 3) {
+            $pixel = $selection.GetPixel($x,$y); $textSamples++
+            if ($pixel.R -eq 255 -and $pixel.G -eq 255 -and $pixel.B -eq 255) { $white++ }
+            if ($pixel.R -lt 50 -and $pixel.G -lt 50 -and $pixel.B -lt 50) { $dark++ }
+          }
+        }
+        $rendering = if ($matching / $selectionSamples -ge 0.75) { 'Translucent white overlay' } elseif ($white / $textSamples -ge 0.20 -and $dark -ge 10) { 'Opaque white with dark selected text' } else { throw "Configured selection was not observed: $caseId" }
+        $cases[$cases.Count - 1] | Add-Member NoteProperty SelectionScreenshot ($caseId + '-selection.png')
+        $cases[$cases.Count - 1] | Add-Member NoteProperty SelectionRendering $rendering
+      } finally { $selectionGraphics.Dispose(); $selection.Dispose() }
+      [Windows.Forms.SendKeys]::SendWait('{ESC}')
       $null = [RideProfileWindows]::PostMessage($window,16,[IntPtr]::Zero,[IntPtr]::Zero)
       Start-Sleep -Milliseconds 300
     }

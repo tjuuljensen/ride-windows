@@ -75,9 +75,10 @@ for requirements, evidence gaps and user identity under elevation.
 Optional [PowerShell profile settings](docs/POWERSHELL-PROFILES.md) provide separate
 5.1/7 normal-session palettes and consistent administrator blue. Tab completes
 Recommended, AdminBlue, Default and Baseline; unset/default remove only the managed
-block. The handler is implemented; application awaits disposable target/visual
-acceptance. Inspect it with `list profile-settings` or the optional
-`profiles/powershell-colors.psd1` plan.
+block. Accepted on Windows 11 and Server 2025 Desktop Experience; see the
+[VM acceptance record](docs/migrations/powershell-profile-acceptance.md).
+Inspect it with `list profile-settings` or use the optional
+`profiles/powershell-colors.psd1` selection profile.
 
 Coordinated settings such as `windows.mouse-pointer-precision` and
 `windows.control-panel-view` expose one named state for several related values.

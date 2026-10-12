@@ -117,6 +117,46 @@ unchanged and UAC 1/5/1. The runner listener was active and competing chats idle
 Controller validation, remaining
 acceptance and master/default-branch publication remain deferred.
 
+Commit `570a144db591d6e6ef82fe275da0283ca6dd79ea` published only the three
+fixture repairs and this runbook's follow-up records. Unrelated migration work
+remains in the local checkout. The push started
+[`Validate 38238999041`](https://github.com/tjuuljensen/ride-windows/actions/runs/38238999041)
+and [`Full VM pilot 38238999191`](https://github.com/tjuuljensen/ride-windows/actions/runs/38238999191).
+The Server controller accepted Full CI request
+`05f1359469af482390932470e007dc10` at 10:52:33 UTC. Hosted validation passed
+all 1,241 tests on both editions, and the guest passed catalog validation and all
+1,241 tests on Windows PowerShell 5.1.26100.33438 with Pester 5.7.1. Full
+integration then failed acquiring 7-Zip with HTTP 403, retaining failed package
+run `41745fc5c25841f9ba888b1ec7d872cb`. The request finished at 11:12:47 UTC
+after 20 minutes 11 seconds; this is not Full acceptance.
+
+Cleanup, collection and guest state-collection errors were empty; collection
+omissions were empty. Host UAC remained 1/5/1. Native inspection at 11:16:15 UTC
+found both VMs Off, both tasks Ready, queues empty, no recovery blocks and the
+unchanged Server checkpoint ID. The upload succeeded with artifact
+[`ride-vm-05f1359469af482390932470e007dc10`](https://github.com/tjuuljensen/ride-windows/actions/runs/38238999191/artifacts/11742163566),
+102,707 bytes, SHA-256
+`554b26a7d4e7c5263a23449ce760bb422da0c11292ec35c1b2dc82e2dfc397ac`.
+All 210 staged source hashes matched the clean approved CI checkout at `570a144`
+and the retained snapshot. No repository variables were changed and master was
+not published. All five installed controller files still matched the registration
+hashes; `evidence.json` remains `NotValidated`.
+
+A single publisher check at 11:15:43 UTC confirmed HTTP 403 rate-limit
+exhaustion. The last successful response reported reset at 11:36:25 UTC;
+defer another Full push until after that time and check once for available quota.
+The operator authorized committing and pushing all current changes after review
+and testing. Complete-state native regression passed all 1,248 tests on each
+edition with zero failures or skips: PowerShell 7.6.5 in 12 minutes 42 seconds,
+Windows PowerShell 5.1.26100.9549 in 21 minutes 58 seconds. Both editions also
+validated 303 operations, three groups, five profiles, all 106 PowerShell files
+and current generated documentation. The accepted profile module matches the
+hash recorded in its separate two-target acceptance. Ignored local configuration
+and evidence are retained locally and excluded from publication.
+Controller certification and default-branch cutover remain deferred. The
+[rate-aware release discovery plan](../../docs/MIGRATION-PLAN.md#rate-aware-github-release-discovery-before-unattended-vm-ci-cutover)
+remains required infrastructure work.
+
 ## Configuration contract
 
 The finite integration selections include `ApplicationsBatch1` and

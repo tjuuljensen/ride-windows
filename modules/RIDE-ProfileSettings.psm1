@@ -21,8 +21,10 @@
   Recovery: ride.ps1 restore; conflicts retain the full original bytes in the saved record.
   Parent directories created for a profile are retained. File ACLs remain in place.
   Author: RIDE-Windows maintainers.
-  Version: 0.1.0
-  Changelog: 0.1.0: Add bounded managed-block lifecycle and Terminal color rendering.
+  Version: 0.1.2
+  Changelog: 0.1.2: Recover original absence after a RIDE-created profile is unset.
+    0.1.1: Allow thirty seconds for cold runtime discovery in disposable guests.
+    0.1.0: Add bounded managed-block lifecycle and Terminal color rendering.
 .LINK
   ../docs/POWERSHELL-PROFILES.md
 .LINK
@@ -30,7 +32,7 @@
 #>
 
 
-$script:ModuleVersion = '0.1.0'
+$script:ModuleVersion = '0.1.2'
 $ErrorActionPreference = 'Stop'
 $script:ProfileLimit = 1MB
 
@@ -76,7 +78,7 @@ function Resolve-RideProfileSettingTarget {
     $null = $process.Start()
     $output = $process.StandardOutput.ReadToEndAsync()
     $errors = $process.StandardError.ReadToEndAsync()
-    if (-not $process.WaitForExit(10000)) { $process.Kill(); throw 'PowerShell profile discovery timed out.' }
+    if (-not $process.WaitForExit(30000)) { $process.Kill(); throw 'PowerShell profile discovery timed out.' }
     # Windows PowerShell may send first-use progress/initialization diagnostics
     # to stderr despite a successful query. Require a successful exit AND the
     # complete identity-checked JSON result below rather than empty stderr.
@@ -474,23 +476,13 @@ function Restore-RideProfileSettingState {
     $insertion = $current.PSObject.Copy(); $insertion.BlockStart = [int]$Snapshot.BlockStart; $insertion.BlockLength = 0
     $bytes = Merge-RideProfileBlockBytes $insertion ([string]$Snapshot.Block)
   }
-  elseif ($current.FileBase64 -ceq [string]$Snapshot.FileBase64) { return }
+  elseif ($current.FileBase64 -ceq [string]$Snapshot.FileBase64) {
+    $bytes = $original
+    $delete = -not [bool]$Snapshot.FileExists
+  }
   else { throw 'Profile managed content changed since this run; captured state is retained.' }
   if ($ValidateOnly) { return }
   if ($PSCmdlet.ShouldProcess($current.Path, 'Restore captured PowerShell profile setting')) { Write-RideProfileSettingFile $current $bytes -Delete:$delete }
-}
-
-Register-ArgumentCompleter -CommandName Set-RideProfileSettingState, Get-RideProfileSettingSnapshot -ParameterName State -ScriptBlock {
-  param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
-  try {
-    $operation = $fakeBoundParameters.Operation
-    if ($operation -isnot [hashtable] -or $operation.States -isnot [hashtable]) { return }
-    foreach ($candidate in $operation.States.Keys | Sort-Object -Unique) {
-      if ($candidate.StartsWith([string]$wordToComplete, [StringComparison]::OrdinalIgnoreCase)) {
-        [Management.Automation.CompletionResult]::new($candidate, $candidate, 'ParameterValue', $candidate)
-      }
-    }
-  } catch { }
 }
 
 Register-ArgumentCompleter -CommandName Set-RideProfileSettingState, Get-RideProfileSettingSnapshot -ParameterName State -ScriptBlock {

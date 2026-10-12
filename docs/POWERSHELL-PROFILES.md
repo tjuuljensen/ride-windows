@@ -15,9 +15,9 @@ latter appends user-bin and WindowsApps snippets. Neither provides v3 recovery.
 | --- | --- |
 | Create a missing startup profile | Internal behavior when a selected setting needs a file; resolve each runtime's intended-user ConsoleHost profile. |
 | Add user-bin to PowerShell PATH | Future optional `UserBinPath` renderer: existing directories, normalized case-insensitive matching, no duplicates. Process/startup PATH is distinct from persistent user-environment PATH. Existing unmarked snippets require explicit review. |
-| Create the bin directory | Separate provisioning operation and dependency with its own recovery. Legacy `$FolderInPath` is undefined; `GetFolderPath("USERPROFILE")` is not a valid SpecialFolder lookup. Do not reuse that implementation. |
+| Create the bin directory | Separate provisioning operation and dependency with its own recovery. Legacy `$FolderInPath` is undefined. `GetFolderPath("USERPROFILE")` does resolve the current user's profile directory; the missing directory variable, unconditional appends and absent recovery are the reasons to replace the writer. |
 | Append WindowsApps | Optional future repair only when missing from applicable PATH. Preserve entries and app-alias choices; do not append unconditionally or select by default. |
-| Edition colors and administrator blue | Implemented as two optional ProfileSetting operations; real Windows target and visible appearance acceptance remains pending. |
+| Edition colors and administrator blue | Two optional ProfileSetting operations, accepted on Windows 11 and Server 2025 Desktop Experience. |
 | Terminal default shell | Separate accepted Terminal configuration work; this handler does not edit settings.json or elevation choices. |
 | Titles, prompt functions, arbitrary startup scripts, all-users profiles | Outside this increment. Future settings need independently useful effects, an allowlisted renderer, declared states and lifecycle tests. Arbitrary script text is not catalog data. |
 
@@ -38,7 +38,7 @@ identity: installing PowerShell 7 does not silently extend a saved 5.1 run.
 
 | Command | Contract |
 | --- | --- |
-| Get-RideProfileSettingState | Query each installed runtime with NoProfile/NonInteractive, a ten-second timeout, and no execution-policy changes. Read at most 1 MiB; report availability, SID, path and managed state. |
+| Get-RideProfileSettingState | Query each installed runtime with NoProfile/NonInteractive, a thirty-second timeout, and no execution-policy changes. Read at most 1 MiB; report availability, SID, path and managed state. |
 | Get-RideProfileSettingSnapshot | Snapshot version 1 captures runtime/setting/SID/path, original file presence/bytes/block/offset, and expected post-change bytes/block. The engine saves it before writing. |
 | Set-RideProfileSettingState | Render declared data, validate resulting syntax and captured preconditions, then compare bytes again under an exclusive file handle. Honor ShouldProcess. |
 | Restore-RideProfileSettingState | Preflight identity/version/path and saved byte relationships. Recover the predecessor or report a conflict; ValidateOnly checks a run before any restore writer. Honor ShouldProcess. |
@@ -50,7 +50,7 @@ managed blocks fail explicitly. Existing profiles are never sourced.
 Known Microsoft cloud placeholder tags are allowed after metadata-only tag
 inspection; OneDrive placeholders do not mean symbolic-link redirection. Symlinks,
 junctions and unknown tags remain rejected. Cloud hydration/write behavior remains
-part of disposable integration acceptance. See Microsoft's
+unverified beyond the accepted ordinary/redirected local Documents scenarios. See Microsoft's
 [reparse tag reference](https://learn.microsoft.com/en-us/windows/win32/fileio/reparse-point-tags).
 
 Versioned begin/end comments identify the operation and state. The parser verifies
@@ -104,11 +104,13 @@ that administrator's own profile and RIDE state store.
 
 ## Usage and acceptance
 
-Both catalog operations have PendingAcceptance=true, no SupportedTargets and
-Windows 11/Windows Server 2025 candidate targets. Discovery, show and plan work;
-the engine blocks application until target acceptance is recorded. No bypass flag
-or unsupported-target claim is introduced. The optional selection profile requires
-both runtimes and is not selected by profiles/default.psd1.
+Both catalog operations are accepted on Windows 11 and Windows Server 2025 Desktop
+Experience with Windows Terminal and the selected runtime installed. The declared
+literal default is Default (no RIDE-managed block); the effective default is the
+configured Terminal appearance. The optional selection profile requires both
+runtimes and is not selected by profiles/default.psd1. See the
+[dated VM acceptance record](migrations/powershell-profile-acceptance.md) for tested
+versions, retained runs, recovery and remaining cloud/alternate-launch scenarios.
 
 ```powershell
 .\ride.ps1 list profile-settings
@@ -116,28 +118,31 @@ both runtimes and is not selected by profiles/default.psd1.
 .\ride.ps1 plan -Profile .\profiles\powershell-colors.psd1
 .\ride.ps1 status -Profile .\profiles\powershell-colors.psd1
 
-# After the applicable target is accepted:
 .\ride.ps1 set powershell.windows-powershell51-terminal-colors Recommended -WhatIf
 .\ride.ps1 set powershell.powershell7-terminal-colors AdminBlue -WhatIf
 .\ride.ps1 set powershell.powershell7-terminal-colors Default -WhatIf
 .\ride.ps1 unset powershell.powershell7-terminal-colors -WhatIf
 .\ride.ps1 restore -RunId <saved-run-id> -WhatIf
+
+# Apply both recommended palettes when both runtimes are installed:
+.\ride.ps1 apply -Profile .\profiles\powershell-colors.psd1 -WhatIf
+.\ride.ps1 apply -Profile .\profiles\powershell-colors.psd1
 ```
 
 Tab completes IDs, profile paths and all four states from catalog metadata, without
 runtime/profile inspection. show/status report startup configuration, not another
-tab's token or observed colors. Target-default status excludes pending entries;
-explicit selection-profile comparison can inspect them.
+tab's token or observed colors. Missing runtimes are reported as unavailable.
 
 `tests/ProfileSettings.Tests.ps1` exercises isolated files and mocked discovery.
-Before publishing support, use disposable Windows 11 and Server 2025 desktop
-guests with Terminal and both runtimes: verify actual discovered paths, preview,
-repeat apply, default/unset, JSON saved-run recovery and partial failures. Inspect
-new normal/elevated tabs in both editions, inherited elevation, alternate-user
-elevation, redirected Documents, NoProfile and blocked startup. Check actual 5.1
-escape handling and error, warning, PSReadLine, cursor and selection contrast with
-custom host appearance. File round trips do not prove visible outcomes. Populate
-supported targets and literal/effective defaults only after those checks pass.
+The focused disposable VM runner uses an existing idle controller configuration,
+exclusive worker lock, pinned checkpoint and guest credential through PowerShell
+Direct. Its guest scripts verify real lifecycle, redirected Documents,
+alternate-account identity/recovery and 22 interactive Terminal cases per target,
+including inherited elevation, NoProfile, blocked startup, PSReadLine and selection.
+It retains hash-correlated source, JSON run state and screenshots before checkpoint
+recovery. Use `tests/integration/Invoke-RideProfileVmAcceptance.ps1`; its optional
+PowerShellArtifactPath accepts publisher acquisition JSON for a cached signed MSI.
+No workstation integration or production target-bypass flag is provided.
 
 References: [PowerShell profiles](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_profiles),
 [Terminal color schemes](https://learn.microsoft.com/en-us/windows/terminal/customize-settings/color-schemes),

@@ -1,5 +1,53 @@
 # Legacy-to-v3 Migration Plan
 
+## Estimated remaining migration work
+
+Last reviewed: **2026-10-12**, reconciling the last numerical estimate revision
+with six subsequently accepted application distributions, Opera's exclusion and
+two accepted setting retirements. Settings decrease by two outcomes and
+packages/artifacts by seven; the other three groups remain unchanged. The
+[dated reconciliation](#estimate-reconciliation-2026-10-12) records the arithmetic
+and evidence. Partial bundles, deferred work and pending acceptance remain
+counted. The new PowerShell appearance setting closes no legacy outcome;
+user-bin startup PATH, directory provisioning and WindowsApps repair remain pending.
+
+Latest controller follow-up, **2026-10-12**: the repaired fixtures passed all
+1,241 hosted tests on both editions and all 1,241 Server guest tests. Full CI
+integration then failed acquiring 7-Zip with HTTP 403; cleanup and evidence
+upload succeeded, with host UAC unchanged. Complete-state native regression then
+passed all 1,248 tests per edition; another Full pilot remains pending until
+publisher quota recovers. No legacy outcome was
+resolved, retired or excluded. All five group ranges below were reviewed and
+remain unchanged, with partial/deferred scope retained. See the
+[dated retry](#full-controller-retry-2026-10-12),
+[unit repair](#controller-unit-regression-repair-2026-10-12) and
+[preceding failed pilot](#full-github-controller-pilot-review-2026-10-12).
+
+Approximately **150-205 distinct legacy work items**
+remain; use **about 180** for planning. These are candidates for migration,
+retirement, combination or replacement, not a commitment to implement all of them.
+
+| Group | Approximate remaining items | Examples |
+| --- | ---: | --- |
+| Windows and application settings | 38-58 | Deferred UI and Explorer behavior, security/network handlers, services, Server settings and BitLocker enrollment; Task Manager and Computer Browser selectors retired; optional PowerShell appearance accepted outside the legacy count |
+| Packages, portable tools and downloadable artifacts | 58-73 | Remaining forensic tools, system-tool entries, general software/artifacts, AD tools, browsers and other products; 19 newly accepted distributions (7 installed, 12 portable), 10 earlier outcomes and Opera excluded |
+| Windows components and optional features | 20-25 | WSL, Hyper-V, Sandbox, OpenSSH, printing features and built-in app management |
+| Accounts, configuration and deployed files/assets | 25-35 | Users and administrator membership, Wi-Fi, regional settings, language packs, browser preferences, fonts and wallpapers |
+| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; hosted/guest unit regression passed, Full CI acceptance blocked by publisher quota |
+| **Total, rounded** | **150-205** | **About 180 for planning** |
+
+After **every migration run**, including follow-up implementation, review and
+acceptance runs, update this overview before closing the run. Refresh the review
+date, latest-run summary, all five group ranges, row examples/progress and rounded
+total against the updated family and disposition records. Record completed,
+retired, excluded, deferred and partial outcomes in a dated entry in the
+[estimate review history](#migration-estimate-review-history) or the linked
+migration ledger, together with the estimate adjustment and remaining acceptance.
+Remove only resolved scope; retain omitted or deferred scope and update the
+separate evaluation backlog. If a run resolves no legacy outcome, fails acceptance
+or leaves rounded ranges unchanged, still record the review and explain why the
+estimates remain unchanged.
+
 ## Purpose and inventory
 
 This is the batch inventory for migrating the selectable commands in `legacy/v2/default.preset` to the v3 catalog and profiles. It includes active and commented selectors. The original inventory contained **732 distinct legacy function names** across **30 family groups**; **731** remain in the preset after the user-requested Opera exclusion on 2026-10-11. The excluded outcome remains accounted for in the application ledger. Active selectors are marked **default**. Paired legacy commands should become states of one v3 operation only when inspection confirms that they control the same setting or package.
@@ -81,7 +129,7 @@ custom handlers. This work does not reconnect the legacy runner or import
   their declared targets; Windows 11 results do not establish Server support.
 
 This is separate engine/release work, not additional legacy feature or product
-outcomes. The remaining migration estimates below are unchanged by this decision.
+outcomes. The remaining migration estimates above are unchanged by this decision.
 
 ### Foundation implementation, 2026-10-10
 
@@ -376,24 +424,113 @@ library until the draft is complete. This avoids treating an unknown product
 as absent in a loadable library. The published catalog schema and existing
 library identities remain unchanged; migration estimates remain unchanged.
 
-## Estimated remaining migration work
+## Migration estimate review history
 
-Last reviewed: **2026-10-12**, after adding the requested PowerShell profile
-handler and reconciling its scope against the legacy PATH writers. This implements
-one new optional appearance outcome awaiting target/visual acceptance; it closes
-no legacy outcome. All five group ranges and the rounded total below remain
-unchanged. User-bin startup PATH, directory provisioning and WindowsApps repair
-remain pending. The preceding application acceptance records are retained below.
-Other pending acceptance and unresolved bundle components remain counted.
+### Estimate reconciliation, 2026-10-12
+
+The last numerical revision, after remaining-applications batch 1, set settings
+to **40-60** and packages/artifacts to **65-80**. Later reviews retained those
+ranges because individual changes fitted their coarse uncertainty. This refresh
+now applies the cumulative resolved outcomes to both endpoints, preserving the
+range widths rather than treating the unchanged historical figures as current.
+
+- Settings: **40-60 minus 2 = 38-58**, for the accepted Task Manager
+  expanded/compact and Computer Browser visibility retirements recorded below
+  and in the [settings decision ledger](migrations/remaining-settings-decisions.md).
+- Packages/artifacts: **65-80 minus 7 = 58-73**, for Caffeine, NetworkMiner,
+  Chrome, Signal, WinSCP and Thunderbird acceptance, plus Opera's user-policy
+  exclusion. The [application ledger](migrations/application-migration-review.md#accounting-and-acceptance)
+  reconciles **109 outcomes/components = 10 earlier migrations + 19 newly
+  accepted outcomes + 79 individual review items + 1 exclusion**. Its 79 review
+  items include adjacent settings, components and configuration assigned to
+  their respective groups; they are not all additional package items.
+- Windows components **20-25**, accounts/configuration/assets **25-35** and
+  maintenance **8-12** remain unchanged: the reviewed records establish no
+  additional resolved legacy outcome in these groups.
+
+The five ranges sum to **149-203**; rounding the endpoints to the nearest five
+gives **150-205**, with **about 180** as the planning figure. These remain rough
+estimates, not an exact census of atomic tasks. No new implementation or target
+acceptance is claimed by this documentation reconciliation. Partial legacy
+bundles and separate evaluation work remain open. The PowerShell appearance
+addition is outside the legacy inventory and closes no PATH or provisioning
+outcome. Earlier dated estimates below are retained as historical records.
+
+### Full GitHub controller pilot review, 2026-10-12
+
+The [AutomatedLab follow-up](../tests/integration/AUTOMATEDLAB-TASKS.md#full-pilot-follow-up-2026-10-12)
+records CI request `575ec412969844438bfa5a3aa1812e51` from `25a3a31`.
+Catalog validation passed, but eight of 1,241 unit tests failed before Full
+integration began. The failures match hosted PowerShell 7 validation. Collection,
+upload and Server checkpoint recovery succeeded, with host UAC unchanged.
+Further pilot requests are deferred while separate profile acceptance uses the VMs.
+
+This infrastructure acceptance run resolves, retires and excludes **zero legacy
+outcomes**. Settings **38-58**, packages/artifacts **58-73**, Windows components
+**20-25**, accounts/configuration/assets **25-35**, and maintenance **8-12** were
+reviewed and remain unchanged. Their sum remains **149-203**, rounded to
+**150-205**, about **180** for planning. Existing partial bundles, deferred work,
+profile acceptance and controller acceptance remain open; no Windows target or
+operation acceptance is added by this failed pilot.
+
+### Controller unit regression repair, 2026-10-12
+
+The [controller unit repair](../tests/integration/AUTOMATEDLAB-TASKS.md#unit-regression-repair-2026-10-12)
+addresses missing metadata assets in copied checkouts and the registry-authoring
+fixture's public-command import order. Both PowerShell editions passed all 101
+focused checks and all 1,241 repository checks, with zero failures or skips.
+Hosted validation and Full CI acceptance are pending. No VM integration
+was started, and unrelated profile migration changes are excluded from this
+isolated committed-source validation. The previous competing VM work finished.
+
+This repair resolves, retires and excludes **zero legacy outcomes**. Settings
+**38-58**, packages/artifacts **58-73**, Windows components **20-25**,
+accounts/configuration/assets **25-35**, and maintenance **8-12** were reviewed
+and remain unchanged. The sum is still **149-203**, rounded to **150-205**,
+about **180**. Partial bundles and deferred scope remain counted. Full GitHub
+integration and the remaining controller acceptance are still open; these
+fixture tests add no operation or Windows-target acceptance.
+
+### Full controller retry, 2026-10-12
+
+Full CI request `05f1359469af482390932470e007dc10` from `570a144`
+passed catalog validation and all 1,241 Server guest tests. Hosted validation
+also passed 1,241 tests per PowerShell edition. Integration then failed during
+7-Zip acquisition with HTTP 403; a subsequent single publisher check confirmed
+rate-limit exhaustion. Evidence upload, collection and checkpoint recovery
+succeeded with host UAC unchanged. Both VMs and controllers were idle afterward.
+See the [correlated pilot evidence](../tests/integration/AUTOMATEDLAB-TASKS.md#unit-regression-repair-2026-10-12).
+
+This retry resolves, retires and excludes **zero legacy outcomes**. Settings
+**38-58**, packages/artifacts **58-73**, Windows components **20-25**,
+accounts/configuration/assets **25-35**, and maintenance **8-12** were reviewed
+and remain unchanged: sum **149-203**, rounded **150-205**, about **180**.
+Partial bundles and deferred work remain counted. Separate two-target acceptance
+of the requested PowerShell appearance settings closes no legacy PATH or
+provisioning outcome. Full controller acceptance and rate-aware release discovery
+remain open; the failed pilot adds no operation or Windows-target acceptance.
+
+The operator subsequently authorized publication of all current changes.
+Complete-state review retained the independently accepted profile handler and
+its identity/visual harness, documentation and progress-tracking rules. Native
+PowerShell 7 and Windows PowerShell 5.1 each passed all **1,248** repository
+tests with zero failures or skips; both editions validated 303 operations, three
+groups, five profiles, 106 PowerShell files and current generated documentation.
+This follow-up also resolves, retires and excludes zero legacy outcomes. All
+five ranges and the rounded total above remain unchanged for the same reason;
+partial/deferred legacy scope and controller acceptance remain open.
+
+### Earlier estimate reviews, 2026-10-11
+
 The 2026-10-11 [hashing additions](CANDIDATE-TOOLS.md#requested-v3-additions-2026-10-11)
 queue three new outcomes outside the legacy selector inventory. Correcting the
 Certutil authoring example accepts no legacy outcome; all five group estimates
 and the rounded **160-215**, about **190**, total remain unchanged.
 The same-day [application continuation](migrations/application-follow-up-2026-10-11.md)
 accepts Caffeine and NetworkMiner on both targets, bringing these batches to
-fifteen accepted distributions. All five ranges below were reviewed; the two
-resolved outcomes fit within their coarse uncertainty, so rounded ranges remain
-unchanged. Deferred bundle components and runtime decisions remain counted.
+fifteen accepted distributions. All five ranges in the overview were reviewed;
+the two resolved outcomes fit within their coarse uncertainty, so rounded ranges
+remain unchanged. Deferred bundle components and runtime decisions remain counted.
 
 The subsequent [installed continuation](migrations/application-installed-follow-up-2026-10-11.md)
 accepts machine Chrome and current-user Signal on both targets, bringing the
@@ -460,19 +597,6 @@ about **190**. Completing this one product does not change the rounded ranges;
 the remaining edition, component, licensing and infrastructure review work is
 retained. Elevated controller refresh is deferred as requested.
 
-Approximately **160-215 distinct legacy work items**
-remain; use **about 190** for planning. These are candidates for migration,
-retirement, combination or replacement, not a commitment to implement all of them.
-
-| Group | Approximate remaining items | Examples |
-| --- | ---: | --- |
-| Windows and application settings | 40-60 | Deferred UI and Explorer behavior, security/network handlers, services, Server settings and BitLocker enrollment |
-| Packages, portable tools and downloadable artifacts | 65-80 | Remaining forensic tools, system-tool entries, general software/artifacts, AD tools, browsers and other products; six installed and twelve portable distributions accepted |
-| Windows components and optional features | 20-25 | WSL, Hyper-V, Sandbox, OpenSSH, printing features and built-in app management |
-| Accounts, configuration and deployed files/assets | 25-35 | Users and administrator membership, Wi-Fi, regional settings, language packs, browser preferences, fonts and wallpapers |
-| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers |
-| **Total, rounded** | **160-215** | **About 190 for planning** |
-
 Settings implementation started on 2026-10-11 with the shared scope, enforcement,
 GUI and prerequisite presentation contract and four reviewed existing settings.
 This increment closes no additional legacy feature outcome; the remaining
@@ -512,14 +636,6 @@ outcomes. It kept the then-current five group ranges and rounded **200-250** tot
 unchanged while closing twelve pending lifecycle checks in the separate acceptance
 backlog. The two batches below subsequently adjusted the estimate. Feature/UI/restart
 checks and partial legacy bundles remain pending.
-
-After **every migration batch**, refresh the review date, all group ranges and
-the rounded total against the updated family and disposition records. Record
-which legacy outcomes were completed, retired, deferred or remain partial in the
-batch entry below, together with any estimate adjustment. Remove only resolved
-scope from the migration estimate; retain omitted or deferred scope and update
-the separate evaluation backlog. If rounding leaves a range unchanged, record
-that it was reviewed and why it remains unchanged.
 
 ## Remaining-applications batch 1, 2026-10-11
 
@@ -1903,11 +2019,14 @@ Windows VM appearance checks before publishing supported-target metadata.
 
 Two catalog IDs and an optional powershell-colors selection profile are implemented,
 with shared file mechanics, preview, read-only inspection/completion and versioned
-saved-run recovery. They declare no supported targets until disposable Windows
-and visible appearance checks pass. Unit fixtures do not modify workstation
+saved-run recovery. Disposable Windows 11 and Server 2025 Desktop Experience
+acceptance passed, including 22 Terminal cases per target and exact recovery;
+both targets are now declared with explicit defaults. See the
+[dated acceptance record](migrations/powershell-profile-acceptance.md).
+Unit fixtures do not modify workstation
 startup profiles. This resolves no legacy outcome and is outside the
-legacy estimates: settings 40-60, packages/artifacts 65-80, components 20-25,
-accounts/assets 25-35 and maintenance 8-12, rounded to 160-215, about 190.
+[legacy estimates in the overview](#estimated-remaining-migration-work);
+the separately requested appearance addition does not reduce those ranges.
 
 
 ### System tasks

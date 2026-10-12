@@ -68,10 +68,19 @@ changes over broad rewrites.
   and recovery paths when changing presentation or proposing retirement.
 - Record decisions and remaining acceptance in
   `docs/migrations/settings-post-migration-review.md` after each migration batch.
-- After every migration batch, refresh the dated group estimates and rounded
-  total in `docs/MIGRATION-PLAN.md` under "Estimated remaining migration work".
-  Record the batch's estimate adjustment or why rounded ranges remain unchanged.
-  Count legacy feature/product outcomes rather than new catalog IDs; retain
+
+## Migration progress tracking
+
+- Keep "Estimated remaining migration work" and its overview table immediately
+  below the title in `docs/MIGRATION-PLAN.md`.
+- After every migration run, including follow-up implementation, review and
+  acceptance runs, refresh the overview's review date, latest-run summary, all
+  five group ranges, row examples/progress and rounded total.
+- Record the run's resolved, retired, excluded, deferred and partial legacy
+  outcomes and remaining acceptance in a dated estimate-history or migration-ledger
+  entry. Explain estimate adjustments or why rounded ranges remain unchanged,
+  including runs that resolve no legacy outcome or fail acceptance.
+- Count legacy feature/product outcomes rather than new catalog IDs; retain
   partial or deferred scope and track evaluation of implemented settings separately.
 
 ## Command-line discoverability and completion

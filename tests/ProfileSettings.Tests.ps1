@@ -44,13 +44,18 @@ Describe 'PowerShell profile setting files' {
     }
   }
 
-  It 'has separate optional edition settings and does not claim unverified Windows support' {
+  It 'has separate optional edition settings with accepted targets and explicit defaults' {
     $script:ColorOperations.Count | Should -Be 2
     foreach ($operation in $script:ColorOperations) {
       $operation.Scope | Should -Be User
       $operation.RequiresAdmin | Should -BeFalse
-      $operation.PendingAcceptance | Should -BeTrue
-      $operation.SupportedTargets.Count | Should -Be 0
+      $operation.PendingAcceptance | Should -BeFalse
+      $operation.SupportedTargets.Count | Should -Be 2
+      foreach ($target in @('Windows 11','Windows Server 2025')) {
+        $operation.SupportedTargets | Should -Contain $target
+        $operation.TargetDefaults[$target].DefaultValue | Should -Be Default
+        $operation.TargetDefaults[$target].EffectiveDefault | Should -Match 'No RIDE startup override'
+      }
       $operation.BaselineState | Should -Be Default
       $operation.UnsetState | Should -Be Default
       $operation.AdminColorScheme | Should -Be 'Campbell PowerShell'
@@ -130,6 +135,17 @@ Describe 'PowerShell profile setting files' {
     Restore-RideProfileSettingState $script:Operation $snapshot -Confirm:$false
     Test-Path -LiteralPath $script:ProfilePath | Should -BeFalse
     Restore-RideProfileSettingState $script:Operation $snapshot -Confirm:$false
+  }
+
+  It 'recovers original absence when a newly created profile was subsequently unset' {
+    $snapshot = Get-RideProfileSettingSnapshot $script:Operation (Get-RideProfileSettingState $script:Operation) Recommended
+    Set-RideProfileSettingState $script:Operation Recommended -Confirm:$false
+    Set-RideProfileSettingState $script:Operation Default -Confirm:$false
+    Test-Path -LiteralPath $script:ProfilePath | Should -BeTrue
+    Restore-RideProfileSettingState $script:Operation $snapshot -WhatIf
+    Test-Path -LiteralPath $script:ProfilePath | Should -BeTrue
+    Restore-RideProfileSettingState $script:Operation $snapshot -Confirm:$false
+    Test-Path -LiteralPath $script:ProfilePath | Should -BeFalse
   }
 
   It 'preserves appended unrelated content instead of deleting a RIDE-created file on restore' {
@@ -383,6 +399,9 @@ Describe 'Profile settings engine and discovery' {
   It 'blocks application to a candidate target until integration acceptance is recorded' {
     InModuleScope RIDE.Engine -Parameters @{ Operation = $script:ColorOperations[0] } {
       param($Operation)
+      $Operation = $Operation.Clone()
+      $Operation.SupportedTargets = @(); $Operation.PendingAcceptance = $true
+      $Operation.CandidateTargets = @('Windows 11','Windows Server 2025')
       $plan = @([pscustomobject]@{ Operation = $Operation; State = 'Recommended' })
       { Invoke-RidePlan $plan -WhatIf -Confirm:$false } | Should -Throw '*does not support*'
     }
@@ -412,7 +431,7 @@ Describe 'Bounded profile runtime discovery' {
         StandardError = [IO.StringReader]::new('Preparing modules for first use')
       }
       $script:FakeProfileProcess | Add-Member ScriptMethod Start { $true }
-      $script:FakeProfileProcess | Add-Member ScriptMethod WaitForExit { param($Timeout) $Timeout | Should -Be 10000; $true }
+      $script:FakeProfileProcess | Add-Member ScriptMethod WaitForExit { param($Timeout) $Timeout | Should -Be 30000; $true }
       $script:FakeProfileProcess | Add-Member ScriptMethod Dispose { }
       Mock New-Object { $script:FakeProfileProcess } -ParameterFilter { $TypeName -eq 'Diagnostics.Process' }
       Mock Get-RideProfileRuntimeExecutable { 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe' }

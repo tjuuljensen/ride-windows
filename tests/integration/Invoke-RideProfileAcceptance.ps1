@@ -16,6 +16,8 @@
   Guest-owned evidence directory beneath C:\RIDE\ProfileAcceptance.
 .PARAMETER DisposableVm
   Explicit disposable-guest attestation; required before mutations.
+.PARAMETER PrerequisiteEvidencePath
+  Optional host-staged publisher acquisition JSON for a hash-verified signed MSI.
 .PARAMETER Version
   Print the version without inspecting or changing a guest.
 .EXAMPLE
@@ -39,6 +41,7 @@ param(
   [ValidateSet('Prepare','Run')][string]$Stage = 'Run',
   [string]$ExpectedComputerName,
   [string]$EvidencePath,
+  [string]$PrerequisiteEvidencePath,
   [switch]$DisposableVm,
   [switch]$Version
 )
@@ -61,8 +64,21 @@ $null = New-Item -Path $evidence -ItemType Directory -Force
 if ($Stage -eq 'Prepare') {
   $powerShell = Join-Path $env:ProgramFiles 'PowerShell/7/pwsh.exe'
   $artifact = $null
+  $missingRuntime = $null
   if (-not [IO.File]::Exists($powerShell)) {
-    $artifact = Save-RidePackage -Id package.powershell -Destination (Join-Path (Split-Path -Parent $evidence) 'prerequisites') -Confirm:$false
+    $operation = (Get-RideCatalog).Operations | Where-Object { $_.Kind -eq 'ProfileSetting' -and $_.ProfileRuntime -eq 'PowerShell7' }
+    $missingRuntime = Get-RideProfileSettingState $operation
+    if ($missingRuntime.Available -or $missingRuntime.Path) { throw 'Absent PowerShell 7 was not reported as unavailable before prerequisite setup.' }
+    if ($PrerequisiteEvidencePath) {
+      $base = (Split-Path -Parent $evidence) + '\'
+      if (-not [IO.Path]::GetFullPath($PrerequisiteEvidencePath).StartsWith($base,[StringComparison]::OrdinalIgnoreCase)) { throw 'Prerequisite evidence must belong to this guest run.' }
+      $artifact = Get-Content -LiteralPath $PrerequisiteEvidencePath -Raw | ConvertFrom-Json
+      if (-not [IO.Path]::GetFullPath($artifact.Path).StartsWith($base,[StringComparison]::OrdinalIgnoreCase) -or
+          $artifact.Uri -cnotmatch '^https://github\.com/PowerShell/PowerShell/releases/download/v[0-9.]+/PowerShell-[0-9.]+-win-x64\.msi$' -or
+          $artifact.Sha256 -notmatch '^[0-9a-fA-F]{64}$' -or (Get-FileHash -LiteralPath $artifact.Path -Algorithm SHA256).Hash -ine $artifact.Sha256) { throw 'Invalid guest prerequisite publisher/hash evidence.' }
+    } else {
+      $artifact = Save-RidePackage -Id package.powershell -Destination (Join-Path (Split-Path -Parent $evidence) 'prerequisites') -Confirm:$false
+    }
     $signature = Get-AuthenticodeSignature -LiteralPath $artifact.Path
     if ($signature.Status -ne 'Valid' -or $signature.SignerCertificate.Subject -notmatch 'Microsoft Corporation') { throw 'PowerShell prerequisite MSI signature is not valid Microsoft publisher evidence.' }
     # Prerequisite setup is not acceptance of the PowerShell package operation on Server.
@@ -72,7 +88,7 @@ if ($Stage -eq 'Prepare') {
   $policy = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System'
   $uac = (Get-ItemProperty -LiteralPath $policy -Name EnableLUA).EnableLUA
   if ($uac -ne 1) { Set-ItemProperty -LiteralPath $policy -Name EnableLUA -Value 1 }
-  $result = [pscustomobject]@{ Computer = $env:COMPUTERNAME; Target = $target; PowerShell = $powerShell; Artifact = $artifact; PreviousGuestUac = $uac; RebootRequired = ($uac -ne 1) }
+  $result = [pscustomobject]@{ Computer = $env:COMPUTERNAME; Target = $target; PowerShell = $powerShell; Artifact = $artifact; MissingRuntime = $missingRuntime; PreviousGuestUac = $uac; RebootRequired = ($uac -ne 1) }
   $result | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath (Join-Path $evidence 'prerequisites.json') -Encoding UTF8
   $result
   return
@@ -91,6 +107,7 @@ foreach ($operation in $operations) {
 $rows = [Collections.Generic.List[object]]::new()
 $runs = [Collections.Generic.List[string]]::new()
 $originals = @{}
+$primaryFailure = $null
 function Assert-ProfileAcceptance([bool]$Condition,[string]$Message) { if (-not $Condition) { throw $Message } }
 function Invoke-ProfileAcceptanceState($Operation,[string]$State,[switch]$Unset) {
   $plan = if ($Unset) { @(Get-RideSingleOperationPlan $Operation.Id -Action Unset) } else { @(Get-RideSingleOperationPlan $Operation.Id -Action Set -State $State) }
@@ -100,6 +117,7 @@ function Invoke-ProfileAcceptanceState($Operation,[string]$State,[switch]$Unset)
 }
 try {
   foreach ($operation in $operations) {
+    Write-Host ("Lifecycle: {0}" -f $operation.ProfileRuntime)
     $original = Get-RideCurrentState $operation
     Assert-ProfileAcceptance $original.Available 'Both installed runtimes must be discovered without mocks.'
     $originals[$operation.Id] = $original
@@ -111,6 +129,7 @@ try {
     Assert-ProfileAcceptance (Test-RideDesiredState $operation Recommended) 'Recommended configuration did not apply.'
     Assert-ProfileAcceptance ('No changes were needed; no state record was created.' -in @(Invoke-RidePlan $plan -Confirm:$false)) 'Repeat apply changed configuration.'
     foreach ($state in @('AdminBlue','Default','Baseline')) {
+      Write-Host ("Lifecycle state/restore: {0} {1}" -f $operation.ProfileRuntime,$state)
       $run = Invoke-ProfileAcceptanceState $operation $state
       $desired = if ($state -eq 'Baseline') { 'Default' } else { $state }
       Assert-ProfileAcceptance (Test-RideDesiredState $operation $desired) "Failed state $state."
@@ -136,9 +155,13 @@ try {
     $rows.Add([pscustomobject]@{ Operation = $operation.Id; Runtime = $operation.ProfileRuntime; OwnerSid = $original.OwnerSid; Path = $original.Path; OriginalFileExists = $original.FileExists; Lifecycle = 'Passed'; FirstRunId = $first; FailureRunId = $failureRun })
   }
   $rows.ToArray() | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $evidence 'lifecycle.json') -Encoding UTF8
+  Write-Host 'Identity: redirected Documents and alternate-account isolation'
+  & (Join-Path $PSScriptRoot 'Invoke-RideProfileIdentityAcceptance.ps1') -ExpectedComputerName $ExpectedComputerName -EvidencePath $evidence -DisposableVm -Confirm:$false
   # The visual worker uses the signed-in guest account, with both limited and high tokens.
+  Write-Host 'Visual: limited/high tokens, startup bypass and inherited elevation'
   & (Join-Path $PSScriptRoot 'Invoke-RideProfileVisualAcceptance.ps1') -Role Coordinator -ExpectedComputerName $ExpectedComputerName -EvidencePath $evidence -DisposableVm -Confirm:$false
 }
+catch { $primaryFailure = $_.Exception.Message; throw }
 finally {
   $recoveryErrors = @()
   for ($index = $runs.Count - 1; $index -ge 0; $index--) { try { Restore-RideRun $runs[$index] -Confirm:$false | Out-Null } catch { $recoveryErrors += $_.Exception.Message } }
@@ -148,7 +171,7 @@ finally {
       if ($after.FileExists -ne $before.FileExists -or $after.FileBase64 -cne $before.FileBase64) { $recoveryErrors += 'Profile recovery mismatch: ' + $operation.Id }
     }
   }
-  @{ ProfileRecovery = if ($recoveryErrors.Count) { 'Failed' } else { 'Passed' }; Errors = $recoveryErrors } | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $evidence 'profile-recovery.json') -Encoding UTF8
-  if ($recoveryErrors.Count) { throw ($recoveryErrors -join '; ') }
+  @{ ProfileRecovery = if ($recoveryErrors.Count) { 'Failed' } else { 'Passed' }; PrimaryFailure = $primaryFailure; Errors = $recoveryErrors } | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $evidence 'profile-recovery.json') -Encoding UTF8
+  if ($recoveryErrors.Count) { throw ('Primary failure: ' + $primaryFailure + '; Recovery: ' + ($recoveryErrors -join '; ')) }
 }
 $rows.ToArray()

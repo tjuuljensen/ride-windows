@@ -3506,6 +3506,20 @@ profile was executed or changed. Pester's optional XML environment export needed
 to be disabled because CIM access is unavailable in this sandbox. Target/visible
 acceptance was not run here; pending entries remain blocked for application.
 
+Follow-up acceptance on 2026-10-12 passed on disposable Windows 11 and Windows
+Server 2025 Desktop Experience: real lifecycle and partial-failure saved runs,
+exact recovery, redirected Documents, alternate-account identity/recovery and
+22 actual-token Terminal cases per target, including inherited elevation,
+NoProfile, blocked startup, PSReadLine and selected text. Both operations now
+declare supported targets and explicit no-override defaults. The profile module
+is 0.1.2; cold discovery allows thirty seconds and restore recovers original
+absence after unset. Local regression passed 215 checks per PowerShell edition.
+The [dated acceptance record](powershell-profile-acceptance.md) retains run IDs,
+tested versions, harness failures/corrections and additional cloud/alternate-launch
+work. Host UAC and workstation profiles were unchanged; both VMs were reset and
+Off. All five dated migration group estimates and the rounded total remain
+unchanged: this requested addition resolves no legacy PATH/provisioning outcome.
+
 ### Shortcut-arrow appearance review, 2026-10-11
 
 Propose retaining shortcut-arrow hiding as one optional advanced cosmetic outcome,
