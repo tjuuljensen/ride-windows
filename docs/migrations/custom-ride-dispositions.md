@@ -141,9 +141,36 @@ Recommended resolver contract:
    explicit. The release page's OS list is vendor information, not RIDE's
    tested support declaration. Do not run imaging or acquisition during setup.
 
-Only release-page discovery and header reachability were verified here. The
-405 MB ZIP was not downloaded, extracted, hashed, signature-checked or installed;
-unattended deployment and archive/member layout remain implementation work.
+### 2026-10-11 payload inspection: unresolved prerequisites
+
+The same official ZIP was acquired without registration and inspected without
+executing either installer. Its observed SHA-256 is
+`0f717d0d91c94af94107775ae37c2e330cc2a2312a8eecc91a344c8010e82afe`
+and length is 405,808,295 bytes. It contains
+`Exterro_FTK_Imager_(x64).exe` (229,763,592 bytes) and a separate
+`ISSetupPrerequisites/{AE165B54-673F-42A5-9D1E-6F1046A8395D}/CodeMeterRuntime.exe`
+(177,961,016 bytes). The Imager bootstrapper reports 8.3.0.27 and has a valid
+Authenticode signature from ACCESSDATA GROUP, INC.; its SHA-256 is
+`1ec9500126b9b33e79e8178ffa12104377f2b77ddc8fca69d8fa1068d8e360d8`.
+These locally observed hashes are identity evidence, not publisher checksums.
+The bootstrapper PE is x86; that does not contradict the publisher's x64 payload.
+
+The current single-member ZIP handler requires a self-contained installer and
+caps archives at 256 MiB. Do not admit this archive by dropping the prerequisite
+or merely increasing the bound. Determine whether CodeMeter is required for
+free Imager, its licence/service/driver ownership, unattended prerequisite
+behavior and recovery. The [publisher's Imager installation guide](https://d1kpmuwb7gvu1i.cloudfront.net/Imager/8.2/Exterro%20FTK%20Imager%208.2%20-%20User%20Guide%20.pdf)
+also documents an optional Defender-exclusion checkbox. Verify current installer
+controls and demonstrate unchanged exclusions in the guest before any admission.
+Obtain the exact Imager EULA; the [store terms](https://store.exterro.com/policies/terms-of-service)
+also cover licensed products and cannot establish free-edition terms by themselves.
+`InstallLocalFTKImager` remains an individual review item, with no package support
+or retirement claim. No installer, driver, application or exclusion was applied.
+
+The earlier 2026-10-09 discovery check established only release-page and header
+reachability. The 2026-10-11 inspection above extends that evidence to archive
+layout, observed hashes and the Imager signature. Unattended deployment,
+prerequisite ownership and recovery remain unverified.
 No stable official WinGet package was established; it is unnecessary for the
 direct-source approach and must not be invented as a dependency.
 

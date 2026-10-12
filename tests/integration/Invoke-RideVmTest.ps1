@@ -40,8 +40,11 @@
   integration suite.
 
 .PARAMETER IntegrationSuite
+  ApplicationsBatch1 and ApplicationsBatch2 select installed/portable application migration tests.
+  SettingsRemainingBatch1 and SettingsRemainingBatch2 select the two focused migration suites.
   Full (default) runs all integration scenarios. SettingsBatch40 runs the forty-setting
-  registry migration suite without package downloads; cannot be combined with UnitOnly.
+  registry migration suite without package downloads; SettingsBatch60 selects the sixty-setting suite; cannot be combined with UnitOnly.
+  SettingsBatch60Recovery selects only its BCD policy and eleven coordinated settings.
 
 .PARAMETER ResultDirectory
   Optional host directory for correlated transcript, Pester XML, summary, and saved-state exports.
@@ -78,8 +81,12 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.6.0
+  Version: 0.10.0
   Changelog:
+    0.10.0: Accept application migration suites through the VM runner.
+  - 0.9.0: Forward remaining-settings acceptance batches without package downloads.
+  - 0.8.0: Select the twelve outstanding BCD/coordinated recovery scenarios.
+  - 0.7.0: Select SettingsBatch60 without package integration.
   - 0.6.0: Add explicit selection of the settings-only integration suite.
   - 0.5.0: Run guest validation and tests outside the remoting thread.
   - 0.4.0: Export acquisition observations with correlated guest evidence.
@@ -106,7 +113,7 @@ param(
   [string] $RepositoryPath,
   [string] $GuestRepositoryPath = 'C:\RIDE\ride-windows',
   [switch] $UnitOnly,
-  [ValidateSet('Full', 'SettingsBatch40')][string] $IntegrationSuite = 'Full',
+  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2')][string] $IntegrationSuite = 'Full',
   [string] $ResultDirectory,
   [ValidatePattern('^[0-9a-f]{32}$')]
   [string] $RunId = ([guid]::NewGuid().ToString('N')),
@@ -114,7 +121,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.6.0'
+$script:ScriptVersion = '0.10.0'
 if ($Version) {
   Write-Output $script:ScriptVersion
   return
@@ -159,7 +166,7 @@ if ($ResultDirectory) { New-Item -ItemType Directory -Path $ResultDirectory -For
 try {
   New-Item -ItemType Directory -Path $stagedRepository -Force | Out-Null
   Get-ChildItem -LiteralPath $resolvedRepositoryPath -Force |
-    Where-Object { $_.Name -notin @('.git', 'testResults.xml') } |
+    Where-Object { $_.Name -notin @('.git', '.local', 'testResults.xml') } |
     ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination $stagedRepository -Recurse -Force }
 
   $remoteTest = {

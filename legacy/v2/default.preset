@@ -133,7 +133,6 @@ InstallFirefox                # RemoveFirefox
 CreateFirefoxPreferenceFiles  # RemoveFirefoxPreferenceFiles
 InstallChrome                 # RemoveChrome
 CreateChromePreferenceFile    # RemoveChromePreferenceFile
-# InstallOpera                #
 
 ### Forensic Tools ###
 # InstallAutopsy              #

@@ -19,14 +19,19 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Invoke-WebRequest -U
 
 Use `-NoRun` to download and inspect the files without applying anything, or `-Edit` to copy and edit the default profile before running it.
 
+For a Windows installation that uses a local sign-in, see the
+[Windows local-account setup guide](docs/windows-local-account-setup.md), which
+tracks edition- and build-specific setup behavior.
+
 ## Commands
 
 Run `.\ride.ps1 -Help` for command usage, options, and examples.
-When using PowerShell interactively, press Tab to complete commands, operation and group IDs, profile paths, saved run IDs, and the declared states of registry and desktop Shell folder settings.
+When using PowerShell interactively, press Tab to complete commands, operation and group IDs, profile paths, saved run IDs, declared setting states, package variants, and search fields/views.
 
 | Command | Purpose |
 | --- | --- |
 | `list [view]` | Emit one consistent PowerShell object collection for catalog entries and profiles; views include `all`, `profiles`, `packages`, `windows`, `explorer`, `security`, `software`, `utilities`, `groups`, and `settings`. |
+| `search <query> [-Field <fields>] [-View <view>]` | Search catalog metadata using a case-insensitive literal phrase; return objects with the matching fields and values. |
 | `show <id>` | Show operation metadata and its current value; settings also show their baseline value. |
 | `plan -Profile <file>` | Display each selected operation's current value beside its desired profile value. |
 | `apply -Profile <file>` | Apply the profile's desired state and save prior state for changed operations. |
@@ -40,9 +45,42 @@ When using PowerShell interactively, press Tab to complete commands, operation a
 | `remove <package-id>` | Uninstall one catalog package and save its prior state. |
 | `remove -Profile <file>` | Uninstall packages selected by a profile, in reverse group order. |
 
+Use `.\ride.ps1 search desktop-folder`, `.\ride.ps1 search 'File Explorer'`, or
+`.\ride.ps1 search ThisPCPolicy -Field ValueName -View explorer` to find operations.
+Search includes declared registry paths, including nested value sets. Quote paths;
+backslashes need no doubling. See the [catalog search guide](docs/CATALOG-SEARCH.md)
+for fields, completion and pipeline examples.
+
+Packages may declare alternate distributions. Use `install`, `remove`,
+`download` or `show` with `-Variant <name>`; profiles use a package-entry
+`Variant`. See [application packages](docs/APPLICATION-PACKAGES.md) for local
+ToolsDirectory configuration, portable ownership and saved-selection recovery,
+and the [application review ledger](docs/migrations/application-migration-review.md)
+for migration and target acceptance.
+
+See [Artcraft packages](docs/ARTCRAFT-PACKAGES.md) for the twelve standalone
+creative apps, optional launcher and verified full MSI downloads.
+
 Image-dependent registry defaults appear as `<platform-defined>` in `status`;
 their `MatchesDefault` field is unknown. See the
 [migration/default contract](docs/MIGRATION-PLAN.md#optional-windows-settings-session-2026-10-09).
+
+Setting views distinguish scope, administrator requirements, preference/policy
+behavior and GUI effects. See [setting presentation](docs/SETTING-PRESENTATION.md)
+for requirements, evidence gaps and user identity under elevation.
+
+Coordinated settings such as `windows.mouse-pointer-precision` and
+`windows.control-panel-view` expose one named state for several related values.
+Tab completes those states. `unset` removes all declared overrides;
+`restore -RunId <id>` recovers each captured value and type. Partial failures
+retain the complete pre-change record. These optional settings are described in
+the [sixty-setting batch](docs/MIGRATION-PLAN.md#sixty-setting-session-2026-10-10).
+
+Task, adapter, SMB, Defender, power-scheme, NetBIOS, firewall and sound settings
+use explicit states and saved-run restore. Their native defaults can depend on
+the device; `unset` is unavailable when removing an override has no meaning.
+See the [remaining-settings decisions](docs/migrations/remaining-settings-decisions.md)
+for dependencies, partial legacy outcomes and outstanding acceptance.
 
 Use `download package.7zip -Destination <path>` to choose the artifact directory. Use `download artifact.sysmon-swift-config` to retain the latest SwiftOnSecurity XML at an immutable Git commit revision; RIDE does not apply this file automatically. Download records in `catalog/artifact-observations.json` are metadata only; a locally observed SHA-256 is not publisher authentication. See the [package verification matrix](docs/PACKAGE-VERIFICATION-MATRIX.md) for current source evidence. Append `-WhatIf` to a state-changing command to preview a change. An operation's supported actions, privilege needs, scope, and rollback limits are shown by `list`, `show`, and the generated [operation catalog](docs/OPERATIONS.md).
 
@@ -106,7 +144,61 @@ RIDE records versioned snapshots only for operations it changes. Machine records
 
 The catalog currently targets Windows 11 and Windows Server 2025. Support is declared per operation, and the engine rejects unsupported targets. More operating system versions should be added only after their relevant integration scenarios pass.
 
+## Mouse jigglers, Caffeine and lock blockers
+
+Run `components/scripts/caffeine-light.cmd` for a standalone, zero-parameter
+fallback when a mouse jiggler or another suitable tool is unavailable. It sends
+Scroll Lock pairs every 60 seconds until Ctrl+C, without console customization
+or periodic reports. Read its limits and version with
+`Get-Help .\components\scripts\caffeine-light.ps1 -Full`.
+
+The full `caffeine.ps1` offers visible console styling, configurable input and
+report intervals, and an optional duration limit. Use
+`-NoConsoleCustomization -ReportIntervalSeconds 0` to skip its optional console
+changes and periodic output. Both scripts need a PowerShell host; small script
+size does not establish small total memory use. Keystrokes affect the foreground
+application, and an interrupted pair can leave Scroll Lock changed.
+
+Zhorn Caffeine (`package.caffeine`) offers native x86/x64 executables with F15
+input by default. Its power-request modes must be evaluated separately from
+idle-lock prevention. Arkane Mouse Jiggler remains an evaluation candidate:
+its mainline build needs the .NET Desktop Runtime, its larger standalone build
+includes a runtime, and its source saves user settings. Choose an available,
+guest-verified input mode that meets the investigation's write/configuration
+constraints; avoid a new runtime install solely for a hypothetical RAM saving.
+
+Official payload hashes and a reproducible VM harness are recorded in the
+[impact evaluation and procedure](docs/SCREEN-LOCK-IMPACT.md). Interactive
+comparison remains pending on Windows 11 and Server 2025 Desktop Experience.
+Two elevated Windows 11 Light pilots stayed unlocked for ten minutes and locking
+resumed after Ctrl+C. Full Caffeine also reported unlocked for ten minutes;
+post-exit input prevented checking resumed locking. Idle controls had a Terminal
+mismatch or unexplained input resets. The Zhorn x64 default pilot also stayed
+unlocked and locked again after normal exit. There is no comparative RAM/write
+ranking or artifact-free option. Preventing
+sleep alone does not prove that an already unlocked session stays unlocked.
+See also the [accepted decisions and remaining checks](docs/SCREEN-LOCK-HELPERS.md).
+
 ## Development
+
+**v3 release requirement:** Provide a documented custom-library interface so
+maintainers can keep their own catalogs, profiles and handler modules in a
+separate repository without modifying the core engine. The initial `-Library`
+interface now loads local catalogs and profiles using built-in registry and
+package handlers, with completion and saved-run recovery checks. Custom-handler
+registration and VM acceptance remain pending. See the
+[authoring guide and starter library](docs/CUSTOM-LIBRARIES.md).
+Create a library with `tools/New-RideLibrary.ps1 -Path .\my-library`; the guided
+helper offers supported package/registry choices and generates validated files.
+For packages, optional early URL/local-file inspection suggests installer details;
+ZIP-contained EXE/MSI installers are supported. Samples are never executed.
+Use `tools/New-RideLibrary.ps1 -Path .\my-library -Add` to add operations to an
+existing generated library, retaining its prior metadata for recovery. Custom
+license links are optional and may use HTTP/HTTPS, including internal/localhost.
+Registry authoring accepts HKCR paths with an explicit User/Machine destination,
+unnamed default values and coordinated `RegistryValueSet` entries. See the
+[Certutil context-menu example](examples/authoring/certutil-context-menu.psd1).
+See the [custom-library plan and release acceptance criteria](docs/MIGRATION-PLAN.md#custom-library-interface-v3-release-requirement).
 
 - `catalog/operations.psd1` defines the operation catalog and solution groups.
 - `profiles/*.psd1` defines reusable selections.
@@ -117,7 +209,8 @@ The catalog currently targets Windows 11 and Windows Server 2025. Support is dec
 - [Script model](docs/models/script-repository-model.md) defines
   headers, versioning, safety, and validation for maintained PowerShell scripts.
 - Use `Get-Help .\ride.ps1 -Full` for native help or `-Help` for quick usage.
-  Standalone maintained scripts expose `-Version` without operational work.
+  Standalone maintained scripts expose `-Version` without operational work;
+  the intentionally parameterless caffeine-light fallback records its version in native help.
   See the [PowerShell walkthrough](docs/migrations/powershell-script-walkthrough.md)
   for per-file validation and retained legacy/upstream exceptions.
 
@@ -140,6 +233,9 @@ For repeatable VM runs with host UAC enabled, see the opt-in
 [AutomatedLab task controller](tests/integration/AUTOMATEDLAB-TASKS.md), including
 on-demand execution, local edit watching, CI and the pilot acceptance checklist.
 For additional OS images, use the [provisioning configuration and field guide](tests/integration/AUTOMATEDLAB.md).
+For a second AutomatedLab VM on the same host, use the guide's `NetworkMode
+ExistingNat` workflow with explicit guest addressing. `NetworkMode` supports
+tab completion; the shared-network path preserves the existing switch and NAT.
 The [verification matrix](docs/PACKAGE-VERIFICATION-MATRIX.md) explains artifact
 retention and importing reviewed VM evidence into the shared metadata library.
 

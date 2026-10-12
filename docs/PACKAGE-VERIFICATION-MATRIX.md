@@ -1,5 +1,25 @@
 # Package verification matrix
 
+Thunderbird follow-up, 2026-10-11: read-only acquisition of official Release
+157.0.1, win64/en-GB, matched the exact publisher SHA256SUMS entry
+`4b346e97e782cfc03f374ec1e132dcb639b7366f0e8830d56aa75214ef4eebca`.
+The installer has a Valid Mozilla Corporation Authenticode signature; the
+available detached checksum signature is recorded but not verified. Current-user
+lifecycle and saved-selection recovery passed on Windows 11 and Server 2025
+Desktop Experience, with non-elevated identity and profile preservation verified.
+See [correlated acceptance](migrations/application-thunderbird-follow-up-2026-10-11.md#accepted-migration-after-resumed-validation).
+
+Application migration additions, 2026-10-11: VS Code's official feed supplies
+SHA-256; Mozilla uses an exact release path; GitHub releases retain available
+asset digests, checksum/signature references and observed hashes. PuTTY's
+publisher page resolves to a versioned executable. Available Authenticode
+`HashMismatch` results stop acquisition/deployment. Managed portable manifests
+also record per-file hashes and available executable signatures, retain notices
+and validate saved recovery bytes. Unsigned/not-trusted observations are not
+converted into publisher verification or license approval. Target-specific
+acceptance and acquisition blockers are tracked in the
+[application ledger](migrations/application-migration-review.md).
+
 This matrix records what each upstream source makes available for the current
 release. It separates publisher evidence from hosting-provider metadata and
 RIDE's own observed hashes. A local observation does not prove authenticity.
@@ -17,6 +37,48 @@ Source review date: 2026-10-08.
 | ShareX | Official `ShareX/ShareX` release `v21.0.0` | `ShareX-21.0.0-setup-x64.exe` | Sidecar URLs collected when present; no new mandatory gate | GitHub digest matched | `NotSigned` | Machine EXE lifecycle passed on Windows 11; portable form remains separate; unsigned policy needs a decision before a strict gate |
 | WinDirStat | Official `windirstat/windirstat` release `release/v2.9.2` | `WinDirStat-x64.msi`, retained under exact version | Publisher `WinDirStat-Hashes.txt` identified; parsing/verification remains open | GitHub digest matched | `Valid`; signer `Open Source Developer Bryan Berns` | Quiet no-restart MSI lifecycle passed on Windows 11 |
 | PowerShell 7 | Official `PowerShell/PowerShell` release `v7.6.6` | `PowerShell-7.6.6-win-x64.msi` | Publisher checksum assets collected when present; verification remains separate | GitHub digest matched | `Valid`; signer `Microsoft Corporation` | MSI lifecycle and executable/version check passed on Windows 11; preserve Windows PowerShell 5.1 |
+
+### Installed continuation observations, 2026-10-11
+
+| Package | Exact acquisition selection | Publisher evidence and RIDE checks | Observed executable signature | Acceptance and limits |
+| --- | --- | --- | --- | --- |
+| Chrome enterprise x64 MSI | 155.0.8059.40, official mutable Google endpoint; versioned cache filename | Inspected SHA-256 pin `32ba438dea18f0fed1ec621bfb274a2669adec67be2aa91d96b3cc6c64779276` checked before deployment; not a publisher-published checksum | `Valid`, Google LLC | Machine lifecycle/profile preservation/compensating recovery passed on Windows 11 and Server 2025 Desktop Experience; source changes require reviewed repinning |
+| Signal Desktop stable x64 | 8.30.0, official update feed and exact versioned EXE | Feed's release/file SHA-512 must agree and match downloaded/cached bytes; SHA-256 `fb5cb6742e355df52e4375ad01d18adb671941c5e040e8dc9a81db852cfb43dd` retained separately | `Valid`, Signal Messenger LLC | Current-user lifecycle/profile preservation/compensating recovery passed on both targets; linking/UI and exact previous-version recovery are separate |
+
+Requests `0a58abbfedac42ab87e60c6a682b4968` and
+`a68b43e9367148caba8f3fd173b5bdb6` passed six installed scenarios and 224 guest
+checks each. Sixteen correlated observations were appended, preserving all 78
+earlier records; the shared library then contained 94 observations. The two new
+products have one direct acquisition and one retained-cache read per target.
+These are same-origin observations, not independently routed verification.
+Signal's checked SHA-512 is recorded in `ProviderDigest` with its official feed
+in `ChecksumUris`; publisher-SHA-256 fields are unavailable, not an assertion
+that the feed lacks integrity evidence. Certificate observations remain distinct
+from permanent signer policy and local owner/company licence approval.
+See the [installed acceptance record](migrations/application-installed-follow-up-2026-10-11.md).
+
+Sources: [Chrome enterprise](https://chromeenterprise.google/download/),
+[Signal feed](https://updates.signal.org/desktop/latest.yml), and
+[Signal licence](https://github.com/signalapp/Signal-Desktop/blob/v8.30.0/LICENSE).
+
+### WinSCP portable observations, 2026-10-11
+
+The official stable 6.5.7 x86 portable ZIP resolves from its durable publisher page
+to a fresh version-matched HTTPS CDN URL. The published SHA-256 matched on both
+targets: `cbe76fc80695ac34d14e4ba81f7ff564beeb3f2033dae7490092e269016d7959`.
+`PublisherSha256`, `PublisherChecksumUri`, `PublisherChecksumResult=Matched`
+and the SHA-256 provider digest are retained separately from local decisions.
+The archive contains exactly four owned files and complete upstream notices;
+WinSCP.exe and WinSCP.com both have Valid Martin Prikryl signatures.
+
+Final requests `06e454c9dcba455e9d9d0e81259453b5` (Windows 11) and
+`6103ffaecca64224ab61874726bb814b` (Server 2025 Desktop Experience) each passed
+230 guest checks and twelve portable lifecycles. Twenty-four correlated final
+observations preserve all 94 earlier entries, bringing the shared total to 118.
+The two WinSCP direct acquisitions share the same publisher route; they are not
+independent-source verification. ZIP signature status is separate from member
+signatures. Exact owned-file recovery, session preservation and VM recovery are
+recorded in the [acceptance record](migrations/application-winscp-follow-up-2026-10-11.md#final-correlated-acceptance).
 
 ## Source notes
 
@@ -45,8 +107,9 @@ detached signatures.
    7-Zip and ShareX are unsigned; Sysmon's executable and the other installers
    report valid signatures. Compare certificate identities and rotation
    expectations with official publisher material before using them as policy.
-2. Git's release-note checksum is implemented and matched. Other publisher
-   sidecar parsing and detached GPG verification remain open, including trusted
+2. Git's release-note checksum and the exact Mozilla/PuTTY SHA-256 sum entries
+   are implemented and matched. Other publisher sidecar parsing and detached
+   GPG verification remain open, including trusted
    key acquisition, expiration/revocation and mismatch tests.
 3. Sysmon executable signer collection is completed. Microsoft Windows Publisher
    is the observed subject, with Microsoft Corporation organization and Windows

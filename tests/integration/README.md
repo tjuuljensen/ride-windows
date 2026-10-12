@@ -6,6 +6,58 @@ The VM is for integration tests that change Windows state. Routine validation an
 
 ## What this pilot covers
 
+`ApplicationsBatch1` selects conventional application candidates;
+`ApplicationsBatch2` selects managed portable candidates and the ShareX portable
+variant. Both run guest validation/Pester before preview, install/repeat, remove
+and saved-run recovery. Portable tests preserve user files and restore the exact
+owned bytes after removal. Run each on the pinned Windows 11 and prepared Server
+2025 controllers. Candidate support is test-only until applicable scenarios pass;
+driver/OEM tools require matching guests. See the
+[application ledger](../../docs/migrations/application-migration-review.md).
+
+```powershell
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json' -IntegrationSuite ApplicationsBatch1 -TimeoutMinutes 90
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDESrv2025Test\configuration.json' -IntegrationSuite ApplicationsBatch2 -TimeoutMinutes 90
+```
+
+Verify the actual Server VM ID, edition and checkpoint; the example
+`RIDE-S25-Test` name is not proof of live identity. Controller evidence includes
+correlated `applications-batch1.json` or `applications-batch2.json`, acquisition
+observations, saved state and checkpoint cleanup results. Refresh protected
+controller files only while the registered task and its children are idle.
+
+The remaining-settings session has two package-free selections:
+`SettingsRemainingBatch1` covers 17 task/registry operations, and
+`SettingsRemainingBatch2` covers 19 network, Defender, power, sound and Edge
+operations. Each runs validation and guest Pester, then preview, every available
+state, repeat apply and exact saved-run restore. Missing resources and missing
+power-scheme variants are reported separately. Task definitions, network peers,
+sign-in, sound playback and browser behavior require additional acceptance.
+See the [decision ledger](../../docs/migrations/remaining-settings-decisions.md).
+
+The sixty-setting session has a package-free suite selected with
+`Invoke-RideVmTest.ps1 -IntegrationSuite SettingsBatch60`. It covers all 60
+new catalog operations and their declared states across registry values,
+coordinated values, namespace keys, services, power indexes and BCD. Each
+operation is restored in finally; unsupported power controls are reported
+as unavailable rather than passed. This suite does not reboot the guest or
+establish UI, preboot, suspension, gaming or effective security behavior.
+See the [batch ledger](../../docs/MIGRATION-PLAN.md#sixty-setting-session-2026-10-10).
+
+Both `Invoke-RideVmTest.ps1` and the registered-task client
+`Invoke-RideVmTestTask.ps1` accept `-IntegrationSuite`. Refresh the protected
+controller through `Register-RideVmTestTask.ps1` after reviewing these changes;
+older installed controllers do not forward suite selection. The controller
+verifies that the correlated guest summary names the requested suite.
+`SettingsBatch60Recovery` selects the BCD recovery policy and eleven coordinated
+registry settings from this batch, retaining the same state/preview/repeat/exact
+restore checks. It runs validation and guest Pester before these twelve scenarios
+and does not enter package tests. For example:
+
+```powershell
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json' -IntegrationSuite SettingsBatch60Recovery -TimeoutMinutes 25
+```
+
 The forty-setting follow-up has a package-free acceptance suite. Select it
 explicitly with `Invoke-RideVmTest.ps1 -IntegrationSuite SettingsBatch40` and
 the normal VM transport/evidence parameters; the default remains `Full`.
@@ -65,7 +117,7 @@ If the feature is disabled, enable it through **Turn Windows features on or off*
 
 ## 2. Register and download the Windows evaluation ISO
 
-For a key-free test VM, use Microsoft's [Windows 11 Enterprise Evaluation Center](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-11-enterprise): register, choose the x64 ISO, and complete the download form. Microsoft describes it as a 90-day evaluation and says a product key is not required. Windows 11 Enterprise requires a Microsoft account sign-in; use a dedicated test account rather than a work or production identity.
+For a key-free test VM, use Microsoft's [Windows 11 Enterprise Evaluation Center](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-11-enterprise): register, choose the x64 ISO, and complete the download form. Microsoft describes it as a 90-day evaluation and says a product key is not required. The Enterprise Evaluation image used in this RIDE pilot completed setup without requiring a Microsoft account. OOBE behavior varies by edition, media, and build; see the [Windows local-account setup guide](../../docs/windows-local-account-setup.md) for current observations and alternatives. Do not use a work or production identity in a test VM.
 
 You can also download a standard 64-bit Windows 11 ISO from [Microsoft's Danish Windows 11 download page](https://www.microsoft.com/da-dk/software-download/windows11). Microsoft describes this as a multi-edition ISO and says a product key is needed to unlock the matching edition. The ISO download itself does not ask for a key, but installation and activation still require the applicable license or digital entitlement. Use this option if you have a license for the edition you want to test; otherwise use the evaluation ISO. Microsoft provides instructions to [verify the ISO hash](https://www.microsoft.com/da-dk/software-download/windows11).
 
@@ -127,9 +179,12 @@ if ($LASTEXITCODE -ne 0 -or -not $repoRootOutput) {
 $repoPath = $repoRootOutput.Trim()
 
 Import-Lab -Name $labName -NoValidation
+Start-LabVM -ComputerName $vmName -Wait -TimeoutInMinutes 10 -ErrorAction Stop
 Invoke-LabCommand -ComputerName $vmName -ScriptBlock {
+  $ErrorActionPreference = 'Stop'
   New-Item -ItemType Directory -Path 'C:\RIDE' -Force | Out-Null
-}
+  Test-Path -LiteralPath 'C:\RIDE' -PathType Container
+} -PassThru
 Copy-LabFileItem -Path $repoPath -ComputerName $vmName -DestinationFolderPath 'C:\RIDE' -Recurse
 Invoke-LabCommand -ComputerName $vmName -ScriptBlock {
   Test-Path 'C:\RIDE\ride-windows\tools\validate.ps1'

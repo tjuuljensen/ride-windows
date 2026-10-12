@@ -1,0 +1,22 @@
+{
+  "VmId": "REPLACE with Hyper-V VM GUID",
+  "CheckpointId": "REPLACE with dedicated measurement checkpoint GUID",
+  "CleanCheckpointRestoredAtUtc": "REPLACE with ISO 8601 timestamp",
+  "OsTarget": "Windows 11",
+  "OsBuild": "REPLACE with build.UBR observed inside guest",
+  "VmMemoryBytes": 8589934592,
+  "VmProcessors": 4,
+  "DynamicMemory": false,
+  "SessionTransport": "REPLACE with VMConnect basic console or other explicitly tested transport",
+  "ConsoleHost": "REPLACE with conhost/Windows Terminal version and delegation configuration",
+  "RuntimeVersions": "REPLACE with PS5.1, PS7 and .NET Desktop runtime exact versions/architecture; absent where applicable",
+  "AccountElevation": "REPLACE with standard/elevated workload and sampler account context",
+  "LockMechanism": "REPLACE with actual idle-lock policy and effective value, e.g. machine inactivity limit 180 seconds",
+  "IdleLockSeconds": 180,
+  "ControlLockObservedSeconds": 0,
+  "Instrumentation": "REPLACE with sampler version/hash, Procmon version/hash/settings, traced or memory-only",
+  "SecurityServices": "REPLACE with Defender/EDR versions and state; keep enabled and consistent",
+  "NetworkAndUpdates": "REPLACE with network state, update state and idle stabilization conditions",
+  "InputConditions": "REPLACE with keyboard layout, foreground app/version/integrity, no operator input window, Scroll Lock initial state",
+  "Notes": "REPLACE with deviations, evidence-volume path and independent lock-observation record path"
+}

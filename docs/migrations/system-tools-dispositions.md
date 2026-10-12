@@ -38,3 +38,11 @@ tested lifecycle. Do not run legacy installers as part of this review.
   Downloads exclusion as a shortcut.
 - No System Tools package was downloaded, executed or scanned for this
   reconciliation. The parallel AutomatedLab runbook test was not touched.
+
+Application reconciliation, 2026-10-11: the managed portable lifecycle is now
+available, but every System Tools outcome still needs its declared product/source,
+collection, component, driver or policy decision. The consolidated
+[application ledger](application-migration-review.md) assigns these to the two
+batches and counts CCleaner, Defraggler, Recuva and Speccy separately, together
+with the omitted MEGAcmd helper from Arsenal Recon. No collection, licensed
+product or Defender exclusion was silently admitted.

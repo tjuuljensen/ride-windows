@@ -10,7 +10,7 @@ recovery; it is not an approved redistribution bundle.
 
 ## Shared publisher metadata
 
-Every package and standalone artifact declares:
+Every package and standalone artifact in the built-in catalog declares:
 
 - `ProductUri`: official product/project information.
 - `DownloadUri`: the acquisition/discovery source used by the provider.
@@ -20,6 +20,15 @@ Every package and standalone artifact declares:
   reference when no separate agreement is available. Use `License = 'Unknown'`
   and explain missing terms in the description rather than inventing permission.
 - `TermsUri`: optional separate publisher download/service terms when applicable.
+
+Custom libraries may omit `ProductUri`, `LicenseUri` and `TermsUri` when no online
+reference is available. Custom license/terms links accept absolute HTTP or HTTPS
+URLs, including internal servers and localhost with custom ports; embedded
+credentials are rejected. A descriptive `License` remains required and defaults
+to `Unknown` in the guided helper. Describe licenses shipped in the payload or a
+local file there instead of inventing a URL. Built-in license references remain
+official HTTPS links; installer downloads still require HTTPS. See
+[Custom libraries](CUSTOM-LIBRARIES.md) for authoring and validation.
 
 These fields appear in `list` objects, `show`, generated `docs/OPERATIONS.md`,
 download results, and new artifact observation records and `.ride.json` sidecars.

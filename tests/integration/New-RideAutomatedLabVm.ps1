@@ -10,9 +10,12 @@
   RIDE's integration suite has its own narrower supported-target declarations.
   - Uses Invoke-LabCommand for guest connectivity and Pester setup, creates a
   per-VM clean checkpoint, then stages the current checkout (step 6A).
+  - Waits up to 10 minutes for guest remoting after the checkpoint restart and
+  verifies directory preparation before staging.
   - Waits for guest Windows Update by default; -WindowsUpdateMode Continue
   proceeds without requiring the update pause.
-  - Creates a Hyper-V VM, AutomatedLab NAT network, and clean checkpoint.
+  - Creates a Hyper-V VM and clean checkpoint, with a new NAT or an explicitly
+  reviewed existing NAT switch and static guest addressing.
   - Installs Pester 5.7.1 in the guest and stages at GuestRepositoryPath.
   - Optionally writes a controller registration seed; never registers a task implicitly.
 
@@ -51,7 +54,24 @@
   Optional exact ISO path used to disambiguate matching OperatingSystemName entries.
 
 .PARAMETER NetworkName
-  New NAT virtual-switch name; defaults to RIDE-Internet. Existing switches are not replaced.
+  NAT virtual-switch name; defaults to RIDE-Internet. ExistingNat reuses this switch.
+
+.PARAMETER NetworkMode
+  NewNat (default) creates a new network. ExistingNat requires an existing Internal
+  switch, exactly one matching NAT, and explicit guest addressing; neither is reconfigured.
+
+.PARAMETER NatName
+  Exact existing WinNAT name, required with ExistingNat.
+
+.PARAMETER GuestIpv4Address
+  Reserved static guest IPv4 address including prefix, for example 192.168.11.50/24.
+  Required with ExistingNat; known live and saved AutomatedLab assignments are checked.
+
+.PARAMETER Ipv4Gateway
+  Existing host gateway on the selected switch, required with ExistingNat.
+
+.PARAMETER Ipv4DnsServers
+  Explicit guest IPv4 DNS server addresses, required with ExistingNat.
 
 .PARAMETER CheckpointName
   Clean checkpoint name; defaults to RIDE-clean-test-base and is scoped to this VM.
@@ -85,6 +105,10 @@
 .EXAMPLE
   Get-Help .\tests\integration\New-RideAutomatedLabVm.ps1 -Full
 
+.EXAMPLE
+  .\tests\integration\New-RideAutomatedLabVm.ps1 -ConfigurationPath .\tests\integration\provisioning.server2025.shared-network.example.psd1 -PreflightOnly
+  Inspect the declared existing switch/NAT and known guest address reservations.
+
 .INPUTS
   None. Parameters are supplied explicitly.
 
@@ -102,8 +126,16 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.2.0
+  Version: 0.3.3
   Changelog:
+    - 0.3.3: Return guest directory readiness to prevent silent-command retries,
+      wait for remoting after checkpoint restart, and label preparation stages.
+    - 0.3.2: Keep machine definition in AutomatedLab's NetworkAdapter parameter
+      set and normalize explicit DNS on the new in-memory guest adapter.
+    - 0.3.1: Load local configuration during WhatIf without suppressing in-memory
+      assignments; provisioning remains behind ShouldProcess.
+    - 0.3.0: Reuse an explicitly reviewed existing NAT network with static guest
+      addressing, known reservation checks, and unchanged controller handoff.
     - 0.2.0: Add local provisioning data, explicit controller seed handoff, collision checks,
       configurable network/checkpoint names and custom guest path staging.
     - 0.1.0: Initial OS-selectable AutomatedLab provisioning workflow.
@@ -125,6 +157,12 @@ param(
   [string] $CIRepositoryPath,
   [string] $IsoPath,
   [string] $NetworkName = 'RIDE-Internet',
+  [ValidateSet('NewNat', 'ExistingNat')]
+  [string] $NetworkMode = 'NewNat',
+  [string] $NatName,
+  [string] $GuestIpv4Address,
+  [string] $Ipv4Gateway,
+  [string[]] $Ipv4DnsServers,
   [string] $CheckpointName = 'RIDE-clean-test-base',
   [ArgumentCompleter({
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
@@ -157,7 +195,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.2.0'
+$script:ScriptVersion = '0.3.3'
 if ($Version) {
   Write-Output $script:ScriptVersion
   return
@@ -166,7 +204,9 @@ if ($Version) {
 $ErrorActionPreference = 'Stop'
 Import-Module (Join-Path $PSScriptRoot 'RIDE.LabProvisioning.psm1') -Force
 $provisioning = Resolve-RideLabProvisioningConfiguration -ConfigurationPath $ConfigurationPath -ExplicitParameters $PSBoundParameters
-foreach ($key in $provisioning.Keys) { Set-Variable -Name $key -Value $provisioning[$key] }
+# Configuration is in-memory preparation, including during preview. Set-Variable
+# participates in ShouldProcess and would otherwise suppress these assignments.
+foreach ($key in $provisioning.Keys) { $ExecutionContext.SessionState.PSVariable.Set($key, $provisioning[$key]) }
 $snapshotName = $CheckpointName
 $checks = [System.Collections.Generic.List[object]]::new()
 
@@ -199,6 +239,41 @@ function Show-PreflightReport {
     $names = ($failedRequired.Name -join ', ')
     throw "AutomatedLab preflight failed: $names. Review the details above and the Hyper-V troubleshooting section in AUTOMATEDLAB.md."
   }
+}
+
+function Get-ProvisioningNetworkPlan {
+  # Read definitions directly; Import-Lab would replace the current lab context
+  # and perform host setup. Never log the definitions, which contain credentials.
+  $nats = @(Get-NetNat -ErrorAction Stop)
+  $switches = @(Get-VMSwitch -ErrorAction Stop)
+  if ($NetworkMode -eq 'NewNat') {
+    return Resolve-RideLabNetworkPlan -Configuration $provisioning -Switches $switches -Nats $nats
+  }
+  $hostAddresses = @(Get-NetIPAddress -AddressFamily IPv4 -ErrorAction Stop)
+  $vmAdapters = @(Get-VM -ErrorAction Stop | Get-VMNetworkAdapter -ErrorAction Stop)
+  $reservations = @(
+    $labsRoot = Join-Path (Get-LabConfigurationItem -Name LabAppDataRoot) 'Labs'
+    $machineType = Get-Type -GenericType AutomatedLab.ListXmlStore -T AutomatedLab.Machine
+    $importMethod = $machineType.GetMethod('Import', [System.Reflection.BindingFlags]'Public, Static', [Type]::DefaultBinder, [Type[]]@([string]), $null)
+    foreach ($existingLab in @(Get-Lab -List)) {
+      $labFile = Join-Path (Join-Path $labsRoot $existingLab) 'Lab.xml'
+      $definition = [AutomatedLab.Lab]::Import($labFile)
+      foreach ($machineFile in $definition.MachineDefinitionFiles) {
+        $machinePath = [string]$machineFile.Path
+        if (-not [IO.Path]::IsPathRooted($machinePath)) { $machinePath = Join-Path (Split-Path -Parent $labFile) $machinePath }
+        $machines = $importMethod.Invoke($null, [object[]]@($machinePath))
+        foreach ($machine in $machines) {
+          foreach ($adapter in $machine.NetworkAdapters) {
+            foreach ($address in $adapter.Ipv4Address) {
+              $reservedSwitch = if ($adapter.VirtualSwitch.ResourceName) { [string]$adapter.VirtualSwitch.ResourceName } else { [string]$adapter.VirtualSwitch.Name }
+              [pscustomobject]@{ VMName = [string]$machine.Name; SwitchName = $reservedSwitch; IPAddress = [string]$address.IpAddress.AddressAsString }
+            }
+          }
+        }
+      }
+    }
+  )
+  Resolve-RideLabNetworkPlan -Configuration $provisioning -Switches $switches -Nats $nats -HostAddresses $hostAddresses -VMAdapters $vmAdapters -ReservedAddresses $reservations
 }
 
 if ($PSVersionTable.PSEdition -notin @('Desktop', 'Core') -or $PSVersionTable.PSVersion.Major -lt 5) {
@@ -275,7 +350,7 @@ if ($VMPath) {
   $storageEmpty = -not (Test-Path -LiteralPath $VMPath) -or @(Get-ChildItem -LiteralPath $VMPath -Force -ErrorAction Stop).Count -eq 0
   Add-PreflightCheck -Name 'VM storage collision' -Passed $storageEmpty -Required $true -Detail 'Choose a new or empty per-lab VMPath; existing storage is never replaced.'
 }
-if ($NetworkName -and (Get-Command Get-VMSwitch -ErrorAction SilentlyContinue)) {
+if ($NetworkMode -eq 'NewNat' -and $NetworkName -and (Get-Command Get-VMSwitch -ErrorAction SilentlyContinue)) {
   $existingSwitch = @(Get-VMSwitch -Name $NetworkName -ErrorAction SilentlyContinue)
   Add-PreflightCheck -Name 'Virtual-switch collision' -Passed ($existingSwitch.Count -eq 0) -Required $true -Detail "Use a distinct NetworkName for each new lab. Existing '$NetworkName' compatibility is not assumed."
 }
@@ -295,11 +370,11 @@ if ($VMPath) {
 }
 
 try {
-  $existingNats = @(Get-NetNat -ErrorAction Stop)
-  $natDetail = if ($existingNats.Count -eq 0) { 'No host WinNAT networks found.' } else { 'Existing host WinNAT networks: ' + (($existingNats | ForEach-Object { "$($_.Name) [$($_.InternalIPInterfaceAddressPrefix)]" }) -join '; ') + '. This script creates a new NAT; Windows supports one NAT per host. Use a separately reviewed shared-network topology or another host; existing networks are never removed automatically.' }
-  Add-PreflightCheck -Name 'Host WinNAT state' -Passed ($existingNats.Count -eq 0) -Required $true -Detail $natDetail
+  $networkPlan = Get-ProvisioningNetworkPlan
+  $natDetail = if ($NetworkMode -eq 'ExistingNat') { "Reuse NAT '$NatName' and switch '$NetworkName'; guest $GuestIpv4Address, gateway $Ipv4Gateway, DNS $($Ipv4DnsServers -join ', '). Existing host networking will not be reconfigured. Known address assignments checked; operator must reserve the guest IP." } else { 'No host WinNAT networks found; a new NAT will be created.' }
+  Add-PreflightCheck -Name 'Host WinNAT state' -Passed $true -Required $true -Detail $natDetail
 } catch {
-  Add-PreflightCheck -Name 'Host WinNAT state' -Passed $false -Required $true -Detail ('Could not inspect WinNAT: ' + $_.Exception.Message)
+  Add-PreflightCheck -Name 'Host WinNAT state' -Passed $false -Required $true -Detail $_.Exception.Message
 }
 
 try {
@@ -332,13 +407,16 @@ foreach ($requiredPath in @('tools/validate.ps1', 'tools/Export-RideCatalog.ps1'
   if (-not (Test-Path -LiteralPath (Join-Path $repoPath $requiredPath) -PathType Leaf)) { throw "'$repoPath' is not a RIDE-Windows checkout; missing '$requiredPath'." }
 }
 
-$action = "create '$VMName' for '$OperatingSystemName', install Pester, create '$snapshotName', and copy the current checkout"
+$action = "create '$VMName' for '$OperatingSystemName' using $NetworkMode switch '$NetworkName', install Pester, create '$snapshotName', and copy the current checkout"
 if (-not $PSCmdlet.ShouldProcess("AutomatedLab '$LabName' on this Hyper-V host", $action)) { return }
 
 $installationCredential = Get-Credential -Message 'Choose a local administrator account for the disposable guest'
+$networkPlan = Get-ProvisioningNetworkPlan
 New-LabDefinition -Name $LabName -DefaultVirtualizationEngine HyperV -VmPath $VMPath
-Add-LabVirtualNetworkDefinition -Name $networkName -UseNat
-$networkAdapter = New-LabNetworkAdapterDefinition -VirtualSwitch $networkName
+$virtualNetworkParameters = $networkPlan.VirtualNetworkParameters
+$networkAdapterParameters = $networkPlan.NetworkAdapterParameters
+Add-LabVirtualNetworkDefinition @virtualNetworkParameters
+$networkAdapter = New-LabNetworkAdapterDefinition @networkAdapterParameters
 Add-LabMachineDefinition -Name $VMName `
   -OperatingSystem $selectedOS `
   -Memory ([long]$MemoryGB * 1GB) `
@@ -350,6 +428,16 @@ Add-LabMachineDefinition -Name $VMName `
   } `
   -NetworkAdapter $networkAdapter
 
+if ($NetworkMode -eq 'ExistingNat') {
+  # AutomatedLab appends a 0.0.0.0 DNS placeholder for non-NAT definitions.
+  # DnsServer1 belongs to a different parameter set and cannot accompany
+  # NetworkAdapter. Normalize the same adapter object held by the new machine.
+  $networkAdapter.Ipv4DnsServers.Clear()
+  foreach ($dnsServer in $Ipv4DnsServers) { $networkAdapter.Ipv4DnsServers.Add($dnsServer) }
+}
+
+# Recheck after defining the lab, before AutomatedLab can create host resources.
+$null = Get-ProvisioningNetworkPlan
 Install-Lab
 Show-LabDeploymentSummary
 
@@ -360,7 +448,7 @@ if ($WindowsUpdateMode -eq 'Wait') {
   Write-Warning 'Continuing without confirming Windows Update. The clean checkpoint will preserve the guest update state as-is.'
 }
 
-Invoke-LabCommand -ComputerName $VMName -Retries 20 -RetryIntervalInSeconds 30 -ScriptBlock {
+Invoke-LabCommand -ComputerName $VMName -ActivityName 'Check guest HTTPS access' -Retries 20 -RetryIntervalInSeconds 30 -ScriptBlock {
   $ErrorActionPreference = 'Stop'
   Get-NetIPConfiguration
   $connection = Test-NetConnection www.powershellgallery.com -Port 443
@@ -368,7 +456,7 @@ Invoke-LabCommand -ComputerName $VMName -Retries 20 -RetryIntervalInSeconds 30 -
   if (-not $connection.TcpTestSucceeded) { throw 'The guest could not connect to PowerShell Gallery over HTTPS.' }
 } -PassThru
 
-Invoke-LabCommand -ComputerName $VMName -ScriptBlock {
+Invoke-LabCommand -ComputerName $VMName -ActivityName 'Install and verify Pester 5.7.1' -ScriptBlock {
   $ErrorActionPreference = 'Stop'
   $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
   $principal = [Security.Principal.WindowsPrincipal]::new($identity)
@@ -382,15 +470,24 @@ Invoke-LabCommand -ComputerName $VMName -ScriptBlock {
   $pester | Select-Object Name, Version, Path
 } -PassThru
 
+Write-Host "Stopping '$VMName' and creating clean checkpoint '$snapshotName'."
 Stop-LabVM -ComputerName $VMName -Wait
 Checkpoint-LabVM -ComputerName $VMName -SnapshotName $snapshotName
 Get-LabVMSnapshot -ComputerName $VMName
-Start-LabVM -ComputerName $VMName
+Write-Host "Starting '$VMName' and waiting up to 10 minutes for guest PowerShell remoting. No console sign-in is required."
+Start-LabVM -ComputerName $VMName -Wait -TimeoutInMinutes 10 -ErrorAction Stop
 
-Invoke-LabCommand -ComputerName $VMName -Retries 20 -RetryIntervalInSeconds 30 -ScriptBlock {
+$guestDirectoryReady = Invoke-LabCommand -ComputerName $VMName -ActivityName 'Prepare guest checkout directory' -Retries 20 -RetryIntervalInSeconds 30 -ScriptBlock {
   param($GuestPath)
-  New-Item -ItemType Directory -Path (Split-Path -Parent $GuestPath) -Force | Out-Null
-} -ArgumentList $GuestRepositoryPath
+  $ErrorActionPreference = 'Stop'
+  $parentPath = Split-Path -Parent $GuestPath
+  New-Item -ItemType Directory -Path $parentPath -Force | Out-Null
+  # AutomatedLab 5.61.0 tracks completion using the output's RunspaceId.
+  # A silent successful command is retried until its retry budget is exhausted.
+  Test-Path -LiteralPath $parentPath -PathType Container
+} -ArgumentList $GuestRepositoryPath -PassThru
+if (-not ($guestDirectoryReady -contains $true)) { throw 'The guest checkout parent directory could not be verified. Source staging has not started; see AUTOMATEDLAB.md for recovery.' }
+Write-Host "Copying the current checkout to '$GuestRepositoryPath' on '$VMName'."
 # Stage under the required leaf name even if the host checkout has another name.
 $stageRoot = Join-Path ([IO.Path]::GetTempPath()) ('ride-provision-' + [guid]::NewGuid().ToString('N'))
 try {
@@ -407,7 +504,7 @@ finally {
     Remove-Item -LiteralPath $resolvedStage -Recurse -Force
   }
 }
-$checkoutPresent = Invoke-LabCommand -ComputerName $VMName -ScriptBlock {
+$checkoutPresent = Invoke-LabCommand -ComputerName $VMName -ActivityName 'Verify guest checkout' -ScriptBlock {
   param($GuestPath)
   Test-Path -LiteralPath (Join-Path $GuestPath 'tools\validate.ps1')
 } -ArgumentList $GuestRepositoryPath -PassThru

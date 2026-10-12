@@ -25,8 +25,9 @@
   Recovery: State-changing handlers are engine-internal: use ride.ps1 preview and captured-run
   restoration. Direct calls bypass ShouldProcess and snapshot capture.
   Author: RIDE-Windows maintainers.
-  Version: 0.1.0
+  Version: 0.2.0
   Changelog:
+  - 0.2.0: Preserve delayed-start values for declared service operations.
     0.1.0: Establish documented module ownership, version, and exported-command help during this
     walkthrough.
   Supported targets are declared per operation in catalog/operations.psd1. This walkthrough
@@ -41,7 +42,8 @@
 #>
 
 
-$script:ModuleVersion = '0.1.0'
+$script:ModuleVersion = '0.2.0'
+Import-Module (Join-Path $PSScriptRoot 'RIDE-Settings.psm1') -ErrorAction Stop
 
 function Get-RideWindowsServiceState {
   <#
@@ -76,7 +78,7 @@ function Get-RideWindowsServiceState {
   $cimService = Get-CimInstance -ClassName Win32_Service -Filter "Name='$($Operation.ServiceName)'" -ErrorAction Stop
   if (-not $cimService) { throw "Windows service '$($Operation.ServiceName)' was not found." }
 
-  [pscustomobject]@{
+  $result = [pscustomobject]@{
     StartupType = switch ($cimService.StartMode) {
       'Auto' { 'Automatic' }
       'Manual' { 'Manual' }
@@ -85,6 +87,11 @@ function Get-RideWindowsServiceState {
     }
     Status = [string]$service.Status
   }
+  if ($Operation.PreserveDelayedAutoStart) {
+    $delayedOperation = @{ RegistryPath = 'HKLM:\SYSTEM\CurrentControlSet\Services\' + $Operation.ServiceName; ValueName = 'DelayedAutoStart'; ValueType = 'DWord' }
+    $result | Add-Member -NotePropertyName DelayedAutoStart -NotePropertyValue (Get-RideSettingState -Operation $delayedOperation)
+  }
+  $result
 }
 
 function Set-RideWindowsServiceState {
@@ -124,7 +131,10 @@ function Set-RideWindowsServiceState {
 
   if (-not $Operation.States.ContainsKey($State)) { throw "State '$State' is not supported by '$($Operation.Id)'." }
   $desired = $Operation.States[$State]
+  $delayedOperation = @{ RegistryPath = 'HKLM:\SYSTEM\CurrentControlSet\Services\' + $Operation.ServiceName; ValueName = 'DelayedAutoStart'; ValueType = 'DWord' }
+  $delayed = if ($Operation.PreserveDelayedAutoStart) { Get-RideSettingState -Operation $delayedOperation }
   Set-RideWindowsServiceConfiguration -Operation $Operation -StartupType $desired.StartupType -Status $desired.Status
+  if ($Operation.PreserveDelayedAutoStart) { Restore-RideSettingState -Operation $delayedOperation -Snapshot $delayed }
 }
 
 function Restore-RideWindowsServiceState {
@@ -163,6 +173,10 @@ function Restore-RideWindowsServiceState {
   )
 
   Set-RideWindowsServiceConfiguration -Operation $Operation -StartupType $Snapshot.StartupType -Status $Snapshot.Status
+  if ($Operation.PreserveDelayedAutoStart -and $Snapshot.DelayedAutoStart) {
+    $delayedOperation = @{ RegistryPath = 'HKLM:\SYSTEM\CurrentControlSet\Services\' + $Operation.ServiceName; ValueName = 'DelayedAutoStart'; ValueType = 'DWord' }
+    Restore-RideSettingState -Operation $delayedOperation -Snapshot $Snapshot.DelayedAutoStart
+  }
 }
 
 function Set-RideWindowsServiceConfiguration {

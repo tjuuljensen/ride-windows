@@ -16,8 +16,11 @@ see the selector disposition ledger linked from the migration plan.
 Windows 11 VM tests run through the registered elevated task controller from an
 ordinary signed-in prompt, including a locked session. Provisioning examples
 and an explicit configuration handoff prepare additional images. Windows
-Server 2025 runtime acceptance awaits its ISO; support remains declared per
-operation and is not inferred from Windows 11 results.
+Server 2025 passed the applicable direct AutomatedLab suite on 2026-10-11,
+including validation and 1,008 Pester tests; see the
+[runtime evidence](../tests/integration/AUTOMATEDLAB-TASKS.md#server-2025-direct-automatedlab-evidence-2026-10-11).
+Registered Server controller acceptance remains pending. Support remains
+declared per operation and is not inferred from Windows 11 results.
 
 ## Architecture rules
 
@@ -37,6 +40,15 @@ The batch inventory, test demand, and preset/function reconciliation list are ma
 3. **Grouped software solutions** — add package metadata and install/uninstall order for multi-component forensic and analyst toolsets. Track source verification, license acceptance, and version recovery per package.
 4. **Settings families** — migrate Windows policies, privacy, services, network, UI, account, and Server-specific settings with explicit state discovery and baseline behavior.
 5. **Major release** — publish v3 with new profiles and CLI; v2 remains available through prior release tags. Remove obsolete migration notes once a v2 operation family has been reviewed.
+
+## Future catalog search enhancements
+
+- Add explicit opt-in `search -Regex` while preserving literal search as the
+  default. Compile and validate the expression once, use case-insensitive,
+  culture-invariant matching with a finite timeout, and report invalid patterns
+  or timeouts clearly. Reuse the existing field/view filters and match evidence;
+  test escaping, invalid expressions and pathological patterns on Windows
+  PowerShell 5.1 and PowerShell 7. Do not automatically detect regex syntax.
 
 ## Optional future offline bundles
 

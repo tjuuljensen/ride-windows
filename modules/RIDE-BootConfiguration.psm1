@@ -4,7 +4,8 @@
 
 .DESCRIPTION
   Queries bcdedit /enum {current}, applies declared element values or removes overrides, and
-  restores captured values. Throws on native-command failures. Boot changes may require a restart;
+  restores captured values. Removing an already absent override is a no-op;
+  inspection and other native-command failures still throw. Boot changes may require a restart;
   import defines commands only.
 
 .EXAMPLE
@@ -25,8 +26,9 @@
   Recovery: State-changing handlers are engine-internal: use ride.ps1 preview and captured-run
   restoration. Direct calls bypass ShouldProcess and snapshot capture.
   Author: RIDE-Windows maintainers.
-  Version: 0.1.0
+  Version: 0.2.0
   Changelog:
+  - 0.2.0: Restore absent overrides without attempting a second BCDEdit deletion.
     0.1.0: Establish documented module ownership, version, and exported-command help during this
     walkthrough.
   Supported targets are declared per operation in catalog/operations.psd1. This walkthrough
@@ -41,7 +43,7 @@
 #>
 
 
-$script:ModuleVersion = '0.1.0'
+$script:ModuleVersion = '0.2.0'
 
 function Get-RideBootConfigurationState {
   <#
@@ -88,7 +90,8 @@ function Set-RideBootConfigurationState {
     Set or remove a declared current-entry BCD override.
 
   .DESCRIPTION
-    Uses bcdedit /set or /deletevalue according to the catalog state map. Nonzero exit codes throw.
+    Uses bcdedit /set or /deletevalue according to the catalog state map. An already
+    absent override needs no delete command. Inspection and native failures throw.
     Use the engine for snapshot, preview, privilege, and target checks.
 
   .PARAMETER Operation
@@ -120,7 +123,9 @@ function Set-RideBootConfigurationState {
   if (-not $Operation.States.ContainsKey($State)) { throw "State '$State' is not supported by '$($Operation.Id)'." }
   $value = $Operation.States[$State]
   if ($null -eq $value) {
-    Invoke-RideBootConfigurationCommand -Arguments @('/deletevalue', '{current}', $Operation.BcdElement)
+    if ((Get-RideBootConfigurationState -Operation $Operation).Exists) {
+      Invoke-RideBootConfigurationCommand -Arguments @('/deletevalue', '{current}', $Operation.BcdElement)
+    }
   }
   else {
     Invoke-RideBootConfigurationCommand -Arguments @('/set', '{current}', $Operation.BcdElement, [string]$value)
@@ -133,7 +138,7 @@ function Restore-RideBootConfigurationState {
     Restore a captured BCD element value or absence.
 
   .DESCRIPTION
-    Writes the captured value or removes an originally absent override. Boot behavior may require a
+    Writes the captured value or removes an originally absent override if one now exists. Boot behavior may require a
     restart; use Restore-RideRun.
 
   .PARAMETER Operation
@@ -166,7 +171,9 @@ function Restore-RideBootConfigurationState {
     Invoke-RideBootConfigurationCommand -Arguments @('/set', '{current}', $Operation.BcdElement, [string]$Snapshot.Value)
   }
   else {
-    Invoke-RideBootConfigurationCommand -Arguments @('/deletevalue', '{current}', $Operation.BcdElement)
+    if ((Get-RideBootConfigurationState -Operation $Operation).Exists) {
+      Invoke-RideBootConfigurationCommand -Arguments @('/deletevalue', '{current}', $Operation.BcdElement)
+    }
   }
 }
 

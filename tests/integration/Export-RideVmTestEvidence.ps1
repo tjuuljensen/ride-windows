@@ -6,6 +6,7 @@
   - Reads saved RIDE state and guest logs; never invokes RIDE handlers or tests.
   - The worker bounds this collector to 60 seconds before checkpoint recovery.
   Copies evidence into the guest result directory and back to the host.
+  Copies files independently and records unavailable files in collection-omissions.json.
 
 .PARAMETER ConfigurationPath
   Installed pinned controller configuration.json.
@@ -36,8 +37,9 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.2.0
+  Version: 0.3.0
   Changelog:
+    - 0.3.0: Preserve readable partial evidence when another file is locked.
   - 0.2.0: Collect observations from the configured guest repository after failure.
     - 0.1.0: Initial bounded failure-evidence collection.
   Internal bounded collector. It writes evidence directories but does not invoke RIDE handlers or
@@ -54,9 +56,28 @@
 
 [CmdletBinding()]
 param([string] $ConfigurationPath, [ValidatePattern('^[0-9a-f]{32}$')][string] $RunId, [string] $ResultDirectory, [switch] $Version)
-$script:ScriptVersion = '0.2.0'
+$script:ScriptVersion = '0.3.0'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
+function Copy-RidePartialGuestEvidence {
+  param($Session, [string]$GuestPath, [string]$Destination)
+  $prefix=$GuestPath.TrimEnd('\')+'\'
+  $files=@(Invoke-Command -Session $Session -ArgumentList $GuestPath -ScriptBlock {
+    param($Path)
+    Get-ChildItem -LiteralPath $Path -Recurse -File -ErrorAction Stop | Select-Object -ExpandProperty FullName
+  } -ErrorAction Stop)
+  $omissions=New-Object System.Collections.Generic.List[object]
+  foreach($file in $files){
+    if(-not $file.StartsWith($prefix,[StringComparison]::OrdinalIgnoreCase)){throw 'Guest evidence path escaped the correlated result directory.'}
+    $relative=$file.Substring($prefix.Length)
+    if(@($relative -split '\\' | Where-Object {$_ -in @('.','..')}).Count){throw 'Unsafe guest evidence relative path.'}
+    $target=Join-Path $Destination $relative
+    New-Item -ItemType Directory -Path (Split-Path -Parent $target) -Force | Out-Null
+    try{Copy-Item -LiteralPath $file -Destination $target -FromSession $Session -Force -ErrorAction Stop}
+    catch{$omissions.Add([pscustomobject]@{Path=$relative;Error=$_.Exception.Message});Write-Warning "Partial evidence unavailable: $relative"}
+  }
+  ConvertTo-Json -InputObject @($omissions.ToArray()) -Depth 4 | Set-Content -LiteralPath (Join-Path $Destination 'collection-omissions.json') -Encoding UTF8
+}
 Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -Force
 $config = Read-RideAutomationConfiguration $ConfigurationPath
 $null = Assert-RideAutomationHost $config
@@ -84,6 +105,6 @@ try {
   } -ErrorAction Stop
   $destination = Join-Path $ResultDirectory 'guest'
   New-Item -ItemType Directory -Path $destination -Force | Out-Null
-  Copy-Item -Path "$guestPath\*" -Destination $destination -FromSession $session -Recurse -Force -ErrorAction Stop
+  Copy-RidePartialGuestEvidence -Session $session -GuestPath $guestPath -Destination $destination
 }
 finally { if ($session) { Remove-PSSession -Session $session -ErrorAction SilentlyContinue } }

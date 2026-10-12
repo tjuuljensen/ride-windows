@@ -23,6 +23,13 @@
   Request budget including queue/staging, range 1-180; defaults to 90. Client allows five extra
   minutes for evidence and cleanup.
 
+.PARAMETER IntegrationSuite
+  ApplicationsBatch1 and ApplicationsBatch2 select installed/portable application migration tests.
+  SettingsRemainingBatch1 and SettingsRemainingBatch2 select the two focused migration suites.
+  Full (default), SettingsBatch40, SettingsBatch60, or SettingsBatch60Recovery.
+  The recovery suite selects twelve BCD/coordinated settings without packages.
+  Cannot be combined with UnitOnly. Requires the installed controller to support suite selection.
+
 .PARAMETER ReceiptPath
   Optional caller-owned JSON output identifying the request and its result directory.
 
@@ -50,8 +57,11 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.1.0
+  Version: 0.4.0
   Changelog:
+    0.4.0: Accept application migration suites in correlated task requests.
+  - 0.3.0: Submit either remaining-settings migration batch.
+    - 0.2.0: Forward validated integration-suite selection through the protected controller.
     - 0.1.0: Initial on-demand/CI task client.
 
 .LINK
@@ -68,20 +78,22 @@ param(
   [string] $ConfigurationPath,
   [ValidateSet('Local', 'CI')][string] $Source = 'Local',
   [switch] $UnitOnly,
+  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2')][string] $IntegrationSuite = 'Full',
   [ValidateRange(1, 180)][int] $TimeoutMinutes = 90,
   [string] $ReceiptPath,
   [switch] $Version
 )
-$script:ScriptVersion = '0.1.0'
+$script:ScriptVersion = '0.4.0'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
+if ($UnitOnly -and $IntegrationSuite -ne 'Full') { throw 'IntegrationSuite cannot be selected with UnitOnly.' }
 Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -Force
 if (-not $ConfigurationPath) { throw '-ConfigurationPath is required.' }
 $config = Read-RideAutomationConfiguration $ConfigurationPath
 if ([Security.Principal.WindowsIdentity]::GetCurrent().User.Value -ne $config.HostAccountSid) { throw 'Submit requests as the same account used to register the task.' }
 $root = Get-RideAutomationRoot $config.Name
 if (Test-Path -LiteralPath (Join-Path $root 'runtime\blocked.json')) { throw 'VM cleanup is blocked. Follow AUTOMATEDLAB-TASKS.md before requesting more runs.' }
-$request = [ordered]@{ RunId = [guid]::NewGuid().ToString('N'); Source = $Source; UnitOnly = [bool]$UnitOnly; TimeoutMinutes = $TimeoutMinutes; SubmittedAtUtc = [datetime]::UtcNow.ToString('o') }
+$request = [ordered]@{ RunId = [guid]::NewGuid().ToString('N'); Source = $Source; UnitOnly = [bool]$UnitOnly; IntegrationSuite = $IntegrationSuite; TimeoutMinutes = $TimeoutMinutes; SubmittedAtUtc = [datetime]::UtcNow.ToString('o') }
 $pendingPath = Join-Path $root "queue\pending\$($request.RunId).json"
 $runningPath = Join-Path $root "queue\running\$($request.RunId).json"
 $resultPath = Join-Path $root "results\$($request.RunId)\result.json"
@@ -94,6 +106,7 @@ while ([datetime]::UtcNow -lt $deadline) {
   if (Test-Path -LiteralPath $resultPath) {
     $result = Get-Content -LiteralPath $resultPath -Raw | ConvertFrom-Json
     if ($result.RunId -ne $request.RunId) { throw 'Result correlation failed.' }
+    if (-not $UnitOnly -and $IntegrationSuite -ne 'Full' -and ($result.PSObject.Properties.Name -notcontains 'IntegrationSuite' -or $result.IntegrationSuite -ne $IntegrationSuite)) { throw 'Installed controller did not return evidence for the requested integration suite. Refresh its protected files using Register-RideVmTestTask.ps1.' }
     if ($result.Status -ne 'Passed') { throw "RIDE run $($request.RunId) $($result.Status): $($result.Error) $($result.CleanupError). Results: $(Split-Path -Parent $resultPath)" }
     $result
     return

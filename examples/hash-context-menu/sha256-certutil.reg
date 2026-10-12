@@ -1,0 +1,11 @@
+Windows Registry Editor Version 5.00
+
+; RIDE-Windows example: corrected supplied SHA256 with Certutil icon declaration.
+; Review in a disposable Windows VM; export existing values before import.
+; Remove the original ineffective value without removing the verb key.
+[HKEY_CLASSES_ROOT\*\shell\sha256 with Certutil]
+"shell32.dll,-152"=-
+"Icon"="shell32.dll,-152"
+
+[HKEY_CLASSES_ROOT\*\shell\sha256 with Certutil\command]
+@="cmd.exe /k certutil -hashfile \"%1\" SHA256"

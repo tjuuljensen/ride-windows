@@ -84,7 +84,11 @@ Describe 'RIDE operation catalog' {
 
   It 'declares support, scope, privilege, actions, and rollback for every operation' {
     foreach ($operation in $script:Catalog.Operations) {
-      $operation.SupportedTargets.Count | Should -BeGreaterThan 0
+      if ($operation.PendingAcceptance) {
+        $operation.Kind | Should -Be 'Package'
+        $operation.SupportedTargets.Count | Should -Be 0
+        $operation.CandidateTargets.Count | Should -BeGreaterThan 0
+      } else { $operation.SupportedTargets.Count | Should -BeGreaterThan 0 }
       $operation.Scope | Should -BeIn @('User', 'Machine')
       $operation.Actions.Count | Should -BeGreaterThan 0
       $operation.Rollback | Should -BeIn @('Exact', 'Compensating', 'None')
@@ -908,7 +912,9 @@ Describe 'RIDE Windows service operations' {
     $servicePlan = @($plan | Where-Object { $_.Operation.Kind -eq 'WindowsService' })
     $servicePlan.Count | Should -Be 2
     ($servicePlan.State | Select-Object -Unique) | Should -Be 'Disabled'
-    (Show-RideCatalog -View settings | Where-Object Kind -eq 'WindowsService').Count | Should -Be 2
+    $serviceIds = @((Show-RideCatalog -View settings | Where-Object Kind -eq 'WindowsService').Id)
+    $serviceIds | Should -Contain 'windows.ssdp-discovery-service'
+    $serviceIds | Should -Contain 'windows.upnp-device-host-service'
   }
 
   It 'discovers service startup mode and running status' {

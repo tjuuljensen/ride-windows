@@ -25,8 +25,12 @@
   Recovery: Follow AUTOMATEDLAB-TASKS.md for blocked requests; the fixed worker restores only its
   pinned disposable VM/checkpoint.
   Author: RIDE-Windows maintainers.
-  Version: 0.1.2
+  Version: 0.4.1
   Changelog:
+    - 0.4.1: Stop callers when controller JSON writes or final renames fail.
+    0.4.0: Validate application suite requests and exclude private local configuration from snapshots.
+  - 0.3.0: Validate and correlate both remaining-settings batch selections.
+  - 0.2.0: Validate, forward and verify correlated integration-suite selection.
     - 0.1.2: Retain redirected child-process handles for reliable exit-code reporting.
   - 0.1.1: Start the pinned VM through Hyper-V's supported VM-object parameter.
   - 0.1.0: Initial opt-in task orchestration helpers.
@@ -37,7 +41,7 @@
 #>
 
 
-$script:ModuleVersion = '0.1.2'
+$script:ModuleVersion = '0.4.1'
 
 Set-StrictMode -Version 2
 
@@ -129,7 +133,8 @@ function Write-RideAutomationJson {
 
   .DESCRIPTION
     Serializes at depth 15 to a unique sibling temporary file, then renames over the destination.
-    Cleans the temporary file in finally; the parent must exist.
+    Write and rename failures terminate the call. Cleans the temporary file in finally;
+    the parent must exist.
 
   .PARAMETER Path
     Destination JSON file; caller validates its ownership and directory.
@@ -155,8 +160,8 @@ function Write-RideAutomationJson {
   param([string] $Path, [object] $Value)
   $temporary = $Path + '.' + [guid]::NewGuid().ToString('N') + '.tmp'
   try {
-    $Value | ConvertTo-Json -Depth 15 | Set-Content -LiteralPath $temporary -Encoding UTF8
-    Move-Item -LiteralPath $temporary -Destination $Path -Force
+    $Value | ConvertTo-Json -Depth 15 | Set-Content -LiteralPath $temporary -Encoding UTF8 -ErrorAction Stop
+    Move-Item -LiteralPath $temporary -Destination $Path -Force -ErrorAction Stop
   }
   finally { if (Test-Path -LiteralPath $temporary) { Remove-Item -LiteralPath $temporary -Force } }
 }
@@ -537,7 +542,7 @@ function Copy-RideAutomationSnapshot {
   $directories.Enqueue($sourcePath)
   while ($directories.Count) {
     foreach ($item in Get-ChildItem -LiteralPath $directories.Dequeue() -Force) {
-      if ($item.Name -in @('.git', '.vs', '.codex', '.agents', '.aws', 'testResults.xml', 'TestResults', 'results', 'node_modules', 'config.ini', 'serials.ini', 'private.preset') -or $item.Name -like '*.private.preset') { continue }
+      if ($item.Name -in @('.git', '.vs', '.local', '.codex', '.agents', '.aws', 'testResults.xml', 'TestResults', 'results', 'node_modules', 'config.ini', 'serials.ini', 'private.preset') -or $item.Name -like '*.private.preset') { continue }
       if ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) { throw "Checkout contains a reparse point: $($item.FullName)" }
       $relative = $item.FullName.Substring($sourcePath.Length + 1)
       $target = Join-Path $Destination $relative
@@ -564,7 +569,8 @@ function Assert-RideAutomationRequest {
 
   .DESCRIPTION
     Validates GUID N format, Local/CI source, Boolean UnitOnly, timeout range, and a parseable
-    submission timestamp.
+    submission timestamp. Optional IntegrationSuite is a fixed supported name;
+    older requests without it retain Full behavior. Reject suite selection with UnitOnly.
 
   .PARAMETER Request
     Correlated request with RunId, Source, UnitOnly, TimeoutMinutes, and SubmittedAtUtc.
@@ -587,6 +593,10 @@ function Assert-RideAutomationRequest {
   param([object] $Request)
   $null = [guid]::ParseExact([string]$Request.RunId, 'N')
   if ($Request.Source -notin @('Local', 'CI') -or $Request.UnitOnly -isnot [bool]) { throw 'Invalid request source or UnitOnly value.' }
+  if ($Request.PSObject.Properties.Name -contains 'IntegrationSuite') {
+    if ($Request.IntegrationSuite -notin @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2')) { throw 'Invalid request IntegrationSuite.' }
+    if ($Request.UnitOnly -and $Request.IntegrationSuite -ne 'Full') { throw 'IntegrationSuite cannot be selected with UnitOnly.' }
+  }
   if ($Request.TimeoutMinutes -lt 1 -or $Request.TimeoutMinutes -gt 180) { throw 'Invalid request timeout.' }
   $null = [datetime]::Parse($Request.SubmittedAtUtc).ToUniversalTime()
 }
@@ -752,10 +762,11 @@ function Invoke-RideAutomationRequest {
 
   param([object] $Configuration, [object] $Request, [string] $Root)
   Assert-RideAutomationRequest $Request
+  $selectedSuite = if ($Request.PSObject.Properties.Name -contains 'IntegrationSuite') { $Request.IntegrationSuite } else { 'Full' }
   $runDirectory = Join-Path $Root "results\$($Request.RunId)"
   Assert-RideAutomationDirectory $runDirectory
   New-Item -ItemType Directory -Path $runDirectory -Force | Out-Null
-  $summary = [ordered]@{ SchemaVersion = 1; RunId = $Request.RunId; Source = $Request.Source; UnitOnly = $Request.UnitOnly; Status = 'Failed'; StartedAtUtc = [datetime]::UtcNow.ToString('o'); FinishedAtUtc = $null; Error = $null; CleanupError = $null; CollectionError = $null; UacBefore = $null; UacAfter = $null }
+  $summary = [ordered]@{ SchemaVersion = 1; RunId = $Request.RunId; Source = $Request.Source; UnitOnly = $Request.UnitOnly; IntegrationSuite = $selectedSuite; Status = 'Failed'; StartedAtUtc = [datetime]::UtcNow.ToString('o'); FinishedAtUtc = $null; Error = $null; CleanupError = $null; CollectionError = $null; UacBefore = $null; UacAfter = $null }
   $touchedVm = $false
   try {
     if (Test-Path -LiteralPath (Join-Path $Root 'runtime\blocked.json')) { throw 'VM cleanup is blocked. Follow the recovery runbook before submitting another run.' }
@@ -772,6 +783,7 @@ function Invoke-RideAutomationRequest {
     Start-VM -VM (Get-VM -Id ([guid]$Configuration.VMId) -ErrorAction Stop) -ErrorAction Stop | Out-Null
     $arguments = "-NoLogo -NoProfile -ExecutionPolicy Bypass -NonInteractive -WindowStyle Hidden -File `"$(Join-Path $Root 'bin\Invoke-RideVmTest.ps1')`" -Transport AutomatedLab -LabName `"$($Configuration.LabName)`" -VMName `"$($Configuration.VMName)`" -RepositoryPath `"$snapshotPath`" -GuestRepositoryPath `"$($Configuration.GuestRepositoryPath)`" -ResultDirectory `"$runDirectory`" -RunId $($Request.RunId)"
     if ($Request.UnitOnly) { $arguments += ' -UnitOnly' }
+    else { $arguments += " -IntegrationSuite $selectedSuite" }
     $process = Start-Process -FilePath (Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe') -ArgumentList $arguments -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $runDirectory 'controller.log') -RedirectStandardError (Join-Path $runDirectory 'controller-errors.log')
     # Retain the handle before waiting; otherwise Windows PowerShell 5.1 can lose ExitCode.
     $null = $process.Handle
@@ -792,6 +804,7 @@ function Invoke-RideAutomationRequest {
     if ($process.ExitCode -ne 0) { throw "Test controller exited with code $($process.ExitCode). See controller-errors.log." }
     $guest = Get-Content -LiteralPath (Join-Path $runDirectory 'guest\summary.json') -Raw -ErrorAction Stop | ConvertFrom-Json
     if ($guest.RunId -ne $Request.RunId -or $guest.Status -ne 'Passed' -or $guest.Pester.Total -lt 1 -or $guest.Pester.Failed -ne 0 -or -not $guest.ValidationPassed -or (-not $Request.UnitOnly -and -not $guest.IntegrationPassed)) { throw 'Guest result is missing, mismatched, incomplete or unsuccessful.' }
+    if (-not $Request.UnitOnly -and ($guest.PSObject.Properties.Name -notcontains 'IntegrationSuite' -or $guest.IntegrationSuite -ne $selectedSuite)) { throw 'Guest integration suite does not match the requested suite.' }
     if (-not (Test-Path -LiteralPath (Join-Path $runDirectory 'guest\pester.xml') -PathType Leaf)) { throw 'Guest Pester XML is missing.' }
     $summary.Status = 'Passed'
   }

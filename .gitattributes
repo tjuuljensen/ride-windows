@@ -1,2 +1,6 @@
 # Preserve the Windows command launcher line endings.
 default.cmd text eol=crlf
+components/scripts/caffeine.cmd text eol=crlf
+components/scripts/caffeine-light.cmd text eol=crlf
+# Keep importable registry examples in Windows line format.
+examples/hash-context-menu/*.reg text eol=crlf

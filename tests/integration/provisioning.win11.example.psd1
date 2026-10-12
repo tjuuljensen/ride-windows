@@ -6,7 +6,7 @@
   LabName = 'RIDEWin11Pilot'
   VMName = 'RIDE-W11-Pilot'
   VMPath = 'D:\VMs\RIDEWin11Pilot' # New or empty per-lab storage directory.
-  NetworkName = 'RIDE-W11-Pilot-NAT' # Must not identify an existing virtual switch.
+  NetworkName = 'RIDE-Internet' # Must not identify an existing virtual switch.
   MemoryGB = 8
   ProcessorCount = 4
   DisableTpm = $false

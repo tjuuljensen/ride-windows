@@ -2,29 +2,374 @@
 
 ## Purpose and inventory
 
-This is the batch inventory for migrating the selectable commands in `legacy/v2/default.preset` to the v3 catalog and profiles. It includes active and commented selectors. The inventory below contains **732 distinct legacy function names** referenced by the preset across **30 family groups**. Active selectors are marked **default**. Paired legacy commands should become states of one v3 operation only when inspection confirms that they control the same setting or package.
+This is the batch inventory for migrating the selectable commands in `legacy/v2/default.preset` to the v3 catalog and profiles. It includes active and commented selectors. The original inventory contained **732 distinct legacy function names** across **30 family groups**; **731** remain in the preset after the user-requested Opera exclusion on 2026-10-11. The excluded outcome remains accounted for in the application ledger. Active selectors are marked **default**. Paired legacy commands should become states of one v3 operation only when inspection confirms that they control the same setting or package.
 
-The catalog supports `RegistryValue`, `RegistryKeySet`, `Package`, `DefenderExclusion`, `WindowsService`, `BackgroundAppOverrides`, `BootConfiguration`, `NetworkProfile`, `PowerSetting`, and `ShellFolder`. Migration of the other groups requires the minimum additional operation kinds and focused handlers for Windows components, account/configuration changes, files/assets, and system tasks. Each handler must participate in planning, `ShouldProcess`, state capture or declared compensating behavior, status/reporting, and partial-failure reporting.
+The catalog supports `ScheduledTask`, `AdapterBinding`, `DefenderPreference`, `SmbProtocol`, `PowerScheme`, `NetBios`, `RemoteDesktopFirewall`, `SoundScheme`, `RegistryValue`, `RegistryValueSet`, `RegistryKeySet`, `Package`, `DefenderExclusion`, `WindowsService`, `BackgroundAppOverrides`, `BootConfiguration`, `NetworkProfile`, `PowerSetting`, and `ShellFolder`. Migration of the other groups requires the minimum additional operation kinds and focused handlers for Windows components, account/configuration changes, files/assets, and system tasks. Each handler must participate in planning, `ShouldProcess`, state capture or declared compensating behavior, status/reporting, and partial-failure reporting.
 
 The optional [God Mode desktop folder](GOD-MODE.md) uses the focused `ShellFolder`
 handler. It is a separately requested option, not a migrated legacy selector;
 it does not change the upstream preset inventory or implement general file deployment.
 
+## Custom-library interface: v3 release requirement
+
+**Decision accepted, 2026-10-10:** A documented and implemented custom-library
+interface is a v3 release requirement. Other maintainers must be able to adopt
+the RIDE model and maintain their own operations and profiles in a separate
+repository without modifying or forking the core engine. Migration of the
+built-in catalog alone does not satisfy this release requirement.
+
+The initial implementation now accepts explicit local library manifests,
+external catalogs and declared profiles using built-in handlers. General profile
+composition and custom-handler registration remain pending release work.
+The earlier [custom library review](#custom-library-review-2026-10-09) remains a
+disposition of that library's content; it does not replace this interface work.
+
+### Sequence during migration
+
+1. **Define the contract now.** Document a small, versioned library manifest,
+   explicit local library selection, engine compatibility, library ownership and
+   operation/group ID rules. Define how external catalogs and profiles resolve
+   references, reuse built-in handlers and participate in saved-run recovery.
+   Keep profiles and manifests declarative. Preserve published IDs; reject
+   duplicate IDs rather than silently overriding built-in or external entries.
+2. **Build a metadata-only pilot during migration.** Add explicit library loading
+   and shared catalog resolution, then prove a separate sample library with one
+   registry operation, one package using an existing handler and a profile.
+   Execution, discovery, validation, generated references and read-only completion
+   must use the same resolved metadata. Discovery and completion must not import
+   custom operational modules or invoke handlers. Establish this path before
+   substantial additional handler work, so later migrations can reuse it.
+3. **Prove custom handlers as a real need arises, before v3 release.** Introduce
+   a small handler registration/dispatch contract covering inspection, desired
+   state checks, apply/remove as applicable, snapshots, recovery and partial
+   failures. Pilot one independently useful external handler and move existing
+   handler wiring behind the contract incrementally. Use experience from the
+   remaining component, package and file/asset migrations to settle the contract;
+   do not wait until all migration work is finished to start integration.
+
+Build the foundation and pilots alongside migration. Defer automatic library
+installation/update, remote registries, elaborate dependency resolution and
+general profile inheritance until demonstrated needs justify them. Retain the
+settings/package lifecycle distinction, supported-target checks, elevation,
+engine-controlled ShouldProcess and recovery reporting. Custom PowerShell code
+is explicitly selected trusted code; declarative loading is not a sandbox for
+custom handlers. This work does not reconnect the legacy runner or import
+`lib-custom.psm1`.
+
+### Acceptance before v3 release
+
+- A maintainer can follow the authoring guide and starter library to add both
+  metadata using built-in handlers and a new custom handler, outside the RIDE
+  checkout, without editing core files. Document the manifest and handler API,
+  compatibility, loading, validation, upgrade and recovery workflows.
+- External entries work through the normal list/search/show, plan/status,
+  apply/remove and restore paths as applicable. Enumerable library selection
+  and external IDs, states and profiles receive read-only completion from the
+  same selected library sources.
+- Validation rejects invalid schemas, incompatible library versions, duplicate
+  IDs and unresolved references before mutations. Library selection and profile
+  loading do not silently discover or execute arbitrary modules.
+- Saved runs identify the library, library version, operation and handler/snapshot
+  contract needed for recovery. Define a tested compatibility or migration path
+  for upgrades; missing or incompatible libraries produce actionable recovery
+  errors before applying changes, without discarding captured state or fetching
+  replacement code automatically.
+- Windows-native mocked tests cover loading, dispatch, completion, preview,
+  repeat apply, recovery and partial failures on PowerShell 5.1 and 7. Disposable
+  Windows VM checks prove the external setting/package/handler lifecycles on
+  their declared targets; Windows 11 results do not establish Server support.
+
+This is separate engine/release work, not additional legacy feature or product
+outcomes. The remaining migration estimates below are unchanged by this decision.
+
+### Foundation implementation, 2026-10-10
+
+Library API 1 provides explicit `-Library` selection, bounded declarative manifest
+loading, merged metadata, shared catalog/profile validation, namespace and duplicate
+ownership checks, external discovery/completion and separate reference export.
+External `RegistryValue` and EXE/MSI `Package` operations use existing handlers.
+Saved state identifies the library/version/catalog fingerprint, and restore
+preflights every record before the first writer. Original library bytes remain
+the recovery path; cross-version migration is not yet implemented.
+
+The [authoring guide](CUSTOM-LIBRARIES.md) documents the contract and the copyable
+`examples/contoso/` starter. Its package group references the existing 7-Zip ID
+rather than introducing duplicate product ownership; mocked fixtures separately
+exercise a newly declared external package. The foundation does not reconnect
+legacy functions or establish a custom-handler API. Custom dispatch, upgrade
+migration and disposable-VM acceptance remain open release requirements.
+Validation on Windows PowerShell 5.1.26100.9549 and PowerShell 7.6.5:
+
+- Shared validation and generated-reference checks pass with the starter selected:
+  271 operations, 3 groups, 5 profiles and 86 PowerShell files.
+- All 26 custom-library tests pass on each runtime, including external paths,
+  metadata-only discovery/completion, validation/export, mocked setting/package
+  preview, repeat apply, partial failure and restore identity checks.
+- The 144 existing search, catalog, license review, observation import,
+  managed-setting and package-evidence tests pass on each runtime. Their temporary
+  files were placed inside the workspace to avoid sandbox rename restrictions;
+  PowerShell 7 used inert Defender command declarations solely for Pester mocks.
+- Broader unit runs did not pass in this sandbox: temporary-file access failures
+  affected cache/review/automation tests, and PowerShell 7 lacked Defender commands
+  for one mock. A clean full-suite CI run and disposable-VM library acceptance
+  remain required. No real registry writer, installer or VM scenario ran here.
+
+This is no legacy migration batch; the dated group ranges and rounded total
+remain unchanged because no additional legacy outcomes were implemented.
+
+### Guided authoring, 2026-10-10
+
+`tools/New-RideLibrary.ps1` now guides maintainers through the supported API 1
+choices and creates a validated new manifest/catalog/profile project. Shared
+choices cover Package/RegistryValue, EXE/MSI, scopes, registry types, architectures
+and source providers; target names come from the catalog. Repeatable declarative
+definitions, preview and cancellation are supported; existing directories are
+never replaced. The helper runs no handlers or installers.
+
+Custom product/documentation links are optional; supplied links are validated.
+Package download and license sources remain required. DirectHttps adds explicit
+versioned publisher installers alongside GitHub releases, with an optional
+expected SHA-256. RecoveryUri is an optional retained manual-recovery aid, not an
+automatic version-recovery mechanism. A KeePassXC MSI authoring example replaces
+the need to guess catalog fields; publisher prerequisites and VM acceptance are
+still required. Custom handlers and cross-version recovery remain open.
+
+Validation: 164 affected tests pass on each of Windows PowerShell 5.1.26100.9549
+and PowerShell 7.6.5 (authoring, libraries, search, package evidence and catalog;
+one WindowsIntegration test excluded). Static validation passes with the starter
+selected, checking 271 operations, 3 groups, 5 profiles and 90 PowerShell files.
+The KeePassXC definition was generated, resolved through search and exported with
+a successful reference check. Tests use isolated workspace temporary files and
+mocked network/installer calls; PowerShell 7's existing Defender test uses inert
+command declarations for mocks. No package was downloaded or installed, and no
+registry writer or VM integration ran.
+
+This adds authoring/engine work, not migrated legacy outcomes; the dated group
+estimates and rounded remaining total are unchanged.
+
+### Early sample inspection and ZIP installers, 2026-10-10
+
+The guided helper now offers an optional sample URL or local file immediately
+after selecting Package, before scope, targets and architecture questions.
+Bounded HTTPS downloads and content/resource inspection suggest editable installer
+type, packaging/member path, product name/version and download filename without
+executing payloads. Launcher architecture and separate archive/member hashes are
+reported as evidence; payload support, detection, scope, arguments and licensing
+remain author decisions. Download failure permits manual authoring and WhatIf
+performs no download, extraction or project writes. Independent inspection is
+available through `tools/Inspect-RideInstaller.ps1`.
+
+API 1 adds optional `ArchiveType = 'Zip'`, exact `InstallerEntry` and optional
+`ExpectedInstallerSha256` for DirectHttps EXE/MSI packages. Existing direct entries
+remain valid. Extraction selects one bounded self-contained installer, checks type
+and member digest, and cleans staging after the process exits. The complete source
+ZIP and notices remain cached; acquisition evidence separates member and archive
+hashes. Portable apps, adjacent payloads and detached installer workers are outside
+this path. Existing compensating removal/recovery semantics remain in effect.
+
+The supplied Windows 7 Games ZIP was downloaded and inspected without execution:
+one EXE, resource version 4.3 and an x86 launcher; its inner EXE hash matches the
+[publisher's checksum](https://win7games.com/). The authoring guide records exact
+member/hash evidence and outstanding VM checks. A publisher-origin referrer was
+needed to download it. Installation, detection, uninstall and recovery acceptance
+still require disposable Windows VMs; inspection establishes no Server support.
+
+Validation on Windows PowerShell 5.1.26100.9549 and PowerShell 7.6.5: the 164
+existing affected regression tests and all 15 new inspection/ZIP tests pass on
+each runtime; one WindowsIntegration test remains excluded. Tests cover early
+prompts/defaults, explicit architecture, member completion/selection, cancellation,
+unsafe paths/duplicates, bounded entry counts, content rejection, preview,
+archive/member evidence, digest rejection and mocked EXE/MSI dispatch. Static
+validation passes with the starter library: 271 operations, 3 groups, 5 profiles,
+93 PowerShell files and current generated documentation. Network and installer
+calls are mocked in unit tests. Separate live sample downloads/inspection pass
+on both runtimes. No installer, registry writer or VM integration ran.
+
+This adds authoring/handler infrastructure, not migrated legacy outcomes. The
+dated group estimates and rounded remaining migration total are unchanged.
+
+### Incremental library authoring and license references, 2026-10-10
+
+The same wizard now supports `-Add` for existing generated libraries, also exposed
+as `Add-RideLibraryOperation`. It reuses the namespace, requires a higher version,
+preserves existing operation IDs/groups/profile choices, appends new selections,
+and validates staged metadata before publication. Prior manifest/catalog/profile
+bytes are retained in a sibling history directory for saved-run recovery.
+Duplicate operation/product ownership is rejected. Publication locks block readers
+from mixed metadata; failed writes restore the previous files. Unrelated library
+files remain untouched; alternate profiles are copied into recovery metadata.
+
+Custom LicenseUri and TermsUri are optional HTTP/HTTPS information references,
+including internal hosts and localhost. A descriptive License remains required;
+the wizard defaults to Unknown and can describe licenses shipped in local files
+or payloads. Missing links export as Not provided, without an empty Markdown link.
+The built-in catalog retains required official HTTPS licensing references, and
+custom installer sources still require HTTPS. No license review decision is
+inferred from an informational link.
+
+Validation: **212 Pester tests passed** in each of Windows PowerShell 5.1 and
+PowerShell 7.6.5; one Windows integration case was excluded. Coverage includes
+optional/HTTP/localhost references, reference export, guided addition, duplicate
+rejection, preserved selections/groups/profiles, exact prior metadata, WhatIf,
+write rollback and retained recovery after rollback failure. Native validation
+with the operator's existing games library passed in both editions: 271
+operations, 2 groups, 5 profiles and 93 PowerShell files; built-in generated
+documentation is current. No installer or state-changing VM scenario ran.
+
+This is authoring/recovery infrastructure, not a legacy migration batch; the dated
+group estimates and rounded remaining total remain unchanged. Custom handlers,
+cross-version state migration and disposable-VM lifecycle acceptance remain open.
+
+### HKCR context-menu authoring, 2026-10-10
+
+The helper accepts HKCR and long .reg root names, mapping HKCR to
+HKCU\Software\Classes for User scope or HKLM\Software\Classes for Machine scope.
+The displayed destination and published metadata use that explicit root; raw
+merged-view paths remain invalid in catalogs. Scope-conflicting paths are refused.
+This follows Microsoft's documented Classes-root distinction and preserves a
+stable inspection/recovery location without installing an HKCR drive.
+
+API 1 now accepts RegistryValueSet with 2-10 coordinated String/DWord components
+using the existing engine lifecycle. The wizard supports unnamed default values
+and distinguishes empty String data from an absent value. Typed default-value
+writes/deletion use the native registry API; recovery retains the original kind,
+including serialized arrays. Built-in reference requirements remain in place;
+custom documentation is optional. Existing IDs, manifests and saved-run identity
+remain unchanged; new operations still require their matching library version.
+
+The Certutil context-menu authoring example preserves the operator's exact two
+values as one user-scoped setting, including the unusually named empty value.
+No icon interpretation was substituted in that initial version. The
+2026-10-11 correction in example version 0.1.1 writes
+`Icon = 'shell32.dll,-152'`, as requested. Version 0.1.2 adopts the requested
+`SHA-256 with Certutil` verb key and label, retaining the `SHA256` command
+argument. Preserve generated 0.1.0/0.1.1 libraries and manifests for old-run
+recovery against the original registry destinations. Restore earlier runs
+before applying the new version to avoid duplicate verb entries; see the
+[current example guidance](CUSTOM-LIBRARIES.md#hkcr-and-coordinated-registry-entries)
+and [requested hashing additions](CANDIDATE-TOOLS.md#requested-v3-additions-2026-10-11).
+Windows 11 icon rendering, menu visibility, hashing,
+repeat apply, unset and saved-run restore require disposable-VM acceptance.
+
+Validation: **32 custom-registry tests passed** in each of Windows PowerShell 5.1
+and PowerShell 7.6.5, covering scope mapping, literal/default values, guided and
+incremental authoring, malformed metadata, completion, preview, repeat apply,
+saved-run recovery, typed serialized data and preservation of unrelated values.
+Affected authoring/library/catalog/search/sixty-setting regressions also passed
+in both editions; one Windows integration case was excluded. Native validation
+with the operator's games library and generated context-menu example passed in
+both editions: 272 operations, 2 groups, 6 profiles and 94 PowerShell files;
+built-in generated documentation is current. Registry access was mocked in
+lifecycle tests; no registry writes or Certutil execution occurred.
+
+This extends authoring infrastructure, not a legacy migration batch; dated group
+estimates and rounded remaining migration totals remain unchanged.
+
 ## Estimated remaining migration work
 
-Last reviewed: **2026-10-10**, after the forty-setting batch and the settings
-usability review below. Approximately **230-280 distinct legacy work items**
-remain; use **about 250** for planning. These are candidates for migration,
+Last reviewed: **2026-10-11**, after reconciling both remaining-application
+batches and accepting all eighteen batch/continuation application distributions
+on both targets.
+Other pending acceptance and unresolved bundle components remain counted.
+The 2026-10-11 [hashing additions](CANDIDATE-TOOLS.md#requested-v3-additions-2026-10-11)
+queue three new outcomes outside the legacy selector inventory. Correcting the
+Certutil authoring example accepts no legacy outcome; all five group estimates
+and the rounded **160-215**, about **190**, total remain unchanged.
+The same-day [application continuation](migrations/application-follow-up-2026-10-11.md)
+accepts Caffeine and NetworkMiner on both targets, bringing these batches to
+fifteen accepted distributions. All five ranges below were reviewed; the two
+resolved outcomes fit within their coarse uncertainty, so rounded ranges remain
+unchanged. Deferred bundle components and runtime decisions remain counted.
+
+The subsequent [installed continuation](migrations/application-installed-follow-up-2026-10-11.md)
+accepts machine Chrome and current-user Signal on both targets, bringing the
+accepted distributions to seventeen (six installed, eleven portable). All five
+groups were reviewed again: the two additional resolved product outcomes fit
+within the rounded packages/artifacts **65-80** range. Settings **40-60**,
+components **20-25**, accounts/assets **25-35** and maintenance **8-12** remain
+unchanged; the rounded total remains **160-215**, about **190**. The application
+ledger now retains 80 individual review outcomes/components and one user-policy
+exclusion, including adjacent
+settings and prerequisites counted in their respective estimate groups.
+
+The same-day settings review accepts retirement of the paired legacy Task Manager
+expanded/compact selector, resolving one feature outcome without adding a new
+operation. Historical source is preserved; new Task Manager preferences would
+need separate GUI/mapping evidence. All group ranges were reviewed and remain
+unchanged, including settings **40-60**: this one disposition is within the coarse
+uncertainty. The rounded total remains **160-215**, about **190**. Other accepted
+setting designs still awaiting implementation and feature acceptance remain
+counted in the [settings decision ledger](migrations/remaining-settings-decisions.md).
+
+The same-day settings review also accepts retirement of the paired legacy
+Computer Browser visibility selectors, resolving one further legacy outcome.
+Preserve historical source and existing Hidden values; modern network-discovery
+guidance is separate follow-up, not an equivalent migrated registry control.
+All five group ranges were reviewed again and remain unchanged: settings
+**40-60**, packages/artifacts **65-80**, components **20-25**, accounts/assets
+**25-35** and maintenance **8-12**. This one additional disposition is within the
+rounded uncertainty; the total remains **160-215**, about **190**. Accepted
+designs still awaiting implementation/feature evidence remain counted.
+
+The same-day user decision excludes Opera from migration and removes its legacy
+installer and preset entry. All five estimate groups were reviewed again; this
+one excluded product is within their rounded uncertainty. Settings **40-60**,
+packages/artifacts **65-80**, components **20-25**, accounts/assets **25-35** and
+maintenance **8-12** remain unchanged, totaling **160-215**, about **190**.
+The subsequent [WinSCP acceptance](migrations/application-winscp-follow-up-2026-10-11.md#final-correlated-acceptance)
+resolves one portable product, bringing accepted distributions to eighteen
+(six installed, twelve portable). Twelve portable lifecycles and 230 guest checks
+passed per target. All five ranges were reviewed again and remain unchanged:
+this product and the excluded Opera outcome fit within the coarse uncertainty.
+The application ledger contains ten earlier migrations, eighteen newly accepted
+outcomes, eighty individual review items and one user-policy exclusion.
+
+The [Thunderbird continuation](migrations/application-thunderbird-follow-up-2026-10-11.md)
+records the user's Release x64/en-GB/current-user choice and implements its
+destination, execution-context, edition-conflict and profile-preservation
+contracts. Target acceptance is pending; the ledger now separates one
+implementation awaiting acceptance from 79 individual review items. All five
+estimate groups were refreshed on 2026-10-11: settings **40-60**,
+packages/artifacts **65-80**, components **20-25**, accounts/assets **25-35** and
+maintenance **8-12**, totaling **160-215**, about **190**. Resolving this one
+product's choices does not materially change the rounded uncertainty, and
+unfinished target acceptance remains accounted for.
+
+After the user requested continuation, Thunderbird's deployment and recovery
+acceptance passed on both targets: 242 guest checks and seven installed
+lifecycles each. The ledger now records nineteen newly accepted outcomes
+(seven installed, twelve portable), ten earlier migrations, 79 individual review
+items and one user-policy exclusion. All five estimate groups were refreshed
+again on 2026-10-11: settings **40-60**, packages/artifacts **65-80**, components
+**20-25**, accounts/assets **25-35**, maintenance **8-12**, totaling **160-215**,
+about **190**. Completing this one product does not change the rounded ranges;
+the remaining edition, component, licensing and infrastructure review work is
+retained. Elevated controller refresh is deferred as requested.
+
+Approximately **160-215 distinct legacy work items**
+remain; use **about 190** for planning. These are candidates for migration,
 retirement, combination or replacement, not a commitment to implement all of them.
 
 | Group | Approximate remaining items | Examples |
 | --- | ---: | --- |
-| Windows and application settings | 100-120 | UI and Explorer options, security, networking, services, Server settings and BitLocker controls |
-| Packages, portable tools and downloadable artifacts | 80-90 | Roughly 29 forensic tools, 14 system-tool entries, 22 general software/artifact entries, plus AD tools, browsers and other products |
+| Windows and application settings | 40-60 | Deferred UI and Explorer behavior, security/network handlers, services, Server settings and BitLocker enrollment |
+| Packages, portable tools and downloadable artifacts | 65-80 | Remaining forensic tools, system-tool entries, general software/artifacts, AD tools, browsers and other products; six installed and twelve portable distributions accepted |
 | Windows components and optional features | 20-25 | WSL, Hyper-V, Sandbox, OpenSSH, printing features and built-in app management |
 | Accounts, configuration and deployed files/assets | 25-35 | Users and administrator membership, Wi-Fi, regional settings, language packs, browser preferences, fonts and wallpapers |
 | Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers |
-| **Total, rounded** | **230-280** | **About 250 for planning** |
+| **Total, rounded** | **160-215** | **About 190 for planning** |
+
+Settings implementation started on 2026-10-11 with the shared scope, enforcement,
+GUI and prerequisite presentation contract and four reviewed existing settings.
+This increment closes no additional legacy feature outcome; the remaining
+metadata audits, handler work and feature acceptance stay counted. All five
+rounded ranges above remain unchanged, including settings **40-60** and the
+total **160-215**, about **190**. Tests were held until the concurrent application
+migration and its tests finished, as requested; native PowerShell 5.1/7 then
+covered 149 passing checks per edition, with two fixture checks passing on
+targeted retry. Parser, catalog/profile and generated-reference checks passed
+on both editions. Feature and GUI acceptance remain separate. Progress is recorded
+in the [settings decision ledger](migrations/remaining-settings-decisions.md).
 
 The estimate reconciles the family lists in the [migration inventory](#migration-inventory)
 with implemented equivalents and the
@@ -48,6 +393,12 @@ including the nine numbered suggestion channels and Cortana-derived preferences.
 They are not additional migration items in this table. Implementation counts do
 not establish understood user-visible behavior or complete acceptance.
 
+The earlier twelve-setting evidence rerun added no newly migrated feature or product
+outcomes. It kept the then-current five group ranges and rounded **200-250** total
+unchanged while closing twelve pending lifecycle checks in the separate acceptance
+backlog. The two batches below subsequently adjusted the estimate. Feature/UI/restart
+checks and partial legacy bundles remain pending.
+
 After **every migration batch**, refresh the review date, all group ranges and
 the rounded total against the updated family and disposition records. Record
 which legacy outcomes were completed, retired, deferred or remain partial in the
@@ -55,6 +406,228 @@ batch entry below, together with any estimate adjustment. Remove only resolved
 scope from the migration estimate; retain omitted or deferred scope and update
 the separate evaluation backlog. If rounding leaves a range unchanged, record
 that it was reviewed and why it remains unchanged.
+
+## Remaining-applications batch 1, 2026-10-11
+
+The [consolidated application ledger](migrations/application-migration-review.md)
+assigns all package-family selectors to two batches and records omitted bundle
+components separately. Batch 1 implements optional VS Code User Setup, Firefox
+x64 MSI, DB Browser for SQLite x64 MSI and Autopsy x64 MSI. The VS Code edition
+and Firefox language/architecture retain the legacy intent. Publisher adapters
+resolve exact versions and declared artifact hosts; saved selection/acquisition
+records retain scope, provider, variant and recovery limits.
+
+Windows-native parser/catalog/profile and mocked checks passed on PowerShell
+5.1 and 7. Both actual guests passed all four installed lifecycles and 211
+focused Pester checks after correcting Firefox's MSI-wrapper EXE removal.
+Windows 11 Enterprise Evaluation build 26300 and Server 2025 Standard Evaluation
+build 26100 with Desktop Experience passed original-absence restore. Evidence
+export, pinned checkpoint recovery and shutdown succeeded on both targets.
+Production metadata now declares those two targets. Application/UI behavior,
+Server Core and exact recovery of a previously installed EXE/MSI version remain
+separate limits; see the dated acceptance record.
+
+All five estimate groups were reviewed after acceptance. With nine portable
+outcomes already resolved by batch 2, these four further product outcomes lower
+packages/artifacts from 70-80 to **65-80** and the rounded total from 165-215 to
+**160-215 / about 190**. The central planning figure remains unchanged because
+of rounding. Settings 40-60, components 20-25, accounts/assets 25-35 and
+maintenance 8-12 are unchanged. Licensed, interactive, driver/reboot,
+Office/Teams and guest-hardware outcomes retain individual review dispositions.
+
+### Installed continuation, 2026-10-11
+
+Optional `package.chrome` retains the legacy enterprise stable x64 MSI and
+machine scope. Its mutable publisher source is pinned to inspected version
+155.0.8059.40 and SHA-256; changed bytes require review. Optional `package.signal`
+retains the official stable x64 current-user distribution, binding versioned
+bytes to the publisher feed's SHA-512. Removal temporarily preserves Signal's
+Roaming data, refusing active processes, unsafe roots and interrupted/colliding
+recovery instead of deleting or overwriting user data.
+
+Both actual guests passed all six installed scenarios and 224 mocked guest
+checks: Windows 11 request `0a58abbfedac42ab87e60c6a682b4968` and Server 2025
+request `a68b43e9367148caba8f3fd173b5bdb6`. Chrome/Signal passed profile fixtures,
+preview, repeat installation/removal and compensating removal recovery. Evidence
+collection, pinned checkpoint reset and shutdown passed with unchanged UAC.
+All 78 earlier artifact observations were preserved while 16 correlated records
+were appended. Exact previous-version recovery, application UI/account behavior
+and Server Core remain outside this acceptance. Profiles and published defaults
+did not gain new applications.
+
+The historical INI-to-process-variable path and application language literals
+are reconciled in the [language audit](migrations/application-batch-decisions-2026-10-11.md).
+The agreed Danish formats and full Office/proofing bundle remain explicit
+requirements. Current ODT excludes UK English for Visio; that conflict remains
+for individual decision rather than silent US-English substitution. Gpg4win's
+nested GnuPG ownership, Wireshark's global content/runtime effects, FTK's
+CodeMeter prerequisite and other unclear outcomes remain review items.
+Estimate effects are recorded in the dated estimate section above; neither
+review preparation nor a downloaded sample is counted as another migration.
+
+## Remaining-applications batch 2, 2026-10-11
+
+Managed portable lifecycle now uses configurable machine ToolsDirectory,
+bounded extraction, hashes and an ownership journal. It refuses collisions,
+preserves modified/application/user files and restores captured owned bytes
+only when retained recovery files are available. Schema-3 package records and
+a local selection index retain the edition/destination after preference changes;
+older saved schemas remain readable. ShareX keeps its published ID and installed
+default; portable is an explicit variant. No recommended profile gained apps.
+
+Portable candidates cover Chainsaw, Hindsight GUI, CyberChef, standalone PuTTY,
+ShareX portable, SRUM Dump, SrumMonkey, CyLR x86 and dejsonlz4 x86. Nested archive layouts and supplied
+notices are retained. Collector, scanner and forensic parsing execution is
+separate from deployment acceptance; no Defender exclusions are implicit.
+Dynamic repositories/collections, unknown editions, unsupported extraction
+formats and missing release evidence remain in the application ledger.
+
+All nine portable distributions passed deployment lifecycle and recovery on
+Windows 11 Enterprise Evaluation build 26300 and Server 2025 Standard Evaluation
+build 26100 with Desktop Experience. Both guests passed 207 focused Pester
+checks. Collected state and acquisition evidence precede successful checkpoint
+reset and shutdown. Production metadata now declares those two targets.
+
+After acceptance, all five estimate ranges were reviewed. Packages/artifacts
+decreased from 80-90 to 70-80 for nine resolved distribution outcomes; settings
+40-60, components 20-25, accounts/assets 25-35 and maintenance 8-12 are unchanged.
+The rounded total decreased to **165-215 / about 190**. Four installed outcomes
+awaited the subsequent corrected batch 1 acceptance described above. The ledger
+retains omitted components of CCleaner, Arsenal/MEGAcmd and
+Office/Teams. Evaluation of adjacent application settings remains in its own
+review backlog. See [application packages](APPLICATION-PACKAGES.md) for schema,
+configuration, removal and recovery contracts.
+
+## Remaining-settings batch 1, 2026-10-10
+
+The user authorized the remaining Windows/application settings in two batches.
+Batch 1 adds **17 optional operations**: 13 existing scheduled-task flags and
+four registry policies. Each task has its own exact identity, enablement flag,
+missing-resource result, preview, saved snapshot and recovery. No task is
+created, launched, deleted or silently substituted. Task references document
+the API; they do not establish that every historical task is present or that
+disabling it achieves a complete privacy outcome.
+
+The four policies cover application-impact telemetry, compatibility inventory,
+the Start most-used list and the Ctrl+Alt+Delete sign-in requirement. The Start
+policy has a current exact Microsoft reference; the earlier description of it
+as obsolete is superseded by this review. Reverse privacy selectors remove
+overrides through WindowsDefault; explicit Enabled/Allowed are separate states.
+The secure-attention reverse selector writes an explicit value, as in legacy.
+
+The Office Click-to-Run monitoring task is maintenance, not a telemetry promise.
+Office 2016 task names remain version-dependent and unavailable when absent.
+All entries stay outside recommended profiles. Telemetry and feedback bundles
+remain partial because activation overrides, obsolete preview controls,
+feedback-frequency data and product-specific CEIP behavior are not included.
+
+**Estimate adjustment after batch 1:** Approximately four legacy outcomes are
+resolved (scheduled drive optimization, the Start list, secure-attention sign-in
+and the error-report queue completing its existing reporting preference).
+The rounded settings range decreases from 65-85 to **60-80**. Packages 80-90,
+components 20-25, accounts/configuration/assets 25-35 and maintenance 8-12 were
+reviewed and are unchanged. The rounded total is **195-245**, about **220**.
+The 17 catalog IDs are not subtracted as 17 legacy outcomes. Implementation
+does not close user-visible acceptance or remove partially implemented bundles.
+
+**Validation:** Disposable Windows 11 Enterprise Evaluation build 26300, guest
+PowerShell 5.1.26100.9444 and Pester 5.7.1 passed all **851 guest tests**, followed
+by **12/17 available setting lifecycles across 28 named states** in run
+`60bfde39fdaf433fb12d03c0d69fae8e` (`SettingsRemainingBatch1`). Preview, repeat
+apply and exact saved-run restore passed. Compatibility Appraiser, ProgramDataUpdater
+and the three Office task identities were absent, so those five remain unavailable
+and unvalidated. The controller collected evidence, restored the pinned clean
+checkpoint, stopped the VM and reported no cleanup/collection errors. Host UAC
+values were unchanged (EnableLUA=1, ConsentPromptBehaviorAdmin=5,
+PromptOnSecureDesktop=1). Design decisions and pending acceptance remain in the
+[post-migration review](migrations/settings-post-migration-review.md).
+
+## Remaining-settings batch 2, 2026-10-10
+
+Batch 2 adds **19 optional operations**, bringing these two batches to **36**.
+Seven adapter binding operations capture stable adapter GUIDs and all reported
+coupled flags; LLTD keeps mapper/responder together. Focused handlers cover SMB1,
+SMB2/3, Controlled Folder Access, the per-interface NetBIOS registry preference,
+local Remote Desktop firewall flags,
+existing power-scheme selection and a coherent current-user sound scheme.
+Registry settings cover Remote Desktop connection permission, NCSI policy and
+three documented current Microsoft Edge policies. The old EdgeHTML preloading
+area is replaced by distinct startup-boost and background-app controls; shortcut
+creation is explicitly an Edge installation policy, not deletion of existing
+shortcuts or a promise about every update action.
+
+**Estimate adjustment after batch 2:** Approximately fifteen current legacy
+outcomes are implemented or replaced: six protocol/discovery/client binding
+outcomes, SMB1, the SMB server bundle, NetBIOS, NCSI, Remote Desktop, Controlled
+Folder Access, sound scheme, current Edge startup/background behavior and Edge
+installation shortcut creation. The power-scheme creation/menu bundle remains
+partial. Five obsolete setting outcomes are retired from current Windows 11
+scope: Wi-Fi Sense, HomeGroup, integrated Flash, IE desktop first-run and the
+deprecated Maps-app update tweak. Historical source is preserved.
+
+The rounded settings range decreases from 60-80 to **40-60**. Packages 80-90,
+components 20-25, accounts/configuration/assets 25-35 and maintenance 8-12 were
+reviewed and remain unchanged. Application Guard's optional-feature disposition
+is retained in components rather than counted twice here. The rounded total
+decreases to **175-225**, about **200**. These are approximate feature outcomes;
+the 19 new IDs are not the estimate subtraction unit.
+
+**The last-setting milestone is not reached.** Server coverage is blocked by
+missing Server 2025 media/VM acceptance. Other retained work needs recovery or
+current-behavior design: BitLocker enrollment/secrets, System Restore, Windows
+RE, Shell registration trees, packed preferences, partial bundles and legacy
+undocumented controls. The new [decision and blocker ledger](migrations/remaining-settings-decisions.md)
+records all of these separately from implemented settings' behavioral acceptance.
+The requested final walkthrough will use that ledger and the post-migration
+review after retained implementation scope is resolved.
+
+Native and VM validation results are recorded below. A missing
+resource or failed scenario is never converted into a passed feature test.
+
+The first two batch 2 VM attempts passed their full guest suites (857 and 859
+tests) but failed integration acceptance: missing SMB1 and list-based power
+recovery in the first, then CIM DHCP/default NetBIOS recovery in the second.
+Both were recovered through the pinned checkpoint, with evidence collection and
+host UAC unchanged. The [decision ledger](migrations/remaining-settings-decisions.md#lifecycle-evidence)
+retains both failed runs and their corrections. NetBIOS now follows the legacy
+registry preference with typed/absence snapshots rather than an unrecoverable
+CIM-mode conversion. The third attempt passed 860 guest tests and 17 complete
+setting lifecycles, including exact NetBIOS restore. It exercised 43 named states,
+including two in the later failed power scenario. Power-scheme
+native stderr terminated the Windows PowerShell wrapper before exit-code
+inspection; saved-run recovery passed, but integration acceptance failed. The
+wrapper now captures native diagnostics and validates the resulting active GUID.
+Eleven focused checks pass on both native PowerShell versions. All three failed
+attempts retain collected evidence, clean-checkpoint recovery and unchanged host
+UAC. The successful final rerun is recorded below; this adds no migration outcomes and
+leaves the reviewed estimate unchanged.
+
+The fourth attempt passed 862 guest tests and the same 17 complete lifecycles.
+Its native exit-code check confirmed a real Ultimate Performance activation
+failure, while Balanced/High Performance and exact saved-run recovery worked.
+The operation now exposes only those two states; Ultimate Performance selection,
+creation and resource ownership remain deferred in the decision ledger. The
+power bundle was already partial, so the estimate remains unchanged. Evidence
+collection, pinned-checkpoint recovery and host UAC checks passed. Final
+acceptance of the corrected two-state scope is recorded below.
+
+**Final batch 2 validation:** Run `5b66779b3628494a814b061bc1ce07a9`
+(`SettingsRemainingBatch2`) passed all **862 guest tests**, **18/19 available
+operation lifecycles** and **43 named states** on the same Windows 11 build and
+guest PowerShell/Pester versions as batch 1. Preview, repeat apply and exact
+saved-run restoration passed, including NetBIOS, sound, Remote Desktop and
+Balanced/High Performance selection. SMB1 was unavailable because its driver
+was absent, so that lifecycle remains unvalidated. Evidence collection,
+pinned-checkpoint restore and VM shutdown passed without errors; host UAC was
+unchanged. The collected run directory is recorded in the decision ledger.
+
+These two batches therefore have **30/36 operation lifecycles across 71 named
+states** accepted in the disposable VM. Five task identities and SMB1 retain
+resource-specific gaps. Native PowerShell 7 and 5.1 validation and generated
+documentation checks pass for 270 operations, two groups and four profiles;
+completion passes for all 36 settings. Feature/UI/restart acceptance and the
+40-60 deferred setting outcomes remain separate. Final acceptance changes no
+migration estimate, and the requested last-setting walkthrough remains pending.
 
 ## Custom library review, 2026-10-09
 
@@ -119,6 +692,201 @@ evidence below; no new state-changing integration run occurred in the walkthroug
 - Before closing each batch, refresh the [remaining-work estimate](#estimated-remaining-migration-work), record the batch's effect on legacy outcomes and estimates, and update the separate post-migration evaluation backlog.
 
 ## Migration inventory
+
+### Sixty-setting session, 2026-10-10
+
+This explicitly requested session adds **60 optional settings**, covering **86
+legacy selectors** and **43 legacy feature bundles**. It uses 34 scalar registry
+operations, 11 coordinated registry value sets, four This PC namespace key sets,
+four service operations, six power indexes and one BCD policy. The settings stay
+outside profiles and declare Windows 11 only. Existing UWP privacy operations
+were reconciled and excluded from this count.
+
+The homogeneous family groups are Privacy (2), Security (7), Network (3),
+Services (6), UI (11), Explorer (12), BitLocker (2), Applications (11) and Power
+(6). The new coordinated handler is reviewed as a ten-operation pilot (seven
+architecture-mirrored folder preferences, Control Panel, mouse precision and
+fullscreen preferences), followed by the one-operation UAC group after its
+mocked lifecycle/failure checks. This session does not raise the limit for
+future new handlers.
+
+**Migration estimate adjustment:** The 60 IDs resolve approximately **35 whole
+legacy feature outcomes**, with **eight broader bundles retained as partial**:
+SmartScreen, web search, security-tray startup behavior, the visual-effects
+bundle, Xbox app management, media online access, WAP Push delayed startup and
+Search delayed startup. The estimate counts feature outcomes, not the 60 new
+IDs. Settings decrease from 100-120 to **65-85**; the other four group ranges
+were reviewed and remain unchanged because this batch adds no package,
+component, account/asset or maintenance lifecycle. Rounded total decreases
+from 230-280 to **200-250**, or **about 225** for planning. Already implemented
+but unverified effects remain in the separate evaluation backlog.
+
+**Semantic and recovery decisions:**
+
+- Keep native/32-bit folder mirrors, the three mouse acceleration values,
+  Control Panel view, fullscreen preferences and the two UAC consent values
+  inside their respective coordinated operations. Each state lists every
+  component; a failure after the first write retains all original values.
+  Preserve IDs and keep prior handlers available for saved-run recovery.
+- UAC NoPrompt means administrators elevate without consent. SecureConsent
+  uses secure-desktop consent for non-Windows binaries. These are optional
+  guest-test choices; migration does not elevate a host process or change
+  EnableLUA. They are not selected in a profile.
+- App permission policies were already implemented. Do not create duplicates.
+  SmartScreen covers the Windows Shell policy, not retired EdgeHTML. Web-search
+  enforcement is edition dependent; old Cortana/Bing preferences remain excluded.
+- Defender cloud membership and sample submission have different user outcomes.
+  Tamper protection can reject or override policy writes; registry lifecycle
+  checks do not prove effective protection. Security icon policy leaves the
+  startup entry and antivirus protection alone. Memory integrity is an
+  enablement request with VBS/hardware/driver/restart dependencies, not a complete
+  provisioning operation.
+- Visual-effects controls identify their individual effect. Do not overwrite
+  UserPreferencesMask or pretend these preferences reproduce the complete
+  legacy performance/appearance bundle. KeyboardDelay uses the Windows string
+  preference rather than the legacy DWORD. Shortcut suffix writes four zero
+  bytes; Enabled removes the override as in the legacy reverse selector.
+- Folder namespace registration is separate from architecture-mirrored
+  ThisPCPolicy preferences. Neither changes folder contents. Unknown current
+  shell/registry mappings remain experimental and outside recommended profiles.
+  Control Panel Categories writes explicit zeroes; WindowsDefault reproduces
+  the legacy category selector's removal of both values.
+- Service changes capture and preserve the original DelayedAutoStart value.
+  AutomaticRunning does not copy the legacy WAP/Search override to 1.
+  Sleep-button AC/DC actions, Sleep menu visibility, display timeout and sleep
+  timeout are distinguishable settings. Timed indexes are seconds; legacy
+  durations are named choices, not Windows defaults. Unavailable power settings
+  are reported separately. Automatic boot recovery does not implement reagentc
+  or disable/reset Windows RE.
+- Developer Mode and trusted-app sideloading are independently useful local
+  preferences. Media policies identify Windows Media Player Legacy and the
+  individual metadata source; old radio/WMDRM controls remain excluded pending
+  retirement review. Game preferences do not remove/reinstall Xbox apps.
+  Microsoft's AllowGameDVR reference currently limits enforcement to Windows 10
+  desktop, so the retained Windows 11 policy is explicitly experimental.
+- RegistryValueSet is an additive catalog kind. Older engines cannot execute it:
+  distribute catalog, engine, focused handler, validator and generator together.
+  Snapshot records retain named component data/type/existence and key existence;
+  no existing operation or saved-run contract is reassigned.
+
+| Operation | Handler | Legacy selectors | States |
+| --- | --- | --- | --- |
+| `windows.smartscreen-shell-policy` | RegistryValue | `DisableSmartScreen`, `EnableSmartScreen` | `Disabled`, `Enabled`, `WindowsDefault` |
+| `windows.search-web-policy` | RegistryValue | `DisableWebSearch`, `EnableWebSearch` | `Blocked`, `Allowed`, `WindowsDefault` |
+| `windows.firewall-standard-profile-policy` | RegistryValue | `DisableFirewall`, `EnableFirewall` | `Disabled`, `Enabled`, `WindowsDefault` |
+| `windows.security-notification-icon` | RegistryValue | `HideDefenderTrayIcon`, `ShowDefenderTrayIcon` | `Hidden`, `Shown`, `WindowsDefault` |
+| `windows.memory-integrity-request` | RegistryValue | `EnableCIMemoryIntegrity`, `DisableCIMemoryIntegrity` | `Disabled`, `Enabled`, `WindowsDefault` |
+| `windows.defender-cloud-membership` | RegistryValue | `DisableDefenderCloud`, `EnableDefenderCloud` | `Disabled`, `Advanced`, `WindowsDefault` |
+| `windows.defender-sample-submission` | RegistryValue | `DisableDefenderCloud`, `EnableDefenderCloud` | `Prompt`, `SafeSamples`, `Never`, `AllSamples`, `WindowsDefault` |
+| `windows.unidentified-network-category` | RegistryValue | `SetUnknownNetworksPrivate`, `SetUnknownNetworksPublic` | `Private`, `Public`, `WindowsDefault` |
+| `windows.network-device-auto-setup` | RegistryValue | `DisableNetDevicesAutoInst`, `EnableNetDevicesAutoInst` | `Disabled`, `Enabled`, `WindowsDefault` |
+| `windows.connection-sharing-ui` | RegistryValue | `DisableConnectionSharing`, `EnableConnectionSharing` | `Hidden`, `Available`, `WindowsDefault` |
+| `windows.hardware-clock-time-basis` | RegistryValue | `SetBIOSTimeUTC`, `SetBIOSTimeLocal` | `Local`, `UTC`, `WindowsDefault` |
+| `windows.sleep-menu-option` | RegistryValue | `DisableSleepButton`, `EnableSleepButton` | `Hidden`, `Shown`, `WindowsDefault` |
+| `windows.window-drag-content` | RegistryValue | `SetVisualFXPerformance`, `SetVisualFXAppearance` | `Outline`, `Contents`, `WindowsDefault` |
+| `windows.menu-open-delay` | RegistryValue | `SetVisualFXPerformance`, `SetVisualFXAppearance` | `Immediate`, `Delay400ms`, `WindowsDefault` |
+| `windows.window-minimize-animation` | RegistryValue | `SetVisualFXPerformance`, `SetVisualFXAppearance` | `Disabled`, `Enabled`, `WindowsDefault` |
+| `windows.keyboard-repeat-delay` | RegistryValue | `SetVisualFXPerformance`, `SetVisualFXAppearance` | `Shortest`, `LegacyAppearance`, `WindowsDefault` |
+| `windows.selection-rectangle-transparency` | RegistryValue | `SetVisualFXPerformance`, `SetVisualFXAppearance` | `Disabled`, `Enabled`, `WindowsDefault` |
+| `windows.desktop-label-shadows` | RegistryValue | `SetVisualFXPerformance`, `SetVisualFXAppearance` | `Disabled`, `Enabled`, `WindowsDefault` |
+| `windows.desktop-peek` | RegistryValue | `SetVisualFXPerformance`, `SetVisualFXAppearance` | `Disabled`, `Enabled`, `WindowsDefault` |
+| `windows.explorer-network-icon` | RegistryValue | `HideNetworkFromExplorer`, `ShowNetworkInExplorer` | `Hidden`, `Visible`, `WindowsDefault` |
+| `windows.bitlocker-enhanced-pin` | RegistryValue | `EnableEnhancedPIN`, `DisableEnhancedPIN` | `Disabled`, `Enabled`, `WindowsDefault` |
+| `windows.bitlocker-additional-startup-auth` | RegistryValue | `EnableAdditionalAuthAtStart` | `Disabled`, `Enabled`, `WindowsDefault` |
+| `windows.onedrive-file-sync-policy` | RegistryValue | `DisableOneDrive`, `EnableOneDrive` | `Blocked`, `Allowed`, `WindowsDefault` |
+| `windows.first-logon-animation` | RegistryValue | `DisableFirstLogonAnimation`, `EnableFirstLogonAnimation` | `Disabled`, `Enabled`, `WindowsDefault` |
+| `windows.media-player-library-sharing` | RegistryValue | `DisableMediaSharing`, `EnableMediaSharing` | `Blocked`, `UserChoice`, `WindowsDefault` |
+| `windows.media-player-disc-metadata` | RegistryValue | `DisableMediaOnlineAccess`, `EnableMediaOnlineAccess` | `Blocked`, `UserChoice`, `WindowsDefault` |
+| `windows.media-player-music-metadata` | RegistryValue | `DisableMediaOnlineAccess`, `EnableMediaOnlineAccess` | `Blocked`, `UserChoice`, `WindowsDefault` |
+| `windows.developer-mode-preference` | RegistryValue | `EnableDeveloperMode`, `DisableDeveloperMode` | `Disabled`, `Enabled`, `WindowsDefault` |
+| `windows.trusted-app-sideload-preference` | RegistryValue | `EnableDeveloperMode`, `DisableDeveloperMode` | `Disabled`, `Enabled`, `WindowsDefault` |
+| `windows.game-mode-preference` | RegistryValue | `DisableXboxFeatures`, `EnableXboxFeatures` | `Disabled`, `Enabled`, `WindowsDefault` |
+| `windows.game-recording-user-preference` | RegistryValue | `DisableXboxFeatures`, `EnableXboxFeatures` | `Disabled`, `Enabled`, `WindowsDefault` |
+| `windows.game-recording-policy` | RegistryValue | `DisableXboxFeatures`, `EnableXboxFeatures` | `Disabled`, `Allowed`, `WindowsDefault` |
+| `windows.taskbar-animation-preference` | RegistryValue | `SetVisualFXPerformance`, `SetVisualFXAppearance` | `Disabled`, `Enabled`, `WindowsDefault` |
+| `windows.shortcut-name-suffix` | RegistryValue | `DisableShortcutInName`, `EnableShortcutInName` | `Disabled`, `Enabled` |
+| `windows.desktop-folder-this-pc` | RegistryKeySet | `HideDesktopFromThisPC`, `ShowDesktopInThisPC` | `Hidden`, `Visible` |
+| `windows.documents-folder-this-pc` | RegistryKeySet | `HideDocumentsFromThisPC`, `ShowDocumentsInThisPC` | `Hidden`, `Visible` |
+| `windows.downloads-folder-this-pc` | RegistryKeySet | `HideDownloadsFromThisPC`, `ShowDownloadsInThisPC` | `Hidden`, `Visible` |
+| `windows.pictures-folder-this-pc` | RegistryKeySet | `HidePicturesFromThisPC`, `ShowPicturesInThisPC` | `Hidden`, `Visible` |
+| `windows.telemetry-service` | WindowsService | `DisableDiagTrack`, `EnableDiagTrack` | `Disabled`, `AutomaticRunning` |
+| `windows.wap-push-service` | WindowsService | `DisableWAPPush`, `EnableWAPPush` | `Disabled`, `AutomaticRunning` |
+| `windows.sysmain-service` | WindowsService | `DisableSuperfetch`, `EnableSuperfetch` | `Disabled`, `AutomaticRunning` |
+| `windows.search-indexing-service` | WindowsService | `DisableIndexing`, `EnableIndexing` | `Disabled`, `AutomaticRunning` |
+| `windows.sleep-button-action-ac` | PowerSetting | `DisableSleepButton`, `EnableSleepButton` | `DoNothing`, `Sleep` |
+| `windows.sleep-button-action-dc` | PowerSetting | `DisableSleepButton`, `EnableSleepButton` | `DoNothing`, `Sleep` |
+| `windows.display-idle-timeout-ac` | PowerSetting | `DisableSleepTimeout`, `EnableSleepTimeout` | `Never`, `TenMinutes` |
+| `windows.display-idle-timeout-dc` | PowerSetting | `DisableSleepTimeout`, `EnableSleepTimeout` | `Never`, `FiveMinutes` |
+| `windows.sleep-idle-timeout-ac` | PowerSetting | `DisableSleepTimeout`, `EnableSleepTimeout` | `Never`, `ThirtyMinutes` |
+| `windows.sleep-idle-timeout-dc` | PowerSetting | `DisableSleepTimeout`, `EnableSleepTimeout` | `Never`, `FifteenMinutes` |
+| `windows.boot-failure-recovery-policy` | BootConfiguration | `DisableBootRecovery`, `EnableBootRecovery` | `IgnoreAllFailures`, `WindowsDefault` |
+| `windows.desktop-folder-shell-policy` | RegistryValueSet | `HideDesktopFromExplorer`, `ShowDesktopInExplorer` | `Hidden`, `Visible`, `WindowsDefault` |
+| `windows.documents-folder-shell-policy` | RegistryValueSet | `HideDocumentsFromExplorer`, `ShowDocumentsInExplorer` | `Hidden`, `Visible`, `WindowsDefault` |
+| `windows.downloads-folder-shell-policy` | RegistryValueSet | `HideDownloadsFromExplorer`, `ShowDownloadsInExplorer` | `Hidden`, `Visible`, `WindowsDefault` |
+| `windows.music-folder-shell-policy` | RegistryValueSet | `HideMusicFromExplorer`, `ShowMusicInExplorer` | `Hidden`, `Visible`, `WindowsDefault` |
+| `windows.pictures-folder-shell-policy` | RegistryValueSet | `HidePicturesFromExplorer`, `ShowPicturesInExplorer` | `Hidden`, `Visible`, `WindowsDefault` |
+| `windows.videos-folder-shell-policy` | RegistryValueSet | `HideVideosFromExplorer`, `ShowVideosInExplorer` | `Hidden`, `Visible`, `WindowsDefault` |
+| `windows.3d-objects-folder-shell-policy` | RegistryValueSet | `Hide3DObjectsFromExplorer`, `Show3DObjectsInExplorer` | `Hidden`, `Visible`, `WindowsDefault` |
+| `windows.control-panel-view` | RegistryValueSet | `SetControlPanelSmallIcons`, `SetControlPanelLargeIcons`, `SetControlPanelCategories` | `SmallIcons`, `LargeIcons`, `Categories`, `WindowsDefault` |
+| `windows.mouse-pointer-precision` | RegistryValueSet | `DisableEnhPointerPrecision`, `EnableEnhPointerPrecision` | `Disabled`, `Enabled`, `WindowsDefault` |
+| `windows.fullscreen-optimizations` | RegistryValueSet | `DisableFullscreenOptims`, `EnableFullscreenOptims` | `Disabled`, `Enabled`, `WindowsDefault` |
+| `windows.uac-admin-consent` | RegistryValueSet | `SetUACLow`, `SetUACHigh` | `NoPrompt`, `SecureConsent`, `WindowsDefault` |
+
+**Validation:** Catalog/parser/generated-document validation passes on native
+Windows PowerShell 5.1 and PowerShell 7 for 234 operations, two groups, four
+profiles and 57 PowerShell files. Before the focused-suite enhancement, each
+full native Pester run passed **712 tests**
+with zero failures, including all **130 batch tests**; the one live-registry
+integration test is excluded on the developer host. Disposable-VM lifecycle
+acceptance is recorded below. Three additional BCD absence/recovery regression tests pass on both
+native PowerShell versions after the VM exposed repeated deletion of an absent
+override; the handler now skips that deletion and preserves inspection errors.
+
+VM run `23ebc3bbe7914002935974bac75e9ce2` passed all 710 guest Pester tests and
+46 new setting lifecycles. Two sleep-button indexes were unavailable in the
+VM's exposed power scheme, and BCD restoration stopped the suite before the
+eleven coordinated settings. Evidence collection and clean-checkpoint recovery
+succeeded; captured host UAC values were unchanged.
+
+The corrected run `1739e90855de4b0eac58726eb27b995e` reached the 25-minute
+controller timeout. Partial-evidence collection also timed out after 60 seconds;
+it retained some machine-state records but no terminal guest summary, Pester XML
+or transcript. A UAC record at 05:35 UTC and a later Git package record at 05:37
+UTC suggest execution advanced beyond the sixty-setting suite into the full
+suite's package scenarios. This is partial evidence, not a completed acceptance
+pass. Clean-checkpoint recovery succeeded, no cleanup block remains, and host
+UAC values were unchanged. That run did not extend the earlier 46 confirmed
+lifecycles. The two sleep-button controls require applicable hardware/scheme
+checks; the repaired BCD policy and eleven coordinated settings were awaiting
+the focused evidence rerun below.
+
+**Focused acceptance rerun, 2026-10-10:** Run
+`78b3734bfb0e4c179f0dfd7119a7aff1` passed `SettingsBatch60Recovery` on Windows 11
+Enterprise Evaluation build **26300**, using guest Windows PowerShell
+**5.1.26100.9444** and Pester **5.7.1**. Validation and all **718 guest Pester
+tests** passed with zero failures. All **12 lifecycle scenarios** passed across
+their **36 named states**: the BCD recovery policy, seven architecture-mirrored
+folder preferences, Control Panel view, mouse precision, fullscreen optimization
+preferences and UAC administrator consent. Each scenario checks apply/restore
+preview, repeat apply and exact captured-state recovery.
+
+Transcript, Pester XML, guest summary and saved state were collected under
+`C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\results\78b3734bfb0e4c179f0dfd7119a7aff1`.
+Both summaries report Passed and the requested suite; the transcript lists all
+twelve distinct IDs. Evidence collection and clean-checkpoint recovery
+succeeded, the VM is off, no cleanup block remains, and host UAC values remained
+`EnableLUA=1`, `ConsentPromptBehaviorAdmin=5`, `PromptOnSecureDesktop=1`.
+Combined with the earlier run, **58 of 60** settings have confirmed lifecycle
+acceptance; **two sleep-button indexes** remain unavailable on this VM.
+
+Both direct and registered-task runners now accept the validated suite
+selection. The installed protected controller was refreshed through the
+registration workflow with administrator approval; routine requests use the
+registered task without another elevation prompt. The focused-suite
+orchestration checks pass **49 tests** on each native PowerShell version.
+`SettingsBatch60Recovery` avoids package scenarios while retaining validation,
+guest Pester, evidence correlation and checkpoint cleanup. Feature/UI/restart
+acceptance remains separate; no Windows Server support is added.
 
 ### Post-migration usability review, 2026-10-10
 
@@ -346,6 +1114,13 @@ NumLock SendKeys, packed visual effects, shortcut icon resource overrides and
 multi-value Control Panel/pointer settings remain deferred. Taskbar desktop
 selectors are existing `windows.task-view-button` equivalents; do not add
 duplicate operations.
+
+The 2026-10-11 [post-migration review](migrations/settings-post-migration-review.md)
+proposes current GUI sizing and Terminal default-profile outcomes for the small
+taskbar/Win+X entries above. The old mappings remain deferred; newer Windows 11
+taskbar controls and Terminal profiles require their own capability, mapping,
+scope and recovery evidence. Neither outcome is retired or subtracted merely
+because the legacy implementation no longer establishes current behavior.
 
 ### Unattended migration session, 2026-10-08
 
@@ -877,7 +1652,12 @@ described in [Package-specific Defender exclusions](#package-specific-defender-e
 `DisableEdgePagePrediction` **default**, `InstallFirefox` **default**,
 `CreateFirefoxPreferenceFiles` **default**, `InstallChrome` **default**,
 `CreateChromePreferenceFile` **default**, `RemoveFirefox`, `RemoveFirefoxPreferenceFiles`, `RemoveChrome`,
-`RemoveChromePreferenceFile`, `InstallOpera`
+`RemoveChromePreferenceFile`
+
+Opera was excluded by user trust-policy decision on 2026-10-11. Its legacy
+installer and preset entry were removed; it has no v3 package. The historical
+732-selector inventory retains this exclusion for accounting; the preset now
+contains 731 of those selectors. See the [application ledger](migrations/application-migration-review.md).
 
 #### Forensic Tools (forensic-tools)
 
@@ -1000,6 +1780,24 @@ activation or security-policy workflows before migration.
 
 `GetWindowsUpdatesWithPwsh`, `CleanLocalWindowsUpdateCache`, `RunDiskCleanup`, `GetWindowsProductKey`,
 `RunSysprepGeneralizeOOBE`
+
+**PSWindowsUpdate evaluation (2026-10-11; pending):** Before migrating
+`GetWindowsUpdatesWithPwsh`, test a pinned PSWindowsUpdate version in disposable
+Windows 11 VMs on each intended supported build, including 24H2 and 25H2, and
+Windows Server 2025 VMs. Validate Server Core and Desktop Experience separately
+if both are offered; add older Server releases only after their own acceptance
+checks pass. Verify scan, update selection, download, installation, per-update
+results, pending-reboot reporting, explicit reboot handling, and rescan after
+reboot. Check interaction
+with the modern Windows Update Orchestrator and differences from Settings update
+history. Start with Windows PowerShell 5.1; validate PowerShell 7 separately if
+offered. Record the tested module version, OS builds, failures, and adoption
+decision before declaring support. For server scenarios, verify configured WSUS
+and public update sources without silently switching sources or overriding
+managed policy, and require explicit reboot opt-in compatible with maintenance
+windows. Keep server OS upgrades separate from routine update installation.
+This evaluation does not complete a migration outcome; remaining-work estimates
+are unchanged.
 
 #### Other Functions (other-functions)
 

@@ -5882,59 +5882,6 @@ function RemoveChromePreferenceFile {
   Remove-Item $FileFullName -Recurse -Force -ErrorAction SilentlyContinue
 }
 
-function InstallOpera{
-  Write-Output "###"
-  $SoftwareName = "Opera"
-  Write-Output "Installing $SoftwareName..."
-
-  $URL = "https://get.geo.opera.com/pub/opera/desktop/"
-  $CheckURL=[System.Net.HttpWebRequest]::Create($URL).GetResponse().ResponseUri.AbsoluteUri
-  if (! $CheckURL) {Write-Output "Error: URL not resolved"; return}
-  $LatestOperaVersion=(Invoke-WebRequest -UseBasicParsing  -Uri $URL).Links.Href | Get-Unique -asstring | Sort-Object -Descending | select-object -First 1
-  if (! $LatestOperaVersion) {Write-Output "Error: Opera browser not found"; return}
-  $LatestOperaPath = "$($URL)$($LatestOperaVersion)win/"
-  $FullDownloadURL = $LatestOperaPath + ((Invoke-WebRequest -UseBasicParsing -Uri $LatestOperaPath).Links.Href | Get-Unique -asstring | Sort-Object -Descending | Select-String -Pattern "Autoupdate_x64.exe$")
-  if (-not $FullDownloadURL) {
-	Write-Output "Error: $SoftwareName not found"
-	return
-  }
-
-  # Create bootstrap folder if not existing
-  $DefaultDownloadDir = (Get-ItemProperty -path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")."{374DE290-123F-4565-9164-39C4925E467B}"
-  $BootstrapFolder = Join-Path -Path $DefaultDownloadDir -ChildPath "bootstrap"
-  if (-not (Test-Path -Path $BootstrapFolder)) {
-	New-Item -Path $BootstrapFolder -ItemType Directory | Out-Null
-  }
-
-  # Create software folder
-  $InvalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''
-  $RegexInvalidChars = "[{0}]" -f [RegEx]::Escape($InvalidChars)
-  $SoftwareFolderName = $SoftwareName -replace $RegexInvalidChars
-  $SoftwareFolderFullName = Join-Path -Path $BootstrapFolder -ChildPath $SoftwareFolderName
-  if (-not (Test-Path -Path $SoftwareFolderFullName)) {
-	New-Item -Path $SoftwareFolderFullName -ItemType Directory | Out-Null
-  }
-
-  # Download
-  Write-Output "Downloading file from: $FullDownloadURL"
-  $FileName = ([System.IO.Path]::GetFileName($FullDownloadURL).Replace("%20"," "))
-  $FileFullName = Join-Path -Path $SoftwareFolderFullName -ChildPath $FileName
-  Start-BitsTransfer -Source $FullDownloadURL -Destination $FileFullName
-  Write-Output "Downloaded: $FileFullName"
-
-  # Unpack
-  $CommandLineOptions = "/SILENT /LOG"
-  Start-Process $FileFullName $CommandLineOptions -NoNewWindow -Wait
-
-  if (-not [Environment]::GetEnvironmentVariable("RIDEVAR-Download-Only", "Process")) {
-    # Install exe
-    $InstallFile = "$SoftwareFolderFullName\installer.exe"
-    $CommandLineOptions = "--silent --setdefaultbrowser=0 --startmenushortcut=0 --desktopshortcut=0 --pintotaskbar=0 --pin-additional-shortcuts=0 --launchbrowser=0"
-    Start-Process -FilePath $InstallFile -ArgumentList $CommandLineOptions -NoNewWindow -Wait
-    Write-Output "Installation done for $SoftwareName"
-  }
-}
-
 
 ################################################################
 ###### Forensic Functions  ###

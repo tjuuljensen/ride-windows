@@ -7,6 +7,7 @@
   correlation, timeout/error/evidence handling, worker serialization, and checkpoint identity. Uses
   mocks and TestDrive rather than provisioning or controlling a real VM. Checks the guest
   entry point's version, workstation guard and read-only preview.
+  Verifies partial-evidence copying with locked files and correlated path bounds.
 
 .EXAMPLE
   Invoke-Pester .\tests\TestAutomation.Tests.ps1
@@ -27,6 +28,8 @@
   Author: RIDE-Windows maintainers.
   Version: Repository test fixture; no independent released version.
   Changelog:
+    2026-10-12: Verify controller JSON write failures prevent caller continuation.
+    2026-10-11: Cover retained partial evidence and rejection of escaped guest paths.
     2026-10-08: Document test purpose, isolation, and invocation without changing assertions.
 
   Versioning exception: Pester fixtures are invoked by Pester, not as standalone CLI tools. This
@@ -39,11 +42,58 @@ BeforeDiscovery {
   Import-Module (Join-Path $PSScriptRoot 'integration\RIDE.TestAutomation.psm1') -Force
 }
 
+Describe 'Controller JSON write failures' {
+  It 'stops the caller when the destination parent is missing' {
+    $path = Join-Path $TestDrive 'missing-parent/result.json'
+    $continued = $false
+    $writeError = $null
+    try {
+      Write-RideAutomationJson -Path $path -Value @{ RunId = 'probe' }
+      $continued = $true
+    }
+    catch { $writeError = $_ }
+    $continued | Should -BeFalse
+    $writeError | Should -Not -BeNullOrEmpty
+    Test-Path -LiteralPath $path | Should -BeFalse
+  }
+}
+
+Describe 'Partial guest evidence with unavailable files' {
+  BeforeAll {
+    $tokens=$null;$errors=$null
+    $collectorAst=[Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'integration/Export-RideVmTestEvidence.ps1'),[ref]$tokens,[ref]$errors)
+    $copyFunction=$collectorAst.Find({param($node) $node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'Copy-RidePartialGuestEvidence'},$true)
+    Invoke-Expression $copyFunction.Extent.Text
+    function Invoke-Command {param($Session,$ArgumentList,$ScriptBlock,$ErrorAction)}
+    function Copy-Item {param($LiteralPath,$Destination,$FromSession,[switch]$Force,$ErrorAction)}
+  }
+  It 'retains readable evidence after a locked transcript and reports the omission' {
+    Mock Invoke-Command {@('C:\RIDE\TestResults\run\transcript.log','C:\RIDE\TestResults\run\state\saved.json')}
+    Mock Copy-Item {
+      if($LiteralPath -like '*transcript.log'){throw 'File is locked by another process.'}
+      [IO.File]::WriteAllText($Destination,'saved recovery evidence')
+    }
+    Copy-RidePartialGuestEvidence -Session 'mock' -GuestPath 'C:\RIDE\TestResults\run' -Destination $TestDrive -WarningAction SilentlyContinue
+    Get-Content -LiteralPath (Join-Path $TestDrive 'state/saved.json') -Raw | Should -Be 'saved recovery evidence'
+    $omissions=@(Get-Content -LiteralPath (Join-Path $TestDrive 'collection-omissions.json') -Raw | ConvertFrom-Json)
+    $omissions.Count | Should -Be 1
+    $omissions[0].Path | Should -Be 'transcript.log'
+    $omissions[0].Error | Should -Match 'locked'
+  }
+  It 'refuses evidence outside the correlated directory before copying' {
+    Mock Invoke-Command {@('C:\RIDE\TestResults\another-run\secret.json')}
+    Mock Copy-Item {}
+    {Copy-RidePartialGuestEvidence -Session 'mock' -GuestPath 'C:\RIDE\TestResults\run' -Destination $TestDrive} | Should -Throw '*escaped*'
+    Should -Invoke Copy-Item -Times 0 -Exactly
+  }
+}
+
 Describe 'Task configuration and read-only watch selection' {
   It 'completes the declared task source and setup action values' {
     $client = Get-Command (Join-Path $PSScriptRoot 'integration\Invoke-RideVmTestTask.ps1')
     $setup = Get-Command (Join-Path $PSScriptRoot 'integration\Register-RideVmTestTask.ps1')
     ($client.Parameters.Source.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Local', 'CI')
+    ($client.Parameters.IntegrationSuite.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2')
     ($setup.Parameters.Action.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Register', 'Remove')
   }
 
@@ -83,7 +133,37 @@ Describe 'Task configuration and read-only watch selection' {
   }
 
   It 'reports the guest entry point version before checking the VM marker' {
-    & (Join-Path $PSScriptRoot 'integration/Invoke-RideGuestTests.ps1') -Version | Should -Be '0.2.0'
+    & (Join-Path $PSScriptRoot 'integration/Invoke-RideGuestTests.ps1') -Version | Should -Be '0.6.0'
+  }
+
+  It 'dispatches <Suite> to its requested scenario without real integration calls' -ForEach @(
+    @{ Suite='Full'; Expected='Full' },
+    @{ Suite='SettingsBatch40'; Expected='Batch40' },
+    @{ Suite='SettingsBatch60'; Expected='Batch60/' },
+    @{ Suite='SettingsBatch60Recovery'; Expected='Batch60/Recovery12' },
+    @{ Suite='SettingsRemainingBatch1'; Expected='Remaining/1' },
+    @{ Suite='SettingsRemainingBatch2'; Expected='Remaining/2' },
+    @{ Suite='ApplicationsBatch1'; Expected='Applications/1' },
+    @{ Suite='ApplicationsBatch2'; Expected='Applications/2' }
+  ) {
+    $tokens=$null; $errors=$null
+    $ast=[Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'integration/Invoke-RideGuestTests.ps1'),[ref]$tokens,[ref]$errors)
+    $dispatch=@($ast.FindAll({param($node)
+      $node -is [Management.Automation.Language.IfStatementAst] -and
+      $node.Clauses[0].Item1.Extent.Text -eq '$IntegrationSuite -eq ''SettingsBatch40'''
+    },$true))
+    $dispatch.Count | Should -Be 1
+    $scripts=Join-Path $TestDrive 'tests/integration'
+    $null=New-Item -ItemType Directory -Path $scripts -Force
+    '"Full"' | Set-Content (Join-Path $scripts 'Invoke-RideVmSuite.ps1')
+    '"Batch40"' | Set-Content (Join-Path $scripts 'Invoke-RideSettingsBatch.ps1')
+    'param($Selection); "Batch60/$Selection"' | Set-Content (Join-Path $scripts 'Invoke-RideSettingsBatch60.ps1')
+    'param($Batch); "Remaining/$Batch"' | Set-Content (Join-Path $scripts 'Invoke-RideRemainingSettings.ps1')
+    'param($Batch); "Applications/$Batch"' | Set-Content (Join-Path $scripts 'Invoke-RideApplicationBatch.ps1')
+    $IntegrationSuite=$Suite
+    Push-Location $TestDrive
+    try { & ([scriptblock]::Create($dispatch[0].Extent.Text)) | Should -Be $Expected }
+    finally { Pop-Location }
   }
 
   It 'refuses the guest entry point outside the VM runner' {
@@ -95,7 +175,7 @@ Describe 'Task configuration and read-only watch selection' {
     finally { $env:RIDE_TEST_GUEST = $previousMarker }
   }
 
-  It 'previews <Suite> guest tests without starting tests or creating evidence' -ForEach @(@{ Suite = 'Full' }, @{ Suite = 'SettingsBatch40' }) {
+  It 'previews <Suite> guest tests without starting tests or creating evidence' -ForEach @(@{ Suite = 'Full' }, @{ Suite = 'SettingsBatch40' }, @{ Suite = 'SettingsBatch60' }, @{ Suite = 'SettingsBatch60Recovery' }, @{ Suite = 'SettingsRemainingBatch1' }, @{ Suite = 'SettingsRemainingBatch2' }, @{ Suite = 'ApplicationsBatch1' }, @{ Suite = 'ApplicationsBatch2' }) {
     $source = Join-Path $TestDrive 'guest-preview-checkout'
     $null = New-Item -ItemType Directory -Path (Join-Path $source 'tools') -Force
     'throw "Preview must not run validation"' | Set-Content -LiteralPath (Join-Path $source 'tools/validate.ps1')
@@ -127,6 +207,7 @@ Describe 'Task configuration and read-only watch selection' {
       $env:RIDE_TEST_GUEST = '1'
       { & (Join-Path $PSScriptRoot 'integration/Invoke-RideGuestTests.ps1') -GuestPath $TestDrive -IntegrationSuite SettingsBatch40 } | Should -Throw '*Specify -Integration*'
       { & (Join-Path $PSScriptRoot 'integration/Invoke-RideVmTest.ps1') -Transport AutomatedLab -LabName RIDEPilot -UnitOnly -IntegrationSuite SettingsBatch40 } | Should -Throw '*cannot be selected with UnitOnly*'
+      { & (Join-Path $PSScriptRoot 'integration/Invoke-RideVmTestTask.ps1') -UnitOnly -IntegrationSuite SettingsBatch60Recovery } | Should -Throw '*cannot be selected with UnitOnly*'
     }
     finally { $env:RIDE_TEST_GUEST = $previousMarker }
   }
@@ -186,7 +267,8 @@ Describe 'Correlated execution, failures and VM recovery' {
       Mock Start-Process {
         $guest = Join-Path $script:testRoot "results\$($script:request.RunId)\guest"
         $null = New-Item -ItemType Directory $guest -Force
-        @{ RunId = $script:request.RunId; Status = 'Passed'; ValidationPassed = $true; IntegrationPassed = $true; Pester = @{ Total = 3; Failed = 0 } } | ConvertTo-Json | Set-Content (Join-Path $guest 'summary.json')
+        $suite = if ($script:request.PSObject.Properties.Name -contains 'IntegrationSuite') { $script:request.IntegrationSuite } else { 'Full' }
+        @{ RunId = $script:request.RunId; Status = 'Passed'; ValidationPassed = $true; IntegrationPassed = $true; IntegrationSuite = $suite; Pester = @{ Total = 3; Failed = 0 } } | ConvertTo-Json | Set-Content (Join-Path $guest 'summary.json')
         '<test-results />' | Set-Content (Join-Path $guest 'pester.xml')
         $process = [pscustomobject]@{ Handle = [intptr]1; ExitCode = 0; Id = 123 }
         $process | Add-Member ScriptMethod WaitForExit { param($Milliseconds) return $true }
@@ -199,6 +281,48 @@ Describe 'Correlated execution, failures and VM recovery' {
       $result = Invoke-RideAutomationRequest $script:config $script:request $script:testRoot
       $result.Status | Should -Be 'Passed'
       $result.RunId | Should -Be $script:request.RunId
+      Should -Invoke Reset-RideAutomationVm -Times 2 -Exactly
+      $result.IntegrationSuite | Should -Be 'Full'
+      Should -Invoke Start-Process -Times 1 -Exactly -ParameterFilter { $ArgumentList -match ' -IntegrationSuite Full$' }
+    }
+
+    It 'forwards <Suite> and correlates its acceptance evidence' -ForEach @(@{ Suite = 'SettingsBatch60Recovery' }, @{ Suite = 'SettingsRemainingBatch1' }, @{ Suite = 'SettingsRemainingBatch2' }, @{ Suite = 'ApplicationsBatch1' }, @{ Suite = 'ApplicationsBatch2' }) {
+      $script:request | Add-Member NoteProperty IntegrationSuite $Suite
+      $result = Invoke-RideAutomationRequest $script:config $script:request $script:testRoot
+      $result.Status | Should -Be 'Passed'
+      $result.IntegrationSuite | Should -Be $Suite
+      Should -Invoke Start-Process -Times 1 -Exactly -ParameterFilter { $ArgumentList.EndsWith(" -IntegrationSuite $Suite") }
+      Should -Invoke Reset-RideAutomationVm -Times 2 -Exactly
+    }
+
+    It 'rejects arbitrary suite strings before launching a controller' {
+      $script:request | Add-Member NoteProperty IntegrationSuite 'Full -Command arbitrary'
+      { Invoke-RideAutomationRequest $script:config $script:request $script:testRoot } | Should -Throw '*Invalid request IntegrationSuite*'
+      Should -Invoke Start-Process -Times 0 -Exactly
+      Should -Invoke Reset-RideAutomationVm -Times 0 -Exactly
+    }
+
+    It 'rejects focused integration when the request is unit-only' {
+      $script:request | Add-Member NoteProperty IntegrationSuite 'SettingsBatch60Recovery'
+      $script:request.UnitOnly = $true
+      { Invoke-RideAutomationRequest $script:config $script:request $script:testRoot } | Should -Throw '*cannot be selected with UnitOnly*'
+      Should -Invoke Start-Process -Times 0 -Exactly
+    }
+
+    It 'does not accept a different guest suite as focused acceptance' {
+      $script:request | Add-Member NoteProperty IntegrationSuite 'SettingsBatch60Recovery'
+      Mock Start-Process {
+        $guest = Join-Path $script:testRoot "results\$($script:request.RunId)\guest"
+        $null = New-Item -ItemType Directory $guest -Force
+        @{ RunId = $script:request.RunId; Status = 'Passed'; ValidationPassed = $true; IntegrationPassed = $true; IntegrationSuite = 'Full'; Pester = @{ Total = 3; Failed = 0 } } | ConvertTo-Json | Set-Content (Join-Path $guest 'summary.json')
+        $process = [pscustomobject]@{ Handle = [intptr]1; ExitCode = 0; Id = 123 }
+        $process | Add-Member ScriptMethod WaitForExit { param($Milliseconds) $true }
+        $process | Add-Member ScriptMethod Refresh { }
+        $process
+      }
+      $result = Invoke-RideAutomationRequest $script:config $script:request $script:testRoot
+      $result.Status | Should -Be 'Failed'
+      $result.Error | Should -Match 'suite does not match'
       Should -Invoke Reset-RideAutomationVm -Times 2 -Exactly
     }
 

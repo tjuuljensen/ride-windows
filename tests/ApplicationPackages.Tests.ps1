@@ -1,0 +1,620 @@
+BeforeDiscovery {
+  $root = Split-Path -Parent $PSScriptRoot
+  Import-Module (Join-Path $root 'modules/RIDE.PackageSelection.psm1') -Force
+  Import-Module (Join-Path $root 'modules/RIDE-PortablePackages.psm1') -Force
+  Import-Module (Join-Path $root 'modules/RIDE.PublisherSources.psm1') -Force
+  Import-Module (Join-Path $root 'modules/RIDE.Engine.psm1') -Force
+  Import-Module (Join-Path $root 'modules/RIDE.CatalogValidation.psm1') -Force
+  Import-Module (Join-Path $root 'modules/RIDE.CatalogData.psm1') -Force
+}
+
+Describe 'Package variant selection' {
+  InModuleScope RIDE.PackageSelection {
+    BeforeEach {
+      Mock Get-RidePackageConfiguration { @{ ToolsDirectory = $TestDrive; PackageVariantPreference = '' } }
+      $product = @{ Id='package.app'; Kind='Package'; PackageId='app'; Scope='Machine'; InstallerType='Exe'; DefaultVariant='installed'; Variants=@{ installed=@{}; portable=@{ InstallerType='Portable'; PortableFormat='File' } } }
+    }
+    It 'keeps the existing product ID and catalog default' {
+      $selected = Resolve-RidePackageSelection $product
+      $selected.SelectedVariant | Should -Be 'installed'
+      $selected.Id | Should -Be 'package.app'
+      $product.ContainsKey('SelectedVariant') | Should -BeFalse
+    }
+    It 'resolves an explicit portable destination without changing catalog data' {
+      $selected = Resolve-RidePackageSelection $product portable
+      $selected.InstallDirectory | Should -Be (Join-Path $TestDrive 'app')
+      $product.InstallerType | Should -Be 'Exe'
+    }
+    It 'rejects unsupported explicit choices' { { Resolve-RidePackageSelection $product missing } | Should -Throw '*Unsupported variant*' }
+    It 'falls back only for an unavailable local preference and explains it' {
+      Mock Get-RidePackageConfiguration { @{ToolsDirectory=$TestDrive;PackageVariantPreference='missing'} }
+      $selection = Resolve-RidePackageSelection $product
+      $selection.SelectedVariant | Should -Be 'installed'
+      $selection.SelectionNote | Should -Match 'unavailable'
+    }
+    It 'lets an explicit selection override a preference' {
+      Mock Get-RidePackageConfiguration { @{ToolsDirectory=$TestDrive;PackageVariantPreference='portable'} }
+      (Resolve-RidePackageSelection $product installed).InstallerType | Should -Be 'Exe'
+    }
+    It 'supports old flat package entries' {
+      (Resolve-RidePackageSelection @{Kind='Package';Id='package.old';InstallerType='Exe'}).SelectedVariant | Should -Be 'installed'
+    }
+    It 'rejects package variants on settings' { { Resolve-RidePackageSelection @{Kind='RegistryValue'} portable } | Should -Throw '*package ID*' }
+    It 'resolves the user destination and installer arguments during planning' {
+      $product.Scope='User';$product.LocalAppDataInstallDirectory='Mozilla Thunderbird'
+      $product.InstallerArguments='/S /InstallDirectoryPath="{InstallDirectory}"'
+      $selected=Resolve-RidePackageSelection $product
+      $selected.InstallDirectory | Should -Be (Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) 'Programs/Mozilla Thunderbird')
+      $selected.InstallerArguments | Should -Be ('/S /InstallDirectoryPath="'+$selected.InstallDirectory+'"')
+      $product.InstallerArguments | Should -Match '\{InstallDirectory\}'
+    }
+    It 'rejects unsafe or machine-scoped user destinations' {
+      $product.LocalAppDataInstallDirectory='../Other'
+      {Resolve-RidePackageSelection $product} | Should -Throw '*Invalid current-user*'
+      $product.LocalAppDataInstallDirectory='Mozilla Thunderbird'
+      {Resolve-RidePackageSelection $product} | Should -Throw '*Invalid current-user*'
+    }
+  }
+}
+
+Describe 'Managed portable lifecycle' {
+  InModuleScope RIDE-PortablePackages {
+    BeforeEach {
+      $caseRoot = Join-Path $TestDrive ([guid]::NewGuid().ToString('N'))
+      New-Item -ItemType Directory -Path $caseRoot | Out-Null
+      $operation = @{Id='package.app';PackageId='app';Name='App';InstallerType='Portable';SelectedVariant='portable';ResolvedToolsDirectory=$caseRoot;InstallDirectory=(Join-Path $caseRoot 'app');PortableFormat='File';PortableFileName='app.exe';RequiredFiles=@('app.exe')}
+      $payload = Join-Path $caseRoot 'payload.exe'
+      [IO.File]::WriteAllText($payload, 'version one')
+      $artifact = [pscustomobject]@{Path=$payload;Version='1.0';Sha256=(Get-FileHash -LiteralPath $payload).Hash.ToLowerInvariant()}
+    }
+    It 'does not adopt arbitrary existing files' {
+      New-Item -ItemType Directory -Path $operation.InstallDirectory | Out-Null
+      [IO.File]::WriteAllText((Join-Path $operation.InstallDirectory 'app.exe'),'user bytes')
+      (Get-RidePortableState $operation).Present | Should -BeFalse
+      { Install-RidePortablePayload $operation $artifact } | Should -Throw '*collision*'
+      Get-Content -LiteralPath (Join-Path $operation.InstallDirectory 'app.exe') | Should -Be 'user bytes'
+    }
+    It 'installs, detects, repeats and removes only owned content' {
+      Install-RidePortablePayload $operation $artifact
+      (Get-RidePortableState $operation).Healthy | Should -BeTrue
+      Install-RidePortablePayload $operation $artifact
+      [IO.File]::WriteAllText((Join-Path $operation.InstallDirectory 'user.json'),'user data')
+      Uninstall-RidePortablePayload $operation
+      (Get-RidePortableState $operation).Present | Should -BeFalse
+      Test-Path -LiteralPath (Join-Path $operation.InstallDirectory 'user.json') | Should -BeTrue
+      Test-Path -LiteralPath $caseRoot | Should -BeTrue
+    }
+    It 'preserves modified content and refuses overwrite during upgrades' {
+      Install-RidePortablePayload $operation $artifact
+      [IO.File]::WriteAllText((Join-Path $operation.InstallDirectory 'app.exe'),'modified')
+      (Get-RidePortableState $operation).Files[0].Modified | Should -BeTrue
+      { Install-RidePortablePayload $operation $artifact } | Should -Throw '*modified*'
+      Uninstall-RidePortablePayload $operation -WarningAction SilentlyContinue
+      Get-Content -LiteralPath (Join-Path $operation.InstallDirectory 'app.exe') | Should -Be 'modified'
+    }
+    It 'reports missing owned content' {
+      Install-RidePortablePayload $operation $artifact
+      Remove-Item -LiteralPath (Join-Path $operation.InstallDirectory 'app.exe')
+      (Get-RidePortableState $operation).Healthy | Should -BeFalse
+      (Get-RidePortableState $operation).Files[0].Missing | Should -BeTrue
+    }
+    It 'restores exact captured bytes without touching user data' {
+      Install-RidePortablePayload $operation $artifact
+      $snapshot = Save-RidePortableSnapshot $operation (Join-Path $caseRoot 'backup')
+      Uninstall-RidePortablePayload $operation
+      [IO.File]::WriteAllText((Join-Path $operation.InstallDirectory 'notes.txt'),'notes')
+      Restore-RidePortableSnapshot $operation $snapshot
+      Get-Content -LiteralPath (Join-Path $operation.InstallDirectory 'app.exe') | Should -Be 'version one'
+      Get-Content -LiteralPath (Join-Path $operation.InstallDirectory 'notes.txt') | Should -Be 'notes'
+      (Get-RidePortableState $operation).Healthy | Should -BeTrue
+    }
+    It 'retains ownership after a partial restore so the same retained bytes can be retried' {
+      Install-RidePortablePayload $operation $artifact
+      $extra=Join-Path $operation.InstallDirectory 'extra.txt'
+      [IO.File]::WriteAllText($extra,'second owned file')
+      $manifestPath=Join-Path $operation.InstallDirectory '.ride-package.json'
+      $manifest=Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
+      $manifest.Files=@($manifest.Files)+@([pscustomobject]@{RelativePath='extra.txt';Sha256=(Get-FileHash -LiteralPath $extra).Hash})
+      $manifest | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $manifestPath -Encoding UTF8
+      $snapshot=Save-RidePortableSnapshot $operation (Join-Path $caseRoot 'backup')
+      Uninstall-RidePortablePayload $operation
+      $script:failRestore=$true
+      Mock Copy-Item {
+        if($script:failRestore -and $Destination -like '*extra.txt'){throw 'simulated restore copy failure'}
+        [IO.File]::Copy($LiteralPath,$Destination,[bool]$Force)
+      }
+      { Restore-RidePortableSnapshot $operation $snapshot } | Should -Throw '*simulated restore*'
+      $partial=Get-RidePortableState $operation
+      $partial.Present | Should -BeTrue
+      $partial.Healthy | Should -BeFalse
+      $partial.Manifest.Status | Should -Be 'Restoring'
+      $script:failRestore=$false
+      Restore-RidePortableSnapshot $operation $snapshot
+      (Get-RidePortableState $operation).Healthy | Should -BeTrue
+      Get-Content -LiteralPath $extra | Should -Be 'second owned file'
+    }
+    It 'restores original absence by compensating file removal' {
+      $snapshot = Save-RidePortableSnapshot $operation (Join-Path $caseRoot 'backup')
+      Install-RidePortablePayload $operation $artifact
+      Restore-RidePortableSnapshot $operation $snapshot
+      (Get-RidePortableState $operation).Present | Should -BeFalse
+    }
+    It 'preflights missing recovery bytes before changing the installed product' {
+      Install-RidePortablePayload $operation $artifact
+      $snapshot = Save-RidePortableSnapshot $operation (Join-Path $caseRoot 'backup')
+      Remove-Item -LiteralPath (Join-Path $snapshot.BackupDirectory 'app.exe')
+      { Restore-RidePortableSnapshot $operation $snapshot } | Should -Throw '*unavailable*'
+      (Get-RidePortableState $operation).Healthy | Should -BeTrue
+    }
+    It 'does not overwrite modifications made since capture' {
+      Install-RidePortablePayload $operation $artifact
+      $snapshot = Save-RidePortableSnapshot $operation (Join-Path $caseRoot 'backup')
+      [IO.File]::WriteAllText((Join-Path $operation.InstallDirectory 'app.exe'),'new user modification')
+      { Restore-RidePortableSnapshot $operation $snapshot } | Should -Throw '*overwrite*'
+    }
+    It 'validates recovery without writing' {
+      Install-RidePortablePayload $operation $artifact
+      $snapshot = Save-RidePortableSnapshot $operation (Join-Path $caseRoot 'backup')
+      Uninstall-RidePortablePayload $operation
+      Restore-RidePortableSnapshot $operation $snapshot -ValidateOnly
+      (Get-RidePortableState $operation).Present | Should -BeFalse
+    }
+    It 'refuses to adopt unowned recovery collisions even when the bytes match' {
+      Install-RidePortablePayload $operation $artifact
+      $snapshot=Save-RidePortableSnapshot $operation (Join-Path $caseRoot 'backup')
+      Uninstall-RidePortablePayload $operation
+      [IO.File]::WriteAllText((Join-Path $operation.InstallDirectory 'app.exe'),'version one')
+      { Restore-RidePortableSnapshot $operation $snapshot } | Should -Throw '*unowned content*'
+      (Get-RidePortableState $operation).Present | Should -BeFalse
+    }
+    It 'rejects an artifact changed after acquisition' {
+      [IO.File]::WriteAllText($payload,'changed')
+      { Install-RidePortablePayload $operation $artifact } | Should -Throw '*SHA-256*'
+      Test-Path -LiteralPath $operation.InstallDirectory | Should -BeFalse
+    }
+    It 'rejects traversal, reserved filenames and streams' -TestCases @(
+      @{Member='../escape.exe'}, @{Member='/escape.exe'}, @{Member='dir/../escape.exe'}, @{Member='dir\escape.exe'}, @{Member='app.exe:stream'}, @{Member='CON.exe'}, @{Member='dir./app.exe'}
+    ) {
+      param($Member)
+      { Get-RidePortableMemberPath $caseRoot $Member } | Should -Throw '*Unsafe portable member*'
+    }
+    It 'refuses ZIP traversal before creating a product directory' {
+      Add-Type -AssemblyName System.IO.Compression
+      Add-Type -AssemblyName System.IO.Compression.FileSystem
+      $zipPath=Join-Path $caseRoot 'unsafe.zip'
+      $zip=[IO.Compression.ZipFile]::Open($zipPath,[IO.Compression.ZipArchiveMode]::Create)
+      try { $null=$zip.CreateEntry('../escape.exe') } finally { $zip.Dispose() }
+      $operation.PortableFormat='Zip';$artifact.Path=$zipPath;$artifact.Sha256=(Get-FileHash -LiteralPath $zipPath).Hash
+      { Install-RidePortablePayload $operation $artifact } | Should -Throw '*Unsafe portable member*'
+      Test-Path -LiteralPath $operation.InstallDirectory | Should -BeFalse
+    }
+    It 'extracts a ZIP and retains all supplied notices' {
+      $src=Join-Path $caseRoot 'source';New-Item -ItemType Directory -Path $src | Out-Null
+      [IO.File]::WriteAllText((Join-Path $src 'app.exe'),'binary')
+      [IO.File]::WriteAllText((Join-Path $src 'LICENSE.txt'),'license')
+      $zipPath=Join-Path $caseRoot 'safe.zip'
+      Add-Type -AssemblyName System.IO.Compression.FileSystem
+      [IO.Compression.ZipFile]::CreateFromDirectory($src,$zipPath)
+      $operation.PortableFormat='Zip';$artifact.Path=$zipPath;$artifact.Sha256=(Get-FileHash -LiteralPath $zipPath).Hash
+      Install-RidePortablePayload $operation $artifact
+      (Get-RidePortableState $operation).Files.Count | Should -Be 2
+      Test-Path -LiteralPath (Join-Path $operation.InstallDirectory 'LICENSE.txt') | Should -BeTrue
+    }
+    It 'rejects a file where an archive needs a parent directory before product writes' {
+      $src=Join-Path $caseRoot 'source';New-Item -ItemType Directory -Path (Join-Path $src 'sub') -Force | Out-Null
+      [IO.File]::WriteAllText((Join-Path $src 'app.exe'),'binary')
+      [IO.File]::WriteAllText((Join-Path $src 'sub/other.exe'),'binary')
+      $zipPath=Join-Path $caseRoot 'parent.zip';Add-Type -AssemblyName System.IO.Compression.FileSystem
+      Add-Type -AssemblyName System.IO.Compression
+      $zip=[IO.Compression.ZipFile]::Open($zipPath,[IO.Compression.ZipArchiveMode]::Create)
+      try { $null=$zip.CreateEntry('app.exe'); $null=$zip.CreateEntry('sub/other.exe') } finally { $zip.Dispose() }
+      New-Item -ItemType Directory -Path $operation.InstallDirectory | Out-Null
+      [IO.File]::WriteAllText((Join-Path $operation.InstallDirectory 'sub'),'user file')
+      $operation.PortableFormat='Zip';$artifact.Path=$zipPath;$artifact.Sha256=(Get-FileHash -LiteralPath $zipPath).Hash
+      { Install-RidePortablePayload $operation $artifact } | Should -Throw '*collision*'
+      Test-Path -LiteralPath (Join-Path $operation.InstallDirectory '.ride-package.json') | Should -BeFalse
+      Test-Path -LiteralPath (Join-Path $operation.InstallDirectory 'app.exe') | Should -BeFalse
+    }
+    It 'keeps a journal after failed copying and can recover original absence' {
+      $snapshot=Save-RidePortableSnapshot $operation (Join-Path $caseRoot 'backup')
+      Mock Copy-Item { throw 'simulated copy failure' } -ParameterFilter { $Destination -like ($operation.InstallDirectory+'*') }
+      { Install-RidePortablePayload $operation $artifact } | Should -Throw '*simulated copy failure*'
+      $state=Get-RidePortableState $operation
+      $state.Present | Should -BeTrue
+      $state.Healthy | Should -BeFalse
+      $state.Manifest.Status | Should -Be 'Installing'
+      Restore-RidePortableSnapshot $operation $snapshot
+      (Get-RidePortableState $operation).Present | Should -BeFalse
+    }
+    It 'stops when an available signature reports changed signed bytes' {
+      Mock Get-AuthenticodeSignature { [pscustomobject]@{Status='HashMismatch';SignerCertificate=$null} }
+      { Install-RidePortablePayload $operation $artifact } | Should -Throw '*signature integrity failure*'
+      Test-Path -LiteralPath $operation.InstallDirectory | Should -BeFalse
+    }
+    It 'records COM executable signatures and blocks changed signed COM bytes before product writes' {
+      $operation.PortableFileName='app.com';$operation.RequiredFiles=@('app.com')
+      Mock Get-AuthenticodeSignature { [pscustomobject]@{Status='Valid';SignerCertificate=[pscustomobject]@{Thumbprint='publisher'}} }
+      Install-RidePortablePayload $operation $artifact
+      $state=Get-RidePortableState $operation
+      $state.Manifest.Files[0].AuthenticodeStatus | Should -Be 'Valid'
+      $state.Manifest.Files[0].SignerThumbprint | Should -Be 'publisher'
+      Should -Invoke Get-AuthenticodeSignature -Exactly 1 -ParameterFilter {$LiteralPath -like '*.com'}
+      Uninstall-RidePortablePayload $operation
+      Mock Get-AuthenticodeSignature { [pscustomobject]@{Status='HashMismatch';SignerCertificate=$null} }
+      {Install-RidePortablePayload $operation $artifact} | Should -Throw '*signature integrity failure*'
+      Test-Path -LiteralPath (Join-Path $operation.InstallDirectory 'app.com') | Should -BeFalse
+      Test-Path -LiteralPath (Join-Path $operation.InstallDirectory '.ride-package.json') | Should -BeFalse
+    }
+    It 'captures and restores an upgrade including obsolete owned files' {
+      Install-RidePortablePayload $operation $artifact
+      $snapshot=Save-RidePortableSnapshot $operation (Join-Path $caseRoot 'backup')
+      [IO.File]::WriteAllText($payload,'version two');$artifact.Sha256=(Get-FileHash -LiteralPath $payload).Hash;$artifact.Version='2.0'
+      Install-RidePortablePayload $operation $artifact
+      Restore-RidePortableSnapshot $operation $snapshot
+      Get-Content -LiteralPath (Join-Path $operation.InstallDirectory 'app.exe') | Should -Be 'version one'
+      (Get-RidePortableState $operation).DisplayVersion | Should -Be '1.0'
+    }
+  }
+}
+
+Describe 'Official publisher resolution' {
+  InModuleScope RIDE.PublisherSources {
+    Context 'WinSCP portable distribution' {
+      BeforeEach {
+        $winScpOperation=@{PackageId='winscp';DownloadProvider='WinSCPPortablePage';DownloadUri='https://winscp.net/download/WinSCP-6.5.7-Portable.zip/download';PackageVersion='6.5.7';Architecture='x86';InstallerType='Portable';PortableFormat='Zip';AllowedDownloadHosts=@('cdn.winscp.net')}
+        $script:winScpPage=@{Content=('<li>SHA-256: '+('a'*64)+'</li>');Links=@(@{href='https://cdn.winscp.net/files/WinSCP-6.5.7-Portable.zip?secure=abcdefghijklmnopqrstuv==,1791706349'})}
+        Mock Invoke-WebRequest { $script:winScpPage }
+      }
+      It 'binds the declared version to the publisher digest and fresh CDN URL' {
+        $artifact=Resolve-RidePublisherArtifact $winScpOperation
+        $artifact.Version | Should -Be '6.5.7'
+        $artifact.FileName | Should -Be 'WinSCP-6.5.7-Portable.zip'
+        $artifact.ProviderDigest | Should -Be ('sha256:'+('a'*64))
+        $artifact.PublisherSha256 | Should -Be ('a'*64)
+        $artifact.PublisherChecksumUri | Should -Be $winScpOperation.DownloadUri
+        $artifact.SourceUri | Should -Be $winScpOperation.DownloadUri
+        $artifact.ChecksumUris | Should -Contain $winScpOperation.DownloadUri
+        $artifact.Uri | Should -Be $script:winScpPage.Links[0].href
+        Should -Invoke Invoke-WebRequest -Exactly 1
+      }
+      It 'rejects missing or conflicting checksum statements' {
+        $script:winScpPage.Content='Download'
+        {Resolve-RidePublisherArtifact $winScpOperation} | Should -Throw '*exactly one publisher SHA-256*'
+        $script:winScpPage.Content='<li>SHA-256: '+('a'*64)+'</li><li>SHA-256: '+('b'*64)+'</li>'
+        {Resolve-RidePublisherArtifact $winScpOperation} | Should -Throw '*exactly one publisher SHA-256*'
+      }
+      It 'rejects altered hosts, releases, credentials and unexpected CDN queries' {
+        $good=$script:winScpPage.Links[0].href
+        foreach($bad in @($good.Replace('cdn.winscp.net','example.org'),$good.Replace('6.5.7','6.5.8'),$good.Replace('https://','https://user@'),($good+'&extra=1'),($good+'#fragment'))){
+          $script:winScpPage.Links=@(@{href=$bad})
+          {Resolve-RidePublisherArtifact $winScpOperation} | Should -Throw
+        }
+      }
+      It 'rejects multiple payloads and oversized metadata' {
+        $script:winScpPage.Links+=@{href=$script:winScpPage.Links[0].href.Replace('1791706349','1791706350')}
+        {Resolve-RidePublisherArtifact $winScpOperation} | Should -Throw '*exactly one selected CDN*'
+        $script:winScpPage.Content='a'*1048577
+        {Resolve-RidePublisherArtifact $winScpOperation} | Should -Throw '*exceeds 1 MiB*'
+      }
+      It 'rejects unsupported distribution choices before a request' {
+        $winScpOperation.Architecture='x64'
+        {Resolve-RidePublisherArtifact $winScpOperation} | Should -Throw '*Invalid WinSCP*'
+        Should -Invoke Invoke-WebRequest -Exactly 0
+      }
+    }
+    BeforeEach {
+      $signalHash=[Convert]::ToBase64String([byte[]](1..64))
+      $signalFeed="version: 8.30.0`nfiles:`n  - url: signal-desktop-win-x64-8.30.0.exe`n    sha512: $signalHash`npath: signal-desktop-win-x64-8.30.0.exe`nsha512: $signalHash`n"
+      $signalOperation=@{PackageId='signal';DownloadProvider='SignalDesktopFeed';DownloadUri='https://updates.signal.org/desktop/latest.yml';Architecture='x64';AllowedDownloadHosts=@('updates.signal.org')}
+    }
+    It 'binds a Signal x64 versioned artifact to both matching feed checksums' {
+      Mock Invoke-WebRequest { @{Content=[Text.Encoding]::UTF8.GetBytes($signalFeed)} }
+      $artifact=Resolve-RidePublisherArtifact $signalOperation
+      $artifact.Version | Should -Be '8.30.0'
+      $artifact.Uri | Should -Be 'https://updates.signal.org/desktop/signal-desktop-win-x64-8.30.0.exe'
+      $artifact.ProviderDigest | Should -Be ('sha512:'+([BitConverter]::ToString([byte[]](1..64))).Replace('-','').ToLowerInvariant())
+      $artifact.ChecksumUris | Should -Contain $signalOperation.DownloadUri
+    }
+    It 'refuses a Signal release with conflicting filename, version or checksum' {
+      Mock Invoke-WebRequest { @{Content=$script:invalidSignalFeed} }
+      foreach($invalid in @($signalFeed.Replace('version: 8.30.0','version: 8.29.0'),$signalFeed.Replace("path: signal-desktop-win-x64-8.30.0.exe`nsha512: $signalHash", "path: signal-desktop-win-x64-8.30.0.exe`nsha512: $([Convert]::ToBase64String([byte[]](64..1)))"),($signalFeed+"version: 8.30.0`n"),$signalFeed.Replace('win-x64-','win-arm64-'))){
+        $script:invalidSignalFeed=$invalid
+        { Resolve-RidePublisherArtifact $signalOperation } | Should -Throw
+      }
+    }
+    It 'rejects a Signal feed mirror and unsupported architecture before fetching' {
+      Mock Invoke-WebRequest { throw 'Must not fetch invalid metadata.' }
+      $signalOperation.DownloadUri='https://example.org/desktop/latest.yml'
+      { Resolve-RidePublisherArtifact $signalOperation } | Should -Throw '*Invalid Signal*'
+      $signalOperation.DownloadUri='https://updates.signal.org/desktop/latest.yml';$signalOperation.Architecture='arm64'
+      { Resolve-RidePublisherArtifact $signalOperation } | Should -Throw '*Invalid Signal*'
+      Should -Invoke Invoke-WebRequest -Exactly 0
+    }
+    It 'binds VS Code to its publisher SHA-256' {
+      Mock Invoke-RestMethod { @{productVersion='1.2.3';url='https://vscode.download.prss.microsoft.com/one/setup.exe';sha256hash=('a'*64)} }
+      $artifact=Resolve-RidePublisherArtifact @{PackageId='vscode';DownloadProvider='VSCodeUpdateApi';DownloadUri='https://update.code.visualstudio.com/api/update/win32-x64-user/stable/latest';AllowedDownloadHosts=@('vscode.download.prss.microsoft.com');Architecture='x64'}
+      $artifact.ProviderDigest | Should -Be ('sha256:'+('a'*64))
+      $artifact.Version | Should -Be '1.2.3'
+    }
+    It 'binds an explicit UK Mozilla artifact to its exact architecture and checksum member' {
+      Mock Invoke-RestMethod { @{LATEST_THUNDERBIRD_VERSION='150.0.1'} }
+      Mock Invoke-WebRequest {
+        if($Uri -like '*SHA256SUMS'){return @{Content=(('a'*64)+'  win64/en-US/Thunderbird Setup 150.0.1.msi' + "`n" + ('b'*64)+'  win/en-GB/Thunderbird Setup 150.0.1.msi')}}
+        @{Links=@()}
+      }
+      $op=@{DownloadProvider='MozillaVersionsJson';DownloadUri='https://product-details.mozilla.org/1.0/thunderbird_versions.json';MozillaProduct='thunderbird';VersionKey='LATEST_THUNDERBIRD_VERSION';MozillaLocale='en-GB';Architecture='x86';InstallerType='Msi';AllowedDownloadHosts=@('archive.mozilla.org')}
+      $artifact=Resolve-RidePublisherArtifact $op
+      $artifact.Uri | Should -Be 'https://archive.mozilla.org/pub/thunderbird/releases/150.0.1/win/en-GB/Thunderbird%20Setup%20150.0.1.msi'
+      $artifact.ProviderDigest | Should -Be ('sha256:'+('b'*64))
+      $op.MozillaLocale='../en-US'
+      { Resolve-RidePublisherArtifact $op } | Should -Throw '*Unsafe Mozilla locale*'
+    }
+    It 'refuses a redirected publisher artifact host' {
+      Mock Invoke-RestMethod { @{productVersion='1.2.3';url='https://example.org/setup.exe';sha256hash=('a'*64)} }
+      { Resolve-RidePublisherArtifact @{DownloadProvider='VSCodeUpdateApi';DownloadUri='https://update.code.visualstudio.com/api/update/win32-x64-user/stable/latest';AllowedDownloadHosts=@('vscode.download.prss.microsoft.com')} } | Should -Throw '*outside declared*'
+    }
+    It 'resolves the Firefox stable release to a versioned x64 MSI' {
+      Mock Invoke-RestMethod { @{LATEST_FIREFOX_VERSION='157.0.1'} }
+      Mock Invoke-WebRequest {
+        if($Uri -like '*SHA256SUMS'){ @{Content=(('a'*64)+'  win64/en-US/Firefox Setup 157.0.1.msi')} }
+        else { @{Links=@(@{href='SHA256SUMS.asc'})} }
+      }
+      $artifact=Resolve-RidePublisherArtifact @{DownloadProvider='MozillaVersionsJson';DownloadUri='https://product-details.mozilla.org/1.0/firefox_versions.json';MozillaProduct='firefox';VersionKey='LATEST_FIREFOX_VERSION';InstallerType='Msi';AllowedDownloadHosts=@('archive.mozilla.org')}
+      $artifact.Uri | Should -Be 'https://archive.mozilla.org/pub/firefox/releases/157.0.1/win64/en-US/Firefox%20Setup%20157.0.1.msi'
+      $artifact.ProviderDigest | Should -Be ('sha256:'+('a'*64))
+      $artifact.SignatureUris | Should -Contain 'https://archive.mozilla.org/pub/firefox/releases/157.0.1/SHA256SUMS.asc'
+    }
+    It 'rejects an unsafe Mozilla release before making checksum requests' {
+      Mock Invoke-RestMethod { @{LATEST_FIREFOX_VERSION='../other'} }
+      Mock Invoke-WebRequest { throw 'No checksum request is allowed.' }
+      { Resolve-RidePublisherArtifact @{DownloadProvider='MozillaVersionsJson';DownloadUri='https://product-details.mozilla.org/1.0/firefox_versions.json';MozillaProduct='firefox';VersionKey='LATEST_FIREFOX_VERSION';InstallerType='Msi';AllowedDownloadHosts=@('archive.mozilla.org')} } | Should -Throw '*Unsafe publisher version*'
+      Should -Invoke Invoke-WebRequest -Exactly 0
+    }
+    It 'binds publisher page checksums and signatures to the versioned standalone artifact' {
+      Mock Invoke-WebRequest {
+        if($Uri -like '*sha256sums'){ @{Content=(('b'*64)+'  w64/putty.exe')} }
+        else { @{Links=@(@{href='https://example.org/latest/w64/putty.exe'},@{href='https://example.org/latest/w64/putty.exe.gpg'},@{href='https://example.org/latest/sha256sums'},@{href='https://example.org/latest/sha256sums.gpg'});Content='release 0.85'} }
+      }
+      $artifact=Resolve-RidePublisherArtifact @{DownloadProvider='PublisherLinkPage';DownloadUri='https://example.org/download';AssetPattern='/w64/putty\.exe$';PageVersionPattern='release (?<version>[0-9.]+)';VersionPattern='/(?<version>[0-9.]+)/w64/';AllowedDownloadHosts=@('example.org');ChecksumAssetPattern='/sha256sums$';ChecksumMember='w64/putty.exe'}
+      $artifact.ProviderDigest | Should -Be ('sha256:'+('b'*64))
+      $artifact.ChecksumUris | Should -Contain 'https://example.org/0.85/sha256sums'
+      $artifact.SignatureUris | Should -Contain 'https://example.org/0.85/w64/putty.exe.gpg'
+      $artifact.SignatureUris | Should -Contain 'https://example.org/0.85/sha256sums.gpg'
+    }
+    It 'rejects a missing or ambiguous publisher checksum for the selected architecture' {
+      Mock Invoke-WebRequest { @{Content=(('a'*64)+'  w32/putty.exe')} }
+      { Get-RidePublisherChecksum -Uri 'https://example.org/sha256sums' -Member 'w64/putty.exe' } | Should -Throw '*exactly one*'
+      Mock Invoke-WebRequest { @{Content=((('a'*64)+'  w64/putty.exe')+"`n"+(('b'*64)+'  w64/putty.exe'))} }
+      { Get-RidePublisherChecksum -Uri 'https://example.org/sha256sums' -Member 'w64/putty.exe' } | Should -Throw '*exactly one*'
+    }
+    It 'reads a binary-content checksum response as UTF-8 publisher text' {
+      Mock Invoke-WebRequest { @{Content=[Text.Encoding]::UTF8.GetBytes((('a'*64)+'  w64/putty.exe'))} }
+      Get-RidePublisherChecksum -Uri 'https://example.org/sha256sums' -Member 'w64/putty.exe' | Should -Be ('sha256:'+('a'*64))
+    }
+    It 'does not select the first artifact from an ambiguous publisher page' {
+      Mock Invoke-WebRequest { @{Links=@(@{href='https://example.org/app-1.0.exe'},@{href='https://example.org/app-2.0.exe'})} }
+      { Resolve-RidePublisherArtifact @{DownloadProvider='PublisherLinkPage';DownloadUri='https://example.org/download';AssetPattern='app-.*exe$';VersionPattern='app-(?<version>[0-9.]+)\.exe';AllowedDownloadHosts=@('example.org')} } | Should -Throw '*found 2*'
+    }
+  }
+}
+
+Describe 'Engine package variant integration' {
+  InModuleScope RIDE.Engine {
+    BeforeEach {
+      Mock Get-RidePlatform { 'Windows 11' }
+      Mock Test-RideAdministrator { $true }
+      Mock Get-RideRecordedPackageSelection { $null }
+    }
+    It 'carries the variant through profile planning' {
+      $plan=@(Get-RidePlan @{Operations=@(@{Id='package.sharex';State='Present';Variant='portable'})})
+      $plan[0].Operation.SelectedVariant | Should -Be 'portable'
+      $plan[0].Operation.InstallerType | Should -Be 'Portable'
+    }
+    It 'rejects unsupported direct variants' { { Get-RideSingleOperationPlan -Id package.sharex -Action Install -Variant missing } | Should -Throw '*Unsupported variant*' }
+    It 'removes the recorded edition and destination after preferences change' {
+      $saved=Resolve-RidePackageSelection (Get-RideOperation package.sharex) portable
+      $saved.InstallDirectory='C:\OriginalTools\sharex';$saved.ResolvedToolsDirectory='C:\OriginalTools'
+      Mock Get-RideRecordedPackageSelection { $saved }
+      $plan=@(Get-RideSingleOperationPlan -Id package.sharex -Action Remove)
+      $plan[0].Operation.SelectedVariant | Should -Be 'portable'
+      $plan[0].Operation.InstallDirectory | Should -Be 'C:\OriginalTools\sharex'
+      $plan[0].State | Should -Be 'Absent'
+    }
+    It 'keeps a live recorded destination for the same explicitly selected edition' {
+      $saved=Resolve-RidePackageSelection (Get-RideOperation package.sharex) portable
+      $saved.InstallDirectory='C:\OriginalTools\sharex';$saved.ResolvedToolsDirectory='C:\OriginalTools'
+      Mock Get-RideRecordedPackageSelection { $saved }
+      Mock Get-RideInstalledPackage { [pscustomobject]@{Present=$true} }
+      (Resolve-RideLifecycleSelection (Get-RideOperation package.sharex) portable).InstallDirectory | Should -Be 'C:\OriginalTools\sharex'
+    }
+    It 'previews without downloading, installing or saving state' {
+      Mock Get-RideInstalledPackage { [pscustomobject]@{Present=$false;Healthy=$false} }
+      Mock Install-RidePackage { throw 'Must not install.' }
+      Mock Save-RideOperationSnapshot { throw 'Must not capture.' }
+      $plan=@(Get-RideSingleOperationPlan -Id package.sharex -Action Install -Variant portable)
+      $plan[0].Operation.SupportedTargets=@('Windows 11')
+      $null=Invoke-RidePlan -Plan $plan -WhatIf
+      Should -Invoke Install-RidePackage -Exactly 0
+      Should -Invoke Save-RideOperationSnapshot -Exactly 0
+    }
+    It 'refuses an installed different edition even in preview' {
+      Mock Get-RideInstalledPackage { [pscustomobject]@{Present=($Operation.InstallerType -eq 'Exe')} }
+      $plan=@(Get-RideSingleOperationPlan -Id package.sharex -Action Install -Variant portable)
+      $plan[0].Operation.SupportedTargets=@('Windows 11')
+      { Invoke-RidePlan -Plan $plan -WhatIf } | Should -Throw '*different edition*'
+    }
+    It 'treats a modified portable tree as unhealthy rather than matching Present' {
+      Test-RideCurrentStateMatch -Operation @{Kind='Package';InstallerType='Portable'} -State Present -CurrentState ([pscustomobject]@{Present=$true;Healthy=$false}) | Should -BeFalse
+    }
+    It 'rejects a desktop application on Server Core before changing state' {
+      Mock Get-RidePlatform { 'Windows Server 2025' }
+      Mock Get-ItemProperty { [pscustomobject]@{InstallationType='Server Core'} }
+      $operation=@{Id='package.gui';Kind='Package';Name='GUI';RequiresDesktopExperience=$true;RequiresAdmin=$true;SupportedTargets=@('Windows Server 2025')}
+      { Assert-RidePlanAllowed @([pscustomobject]@{Operation=$operation;State='Present'}) } | Should -Throw '*Desktop Experience*'
+    }
+    It 'rejects a pending package before any installation' {
+      Mock Install-RidePackage { throw 'Must not install.' }
+      $operation=@{Id='package.pending';Kind='Package';Name='Pending';PendingAcceptance=$true;SupportedTargets=@();RequiresAdmin=$false}
+      { Assert-RidePlanAllowed @([pscustomobject]@{Operation=$operation;State='Present'}) } | Should -Throw '*does not support*'
+      Should -Invoke Install-RidePackage -Exactly 0
+    }
+    It 'rejects elevated current-user execution before any capture or installer call' {
+      Mock Save-RideOperationSnapshot { throw 'Must not capture.' }
+      Mock Install-RidePackage { throw 'Must not install.' }
+      $operation=Resolve-RidePackageSelection (Get-RideOperation package.thunderbird)
+      $operation.SupportedTargets=@('Windows 11')
+      {Invoke-RidePlan @([pscustomobject]@{Operation=$operation;State='Present'}) -Confirm:$false} | Should -Throw '*non-elevated*'
+      Should -Invoke Save-RideOperationSnapshot -Exactly 0
+      Should -Invoke Install-RidePackage -Exactly 0
+    }
+    It 'permits read-only preview and a limited user token for the same selection' {
+      $operation=Resolve-RidePackageSelection (Get-RideOperation package.thunderbird)
+      $operation.SupportedTargets=@('Windows 11')
+      {& {$WhatIfPreference=$true;Assert-RidePlanAllowed @([pscustomobject]@{Operation=$operation})}} | Should -Not -Throw
+      Mock Test-RideAdministrator {$false}
+      {Assert-RidePlanAllowed @([pscustomobject]@{Operation=$operation})} | Should -Not -Throw
+    }
+    It 'restores using the saved package target and edition after catalog support changes' {
+      Mock Get-RidePlatform { 'Windows Server 2025' }
+      Mock Get-RideStateRoot { Join-Path $TestDrive $Scope }
+      Mock Get-RideCatalog { @{Operations=@(@{Id='package.saved';Kind='Package';Scope='Machine';SupportedTargets=@('Windows 11')})} }
+      Mock Get-RideInstalledPackage { [pscustomobject]@{Present=$true} }
+      Mock Uninstall-RidePackage {}
+      $runId='12345678901234567890123456789012'
+      $directory=Join-Path (Join-Path $TestDrive Machine) $runId
+      $null=New-Item -ItemType Directory -Path $directory -Force
+      $saved=@{Id='package.saved';Name='Saved edition';Kind='Package';Scope='Machine';InstallerType='Exe';SelectedVariant='installed';SupportedTargets=@('Windows Server 2025')}
+      @{SchemaVersion=3;OperationId='package.saved';Kind='Package';Scope='Machine';PackageSelection=$saved;Snapshot=@{Present=$false}} | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $directory 'package.saved.json') -Encoding UTF8
+      Restore-RideRun -RunId $runId -Confirm:$false | Out-Null
+      Should -Invoke Uninstall-RidePackage -Exactly 1 -ParameterFilter { $Operation.Name -eq 'Saved edition' -and $Operation.SelectedVariant -eq 'installed' }
+    }
+    It 'filters default status using the recorded variant target rather than the product default' {
+      Mock Get-RidePlatform { 'Windows Server 2025' }
+      $base=@{Id='package.sample';Name='Sample';Category='Software / Sample';Kind='Package';Scope='Machine';SupportedTargets=@('Windows 11')}
+      $saved=$base.Clone();$saved.SupportedTargets=@('Windows Server 2025');$saved.SelectedVariant='portable';$saved.InstallerType='Portable'
+      $saved.TargetDefaults=@{'Windows Server 2025'=@{DefaultValue='Absent';EffectiveDefault='Not installed'}}
+      Mock Get-RideCatalog { @{SchemaVersion=1;Operations=@($base);Groups=@()} }
+      Mock Resolve-RideLifecycleSelection { $saved }
+      Mock Get-RideCurrentState { [pscustomobject]@{Present=$true;Healthy=$true;DisplayVersion='1.0'} }
+      $rows=@(Get-RideStatus -View packages)
+      $rows.Count | Should -Be 1
+      $rows[0].Id | Should -Be 'package.sample'
+      $rows[0].CurrentState | Should -Be 'Present'
+    }
+  }
+}
+
+Describe 'Saved selection access by scope' {
+  InModuleScope RIDE.Engine {
+    It 'does not probe protected machine state for an unelevated user-only package' {
+      Mock Test-RideAdministrator { $false }
+      Mock Get-RideStateRoot { if($Scope -eq 'Machine'){throw 'Protected machine state must not be probed.'};$TestDrive }
+      Mock Test-Path { $false }
+      { Get-RideRecordedPackageSelection @{Id='package.user';Kind='Package';Scope='User'} } | Should -Not -Throw
+      Should -Invoke Get-RideStateRoot -Exactly 0 -ParameterFilter { $Scope -eq 'Machine' }
+    }
+  }
+}
+
+Describe 'Current-user Mozilla edition safety' {
+  InModuleScope RIDE-Packages {
+    BeforeEach {
+      $operation=@{Id='package.thunderbird';Kind='Package';Scope='User';InstallerType='Exe';SelectedVariant='installed';DisplayNamePattern='^Mozilla Thunderbird \(x64 en-GB\)$';ConflictingDisplayNamePattern='^Mozilla Thunderbird(?: |$)';InstallDirectory=$TestDrive;MozillaChannel='release'}
+      Mock Get-ItemProperty { @() }
+    }
+    It 'refuses machine registrations even when architecture and language match' {
+      Mock Get-ItemProperty { [pscustomobject]@{DisplayName='Mozilla Thunderbird (x64 en-GB)';InstallLocation=$TestDrive} } -ParameterFilter {$Path -like 'HKLM:*'}
+      {Get-RideInstalledPackage $operation} | Should -Throw '*Conflicting existing edition*'
+    }
+    It 'rejects direct elevated handler calls before acquisition or profile movement' {
+      $operation.RequiresUnelevatedUser=$true
+      Mock Test-RidePackageAdministrator {$true}
+      Mock Save-RidePackageArtifact {throw 'Must not download.'}
+      Mock Invoke-RidePreservingPackageRemoval {throw 'Must not move profile data.'}
+      {Install-RidePackage -Operation $operation -CacheDirectory $TestDrive} | Should -Throw '*non-elevated*'
+      {Uninstall-RidePackage -Operation $operation} | Should -Throw '*non-elevated*'
+      Should -Invoke Save-RidePackageArtifact -Exactly 0
+      Should -Invoke Invoke-RidePreservingPackageRemoval -Exactly 0
+    }
+    It 'refuses a different language or architecture in user scope' {
+      Mock Get-ItemProperty { [pscustomobject]@{DisplayName='Mozilla Thunderbird (x86 en-US)';InstallLocation=$TestDrive} } -ParameterFilter {$Path -like 'HKCU:*'}
+      {Get-RideInstalledPackage $operation} | Should -Throw '*Conflicting existing edition*'
+    }
+    It 'refuses an existing user distribution at a different destination' {
+      Mock Get-ItemProperty { [pscustomobject]@{DisplayName='Mozilla Thunderbird (x64 en-GB)';InstallLocation='C:\Other'} } -ParameterFilter {$Path -like 'HKCU:*'}
+      {Get-RideInstalledPackage $operation} | Should -Throw '*Conflicting existing edition*'
+    }
+    It 'refuses ESR instead of adopting it as the requested Release edition' {
+      Mock Get-ItemProperty { [pscustomobject]@{DisplayName='Mozilla Thunderbird (x64 en-GB)';InstallLocation=$TestDrive} } -ParameterFilter {$Path -like 'HKCU:*'}
+      $directory=Join-Path $TestDrive 'defaults/pref'
+      $null=New-Item -ItemType Directory -Path $directory -Force
+      [IO.File]::WriteAllText((Join-Path $directory 'channel-prefs.js'),'pref("app.update.channel", "esr");')
+      {Get-RideInstalledPackage $operation} | Should -Throw '*Mozilla update channel*'
+    }
+    It 'accepts exactly the declared current-user Release registration' {
+      Mock Get-ItemProperty { [pscustomobject]@{DisplayName='Mozilla Thunderbird (x64 en-GB)';InstallLocation=$TestDrive;DisplayVersion='157.0.1'} } -ParameterFilter {$Path -like 'HKCU:*'}
+      $directory=Join-Path $TestDrive 'defaults/pref'
+      $null=New-Item -ItemType Directory -Path $directory -Force
+      [IO.File]::WriteAllText((Join-Path $directory 'channel-prefs.js'),'pref("app.update.channel", "release");')
+      (Get-RideInstalledPackage $operation).Present | Should -BeTrue
+    }
+  }
+}
+
+Describe 'Package variant metadata and completion' {
+  It 'completes the selected product variants with case-insensitive prefix filtering' {
+    $runner=Join-Path (Split-Path -Parent $PSScriptRoot) 'ride.ps1'
+    $line="& '$runner' install package.sharex -Variant P"
+    $matches=@((TabExpansion2 -InputScript $line -CursorColumn $line.Length).CompletionMatches.CompletionText)
+    $matches | Should -Contain 'portable'
+    $matches | Should -Not -Contain 'installed'
+    @($matches | Where-Object {$_ -eq 'portable'}).Count | Should -Be 1
+  }
+  It 'does not suggest variants for a setting' {
+    $runner=Join-Path (Split-Path -Parent $PSScriptRoot) 'ride.ps1'
+    $line="& '$runner' show windows.inking-typing-data -Variant P"
+    (TabExpansion2 -InputScript $line -CursorColumn $line.Length).CompletionMatches.CompletionText | Should -Not -Contain 'portable'
+  }
+  It 'completes variants for exported package commands without invoking handlers' {
+    foreach($command in @('Get-RideSingleOperationPlan','Save-RidePackage','Show-RideOperation')) {
+      $line="$command -Id package.sharex -Variant P"
+      (TabExpansion2 -InputScript $line -CursorColumn $line.Length).CompletionMatches.CompletionText | Should -Contain 'portable'
+    }
+  }
+  It 'rejects a missing variant default and identity overrides in catalog validation' {
+    $root=Split-Path -Parent $PSScriptRoot
+    $catalog=Import-RideCatalogData (Join-Path $root 'catalog/operations.psd1')
+    $package=$catalog.Operations | Where-Object Id -eq 'package.sharex'
+    $package.DefaultVariant='missing'
+    $errors=@(Get-RideCatalogValidationErrors -Catalog $catalog)
+    ($errors -join ' ') | Should -Match 'variants/default'
+    $package.DefaultVariant='installed';$package.Variants.portable.Id='package.changed'
+    (@(Get-RideCatalogValidationErrors -Catalog $catalog) -join ' ') | Should -Match 'override identity'
+  }
+  It 'rejects unsupported uninstaller formats' {
+    $catalog=Import-RideCatalogData (Join-Path (Split-Path -Parent $PSScriptRoot) 'catalog/operations.psd1')
+    $package=$catalog.Operations | Where-Object Id -eq 'package.firefox'
+    $package.UninstallerType='Script'
+    (@(Get-RideCatalogValidationErrors -Catalog $catalog) -join ' ') | Should -Match 'Unsupported uninstaller type'
+  }
+  It 'accepts neutral portable archives without accepting unspecified installer architectures' {
+    $catalog=Import-RideCatalogData (Join-Path (Split-Path -Parent $PSScriptRoot) 'catalog/operations.psd1')
+    $portable=$catalog.Operations | Where-Object Id -eq 'package.dejsonlz4'
+    $portable.Architecture='neutral'
+    @(Get-RideCatalogValidationErrors -Catalog $catalog).Count | Should -Be 0
+    $installer=$catalog.Operations | Where-Object Id -eq 'package.vscode'
+    $installer.Architecture='neutral'
+    (@(Get-RideCatalogValidationErrors -Catalog $catalog) -join ' ') | Should -Match 'Invalid package architecture: package.vscode'
+  }
+  It 'allows pending package candidates only without a support declaration' {
+    $root=Split-Path -Parent $PSScriptRoot
+    $catalog=Import-RideCatalogData (Join-Path $root 'catalog/operations.psd1')
+    $package=$catalog.Operations | Where-Object Id -eq 'package.vscode'
+    $package.PendingAcceptance=$true;$package.SupportedTargets=@();$package.CandidateTargets=@('Windows 11')
+    @(Get-RideCatalogValidationErrors -Catalog $catalog).Count | Should -Be 0
+    $package.SupportedTargets=@('Windows 11')
+    (@(Get-RideCatalogValidationErrors -Catalog $catalog) -join ' ') | Should -Match 'Pending acceptance requires'
+    $package.SupportedTargets=@();$package.CandidateTargets=@('Windows 10')
+    (@(Get-RideCatalogValidationErrors -Catalog $catalog) -join ' ') | Should -Match 'explicit candidate targets'
+  }
+}

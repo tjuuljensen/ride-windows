@@ -4,6 +4,21 @@ Reviewed 2026-10-07. This is a research shortlist, not a set of approved package
 
 Here, "stealthy" means minimizing unnecessary changes to evidence and limiting exposure during authorized analysis. It does not mean hiding activity from owners, endpoint security, or monitoring. No live-system collection is footprint-free: reading volatile state and running collectors can change memory, files, and logs. Follow the incident plan and evidence-handling requirements, document actions, and use offline copies where possible.
 
+## Requested v3 additions, 2026-10-11
+
+These additions are queued for RIDE v3 inclusion. Package and setting acceptance
+remain separate; none is enabled in a default profile by this backlog entry.
+
+| Addition | Purpose and source | Implementation and acceptance work |
+| --- | --- | --- |
+| **Rufus** | Creates bootable USB installation media from ISO images. Use the [official product/download page](https://rufus.ie/en/) and [publisher releases](https://github.com/pbatard/rufus/releases). Upstream supplies standard and portable executables with no installation required and declares [GPL-3.0-or-later](https://www.gnu.org/licenses/gpl-3.0.html); retain upstream notices. See the existing [local-account media guidance](windows-local-account-setup.md#3-use-rufus-created-installation-media). | Add an optional managed portable tool after selecting the distribution and architecture, pinning a publisher artifact, verifying integrity and the expected Akeo Consulting signature, and testing presence/version detection, repeat acquisition, removal and owned-file recovery in disposable Windows VMs. Preserve user configuration and logs. Acquisition must not launch Rufus, format a USB drive, write installation media or select Windows customization options automatically; media creation remains an explicit operator workflow. |
+| **HashCheck - idrassi fork** | Explorer-integrated checksum creation and verification, with SHA2, SHA3 and multithreading. Use the [idrassi project](https://github.com/idrassi/HashCheck) and its [official releases](https://github.com/idrassi/HashCheck/releases); distinguish it from the original and gurnec forks. Upstream identifies the WinGet package as `idrassi.HashCheckShellExtension` and declares BSD-3-Clause; retain the [license and notices](https://github.com/idrassi/HashCheck/blob/master/license.txt). | Add an optional package after inspecting a pinned publisher installer, integrity/signature evidence, unattended install/removal, fork-specific detection, Explorer integration and recovery. Validate Windows 11 and each proposed Windows Server target in disposable VMs. |
+| **Hash value context-menu submenu (attached solution)** | The supplied Shawn Brink `.reg` provides MD5, SHA1, SHA256, SHA384, SHA512, MACTripleDES, RIPEMD160 and Show all through PowerShell. See the [attachment and review notes](../examples/hash-context-menu/README.md). | Review algorithm availability, command quoting for unusual filenames, one-hour console lifetime, scope, repeat apply, removal and exact restore before translating the submenu into a focused RIDE setting. Preserve attribution and resolve reuse terms before packaging adapted upstream content. |
+| **SHA-256 with Certutil context menu** | A separate single-command option using Windows' built-in [Certutil hashfile command](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/certutil#-hashfile). The [corrected `.reg`](../examples/hash-context-menu/sha256-certutil.reg) supplies `Icon` as the value name and `shell32.dll,-152` as its data; the [RIDE authoring example](../examples/authoring/certutil-context-menu.psd1) uses the same corrected icon. | Validate icon rendering and resource availability, classic/Show more options visibility, filename quoting, repeat apply, unset and saved-run restore in a disposable Windows 11 VM. Keep it optional and separate from the HashCheck package and multi-algorithm submenu. |
+
+These are new requested outcomes, not completed legacy migration outcomes; the
+legacy migration estimates remain unchanged.
+
 ## Recommended candidates
 
 The [9 October custom-library review](migrations/custom-ride-dispositions.md)

@@ -34,8 +34,11 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.12.0
+  Version: 0.15.0
   Changelog:
+  - 0.15.0: Run package lifecycle scenarios only on targets declared by the catalog.
+  - 0.14.0: Keep the Windows 11-only Explorer baseline profile out of Server 2025 runs.
+  - 0.13.0: Exercise the sixty-setting migration before existing integration scenarios.
   - 0.12.0: Include the forty-setting registry migration suite before package checks.
   - 0.11.0: Verify twenty optional Windows settings, all explicit states and preview.
   - 0.10.0: Verify optional God Mode folder preview, repeat apply and exact restore.
@@ -62,7 +65,7 @@
 [CmdletBinding()]
 param([switch] $Version)
 
-$script:ScriptVersion = '0.12.0'
+$script:ScriptVersion = '0.15.0'
 if ($Version) {
   Write-Output $script:ScriptVersion
   return
@@ -81,6 +84,7 @@ $target = Get-RidePlatform
 if ($target -notin @('Windows 11', 'Windows Server 2025')) { throw "Unsupported integration VM target: $target" }
 
 if ($target -eq 'Windows 11') {
+  & (Join-Path $PSScriptRoot 'Invoke-RideSettingsBatch60.ps1')
   & (Join-Path $PSScriptRoot 'Invoke-RideSettingsBatch.ps1')
   $shellOperation = Get-RideOperation -Id 'windows.god-mode-shortcut'
   $shellOriginal = Get-RideCurrentState -Operation $shellOperation
@@ -325,10 +329,11 @@ foreach ($id in @('windows.music-folder-this-pc', 'windows.videos-folder-this-pc
 }
 }
 
-$setting = Get-RideOperation -Id 'windows.show-known-extensions'
-$original = Get-RideCurrentState -Operation $setting
 $analystProfile = Get-RideProfile -Path (Join-Path $root 'profiles/analyst-basics.psd1')
-$baselineProfile = Get-RideProfile -Path (Join-Path $root 'profiles/baseline.psd1')
+if ($target -eq 'Windows 11') {
+  $setting = Get-RideOperation -Id 'windows.show-known-extensions'
+  $original = Get-RideCurrentState -Operation $setting
+}
 
 try {
   $firstRun = @(Invoke-RidePlan -Plan @(Get-RidePlan -Profile $analystProfile) -Confirm:$false | ForEach-Object { $_ })
@@ -341,15 +346,22 @@ try {
   if (@($status | Where-Object { -not $_.InDesiredState }).Count -gt 0) { throw 'Repeated apply did not converge to the requested profile.' }
 
   Restore-RideRun -RunId $runId -Confirm:$false
-  $afterRestore = Get-RideCurrentState -Operation $setting
-  if ([bool]$afterRestore.Exists -ne [bool]$original.Exists -or ($original.Exists -and ($afterRestore.Value -ne $original.Value -or $afterRestore.ValueType -ne $original.ValueType))) {
-    throw 'Exact setting restore did not recover the initial Explorer value.'
+  if ($target -eq 'Windows 11') {
+    $afterRestore = Get-RideCurrentState -Operation $setting
+    if ([bool]$afterRestore.Exists -ne [bool]$original.Exists -or ($original.Exists -and ($afterRestore.Value -ne $original.Value -or $afterRestore.ValueType -ne $original.ValueType))) {
+      throw 'Exact setting restore did not recover the initial Explorer value.'
+    }
+
+    $baselineProfile = Get-RideProfile -Path (Join-Path $root 'profiles/baseline.psd1')
+    $null = Invoke-RidePlan -Plan @(Get-RidePlan -Profile $baselineProfile) -Confirm:$false
+    if (-not (Test-RideDesiredState -Operation $setting -State 'Disabled')) { throw 'Baseline profile did not set the documented Explorer state.' }
+
+    $null = Invoke-RidePlan -Plan @(Get-RidePlan -Profile $analystProfile) -Confirm:$false
+  }
+  else {
+    Write-Output "Skipping the Windows 11-only Explorer baseline profile check on $target."
   }
 
-  $null = Invoke-RidePlan -Plan @(Get-RidePlan -Profile $baselineProfile) -Confirm:$false
-  if (-not (Test-RideDesiredState -Operation $setting -State 'Disabled')) { throw 'Baseline profile did not set the documented Explorer state.' }
-
-  $null = Invoke-RidePlan -Plan @(Get-RidePlan -Profile $analystProfile) -Confirm:$false
   $removePlan = @(Get-RidePlan -Profile $analystProfile -Action Remove)
   $null = Invoke-RidePlan -Plan $removePlan -Confirm:$false
   foreach ($id in @('package.7zip', 'package.notepadpp')) {
@@ -358,44 +370,57 @@ try {
   }
 
   $gitPackage = Get-RideOperation -Id 'package.git-for-windows'
-  if ((Get-RideCurrentState -Operation $gitPackage).Present) { throw 'Git integration requires a clean checkpoint without Git for Windows.' }
-  $gitWork = Join-Path ([IO.Path]::GetTempPath()) ('RIDE-Git-' + [guid]::NewGuid().ToString('N'))
-  try {
-    $gitPlan = @(Get-RideSingleOperationPlan -Id $gitPackage.Id -Action Install)
-    $null = Invoke-RidePlan -Plan $gitPlan -Confirm:$false
-    $gitState = Get-RideCurrentState -Operation $gitPackage
-    if (-not $gitState.Present -or -not $gitState.DisplayVersion) { throw 'Git installation did not report its version.' }
-    $gitExe = Join-Path $env:ProgramFiles 'Git\cmd\git.exe'
-    $gitVersion = & $gitExe --version
-    if ($LASTEXITCODE -ne 0 -or $gitVersion -notmatch '^git version ') { throw 'Installed Git could not report its version.' }
-    Write-Output "Git functionality check: $gitVersion"
-    New-Item -ItemType Directory -Path $gitWork | Out-Null
-    & $gitExe -C $gitWork init
-    if ($LASTEXITCODE -ne 0) { throw 'Git repository initialization failed.' }
-    'RIDE disposable-VM Git test' | Set-Content -LiteralPath (Join-Path $gitWork 'sample.txt')
-    & $gitExe -C $gitWork add sample.txt
-    if ($LASTEXITCODE -ne 0) { throw 'Git staging failed.' }
-    & $gitExe -C $gitWork -c user.name=RIDE-Test -c user.email=ride-test@example.invalid -c commit.gpgsign=false commit -m 'Verify installed Git'
-    if ($LASTEXITCODE -ne 0) { throw 'Git local commit failed.' }
-    & $gitExe -C $gitWork rev-parse --verify HEAD
-    if ($LASTEXITCODE -ne 0) { throw 'Git commit verification failed.' }
-    $null = Invoke-RidePlan -Plan @(Get-RideSingleOperationPlan -Id $gitPackage.Id -Action Install) -Confirm:$false
-    if ((Get-RideCurrentState -Operation $gitPackage).DisplayVersion -ne $gitState.DisplayVersion) { throw 'Repeated Git installation changed the detected version.' }
-    $null = Invoke-RidePlan -Plan @(Get-RideSingleOperationPlan -Id $gitPackage.Id -Action Remove) -Confirm:$false
-    if ((Get-RideCurrentState -Operation $gitPackage).Present -or (Test-Path -LiteralPath $gitExe)) { throw 'Git uninstall did not remove the package and command executable.' }
-  }
-  finally {
-    if ((Get-RideCurrentState -Operation $gitPackage).Present) { $null = Invoke-RidePlan -Plan @(Get-RideSingleOperationPlan -Id $gitPackage.Id -Action Remove) -Confirm:$false }
-    if (Test-Path -LiteralPath $gitWork) {
-      $resolvedGitWork = (Resolve-Path -LiteralPath $gitWork).Path
-      if ($resolvedGitWork -ne [IO.Path]::GetFullPath($gitWork) -or (Split-Path -Leaf $resolvedGitWork) -notmatch '^RIDE-Git-[0-9a-f]{32}$') { throw 'Unexpected Git test cleanup directory.' }
-      Remove-Item -LiteralPath $resolvedGitWork -Recurse -Force
+  if ($gitPackage.SupportedTargets -contains $target) {
+    if ((Get-RideCurrentState -Operation $gitPackage).Present) { throw 'Git integration requires a clean checkpoint without Git for Windows.' }
+    $gitWork = Join-Path ([IO.Path]::GetTempPath()) ('RIDE-Git-' + [guid]::NewGuid().ToString('N'))
+    try {
+      $gitPlan = @(Get-RideSingleOperationPlan -Id $gitPackage.Id -Action Install)
+      $null = Invoke-RidePlan -Plan $gitPlan -Confirm:$false
+      $gitState = Get-RideCurrentState -Operation $gitPackage
+      if (-not $gitState.Present -or -not $gitState.DisplayVersion) { throw 'Git installation did not report its version.' }
+      $gitExe = Join-Path $env:ProgramFiles 'Git\cmd\git.exe'
+      $gitVersion = & $gitExe --version
+      if ($LASTEXITCODE -ne 0 -or $gitVersion -notmatch '^git version ') { throw 'Installed Git could not report its version.' }
+      Write-Output "Git functionality check: $gitVersion"
+      New-Item -ItemType Directory -Path $gitWork | Out-Null
+      & $gitExe -C $gitWork init
+      if ($LASTEXITCODE -ne 0) { throw 'Git repository initialization failed.' }
+      'RIDE disposable-VM Git test' | Set-Content -LiteralPath (Join-Path $gitWork 'sample.txt')
+      & $gitExe -C $gitWork add sample.txt
+      if ($LASTEXITCODE -ne 0) { throw 'Git staging failed.' }
+      & $gitExe -C $gitWork -c user.name=RIDE-Test -c user.email=ride-test@example.invalid -c commit.gpgsign=false commit -m 'Verify installed Git'
+      if ($LASTEXITCODE -ne 0) { throw 'Git local commit failed.' }
+      & $gitExe -C $gitWork rev-parse --verify HEAD
+      if ($LASTEXITCODE -ne 0) { throw 'Git commit verification failed.' }
+      $null = Invoke-RidePlan -Plan @(Get-RideSingleOperationPlan -Id $gitPackage.Id -Action Install) -Confirm:$false
+      if ((Get-RideCurrentState -Operation $gitPackage).DisplayVersion -ne $gitState.DisplayVersion) { throw 'Repeated Git installation changed the detected version.' }
+      $null = Invoke-RidePlan -Plan @(Get-RideSingleOperationPlan -Id $gitPackage.Id -Action Remove) -Confirm:$false
+      if ((Get-RideCurrentState -Operation $gitPackage).Present -or (Test-Path -LiteralPath $gitExe)) { throw 'Git uninstall did not remove the package and command executable.' }
     }
+    finally {
+      if ((Get-RideCurrentState -Operation $gitPackage).Present) { $null = Invoke-RidePlan -Plan @(Get-RideSingleOperationPlan -Id $gitPackage.Id -Action Remove) -Confirm:$false }
+      if (Test-Path -LiteralPath $gitWork) {
+        $resolvedGitWork = (Resolve-Path -LiteralPath $gitWork).Path
+        if ($resolvedGitWork -ne [IO.Path]::GetFullPath($gitWork) -or (Split-Path -Leaf $resolvedGitWork) -notmatch '^RIDE-Git-[0-9a-f]{32}$') { throw 'Unexpected Git test cleanup directory.' }
+        Remove-Item -LiteralPath $resolvedGitWork -Recurse -Force
+      }
+    }
+  }
+  else {
+    Write-Output "Skipping Git for Windows integration on $target; the catalog does not declare that package supported there."
   }
 
   $packageFailures = [Collections.Generic.List[string]]::new()
   foreach ($packageId in @('package.git-lfs', 'package.joplin', 'package.sharex', 'package.windirstat', 'package.powershell')) {
     $package = Get-RideOperation -Id $packageId
+    if ($package.SupportedTargets -notcontains $target) {
+      Write-Output "Skipping $packageId on $target; the catalog does not declare that package supported there."
+      continue
+    }
+    if ($packageId -eq 'package.git-lfs' -and $gitPackage.SupportedTargets -notcontains $target) {
+      Write-Output "Skipping $packageId on $target; its Git for Windows prerequisite is not supported there."
+      continue
+    }
     if ((Get-RideCurrentState -Operation $package).Present) { throw "Package scenario requires an absent clean-baseline package: $packageId" }
     try {
       Write-Host "Starting package lifecycle: $packageId"

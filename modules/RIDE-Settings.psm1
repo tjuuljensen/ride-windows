@@ -26,8 +26,9 @@
   Recovery: State-changing handlers are engine-internal: use ride.ps1 preview and captured-run
   restoration. Direct calls bypass ShouldProcess and snapshot capture.
   Author: RIDE-Windows maintainers.
-  Version: 0.1.0
+  Version: 0.2.0
   Changelog:
+    0.2.0: Handle unnamed default values through typed registry writes and exact deletion.
     0.1.0: Establish documented module ownership, version, and exported-command help during this
     walkthrough.
   Supported targets are declared per operation in catalog/operations.psd1. This walkthrough
@@ -42,7 +43,37 @@
 #>
 
 
-$script:ModuleVersion = '0.1.0'
+$script:ModuleVersion = '0.2.0'
+
+function Open-RideWritableRegistryKey {
+  param([string] $Path)
+  if ($Path -match '^HKCU:\\(.+)$') { return [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey($Matches[1], $true) }
+  if ($Path -match '^HKLM:\\(.+)$') { return [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey($Matches[1], $true) }
+  throw 'Unnamed registry values require an explicit HKCU or HKLM path.'
+}
+
+function Set-RideDefaultRegistryValue {
+  param([hashtable] $Operation, [AllowNull()] $Value)
+  $key = Open-RideWritableRegistryKey -Path $Operation.RegistryPath
+  if (-not $key) {
+    if ($null -eq $Value) { return }
+    throw "Registry key is unavailable for writing: $($Operation.RegistryPath)"
+  }
+  try {
+    if ($null -eq $Value) { $key.DeleteValue('', $false) }
+    else {
+      $kind = [Microsoft.Win32.RegistryValueKind]$Operation.ValueType
+      $typedValue = switch ($kind.ToString()) {
+        { $_ -in @('Binary', 'None') } { ,([byte[]]$Value) }
+        MultiString { ,([string[]]$Value) }
+        DWord { [int]$Value }
+        QWord { [long]$Value }
+        default { [string]$Value }
+      }
+      $key.SetValue('', $typedValue, $kind)
+    }
+  } finally { $key.Dispose() }
+}
 
 function Get-RideSettingState {
   <#
@@ -100,7 +131,7 @@ function Set-RideSettingState {
   .DESCRIPTION
     Creates a missing key, corrects a mismatched value kind, and writes the supplied value. Null
     removes the value. Engine-internal mutation: this function does not capture state or implement
-    ShouldProcess.
+    ShouldProcess. ValueName='' addresses the unnamed default value and retains its declared kind.
 
   .PARAMETER Operation
     Catalog operation metadata for this focused handler; use the engine to select and validate it.
@@ -129,6 +160,7 @@ function Set-RideSettingState {
   )
 
   if ($null -eq $Value) {
+    if ($Operation.ValueName -ceq '') { Set-RideDefaultRegistryValue -Operation $Operation -Value $null; return }
     Remove-ItemProperty -LiteralPath $Operation.RegistryPath -Name $Operation.ValueName -Force -ErrorAction SilentlyContinue
     return
   }
@@ -136,6 +168,8 @@ function Set-RideSettingState {
   if (-not (Test-Path -LiteralPath $Operation.RegistryPath)) {
     New-Item -Path $Operation.RegistryPath -Force | Out-Null
   }
+
+  if ($Operation.ValueName -ceq '') { Set-RideDefaultRegistryValue -Operation $Operation -Value $Value; return }
 
   $current = Get-RideSettingState -Operation $Operation
   if ($current.Exists -and $current.ValueType -ne $Operation.ValueType) {
@@ -188,7 +222,7 @@ function Restore-RideSettingState {
     return
   }
 
-  Remove-ItemProperty -LiteralPath $Operation.RegistryPath -Name $Operation.ValueName -Force -ErrorAction SilentlyContinue
+  Set-RideSettingState -Operation $Operation -Value $null
   if (-not $Snapshot.KeyExisted) {
     $key = Get-Item -LiteralPath $Operation.RegistryPath -ErrorAction SilentlyContinue
     if ($key -and $key.GetValueNames().Count -eq 0 -and $key.GetSubKeyNames().Count -eq 0) {
