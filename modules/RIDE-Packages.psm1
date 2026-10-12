@@ -8,6 +8,9 @@
   records SHA-256/Authenticode observations. Install/uninstall run declared commands and check
   presence; hashes alone are not publisher authentication. Downloads retain public license
   references and GitHub release assets must belong to the declared publisher repository.
+  Latest-release metadata is reused for at most five minutes within this process.
+  Shared GitHub quota/backoff headers defer further release lookups without retries;
+  expired metadata is never substituted for a latest lookup.
 
 .EXAMPLE
   Import-Module .\modules\RIDE-Packages.psm1
@@ -29,8 +32,9 @@
   Recovery: State-changing handlers are engine-internal: use ride.ps1 preview and captured-run
   restoration. Direct calls bypass ShouldProcess and snapshot capture.
   Author: RIDE-Windows maintainers.
-  Version: 0.9.0
+  Version: 0.10.0
   Changelog:
+    0.10.0: Bound latest-release metadata reuse and defer shared GitHub quota exhaustion.
     - 0.9.0: Reject conflicting scope, language, architecture and destinations for reviewed user packages.
     0.8.0: Route checksummed WinSCP portable page acquisition.
     0.7.0: Resolve Signal feeds, check SHA-512 and preserve declared user data on removal.
@@ -54,7 +58,10 @@
 #>
 
 
-$script:ModuleVersion = '0.8.0'
+$script:ModuleVersion = '0.10.0'
+$script:GitHubReleaseCache = @{}
+$script:GitHubReleaseNotBefore = $null
+$script:GitHubReleaseRate = $null
 Import-Module (Join-Path $PSScriptRoot 'RIDE.InstallerInspection.psm1') -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.PublisherSources.psm1') -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.PackageSelection.psm1') -ErrorAction Stop
@@ -144,6 +151,124 @@ function Get-RideSysmonInstallRoot {
   Join-Path ([Environment]::GetFolderPath('CommonApplicationData')) 'RIDE/Programs/Sysmon'
 }
 
+function Get-RideGitHubUtcNow { [DateTime]::UtcNow }
+
+function Get-RideGitHubHeader {
+  param($Headers, [string] $Name)
+  if ($null -eq $Headers) { return $null }
+  if ($Headers -is [Collections.IDictionary]) { return (@($Headers[$Name]) -join ',') }
+  if ($Headers -is [Collections.Specialized.NameValueCollection]) { return $Headers.Get($Name) }
+  if ($Headers.PSObject.Methods['Contains'] -and $Headers.PSObject.Methods['GetValues']) {
+    if ($Headers.Contains($Name)) { return ($Headers.GetValues($Name) -join ',') }
+  }
+  return $null
+}
+
+function Get-RideGitHubRate {
+  param($Headers)
+  $remaining = 0L; $reset = 0L; $retry = 0L
+  $hasRemaining = [long]::TryParse((Get-RideGitHubHeader $Headers 'X-RateLimit-Remaining'), [ref]$remaining) -and $remaining -ge 0
+  $hasReset = [long]::TryParse((Get-RideGitHubHeader $Headers 'X-RateLimit-Reset'), [ref]$reset) -and $reset -ge 0
+  $hasRetry = [long]::TryParse((Get-RideGitHubHeader $Headers 'Retry-After'), [ref]$retry) -and $retry -ge 0
+  $resetAt = $null
+  if ($hasReset) {
+    try { $resetAt = ([DateTime]::SpecifyKind([DateTime]'1970-01-01', [DateTimeKind]::Utc)).AddSeconds($reset) } catch { }
+  }
+  [pscustomobject]@{
+    Remaining = if ($hasRemaining) { $remaining } else { $null }
+    ResetAtUtc = $resetAt
+    RetryAfterSeconds = if ($hasRetry) { $retry } else { $null }
+  }
+}
+
+function Set-RideGitHubBackoff {
+  param($Rate, [DateTime] $Now)
+  # Unknown/expired headers still require a bounded, one-minute pause. Never spin.
+  $deadline = $Now.AddSeconds(60)
+  if ($Rate.Remaining -eq 0 -and $Rate.ResetAtUtc -and $Rate.ResetAtUtc -ge $Now) {
+    try { $deadline = $Rate.ResetAtUtc.AddSeconds(1) } catch { }
+  }
+  if ($null -ne $Rate.RetryAfterSeconds) {
+    try {
+      $retryAt = $Now.AddSeconds($Rate.RetryAfterSeconds)
+      if ($retryAt -gt $deadline) { $deadline = $retryAt }
+    } catch { }
+  }
+  $script:GitHubReleaseNotBefore = $deadline
+  $script:GitHubReleaseRate = $Rate
+}
+
+function Stop-RideGitHubReleaseLookup {
+  param([string] $Uri)
+  $remaining = if ($null -ne $script:GitHubReleaseRate.Remaining) { [string]$script:GitHubReleaseRate.Remaining } else { 'unknown' }
+  $reset = if ($script:GitHubReleaseRate.ResetAtUtc) { $script:GitHubReleaseRate.ResetAtUtc.ToString('o') } else { 'unknown' }
+  throw "GitHub release acquisition deferred for $Uri. Remaining quota: $remaining; reset UTC: $reset; retry no earlier than $($script:GitHubReleaseNotBefore.ToString('o')). No expired metadata or automatic retry was used."
+}
+
+function Get-RideGitHubReleaseMetadata {
+  param([Parameter(Mandatory)][string] $Uri)
+  $endpoint = $null
+  if (-not [Uri]::TryCreate($Uri, [UriKind]::Absolute, [ref]$endpoint) -or
+      $endpoint.Scheme -ne 'https' -or $endpoint.Host -ne 'api.github.com' -or
+      -not $endpoint.IsDefaultPort -or $endpoint.UserInfo -or $endpoint.Query -or $endpoint.Fragment -or
+      $endpoint.AbsolutePath -notmatch '^/repos/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/releases/latest$') {
+    throw 'GitHub release discovery must identify the declared publisher repository on the public HTTPS API without credentials or query parameters.'
+  }
+  $key = $endpoint.AbsoluteUri
+  $now = Get-RideGitHubUtcNow
+  # Serialize cached bodies so callers cannot mutate a later resolution's input.
+  foreach ($expired in @($script:GitHubReleaseCache.Keys)) {
+    $entry = $script:GitHubReleaseCache[$expired]
+    if ($now -lt $entry.RetrievedAtUtc -or $now -ge $entry.ExpiresAtUtc) { $script:GitHubReleaseCache.Remove($expired) }
+  }
+  $entry = $script:GitHubReleaseCache[$key]
+  $kind = 'ProcessCache'
+  if (-not $entry) {
+    if ($script:GitHubReleaseNotBefore -and $now -lt $script:GitHubReleaseNotBefore) { Stop-RideGitHubReleaseLookup $key }
+    $script:GitHubReleaseNotBefore = $null
+    $script:GitHubReleaseRate = $null
+    try {
+      $response = Invoke-WebRequest -Uri $key -UseBasicParsing -TimeoutSec 120 -MaximumRedirection 0 -Headers @{
+        Accept = 'application/vnd.github+json'; 'User-Agent' = 'RIDE-Windows'
+      } -ErrorAction Stop
+    } catch {
+      $httpResponse = $_.Exception.Response
+      $rate = Get-RideGitHubRate $httpResponse.Headers
+      $status = if ($httpResponse) { [int]$httpResponse.StatusCode } else { 0 }
+      if ($status -eq 429 -or ($status -eq 403 -and
+          ($rate.Remaining -eq 0 -or $null -ne $rate.RetryAfterSeconds -or $_.ErrorDetails.Message -match '(?i)rate limit'))) {
+        Set-RideGitHubBackoff $rate (Get-RideGitHubUtcNow)
+        Stop-RideGitHubReleaseLookup $key
+      }
+      throw
+    }
+    $now = Get-RideGitHubUtcNow
+    $rate = Get-RideGitHubRate $response.Headers
+    if ($rate.Remaining -eq 0) { Set-RideGitHubBackoff $rate $now }
+    $json = [string]$response.Content
+    if ([Text.Encoding]::UTF8.GetByteCount($json) -gt 2MB) { throw 'GitHub release metadata exceeds the two MiB cache limit.' }
+    $release = $json | ConvertFrom-Json -ErrorAction Stop
+    if (-not $release.tag_name -or 'assets' -notin $release.PSObject.Properties.Name) { throw 'GitHub release metadata requires a release tag and assets.' }
+    $entry = [pscustomobject]@{ Json = $json; RetrievedAtUtc = $now; ExpiresAtUtc = $now.AddMinutes(5); Rate = $rate }
+    # Fixed limits avoid an unbounded cache when external libraries add products.
+    if ($script:GitHubReleaseCache.Count -ge 64) {
+      $oldest = $script:GitHubReleaseCache.GetEnumerator() | Sort-Object { $_.Value.RetrievedAtUtc } | Select-Object -First 1
+      $script:GitHubReleaseCache.Remove($oldest.Key)
+    }
+    $script:GitHubReleaseCache[$key] = $entry
+    $kind = 'Network'
+  }
+  [pscustomobject]@{
+    Release = ($entry.Json | ConvertFrom-Json -ErrorAction Stop)
+    Provenance = [pscustomobject]@{
+      ApiUri = $key; AcquisitionKind = $kind
+      RetrievedAtUtc = $entry.RetrievedAtUtc.ToString('o'); ExpiresAtUtc = $entry.ExpiresAtUtc.ToString('o')
+      RemainingQuota = $entry.Rate.Remaining
+      ResetAtUtc = if ($entry.Rate.ResetAtUtc) { $entry.Rate.ResetAtUtc.ToString('o') } else { $null }
+    }
+  }
+}
+
 function Resolve-RidePackageArtifact {
   <#
   .SYNOPSIS
@@ -153,7 +278,9 @@ function Resolve-RidePackageArtifact {
     Resolves an explicit versioned HTTPS installer, or queries an allowed GitHub release API,
     immutable GitHub file commit or Microsoft Sysmon page.
     Validates source/asset metadata and returns available digest/signature links. Makes network
-    requests but does not download/install the artifact.
+    requests but does not download/install the artifact. GitHub latest-release metadata
+    may be reused for five minutes within this process; expired data is never a fallback.
+    Quota exhaustion defers acquisition and reports the shared backoff deadline.
 
   .PARAMETER Operation
     Catalog operation metadata for this focused handler; use the engine to select and validate it.
@@ -259,10 +386,8 @@ function Resolve-RidePackageArtifact {
   if (-not [uri]::IsWellFormedUriString([string]$Operation.DownloadUri, [UriKind]::Absolute) -or ([uri]$Operation.DownloadUri).Scheme -ne 'https' -or ([uri]$Operation.DownloadUri).Host -ne 'api.github.com') {
     throw "The GitHub release API URI for $($Operation.PackageId) must use HTTPS on api.github.com."
   }
-  $release = Invoke-RestMethod -Uri $Operation.DownloadUri -TimeoutSec 120 -Headers @{
-    Accept = 'application/vnd.github+json'
-    'User-Agent' = 'RIDE-Windows'
-  } -ErrorAction Stop
+  $metadata = Get-RideGitHubReleaseMetadata -Uri $Operation.DownloadUri
+  $release = $metadata.Release
   $matches = @($release.assets | Where-Object { $_.name -match $Operation.AssetPattern })
   if ($matches.Count -ne 1) {
     throw "Expected one latest $($Operation.Architecture) installer for $($Operation.PackageId); found $($matches.Count)."
@@ -303,6 +428,7 @@ function Resolve-RidePackageArtifact {
     FileName = [string]$asset.name
     Uri = $uri
     SourceUri = [string]$release.html_url
+    ReleaseMetadata = $metadata.Provenance
     ProviderDigest = [string]$asset.digest
     PublisherSha256 = $publisherChecksum
     PublisherChecksumUri = if ($publisherChecksum) { [string]$release.html_url } else { $null }
@@ -353,6 +479,7 @@ function Add-RideArtifactObservation {
     OriginUri = $Artifact.OriginUri
     SourceUri = $Artifact.Uri
     ReleaseUri = $Artifact.SourceUri
+    ReleaseMetadata = $Artifact.ReleaseMetadata
     Variant = $Artifact.SelectedVariant
     Provider = $Artifact.DownloadProvider
     License = $Artifact.License
@@ -551,6 +678,7 @@ function Save-RidePackageArtifact {
     Uri = $artifact.Uri
     Sha256 = $sha256
     ProviderDigest = $artifact.ProviderDigest
+    ReleaseMetadata = $artifact.ReleaseMetadata
     SelectedVariant = $artifact.SelectedVariant
     DownloadProvider = $artifact.DownloadProvider
     SourceUri = $artifact.SourceUri

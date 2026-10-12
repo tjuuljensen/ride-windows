@@ -1,5 +1,10 @@
 # Package verification matrix
 
+GitHub release discovery now uses [bounded process-local metadata reuse and
+shared rate-limit backoff](GITHUB-RELEASE-DISCOVERY.md). Freshness and source
+observations accompany artifact evidence independently of payload cache use;
+available digest and publisher-checksum checks still run on retained bytes.
+
 Thunderbird follow-up, 2026-10-11: read-only acquisition of official Release
 157.0.1, win64/en-GB, matched the exact publisher SHA256SUMS entry
 `4b346e97e782cfc03f374ec1e132dcb639b7366f0e8830d56aa75214ef4eebca`.

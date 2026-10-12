@@ -208,6 +208,11 @@ Describe 'RIDE operation catalog' {
 }
 
 Describe 'RIDE package download resolution' {
+  BeforeEach {
+    InModuleScope RIDE-Packages {
+      $script:GitHubReleaseCache = @{}; $script:GitHubReleaseNotBefore = $null; $script:GitHubReleaseRate = $null
+    }
+  }
   It 'declares latest-download metadata for supported pilot packages' {
     foreach ($packageId in @('package.7zip', 'package.notepadpp')) {
       $operation = $script:Catalog.Operations | Where-Object Id -eq $packageId
@@ -253,8 +258,8 @@ Describe 'RIDE package download resolution' {
 
   It 'resolves the versioned 64-bit Notepad++ latest-release artifact and its sidecars' {
     InModuleScope RIDE-Packages {
-      Mock Invoke-RestMethod {
-        [pscustomobject]@{
+      Mock Invoke-WebRequest {
+        $release = [pscustomobject]@{
           tag_name = 'v8.9.8.1'
           html_url = 'https://github.com/notepad-plus-plus/notepad-plus-plus/releases/tag/v8.9.8.1'
           assets = @(
@@ -265,7 +270,8 @@ Describe 'RIDE package download resolution' {
             [pscustomobject]@{ name = 'npp.8.9.8.1.checksums.sha256.sig'; browser_download_url = 'https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.9.8.1/npp.8.9.8.1.checksums.sha256.sig' }
           )
         }
-      }
+        [pscustomobject]@{ Content = ($release | ConvertTo-Json -Depth 8); Headers = @{} }
+      } -ParameterFilter { $Uri -like 'https://api.github.com/repos/*/releases/latest' -and -not $OutFile }
       $operation = @{ PackageId = 'notepadpp'; DownloadUri = 'https://api.github.com/repos/notepad-plus-plus/notepad-plus-plus/releases/latest'; DownloadProvider = 'GitHubReleaseApi'; AssetPattern = '^npp\..+\.Installer\.x64\.exe$'; Architecture = 'x64' }
 
       $artifact = Resolve-RidePackageArtifact -Operation $operation
@@ -275,7 +281,7 @@ Describe 'RIDE package download resolution' {
       $artifact.ProviderDigest | Should -Match '^sha256:'
       $artifact.ChecksumUris.Count | Should -Be 1
       $artifact.SignatureUris.Count | Should -Be 1
-      Should -Invoke Invoke-RestMethod -Exactly 1 -ParameterFilter { $Uri -eq $operation.DownloadUri }
+      Should -Invoke Invoke-WebRequest -Exactly 1 -ParameterFilter { $Uri -eq $operation.DownloadUri -and -not $OutFile }
     }
   }
 
@@ -374,13 +380,14 @@ Describe 'RIDE package download resolution' {
 
   It 'resolves the 7-Zip x64 asset from the latest versioned release' {
     InModuleScope RIDE-Packages {
-      Mock Invoke-RestMethod {
-        [pscustomobject]@{
+      Mock Invoke-WebRequest {
+        $release = [pscustomobject]@{
           tag_name = '26.04'
           html_url = 'https://github.com/ip7z/7zip/releases/tag/26.04'
           assets = @([pscustomobject]@{ name = '7z2604-x64.exe'; browser_download_url = 'https://github.com/ip7z/7zip/releases/download/26.04/7z2604-x64.exe'; digest = $null })
         }
-      }
+        [pscustomobject]@{ Content = ($release | ConvertTo-Json -Depth 8); Headers = @{} }
+      } -ParameterFilter { $Uri -like 'https://api.github.com/repos/*/releases/latest' -and -not $OutFile }
       $operation = @{ PackageId = '7zip'; DownloadUri = 'https://api.github.com/repos/ip7z/7zip/releases/latest'; DownloadProvider = 'GitHubReleaseApi'; AssetPattern = '^7z\d+-x64\.exe$'; Architecture = 'x64' }
 
       $artifact = Resolve-RidePackageArtifact -Operation $operation
@@ -392,8 +399,8 @@ Describe 'RIDE package download resolution' {
 
   It 'resolves Git for Windows x64 patch installer while skipping portable and ARM64 assets' {
     InModuleScope RIDE-Packages {
-      Mock Invoke-RestMethod {
-        [pscustomobject]@{
+      Mock Invoke-WebRequest {
+        $release = [pscustomobject]@{
           tag_name = 'v2.56.0.windows.2'
           html_url = 'https://github.com/git-for-windows/git/releases/tag/v2.56.0.windows.2'
           assets = @(
@@ -402,7 +409,8 @@ Describe 'RIDE package download resolution' {
             [pscustomobject]@{ name = 'PortableGit-2.56.0-64-bit.7z.exe'; browser_download_url = 'https://github.com/git-for-windows/git/releases/download/v2.56.0.windows.1/PortableGit-2.56.0-64-bit.7z.exe'; digest = $null }
           )
         }
-      }
+        [pscustomobject]@{ Content = ($release | ConvertTo-Json -Depth 8); Headers = @{} }
+      } -ParameterFilter { $Uri -like 'https://api.github.com/repos/*/releases/latest' -and -not $OutFile }
       $operation = @{ PackageId = 'git-for-windows'; DownloadUri = 'https://api.github.com/repos/git-for-windows/git/releases/latest'; DownloadProvider = 'GitHubReleaseApi'; AssetPattern = '^Git-\d+\.\d+\.\d+(?:\.\d+)?-64-bit\.exe$'; Architecture = 'x64' }
 
       $artifact = Resolve-RidePackageArtifact -Operation $operation
@@ -418,13 +426,14 @@ Describe 'RIDE package download resolution' {
       $destination = Join-Path $root 'Artifacts'
       $observationPath = Join-Path $root 'artifact-observations.json'
       try {
-        Mock Invoke-RestMethod {
-          [pscustomobject]@{
+        Mock Invoke-WebRequest {
+          $release = [pscustomobject]@{
             tag_name = 'v8.9.8.1'
             html_url = 'https://github.com/notepad-plus-plus/notepad-plus-plus/releases/tag/v8.9.8.1'
             assets = @([pscustomobject]@{ name = 'npp.8.9.8.1.Installer.x64.exe'; browser_download_url = 'https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.9.8.1/npp.8.9.8.1.Installer.x64.exe'; digest = $null })
           }
-        }
+          [pscustomobject]@{ Content = ($release | ConvertTo-Json -Depth 8); Headers = @{} }
+        } -ParameterFilter { $Uri -like 'https://api.github.com/repos/*/releases/latest' -and -not $OutFile }
         Mock Invoke-WebRequest { Set-Content -LiteralPath $OutFile -Value 'test installer bytes' -NoNewline }
         Mock Get-AuthenticodeSignature { [pscustomobject]@{ Status = 'NotSigned'; SignerCertificate = $null } }
         $operation = @{ PackageId = 'notepadpp'; DownloadUri = 'https://api.github.com/repos/notepad-plus-plus/notepad-plus-plus/releases/latest'; ProductUri = 'https://notepad-plus-plus.org/'; DownloadProvider = 'GitHubReleaseApi'; AssetPattern = '^npp\..+\.Installer\.x64\.exe$'; Architecture = 'x64' }

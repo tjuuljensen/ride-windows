@@ -18,6 +18,9 @@ BeforeDiscovery {
 
 Describe 'Publisher evidence and acquisition provenance' {
   InModuleScope RIDE-Packages {
+    BeforeEach {
+      $script:GitHubReleaseCache = @{}; $script:GitHubReleaseNotBefore = $null; $script:GitHubReleaseRate = $null
+    }
     It 'checks a provider SHA-512 before recording acquisition and rejects altered bytes' {
       $script:sha512Fixture=Join-Path $TestDrive 'publisher-bytes.exe'
       [IO.File]::WriteAllText($script:sha512Fixture,'publisher checked bytes')
@@ -33,19 +36,22 @@ Describe 'Publisher evidence and acquisition provenance' {
       Should -Invoke Add-RideArtifactObservation -Exactly 1
     }
     It 'rejects release assets from a mirror or a different GitHub project' {
-      Mock Invoke-RestMethod {
-        [pscustomobject]@{ tag_name = '1.0'; assets = @([pscustomobject]@{ name = 'app.exe'; browser_download_url = $script:untrustedAssetUri }) }
-      }
+      Mock Invoke-WebRequest {
+        $release = [pscustomobject]@{ tag_name = '1.0'; assets = @([pscustomobject]@{ name = 'app.exe'; browser_download_url = $script:untrustedAssetUri }) }
+        [pscustomobject]@{ Content = ($release | ConvertTo-Json -Depth 8); Headers = @{} }
+      } -ParameterFilter { $Uri -like 'https://api.github.com/repos/*/releases/latest' -and -not $OutFile }
       foreach ($uri in @('https://mirror.example.org/app.exe', 'https://github.com/other/project/releases/download/1.0/app.exe', 'https://github.com/publisher/project-other/releases/download/1.0/app.exe')) {
+        $script:GitHubReleaseCache = @{}
         $script:untrustedAssetUri = $uri
         { Resolve-RidePackageArtifact @{ PackageId = 'app'; DownloadProvider = 'GitHubReleaseApi'; DownloadUri = 'https://api.github.com/repos/publisher/project/releases/latest'; AssetPattern = '^app.exe$'; Architecture = 'x64' } } | Should -Throw '*declared publisher repository*'
       }
     }
 
     It 'reads the exact installer checksum from publisher release notes' {
-      Mock Invoke-RestMethod {
-        [pscustomobject]@{ tag_name = 'v2.56.0.windows.2'; html_url = 'https://github.com/git-for-windows/git/releases/tag/v2.56.0.windows.2'; body = '| Git-2.56.0.2-64-bit.exe | ' + ('a' * 64) + ' |'; assets = @([pscustomobject]@{ name = 'Git-2.56.0.2-64-bit.exe'; browser_download_url = 'https://github.com/git-for-windows/git/releases/download/v2.56.0.windows.2/Git-2.56.0.2-64-bit.exe'; digest = $null }) }
-      }
+      Mock Invoke-WebRequest {
+        $release = [pscustomobject]@{ tag_name = 'v2.56.0.windows.2'; html_url = 'https://github.com/git-for-windows/git/releases/tag/v2.56.0.windows.2'; body = '| Git-2.56.0.2-64-bit.exe | ' + ('a' * 64) + ' |'; assets = @([pscustomobject]@{ name = 'Git-2.56.0.2-64-bit.exe'; browser_download_url = 'https://github.com/git-for-windows/git/releases/download/v2.56.0.windows.2/Git-2.56.0.2-64-bit.exe'; digest = $null }) }
+        [pscustomobject]@{ Content = ($release | ConvertTo-Json -Depth 8); Headers = @{} }
+      } -ParameterFilter { $Uri -like 'https://api.github.com/repos/*/releases/latest' -and -not $OutFile }
       $operation = @{ PackageId = 'git-for-windows'; DownloadProvider = 'GitHubReleaseApi'; DownloadUri = 'https://api.github.com/repos/git-for-windows/git/releases/latest'; AssetPattern = '^Git-\d+(?:\.\d+){2,3}-64-bit\.exe$'; Architecture = 'x64'; PublisherChecksumSource = 'ReleaseNotes' }
       $resolved = Resolve-RidePackageArtifact $operation
       $resolved.PublisherSha256 | Should -Be ('a' * 64)
@@ -53,9 +59,10 @@ Describe 'Publisher evidence and acquisition provenance' {
     }
 
     It 'rejects conflicting checksum evidence for the selected filename' {
-      Mock Invoke-RestMethod {
-        [pscustomobject]@{ tag_name = 'v1'; html_url = 'https://github.com/example/app/releases/tag/v1'; body = ('a' * 64) + " app.exe`n" + ('b' * 64) + ' app.exe'; assets = @([pscustomobject]@{ name = 'app.exe'; browser_download_url = 'https://github.com/example/app/releases/download/v1/app.exe' }) }
-      }
+      Mock Invoke-WebRequest {
+        $release = [pscustomobject]@{ tag_name = 'v1'; html_url = 'https://github.com/example/app/releases/tag/v1'; body = ('a' * 64) + " app.exe`n" + ('b' * 64) + ' app.exe'; assets = @([pscustomobject]@{ name = 'app.exe'; browser_download_url = 'https://github.com/example/app/releases/download/v1/app.exe' }) }
+        [pscustomobject]@{ Content = ($release | ConvertTo-Json -Depth 8); Headers = @{} }
+      } -ParameterFilter { $Uri -like 'https://api.github.com/repos/*/releases/latest' -and -not $OutFile }
       $operation = @{ PackageId = 'app'; DownloadProvider = 'GitHubReleaseApi'; DownloadUri = 'https://api.github.com/repos/example/app/releases/latest'; AssetPattern = '^app\.exe$'; PublisherChecksumSource = 'ReleaseNotes' }
       { Resolve-RidePackageArtifact $operation } | Should -Throw '*Conflicting publisher checksums*'
     }

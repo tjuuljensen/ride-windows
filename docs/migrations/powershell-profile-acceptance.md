@@ -106,3 +106,68 @@ passed **1,248 tests per edition**, with zero failures or skips. Both editions
 also passed validation of 303 operations, three groups, five profiles, all 106
 PowerShell files and current generated documentation. These workstation checks
 do not extend the disposable target or visual acceptance scope above.
+
+## Continuation after the chat is archived
+
+The implementation and original acceptance record were committed in `3ffe294`.
+The operation catalog and optional selection profile are the source of truth;
+the chat and private `.local` launch helpers are not required to maintain them.
+Acceptance of these settings does not certify the overall VM controller or
+complete the v3 migration. Those independent release gates remain in the
+[migration plan](../MIGRATION-PLAN.md) and
+[controller runbook](../../tests/integration/AUTOMATEDLAB-TASKS.md).
+
+Remaining work, in separate increments:
+
+1. Verify real OneDrive/cloud placeholder hydration and write/recovery behavior
+   in a disposable synced guest, including unavailable content and sync conflicts.
+   Ordinary known-folder redirection is already accepted; it does not prove this.
+2. Verify network-backed Documents and its identity, access and unavailable-share
+   failure behavior without broadening the profile path or recovery contract.
+3. Test interactive Terminal registration and startup under alternate administrator
+   credentials. Check the launched shell's SID, token, own profile and colors;
+   the existing alternate-account task proves inspection/recovery only.
+4. Extend visible acceptance for other Terminal versions/renderers and configured
+   background images/transparency. Preserve host choices and record exact versions.
+5. Migrate user-bin startup PATH, bin-directory provisioning and optional WindowsApps
+   repair as independently reviewed outcomes. Keep persistent user PATH separate,
+   normalize/deduplicate entries, and review unmarked legacy snippets explicitly.
+6. Review/version external-library support before exposing ProfileSetting through
+   that API. API 1 currently excludes it; do not introduce arbitrary executable
+   snippets as catalog data or reconnect the legacy writers.
+
+Use the maintained runner for another acceptance attempt, from the owning host
+account with Hyper-V/PowerShell Direct access. The existing configuration must
+identify an idle disposable VM and pinned clean checkpoint, with a signed-in,
+unlocked guest desktop and registered Windows Terminal. Supply credentials in
+memory; never put passwords in arguments, acquisition JSON or retained logs.
+
+```powershell
+$configuration = 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json'
+$guestCredential = Get-Credential -Message 'Disposable guest administrator'
+.\tests\integration\Invoke-RideProfileVmAcceptance.ps1 `
+  -ConfigurationPath $configuration `
+  -Credential $guestCredential `
+  -OutputDirectory .\.local\profile-vm-win11
+```
+
+Use the separately registered Server configuration and output root for Server
+acceptance. Re-register/attest appropriate identities on another host; do not
+copy this host's VM/checkpoint IDs into an unrelated configuration. Do not change
+host UAC, refresh protected controller binaries or interrupt other VM work to
+run these tests. The runner owns its lock and checkpoint recovery.
+
+Optional `-PowerShellArtifactPath <json-file>` reuses publisher acquisition JSON
+with a local `Path`, official release `Uri` and `Sha256`. The original verified
+prerequisite was Microsoft's [PowerShell 7.6.6 x64 MSI](https://github.com/PowerShell/PowerShell/releases/download/v7.6.6/PowerShell-7.6.6-win-x64.msi),
+SHA-256 `958838ff55091e1c8705d89efed0cc7e8245a3a6ef6c0ccfae20015227108ad8`.
+Both host and guest require the hash and a valid Microsoft signature. A newer
+prerequisite needs its own acquisition evidence and recorded test version.
+
+Keep `result.json`, `source-manifest.json`, lifecycle/identity/recovery JSON,
+visual case/probe JSON, screenshots and saved state together. A successful guest
+test with failed collection or cleanup is an overall failed runner attempt.
+The detailed `.local` evidence is ignored by Git and is not in the committed
+record. Preserve it separately if long-term raw evidence is required; archiving
+the chat does not turn it into a repository or release artifact. No further VM
+run or account-specific rollout is implied by documenting this handoff.

@@ -74,8 +74,10 @@ PowerShell job was cancelled. Failures include unavailable
 `Get-RideCatalogContext` in registry-authoring tests and missing
 `components/profiles/terminal-color-schemes.psd1` in copied test checkouts.
 
-Separate PowerShell profile acceptance is active on Windows 11. Leave that VM
-alone and defer additional pilot requests until the competing activity ends.
+At this pilot submission, separate PowerShell profile acceptance was active on
+Windows 11, so additional requests were deferred and that VM was left alone.
+It subsequently completed on both targets; see the
+[profile acceptance and continuation record](../../docs/migrations/powershell-profile-acceptance.md).
 The already-submitted Server pilot was monitored through host-side evidence;
 its collection and checkpoint recovery were not interrupted. Correct the
 unit regressions and verify the full suite before retrying the Full pilot,
@@ -214,6 +216,34 @@ Final result records are published in a documentation-only commit with
 `[skip ci]`, using [GitHub's documented push-skip behavior](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/skip-workflow-runs)
 to avoid queuing a redundant VM request. No implementation changed after the
 tested commit; master remains untouched and the main VM switch stays disabled.
+
+## Release-discovery implementation validation, 2026-10-12
+
+Package module 0.10.0 adds the
+[bounded release discovery contract](../../docs/GITHUB-RELEASE-DISCOVERY.md).
+Its reviewed SHA-256 is
+`9D17295FB5460DA9578D7BC76EBDE08E18773A79AB935CC2B49484D0B6055E63`.
+The existing publisher/digest checks remain in the acquisition path; new optional
+ReleaseMetadata evidence distinguishes metadata reuse from payload cache use.
+No host controller binary, credential, UAC policy or repository variable changed.
+
+Native focused checks passed 124 selected tests per edition, including 29 new
+discovery cases. Complete native regression passed 1,276 per edition with zero
+failures or skips; the one WindowsIntegration live-registry test stayed excluded
+on the workstation. The full suite will run in disposable guests and hosted CI.
+Both editions passed catalog/profile/parser/generated-document validation:
+303 operations, three groups, five profiles and 107 local PowerShell files,
+including the previously documented ignored development harness. No ignored
+local configuration, evidence or helper is published.
+
+Read-only preflight at 14:31:28 UTC found both VMs Off, both tasks Ready, queues
+empty, no recovery blocks, both worker locks available, both pinned clean
+checkpoint IDs unchanged, runner listener active and host UAC 1/5/1. Other
+migration chats were idle. A single publisher check at 14:35:01 UTC returned
+HTTP 403, zero remaining and reset 14:36:55 UTC. Defer publication that triggers
+VM work until a post-reset check confirms availability. Consecutive Full source
+acceptance on both targets remains pending; master/default-branch cutover and
+overall controller certification remain deferred.
 
 ## Configuration contract
 

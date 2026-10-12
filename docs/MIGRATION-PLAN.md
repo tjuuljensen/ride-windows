@@ -2,6 +2,15 @@
 
 ## Estimated remaining migration work
 
+Latest release-discovery implementation, **2026-10-12**: package module 0.10.0
+adds five-minute bounded metadata reuse, shared release backoff and explicit
+freshness/quota provenance without forwarding credentials or using expired data.
+Focused mocked regression passed 124 selected tests per edition and complete
+native regression passed 1,276 per edition. The one live-registry test stayed
+excluded on the workstation. Consecutive two-target Full acceptance remains pending.
+All five group ranges and the rounded total below were reviewed and remain
+unchanged; see the [dated implementation](#rate-aware-release-discovery-implementation-2026-10-12).
+
 Last reviewed: **2026-10-12**, reconciling the last numerical estimate revision
 with six subsequently accepted application distributions, Opera's exclusion and
 two accepted setting retirements. Settings decrease by two outcomes and
@@ -24,6 +33,13 @@ remain unchanged, with partial/deferred scope retained. See the
 [unit repair](#controller-unit-regression-repair-2026-10-12) and
 [preceding failed pilot](#full-github-controller-pilot-review-2026-10-12).
 
+Latest documentation review, **2026-10-12**: the PowerShell profile archive
+handoff records reproduction without private chat helpers, retained evidence
+boundaries and remaining cloud/network/alternate-launch and legacy PATH work.
+No new implementation, acceptance run or resolved legacy outcome is claimed.
+All five group ranges and the rounded total below were reviewed and remain
+unchanged; see the [dated handoff review](#powershell-profile-archive-handoff-review-2026-10-12).
+
 Approximately **150-205 distinct legacy work items**
 remain; use **about 180** for planning. These are candidates for migration,
 retirement, combination or replacement, not a commitment to implement all of them.
@@ -33,8 +49,8 @@ retirement, combination or replacement, not a commitment to implement all of the
 | Windows and application settings | 38-58 | Deferred UI and Explorer behavior, security/network handlers, services, Server settings and BitLocker enrollment; Task Manager and Computer Browser selectors retired; optional PowerShell appearance accepted outside the legacy count |
 | Packages, portable tools and downloadable artifacts | 58-73 | Remaining forensic tools, system-tool entries, general software/artifacts, AD tools, browsers and other products; 19 newly accepted distributions (7 installed, 12 portable), 10 earlier outcomes and Opera excluded |
 | Windows components and optional features | 20-25 | WSL, Hyper-V, Sandbox, OpenSSH, printing features and built-in app management |
-| Accounts, configuration and deployed files/assets | 25-35 | Users and administrator membership, Wi-Fi, regional settings, language packs, browser preferences, fonts and wallpapers |
-| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; Full Server migration CI pilot passed, overall controller certification and rate-aware discovery remain open |
+| Accounts, configuration and deployed files/assets | 25-35 | Users and administrator membership, Wi-Fi, regional settings, language packs, browser preferences, fonts and wallpapers; user-bin PATH, bin provisioning and WindowsApps repair remain deferred |
+| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; bounded release discovery implemented with native/two-target acceptance pending; overall controller certification remains open |
 | **Total, rounded** | **150-205** | **About 180 for planning** |
 
 After **every migration run**, including follow-up implementation, review and
@@ -426,6 +442,49 @@ as absent in a loadable library. The published catalog schema and existing
 library identities remain unchanged; migration estimates remain unchanged.
 
 ## Migration estimate review history
+
+### Rate-aware release discovery implementation, 2026-10-12
+
+Package module 0.10.0 implements the [release discovery contract](GITHUB-RELEASE-DISCOVERY.md):
+five-minute reuse per endpoint, 64 entries/two MiB per response, shared release
+quota and secondary backoff, no expired-data fallback or automatic retry, and
+freshness provenance in resolved/saved artifacts and observations. Public requests
+carry no authentication; scoped authentication remains a separate opt-in design.
+The existing selected-asset publisher and digest/checksum checks are retained.
+Focused mocked native regression passed 124 selected tests per edition, including
+29 new discovery cases. Complete native regression passed 1,276 per edition with
+zero failures or skips; the one workstation live-registry test was excluded.
+Early Pester discovery and HTTP fixture construction failures were corrected
+before these passing runs. Consecutive Full VM runs on both supported targets
+remain pending. Parser/catalog/generated documentation checks passed on both
+editions. The profile archive handoff edits
+are retained; no additional profile implementation or acceptance is claimed.
+
+This increment resolves, retires and excludes **zero legacy outcomes**. Settings
+**38-58**, packages/artifacts **58-73**, Windows components **20-25**,
+accounts/configuration/assets **25-35**, and maintenance **8-12** were reviewed
+and remain unchanged: sum **149-203**, rounded **150-205**, about **180**.
+Partial bundles and deferred scope remain counted. Release acceptance, remaining
+controller certification and default-branch cutover remain open; master and its
+VM switch are unchanged.
+
+### PowerShell profile archive handoff review, 2026-10-12
+
+The [profile continuation record](migrations/powershell-profile-acceptance.md#continuation-after-the-chat-is-archived)
+preserves the accepted implementation, maintained reproduction entry point,
+exact prerequisite evidence and remaining work. Original implementation and
+acceptance are committed in `3ffe294`; raw `.local` evidence remains outside Git.
+Cloud hydration, network-backed Documents, interactive alternate-credential
+launches, additional rendering modes and external-library support need separate
+increments. Legacy startup PATH, directory provisioning and WindowsApps repair
+remain deferred; profile colors are outside the legacy inventory.
+
+This documentation review resolves, retires and excludes **zero legacy outcomes**
+and performs no new Windows acceptance. Settings **38-58**, packages/artifacts
+**58-73**, Windows components **20-25**, accounts/configuration/assets **25-35**
+and maintenance **8-12** were reviewed and remain unchanged: sum **149-203**,
+rounded **150-205**, about **180**. Existing partial bundles and independent
+controller/release acceptance remain open.
 
 ### Estimate reconciliation, 2026-10-12
 
@@ -2172,6 +2231,12 @@ The limit applies to the originating IP across GitHub-release packages, so
 substituting another GitHub-hosted test package does not solve it. Complete a
 shared, rate-aware `GitHubReleaseApi` resolver before enabling unattended VM
 testing on the default branch.
+
+Implementation is now available in package module 0.10.0, with
+[documented process-local bounds, freshness and quota behavior](GITHUB-RELEASE-DISCOVERY.md).
+Native complete regression passed 1,276 selected tests per edition; consecutive
+two-target Full acceptance remains pending. This does not enable default-branch VM testing or complete overall
+controller certification.
 
 Design bounded reuse of release metadata with explicit freshness and source
 provenance, while preserving the declared latest-release behavior and artifact

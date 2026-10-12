@@ -95,6 +95,8 @@ for dependencies, partial legacy outcomes and outstanding acceptance.
 
 Use `download package.7zip -Destination <path>` to choose the artifact directory. Use `download artifact.sysmon-swift-config` to retain the latest SwiftOnSecurity XML at an immutable Git commit revision; RIDE does not apply this file automatically. Download records in `catalog/artifact-observations.json` are metadata only; a locally observed SHA-256 is not publisher authentication. See the [package verification matrix](docs/PACKAGE-VERIFICATION-MATRIX.md) for current source evidence. Append `-WhatIf` to a state-changing command to preview a change. An operation's supported actions, privilege needs, scope, and rollback limits are shown by `list`, `show`, and the generated [operation catalog](docs/OPERATIONS.md).
 
+GitHub latest-release lookups use [bounded freshness and shared quota backoff](docs/GITHUB-RELEASE-DISCOVERY.md).
+
 The optional God Mode desktop shortcut uses the current user's desktop,
 including a redirected desktop. Preview it with
 `.\ride.ps1 set windows.god-mode-shortcut Present -WhatIf`, then omit `-WhatIf`
