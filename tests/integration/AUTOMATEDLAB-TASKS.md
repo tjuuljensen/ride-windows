@@ -655,8 +655,18 @@ Reproduction with Windows Git `core.autocrlf=true` showed that the catalog
 checked out with CRLF even though the generator writes and compares LF text.
 The focused fix declares `docs/OPERATIONS.md text eol=lf` in `.gitattributes`.
 An isolated checkout with `core.autocrlf=true` then retained LF and passed
-`Export-RideCatalog.ps1 -Check`. Hosted validation of this correction remains
-pending.
+`Export-RideCatalog.ps1 -Check`. Windows PowerShell 5.1 passed the same catalog
+check. Commit `dae687e` published this fix on the migration branch. Hosted
+[`Validate` run `38216345942`](https://github.com/tjuuljensen/ride-windows/actions/runs/38216345942)
+completed successfully: both PowerShell 7 and Windows PowerShell 5.1 passed
+catalog/syntax validation and all 1,159 Pester tests, with zero failed or
+skipped. The disposable VM workflow for that push was skipped while the pilot
+flag was disabled.
+
+A subsequent read-only 7-Zip publisher API request still returned HTTP 403
+with `x-ratelimit-remaining=0` and a new reset at 2026-10-12 07:35:45 UTC
+(09:35:45 Europe/Copenhagen). Keep the pilot disabled and defer another full
+VM run until the release metadata endpoint responds successfully.
 
 The operator staged 185 hash-verified maintained files from the current local
 checkout into the otherwise absent approved CI workspace, with the GitHub
