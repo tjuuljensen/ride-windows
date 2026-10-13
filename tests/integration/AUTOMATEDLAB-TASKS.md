@@ -508,6 +508,36 @@ retry deadline. New settings' manual VM-test hold remains separate. Full
 Windows 11 package acquisition, consecutive two-target Full acceptance and
 overall controller certification remain open.
 
+## Revised collector real failure acceptance, 2026-10-13
+
+After the guest-reported retry time, one anonymous 7-Zip preflight at 06:52:05
+UTC returned HTTP 200, version 26.04, 31 requests remaining and reset 07:43:34
+UTC. Both VMs were Off, tasks Ready, queues empty, locks available and unblocked;
+all five installed files on each controller matched reviewed source. The approved
+CI checkout remained clean at `a15647590a1324681bbe4a69cbb55e498a623522`.
+Newer settings edits were excluded. Full CI-source Windows 11 request
+`c08c77f026034547b4ceba4cfedc93af` ran through 07:21:50 UTC. All 217 source
+hashes matched; validation and all 1,280 guest Pester tests passed with zero
+XML failures/errors/skips/not-run. Integration again deferred at the first
+7-Zip release lookup on quota zero: reset 07:43:34 UTC, retry no earlier than
+07:43:35 UTC. No expired metadata, automatic retry, payload acquisition or
+successful release observation occurred. This resets consecutive Full passes.
+
+Installed collector 0.4.1 completed the real failure path: copy began
+07:21:38.488 UTC, completed 07:21:48.134 UTC, and session teardown finished
+07:21:48.169 UTC. CollectionError and cleanup error are null; collection-errors
+and omissions are empty. Summary/XML/transcript and 791 retained state JSON
+files, including 395 manifests, were preserved. Guest state export had no error.
+UAC stayed 1/5/1; both VMs finished Off, tasks Ready, queues empty, worker locks
+available, no recovery blocks and pinned checkpoint IDs unchanged. This accepts
+the revised collector's real Windows 11 quota-failure path within its 90-second
+bound. It does not accept package acquisition or certify the controllers.
+
+The next recurring bridge check is 09:50 Europe/Copenhagen, after the guest's
+09:43:35 retry deadline. One anonymous preflight and an idle-state check precede
+at most one further request. The separate manual hold on new settings' VM tests
+remains in force.
+
 ## Configuration contract
 
 The finite integration selections include `ApplicationsBatch1` and
