@@ -11,16 +11,15 @@
 | Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; quota/cache/backoff bridge passed Windows 11 Full with 1,280 tests, eight network and three real cache observations with matching publisher digests; consecutive acceptance Windows 11 2/2, Server 2025 2/2 on the current controller baseline; collector 0.4.1 bounded failure collection accepted, ArtCraft Launcher remains closed and must not be restarted; controller certification and default-branch cutover remain open; no automatic Python installation-time pip upgrade selected; runtime/rule updates and explicit maintenance remain separate review items; optional GitHub authentication approved as high-priority v3 infrastructure, with implementation/acceptance pending; controller 0.4.6 scoped normal/timeout/refusal acceptance complete on both targets; broader certification and hosted final-source validation remain open |
 | **Total, rounded** | **150-205** | **About 180 for planning** |
 
-Last reviewed: **2026-10-13**. Latest run: [Controller 0.4.6 scoped acceptance](#controller-046-scoped-acceptance-2026-10-13).
-Both configurations passed normal registered execution (1,280 guest tests and
-217 hashes each), intentional timeout collection/recovery and missing-checkpoint/
-expired-request refusal probes. Installed hashes and configuration pins remain
-unchanged; per-controller records are prepared, with protected saving awaiting
-Windows elevation.
-Existing anonymous bridge 2/2 pairs remain accepted and its heartbeat disabled.
-Broader certification, hosted validation of newer guest source and default-branch
-publication remain open. ArtCraft Launcher must not be restarted. All five
-migration ranges and the rounded total remain unchanged.
+Last reviewed: **2026-10-13**. Latest run: [Controller acceptance records completed](#controller-acceptance-records-completed-2026-10-13).
+Protected acceptance.md records were saved on both configurations at 14:16:41
+UTC and verified against reviewed hashes; configurations and NotValidated status
+remain unchanged. Normal, timeout and refusal acceptance is complete for 0.4.6.
+Readiness at 14:17:38 UTC found both controllers/VMs idle, hashes/pins unchanged,
+CI clean and ArtCraft Launcher absent. No further VM run submitted. Existing
+bridge 2/2 pairs stay accepted and its heartbeat disabled. Final-source hosted
+validation and deferred delivery/default-branch gates remain open. All five
+migration ranges and the rounded total remain unchanged. Do not restart ArtCraft.
 
 Latest scope review: **2026-10-13**. [Optional GitHub authentication](#optional-github-authentication-v3-scope) is approved high-priority v3 work, with implementation/acceptance pending. All five legacy ranges and the rounded total remain unchanged; reusable-module extraction stays deferred.
 
@@ -41,16 +40,15 @@ mocked evidence is recorded below. No service, audio device, package or VM is
 changed. Packages stay paused; manual VM confirmation remains required. All five
 ranges and rounded total remain unchanged because the outcome stays partial.
 
-Latest infrastructure context: [Controller 0.4.6 scoped acceptance](#controller-046-scoped-acceptance-2026-10-13).
-Both configurations passed normal registered execution (1,280 guest tests and
-217 hashes each), intentional timeout collection/recovery and missing-checkpoint/
-expired-request refusal probes. Installed hashes and configuration pins remain
-unchanged; per-controller records are prepared, with protected saving awaiting
-Windows elevation.
-Existing anonymous bridge 2/2 pairs remain accepted and its heartbeat disabled.
-Broader certification, hosted validation of newer guest source and default-branch
-publication remain open. ArtCraft Launcher must not be restarted. All five
-migration ranges and the rounded total remain unchanged.
+Latest infrastructure context: [Controller acceptance records completed](#controller-acceptance-records-completed-2026-10-13).
+Protected acceptance.md records were saved on both configurations at 14:16:41
+UTC and verified against reviewed hashes; configurations and NotValidated status
+remain unchanged. Normal, timeout and refusal acceptance is complete for 0.4.6.
+Readiness at 14:17:38 UTC found both controllers/VMs idle, hashes/pins unchanged,
+CI clean and ArtCraft Launcher absent. No further VM run submitted. Existing
+bridge 2/2 pairs stay accepted and its heartbeat disabled. Final-source hosted
+validation and deferred delivery/default-branch gates remain open. All five
+migration ranges and the rounded total remain unchanged. Do not restart ArtCraft.
 
 ### Earlier migration and acceptance context
 
@@ -742,6 +740,33 @@ as absent in a loadable library. The published catalog schema and existing
 library identities remain unchanged; migration estimates remain unchanged.
 
 ## Migration estimate review history
+
+### Controller acceptance records completed, 2026-10-13
+
+Windows elevation allowed the reviewed acceptance.md records to be saved beside
+both protected controller evidence.json files at 14:16:41 UTC. Verification at
+14:17:34 UTC matched both reviewed record hashes and confirmed unchanged
+configuration hashes and ValidationStatus NotValidated. Record hashes and
+accepted/deferred scope are retained in the
+[dated evidence](archive/evidence/controller-046-scoped-acceptance-2026-10-13.md)
+and [active matrix](migrations/controller-certification.md). This closes the
+candidate record step, not the broader stable-controller certificate.
+
+Post-save readiness at 14:17:38 UTC found both VMs Off/tasks Ready/queues empty/
+locks available/no recovery blocks, unchanged checkpoint/account/source pins
+and five installed hashes, clean frozen CI a156475 and launcher absent. No
+further VM run was submitted and no unrelated migration activity was changed.
+Existing anonymous bridge 2/2 pairs remain accepted; its heartbeat stays disabled.
+Final published-source hosted validation, manual dispatch/trusted master-push
+and default-branch publication remain deferred. ArtCraft Launcher must not be
+restarted. Master, activation variables and the CI checkout remain unchanged.
+
+Resolved, retired and newly excluded legacy outcomes: **zero**. Partial/deferred
+scope retained. Reviewed ranges remain settings **38-58**, packages/artifacts
+**58-73**, components **20-25**, accounts/assets **25-35**, maintenance **8-12**;
+sum **149-203**, rounded **150-205**, about **180**. Saving infrastructure
+acceptance records closes no legacy feature/product outcome, so estimates are
+unchanged.
 
 ### Controller 0.4.6 scoped acceptance, 2026-10-13
 

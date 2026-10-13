@@ -22,7 +22,7 @@ remains accepted on its recorded baseline; its heartbeat is disabled.
 | Missing checkpoint and expired request | Fresh isolated probes on both configurations failed for intended reasons before VM use; full snapshot sets/configuration hashes unchanged | Complete for candidate |
 | Ordinary-shell, locked-session, watcher, cleanup block and interrupted-worker recovery | Historical evidence retained; function delta confirms worker locks, checkpoint/reset, termination and collector launcher unchanged | Reuse rationale recorded; no historical case relabeled as a fresh 0.4.6 run |
 | GitHub delivery and artifact correlation | Historical trusted migration-push pilots/uploads retained; workflow unchanged | New manual dispatch and trusted master-push acceptance remain deferred behind default-branch publication |
-| Per-controller certification records | Reviewed records prepared locally identify candidate baseline, hashes, run IDs, accepted scope and unavailable scenarios | Saving acceptance.md beside each protected evidence.json awaits Windows elevation; keep registration NotValidated until broader applicable gates close |
+| Per-controller certification records | Both protected acceptance.md records saved 2026-10-13 at 14:16:41 UTC, verified against reviewed hashes; configurations unchanged | Candidate record step complete; keep registration NotValidated until broader applicable gates close |
 
 The default master branch currently lacks the VM workflow. GitHub documents
 the [default-branch requirement for manual dispatch](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow).

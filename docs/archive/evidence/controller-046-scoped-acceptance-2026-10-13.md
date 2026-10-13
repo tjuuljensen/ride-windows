@@ -36,11 +36,21 @@ changes were part of the candidate checks.
 | Invoke-RideVmTestTask.ps1 | 87CB49843350782D6624E0DA8664D0C6204607D79094D448D6E3BF15A38CA558 |
 | Export-RideVmTestEvidence.ps1 | ACB739EFD9ECD3423EC4B0E9217DA08352F586A0F2747D32B2045BB21587CA14 |
 
-Reviewed per-controller acceptance records and their configuration/source hashes
-are prepared in `.local/controller-046-per-controller/manifest.json`. Saving
-acceptance.md beside each protected evidence.json awaits the Windows elevation
-dialog. This pending record write does not change the accepted runtime outcomes
-or promote registration to Validated.
+Reviewed per-controller acceptance.md records were saved beside each protected
+evidence.json at 14:16:41 UTC after Windows elevation. Verification at 14:17:34
+matched both records to their reviewed hashes and confirmed configurations
+unchanged. Registration remains NotValidated; scoped record completion does
+not promote broader certification. Local manifest/saved/verified evidence is
+under `.local/controller-046-per-controller`.
+
+| Configuration | acceptance.md SHA-256 |
+| --- | --- |
+| RIDESrv2025Test | A98D10E9B8BD836F879CE0ACF5C2E59D0775B1F6D318EA556386FE3B212A1695 |
+| RIDEWin11Test | 5E5482824E2A3084DCDDF47D16ED82FE5DF0599E27CDF4CCA3410E28A88B39EE |
+
+Post-save readiness at 14:17:38 UTC found both VMs Off/tasks Ready/queues empty/
+locks available/no recovery blocks, unchanged installed hashes and pins, clean
+frozen CI source and ArtCraft Launcher absent. No further VM run was submitted.
 
 ## Fresh installed-controller runs
 
