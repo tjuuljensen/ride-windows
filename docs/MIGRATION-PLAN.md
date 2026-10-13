@@ -8,19 +8,19 @@
 | Packages, portable tools and downloadable artifacts | 58-73 | Remaining forensic tools, system-tool entries, general software/artifacts, AD tools, browsers and other products; 19 newly accepted distributions (7 installed, 12 portable), 10 earlier outcomes and Opera excluded; R01/R02 preparation remains partial; current BloodHound CE and both collectors selected, container deployment separate; Volatility 2 and ImproHound retirement reviews remain unresolved; corporate licensing watchlist added, with approvals kept local |
 | Windows components and optional features | 20-25 | WSL, Hyper-V, Sandbox, OpenSSH, printing features and built-in app management; RSAT remains a component/applicability decision; BloodHound CE selects no automatic Docker/WSL provisioning or Server Docker Desktop support; no new component acceptance |
 | Accounts, configuration and deployed files/assets | 25-35 | Users and administrator membership, Wi-Fi, regional settings, language packs, browser preferences, fonts and wallpapers; user-bin PATH, bin provisioning and WindowsApps repair remain deferred; VMware directory/profile-file and Python environment/symbol/plugin ownership remain under review |
-| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; quota/cache/backoff bridge passed Windows 11 Full with 1,280 tests, eight network and three real cache observations with matching publisher digests; consecutive acceptance Windows 11 2/2, Server 2025 2/2 on the current controller baseline; collector 0.4.1 bounded failure collection accepted, ArtCraft Launcher remains closed and must not be restarted; controller certification and default-branch cutover remain open; no automatic Python installation-time pip upgrade selected; runtime/rule updates and explicit maintenance remain separate review items; optional GitHub authentication approved as high-priority v3 infrastructure, with implementation/acceptance pending; controller 0.4.6 regression validation: 109 checks on Windows PowerShell 5.1 and 107 plus two expected skips on PowerShell 7; installed acceptance pending |
+| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; quota/cache/backoff bridge passed Windows 11 Full with 1,280 tests, eight network and three real cache observations with matching publisher digests; consecutive acceptance Windows 11 2/2, Server 2025 2/2 on the current controller baseline; collector 0.4.1 bounded failure collection accepted, ArtCraft Launcher remains closed and must not be restarted; controller certification and default-branch cutover remain open; no automatic Python installation-time pip upgrade selected; runtime/rule updates and explicit maintenance remain separate review items; optional GitHub authentication approved as high-priority v3 infrastructure, with implementation/acceptance pending; controller 0.4.6 scoped normal/timeout/refusal acceptance complete on both targets; broader certification and hosted final-source validation remain open |
 | **Total, rounded** | **150-205** | **About 180 for planning** |
 
-Last reviewed: **2026-10-13**. Latest run: [Controller 0.4.6 Server normal acceptance](#controller-046-server-normal-acceptance-2026-10-13).
-Both protected controllers are installed from published3107711 with unchanged
-pins and all five hashes verified. Server UnitOnly request20186578684e4716a1f633a99393fe9d
-passed1280 guest tests, validation, all217 source hashes, the new result without
-host-UAC fields and final recovery/idle checks. Windows11 UnitOnly request
-3c0a98c38c5b42b5991f9a5f8f150e0d is active on the same clean frozen CIa156.
-Normal Windows11 and candidate timeout/refusal checks remain pending. Existing
-anonymous bridge2/2 pairs stay accepted and its heartbeat disabled. All five
-estimates remain unchanged. Broader certification and default-branch
-publication remain deferred; ArtCraft Launcher stays closed.
+Last reviewed: **2026-10-13**. Latest run: [Controller 0.4.6 scoped acceptance](#controller-046-scoped-acceptance-2026-10-13).
+Both configurations passed normal registered execution (1,280 guest tests and
+217 hashes each), intentional timeout collection/recovery and missing-checkpoint/
+expired-request refusal probes. Installed hashes and configuration pins remain
+unchanged; per-controller records are prepared, with protected saving awaiting
+Windows elevation.
+Existing anonymous bridge 2/2 pairs remain accepted and its heartbeat disabled.
+Broader certification, hosted validation of newer guest source and default-branch
+publication remain open. ArtCraft Launcher must not be restarted. All five
+migration ranges and the rounded total remain unchanged.
 
 Latest scope review: **2026-10-13**. [Optional GitHub authentication](#optional-github-authentication-v3-scope) is approved high-priority v3 work, with implementation/acceptance pending. All five legacy ranges and the rounded total remain unchanged; reusable-module extraction stays deferred.
 
@@ -41,16 +41,16 @@ mocked evidence is recorded below. No service, audio device, package or VM is
 changed. Packages stay paused; manual VM confirmation remains required. All five
 ranges and rounded total remain unchanged because the outcome stays partial.
 
-Latest infrastructure context: [Controller 0.4.6 Server normal acceptance](#controller-046-server-normal-acceptance-2026-10-13).
-Both protected controllers are installed from published3107711 with unchanged
-pins and all five hashes verified. Server UnitOnly request20186578684e4716a1f633a99393fe9d
-passed1280 guest tests, validation, all217 source hashes, the new result without
-host-UAC fields and final recovery/idle checks. Windows11 UnitOnly request
-3c0a98c38c5b42b5991f9a5f8f150e0d is active on the same clean frozen CIa156.
-Normal Windows11 and candidate timeout/refusal checks remain pending. Existing
-anonymous bridge2/2 pairs stay accepted and its heartbeat disabled. All five
-estimates remain unchanged. Broader certification and default-branch
-publication remain deferred; ArtCraft Launcher stays closed.
+Latest infrastructure context: [Controller 0.4.6 scoped acceptance](#controller-046-scoped-acceptance-2026-10-13).
+Both configurations passed normal registered execution (1,280 guest tests and
+217 hashes each), intentional timeout collection/recovery and missing-checkpoint/
+expired-request refusal probes. Installed hashes and configuration pins remain
+unchanged; per-controller records are prepared, with protected saving awaiting
+Windows elevation.
+Existing anonymous bridge 2/2 pairs remain accepted and its heartbeat disabled.
+Broader certification, hosted validation of newer guest source and default-branch
+publication remain open. ArtCraft Launcher must not be restarted. All five
+migration ranges and the rounded total remain unchanged.
 
 ### Earlier migration and acceptance context
 
@@ -742,6 +742,100 @@ as absent in a loadable library. The published catalog schema and existing
 library identities remain unchanged; migration estimates remain unchanged.
 
 ## Migration estimate review history
+
+### Controller 0.4.6 scoped acceptance, 2026-10-13
+
+Candidate source 3107711/controller 0.4.6/registration 0.1.3/collector 0.4.1
+completed fresh installed normal, intentional timeout and refusal acceptance on
+both pinned configurations. Normal Server/Windows 11 runs each passed validation,
+all 1,280 Pester tests and all 217 frozen CI source hashes. The guest baseline
+stays a156475; newer migration settings are not accepted by these UnitOnly runs.
+
+Windows 11 timeout c61528bb07394d02aec9430ac17dfa9c returned expected TimedOut
+13:41:55-13:47:43 UTC, with expected client exit 1, process-tree termination,
+collector completion within 90 seconds, explicit locked-transcript omission and
+clean checkpoint recovery. Server timeout e9dbd5a238914edea6915bb6de7eeea7 had
+the same accepted fault outcome. Neither interrupted run claims Pester completion.
+Four missing-checkpoint/expired-request probes at 13:50:14-13:50:53 UTC failed
+for their intended reasons before VM use, preserving configuration hashes and
+full snapshot-ID sets. New registration and all result types omit host-UAC fields;
+no host-UAC value or policy was read or changed. Final readiness at 13:52:48 UTC
+found both VMs Off/tasks Ready/queues empty/locks available/no recovery blocks,
+unchanged pins/installed hashes, clean CI and launcher absent.
+
+The [dated report](archive/evidence/controller-046-scoped-acceptance-2026-10-13.md)
+retains actual run IDs and reviewed reuse of historical operating-mode,
+serialization and interrupted-worker evidence. The
+[active matrix](migrations/controller-certification.md) records scoped acceptance
+and remaining certification. Protected acceptance.md records belong beside each
+controller's evidence.json; registration remains NotValidated. Default master
+currently lacks the VM workflow; manual dispatch/trusted master-push acceptance
+and final hosted validation remain deferred. No master, activation variable,
+CI checkout, unrelated settings or competing migration activity was changed.
+Historical anonymous bridge pairs remain accepted; its heartbeat stays disabled.
+ArtCraft Launcher remains closed and must not be restarted.
+
+Resolved, retired and newly excluded legacy outcomes: **zero**. Partial and
+deferred legacy scope is retained. All five reviewed ranges remain settings
+**38-58**, packages/artifacts **58-73**, components **20-25**, accounts/assets
+**25-35**, maintenance **8-12**; sum **149-203**, rounded **150-205**, about
+**180**. Controller infrastructure acceptance closes no legacy feature/product
+outcome, so ranges and rounded estimate remain unchanged.
+
+### Controller 0.4.6 Server timeout acceptance, 2026-10-13
+
+Deliberate five-minute UnitOnly/CI request e9dbd5a238914edea6915bb6de7eeea7
+returned expected TimedOut, 13:33:15-13:39:10 UTC; client exit 1 was expected.
+The process tree terminated and collector 0.4.1 completed within its unchanged
+90-second bound. Readable artifact/partial guest evidence was retained; the
+locked transcript was explicitly omitted. Copy ran 13:39:05.998-08.163 UTC,
+session closed 08.207, stderr empty, collection/cleanup errors null. No complete
+transcript or Pester pass is claimed. Host-UAC fields were absent. All 217 source
+hashes, five installed hashes and pins matched; target VM Off/task Ready/queues
+empty/lock available/no block, clean CI a156475 and launcher absent.
+
+Both normal configurations had passed. Readiness at 13:40:37 UTC preceded
+Windows 11 timeout c61528bb07394d02aec9430ac17dfa9c. Its result and final refusal
+probes were pending at this checkpoint; their completion is recorded above.
+See the [dated report](archive/evidence/controller-046-scoped-acceptance-2026-10-13.md)
+and .local/controller-046-server-timeout-audit.json. An intentional timeout is
+accepted fault handling, not a passing Full integration run. Existing bridge
+pairs remain accepted; heartbeat disabled; broader certification/master
+publication deferred. No variable, CI checkout or other migration changed.
+ArtCraft Launcher must not be restarted.
+
+Resolved, retired and newly excluded legacy outcomes: zero; partial/deferred
+scope retained. Reviewed ranges: settings 38-58, packages/artifacts 58-73,
+components 20-25, accounts/assets 25-35, maintenance 8-12; sum 149-203, rounded
+150-205/about 180, unchanged because this infrastructure run closes no legacy
+feature/product outcome.
+
+### Controller 0.4.6 Windows 11 normal acceptance, 2026-10-13
+
+Registered UnitOnly/CI request 3c0a98c38c5b42b5991f9a5f8f150e0d passed
+13:07:39-13:32:02 UTC under installed 0.4.6/collector 0.4.1 from source 3107711.
+Validation, all 1,280 guest Pester tests and 217 snapshot/clean CI hashes passed;
+XML has zero failures/errors/skips/unrun tests. IntegrationPassed=false is
+expected for UnitOnly. The new result omits UacBefore/UacAfter. Export and
+checkpoint cleanup had no errors, retaining zero state JSON/manifests. Target
+VM Off/task Ready/queues empty/lock available/no block, pins/checkpoint/five
+installed hashes unchanged, CI a156475 clean and launcher absent.
+
+Both normal configurations are accepted over frozen guest source; newer guest
+settings are outside this result. Both controllers were idle at 13:33:01 UTC
+before Server timeout e9dbd5a238914edea6915bb6de7eeea7 started. Its expected
+fault outcome was pending at this checkpoint; completion is recorded above.
+See the [dated report](archive/evidence/controller-046-scoped-acceptance-2026-10-13.md)
+and .local/controller-046-win11-normal-audit.json. Broader certification/manual
+dispatch/master publication remain deferred, with no master, activation-variable
+or CI checkout change. Bridge heartbeat remains disabled; launcher must not
+be restarted.
+
+Resolved, retired and newly excluded legacy outcomes: zero; partial/deferred
+scope retained. Reviewed ranges: settings 38-58, packages/artifacts 58-73,
+components 20-25, accounts/assets 25-35, maintenance 8-12; sum 149-203, rounded
+150-205/about 180, unchanged because this infrastructure run closes no legacy
+feature/product outcome.
 
 ### Controller 0.4.6 guarded refresh, 2026-10-13
 
