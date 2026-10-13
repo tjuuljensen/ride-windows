@@ -2,15 +2,24 @@
 
 ## Estimated remaining migration work
 
-Last reviewed: **2026-10-13**. Latest run: [revised collector real failure acceptance](#revised-collector-real-failure-acceptance-2026-10-13).
-Full Windows 11 again passed validation, 1,280 guest tests and all 217 source
-hashes, then deferred before 7-Zip acquisition on quota zero. Installed
-collector 0.4.1 completed the real failure path inside the 90-second bound
-with no errors or omissions; checkpoint cleanup and UAC checks passed. This
-accepts revised failure collection, while Full package acquisition and the
-consecutive two-target pass sequence remain open. The next bridge check is
-09:50 Europe/Copenhagen, after the reported 09:43:35 retry deadline. All five
-estimate ranges and the rounded total remain unchanged.
+| Group | Approximate remaining items | Examples |
+| --- | ---: | --- |
+| Windows and application settings | 38-58 | Deferred UI and Explorer behavior, security/network handlers, services, Server settings and BitLocker enrollment; Task Manager and Computer Browser selectors retired; optional PowerShell appearance accepted outside the legacy count; browser/Sysmon configuration remains under review; traditional Python association preservation awaits implementation/acceptance |
+| Packages, portable tools and downloadable artifacts | 58-73 | Remaining forensic tools, system-tool entries, general software/artifacts, AD tools, browsers and other products; 19 newly accepted distributions (7 installed, 12 portable), 10 earlier outcomes and Opera excluded; R01/R02 preparation remains partial; current BloodHound CE and both collectors selected, container deployment separate; Volatility 2 and ImproHound retirement reviews remain unresolved |
+| Windows components and optional features | 20-25 | WSL, Hyper-V, Sandbox, OpenSSH, printing features and built-in app management; RSAT remains a component/applicability decision; BloodHound CE selects no automatic Docker/WSL provisioning or Server Docker Desktop support; no new component acceptance |
+| Accounts, configuration and deployed files/assets | 25-35 | Users and administrator membership, Wi-Fi, regional settings, language packs, browser preferences, fonts and wallpapers; user-bin PATH, bin provisioning and WindowsApps repair remain deferred; VMware directory/profile-file and Python environment/symbol/plugin ownership remain under review |
+| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; release discovery regression and published a156475 Full Server CI passed, intervening Server/Windows 11 acquisition deferred on quota zero; collector 0.4.0 passed focused and one real failure collection, then timed out at 60 seconds; collector 0.4.1/controller 0.4.3 passed two real Windows 11 failure collections inside 90 seconds with no omissions, while 1,280 guest tests passed per run and package acquisition deferred on quota zero; observed ArtCraft Launcher API client temporarily closed with user approval for next test; consecutive Full acceptance and certification remain open; no automatic Python installation-time pip upgrade selected; runtime/rule updates and explicit maintenance remain separate review items |
+| **Total, rounded** | **150-205** | **About 180 for planning** |
+
+Last reviewed: **2026-10-13**. Latest run: [quota failure and observed launcher client](#quota-failure-and-observed-launcher-client-2026-10-13).
+Full Windows 11 passed validation, 1,280 guest tests and all 217 source hashes,
+then deferred at the first 7-Zip lookup on quota zero. Collector 0.4.1 again
+completed real failure collection inside 90 seconds; cleanup/UAC passed and
+both VMs are idle. A passive sample observed ArtCraft Launcher connected to
+the API address, without proving its request count. The user approved closing
+the launcher temporarily for bridge testing, and it is stopped. The next
+heartbeat is 10:50 Europe/Copenhagen after the 10:43:44 retry deadline; package
+and consecutive Full acceptance remain open. All five estimates stay unchanged.
 
 Previous run: [focused installed collector failure acceptance](#focused-installed-collector-failure-acceptance-2026-10-13).
 Installed collector 0.4.0 passed a controlled Windows 11 failure fixture in
@@ -67,14 +76,6 @@ Approximately **150-205 distinct legacy work items**
 remain; use **about 180** for planning. These are candidates for migration,
 retirement, combination or replacement, not a commitment to implement all of them.
 
-| Group | Approximate remaining items | Examples |
-| --- | ---: | --- |
-| Windows and application settings | 38-58 | Deferred UI and Explorer behavior, security/network handlers, services, Server settings and BitLocker enrollment; Task Manager and Computer Browser selectors retired; optional PowerShell appearance accepted outside the legacy count; browser/Sysmon configuration remains under review; traditional Python association preservation awaits implementation/acceptance |
-| Packages, portable tools and downloadable artifacts | 58-73 | Remaining forensic tools, system-tool entries, general software/artifacts, AD tools, browsers and other products; 19 newly accepted distributions (7 installed, 12 portable), 10 earlier outcomes and Opera excluded; R01/R02 preparation remains partial; current BloodHound CE and both collectors selected, container deployment separate; Volatility 2 and ImproHound retirement reviews remain unresolved |
-| Windows components and optional features | 20-25 | WSL, Hyper-V, Sandbox, OpenSSH, printing features and built-in app management; RSAT remains a component/applicability decision; BloodHound CE selects no automatic Docker/WSL provisioning or Server Docker Desktop support; no new component acceptance |
-| Accounts, configuration and deployed files/assets | 25-35 | Users and administrator membership, Wi-Fi, regional settings, language packs, browser preferences, fonts and wallpapers; user-bin PATH, bin provisioning and WindowsApps repair remain deferred; VMware directory/profile-file and Python environment/symbol/plugin ownership remain under review |
-| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; release discovery regression and published a156475 Full Server CI passed, intervening Server/Windows 11 acquisition deferred on quota zero; collector 0.4.0 passed focused and one real Windows 11 failure collection, then timed out at 60 seconds; installed collector 0.4.1/controller 0.4.3 passed the next real failure path inside 90 seconds with no omissions, while 1,280 guest tests passed and package acquisition again deferred on quota zero; consecutive Full acceptance and certification remain open; no automatic Python installation-time pip upgrade selected; runtime/rule updates and explicit maintenance remain separate review items |
-| **Total, rounded** | **150-205** | **About 180 for planning** |
 
 ### Recent implementation and acceptance context
 
@@ -514,6 +515,50 @@ as absent in a loadable library. The published catalog schema and existing
 library identities remain unchanged; migration estimates remain unchanged.
 
 ## Migration estimate review history
+
+### Quota failure and observed launcher client, 2026-10-13
+
+The 07:50:22 UTC anonymous 7-Zip preflight returned HTTP 200, version 26.04,
+31 requests remaining and reset 08:43:43 UTC. Both controllers were idle;
+installed hashes and VM/checkpoint/account/ISO/repository pins matched. CI
+checkout was clean at `a15647590a1324681bbe4a69cbb55e498a623522`; newer
+settings remained excluded. Full Windows 11 request
+`21b380695758461ebe090c34f537a595` ran 07:51:53-08:20:39 UTC. Validation,
+all 1,280 guest tests and all 217 source hashes passed with zero XML failures/
+errors/skips/not-run. Integration failed before 7-Zip acquisition on quota zero,
+reset 08:43:43 UTC, retry no earlier than 08:43:44 UTC. No expired metadata,
+automatic retry or successful release observation was used. Consecutive Full
+passes remain zero.
+
+Collector 0.4.1 completed inside the 90-second bound with no errors/omissions:
+copy 08:20:24.067-08:20:36.983 UTC, teardown finished 08:20:37.014 UTC.
+Guest state export and checkpoint cleanup passed. Summary/XML/transcript and
+791 retained state JSON files, including 395 manifests, were preserved. UAC
+stayed 1/5/1; both VMs ended Off, tasks Ready, queues empty, locks available,
+no recovery blocks and pinned checkpoints/installed hashes unchanged.
+
+A passive ten-minute host sample found 465 repeated TCP observations of
+ArtCraft Launcher PID 27136 against api.github.com's once-resolved address,
+08:00:07.848-08:04:36.451 UTC. These are connection observations, not 465 API
+requests or proof of total shared quota ownership. No obvious host proxy or
+Tailscale exit node was found; the three additional CI unit tests exercise
+mocked collector paths. The user approved temporarily closing the launcher
+during bridge testing. Its exact verified process was stopped after a graceful
+close left it running; no launcher process remains and no startup/network
+configuration changed. The next heartbeat is 10:50 Europe/Copenhagen after
+the 10:43:44 retry deadline, with launcher closure retained as a diagnostic
+condition for that test.
+
+Resolved, retired and excluded legacy outcomes: **zero**. Reviewed ranges:
+settings **38-58**, packages/artifacts **58-73**, components **20-25**,
+accounts/assets **25-35**, maintenance **8-12**; sum **149-203**, rounded
+**150-205**, about **180**, unchanged because this infrastructure run closes
+no legacy feature/product outcome. Full package acquisition, consecutive
+Windows 11/Server 2025 acceptance, controller certification and default-branch
+cutover remain open. Other migration work and its separate VM-test gate remain
+preserved.
+The [archived diagnostic](archive/evidence/github-quota-bridge-launcher-diagnostic-2026-10-13.md)
+retains the completed run and passive connection evidence.
 
 ### Revised collector real failure acceptance, 2026-10-13
 
