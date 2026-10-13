@@ -8,18 +8,20 @@
 | Packages, portable tools and downloadable artifacts | 58-73 | Remaining forensic tools, system-tool entries, general software/artifacts, AD tools, browsers and other products; 19 newly accepted distributions (7 installed, 12 portable), 10 earlier outcomes and Opera excluded; R01/R02 preparation remains partial; current BloodHound CE and both collectors selected, container deployment separate; Volatility 2 and ImproHound retirement reviews remain unresolved |
 | Windows components and optional features | 20-25 | WSL, Hyper-V, Sandbox, OpenSSH, printing features and built-in app management; RSAT remains a component/applicability decision; BloodHound CE selects no automatic Docker/WSL provisioning or Server Docker Desktop support; no new component acceptance |
 | Accounts, configuration and deployed files/assets | 25-35 | Users and administrator membership, Wi-Fi, regional settings, language packs, browser preferences, fonts and wallpapers; user-bin PATH, bin provisioning and WindowsApps repair remain deferred; VMware directory/profile-file and Python environment/symbol/plugin ownership remain under review |
-| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; quota/cache/backoff bridge passed Windows 11 Full with 1,280 tests, eight network and three real cache observations with matching publisher digests; consecutive acceptance Windows 11 1/2, Server 2025 0/2 on the current controller baseline; collector 0.4.1 bounded failure collection accepted, observed ArtCraft Launcher client held closed with user approval; controller certification and default-branch cutover remain open; no automatic Python installation-time pip upgrade selected; runtime/rule updates and explicit maintenance remain separate review items |
+| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; quota/cache/backoff bridge passed Windows 11 Full with 1,280 tests, eight network and three real cache observations with matching publisher digests; consecutive acceptance Windows 11 2/2, Server 2025 0/2 on the current controller baseline; collector 0.4.1 bounded failure collection accepted, ArtCraft Launcher remains closed and must not be restarted; controller certification and default-branch cutover remain open; no automatic Python installation-time pip upgrade selected; runtime/rule updates and explicit maintenance remain separate review items |
 | **Total, rounded** | **150-205** | **About 180 for planning** |
 
-Last reviewed: **2026-10-13**. Latest run: [launcher-closed Windows 11 Full acceptance](#launcher-closed-windows-11-full-acceptance-2026-10-13).
-Full Windows 11 passed validation, all 1,280 guest tests, integration and all
-217 source hashes with ArtCraft Launcher closed. Eight network and three real
-metadata/payload cache observations retained matching publisher digests; quota
-remained positive at saved lookups, ending at 41. Cleanup/UAC passed and both
-VMs are idle. Consecutive acceptance is Windows 11 1/2 and Server 2025 0/2.
-The next heartbeat at 11:47 Europe/Copenhagen will attempt the second Windows
-11 Full after the observed reset. All five estimates and rounded total stay
-unchanged; other settings acceptance and controller certification remain open.
+Last reviewed: **2026-10-13**. Latest run: [Windows 11 consecutive Full pair acceptance](#windows-11-consecutive-full-pair-acceptance-2026-10-13).
+Second Full Windows 11 passed validation, all 1,280 guest tests, integration
+and all 217 source hashes on unchanged published CI/controller baselines.
+Eight network and three real cache observations retained matching publisher
+digests within metadata expiry; the last lookup had 40 requests remaining.
+Cleanup/UAC and final idle checks passed. Windows 11 is now 2/2 consecutive
+Full passes; Server 2025 remains 0/2. The next same heartbeat at 12:47
+Europe/Copenhagen will attempt Server after the observed reset, with fresh
+quota and resource checks. ArtCraft Launcher remains closed and must not be
+restarted. All five estimates and rounded total stay unchanged; unrelated
+settings acceptance, controller certification and cutover remain open.
 
 Previous run: [focused installed collector failure acceptance](#focused-installed-collector-failure-acceptance-2026-10-13).
 Installed collector 0.4.0 passed a controlled Windows 11 failure fixture in
@@ -515,6 +517,39 @@ as absent in a loadable library. The published catalog schema and existing
 library identities remain unchanged; migration estimates remain unchanged.
 
 ## Migration estimate review history
+
+### Windows 11 consecutive Full pair acceptance, 2026-10-13
+
+Second Full CI-source request `dbfd74b1bfca4e0a91c4f6b088f2ee23` passed
+09:49:44-10:23:06 UTC with ArtCraft Launcher still closed. One anonymous
+preflight returned HTTP 200/57 remaining/reset10:44:06 UTC. Clean published
+CI `a156475` and reviewed installed controller `55e97c0` remained unchanged
+(collector 0.4.1/module 0.4.3); unfinished settings and staged documentation
+renames were preserved and excluded. Validation, all 1,280 guest tests, Full
+integration and all 217 snapshot/CI source hashes passed. Eight network plus
+three real ProcessCache/payload Cache observations had matching publisher
+digests; reuse preserved original timestamps and occurred before expiry.
+The last saved lookup had 40 remaining; quota was not exhausted.
+
+Normal export/checkpoint cleanup had no errors; retained state has 838 JSON
+files including 413 manifests. UAC stayed 1/5/1; both VMs ended Off, tasks
+Ready, queues empty, locks available, no recovery blocks, and pins and five
+installed hashes unchanged. CI remained clean and the launcher absent.
+Failure collection was not invoked; earlier bounded failure evidence remains
+separate. [Archived pair acceptance](archive/evidence/github-quota-bridge-windows-11-pair-2026-10-13.md)
+retains correlated identities, package versions and provenance.
+
+Consecutive progress is **Windows 11 2/2, Server 2025 0/2**. The same active
+heartbeat's next attempt is **12:47 Europe/Copenhagen**, after observed reset
+plus one second, for the first Server Full with a fresh quota/resource check.
+Two consecutive Server passes remain; disable the bridge heartbeat when both
+pairs complete. Do not restart ArtCraft Launcher. Controller certification,
+default-branch cutover and unrelated settings acceptance remain separate.
+Resolved, retired and newly excluded legacy outcomes: **zero**; partial and
+deferred settings outcomes remain unchanged. Reviewed ranges: settings
+**38-58**, packages/artifacts **58-73**, components **20-25**, accounts/assets
+**25-35**, maintenance **8-12**; sum **149-203**, rounded **150-205**, about
+**180**, unchanged because this infrastructure gate closes no legacy outcome.
 
 ### Launcher-closed Windows 11 Full acceptance, 2026-10-13
 
