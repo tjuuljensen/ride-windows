@@ -25,8 +25,9 @@
   Recovery: Follow automatedlab-tasks.md for blocked requests; the fixed worker restores only its
   pinned disposable VM/checkpoint.
   Author: RIDE-Windows maintainers.
-  Version: 0.4.5
+  Version: 0.4.6
   Changelog:
+    - 0.4.6: Normalize JSON-parsed queue timestamps before culture-sensitive validation.
     - 0.4.5: Remove host UAC inspection and comparison from controller execution.
     - 0.4.4: Preserve the host's existing UAC configuration without requiring enabled prompting.
     - 0.4.3: Disable AutomatedLab's optional release check in each controller process.
@@ -45,7 +46,7 @@
 #>
 
 
-$script:ModuleVersion = '0.4.5'
+$script:ModuleVersion = '0.4.6'
 
 Set-StrictMode -Version 2
 
@@ -646,6 +647,8 @@ function Get-RideAutomationClaim {
     try {
       if ($pending.Attributes -band [IO.FileAttributes]::ReparsePoint) { throw 'Request cannot be a reparse point.' }
       $request = Get-Content -LiteralPath $pending.FullName -Raw | ConvertFrom-Json
+      # PowerShell 7 can deserialize ISO timestamps as DateTime; keep the queue's string contract.
+      if ($request.SubmittedAtUtc -is [datetime]) { $request.SubmittedAtUtc = $request.SubmittedAtUtc.ToUniversalTime().ToString('o') }
       Assert-RideAutomationRequest $request
       if ($pending.BaseName -ne $request.RunId) { throw 'Request filename does not match RunId.' }
     }

@@ -28,6 +28,7 @@
   Author: RIDE-Windows maintainers.
   Version: Repository test fixture; no independent released version.
   Changelog:
+    2026-10-13: Retain valid UTC queue timestamps under Danish culture on both PowerShell editions.
     2026-10-13: Verify controller execution does not inspect host UAC; preserve elevation and recovery checks.
     2026-10-12: Verify controller JSON write failures prevent caller continuation.
     2026-10-11: Cover retained partial evidence and rejection of escaped guest paths.
@@ -600,6 +601,24 @@ Describe 'Failure-evidence collector process results' {
 }
 
 Describe 'Queue serialization and exact checkpoint reset' {
+  It 'claims a valid UTC request under Danish culture without losing its submission instant' {
+    $root = Join-Path $TestDrive 'culture-queue-test'
+    foreach ($folder in @('pending', 'running', 'finished')) { $null = New-Item -ItemType Directory (Join-Path $root "queue\$folder") -Force }
+    $id = [guid]::NewGuid().ToString('N')
+    $timestamp = '2026-10-13T12:00:00.1234567Z'
+    Write-RideAutomationJson (Join-Path $root "queue\pending\$id.json") @{ RunId = $id; Source = 'CI'; UnitOnly = $true; TimeoutMinutes = 90; SubmittedAtUtc = $timestamp }
+    $priorCulture = [cultureinfo]::CurrentCulture
+    try {
+      [cultureinfo]::CurrentCulture = [cultureinfo]::GetCultureInfo('da-DK')
+      $claim = Get-RideAutomationClaim $root
+      $claim.Request.RunId | Should -Be $id
+      $claim.Request.SubmittedAtUtc | Should -BeOfType ([string])
+      ([datetime]::Parse($claim.Request.SubmittedAtUtc).ToUniversalTime()).Ticks | Should -Be ([datetime]::Parse($timestamp).ToUniversalTime()).Ticks
+      @(Get-ChildItem (Join-Path $root 'queue/finished') -Filter 'invalid-*.json').Count | Should -Be 0
+    }
+    finally { [cultureinfo]::CurrentCulture = $priorCulture }
+  }
+
   It 'allows only one worker to hold a controller lock' {
     $root = Join-Path $TestDrive 'lock-test'
     $null = New-Item -ItemType Directory (Join-Path $root 'runtime') -Force

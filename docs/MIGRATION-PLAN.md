@@ -8,11 +8,21 @@
 | Packages, portable tools and downloadable artifacts | 58-73 | Remaining forensic tools, system-tool entries, general software/artifacts, AD tools, browsers and other products; 19 newly accepted distributions (7 installed, 12 portable), 10 earlier outcomes and Opera excluded; R01/R02 preparation remains partial; current BloodHound CE and both collectors selected, container deployment separate; Volatility 2 and ImproHound retirement reviews remain unresolved; corporate licensing watchlist added, with approvals kept local |
 | Windows components and optional features | 20-25 | WSL, Hyper-V, Sandbox, OpenSSH, printing features and built-in app management; RSAT remains a component/applicability decision; BloodHound CE selects no automatic Docker/WSL provisioning or Server Docker Desktop support; no new component acceptance |
 | Accounts, configuration and deployed files/assets | 25-35 | Users and administrator membership, Wi-Fi, regional settings, language packs, browser preferences, fonts and wallpapers; user-bin PATH, bin provisioning and WindowsApps repair remain deferred; VMware directory/profile-file and Python environment/symbol/plugin ownership remain under review |
-| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; quota/cache/backoff bridge passed Windows 11 Full with 1,280 tests, eight network and three real cache observations with matching publisher digests; consecutive acceptance Windows 11 2/2, Server 2025 2/2 on the current controller baseline; collector 0.4.1 bounded failure collection accepted, ArtCraft Launcher remains closed and must not be restarted; controller certification and default-branch cutover remain open; no automatic Python installation-time pip upgrade selected; runtime/rule updates and explicit maintenance remain separate review items; optional GitHub authentication approved as high-priority v3 infrastructure, with implementation/acceptance pending |
+| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; quota/cache/backoff bridge passed Windows 11 Full with 1,280 tests, eight network and three real cache observations with matching publisher digests; consecutive acceptance Windows 11 2/2, Server 2025 2/2 on the current controller baseline; collector 0.4.1 bounded failure collection accepted, ArtCraft Launcher remains closed and must not be restarted; controller certification and default-branch cutover remain open; no automatic Python installation-time pip upgrade selected; runtime/rule updates and explicit maintenance remain separate review items; optional GitHub authentication approved as high-priority v3 infrastructure, with implementation/acceptance pending; controller 0.4.6 regression validation: 109 checks on Windows PowerShell 5.1 and 107 plus two expected skips on PowerShell 7; installed acceptance pending |
 | **Total, rounded** | **150-205** | **About 180 for planning** |
 
-Last reviewed: **2026-10-13**. Latest run: [Settings validation gate deferral at 12:04 UTC](#settings-validation-gate-deferral-at-1204-utc-2026-10-13).
-12:04 UTC read-only dependency revision 15 and both local records still show active second Server Full request 420c567aea0b44118862ecfcf1de35a5. Final export/recovery and resource yield are pending. Settings validation deferred; packages paused; all five ranges unchanged.
+Last reviewed: **2026-10-13**. Latest run: [Controller 0.4.6 regression validation](#controller-046-regression-validation-2026-10-13).
+Native Windows PowerShell 5.1 passed109 focused controller/profile/release
+checks; PowerShell7 passed107 with two intentional Windows PowerShell-only
+host-preflight skips. A reproduced Danish-culture queue timestamp defect was
+repaired in controller0.4.6 and its regression passed on both editions.
+Registration0.1.3 and removal of host-UAC inspection still need installed
+runtime acceptance on both targets; reviewed refresh is being prepared while
+other VM activity is respected. The existing anonymous bridge gate stays
+accepted at Windows11 2/2 and Server2025 2/2 on its recorded older baseline.
+All five estimates and rounded total remain unchanged. Broader controller
+certification and default-branch cutover remain open; ArtCraft Launcher stays
+closed and must not be restarted.
 
 Latest scope review: **2026-10-13**. [Optional GitHub authentication](#optional-github-authentication-v3-scope) is approved high-priority v3 work, with implementation/acceptance pending. All five legacy ranges and the rounded total remain unchanged; reusable-module extraction stays deferred.
 
@@ -33,18 +43,18 @@ mocked evidence is recorded below. No service, audio device, package or VM is
 changed. Packages stay paused; manual VM confirmation remains required. All five
 ranges and rounded total remain unchanged because the outcome stays partial.
 
-Latest infrastructure context: [GitHub quota bridge two-target pair complete](#github-quota-bridge-two-target-pair-complete-2026-10-13).
-The current anonymous bridge gate is complete: Windows 11 2/2 and Server
-2025 2/2 consecutive Full passes on the same published CI/controller baseline.
-Second Server Full passed validation, all 1,280 guest tests, applicable
-integration, all 217 source hashes and both publisher digests. Normal export,
-checkpoint recovery, unchanged UAC and final idle state passed; last quota51.
-The same bridge heartbeat is PAUSED with no next attempt scheduled. Both VMs
-are idle and shared resources yielded for other authorized work after its own
-readiness checks. ArtCraft Launcher remains closed and must not be restarted.
-All five estimates and rounded total stay unchanged; controller 0.4.5,
-broader certification, optional authentication, cutover and settings acceptance
-remain separate open work.
+Latest infrastructure context: [Controller 0.4.6 regression validation](#controller-046-regression-validation-2026-10-13).
+Native Windows PowerShell 5.1 passed109 focused controller/profile/release
+checks; PowerShell7 passed107 with two intentional Windows PowerShell-only
+host-preflight skips. A reproduced Danish-culture queue timestamp defect was
+repaired in controller0.4.6 and its regression passed on both editions.
+Registration0.1.3 and removal of host-UAC inspection still need installed
+runtime acceptance on both targets; reviewed refresh is being prepared while
+other VM activity is respected. The existing anonymous bridge gate stays
+accepted at Windows11 2/2 and Server2025 2/2 on its recorded older baseline.
+All five estimates and rounded total remain unchanged. Broader controller
+certification and default-branch cutover remain open; ArtCraft Launcher stays
+closed and must not be restarted.
 
 ### Earlier migration and acceptance context
 
@@ -736,6 +746,44 @@ as absent in a loadable library. The published catalog schema and existing
 library identities remain unchanged; migration estimates remain unchanged.
 
 ## Migration estimate review history
+
+### Controller 0.4.6 regression validation, 2026-10-13
+
+The newer controller0.4.5 was committed in5fdde5d. Native Windows PowerShell
+5.1 passed108 focused tests; PowerShell7 reproduced the prior queue-claim
+failure. JSON deserialization produced a DateTime submission value, whose
+string coercion was incompatible with the Danish parser. Valid requests were
+quarantined, so that PowerShell7 run failed acceptance. Controller0.4.6
+normalizes parsed DateTime values to UTC round-trip strings before existing
+validation. The new October13/Danish-culture regression preserves the exact
+submission instant; ordered claims and malformed-request quarantine remain.
+
+The repaired source passed109 controller/profile-boundary/release-discovery
+checks on Windows PowerShell5.1 and107 on PowerShell7, with only two intentional
+Windows PowerShell-only host-preflight skips. Neither had failures or unrun
+tests. Parser and whitespace checks passed. Tests used isolated temporary
+files and mocked system/network calls, with no VM, publisher, installer,
+host-registry or global-policy actions. Source hashes, XML and pre-fix failures
+are retained under.local/controller-045-ps51 and.local/controller-045-ps7.
+Current recovery guidance was corrected to remove obsolete host-UAC drift
+inspection. The [controller acceptance matrix](migrations/controller-certification.md)
+separates this source validation from installed runtime evidence and records
+historical evidence that may be reused after delta review.
+
+Installed controllers remain0.4.3 until an idle guarded refresh. Registration
+0.1.3 and candidate0.4.6 normal/failure/timeout result contracts still require
+live acceptance. Existing anonymous bridge pairs Windows11 2/2 andServer2025
+2/2 remain accepted on their recorded CI/controller baseline; its heartbeat
+stays disabled. Competing migration work must finish before shared resources
+are touched. ArtCraft Launcher must not be restarted. Broader certification,
+optional authentication, settings acceptance and default-branch cutover remain
+separate; no master/support-declaration change is implied.
+
+Resolved, retired and newly excluded legacy outcomes: zero; partial/deferred
+migration outcomes retained. All five reviewed ranges stay settings38-58,
+packages/artifacts58-73, components20-25, accounts/assets25-35 andmaintenance
+8-12; sum149-203, rounded150-205/about180. The infrastructure correction closes
+no legacy feature/product outcome, so estimates remain unchanged.
 
 ### Registry failure and capture repair, 2026-10-13
 

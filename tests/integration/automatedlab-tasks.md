@@ -591,9 +591,9 @@ remains in force.
 
 ## GitHub quota bridge acceptance
 
-Two consecutive Full runs per target remain the bridge acceptance gate:
-Windows 11 is 2/2 and Server 2025 is 1/2. See the
-[Server first-pass acceptance](../../docs/archive/evidence/github-quota-bridge-server-first-pass-2026-10-13.md)
+The current anonymous bridge gate has two consecutive Full passes per target:
+Windows 11 is 2/2 and Server 2025 is 2/2. The bridge heartbeat is disabled; see the
+[completed pair gate](../../docs/archive/evidence/github-quota-bridge-pair-gate-complete-2026-10-13.md)
 and [launcher diagnostic](../../docs/archive/evidence/github-quota-bridge-launcher-diagnostic-2026-10-13.md)
 for dated run, recovery and provenance evidence. Controller certification and
 default-branch cutover remain separate.
@@ -847,8 +847,8 @@ Remove-Item -LiteralPath (Join-Path $root 'runtime\blocked.json') -ErrorAction S
 
 If a checkpoint was deleted or replaced, recovery refuses it: investigate and
 revalidate a new clean baseline before re-registering. Never point the controller
-at another checkpoint merely to bypass the identity check. A host UAC drift
-failure also requires inspection; the controller never repairs UAC automatically.
+at another checkpoint merely to bypass the identity check. The controller does
+not inspect or repair host UAC configuration.
 
 Create the corresponding `results/<RunId>` directory before writing an
 interruption record; the JSON helper requires an existing parent. Verify that
