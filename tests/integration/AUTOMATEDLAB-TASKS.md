@@ -429,6 +429,41 @@ CI-source request. Unavailable quota or occupied controllers defer submission;
 there is no duplicate request or repeated API polling scheduled. Full Windows 11,
 consecutive two-target acceptance and certification remain open.
 
+## Scheduled Full Windows 11 failure collection, 2026-10-13
+
+The single scheduled follow-up checked publisher metadata at 04:44:21 UTC:
+HTTP 200, 7-Zip 26.04, quota **45** remaining, reset **05:43:13 UTC**. Both
+controllers were idle, all installed file hashes matched and CI checkout was
+clean at `a15647590a1324681bbe4a69cbb55e498a623522`. Newer unfinished settings
+edits in the working checkout were preserved and excluded from this test.
+
+Full CI-source request `45682bfb744849beb7b5b2bd1733cc15`,
+04:44:46-05:17:34 UTC, passed validation and **1,280/1,280 guest Pester tests**
+on Windows 11 Enterprise Evaluation build 26300, PowerShell 5.1.26100.9444.
+All 217 source hashes matched; XML reports no failures/errors/skips/unrun tests.
+Pre-package setting round trips completed, with lid AC/DC cases explicitly
+unavailable in this VM. Integration failed before 7-Zip payload acquisition:
+quota **0**, reset 05:43:13 UTC, earliest retry **05:43:14 UTC**, without expired
+metadata or automatic retry. No successful release observation belongs to this run.
+
+Installed collector **0.4.0**, SHA-256
+`57DFFD7B437B180C9136DBC3F4AE6C244915706F05095F56384EB15A476215C2`,
+successfully completed the actual failure path within the unchanged 60-second
+bound. CollectionError, guest-state export error and cleanup error are null;
+collection-errors.log and the omission list are empty. Summary/XML/transcript
+and 791 retained state JSON files, including 395 manifests, are preserved;
+retained counts do not establish request ownership of every saved file. UAC
+stayed 1/5/1. Both VMs are Off, controllers Ready, queues empty, locks available,
+no blocks and checkpoint IDs unchanged. This accepts real bounded collection
+of the large export that previously timed out, alongside the focused fixture.
+
+This local CI-source request has no new GitHub workflow or upload artifact.
+No additional publisher polling, host-token forwarding, global configuration,
+repository-switch/master change or new Windows target-support claim followed.
+The single follow-up is complete with no new request or automation. New settings'
+manual VM-acceptance hold remains separate. Full Windows 11 package acceptance,
+repeated two-target acceptance and overall NotValidated certification remain open.
+
 ## Configuration contract
 
 The finite integration selections include `ApplicationsBatch1` and
