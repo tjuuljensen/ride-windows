@@ -503,7 +503,7 @@ installed, AutomatedLab attempted its optional GitHub version lookup inside
 the recorded quota backoff and received a rate-limit error. Registration still
 completed. This extra request was unintended and is retained as a backoff
 process defect; no token or shared host configuration was used. The recurring
-bridge heartbeat is set for 08:44 Europe/Copenhagen, after the guest-reported
+bridge heartbeat is set for 08:55 Europe/Copenhagen, after the guest-reported
 retry deadline. New settings' manual VM-test hold remains separate. Full
 Windows 11 package acquisition, consecutive two-target Full acceptance and
 overall controller certification remain open.

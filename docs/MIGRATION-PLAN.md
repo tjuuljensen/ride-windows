@@ -2,16 +2,16 @@
 
 ## Estimated remaining migration work
 
-Last reviewed: **2026-10-13**. Latest run: [scheduled Windows 11 Full attempt and real failure collection](#scheduled-windows-11-full-attempt-and-real-failure-collection-2026-10-13).
-Completed the scheduled Full Windows 11 request against frozen CI source
-`a156475` with installed collector 0.4.0. Validation and all 1,280 guest tests
-passed, but integration deferred before 7-Zip acquisition on quota zero after a
-45-request preflight. The real failure collector completed within its unchanged
-60-second limit, with no collection errors or omissions and 791 retained state
-JSON files. Checkpoint cleanup succeeded with UAC unchanged; both VMs are Off,
-controllers Ready, queues empty and locks available. The single follow-up is
-complete. Full package acceptance remains open; earliest reported retry is
-05:43:14 UTC (07:43:14 Europe/Copenhagen), with no further test scheduled.
+Last reviewed: **2026-10-13**. Latest run: [recurring bridge Full Windows 11 attempt](#recurring-bridge-full-windows-11-attempt-2026-10-13).
+The frozen CI source again passed validation, 1,280 guest tests and all 217
+source hashes. Integration deferred at the first 7-Zip lookup on quota zero,
+and the installed 0.4.0 failure collector timed out at 60 seconds after writing
+an empty omissions list. Checkpoint cleanup and UAC checks passed. Collector
+0.4.1 and controller 0.4.3 now allow bounded teardown timing diagnosis and
+disable AutomatedLab's optional version check in each process. Full package
+acceptance is still open; earliest retry is 06:43:23 UTC, with the recurring
+bridge attempt set for 08:55 Europe/Copenhagen. The new settings' manual VM
+hold is separate. All five estimate ranges remain unchanged.
 
 Previous run: [focused installed collector failure acceptance](#focused-installed-collector-failure-acceptance-2026-10-13).
 Installed collector 0.4.0 passed a controlled Windows 11 failure fixture in
@@ -74,7 +74,7 @@ retirement, combination or replacement, not a commitment to implement all of the
 | Packages, portable tools and downloadable artifacts | 58-73 | Remaining forensic tools, system-tool entries, general software/artifacts, AD tools, browsers and other products; 19 newly accepted distributions (7 installed, 12 portable), 10 earlier outcomes and Opera excluded; R01/R02 preparation remains partial; current BloodHound CE and both collectors selected, container deployment separate; Volatility 2 and ImproHound retirement reviews remain unresolved |
 | Windows components and optional features | 20-25 | WSL, Hyper-V, Sandbox, OpenSSH, printing features and built-in app management; RSAT remains a component/applicability decision; BloodHound CE selects no automatic Docker/WSL provisioning or Server Docker Desktop support; no new component acceptance |
 | Accounts, configuration and deployed files/assets | 25-35 | Users and administrator membership, Wi-Fi, regional settings, language packs, browser preferences, fonts and wallpapers; user-bin PATH, bin provisioning and WindowsApps repair remain deferred; VMware directory/profile-file and Python environment/symbol/plugin ownership remain under review |
-| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; release discovery regression and published a156475 Full Server CI passed, intervening Server/Windows 11 acquisition deferred on quota zero; installed collector 0.4.0 passed focused Windows 11 failure acceptance in 36.113 seconds with 800 preserved files; scheduled Full Windows 11 passed 1,280 tests but acquisition deferred on quota zero; real failure collection succeeded without omissions, consecutive Full acceptance and controller certification remain open; no automatic Python installation-time pip upgrade selected; runtime/rule updates and explicit maintenance remain separate review items |
+| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; release discovery regression and published a156475 Full Server CI passed, intervening Server/Windows 11 acquisition deferred on quota zero; installed collector 0.4.0 passed one focused and one real Windows 11 failure collection, but the latest Full Windows 11 run timed out at the 60-second collector bound after 1,280 guest tests passed and acquisition again deferred; collector 0.4.1/controller 0.4.3 require live acceptance, consecutive Full acceptance and certification remain open; no automatic Python installation-time pip upgrade selected; runtime/rule updates and explicit maintenance remain separate review items |
 | **Total, rounded** | **150-205** | **About 180 for planning** |
 
 ### Recent implementation and acceptance context
@@ -515,6 +515,49 @@ as absent in a loadable library. The published catalog schema and existing
 library identities remain unchanged; migration estimates remain unchanged.
 
 ## Migration estimate review history
+
+### Recurring bridge Full Windows 11 attempt, 2026-10-13
+
+One anonymous publisher preflight at 05:46:13 UTC returned HTTP 200 and 45
+requests remaining, resetting at 06:43:22 UTC. Both pinned VM controllers were
+idle, their five installed hashes matched source, and the published CI checkout
+was clean at `a15647590a1324681bbe4a69cbb55e498a623522`. Newer settings
+edits in the shared working tree were excluded. Full CI-source request
+`ef33b0ad1cf04029959590b02178d7d9` ran 05:46:41-06:23:44 UTC. All 217
+source hashes matched, guest validation and 1,280 Pester tests passed with zero
+XML failures/errors/skips/not-run. Integration failed before 7-Zip acquisition
+on quota zero; reset was 06:43:22 UTC, earliest retry 06:43:23 UTC. There was no
+expired metadata, automatic retry or successful release observation. Full
+acceptance failed and the consecutive-pass sequence resets.
+
+Collector 0.4.0 retained summary, XML, transcript and 791 state JSON files,
+including 395 manifests. Its empty omissions list was written before the
+60-second process bound, but the collector was terminated with a timeout; this
+run cannot accept bounded failure collection. Guest state export and checkpoint
+cleanup had no error. UAC stayed 1/5/1; both VMs ended Off, tasks Ready, queues
+empty, locks available, no recovery blocks and pinned checkpoints unchanged.
+Collector 0.4.1 adds timing markers and controller 0.4.3 extends the still-bounded
+process limit to 90 seconds. Windows PowerShell 5.1 passed 71 focused controller
+tests; the three affected PowerShell 7 launcher tests passed, while one separate
+queue-order test in its full file failed. Live acceptance of the revised bound
+remains required.
+
+The first protected refresh let AutomatedLab attempt an optional version lookup
+inside the recorded backoff; it received a rate-limit error. A process-only
+`AutomatedLab.DisableVersionCheck` setting is now in the revised controller
+source, with no token forwarding or persisted host setting. This accidental
+request is a backoff defect to track. The recurring heartbeat is scheduled for
+08:55 Europe/Copenhagen after the reported retry time. Its next run must check
+quota and controller readiness before one serialized request. No new settings
+VM acceptance is implied by this separate infrastructure request.
+
+Resolved, retired and excluded legacy outcomes: **zero**. Reviewed ranges are
+settings **38-58**, packages/artifacts **58-73**, components **20-25**,
+accounts/assets **25-35**, maintenance **8-12**; sum **149-203**, rounded
+**150-205**, about **180**, unchanged because this infrastructure run closes no
+legacy feature/product outcome. Full Windows 11 package acquisition,
+consecutive Windows 11/Server 2025 acceptance, controller certification,
+settings acceptance and default-branch cutover remain open.
 
 ### Scheduled Windows 11 Full attempt and real failure collection, 2026-10-13
 
