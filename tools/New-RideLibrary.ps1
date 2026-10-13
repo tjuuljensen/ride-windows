@@ -22,7 +22,7 @@
   sibling history directory and require a higher library version. No installs.
 .PARAMETER Definition
   Optional literal .psd1 authoring definition for repeatable, noninteractive use.
-  Requires Path. See docs/CUSTOM-LIBRARIES.md for its fields and examples.
+  Requires Path. See docs/custom-libraries.md for its fields and examples.
 .PARAMETER ResumeDraft
   With Definition, prompt for missing installed-product names in a saved draft,
   then publish when every package has confirmed detection metadata.
@@ -67,7 +67,7 @@
     0.2.0: Inspect optional early samples and author ZIP-contained installers.
     0.1.0: Add guided choices and validated custom-library generation.
 .LINK
-  ../docs/CUSTOM-LIBRARIES.md
+  ../docs/custom-libraries.md
 #>
 
 

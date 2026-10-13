@@ -6,11 +6,12 @@
   whole-catalog AST complexity limit. Never executes a script or imports handlers.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7.
-  Owner: RIDE-Windows maintainers. Version: 0.1.0.
-  Changelog: 0.1.0: Bounded, data-only catalog reader for larger migrations.
+  Owner: RIDE-Windows maintainers. Version: 0.2.0.
+  Changelog: 0.2.0: Expand bounded declarative password-age day states without handlers.
+    0.1.0: Bounded, data-only catalog reader for larger migrations.
 #>
 
-$script:ModuleVersion = '0.1.0'
+$script:ModuleVersion = '0.2.0'
 
 function Import-RideCatalogData {
   <#
@@ -57,7 +58,20 @@ function Import-RideCatalogData {
       if ($entryStatement -isnot [Management.Automation.Language.PipelineAst] -or $entryStatement.PipelineElements.Count -ne 1) { throw "Catalog '$key' contains a non-data statement." }
       $entry = $entryStatement.PipelineElements[0].Expression
       if ($entry -isnot [Management.Automation.Language.HashtableAst]) { throw "Catalog '$key' entries must be literal hashtables." }
-      $entry.SafeGetValue()
+      $data = $entry.SafeGetValue()
+      if ($key -eq 'Operations' -and $data.ContainsKey('StateRange')) {
+        $range = $data.StateRange
+        if ($data.Kind -ne 'LocalPasswordMaximumAge' -or $range -isnot [hashtable] -or
+            $range.Count -ne 3 -or $range.Prefix -cne 'Days' -or
+            $range.Minimum -isnot [int] -or $range.Maximum -isnot [int] -or
+            $range.Minimum -ne 1 -or $range.Maximum -ne 999 -or
+            $data.States -isnot [hashtable] -or $data.States.Count -ne 1 -or
+            $data.States.NoExpiry -isnot [int] -or $data.States.NoExpiry -ne 0) {
+          throw 'Invalid bounded password-age StateRange; expected NoExpiry and Days1..Days999.'
+        }
+        foreach ($day in $range.Minimum..$range.Maximum) { $data.States.Add(($range.Prefix + $day), $day) }
+      }
+      $data
     }
     $result[$key] = @($entries)
   }

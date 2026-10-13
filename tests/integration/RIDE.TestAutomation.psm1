@@ -22,11 +22,13 @@
   Compatibility: 64-bit Windows PowerShell 5.1 controller; pure helpers also support PowerShell 7.
   Prerequisites: Prepared AutomatedLab host for operational helpers; none for read-only helpers.
   File/environment inputs: Administrative configuration and correlated request objects.
-  Recovery: Follow AUTOMATEDLAB-TASKS.md for blocked requests; the fixed worker restores only its
+  Recovery: Follow automatedlab-tasks.md for blocked requests; the fixed worker restores only its
   pinned disposable VM/checkpoint.
   Author: RIDE-Windows maintainers.
-  Version: 0.4.3
+  Version: 0.4.5
   Changelog:
+    - 0.4.5: Remove host UAC inspection and comparison from controller execution.
+    - 0.4.4: Preserve the host's existing UAC configuration without requiring enabled prompting.
     - 0.4.3: Disable AutomatedLab's optional release check in each controller process.
     - 0.4.2: Allow bounded failure-evidence session teardown up to 90 seconds.
     - 0.4.1: Stop callers when controller JSON writes or final renames fail.
@@ -38,12 +40,12 @@
   - 0.1.0: Initial opt-in task orchestration helpers.
 
 .LINK
-  tests/integration/AUTOMATEDLAB-TASKS.md
+  tests/integration/automatedlab-tasks.md
 
 #>
 
 
-$script:ModuleVersion = '0.4.3'
+$script:ModuleVersion = '0.4.5'
 
 Set-StrictMode -Version 2
 
@@ -309,43 +311,16 @@ function Test-RideAutomationAdministrator {
   [Security.Principal.WindowsPrincipal]::new([Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 }
 
-function Get-RideAutomationUac {
-  <#
-  .SYNOPSIS
-    Read the host UAC settings used by controller guards.
-
-  .DESCRIPTION
-    Reads EnableLUA, ConsentPromptBehaviorAdmin, and PromptOnSecureDesktop. Does not write policy.
-
-  .EXAMPLE
-    Get-Help Get-RideAutomationUac -Full
-    Inspect this command's contract without invoking its implementation.
-
-  .INPUTS
-    None. Parameters are supplied explicitly.
-
-  .OUTPUTS
-    System.Management.Automation.PSCustomObject. Selected UAC values.
-
-  .NOTES
-    Ownership: RIDE-Windows maintainers. Version and compatibility follow the module overview.
-
-  #>
-
-  $value = Get-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System' -ErrorAction Stop
-  [pscustomobject]@{ EnableLUA = $value.EnableLUA; ConsentPromptBehaviorAdmin = $value.ConsentPromptBehaviorAdmin; PromptOnSecureDesktop = $value.PromptOnSecureDesktop }
-}
-
 function Assert-RideAutomationHost {
   <#
   .SYNOPSIS
     Validate the prepared elevated controller host without policy repair.
 
   .DESCRIPTION
-    Requires 64-bit Windows PowerShell 5.1, elevation, enabled UAC prompting, running VMMS/WinRM,
+    Requires 64-bit Windows PowerShell 5.1, elevation, running VMMS/WinRM,
     Hyper-V access, pinned AutomatedLab versions, optional dependency versions, and existing host
     remoting configuration. Imports pinned modules; does not repair policies or start stopped
-    services.
+    services. Does not inspect or enforce host UAC configuration.
 
   .PARAMETER Configuration
     Optional installed configuration for dependency-version drift checks; omit during initial
@@ -359,7 +334,7 @@ function Assert-RideAutomationHost {
     None. Parameters are supplied explicitly.
 
   .OUTPUTS
-    System.Management.Automation.PSCustomObject. UAC values after successful validation.
+    None. Throws when a required host prerequisite is unavailable.
 
   .NOTES
     Ownership: RIDE-Windows maintainers. Version and compatibility follow the module overview.
@@ -368,9 +343,7 @@ function Assert-RideAutomationHost {
 
   param([object] $Configuration)
   if ($PSVersionTable.PSEdition -ne 'Desktop' -or $PSVersionTable.PSVersion.Major -ne 5 -or $PSVersionTable.PSVersion.Minor -ne 1 -or -not [Environment]::Is64BitProcess) { throw 'Use 64-bit Windows PowerShell 5.1 for the controller.' }
-  if (-not (Test-RideAutomationAdministrator)) { throw 'The controller needs an elevated process. Register the highest-privilege task from elevated PowerShell; keep UAC enabled.' }
-  $uac = Get-RideAutomationUac
-  if ($uac.EnableLUA -ne 1 -or $uac.ConsentPromptBehaviorAdmin -eq 0 -or $uac.PromptOnSecureDesktop -ne 1) { throw 'Host UAC must be enabled with consent/credential prompting on the secure desktop. See AUTOMATEDLAB-TASKS.md; no policies were changed.' }
+  if (-not (Test-RideAutomationAdministrator)) { throw 'The controller needs an elevated process. Register the highest-privilege task from elevated PowerShell.' }
   foreach ($name in @('vmms', 'WinRM')) {
     if ((Get-Service -Name $name -ErrorAction Stop).Status -ne 'Running') { throw "$name must already be running. Prepare the host in an elevated session; no services were started." }
   }
@@ -392,7 +365,6 @@ function Assert-RideAutomationHost {
   }
   # This upstream check starts WinRM if stopped; the service guard above prevents that.
   if (-not (Test-LabHostRemoting)) { throw 'Existing AutomatedLab host remoting configuration is incomplete. Review Enable-LabHostRemoting separately; test execution never repairs host policies.' }
-  $uac
 }
 
 function Import-RideAutomationLab {
@@ -740,7 +712,7 @@ function Invoke-RideAutomationRequest {
     Validates prepared host/target, stages an approved checkout, resets/starts the pinned VM, runs
     the installed controller with bounded remaining timeout, and verifies correlated guest evidence.
     Collects failure evidence and restores the checkpoint in finally; cleanup failures create a
-    block marker. Writes result.json and verifies UAC stayed unchanged.
+    block marker. Writes the correlated result.json without inspecting host UAC.
 
   .PARAMETER Configuration
     Validated disposable-VM controller configuration, including pinned VM and checkpoint identity.
@@ -772,11 +744,11 @@ function Invoke-RideAutomationRequest {
   $runDirectory = Join-Path $Root "results\$($Request.RunId)"
   Assert-RideAutomationDirectory $runDirectory
   New-Item -ItemType Directory -Path $runDirectory -Force | Out-Null
-  $summary = [ordered]@{ SchemaVersion = 1; RunId = $Request.RunId; Source = $Request.Source; UnitOnly = $Request.UnitOnly; IntegrationSuite = $selectedSuite; Status = 'Failed'; StartedAtUtc = [datetime]::UtcNow.ToString('o'); FinishedAtUtc = $null; Error = $null; CleanupError = $null; CollectionError = $null; UacBefore = $null; UacAfter = $null }
+  $summary = [ordered]@{ SchemaVersion = 1; RunId = $Request.RunId; Source = $Request.Source; UnitOnly = $Request.UnitOnly; IntegrationSuite = $selectedSuite; Status = 'Failed'; StartedAtUtc = [datetime]::UtcNow.ToString('o'); FinishedAtUtc = $null; Error = $null; CleanupError = $null; CollectionError = $null }
   $touchedVm = $false
   try {
     if (Test-Path -LiteralPath (Join-Path $Root 'runtime\blocked.json')) { throw 'VM cleanup is blocked. Follow the recovery runbook before submitting another run.' }
-    $summary.UacBefore = Assert-RideAutomationHost $Configuration
+    Assert-RideAutomationHost $Configuration
     $null = Import-RideAutomationLab $Configuration
     if (([datetime]::UtcNow - [datetime]::Parse($Request.SubmittedAtUtc).ToUniversalTime()).TotalMinutes -ge $Request.TimeoutMinutes) { throw 'Request expired while waiting in the queue.' }
     $source = if ($Request.Source -eq 'CI') { $Configuration.CIRepositoryPath } else { $Configuration.LocalRepositoryPath }
@@ -828,11 +800,6 @@ function Invoke-RideAutomationRequest {
         Write-RideAutomationJson -Path (Join-Path $Root 'runtime\blocked.json') -Value @{ RunId = $Request.RunId; Error = $summary.CleanupError }
       }
     }
-    try {
-      $summary.UacAfter = Get-RideAutomationUac
-      if ($summary.UacBefore -and (ConvertTo-Json $summary.UacBefore -Compress) -ne (ConvertTo-Json $summary.UacAfter -Compress)) { $summary.Status = 'Failed'; $summary.Error = 'Host UAC settings changed during the run.' }
-    }
-    catch { $summary.Status = 'Failed'; $summary.Error = "Cannot verify host UAC after execution: $($_.Exception.Message)" }
     $summary.FinishedAtUtc = [datetime]::UtcNow.ToString('o')
     Write-RideAutomationJson -Path (Join-Path $runDirectory 'result.json') -Value $summary
   }

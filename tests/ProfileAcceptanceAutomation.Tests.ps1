@@ -21,8 +21,8 @@
 Describe 'Profile acceptance entry-point boundaries' {
   BeforeAll { $script:AcceptanceRoot = Join-Path $PSScriptRoot 'integration' }
   It 'returns the version before any platform or credential checks for <Name>' -ForEach @(
-    @{Name='Invoke-RideProfileAcceptance.ps1'}, @{Name='Invoke-RideProfileVisualAcceptance.ps1'}, @{Name='Invoke-RideProfileVmAcceptance.ps1'}, @{Name='Invoke-RideProfileIdentityAcceptance.ps1'}
-  ) { & (Join-Path $script:AcceptanceRoot $Name) -Version | Should -Be '0.1.0' }
+    @{Name='Invoke-RideProfileAcceptance.ps1'; ExpectedVersion='0.1.0'}, @{Name='Invoke-RideProfileVisualAcceptance.ps1'; ExpectedVersion='0.1.0'}, @{Name='Invoke-RideProfileVmAcceptance.ps1'; ExpectedVersion='0.1.1'}, @{Name='Invoke-RideProfileIdentityAcceptance.ps1'; ExpectedVersion='0.1.0'}
+  ) { & (Join-Path $script:AcceptanceRoot $Name) -Version | Should -Be $ExpectedVersion }
   It 'refuses guest profile preparation without disposable-guest attestation' {
     $previous = $env:RIDE_INTEGRATION_VM
     try {

@@ -35,10 +35,10 @@
   Internal entry point: use the registered task, not direct invocation, for operational execution.
 
 .LINK
-  tests/integration/AUTOMATEDLAB-TASKS.md
+  tests/integration/automatedlab-tasks.md
 
 .LINK
-  tests/integration/AUTOMATEDLAB.md
+  tests/integration/automatedlab.md
 
 #>
 

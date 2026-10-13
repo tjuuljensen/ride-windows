@@ -51,51 +51,23 @@ Use `-WhatIf:$false` to explicitly disable inherited preview for one invocation;
 Use `.\ride.ps1 search desktop-folder`, `.\ride.ps1 search 'File Explorer'`, or
 `.\ride.ps1 search ThisPCPolicy -Field ValueName -View explorer` to find operations.
 Search includes declared registry paths, including nested value sets. Quote paths;
-backslashes need no doubling. See the [catalog search guide](docs/CATALOG-SEARCH.md)
+backslashes need no doubling. See the [catalog search guide](docs/catalog-search.md)
 for fields, completion and pipeline examples.
 
 Packages may declare alternate distributions. Use `install`, `remove`,
 `download` or `show` with `-Variant <name>`; profiles use a package-entry
-`Variant`. See [application packages](docs/APPLICATION-PACKAGES.md) for local
-ToolsDirectory configuration, portable ownership and saved-selection recovery,
-and the [application review ledger](docs/migrations/application-migration-review.md)
-for migration and target acceptance.
+`Variant`. See [application packages](docs/application-packages.md) for local
+ToolsDirectory configuration, portable ownership and saved-selection recovery. Check the catalog for each distribution's supported targets.
 
-See [Artcraft packages](docs/ARTCRAFT-PACKAGES.md) for the twelve standalone
+See [Artcraft packages](docs/artcraft-packages.md) for the twelve standalone
 creative apps, optional launcher and verified full MSI downloads.
 
-Image-dependent registry defaults appear as `<platform-defined>` in `status`;
-their `MatchesDefault` field is unknown. See the
-[migration/default contract](docs/MIGRATION-PLAN.md#optional-windows-settings-session-2026-10-09).
+See the [Windows settings guide](docs/windows-settings.md) for defaults,
+scope, recovery and individual policy/service guides, including pending candidates.
 
-Setting views distinguish scope, administrator requirements, preference/policy
-behavior and GUI effects. See [setting presentation](docs/SETTING-PRESENTATION.md)
-for requirements, evidence gaps and user identity under elevation.
+Use `download package.7zip -Destination <path>` to choose the artifact directory. Use `download artifact.sysmon-swift-config` to retain the latest SwiftOnSecurity XML at an immutable Git commit revision; RIDE does not apply this file automatically. Download records in `catalog/artifact-observations.json` are metadata only; a locally observed SHA-256 is not publisher authentication. See the [package verification matrix](docs/package-verification-matrix.md) for current source evidence. Append `-WhatIf` to a state-changing command to preview a change. An operation's supported actions, privilege needs, scope, and rollback limits are shown by `list`, `show`, and the generated [operation catalog](docs/OPERATIONS.md).
 
-Optional [PowerShell profile settings](docs/POWERSHELL-PROFILES.md) provide separate
-5.1/7 normal-session palettes and consistent administrator blue. Tab completes
-Recommended, AdminBlue, Default and Baseline; unset/default remove only the managed
-block. Accepted on Windows 11 and Server 2025 Desktop Experience; see the
-[VM acceptance record](docs/migrations/powershell-profile-acceptance.md).
-Inspect it with `list profile-settings` or use the optional
-`profiles/powershell-colors.psd1` selection profile.
-
-Coordinated settings such as `windows.mouse-pointer-precision` and
-`windows.control-panel-view` expose one named state for several related values.
-Tab completes those states. `unset` removes all declared overrides;
-`restore -RunId <id>` recovers each captured value and type. Partial failures
-retain the complete pre-change record. These optional settings are described in
-the [sixty-setting batch](docs/MIGRATION-PLAN.md#sixty-setting-session-2026-10-10).
-
-Task, adapter, SMB, Defender, power-scheme, NetBIOS, firewall and sound settings
-use explicit states and saved-run restore. Their native defaults can depend on
-the device; `unset` is unavailable when removing an override has no meaning.
-See the [remaining-settings decisions](docs/migrations/remaining-settings-decisions.md)
-for dependencies, partial legacy outcomes and outstanding acceptance.
-
-Use `download package.7zip -Destination <path>` to choose the artifact directory. Use `download artifact.sysmon-swift-config` to retain the latest SwiftOnSecurity XML at an immutable Git commit revision; RIDE does not apply this file automatically. Download records in `catalog/artifact-observations.json` are metadata only; a locally observed SHA-256 is not publisher authentication. See the [package verification matrix](docs/PACKAGE-VERIFICATION-MATRIX.md) for current source evidence. Append `-WhatIf` to a state-changing command to preview a change. An operation's supported actions, privilege needs, scope, and rollback limits are shown by `list`, `show`, and the generated [operation catalog](docs/OPERATIONS.md).
-
-GitHub latest-release lookups use [bounded freshness and shared quota backoff](docs/GITHUB-RELEASE-DISCOVERY.md).
+GitHub latest-release lookups use [bounded freshness and shared quota backoff](docs/github-release-discovery.md).
 
 The optional God Mode desktop shortcut uses the current user's desktop,
 including a redirected desktop. Preview it with
@@ -103,35 +75,17 @@ including a redirected desktop. Preview it with
 to create it. Use `.\ride.ps1 unset windows.god-mode-shortcut` to remove it or
 `restore -RunId <id>` to recover captured prior state. It creates the special
 folder described in the [God Mode guide](https://www.tomshardware.com/how-to/enable-god-mode-windows-11).
-Removal refuses nonempty folders. See the [folder workflow](docs/GOD-MODE.md)
+Removal refuses nonempty folders. See the [folder workflow](docs/god-mode.md)
 for profile configuration and recovery details.
 
 Packages and standalone artifacts include publisher license references in the
 catalog and download records. Individual/company reviews stay in local,
 exportable JSON. Use `tools/Manage-RideLicenseReviews.ps1 -Help` for Get, Set,
 Export and Import; Tab completes commands, review statuses and catalog IDs.
-See [Package licensing](docs/PACKAGE-LICENSING.md) for storage and examples.
+See [Important to review licensing](docs/package-licensing.md#important-to-review-licensing)
+for Npcap, KAPE and other products whose free-use terms need assessment in
+corporate or professional environments. The same guide explains local review records.
 Offline bundle creation and its redistribution review step are optional future work.
-
-## Future package options
-
-The approved v3 design supports installed and portable editions, with a
-recommended default per product and explicit overrides for tested variants.
-These selection options and general portable support are not implemented yet.
-
-| Choice | Examples | What it determines |
-| --- | --- | --- |
-| Distribution | Installed, portable | How the application lives on the machine |
-| Artifact format | MSI, EXE, ZIP, standalone file | How RIDE installs or extracts it |
-| Provider | Direct publisher download, WinGet | Who acquires and manages the package |
-
-WinGet is a provider that can install different distribution and artifact types.
-Each product keeps one stable catalog ID; its variants declare supported scope
-and lifecycle behavior. Portable packages will use dedicated directories and
-managed-file records to preserve user data during upgrades and removal. Direct
-portable support comes first; WinGet follows as an optional provider. See the
-[package decision in the migration plan](docs/MIGRATION-PLAN.md#package-variants-and-portable-lifecycle)
-for selection, recovery, and validation requirements.
 
 ## Profiles
 
@@ -159,48 +113,19 @@ The catalog currently targets Windows 11 and Windows Server 2025. Support is dec
 
 ## Mouse jigglers, Caffeine and lock blockers
 
-Run `components/scripts/caffeine-light.cmd` for a standalone, zero-parameter
-fallback when a mouse jiggler or another suitable tool is unavailable. It sends
-Scroll Lock pairs every 60 seconds until Ctrl+C, without console customization
-or periodic reports. Read its limits and version with
-`Get-Help .\components\scripts\caffeine-light.ps1 -Full`.
-
-The full `caffeine.ps1` offers visible console styling, configurable input and
-report intervals, and an optional duration limit. Use
-`-NoConsoleCustomization -ReportIntervalSeconds 0` to skip its optional console
-changes and periodic output. Both scripts need a PowerShell host; small script
-size does not establish small total memory use. Keystrokes affect the foreground
-application, and an interrupted pair can leave Scroll Lock changed.
-
-Zhorn Caffeine (`package.caffeine`) offers native x86/x64 executables with F15
-input by default. Its power-request modes must be evaluated separately from
-idle-lock prevention. Arkane Mouse Jiggler remains an evaluation candidate:
-its mainline build needs the .NET Desktop Runtime, its larger standalone build
-includes a runtime, and its source saves user settings. Choose an available,
-guest-verified input mode that meets the investigation's write/configuration
-constraints; avoid a new runtime install solely for a hypothetical RAM saving.
-
-Official payload hashes and a reproducible VM harness are recorded in the
-[impact evaluation and procedure](docs/SCREEN-LOCK-IMPACT.md). Interactive
-comparison remains pending on Windows 11 and Server 2025 Desktop Experience.
-Two elevated Windows 11 Light pilots stayed unlocked for ten minutes and locking
-resumed after Ctrl+C. Full Caffeine also reported unlocked for ten minutes;
-post-exit input prevented checking resumed locking. Idle controls had a Terminal
-mismatch or unexplained input resets. The Zhorn x64 default pilot also stayed
-unlocked and locked again after normal exit. There is no comparative RAM/write
-ranking or artifact-free option. Preventing
-sleep alone does not prove that an already unlocked session stays unlocked.
-See also the [accepted decisions and remaining checks](docs/SCREEN-LOCK-HELPERS.md).
+The standalone full/light PowerShell helpers and native alternatives have
+different prerequisites and input behavior. See the [screen-lock guide](docs/screen-lock-helpers.md)
+for use and limitations, and the [impact evaluation](docs/screen-lock-impact.md)
+for the measurement procedure and pending acceptance. No comparative memory/write
+ranking is established; preventing sleep does not prove idle-lock prevention.
 
 ## Development
 
-**v3 release requirement:** Provide a documented custom-library interface so
-maintainers can keep their own catalogs, profiles and handler modules in a
-separate repository without modifying the core engine. The initial `-Library`
-interface now loads local catalogs and profiles using built-in registry and
-package handlers, with completion and saved-run recovery checks. Custom-handler
+The `-Library` interface loads separate local catalogs and profiles using
+built-in registry and package handlers, with completion and saved-run recovery
+checks. Keep private catalogs and profiles outside the core repository. Custom-handler
 registration and VM acceptance remain pending. See the
-[authoring guide and starter library](docs/CUSTOM-LIBRARIES.md).
+[authoring guide and starter library](docs/custom-libraries.md).
 Create a library with `tools/New-RideLibrary.ps1 -Path .\my-library`; the guided
 helper offers supported package/registry choices and generates validated files.
 For packages, optional early URL/local-file inspection suggests installer details;
@@ -248,18 +173,23 @@ The `WindowsIntegration` registry restoration test writes to HKCU and runs only
 in a disposable Windows VM. The VM runner includes it; workstation checks exclude it.
 
 For repeatable VM runs with host UAC enabled, see the opt-in
-[AutomatedLab task controller](tests/integration/AUTOMATEDLAB-TASKS.md), including
+[AutomatedLab task controller](tests/integration/automatedlab-tasks.md), including
 on-demand execution, local edit watching, CI and the pilot acceptance checklist.
-For additional OS images, use the [provisioning configuration and field guide](tests/integration/AUTOMATEDLAB.md).
+For additional OS images, use the [provisioning configuration and field guide](tests/integration/automatedlab.md).
 For a second AutomatedLab VM on the same host, use the guide's `NetworkMode
 ExistingNat` workflow with explicit guest addressing. `NetworkMode` supports
 tab completion; the shared-network path preserves the existing switch and NAT.
-The [verification matrix](docs/PACKAGE-VERIFICATION-MATRIX.md) explains artifact
+The [verification matrix](docs/package-verification-matrix.md) explains artifact
 retention and importing reviewed VM evidence into the shared metadata library.
 
-The previous function-based implementation is retained as a migration reference under `legacy/v2/`; the new runner does not load it. The migration is incomplete, so the current catalog deliberately exposes only operations implemented by the new engine.
+Historical source is retained under `legacy/v2/`; the engine does not load it.
+For contributor work, see the [task list](TODO.md) and [migration plan](docs/MIGRATION-PLAN.md).
+The [documentation index](docs/README.md) separates current guides, active
+acceptance work and archived evidence. Follow the
+[documentation naming and retention model](docs/models/documentation-model.md).
 
 ## License
 
 RIDE is MIT. See [LICENSE](LICENSE). Downloaded third-party products retain
-their own licenses; see the [publisher references](docs/OPERATIONS.md#publisher-licenses).
+their own licenses; see the [publisher references](docs/OPERATIONS.md#publisher-licenses)
+and [corporate licensing review list](docs/package-licensing.md#important-to-review-licensing).

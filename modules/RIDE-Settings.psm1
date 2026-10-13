@@ -26,8 +26,9 @@
   Recovery: State-changing handlers are engine-internal: use ride.ps1 preview and captured-run
   restoration. Direct calls bypass ShouldProcess and snapshot capture.
   Author: RIDE-Windows maintainers.
-  Version: 0.2.0
+  Version: 0.3.0
   Changelog:
+    0.3.0: Distinguish missing keys from access failures, capture key existence and fail on write errors.
     0.2.0: Handle unnamed default values through typed registry writes and exact deletion.
     0.1.0: Establish documented module ownership, version, and exported-command help during this
     walkthrough.
@@ -43,7 +44,17 @@
 #>
 
 
-$script:ModuleVersion = '0.2.0'
+$script:ModuleVersion = '0.3.0'
+
+function Get-RideRegistryKey {
+  param([string] $Path)
+  try { Get-Item -LiteralPath $Path -ErrorAction Stop }
+  catch {
+    if ($_.Exception -is [Management.Automation.ItemNotFoundException] -or
+        $_.FullyQualifiedErrorId -like 'PathNotFound,*') { return $null }
+    throw
+  }
+}
 
 function Open-RideWritableRegistryKey {
   param([string] $Path)
@@ -82,7 +93,8 @@ function Get-RideSettingState {
 
   .DESCRIPTION
     Reads the declared key/value and returns existence, raw data, and registry value kind. Missing
-    keys/values return Exists=false. No writes occur.
+    keys/values return Exists=false. Access/other read failures propagate; absence
+    is not inferred from denied inspection. No writes occur.
 
   .PARAMETER Operation
     Catalog operation metadata for this focused handler; use the engine to select and validate it.
@@ -95,7 +107,7 @@ function Get-RideSettingState {
     None. Parameters are supplied explicitly.
 
   .OUTPUTS
-    System.Management.Automation.PSCustomObject. Exists, Value, and ValueType.
+    System.Management.Automation.PSCustomObject. Exists, KeyExisted, Value and ValueType.
 
   .NOTES
     Ownership: RIDE-Windows maintainers. Version and compatibility follow the module overview.
@@ -104,7 +116,7 @@ function Get-RideSettingState {
 
   param([Parameter(Mandatory = $true)][hashtable] $Operation)
 
-  $key = Get-Item -LiteralPath $Operation.RegistryPath -ErrorAction SilentlyContinue
+  $key = Get-RideRegistryKey -Path $Operation.RegistryPath
   $exists = $false
   $value = $null
   $valueType = $null
@@ -118,6 +130,7 @@ function Get-RideSettingState {
 
   [pscustomobject]@{
     Exists = $exists
+    KeyExisted = [bool]($null -ne $key)
     Value = $value
     ValueType = $valueType
   }
@@ -161,22 +174,24 @@ function Set-RideSettingState {
 
   if ($null -eq $Value) {
     if ($Operation.ValueName -ceq '') { Set-RideDefaultRegistryValue -Operation $Operation -Value $null; return }
-    Remove-ItemProperty -LiteralPath $Operation.RegistryPath -Name $Operation.ValueName -Force -ErrorAction SilentlyContinue
+    $current = Get-RideSettingState -Operation $Operation
+    if (-not $current.Exists) { return }
+    Remove-ItemProperty -LiteralPath $Operation.RegistryPath -Name $Operation.ValueName -Force -ErrorAction Stop
     return
   }
 
-  if (-not (Test-Path -LiteralPath $Operation.RegistryPath)) {
-    New-Item -Path $Operation.RegistryPath -Force | Out-Null
+  if (-not (Test-Path -LiteralPath $Operation.RegistryPath -ErrorAction Stop)) {
+    New-Item -Path $Operation.RegistryPath -Force -ErrorAction Stop | Out-Null
   }
 
   if ($Operation.ValueName -ceq '') { Set-RideDefaultRegistryValue -Operation $Operation -Value $Value; return }
 
   $current = Get-RideSettingState -Operation $Operation
   if ($current.Exists -and $current.ValueType -ne $Operation.ValueType) {
-    Remove-ItemProperty -LiteralPath $Operation.RegistryPath -Name $Operation.ValueName -Force
+    Remove-ItemProperty -LiteralPath $Operation.RegistryPath -Name $Operation.ValueName -Force -ErrorAction Stop
   }
 
-  New-ItemProperty -LiteralPath $Operation.RegistryPath -Name $Operation.ValueName -Value $Value -PropertyType $Operation.ValueType -Force | Out-Null
+  New-ItemProperty -LiteralPath $Operation.RegistryPath -Name $Operation.ValueName -Value $Value -PropertyType $Operation.ValueType -Force -ErrorAction Stop | Out-Null
 }
 
 function Restore-RideSettingState {
@@ -224,9 +239,9 @@ function Restore-RideSettingState {
 
   Set-RideSettingState -Operation $Operation -Value $null
   if (-not $Snapshot.KeyExisted) {
-    $key = Get-Item -LiteralPath $Operation.RegistryPath -ErrorAction SilentlyContinue
+    $key = Get-RideRegistryKey -Path $Operation.RegistryPath
     if ($key -and $key.GetValueNames().Count -eq 0 -and $key.GetSubKeyNames().Count -eq 0) {
-      Remove-Item -LiteralPath $Operation.RegistryPath -Force -ErrorAction SilentlyContinue
+      Remove-Item -LiteralPath $Operation.RegistryPath -Force -ErrorAction Stop
     }
   }
 }

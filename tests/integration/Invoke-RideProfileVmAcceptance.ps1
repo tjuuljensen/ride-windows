@@ -28,14 +28,15 @@
   Prerequisites: Existing idle disposable RIDE controller; Hyper-V/PowerShell Direct access.
   Guest prerequisites: Existing signed-in unlocked desktop and Windows Terminal.
   Recovery: Finally restores only the pinned VM/checkpoint; failures retain source/evidence.
-  Author: RIDE-Windows maintainers. Version: 0.1.0.
-  Changelog: 0.1.0: Add checkpoint-backed focused profile acceptance.
+  Author: RIDE-Windows maintainers. Version: 0.1.1.
+  Changelog: 0.1.1: Remove host UAC observations and comparison; retain guest-specific acceptance.
+    0.1.0: Add checkpoint-backed focused profile acceptance.
 #>
 
 
 [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
 param([string]$ConfigurationPath, [pscredential]$Credential, [string]$OutputDirectory, [string]$PowerShellArtifactPath, [switch]$Version)
-$script:ScriptVersion = '0.1.0'
+$script:ScriptVersion = '0.1.1'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 if (-not $ConfigurationPath -or -not $Credential -or -not $OutputDirectory) { throw 'ConfigurationPath, Credential and OutputDirectory are required.' }
@@ -56,7 +57,7 @@ $runId = [guid]::NewGuid().ToString('N')
 $output = Join-Path ([IO.Path]::GetFullPath($OutputDirectory)) $runId
 $guestBase = 'C:\RIDE\ProfileAcceptance\' + $runId
 $guestEvidence = Join-Path $guestBase 'evidence'
-$result = [ordered]@{ RunId = $runId; VM = $config.VMName; VMId = $config.VMId; CheckpointId = $config.CheckpointId; Status = 'Failed'; Error = $null; Cleanup = 'NotStarted'; HostUacBefore = $null; HostUacAfter = $null }
+$result = [ordered]@{ RunId = $runId; VM = $config.VMName; VMId = $config.VMId; CheckpointId = $config.CheckpointId; Status = 'Failed'; Error = $null; Cleanup = 'NotStarted' }
 function Connect-ProfileAcceptanceGuest {
   param([datetime]$AfterBoot = [datetime]::MinValue)
   $deadline = [datetime]::UtcNow.AddMinutes(5)
@@ -81,7 +82,6 @@ try {
   $checkpoint = $matches[0]
   if (-not $PSCmdlet.ShouldProcess($config.VMName, 'Run profile acceptance and recover the pinned clean checkpoint')) { return }
   $null = New-Item -Path $output -ItemType Directory
-  $result.HostUacBefore = (Get-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System' -Name EnableLUA).EnableLUA
   Copy-RideAutomationSnapshot -Source $config.LocalRepositoryPath -Destination (Join-Path $output 'source') | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $output 'source-manifest.json') -Encoding UTF8
   Restore-VMSnapshot -VMSnapshot $checkpoint -Confirm:$false
   Start-VM -VM $vm; $started = $true
@@ -148,8 +148,6 @@ finally {
       Restore-VMSnapshot -VMSnapshot $checkpoint -Confirm:$false
       $result.Cleanup = 'ResetAndOff'
     }
-    $result.HostUacAfter = (Get-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System' -Name EnableLUA).EnableLUA
-    if ($null -ne $result.HostUacBefore -and $result.HostUacBefore -ne $result.HostUacAfter) { throw 'Host UAC drift detected.' }
   } catch { $result.Cleanup = 'Failed'; $result.Status = 'Failed'; $result.Error = [string]$result.Error + '; Cleanup: ' + $_.Exception.Message }
   if (Test-Path -LiteralPath $output) { $result | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $output 'result.json') -Encoding UTF8 }
   if ($lock) { $lock.Dispose() }

@@ -1,6 +1,10 @@
-# RIDE-Windows v3 TODO
+# RIDE-Windows tasks
 
 ## Active priorities
+
+### Development reliability - high priority
+
+- [ ] Implement **optional GitHub authentication** as approved v3 scope, ahead of lower-priority feature expansion. Start with explicit personal access token support for public release discovery, protected credential references and separate authentication/cache contexts. Preserve anonymous mode, cache/backoff and explicit VM credential boundaries; complete the [scope and acceptance work](docs/MIGRATION-PLAN.md#optional-github-authentication-v3-scope). Authentication must be optional for users, but its implementation and validation are now part of the v3 workplan.
 
 ### Engine correctness
 
@@ -9,11 +13,16 @@
 - [ ] Handle partial failure across a multi-operation apply with per-operation completion reporting and a safe resume path.
 - [ ] Add profile parameter validation and package dependency cycle detection.
 
+### Documentation and licensing
+
+- [ ] Before release, refresh [Important to review licensing](docs/package-licensing.md#important-to-review-licensing), including Npcap, KAPE and any newly selected products with restricted free-use terms; keep the final README linked to it.
+- [ ] As acceptance closes, move completed reports into the [archive](docs/archive/README.md), retain unresolved work in active ledgers, and keep durable guides free of session narratives. Follow the [documentation model](docs/models/documentation-model.md).
+
 ### Migration
 
 - [ ] Continue the accepted settings decisions from the [implementation handoff](docs/migrations/settings-implementation-handoff.md); complete the remaining metadata, handlers and acceptance before the final outstanding-issue walkthrough.
-- [ ] Include **Rufus** as an optional v3 tool for bootable USB media creation; see the [requested additions](docs/CANDIDATE-TOOLS.md#requested-v3-additions-2026-10-11) for portable acquisition, publisher/license references and acceptance work.
-- [ ] Include **HashCheck - idrassi fork** as an optional v3 app; see the [requested additions](docs/CANDIDATE-TOOLS.md#requested-v3-additions-2026-10-11) for publisher, license and acceptance work.
+- [ ] Include **Rufus** as an optional v3 tool for bootable USB media creation; see the [requested additions](docs/candidate-tools.md#requested-v3-additions-2026-10-11) for portable acquisition, publisher/license references and acceptance work.
+- [ ] Include **HashCheck - idrassi fork** as an optional v3 app; see the [requested additions](docs/candidate-tools.md#requested-v3-additions-2026-10-11) for publisher, license and acceptance work.
 - [ ] Include the supplied **Hash value** submenu and corrected **SHA-256 with Certutil** context-menu setting as optional v3 solutions; see the [source and corrected registry example](examples/hash-context-menu/README.md).
 - [ ] Inventory the v2 default profile and migrate its high-use settings and installers into v3 operation metadata.
 - [ ] Migrate common forensic tools and their remove operations into package handlers and grouped profiles.
@@ -22,13 +31,40 @@
 
 ### Verification
 
-- [ ] Complete interactive Windows 11 and Server 2025 Desktop Experience memory/write and idle-lock measurements for full/light caffeine, Zhorn Caffeine and Arkane Mouse Jiggler. Pinned payloads and capture/snapshot/analysis tooling are ready. Two elevated PS5.1 Light pilots stayed unlocked for 600 seconds, exited after console Ctrl+C, and locked again; their raw memory figures and variation are recorded. A full-default pilot reported unlocked and exited with code 0, but post-exit input prevented resumed-lock acceptance. Native Zhorn x64 default also stayed unlocked, exited via -appexit and locked again; its steady private median was 5.375 MiB in this single pilot. Idle run 1 had a Terminal mismatch; idle run 2 matched Terminal but contained extra input. Idle run 3 had one startup reset followed by a quiet interval, allowing exploratory early-window arithmetic but no accepted ranking. Undisturbed matching controls, three clean repetitions, other cases/targets, write attribution and full cleanup/key-state acceptance remain pending. Manual guest sign-in is required after checkpoint restores. See the [impact report and reproducible procedure](docs/SCREEN-LOCK-IMPACT.md) and [decision record](docs/SCREEN-LOCK-HELPERS.md).
+- [ ] Complete the screen-lock comparison on Windows 11 and Server 2025 Desktop Experience using the [procedure and acceptance table](docs/screen-lock-impact.md#acceptance-status). Clean repeated controls, write attribution and behavior/cleanup checks remain open; the guide owns the current findings and evidence links.
 - [ ] Run the disposable VM suite on Windows 11 and Windows Server 2025.
 - [ ] Add CI result publishing for Pester and test both Windows PowerShell 5.1 and PowerShell 7.
 - [ ] Validate operation support declarations against the integration matrix before expanding targets.
 
 ## Down the road
 
+- [ ] Add explicit opt-in `search -Regex` with bounded, case-insensitive, culture-invariant matching; preserve literal search by default and reuse field/view filters. Validate invalid patterns and timeouts on Windows PowerShell 5.1 and 7.
+- [ ] Evaluate an optional offline bundle exporter with exact-version redistribution review and retained licenses/notices. Local download caches and a local `Reviewed` record do not establish redistribution approval; see [Package licensing](docs/package-licensing.md#optional-future-offline-bundles).
+
 - [ ] Once the CLI commands and operation lifecycle have stabilized, evaluate exposing a public, importable RIDE PowerShell module for interactive use and integration from other scripts. Keep `ride.ps1` as the standalone entry point; define a stable module API only if there is a clear use case.
 
-Longer migration details live in [docs/ROADMAP.md](docs/ROADMAP.md). The old TODO and package modernization backlog were specific to v2 and will be reconsidered as operations migrate.
+### Optional reusable GitHub release-discovery module
+
+**Deferred; do not pursue now.** This is a separate downstream opportunity,
+outside current v3 migration estimates and release acceptance requirements.
+
+- [ ] Evaluate extracting [GitHub release discovery: cache and backoff](docs/github-release-discovery.md#cache-and-backoff-flow) into a reusable PowerShell module for other tools and users.
+
+If explicitly prioritized later, start with public latest-release metadata:
+HTTP requests, bounded configurable caching/freshness, rate-limit recognition,
+retry deadlines, structured deferral errors and provenance. Keep RIDE catalog
+choices, asset selection, payload caching, verification and installation in RIDE.
+Have RIDE consume the extracted module so there is one maintained implementation.
+
+Before sharing, define a stable API and license, test Windows PowerShell 5.1/7
+compatibility with mocked HTTP/time, and demonstrate use by an independent
+consumer. Evaluate explicit client/authentication contexts and concurrent-request
+coordination. Conditional requests, persistent cross-process coordination and
+bounded retry policies are optional later extensions, not commitments for the
+initial extraction. Document that unrelated applications can still exhaust
+shared anonymous quota; this would not be a general-purpose GitHub backoff engine.
+
+Legacy outcome estimates, batch decisions and release acceptance live in the
+[migration plan](docs/MIGRATION-PLAN.md). The former roadmap is retained as a
+[historical snapshot](docs/archive/migrations/roadmap-2026-10-13.md); priorities
+are maintained here.

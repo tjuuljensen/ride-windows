@@ -28,7 +28,7 @@
   Changelog: 0.1.1: Reject ambiguous legacy locale-specific timing fields.
   0.1.0: Add simultaneous memory totals and explicit I/O limitations.
 .LINK
-  ../../docs/SCREEN-LOCK-IMPACT.md
+  ../../docs/screen-lock-impact.md
 #>
 [CmdletBinding()]
 param(

@@ -1,7 +1,7 @@
 # Hashing context-menu candidates
 
 Requested for RIDE v3 on 2026-10-11; tracked in the
-[inclusion backlog](../../docs/CANDIDATE-TOOLS.md#requested-v3-additions-2026-10-11).
+[inclusion backlog](../../docs/candidate-tools.md#requested-v3-additions-2026-10-11).
 The files are review material. No registry import or application installation
 has been performed on the developer workstation.
 

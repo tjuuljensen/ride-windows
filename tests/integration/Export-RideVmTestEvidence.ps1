@@ -50,10 +50,10 @@
   integration scenarios.
 
 .LINK
-  tests/integration/AUTOMATEDLAB-TASKS.md
+  tests/integration/automatedlab-tasks.md
 
 .LINK
-  tests/integration/AUTOMATEDLAB.md
+  tests/integration/automatedlab.md
 
 #>
 

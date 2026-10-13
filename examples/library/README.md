@@ -73,5 +73,5 @@ not guaranteed. Windows Server is not declared for these custom operations.
 This library introduces new IDs. See [recovery snapshots and ID mapping](../recovery/README.md)
 before restoring old runs or switching an already-applied setup. Restore an
 earlier run using its original manifest first; applying this library does not
-migrate saved Windows state. See [custom libraries](../../docs/CUSTOM-LIBRARIES.md)
-and [package licensing](../../docs/PACKAGE-LICENSING.md) for detailed workflows.
+migrate saved Windows state. See [custom libraries](../../docs/custom-libraries.md)
+and [package licensing](../../docs/package-licensing.md) for detailed workflows.

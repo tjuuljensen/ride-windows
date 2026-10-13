@@ -95,10 +95,10 @@
   - 0.1.0: Initial versioned VM test runner.
 
 .LINK
-  tests/integration/AUTOMATEDLAB-TASKS.md
+  tests/integration/automatedlab-tasks.md
 
 .LINK
-  tests/integration/AUTOMATEDLAB.md
+  tests/integration/automatedlab.md
 
 #>
 

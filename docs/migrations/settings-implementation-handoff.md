@@ -10,7 +10,7 @@ This is a resume point, not a declaration that migration or acceptance is comple
 | [Post-migration review](settings-post-migration-review.md) | Detailed accepted decisions, mapping references, reverse semantics and feature acceptance requirements |
 | [Remaining-settings ledger](remaining-settings-decisions.md#implementation-and-acceptance-queue) | Implementation order, deferred outcomes, resource gaps and final walkthrough milestone |
 | [Migration plan](../MIGRATION-PLAN.md#estimated-remaining-migration-work) | Top-of-document progress overview by legacy outcome; refresh after every migration run |
-| [Setting presentation contract](../SETTING-PRESENTATION.md) | Implemented metadata/display contract and its compatibility and evidence limits |
+| [Setting presentation contract](../setting-presentation.md) | Implemented metadata/display contract and its compatibility and evidence limits |
 
 Resume implementation from these accepted designs. The remaining-settings table
 has accepted designs or retirement dispositions for 28 identified entries; its

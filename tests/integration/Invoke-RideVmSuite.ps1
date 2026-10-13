@@ -54,10 +54,10 @@
   - 0.3.0: Add exact registry subtree round-trip checks for Explorer folder visibility.
 
 .LINK
-  tests/integration/AUTOMATEDLAB-TASKS.md
+  tests/integration/automatedlab-tasks.md
 
 .LINK
-  tests/integration/AUTOMATEDLAB.md
+  tests/integration/automatedlab.md
 
 #>
 

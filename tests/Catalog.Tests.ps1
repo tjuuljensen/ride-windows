@@ -85,7 +85,7 @@ Describe 'RIDE operation catalog' {
   It 'declares support, scope, privilege, actions, and rollback for every operation' {
     foreach ($operation in $script:Catalog.Operations) {
       if ($operation.PendingAcceptance) {
-        $operation.Kind | Should -BeIn @('Package', 'ProfileSetting')
+        $operation.Kind | Should -BeIn @('Package', 'ProfileSetting', 'FirewallProfile', 'RegistryValueSet', 'RegistryValue', 'OwnedPowerPlan', 'WindowsService', 'LocalPasswordMaximumAge')
         $operation.SupportedTargets.Count | Should -Be 0
         $operation.CandidateTargets.Count | Should -BeGreaterThan 0
       } else { $operation.SupportedTargets.Count | Should -BeGreaterThan 0 }
@@ -941,6 +941,7 @@ Describe 'RIDE Windows service operations' {
       $script:serviceStatus = 'Stopped'
       $script:serviceStartupType = 'Manual'
       Mock Get-Service { [pscustomobject]@{ Status = $script:serviceStatus; StartType = $script:serviceStartupType } }
+      Mock Get-CimInstance { [pscustomobject]@{ StartMode = $(if ($script:serviceStartupType -eq 'Automatic') { 'Auto' } else { $script:serviceStartupType }) } }
       Mock Set-Service { $script:serviceStartupType = $StartupType }
       Mock Start-Service { $script:serviceStatus = 'Running' }
       Mock Stop-Service { $script:serviceStatus = 'Stopped' }

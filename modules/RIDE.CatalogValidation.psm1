@@ -6,8 +6,16 @@
   Returns diagnostic strings without importing handlers or inspecting Windows.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Owner: RIDE-Windows maintainers. Version: 0.11.0.
-  Changelog: 0.11.0: Validate managed profile settings and candidate targets.
+  Owner: RIDE-Windows maintainers. Version: 0.19.0.
+  Changelog: 0.19.0: Validate pending local password-age range and focused lifecycle.
+    0.18.0: Validate pending service candidates and dependency refusal metadata.
+    0.17.0: Validate exact KeepCurrent markers in coordinated registry states.
+    0.16.0: Validate pending owned power-plan creation and compensating recovery.
+    0.15.0: Allow explicitly pending scalar registry policy candidates.
+    0.14.0: Validate pending value sets, minimum build and read-only observations.
+    0.13.0: Validate pending firewall profiles and local enablement states.
+    0.12.0: Validate exact service identity and optional runtime/explicit delayed-start choices.
+    0.11.0: Validate managed profile settings and candidate targets.
     0.10.0: Validate current-user destination and execution contracts.
     0.9.0: Validate setting presentation evidence and scalar registry scope.
     0.8.0: Validate pinned WinSCP portable publisher sources.
@@ -21,7 +29,7 @@
     0.1.0: Extract the existing validator for shared library validation.
 #>
 
-$script:ModuleVersion = '0.11.0'
+$script:ModuleVersion = '0.19.0'
 
 
 function Get-RideCatalogValidationErrors {
@@ -127,8 +135,9 @@ function Get-RideCatalogValidationErrors {
         }
       }
     }
-    $pendingPackage = $operation.Kind -in @('Package', 'ProfileSetting') -and $operation.PendingAcceptance -eq $true -and @($operation.SupportedTargets).Count -eq 0
-    if ($operation.ContainsKey('PendingAcceptance') -and ($operation.PendingAcceptance -isnot [bool] -or ($operation.PendingAcceptance -and -not $pendingPackage))) { Add-Error "Pending acceptance requires a package or profile setting with no supported targets: $($operation.Id)" }
+    if ($operation.ContainsKey('MinimumBuild') -and ($operation.MinimumBuild -isnot [int] -or $operation.MinimumBuild -lt 1)) { Add-Error "MinimumBuild must be a positive integer: $($operation.Id)" }
+    $pendingPackage = $operation.Kind -in @('Package', 'ProfileSetting', 'FirewallProfile', 'RegistryValueSet', 'RegistryValue', 'OwnedPowerPlan', 'WindowsService', 'LocalPasswordMaximumAge') -and $operation.PendingAcceptance -eq $true -and @($operation.SupportedTargets).Count -eq 0
+    if ($operation.ContainsKey('PendingAcceptance') -and ($operation.PendingAcceptance -isnot [bool] -or ($operation.PendingAcceptance -and -not $pendingPackage))) { Add-Error "Pending acceptance requires a supported candidate kind with no supported targets: $($operation.Id)" }
     if ($pendingPackage -and (-not $operation.CandidateTargets -or @($operation.CandidateTargets | Where-Object { $_ -notin @('Windows 11', 'Windows Server 2025') }).Count)) { Add-Error "Pending operation requires explicit candidate targets: $($operation.Id)" }
     if (@($operation.SupportedTargets).Count -eq 0 -and -not $pendingPackage) { Add-Error "No supported target declared for $($operation.Id)" }
     if (-not $operation.ContainsKey('TargetDefaults')) {
@@ -333,7 +342,9 @@ function Get-RideCatalogValidationErrors {
       }
     }
     elseif ($operation.Kind -eq 'WindowsService') {
+      if ($operation.ContainsKey('RefuseDependencyChanges') -and $operation.RefuseDependencyChanges -isnot [bool]) { Add-Error "Service dependency refusal must be Boolean: $($operation.Id)" }
       if ($operation.Handler -ne 'WindowsService') { Add-Error "No matching handler for $($operation.Id)" }
+      if ([string]$operation.ServiceName -notmatch '^[A-Za-z0-9_.-]+$') { Add-Error "Invalid exact service identity: $($operation.Id)" }
       foreach ($field in @('ServiceName', 'States', 'DocumentationUri')) {
         if (-not $operation.ContainsKey($field)) { Add-Error "Windows service operation is missing '$field': $($operation.Id)" }
       }
@@ -342,8 +353,17 @@ function Get-RideCatalogValidationErrors {
       }
       foreach ($stateName in $operation.States.Keys) {
         $state = $operation.States[$stateName]
-        if ($state.StartupType -notin @('Automatic', 'Manual', 'Disabled') -or $state.Status -notin @('Running', 'Stopped')) {
+        if ($state -isnot [hashtable]) { Add-Error "Invalid service state '$stateName': $($operation.Id)"; continue }
+        if ($state.StartupType -notin @('Automatic', 'Manual', 'Disabled') -or
+            ($state.ContainsKey('Status') -and $state.Status -notin @('Running', 'Stopped'))) {
           Add-Error "Invalid startup type or running state for '$($operation.Id)' state '$stateName'."
+        }
+        if ($state.ContainsKey('DelayedAutoStart') -and
+            ($state.DelayedAutoStart -isnot [bool] -or $state.StartupType -ne 'Automatic' -or $operation.PreserveDelayedAutoStart -ne $true)) {
+          Add-Error "Explicit service delay requires Automatic startup, a Boolean and delayed-start capture: $($operation.Id) / $stateName"
+        }
+        foreach ($key in $state.Keys) {
+          if ($key -notin @('StartupType', 'Status', 'DelayedAutoStart')) { Add-Error "Unknown service state field '$key': $($operation.Id) / $stateName" }
         }
       }
       if ('Get' -notin $operation.Actions -or 'Test' -notin $operation.Actions -or 'Set' -notin $operation.Actions -or 'Restore' -notin $operation.Actions) { Add-Error "Windows service lifecycle is incomplete: $($operation.Id)" }
@@ -385,6 +405,36 @@ function Get-RideCatalogValidationErrors {
       }
       if ('Get' -notin $operation.Actions -or 'Test' -notin $operation.Actions -or 'Set' -notin $operation.Actions -or 'Restore' -notin $operation.Actions) { Add-Error "Network profile lifecycle is incomplete: $($operation.Id)" }
     }
+    elseif ($operation.Kind -eq 'LocalPasswordMaximumAge') {
+      if ($operation.Handler -ne $operation.Kind -or $operation.Scope -ne 'Machine' -or $operation.RequiresAdmin -ne $true) { Add-Error "Local password age requires the machine/admin focused handler: $($operation.Id)" }
+      $range = $operation.StateRange
+      if ($range -isnot [hashtable] -or $range.Count -ne 3 -or $range.Prefix -cne 'Days' -or $range.Minimum -ne 1 -or $range.Maximum -ne 999) { Add-Error "Local password age requires bounded Days1..Days999 metadata: $($operation.Id)" }
+      if ($operation.States -isnot [hashtable] -or $operation.States.Count -ne 1000 -or $operation.States.NoExpiry -isnot [int] -or $operation.States.NoExpiry -ne 0) { Add-Error "Local password age states must resolve the complete declared range: $($operation.Id)" }
+      foreach ($day in 1..999) { if ($operation.States['Days'+$day] -isnot [int] -or $operation.States['Days'+$day] -ne $day) { Add-Error "Invalid explicit password-age day state: $($operation.Id) / Days$day"; break } }
+      if ($operation.ContainsKey('BaselineState') -or $operation.ContainsKey('UnsetState') -or $operation.Rollback -ne 'Exact') { Add-Error "Local password age requires captured field recovery without an invented definition-removal state: $($operation.Id)" }
+      if (@(@('Get','Test','Set','Restore') | Where-Object { $_ -notin $operation.Actions }).Count) { Add-Error "Local password-age lifecycle is incomplete: $($operation.Id)" }
+      if (-not [Uri]::IsWellFormedUriString([string]$operation.DocumentationUri,[UriKind]::Absolute) -or ([Uri]$operation.DocumentationUri).Scheme -ne 'https' -or ([Uri]$operation.DocumentationUri).Host -ne 'learn.microsoft.com') { Add-Error "Local password age requires Microsoft HTTPS documentation: $($operation.Id)" }
+    }
+    elseif ($operation.Kind -eq 'OwnedPowerPlan') {
+      if ($operation.Handler -ne 'OwnedPowerPlan' -or $operation.Scope -ne 'Machine' -or $operation.RequiresAdmin -ne $true -or $operation.Id -notmatch '^windows\.[a-z0-9-]+$') { Add-Error "Owned power plans require a machine/admin focused handler and stable safe ID: $($operation.Id)" }
+      if ($operation.SourcePowerPlanGuid -notmatch '^[0-9a-fA-F]{8}-(?:[0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$') { Add-Error "Owned power plans require an exact source GUID: $($operation.Id)" }
+      if ($operation.States -isnot [hashtable] -or $operation.States.Count -ne 1 -or $operation.States.Create -isnot [bool] -or $operation.States.Create -ne $true) { Add-Error "Owned power plans allow explicit Create only: $($operation.Id)" }
+      if ($operation.ContainsKey('BaselineState') -or $operation.ContainsKey('UnsetState') -or $operation.Rollback -ne 'Compensating') { Add-Error "Owned-copy recovery is compensating, with no implicit removal/default state: $($operation.Id)" }
+      if (@(@('Get', 'Test', 'Set', 'Restore') | Where-Object { $_ -notin $operation.Actions }).Count) { Add-Error "Owned power plans require capture and restore actions: $($operation.Id)" }
+      if (-not [Uri]::IsWellFormedUriString([string]$operation.DocumentationUri, [UriKind]::Absolute) -or ([Uri]$operation.DocumentationUri).Scheme -ne 'https' -or ([Uri]$operation.DocumentationUri).Host -ne 'learn.microsoft.com') { Add-Error "Owned power plans require Microsoft HTTPS documentation: $($operation.Id)" }
+    }
+    elseif ($operation.Kind -eq 'FirewallProfile') {
+      if ($operation.Handler -ne 'FirewallProfile' -or $operation.Scope -ne 'Machine' -or $operation.RequiresAdmin -ne $true) { Add-Error "Firewall profiles require the machine/admin focused handler: $($operation.Id)" }
+      $names = @($operation.FirewallProfiles)
+      if ($names.Count -notin @(1, 3) -or @($names | Where-Object { $_ -notin @('Domain', 'Private', 'Public') }).Count -or @($names | Sort-Object -Unique).Count -ne $names.Count) { Add-Error "Firewall profiles require one exact profile or all three unique profiles: $($operation.Id)" }
+      if ($operation.States -isnot [hashtable] -or $operation.States.On -isnot [string] -or $operation.States.On -cne 'True' -or
+          ($names.Count -eq 1 -and ($operation.States.Off -isnot [string] -or $operation.States.Off -cne 'False' -or $operation.States.Count -ne 2)) -or
+          ($names.Count -eq 3 -and $operation.States.Count -ne 1)) { Add-Error "Firewall profile states are On/Off, or On only for all profiles: $($operation.Id)" }
+      if (-not [Uri]::IsWellFormedUriString([string]$operation.DocumentationUri, [UriKind]::Absolute) -or ([Uri]$operation.DocumentationUri).Scheme -ne 'https' -or ([Uri]$operation.DocumentationUri).Host -ne 'learn.microsoft.com') { Add-Error "Firewall profiles require Microsoft HTTPS documentation: $($operation.Id)" }
+      if ($operation.ContainsKey('BaselineState') -or $operation.ContainsKey('UnsetState')) { Add-Error "Firewall local default/removal states are not declared: $($operation.Id)" }
+      foreach ($target in $operation.SupportedTargets) { if (-not $operation.TargetDefaults[$target].ContainsKey('DefaultValue')) { Add-Error "Firewall profiles require literal target defaults: $($operation.Id)" } }
+      if ($operation.Rollback -ne 'Exact' -or @(@('Get', 'Test', 'Set', 'Restore') | Where-Object { $_ -notin $operation.Actions }).Count) { Add-Error "Firewall profile lifecycle must support exact saved configuration recovery: $($operation.Id)" }
+    }
     elseif ($operation.Kind -eq 'RegistryValueSet') {
       if ($operation.Handler -ne 'RegistryValueSet') { Add-Error "No matching handler for $($operation.Id)" }
       foreach ($field in @('RegistryValues', 'States', 'BaselineState')) {
@@ -399,11 +449,23 @@ function Get-RideCatalogValidationErrors {
       }
       if (@($members.Key | Select-Object -Unique).Count -ne $members.Count) { Add-Error "Duplicate value-set component names: $($operation.Id)" }
       if (@($members | ForEach-Object { $_.RegistryPath + '|' + $_.ValueName } | Select-Object -Unique).Count -ne $members.Count) { Add-Error "Duplicate registry values: $($operation.Id)" }
+      if ($operation.ContainsKey('ReadOnlyRegistryValues')) {
+        $observations = @($operation.ReadOnlyRegistryValues)
+        if ($observations.Count -lt 1 -or $observations.Count -gt 5 -or @($observations.Key | Sort-Object -Unique).Count -ne $observations.Count) { Add-Error "Read-only registry observations must have 1-5 unique keys: $($operation.Id)" }
+        foreach ($observation in $observations) {
+          if ($observation.Key -isnot [string] -or [string]::IsNullOrWhiteSpace($observation.Key) -or
+              $observation.ValueName -isnot [string] -or [string]::IsNullOrWhiteSpace($observation.ValueName) -or
+              -not ([string]$observation.RegistryPath).StartsWith($expectedRoot, [StringComparison]::OrdinalIgnoreCase) -or
+              $observation.ValueType -notin @('DWord', 'String') -or $observation.Key -in $members.Key) { Add-Error "Invalid read-only registry observation: $($operation.Id)" }
+          if (@($members | Where-Object { $_.RegistryPath -eq $observation.RegistryPath -and $_.ValueName -eq $observation.ValueName }).Count) { Add-Error "Read-only registry observation overlaps a writable value: $($operation.Id)" }
+        }
+      }
       foreach ($stateName in $operation.States.Keys) {
         $values = $operation.States[$stateName]
         if ($values -isnot [hashtable] -or $values.Count -ne $members.Count -or @($members | Where-Object { -not $values.ContainsKey($_.Key) }).Count) { Add-Error "Incomplete registry value-set state: $($operation.Id) / $stateName" }
         foreach ($member in $members) {
           $value = $values[$member.Key]
+          if ($value -is [hashtable] -and $value.Count -eq 1 -and $value.KeepCurrent -is [bool] -and $value.KeepCurrent -eq $true) { continue }
           if ($null -ne $value -and (($member.ValueType -eq 'DWord' -and $value -isnot [int]) -or ($member.ValueType -eq 'String' -and $value -isnot [string]))) { Add-Error "Invalid component value type: $($operation.Id) / $stateName" }
         }
       }
@@ -504,6 +566,7 @@ function Get-RideCatalogValidationErrors {
       if ($selection.Variant -and (-not $operation -or $operation.Kind -ne 'Package' -or ($operation.Variants -and -not $operation.Variants.ContainsKey($selection.Variant)) -or (-not $operation.Variants -and $selection.Variant -ne 'installed'))) { Add-Error "Invalid profile package variant: $($selection.Id)" }
       if ($operation -and $operation.Kind -eq 'Artifact') { Add-Error "$($profileFile.Name) cannot select download-only artifact '$($selection.Id)' as a desired Windows state." }
       if ($operation -and $operation.Kind -eq 'WindowsService' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid service state for '$($selection.Id)'" }
+      if ($operation -and $operation.Kind -in @('FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge') -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid focused setting state for '$($selection.Id)'" }
       if ($operation -and $operation.Kind -eq 'BackgroundAppOverrides' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid background app state for '$($selection.Id)'" }
       if ($operation -and $operation.Kind -eq 'BootConfiguration' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid boot configuration state for '$($selection.Id)'" }
       if ($operation -and $operation.Kind -eq 'NetworkProfile' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid network-profile state for '$($selection.Id)'" }

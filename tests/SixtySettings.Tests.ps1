@@ -70,7 +70,14 @@ Describe 'Sixty-setting saved-run lifecycle' {
       Mock Set-RideSettingState { $script:BatchCurrent = [pscustomobject]@{ Exists = ($null -ne $Value); Value = $Value; ValueType = $Operation.ValueType } }
       Mock Set-RideRegistryValueSetState { $script:BatchCurrent = [pscustomobject]@{ Values = @($Operation.RegistryValues | ForEach-Object { [pscustomobject]@{ Key = $_.Key; Exists = ($null -ne $Operation.States[$State][$_.Key]); Value = $Operation.States[$State][$_.Key]; ValueType = $_.ValueType; KeyExisted = $true } }) } }
       Mock Set-RideRegistryKeySetState { $script:BatchCurrent = [pscustomobject]@{ PresentCount = $(if ($State -eq 'Visible') { $Operation.RegistryPaths.Count } else { 0 }); TotalCount = $Operation.RegistryPaths.Count; Trees = @() } }
-      Mock Set-RideWindowsServiceState { $script:BatchCurrent = [pscustomobject]@{ StartupType = $Operation.States[$State].StartupType; Status = $Operation.States[$State].Status } }
+      Mock Set-RideWindowsServiceState {
+        $desired = $Operation.States[$State]
+        $script:BatchCurrent = [pscustomobject]@{
+          StartupType = $desired.StartupType
+          Status = $(if ($desired.ContainsKey('Status')) { $desired.Status } else { $script:BatchCurrent.Status })
+          EffectiveDelayedAutoStart = $(if ($desired.ContainsKey('DelayedAutoStart')) { $desired.DelayedAutoStart } else { $script:BatchCurrent.EffectiveDelayedAutoStart })
+        }
+      }
       Mock Set-RidePowerSettingState { $script:BatchCurrent = [pscustomobject]@{ Available = $true; SchemeGuid = ('a' * 8 + '-aaaa-aaaa-aaaa-' + 'a' * 12); Index = $Operation.States[$State]; PowerIndex = $Operation.PowerIndex } }
       Mock Set-RideBootConfigurationState { $script:BatchCurrent = [pscustomobject]@{ Exists = ($null -ne $Operation.States[$State]); Value = $Operation.States[$State] } }
       Mock Restore-RideSettingState { $script:BatchCurrent = $script:BatchOriginal }
@@ -208,16 +215,20 @@ Describe 'Service delayed-start preservation' {
     Import-Module (Join-Path $PSScriptRoot '../modules/RIDE-Services.psm1') -Force
     InModuleScope RIDE-Services {
       $operation = @{ Id = 'test.search'; ServiceName = 'WSearch'; PreserveDelayedAutoStart = $true; States = @{ Enabled = @{ StartupType = 'Automatic'; Status = 'Running' } } }
+      Mock Get-RideServiceDelayedAutoStart { $true }
+      Mock Test-Path { $true } -ParameterFilter { $LiteralPath -like 'HKLM:*' }
       Mock Get-Service { [pscustomobject]@{ Status = 'Stopped' } }
       Mock Get-CimInstance { [pscustomobject]@{ StartMode = 'Manual' } }
-      Mock Get-RideSettingState { [pscustomobject]@{ Exists = $true; Value = 7; ValueType = 'DWord' } }
+      Mock Get-RideSettingState { [pscustomobject]@{ KeyExisted = $true; Exists = $true; Value = 7; ValueType = 'DWord' } }
       Mock Restore-RideSettingState {}
       Mock Set-RideWindowsServiceConfiguration {}
       $before = Get-RideWindowsServiceState -Operation $operation
       $before.DelayedAutoStart.Value | Should -Be 7
       Set-RideWindowsServiceState -Operation $operation -State Enabled
       Restore-RideWindowsServiceState -Operation $operation -Snapshot $before
-      Should -Invoke Restore-RideSettingState -Times 2 -Exactly -ParameterFilter { $Snapshot.Value -eq 7 -and $Operation.ValueName -eq 'DelayedAutoStart' }
+      Should -Invoke Set-RideWindowsServiceConfiguration -Times 1 -Exactly -ParameterFilter {
+        $StartupType -eq 'Manual' -and $Status -eq 'Stopped' -and $Delayed -eq $true -and $DelayedSnapshot.Value -eq 7
+      }
     }
   }
 }

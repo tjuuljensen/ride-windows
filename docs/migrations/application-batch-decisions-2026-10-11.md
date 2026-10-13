@@ -78,7 +78,7 @@ checksum member in [RIDE.PublisherSources.psm1](../../modules/RIDE.PublisherSour
 Existing Firefox retains x64/en-US. The user subsequently confirmed Thunderbird
 Release x64/en-GB for current-user scope. The legacy literal UK-language intent
 is retained; x86 is replaced by the explicitly chosen x64 distribution. See the
-[implementation and acceptance record](application-thunderbird-follow-up-2026-10-11.md).
+[implementation and acceptance record](../archive/migrations/application-thunderbird-follow-up-2026-10-11.md).
 No regional setting is changed by this adapter.
 
 The user confirmed the mixed Windows reference with Danish formats (`da-DK`),
@@ -198,7 +198,7 @@ Technical source and lifecycle blockers remain separate from user choices.
 | --- | --- | --- |
 | Chrome: `InstallChrome`, `RemoveChrome` | Accepted: enterprise stable x64 machine MSI; adjacent browser configuration remains separate | Both-target profile-preserving lifecycle acceptance is recorded in the installed continuation |
 | Signal: `InstallSignal` | Accepted: official stable x64 current-user Desktop distribution | Both-target SHA-512-bound acquisition, profile preservation and compensating recovery passed |
-| Thunderbird: `InstallThunderbird` | Confirmed and accepted: Release x64/en-GB, current-user scope | Non-elevated deployment, repeat install/remove, profile preservation and saved-selection recovery passed on both targets; see [correlated acceptance](application-thunderbird-follow-up-2026-10-11.md#accepted-migration-after-resumed-validation) |
+| Thunderbird: `InstallThunderbird` | Confirmed and accepted: Release x64/en-GB, current-user scope | Non-elevated deployment, repeat install/remove, profile preservation and saved-selection recovery passed on both targets; see [correlated acceptance](../archive/migrations/application-thunderbird-follow-up-2026-10-11.md#accepted-migration-after-resumed-validation) |
 | ImageMagick installed: `InstallImageMagick` | Confirmed 2026-10-12: retain x64 Q16 HDRI DLL installer, all-user machine scope and machine PATH; optional integrations pending | Exact revision/version, dependencies, uninstall detection and environment recovery |
 | ImageMagick portable: `InstallImageMagickPortable`, `RemoveImageMagickPortable` | Confirmed 2026-10-12: retain listed x64 Q16 static portable build; verify features and scoped destination | Current publisher portable distribution uses 7z; bounded extraction and runtime acceptance required |
 | Python: `InstallPython` | Confirmed 2026-10-12: both variants under one stable product ID; install manager default; traditional installer in machine scope with unchanged machine PATH and preserved associations; bundled/validated pip without automatic upgrade | Manager-managed runtimes remain per-user; manager deployment/aliases, releases and runtime/update behavior remain open; verify installer controls, dependency compatibility, environment recovery and existing-install/alias conflicts |

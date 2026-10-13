@@ -65,10 +65,10 @@
     - 0.1.0: Initial on-demand/CI task client.
 
 .LINK
-  tests/integration/AUTOMATEDLAB-TASKS.md
+  tests/integration/automatedlab-tasks.md
 
 .LINK
-  tests/integration/AUTOMATEDLAB.md
+  tests/integration/automatedlab.md
 
 #>
 
@@ -92,7 +92,7 @@ if (-not $ConfigurationPath) { throw '-ConfigurationPath is required.' }
 $config = Read-RideAutomationConfiguration $ConfigurationPath
 if ([Security.Principal.WindowsIdentity]::GetCurrent().User.Value -ne $config.HostAccountSid) { throw 'Submit requests as the same account used to register the task.' }
 $root = Get-RideAutomationRoot $config.Name
-if (Test-Path -LiteralPath (Join-Path $root 'runtime\blocked.json')) { throw 'VM cleanup is blocked. Follow AUTOMATEDLAB-TASKS.md before requesting more runs.' }
+if (Test-Path -LiteralPath (Join-Path $root 'runtime\blocked.json')) { throw 'VM cleanup is blocked. Follow automatedlab-tasks.md before requesting more runs.' }
 $request = [ordered]@{ RunId = [guid]::NewGuid().ToString('N'); Source = $Source; UnitOnly = [bool]$UnitOnly; IntegrationSuite = $IntegrationSuite; TimeoutMinutes = $TimeoutMinutes; SubmittedAtUtc = [datetime]::UtcNow.ToString('o') }
 $pendingPath = Join-Path $root "queue\pending\$($request.RunId).json"
 $runningPath = Join-Path $root "queue\running\$($request.RunId).json"

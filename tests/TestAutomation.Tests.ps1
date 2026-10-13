@@ -28,6 +28,7 @@
   Author: RIDE-Windows maintainers.
   Version: Repository test fixture; no independent released version.
   Changelog:
+    2026-10-13: Verify controller execution does not inspect host UAC; preserve elevation and recovery checks.
     2026-10-12: Verify controller JSON write failures prevent caller continuation.
     2026-10-11: Cover retained partial evidence and rejection of escaped guest paths.
     2026-10-08: Document test purpose, isolation, and invocation without changing assertions.
@@ -287,6 +288,43 @@ Describe 'Task configuration and read-only watch selection' {
   }
 }
 
+Describe 'Controller host preflight' -Skip:($PSVersionTable.PSEdition -ne 'Desktop' -or -not [Environment]::Is64BitProcess) {
+  InModuleScope RIDE.TestAutomation {
+    BeforeAll {
+      function Get-VMHost { [CmdletBinding()] param() }
+      function Set-PSFConfig { [CmdletBinding()] param($FullName, $Value, [switch]$EnableException) }
+      function Test-LabHostRemoting { }
+    }
+    BeforeEach {
+      Mock Test-RideAutomationAdministrator { $true }
+      Mock Get-ItemProperty { throw 'Host registry inspection is outside controller preflight.' }
+      Mock Get-Service { [pscustomobject]@{ Status = 'Running' } }
+      Mock Get-VMHost { }
+      Mock Import-Module { } -ParameterFilter { $Name -in @('PSFramework', 'AutomatedLab') }
+      Mock Set-PSFConfig { }
+      Mock Get-Module {
+        if ($Name -contains 'AutomatedLab.Common') { [pscustomobject]@{ Name = 'AutomatedLab.Common'; Version = [version]'2.3.37' } }
+        else { [pscustomobject]@{ Name = 'AutomatedLab'; Version = [version]'5.61.0' } }
+      } -ParameterFilter { $Name -like 'AutomatedLab*' }
+      Mock Test-LabHostRemoting { $true }
+    }
+
+    It 'validates a prepared elevated host without reading its UAC configuration' {
+      Assert-RideAutomationHost | Should -BeNullOrEmpty
+      Should -Invoke Get-ItemProperty -Times 0 -Exactly
+      Should -Invoke Test-LabHostRemoting -Times 1 -Exactly
+    }
+
+    It 'still refuses a process without administrator elevation' {
+      Mock Test-RideAutomationAdministrator { $false }
+      { Assert-RideAutomationHost } | Should -Throw '*elevated process*'
+      Should -Invoke Get-ItemProperty -Times 0 -Exactly
+      Should -Invoke Import-Module -Times 0 -Exactly -ParameterFilter { $Name -in @('PSFramework', 'AutomatedLab') }
+    }
+
+  }
+}
+
 Describe 'Correlated execution, failures and VM recovery' {
   InModuleScope RIDE.TestAutomation {
     BeforeAll {
@@ -300,9 +338,7 @@ Describe 'Correlated execution, failures and VM recovery' {
       $null = New-Item -ItemType Directory (Join-Path $script:testRoot 'runtime') -Force
       $script:config = [pscustomobject]@{ Name = 'RIDETest'; VMId = [guid]::NewGuid().ToString(); LocalRepositoryPath = 'C:\local\ride-windows'; CIRepositoryPath = 'C:\ci\ride-windows'; LabName = 'RIDETest'; VMName = 'RIDE-Test'; GuestRepositoryPath = 'C:\RIDE\ride-windows' }
       $script:request = [pscustomobject]@{ RunId = [guid]::NewGuid().ToString('N'); Source = 'Local'; UnitOnly = $false; TimeoutMinutes = 90; SubmittedAtUtc = [datetime]::UtcNow.ToString('o') }
-      $script:uac = [pscustomobject]@{ EnableLUA = 1; ConsentPromptBehaviorAdmin = 5; PromptOnSecureDesktop = 1 }
-      Mock Assert-RideAutomationHost { $script:uac }
-      Mock Get-RideAutomationUac { $script:uac }
+      Mock Assert-RideAutomationHost { }
       Mock Import-RideAutomationLab { [pscustomobject]@{ VM = [pscustomobject]@{ State = 'Running' }; Snapshot = 'clean' } }
       Mock Reset-RideAutomationVm { }
       Mock Save-RideAutomationFailureEvidence { }
@@ -503,9 +539,15 @@ Describe 'Correlated execution, failures and VM recovery' {
       Should -Invoke Reset-RideAutomationVm -Times 0 -Exactly
     }
 
-    It 'reports host UAC drift as a failure' {
-      Mock Get-RideAutomationUac { [pscustomobject]@{ EnableLUA = 0; ConsentPromptBehaviorAdmin = 0; PromptOnSecureDesktop = 1 } }
-      (Invoke-RideAutomationRequest $script:config $script:request $script:testRoot).Error | Should -Match 'UAC settings changed'
+    It 'finishes without reading host UAC or writing UAC observations' {
+      Mock Get-ItemProperty { throw 'Host registry inspection is outside test execution.' }
+      $result = Invoke-RideAutomationRequest $script:config $script:request $script:testRoot
+      $result.Status | Should -Be 'Passed'
+      $saved = Get-Content -LiteralPath (Join-Path $script:testRoot "results/$($script:request.RunId)/result.json") -Raw | ConvertFrom-Json
+      $saved.PSObject.Properties.Name | Should -Not -Contain 'UacBefore'
+      $saved.PSObject.Properties.Name | Should -Not -Contain 'UacAfter'
+      Should -Invoke Get-ItemProperty -Times 0 -Exactly
+      Should -Invoke Reset-RideAutomationVm -Times 2 -Exactly
     }
 
     It 'rejects malformed requests before running a controller' {

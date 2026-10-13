@@ -6,6 +6,492 @@
   SchemaVersion = 1
   Operations = @(
     @{
+      Id = 'windows.local-password-maximum-age'
+      Name = 'Local-account maximum password age (experimental)'
+      Kind = 'LocalPasswordMaximumAge'
+      Category = 'Windows settings / Accounts'
+      Description = 'Advanced machine/admin maximum password age for the local SAM account authority. NoExpiry means Never expires; Days1 through Days999 are explicit day choices from a bounded catalog range, checked against the current minimum age. Uses local NetUserModalsSet level 1002 to change only maximum-age seconds, with complete nonsecret modal context capture, local SAM SID identity, drift checks and exact prior raw-seconds recovery. Domain controllers and unknown computer roles are refused. No password, per-account never-expire flag, complexity, minimum age, length, history, lockout or domain policy is changed. The API reports currently applied local SAM data, not local GPO definitions or managed source; Not defined/removal is not invented. No universal 42-day/default preset or recommended-profile weakening. Native, GUI, managed-precedence and target acceptance remain pending; normal apply is blocked.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/maximum-password-age'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'LocalPasswordMaximumAge'
+      States = @{ NoExpiry = 0 }
+      StateRange = @{ Prefix = 'Days'; Minimum = 1; Maximum = 999 }
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      MigrationBatch = 'SettingsLocalPasswordAge20261013'
+      LegacySelectors = @('DisablePasswordPolicy', 'EnablePasswordPolicy')
+      SettingPresentation = @{
+        AppliesTo = 'Whole device local SAM account authority; domain controllers refused'
+        Behavior = 'EnforcedPolicy'
+        GuiEffect = 'Maximum password age choice in Local Security Policy; currently applied SAM value is distinct from policy definitions and provenance'
+        GuiPath = 'Local Security Policy > Account Policies > Password Policy > Maximum password age'
+        Requirements = @('Administrator; workstation or standalone/member server with verified local SAM identity', 'Explicit day choice must exceed current minimum age; no implicit minimum-age adjustment', 'Local policy GUI/edition and managed reapplication need target acceptance; no RIDE/cloud membership is required')
+        OtherSupportedChoices = @('NoExpiry differs from Not defined; Days1..Days999 are finite catalog-derived states', 'Complexity remains a separate pending control; per-account expiry and domain password policies are untouched', 'Exact field recovery does not restore changed passwords; unrelated modal or authority changes can block recovery')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/api/lmaccess/nf-lmaccess-netusermodalsset', 'https://learn.microsoft.com/en-us/windows/win32/api/lmaccess/ns-lmaccess-user_modals_info_1002', 'https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/maximum-password-age')
+      }
+    }
+    @{
+      Id = 'windows.audio-service'
+      Name = 'Windows Audio service (experimental)'
+      Kind = 'WindowsService'
+      Category = 'Windows settings / Audio'
+      Description = 'Advanced whole-device Windows Audio service control, separate from playback-device mute. AutomaticRunning configures Automatic/running; ManualStopped retains the legacy Manual/stopped intent without force-stopping dependents or substituting Disabled. Required services must already be running before start/resume; active dependents and load-order group dependencies block transitions before configuration changes. Only Audiosrv is changed; dependencies are read and compared, never configured or restored. Capture and restore its exact prior startup/runtime plus SCM and typed literal delay state. This is not current-user mute or proof of silence/recovered playback. No AudioEndpointBuilder, device, volume, microphone, application or default-device changes. Runtime/dependency, GUI, audio and target acceptance remain pending; normal apply is blocked.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/drivers/audio/windows-audio-architecture'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'WindowsService'
+      ServiceName = 'Audiosrv'
+      PreserveDelayedAutoStart = $true
+      RefuseDependencyChanges = $true
+      States = @{
+        AutomaticRunning = @{ StartupType = 'Automatic'; Status = 'Running' }
+        ManualStopped = @{ StartupType = 'Manual'; Status = 'Stopped' }
+      }
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      MigrationBatch = 'SettingsWindowsAudioService20261013'
+      LegacySelectors = @('EnableAudio', 'DisableAudio')
+      SettingPresentation = @{
+        AppliesTo = 'Whole device and all sessions; Windows Audio service configuration/runtime'
+        Behavior = 'Preference'
+        GuiEffect = 'Advanced Services control; Manual is not Disabled and this is not a playback-device mute checkbox'
+        GuiPath = 'Services > Windows Audio > Startup type and Service status'
+        Requirements = @('Administrator; existing Audiosrv, readable service configuration and bounded stable dependency inspection', 'Required services must already run; active dependents or load-order group dependencies require separate review', 'Do not edit services concurrently; no automatic dependency repair, component install or extra RIDE subscription')
+        OtherSupportedChoices = @('Selected playback endpoint Mute/Unmute remains a separate pending intended-user operation', 'Manual/stopped may later be started by another caller; no continuous enforcement or all-audio suppression guarantee', 'Saved restore changes only the captured primary service; dependent services are never adopted or replayed')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows-hardware/drivers/audio/windows-audio-architecture', 'https://learn.microsoft.com/en-us/powershell/scripting/samples/managing-services')
+      }
+    }
+    @{
+      Id = 'windows.shutdown-event-tracker-policy'
+      Name = 'Shutdown Event Tracker display policy (experimental)'
+      Kind = 'RegistryValueSet'
+      Category = 'Windows settings / Server'
+      Description = 'Advanced paired machine policy for Display Shutdown Event Tracker: Disabled preserves the existing display choice; Always, ServerOnly and WorkstationOnly explicitly coordinate enablement and display selection. WindowsDefault removes both declared overrides; the legacy enable selector removed only enablement, so this is not an identical replay of every reverse. Capture both values and exact prior types/absence before mutation; restore recovers the captured pair. This does not shut down/restart Windows, erase event records, change persistent timestamps or state-data reporting. Local policy only; actual shutdown/logon/managed precedence and Server acceptance remain pending, with normal apply blocked.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-reliability#shutdownreason'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValueSet'
+      RegistryValues = @(
+        @{ Key = 'Display'; RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Reliability'; ValueName = 'ShutdownReasonUI'; ValueType = 'DWord' }
+        @{ Key = 'Enabled'; RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Reliability'; ValueName = 'ShutdownReasonOn'; ValueType = 'DWord' }
+      )
+      States = @{
+        Disabled = @{ Display = @{ KeepCurrent = $true }; Enabled = 0 }
+        Always = @{ Display = 1; Enabled = 1 }
+        WorkstationOnly = @{ Display = 2; Enabled = 1 }
+        ServerOnly = @{ Display = 3; Enabled = 1 }
+        WindowsDefault = @{ Display = $null; Enabled = $null }
+      }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      MigrationBatch = 'SettingsShutdownTracker20261013'
+      LegacySelectors = @('DisableShutdownTracker', 'EnableShutdownTracker')
+      SettingPresentation = @{
+        AppliesTo = 'Whole device; conditional shutdown reason prompt policy'
+        Behavior = 'EnforcedPolicy'
+        GuiEffect = 'Group Policy dropdown for Display Shutdown Event Tracker, with scope selection distinct from whether this server currently prompts'
+        GuiPath = 'Computer Configuration > Administrative Templates > System > Display Shutdown Event Tracker'
+        Requirements = @('Administrator; verified target shutdown UI and policy consumer', 'Local ADMX/CSP presence does not establish Windows Server desktop/Core or client support here', 'No shutdown/restart or forced policy refresh performed; content/event history remains intact')
+        OtherSupportedChoices = @('Disabled writes only enablement=0 and retains even custom/absent display data', 'Always=1, WorkstationOnly=2 and ServerOnly=3 require enablement=1; ServerOnly on a workstation differs from Disabled', 'WindowsDefault removes both overrides; exact saved restore recovers the actual prior pair, not a guessed platform default')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-reliability#shutdownreason', 'https://learn.microsoft.com/en-us/windows/win32/shutdown/shutdown-event-tracker')
+      }
+    }
+    @{
+      Id = 'windows.server-manager-startup-policy'
+      Name = 'Server Manager automatic startup policy (experimental)'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Server'
+      Description = 'Advanced machine policy for Server Manager automatic display at server logon, separate from the console preference. Suppressed enables Do not display Server Manager automatically at logon (1); AutomaticStartup explicitly disables that policy (0); WindowsDefault removes the override so Windows and the console preference govern startup, matching the legacy reverse. This does not launch/close Server Manager, change tasks or install a component. Saved restore recovers literal prior type/data/absence. Server desktop/logon/precedence acceptance remains pending; normal apply is blocked.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-servermanager#donotlaunchservermanager'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Server\ServerManager'
+      ValueName = 'DoNotOpenAtLogon'
+      ValueType = 'DWord'
+      States = @{ Suppressed = 1; AutomaticStartup = 0; WindowsDefault = $null }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      MigrationBatch = 'SettingsServerManager20261013'
+      LegacySelectors = @('HideServerManagerOnLogin', 'ShowServerManagerOnLogin')
+      SettingPresentation = @{
+        AppliesTo = 'Whole server; applicable interactive Server Manager logon behavior'
+        Behavior = 'EnforcedPolicy'
+        GuiEffect = 'Group Policy choice, separate from the Server Manager Properties startup preference; does not start the console now'
+        GuiPath = 'Computer Configuration > Administrative Templates > System > Server Manager > Do not display Server Manager automatically at logon'
+        Requirements = @('Administrator; Server Manager on a verified Windows Server desktop/logon environment', 'Server Core and client-side policy template presence do not establish local Server Manager applicability', 'No extra RIDE account, cloud enrollment or subscription; Windows/component licensing remains separate')
+        OtherSupportedChoices = @('Suppressed=1, AutomaticStartup=0 and override removal differ', 'WindowsDefault does not reset the console preference', 'Existing local/domain management can override configured policy; effective source is not inspected')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-servermanager#donotlaunchservermanager', 'https://learn.microsoft.com/en-us/windows-server/administration/server-manager/server-manager')
+      }
+    }
+    @{
+      Id = 'windows.media-radio-preset-retrieval-policy'
+      Name = 'Prevent Radio Station Preset Retrieval (experimental)'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Media'
+      Description = 'Prevent Windows Media Player radio preset retrieval and related preset display/update behavior when the legacy component consumes this policy. Advanced conditional User policy, not a general media-network block or verified current component effect. Blocked enables the preventive policy; PolicyDisabled writes its explicit disabled value; WindowsDefault removes the override, matching the legacy reverse. Saved restore recovers prior type/data/absence only. No player installation, playback test, license-store mutation or automatic DRM inclusion in media metadata guidance. Effective policy/source and target acceptance remain pending; normal apply is blocked.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-windowsmediaplayer#preventradiopresetsretrieval'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKCU:\SOFTWARE\Policies\Microsoft\WindowsMediaPlayer'
+      ValueName = 'PreventRadioPresetsRetrieval'
+      ValueType = 'DWord'
+      States = @{ Blocked = 1; PolicyDisabled = 0; WindowsDefault = $null }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      MigrationBatch = 'SettingsMediaPolicies20261013'
+      LegacySelectors = @('DisableMediaOnlineAccess', 'EnableMediaOnlineAccess')
+      SettingPresentation = @{
+        AppliesTo = 'Current user; conditional Windows Media Player radio feature'
+        Behavior = 'EnforcedPolicy'
+        GuiEffect = 'Group Policy choice for Prevent Radio Station Preset Retrieval; current component behavior is unverified'
+        GuiPath = 'User Configuration > Windows Components > Windows Media Player > Prevent Radio Station Preset Retrieval'
+        Requirements = @('Intended user without elevation; installed/enabled consuming player and verified current radio feature; local ADMX declares pre-Vista applicability', 'Microsoft CSP lists Pro, Enterprise, Education and IoT Enterprise; Home and Server are not accepted here', 'No extra RIDE membership, cloud account or subscription for local configuration; payload/service/license availability is separate')
+        OtherSupportedChoices = @('Blocked=1, PolicyDisabled=0 and override removal differ', 'Separate from CD/DVD and music metadata policies, DRM, streaming protocols and generic app radio privacy', 'Registry recovery does not restore remote services, content licenses or successful playback')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-windowsmediaplayer#preventradiopresetsretrieval')
+      }
+    }
+    @{
+      Id = 'windows.media-drm-online-access-policy'
+      Name = 'Prevent Windows Media DRM Internet Access (experimental)'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Media'
+      Description = 'Prevent Windows Media DRM online/intranet license acquisition, security upgrades and license restoration when a consuming backend is present. This can prevent new licenses and security upgrades; it does not promise that existing licensed content stops playing. Advanced conditional Machine policy, not a general media-network block or verified current component effect. Blocked enables the preventive policy; PolicyDisabled writes its explicit disabled value; WindowsDefault removes the override, matching the legacy reverse. Saved restore recovers prior type/data/absence only. No player installation, playback test, license-store mutation or automatic DRM inclusion in media metadata guidance. Effective policy/source and target acceptance remain pending; normal apply is blocked.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-windowsmediadrm#disableonline'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\WMDRM'
+      ValueName = 'DisableOnline'
+      ValueType = 'DWord'
+      States = @{ Blocked = 1; PolicyDisabled = 0; WindowsDefault = $null }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      MigrationBatch = 'SettingsMediaPolicies20261013'
+      LegacySelectors = @('DisableMediaOnlineAccess', 'EnableMediaOnlineAccess')
+      SettingPresentation = @{
+        AppliesTo = 'Whole device; conditional Windows Media DRM backend'
+        Behavior = 'EnforcedPolicy'
+        GuiEffect = 'Group Policy choice for Prevent Windows Media DRM Internet Access; current component behavior is unverified'
+        GuiPath = 'Computer Configuration > Windows Components > Windows Media Digital Rights Management > Prevent Windows Media DRM Internet Access'
+        Requirements = @('Administrator; installed/enabled consuming WMDRM backend; current deprecation and content-service availability require independent review', 'Microsoft CSP lists Pro, Enterprise, Education and IoT Enterprise; Home and Server are not accepted here', 'No extra RIDE membership, cloud account or subscription for local configuration; payload/service/license availability is separate')
+        OtherSupportedChoices = @('Blocked=1, PolicyDisabled=0 and override removal differ', 'No PlayReady or all-traffic block; no deletion of protected content or licenses', 'Registry recovery does not restore remote services, content licenses or successful playback')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-windowsmediadrm#disableonline')
+      }
+    }
+    @{
+      Id = 'windows.owned-balanced-power-plan'
+      Name = 'Balanced power-plan owned copy (experimental)'
+      Kind = 'OwnedPowerPlan'
+      Category = 'Windows settings / Power'
+      Description = 'Advanced explicit creation of one separately owned Balanced template copy using exact source/destination GUIDs. Never selects it or repairs existing selection. Source availability is conditional; no name matching, fallback or adoption. Ownership intent is saved before duplication and finalized with a native export fingerprint. Recovery only deletes the same unchanged inactive owned copy after selection recovery; incomplete, changed, active or orphaned copies require review. Native export reproducibility, hardware/edition, GUI and target acceptance remain pending; normal apply is blocked.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options#duplicatescheme'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'OwnedPowerPlan'
+      SourcePowerPlanGuid = '381b4222-f694-41f0-9685-ff5bb260df2e'
+      States = @{ Create = $true }
+      TargetDefaults = @{}
+      Rollback = 'Compensating'
+      MigrationBatch = 'SettingsOwnedPowerPlans20261013'
+      SettingPresentation = @{
+        AppliesTo = 'Whole device; one separately owned power-plan copy'
+        Behavior = 'Preference'
+        GuiEffect = 'Creates a labeled copy for native Power Options inspection; creation does not select it'
+        GuiPath = 'Control Panel > Hardware and Sound > Power Options'
+        Requirements = @('Administrator and queryable exact template GUID', 'No hardware/edition fallback or implicit Ultimate Performance support', 'Restore the saved existing-plan selection before recovering an active copy; do not edit plans concurrently with recovery')
+        OtherSupportedChoices = @('Existing windows.active-power-scheme selection keeps its published states and active-GUID recovery', 'No implicit reset/delete, user menu deployment or quick selection', 'Inspection reports ownership/presence; full configuration comparison occurs only during recovery')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options')
+      }
+    }
+    @{
+      Id = 'windows.owned-high-performance-power-plan'
+      Name = 'High Performance power-plan owned copy (experimental)'
+      Kind = 'OwnedPowerPlan'
+      Category = 'Windows settings / Power'
+      Description = 'Advanced explicit creation of one separately owned High Performance template copy using exact source/destination GUIDs. Never selects it or repairs existing selection. Source availability is conditional; no name matching, fallback or adoption. Ownership intent is saved before duplication and finalized with a native export fingerprint. Recovery only deletes the same unchanged inactive owned copy after selection recovery; incomplete, changed, active or orphaned copies require review. Native export reproducibility, hardware/edition, GUI and target acceptance remain pending; normal apply is blocked.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options#duplicatescheme'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'OwnedPowerPlan'
+      SourcePowerPlanGuid = '8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c'
+      States = @{ Create = $true }
+      TargetDefaults = @{}
+      Rollback = 'Compensating'
+      MigrationBatch = 'SettingsOwnedPowerPlans20261013'
+      SettingPresentation = @{
+        AppliesTo = 'Whole device; one separately owned power-plan copy'
+        Behavior = 'Preference'
+        GuiEffect = 'Creates a labeled copy for native Power Options inspection; creation does not select it'
+        GuiPath = 'Control Panel > Hardware and Sound > Power Options'
+        Requirements = @('Administrator and queryable exact template GUID', 'No hardware/edition fallback or implicit Ultimate Performance support', 'Restore the saved existing-plan selection before recovering an active copy; do not edit plans concurrently with recovery')
+        OtherSupportedChoices = @('Existing windows.active-power-scheme selection keeps its published states and active-GUID recovery', 'No implicit reset/delete, user menu deployment or quick selection', 'Inspection reports ownership/presence; full configuration comparison occurs only during recovery')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options')
+      }
+    }
+    @{
+      Id = 'windows.owned-ultimate-performance-power-plan'
+      Name = 'Ultimate Performance power-plan owned copy (experimental)'
+      Kind = 'OwnedPowerPlan'
+      Category = 'Windows settings / Power'
+      Description = 'Advanced explicit creation of one separately owned Ultimate Performance template copy using exact source/destination GUIDs. Never selects it or repairs existing selection. Source availability is conditional; no name matching, fallback or adoption. Ownership intent is saved before duplication and finalized with a native export fingerprint. Recovery only deletes the same unchanged inactive owned copy after selection recovery; incomplete, changed, active or orphaned copies require review. Native export reproducibility, hardware/edition, GUI and target acceptance remain pending; normal apply is blocked.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options#duplicatescheme'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'OwnedPowerPlan'
+      SourcePowerPlanGuid = 'e9a42b02-d5df-448d-aa00-03f14749eb61'
+      States = @{ Create = $true }
+      TargetDefaults = @{}
+      Rollback = 'Compensating'
+      MigrationBatch = 'SettingsOwnedPowerPlans20261013'
+      SettingPresentation = @{
+        AppliesTo = 'Whole device; one separately owned power-plan copy'
+        Behavior = 'Preference'
+        GuiEffect = 'Creates a labeled copy for native Power Options inspection; creation does not select it'
+        GuiPath = 'Control Panel > Hardware and Sound > Power Options'
+        Requirements = @('Administrator and queryable exact template GUID', 'No hardware/edition fallback or implicit Ultimate Performance support', 'Restore the saved existing-plan selection before recovering an active copy; do not edit plans concurrently with recovery')
+        OtherSupportedChoices = @('Existing windows.active-power-scheme selection keeps its published states and active-GUID recovery', 'No implicit reset/delete, user menu deployment or quick selection', 'Inspection reports ownership/presence; full configuration comparison occurs only during recovery')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options')
+      }
+    }
+    @{
+      Id = 'windows.ceip-participation-policy'
+      Name = 'Windows CEIP participation policy (experimental)'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Privacy'
+      Description = 'Advanced machine policy for Windows Customer Experience Improvement Program participation, separate from diagnostic-data settings and App-V CEIP. OptedOut writes 0 and corresponds to enabling the negatively named Turn off Windows CEIP policy; OptedIn writes 1 and corresponds to disabling it. WindowsDefault removes the override, matching the legacy reverse rather than explicit opt-in. Saved restore retains prior type/data/absence. This is configured local policy, not verified current collection or effective managed-policy/source. No telemetry mirrors, tasks, client activation, account/license acquisition or privacy guarantee. Implementation candidate; current consumer, precedence, GUI and target acceptance remain pending and normal apply is blocked.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-icm#ceipenable'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\SQMClient\Windows'
+      ValueName = 'CEIPEnable'
+      ValueType = 'DWord'
+      States = @{ OptedOut = 0; OptedIn = 1; WindowsDefault = $null }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      MigrationBatch = 'SettingsWindowsCeip20261013'
+      LegacySelectors = @('DisableTelemetry', 'EnableTelemetry')
+      SettingPresentation = @{
+        AppliesTo = 'Whole device; Windows CEIP participation policy for all users'
+        Behavior = 'EnforcedPolicy'
+        GuiEffect = 'Group Policy Enabled means opt-out; this is not a verified Diagnostics and feedback toggle or proof of collection suppression'
+        GuiPath = 'Computer Configuration > System > Internet Communication Management > Internet Communication settings > Turn off Windows Customer Experience Improvement Program'
+        Requirements = @('Administrator rights; verified policy edition/build and current Windows CEIP consumer', 'Microsoft lists Pro, Enterprise, Education and IoT Enterprise; Home and Server are not accepted here', 'No extra RIDE account, subscription, domain join or Intune enrollment for local policy configuration')
+        OtherSupportedChoices = @('OptedOut=0, OptedIn=1 and override removal are distinct', 'App-V CEIP is a separate installed/enabled-client outcome, not implicitly configured', 'Native/Wow6432Node diagnostic mirrors and universal telemetry-off claims remain deferred')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-icm#ceipenable')
+      }
+    }
+    @{
+      Id = 'windows.update-notification-display-policy'
+      Name = 'Windows Update notification display policy'
+      Kind = 'RegistryValueSet'
+      Category = 'Windows settings / Updates'
+      Description = 'Advanced machine policy coordinating the notification gate, display level and active-hours checkbox. DefaultNotifications requests normal notifications; KeepRestartWarnings suppresses other update notices; HideIncludingRestartWarnings is advanced suppression including restart warnings. DuringActiveHours choices constrain suppression, not the active-hours schedule. PolicyDisabled writes gate 0 and removes subordinate overrides; WindowsDefault removes all three overrides. Notifications do not prevent restarts or alter updates, deadlines or AUOptions. Read-only LegacyDebugger observation reports possible MusNotification interception without cleanup. Effective managed-policy/source, GUI/notification/reboot and payload acceptance remain pending; normal apply is blocked.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-update#updatenotificationlevel'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MinimumBuild = 22621
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValueSet'
+      RegistryValues = @(
+        @{ Key = 'Gate'; RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate'; ValueName = 'SetUpdateNotificationLevel'; ValueType = 'DWord' }
+        @{ Key = 'Level'; RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate'; ValueName = 'UpdateNotificationLevel'; ValueType = 'DWord' }
+        @{ Key = 'DuringActiveHours'; RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate'; ValueName = 'NoUpdateNotificationsDuringActiveHours'; ValueType = 'DWord' }
+      )
+      ReadOnlyRegistryValues = @(
+        @{ Key = 'LegacyDebugger'; RegistryPath = 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\MusNotification.exe'; ValueName = 'Debugger'; ValueType = 'String' }
+      )
+      States = @{
+        DefaultNotifications = @{ Gate = 1; Level = 0; DuringActiveHours = 0 }
+        KeepRestartWarnings = @{ Gate = 1; Level = 1; DuringActiveHours = 0 }
+        KeepRestartWarningsDuringActiveHours = @{ Gate = 1; Level = 1; DuringActiveHours = 1 }
+        HideIncludingRestartWarnings = @{ Gate = 1; Level = 2; DuringActiveHours = 0 }
+        HideIncludingRestartWarningsDuringActiveHours = @{ Gate = 1; Level = 2; DuringActiveHours = 1 }
+        PolicyDisabled = @{ Gate = 0; Level = $null; DuringActiveHours = $null }
+        WindowsDefault = @{ Gate = $null; Level = $null; DuringActiveHours = $null }
+      }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      MigrationBatch = 'SettingsUpdateNotifications20261013'
+      SettingPresentation = @{
+        AppliesTo = 'Whole device; local Windows Update notification policy'
+        Behavior = 'EnforcedPolicy'
+        GuiEffect = 'Configured notification policy is distinct from effective managed behavior and actual restart scheduling'
+        GuiPath = 'Computer Configuration > Windows Components > Windows Update > Manage end user experience > Display options for update notifications'
+        Requirements = @('Administrator rights; applicable Windows policy edition/build; no extra RIDE subscription or account', 'Active-hours checkbox requires Windows 11 22H2 build 22621 or later; all targets remain pending', 'GUI, typed payload, managed precedence and real notifications/reboots need disposable acceptance')
+        OtherSupportedChoices = @('Default notifications, policy disabled and override removal are distinct local states', 'Personal Notify me when a restart is required remains a separate native user choice', 'Suppression cannot prevent updates or restarts; active hours and deadlines remain unchanged')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-update#updatenotificationlevel', 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-update#noupdatenotificationsduringactivehours', 'https://learn.microsoft.com/en-us/windows/deployment/update/waas-restart')
+      }
+    }
+    @{
+      Id = 'windows.firewall-domain-profiles'
+      Name = 'Windows Firewall for Domain networks'
+      Kind = 'FirewallProfile'
+      Category = 'Windows settings / Security'
+      Description = 'Configure only local firewall Enabled in PersistentStore for the declared network types. On enables local profile protection; Off, where offered, is advanced opt-in. Enable-all captures all three local values before its first write. Inspect configured and effective ActiveStore state, active networks and legacy policy-key presence separately. Managed policy can override local configuration. Preserve rules, app exceptions, services, logging, IPsec and traffic defaults; no policy reset, automatic legacy cleanup or local NotConfigured/default state. Saved recovery restores only captured local fields and reports profile failures. Implementation candidate: GUI, traffic and recovery VM acceptance pending.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/netsecurity/set-netfirewallprofile'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'FirewallProfile'
+      FirewallProfiles = @('Domain')
+      States = @{ On = 'True'; Off = 'False' }
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      MigrationBatch = 'SettingsFirewallProfiles20261013'
+      SettingPresentation = @{
+        AppliesTo = 'Whole device; declared network types'
+        Behavior = 'Configuration'
+        GuiEffect = 'Local Enabled configuration is distinct from effective policy; Off is advanced and can expose active networks'
+        GuiPath = 'Windows Security > Firewall and network protection > network type'
+        Requirements = @('Installed NetSecurity and NetConnection cmdlets; administrator rights for writes', 'No RIDE cloud account, subscription or domain join required to configure a local profile', 'Disposable Windows 11/Server applicability, GUI and traffic acceptance remain pending')
+        OtherSupportedChoices = @('Single profiles offer On and advanced Off; enable-all offers On only', 'No generic local default/reset or NotConfigured setter', 'Saved-run restore recovers prior local flags, not managed resultant policy')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/powershell/module/netsecurity/get-netfirewallprofile', 'https://learn.microsoft.com/en-us/powershell/module/netsecurity/set-netfirewallprofile')
+      }
+    }
+    @{
+      Id = 'windows.firewall-private-profiles'
+      Name = 'Windows Firewall for Private networks'
+      Kind = 'FirewallProfile'
+      Category = 'Windows settings / Security'
+      Description = 'Configure only local firewall Enabled in PersistentStore for the declared network types. On enables local profile protection; Off, where offered, is advanced opt-in. Enable-all captures all three local values before its first write. Inspect configured and effective ActiveStore state, active networks and legacy policy-key presence separately. Managed policy can override local configuration. Preserve rules, app exceptions, services, logging, IPsec and traffic defaults; no policy reset, automatic legacy cleanup or local NotConfigured/default state. Saved recovery restores only captured local fields and reports profile failures. Implementation candidate: GUI, traffic and recovery VM acceptance pending.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/netsecurity/set-netfirewallprofile'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'FirewallProfile'
+      FirewallProfiles = @('Private')
+      States = @{ On = 'True'; Off = 'False' }
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      MigrationBatch = 'SettingsFirewallProfiles20261013'
+      SettingPresentation = @{
+        AppliesTo = 'Whole device; declared network types'
+        Behavior = 'Configuration'
+        GuiEffect = 'Local Enabled configuration is distinct from effective policy; Off is advanced and can expose active networks'
+        GuiPath = 'Windows Security > Firewall and network protection > network type'
+        Requirements = @('Installed NetSecurity and NetConnection cmdlets; administrator rights for writes', 'No RIDE cloud account, subscription or domain join required to configure a local profile', 'Disposable Windows 11/Server applicability, GUI and traffic acceptance remain pending')
+        OtherSupportedChoices = @('Single profiles offer On and advanced Off; enable-all offers On only', 'No generic local default/reset or NotConfigured setter', 'Saved-run restore recovers prior local flags, not managed resultant policy')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/powershell/module/netsecurity/get-netfirewallprofile', 'https://learn.microsoft.com/en-us/powershell/module/netsecurity/set-netfirewallprofile')
+      }
+    }
+    @{
+      Id = 'windows.firewall-public-profiles'
+      Name = 'Windows Firewall for Public networks'
+      Kind = 'FirewallProfile'
+      Category = 'Windows settings / Security'
+      Description = 'Configure only local firewall Enabled in PersistentStore for the declared network types. On enables local profile protection; Off, where offered, is advanced opt-in. Enable-all captures all three local values before its first write. Inspect configured and effective ActiveStore state, active networks and legacy policy-key presence separately. Managed policy can override local configuration. Preserve rules, app exceptions, services, logging, IPsec and traffic defaults; no policy reset, automatic legacy cleanup or local NotConfigured/default state. Saved recovery restores only captured local fields and reports profile failures. Implementation candidate: GUI, traffic and recovery VM acceptance pending.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/netsecurity/set-netfirewallprofile'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'FirewallProfile'
+      FirewallProfiles = @('Public')
+      States = @{ On = 'True'; Off = 'False' }
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      MigrationBatch = 'SettingsFirewallProfiles20261013'
+      SettingPresentation = @{
+        AppliesTo = 'Whole device; declared network types'
+        Behavior = 'Configuration'
+        GuiEffect = 'Local Enabled configuration is distinct from effective policy; Off is advanced and can expose active networks'
+        GuiPath = 'Windows Security > Firewall and network protection > network type'
+        Requirements = @('Installed NetSecurity and NetConnection cmdlets; administrator rights for writes', 'No RIDE cloud account, subscription or domain join required to configure a local profile', 'Disposable Windows 11/Server applicability, GUI and traffic acceptance remain pending')
+        OtherSupportedChoices = @('Single profiles offer On and advanced Off; enable-all offers On only', 'No generic local default/reset or NotConfigured setter', 'Saved-run restore recovers prior local flags, not managed resultant policy')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/powershell/module/netsecurity/get-netfirewallprofile', 'https://learn.microsoft.com/en-us/powershell/module/netsecurity/set-netfirewallprofile')
+      }
+    }
+    @{
+      Id = 'windows.firewall-all-profiles'
+      Name = 'Enable Windows Firewall for all network types'
+      Kind = 'FirewallProfile'
+      Category = 'Windows settings / Security'
+      Description = 'Configure only local firewall Enabled in PersistentStore for the declared network types. On enables local profile protection; Off, where offered, is advanced opt-in. Enable-all captures all three local values before its first write. Inspect configured and effective ActiveStore state, active networks and legacy policy-key presence separately. Managed policy can override local configuration. Preserve rules, app exceptions, services, logging, IPsec and traffic defaults; no policy reset, automatic legacy cleanup or local NotConfigured/default state. Saved recovery restores only captured local fields and reports profile failures. Implementation candidate: GUI, traffic and recovery VM acceptance pending.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/netsecurity/set-netfirewallprofile'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'FirewallProfile'
+      FirewallProfiles = @('Domain', 'Private', 'Public')
+      States = @{ On = 'True' }
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      MigrationBatch = 'SettingsFirewallProfiles20261013'
+      SettingPresentation = @{
+        AppliesTo = 'Whole device; declared network types'
+        Behavior = 'Configuration'
+        GuiEffect = 'Local Enabled configuration is distinct from effective policy; Off is advanced and can expose active networks'
+        GuiPath = 'Windows Security > Firewall and network protection > network type'
+        Requirements = @('Installed NetSecurity and NetConnection cmdlets; administrator rights for writes', 'No RIDE cloud account, subscription or domain join required to configure a local profile', 'Disposable Windows 11/Server applicability, GUI and traffic acceptance remain pending')
+        OtherSupportedChoices = @('Single profiles offer On and advanced Off; enable-all offers On only', 'No generic local default/reset or NotConfigured setter', 'Saved-run restore recovers prior local flags, not managed resultant policy')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/powershell/module/netsecurity/get-netfirewallprofile', 'https://learn.microsoft.com/en-us/powershell/module/netsecurity/set-netfirewallprofile')
+      }
+    }
+    @{
       Id = 'powershell.windows-powershell51-terminal-colors'
       Name = 'Windows PowerShell 5.1 session colors'
       Kind = 'ProfileSetting'
@@ -146,7 +632,7 @@
       Name = 'Windows Security notification-area icon'
       Kind = 'RegistryValue'
       Category = 'Windows settings / Security'
-      Description = 'Hide or show the Windows Security tray icon using policy. Protection continues independently. Legacy SecurityHealth startup-entry removal is excluded. WindowsDefault removes this override; saved-run restore recovers the prior value and type. No restart or application refresh is performed.'
+      Description = 'Configure the machine Windows Security tray-icon hiding policy. Hidden hides through policy; Shown permits display subject to intended-user startup and component readiness, rather than repairing a launcher. WindowsDefault removes the local policy override; saved restore recovers only its prior value/type/absence. Appearance requires user-controlled sign-out/sign-in or reboot. Follow docs/security-icon-startup.md for manual startup/overflow checks; those steps are not captured RIDE changes. Protection and alerts remain separate. No historical Run-command reconstruction, startup repair or forced refresh is performed.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsdefendersecuritycenter#hidewindowssecuritynotificationareacontrol'
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
@@ -162,6 +648,15 @@
       Rollback = 'Exact'
       MigrationBatch = '2026-10-10-settings60'
       LegacySelectors = @('HideDefenderTrayIcon', 'ShowDefenderTrayIcon')
+      SettingPresentation = @{
+        AppliesTo = 'Whole device for hiding policy; manual startup checks in the intended interactive user context'
+        Behavior = 'EnforcedPolicy'
+        GuiEffect = 'Shown permits the icon but does not establish startup readiness or protection state; visible effect needs user-controlled sign-in/reboot'
+        GuiPath = 'Windows Security notification area; intended-user Settings > Apps > Startup or Task Manager > Startup apps'
+        Requirements = @('Administrator rights for machine policy changes; no extra RIDE account or subscription', 'Inspect startup as the intended interactive user, not an alternate administrator account', 'Existing registered native startup entry/component; missing or managed choices remain pending', 'User-controlled sign-out/sign-in or reboot for policy refresh; GUI/multi-user/Server evidence remains separate')
+        OtherSupportedChoices = @('Hidden=1, Shown=0 and local override removal retain their published meanings', 'Native startup/overflow checks are manual user steps, not saved apply/restore success', 'Saved-run recovery restores the policy value only; protection, alerts and startup registration remain separate')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsdefendersecuritycenter#hidewindowssecuritynotificationareacontrol', 'https://support.microsoft.com/en-us/windows/experience/startup-boot/configure-startup-applications-in-windows')
+      }
     }
     @{
       Id = 'windows.memory-integrity-request'
@@ -419,7 +914,7 @@
       Name = 'Keyboard repeat delay'
       Kind = 'RegistryValue'
       Category = 'Windows settings / UI'
-      Description = 'Choose repeat-delay index 0 or 1, not key-repeat speed. Corrects the legacy DWORD write to the Windows string preference; the API behavior reference does not specify this registry representation. WindowsDefault removes this override; saved-run restore recovers the prior value and type. No restart or application refresh is performed.'
+      Description = 'Choose stored keyboard repeat-delay position 0 (Shortest), 1 (LegacyAppearance), 2 (Position2) or 3 (Longest), not repeat speed. Intermediate timing is hardware dependent. Uses the existing String registry preference; the Microsoft API reference documents the 0-3 feature range, not this registry mapping. Stored state is not effective interactive-session readback. WindowsDefault removes the override; saved-run restore retains original value/type/absence, including legacy DWORD and unexpected representations. No native setter, change notification or refresh is performed. GUI/persistence/actual-delay acceptance and a versioned native backend remain pending; no Server support is added.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-systemparametersinfow'
       SupportedTargets = @('Windows 11')
       Scope = 'User'
@@ -429,7 +924,7 @@
       RegistryPath = 'HKCU:\Control Panel\Keyboard'
       ValueName = 'KeyboardDelay'
       ValueType = 'String'
-      States = @{ 'Shortest' = '0'; 'LegacyAppearance' = '1'; 'WindowsDefault' = $null }
+      States = @{ 'Shortest' = '0'; 'LegacyAppearance' = '1'; 'Position2' = '2'; 'Longest' = '3'; 'WindowsDefault' = $null }
       BaselineState = 'WindowsDefault'
       TargetDefaults = @{ 'Windows 11' = @{ 'DefaultValueExists' = $null; 'DefaultValue' = $null; 'EffectiveDefault' = 'Literal defaults depend on image, edition, policy and user configuration; removing the override delegates to Windows and other applicable controls' } }
       Rollback = 'Exact'
@@ -661,7 +1156,7 @@
       Name = 'Windows Media Player Legacy music-file metadata'
       Kind = 'RegistryValue'
       Category = 'Windows settings / Applications'
-      Description = 'Prevent internet retrieval of music-file media information in Windows Media Player Legacy. Separate from CD/DVD metadata. Retired radio presets and WMDRM online controls from the legacy bundle remain excluded. WindowsDefault removes this override; saved-run restore recovers the prior value and type. No restart or application refresh is performed.'
+      Description = 'Prevent internet retrieval of music-file media information in Windows Media Player Legacy. Separate from CD/DVD metadata. Radio presets and WMDRM online controls are separate experimental candidates with unverified current component effects; they are excluded from automatic metadata guidance. WindowsDefault removes this override; saved-run restore recovers the prior value and type. No restart or application refresh is performed.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-windowsmediaplayer#preventmusicfilemetadataretrieval'
       SupportedTargets = @('Windows 11')
       Scope = 'User'
@@ -938,8 +1433,8 @@
       Name = 'Device Management WAP Push service'
       Kind = 'WindowsService'
       Category = 'Windows settings / Services'
-      Description = 'Disabled stops the service and sets Disabled startup. AutomaticRunning sets Automatic and starts it. The legacy reverse also set DelayedAutoStart; that scheduling override is excluded and remains partial. Device-management workloads may depend on this service. Baseline AutomaticRunning is an explicit RIDE choice. Capture and restore startup mode and running state; a missing service is an error rather than an invented default.'
-      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-server/security/windows-services/security-guidelines-for-disabling-system-services-in-windows-server'
+      Description = 'Advanced opt-in service control. AutomaticRunning sets Automatic and starts now while preserving delay; Disabled stops and disables while preserving the dormant delay. AutomaticDelayedRunning selects Automatic (Delayed Start) and starts now. Startup-only AutomaticStartup, AutomaticDelayedStartup, ManualStartup and DisabledStartup preserve runtime. Boot scheduling applies next boot with no fixed delay guarantee. Device-management workloads may depend on this service. Baseline AutomaticRunning is a RIDE choice, not a Windows default. Saved restore captures startup/runtime, SCM delay and literal delay value/type/absence. Missing services and failed stages are explicit. New choices await GUI/SCM/boot/workload VM acceptance; no Server support is added.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/api/winsvc/ns-winsvc-service_delayed_auto_start_info'
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -949,7 +1444,15 @@
       Rollback = 'Exact'
       PreserveDelayedAutoStart = $true
       ServiceName = 'dmwappushservice'
-      States = @{ 'Disabled' = @{ 'StartupType' = 'Disabled'; 'Status' = 'Stopped' }; 'AutomaticRunning' = @{ 'StartupType' = 'Automatic'; 'Status' = 'Running' } }
+      States = @{
+        'Disabled' = @{ StartupType = 'Disabled'; Status = 'Stopped' }
+        'AutomaticRunning' = @{ StartupType = 'Automatic'; Status = 'Running' }
+        'AutomaticDelayedRunning' = @{ StartupType = 'Automatic'; Status = 'Running'; DelayedAutoStart = $true }
+        'AutomaticStartup' = @{ StartupType = 'Automatic'; DelayedAutoStart = $false }
+        'AutomaticDelayedStartup' = @{ StartupType = 'Automatic'; DelayedAutoStart = $true }
+        'ManualStartup' = @{ StartupType = 'Manual' }
+        'DisabledStartup' = @{ StartupType = 'Disabled' }
+      }
       BaselineState = 'AutomaticRunning'
       MigrationBatch = '2026-10-10-settings60'
       LegacySelectors = @('DisableWAPPush', 'EnableWAPPush')
@@ -980,8 +1483,8 @@
       Name = 'Windows Search indexing service'
       Kind = 'WindowsService'
       Category = 'Windows settings / Services'
-      Description = 'Disabled stops the service and sets Disabled startup. AutomaticRunning sets Automatic and starts it. The legacy reverse also set DelayedAutoStart; that override is excluded. Disabling can impair indexed search; no index files are deleted. Baseline AutomaticRunning is an explicit RIDE choice. Capture and restore startup mode and running state; a missing service is an error rather than an invented default.'
-      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-server/security/windows-services/security-guidelines-for-disabling-system-services-in-windows-server'
+      Description = 'Advanced opt-in service control. AutomaticRunning sets Automatic and starts now while preserving delay; Disabled stops and disables while preserving the dormant delay. AutomaticDelayedRunning selects Automatic (Delayed Start) and starts now. Startup-only AutomaticStartup, AutomaticDelayedStartup, ManualStartup and DisabledStartup preserve runtime. Boot scheduling applies next boot with no fixed delay guarantee. Disabling can impair indexed search; no index files are deleted. Baseline AutomaticRunning is a RIDE choice, not a Windows default. Saved restore captures startup/runtime, SCM delay and literal delay value/type/absence. Missing services and failed stages are explicit. New choices await GUI/SCM/boot/workload VM acceptance; no Server support is added.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/api/winsvc/ns-winsvc-service_delayed_auto_start_info'
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -991,7 +1494,15 @@
       Rollback = 'Exact'
       PreserveDelayedAutoStart = $true
       ServiceName = 'WSearch'
-      States = @{ 'Disabled' = @{ 'StartupType' = 'Disabled'; 'Status' = 'Stopped' }; 'AutomaticRunning' = @{ 'StartupType' = 'Automatic'; 'Status' = 'Running' } }
+      States = @{
+        'Disabled' = @{ StartupType = 'Disabled'; Status = 'Stopped' }
+        'AutomaticRunning' = @{ StartupType = 'Automatic'; Status = 'Running' }
+        'AutomaticDelayedRunning' = @{ StartupType = 'Automatic'; Status = 'Running'; DelayedAutoStart = $true }
+        'AutomaticStartup' = @{ StartupType = 'Automatic'; DelayedAutoStart = $false }
+        'AutomaticDelayedStartup' = @{ StartupType = 'Automatic'; DelayedAutoStart = $true }
+        'ManualStartup' = @{ StartupType = 'Manual' }
+        'DisabledStartup' = @{ StartupType = 'Disabled' }
+      }
       BaselineState = 'AutomaticRunning'
       MigrationBatch = '2026-10-10-settings60'
       LegacySelectors = @('DisableIndexing', 'EnableIndexing')

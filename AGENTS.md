@@ -39,7 +39,7 @@ changes over broad rewrites.
 - Individual/company `LicenseReviewStatus`, `DistributionNotes`, and
   `LicenseReviewedAt` belong in the local exportable license review store,
   never catalog defaults or shared acquisition evidence. See
-  `docs/PACKAGE-LICENSING.md` for version/owner keys and the independent schema.
+  `docs/package-licensing.md` for version/owner keys and the independent schema.
 - Offline bundle creation and its redistribution review step are optional
   future development; a local download cache is not distribution approval.
 - Use stable HTTPS URLs from Microsoft Learn or Microsoft Support for Windows
@@ -143,6 +143,14 @@ distinct in metadata, plans, reporting, and handlers.
   do not substitute RIDE's BaselineState for a Windows default.
 
 ## Repository language and text
+
+Documentation filenames follow [the documentation model](docs/models/documentation-model.md):
+use lowercase kebab-case for topic guides and directories. Reserve uppercase
+for conventional entry points such as README.md, AGENTS.md and ARCHITECTURE.md;
+do not capitalize every guide. Keep the documented MIGRATION-PLAN.md and
+generated OPERATIONS.md path exceptions until their consumers are migrated.
+Keep current guidance separate from dated evidence; archive completed run
+reports with working links and retain unresolved decisions in active ledgers.
 
 English is the canonical language for implementation, technical documentation,
 operation metadata, profiles, identifiers, logs, help text, and tests.

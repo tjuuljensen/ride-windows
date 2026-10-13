@@ -141,10 +141,10 @@
     - 0.1.0: Initial OS-selectable AutomatedLab provisioning workflow.
 
 .LINK
-  tests/integration/AUTOMATEDLAB-TASKS.md
+  tests/integration/automatedlab-tasks.md
 
 .LINK
-  tests/integration/AUTOMATEDLAB.md
+  tests/integration/automatedlab.md
 
 #>
 
@@ -237,7 +237,7 @@ function Show-PreflightReport {
   $failedRequired = @($checks | Where-Object { $_.Required -and -not $_.Passed })
   if ($failedRequired.Count -gt 0) {
     $names = ($failedRequired.Name -join ', ')
-    throw "AutomatedLab preflight failed: $names. Review the details above and the Hyper-V troubleshooting section in AUTOMATEDLAB.md."
+    throw "AutomatedLab preflight failed: $names. Review the details above and the Hyper-V troubleshooting section in automatedlab.md."
   }
 }
 
@@ -486,7 +486,7 @@ $guestDirectoryReady = Invoke-LabCommand -ComputerName $VMName -ActivityName 'Pr
   # A silent successful command is retried until its retry budget is exhausted.
   Test-Path -LiteralPath $parentPath -PathType Container
 } -ArgumentList $GuestRepositoryPath -PassThru
-if (-not ($guestDirectoryReady -contains $true)) { throw 'The guest checkout parent directory could not be verified. Source staging has not started; see AUTOMATEDLAB.md for recovery.' }
+if (-not ($guestDirectoryReady -contains $true)) { throw 'The guest checkout parent directory could not be verified. Source staging has not started; see automatedlab.md for recovery.' }
 Write-Host "Copying the current checkout to '$GuestRepositoryPath' on '$VMName'."
 # Stage under the required leaf name even if the host checkout has another name.
 $stageRoot = Join-Path ([IO.Path]::GetTempPath()) ('ride-provision-' + [guid]::NewGuid().ToString('N'))

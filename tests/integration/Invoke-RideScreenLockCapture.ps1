@@ -57,7 +57,7 @@
   0.1.1: Record documented WTS session lock flags alongside samples.
   0.1.0: Add guarded interactive guest footprint capture.
 .LINK
-  ../../docs/SCREEN-LOCK-IMPACT.md
+  ../../docs/screen-lock-impact.md
 #>
 [CmdletBinding(SupportsShouldProcess)]
 param(

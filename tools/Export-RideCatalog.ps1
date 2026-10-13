@@ -47,8 +47,11 @@
   generated.
   Recovery: Regenerate from the reviewed catalog. Check mode is read-only.
   Author: RIDE-Windows maintainers.
-  Version: 0.13.0
+  Version: 0.15.0
   Changelog:
+    0.15.0: Render bounded local maximum-age day choices and SAM authority.
+    0.14.0: Render KeepCurrent registry components, firewall profiles and owned plan GUIDs.
+    0.13.1: Qualify effective-policy inspection by handler after firewall integration.
     0.13.0: Render managed PowerShell profile states, runtimes and color presets.
     0.12.1: Keep setting evidence ordering identical on PowerShell 5.1/7 and omit empty reference links.
     0.12.0: Render setting scope, policy behavior, GUI effects and requirements.
@@ -78,7 +81,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.13.0'
+$script:ScriptVersion = '0.15.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 if ($Help) { Get-Help -Name $PSCommandPath -Full; return }
 $ErrorActionPreference = 'Stop'
@@ -132,7 +135,7 @@ $lines.Add('## Setting scope, behavior and requirements')
 $lines.Add('')
 $lines.Add('Each operation ID fixes its scope. Administrator rights do not determine who receives a setting, whether it is enforced, or whether its GUI is editable. User operations use the execution account; alternate-administrator execution does not select the interactive user. Presentation metadata is additive to catalog schema 1 and does not change states, handlers or saved-run recovery. Missing metadata remains unverified, including in external libraries.')
 $lines.Add('')
-$lines.Add('These are declared configuration effects. RIDE does not yet inspect effective policy or its source; a configured registry value and an effective platform default do not prove active enforcement. GUI and target acceptance are tracked separately in the post-migration review. Requirements describe the setting, rather than subscriptions needed only for optional cloud management.')
+$lines.Add('These are declared configuration effects. Effective-policy inspection is handler-specific: modern firewall candidates distinguish local and ActiveStore state and show source when available. Registry values alone do not establish effective policy or its source, and a declared platform default does not prove active enforcement. GUI and target acceptance are tracked separately in the post-migration review. Requirements describe the setting, rather than subscriptions needed only for optional cloud management.')
 $lines.Add('')
 $lines.Add('| ID | Applies to | Behavior | GUI effect / location | Requirements | Other supported choices | Evidence |')
 $lines.Add('| --- | --- | --- | --- | --- | --- | --- |')
@@ -165,7 +168,7 @@ $lines.Add('| Operation | State | Component values |')
 $lines.Add('| --- | --- | --- |')
 foreach ($operation in ($catalog.Operations | Where-Object Kind -eq 'RegistryValueSet' | Sort-Object { $_.Id })) {
   foreach ($state in ($operation.States.Keys | Sort-Object)) {
-    $values = @($operation.RegistryValues | ForEach-Object { '{0}={1}' -f $_.Key, $(if ($null -eq $operation.States[$state][$_.Key]) { '<unset>' } else { $operation.States[$state][$_.Key] }) }) -join '; '
+    $values = @($operation.RegistryValues | ForEach-Object { '{0}={1}' -f $_.Key, $(if ($null -eq $operation.States[$state][$_.Key]) { '<unset>' } elseif ($operation.States[$state][$_.Key] -is [hashtable] -and $operation.States[$state][$_.Key].KeepCurrent -eq $true) { '<keep current>' } else { $operation.States[$state][$_.Key] }) }) -join '; '
     $lines.Add(('| {0} | {1} | `{2}` |' -f $operation.Id, $state, $values))
   }
 }
@@ -176,8 +179,11 @@ $lines.Add('These settings use Windows management cmdlets, powercfg or NetBIOS/s
 $lines.Add('')
 $lines.Add('| Operation | Managed target | States |')
 $lines.Add('| --- | --- | --- |')
-foreach ($operation in ($catalog.Operations | Where-Object { $_.Kind -in @('ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme') } | Sort-Object { $_.Id })) {
+foreach ($operation in ($catalog.Operations | Where-Object { $_.Kind -in @('ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge') } | Sort-Object { $_.Id })) {
   $target = switch ($operation.Kind) {
+    LocalPasswordMaximumAge { 'Local SAM maximum age in seconds; domain controllers refused' }
+    FirewallProfile { 'PersistentStore Enabled: ' + ($operation.FirewallProfiles -join ', ') }
+    OwnedPowerPlan { 'Owned inactive copy of source ' + $operation.SourcePowerPlanGuid }
     ScheduledTask { $operation.TaskPath + $operation.TaskName }
     AdapterBinding { $operation.ComponentIds -join ', ' }
     PowerScheme { 'Active existing scheme GUID' }
@@ -186,13 +192,13 @@ foreach ($operation in ($catalog.Operations | Where-Object { $_.Kind -in @('Sche
     SoundScheme { 'Current-user AppEvents selector and existing event mappings' }
     default { $operation.Preference }
   }
-  $states = @($operation.States.Keys | Sort-Object | ForEach-Object { '{0}={1}' -f $_, $operation.States[$_] }) -join '; '
+  $states = if ($operation.Kind -eq 'LocalPasswordMaximumAge') { 'NoExpiry=Never expires; Days{0}..Days{1}=explicit days' -f $operation.StateRange.Minimum, $operation.StateRange.Maximum } else { @($operation.States.Keys | Sort-Object | ForEach-Object { '{0}={1}' -f $_, $operation.States[$_] }) -join '; ' }
   $lines.Add("| $($operation.Id) | $target | $states |")
 }
 $lines.Add('')
 $lines.Add('## PowerShell profile settings')
 $lines.Add('')
-$lines.Add('Optional current-user ConsoleHost startup blocks; see [profile architecture and recovery](POWERSHELL-PROFILES.md). Default/unset remove only the managed block; Baseline resolves to Default. Saved-run restore recovers its captured predecessor. These are fixed reviewed RIDE presets, not edits to Terminal settings.json. show/status inspect configuration rather than observing another session. Pending entries cannot be applied until disposable target and visual acceptance is recorded.')
+$lines.Add('Optional current-user ConsoleHost startup blocks; see [profile architecture and recovery](powershell-profiles.md). Default/unset remove only the managed block; Baseline resolves to Default. Saved-run restore recovers its captured predecessor. These are fixed reviewed RIDE presets, not edits to Terminal settings.json. show/status inspect configuration rather than observing another session. Pending entries cannot be applied until disposable target and visual acceptance is recorded.')
 $lines.Add('')
 $lines.Add('| Operation | Runtime | Setting | States | Normal Recommended palette | Elevated palette |')
 $lines.Add('| --- | --- | --- | --- | --- | --- |')
@@ -203,7 +209,7 @@ foreach ($operation in ($catalog.Operations | Where-Object Kind -eq 'ProfileSett
 $lines.Add('')
 $lines.Add('## Publisher licenses')
 $lines.Add('')
-$lines.Add('Packages and standalone artifacts are acquired directly from their declared publisher sources. These license labels are descriptive references, not complete SPDX expressions or individual/company approval. Local review records and export/import are described in [Package licensing](PACKAGE-LICENSING.md).')
+$lines.Add('Packages and standalone artifacts are acquired directly from their declared publisher sources. These license labels are descriptive references, not complete SPDX expressions or individual/company approval. Local review records and export/import are described in [Package licensing](package-licensing.md).')
 $lines.Add('')
 $lines.Add('| ID | License summary | License / EULA | Additional terms |')
 $lines.Add('| --- | --- | --- | --- |')

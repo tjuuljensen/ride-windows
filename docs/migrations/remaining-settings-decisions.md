@@ -1,6 +1,6 @@
 # Remaining Windows and application settings: decisions and blockers
 
-Reviewed: **2026-10-11**. This ledger complements the implementation and estimate
+Reviewed: **2026-10-13**. This ledger complements the implementation and estimate
 entries in [MIGRATION-PLAN.md](../MIGRATION-PLAN.md) and the behavioral acceptance
 work in [settings-post-migration-review.md](settings-post-migration-review.md).
 It is a follow-up agenda, not a declaration that the last setting is migrated.
@@ -179,13 +179,13 @@ settings count.
 These items remain in the migration estimate. A registry round trip or an
 existing partial operation does not close the omitted outcome. Several rows
 represent multiple independently useful outcomes; the rounded settings estimate
-is **40-60**, not the number of table rows.
+is **38-58** in the current migration overview, not the number of table rows.
 
-| Remaining outcome / selectors | Required decision or evidence before implementation |
+| Remaining outcome / selectors | Implementation status and remaining decision/evidence |
 | --- | --- |
-| Ultimate Performance selection/creation and desktop selection menu | User accepted separate existing-plan selection, explicit advanced machine/admin owned plan-copy creation and optional desktop Power plans access. Ultimate stays conditional: legacy GUID query succeeded but activation failed; duplication is a separate untested scenario, not an assumed fix. Identify by GUID, preserve existing stable states and separate Settings power mode, never silently create/fallback or match English names. Record new destination/ownership before creation, avoid repeat duplicates and delete only proven unchanged owned inactive plans after usable selection recovery. Prefer native Power Options menu handoff initially; direct quick-selection requires maintained capture/recovery workflow and stable installed path, with physical intended-user scope verified separately from machine plan actions. Current edition/hardware/license availability, GUI/activation, partial recovery, menu scope and Server evidence remain pending; bundle stays partial without estimate closure |
+| Ultimate Performance selection/creation and desktop selection menu | User accepted separate existing-plan selection, explicit advanced machine/admin owned plan-copy creation and optional desktop Power plans access. Ultimate stays conditional: legacy GUID query succeeded but activation failed; duplication is a separate untested scenario, not an assumed fix. Identify by GUID, preserve existing stable states and separate Settings power mode, never silently create/fallback or match English names. Record new destination/ownership before creation, avoid repeat duplicates and delete only proven unchanged owned inactive plans after usable selection recovery. Prefer native Power Options menu handoff initially; direct quick-selection requires maintained capture/recovery workflow and stable installed path, with physical intended-user scope verified separately from machine plan actions. Current edition/hardware/license availability, GUI/activation, partial recovery, menu scope and Server evidence remain pending; bundle stays partial without estimate closure 2026-10-13: explicit owned creation is implemented as pending candidates; existing selection is unchanged. Export reproducibility and target acceptance remain open; desktop menu deployment stays deferred. |
 | IE proxy autoconfiguration packed connection data | User accepted separate GUI detection and coherent setup-script/address controls through documented connection APIs, advanced WinHTTP configuration and optional discovery-off guidance with both scopes explicit. Preserve unrelated flags/manual/VPN settings and saved URL; retain existing scalar IDs as compatibility controls. Verify managed scope, refresh, connectivity, exact recovery and default-profile implications before implementation |
-| Telemetry non-policy mirrors, CEIP and App-V CEIP | User accepted separate advanced machine/admin Windows CEIP and conditional installed/enabled-client App-V CEIP participation policies, matching actual Group Policy names and showing opposite Enabled wording. Opted out/in differ from Not configured and exact saved-state restore; legacy enable removed both policy overrides. Show OS/client edition/license requirements and managed precedence without RIDE membership/cloud-account requirements or automatic App-V enablement. Current App-V support policy now states server support through October 2029 and client/sequencer follow Windows; correct earlier retirement implication. Exact current client-policy/preference mapping and collection remain pending. Native/Wow6432Node AllowTelemetry copies remain deferred, unexposed and untouched until independent effect/GUI/precedence is established; no guessed labels, old 0/3 writes or default claims. Retain accepted diagnostic policy/guidance and compatibility dependencies; feature evidence, typed recovery and Server applicability remain open, telemetry bundle partial and estimates unchanged |
+| Telemetry non-policy mirrors, CEIP and App-V CEIP | User accepted separate advanced machine/admin Windows CEIP and conditional installed/enabled-client App-V CEIP participation policies, matching actual Group Policy names and showing opposite Enabled wording. Opted out/in differ from Not configured and exact saved-state restore; legacy enable removed both policy overrides. Show OS/client edition/license requirements and managed precedence without RIDE membership/cloud-account requirements or automatic App-V enablement. Current App-V support policy now states server support through October 2029 and client/sequencer follow Windows; correct earlier retirement implication. Exact current client-policy/preference mapping and collection remain pending. Native/Wow6432Node AllowTelemetry copies remain deferred, unexposed and untouched until independent effect/GUI/precedence is established; no guessed labels, old 0/3 writes or default claims. Retain accepted diagnostic policy/guidance and compatibility dependencies; feature evidence, typed recovery and Server applicability remain open, telemetry bundle partial and estimates unchanged 2026-10-13: the Windows CEIP policy is implemented as a pending candidate with typed recovery. App-V consumer/mapping and non-policy mirror evidence remain deferred. |
 | Feedback NumberOfSIUFInPeriod / PeriodInNanoSeconds | User accepted follow-up to accepted combined GUI-aligned preference: intended-user/no-admin scope, only current-build verified dropdown choices, no extra RIDE membership/cloud license requirement. Microsoft candidate mapping coordinates both values; DWORD/large-period inconsistency and units remain unresolved, so no guessed QWORD, truncation or executable payload. Distinguish explicit Automatically, two-value override removal and exact typed paired restore, including mixed/custom prior state. Capture pair before mutation and report partial recovery; preserve unrelated Rules values. Separate machine/admin request policy and tasks with managed precedence visible; no silent all-user enforcement or task/app changes. Interim native Settings guidance remains a user action, not captured apply success. Current GUI/types/units, feature evidence, partial recovery and Server applicability stay pending; bundle partial and estimates unchanged |
 | Windows RE enable/disable in DisableRecoveryAndReset | User accepted follow-up to accepted separate Windows RE lifecycle: normal Enable and advanced Disable for known running-OS registration, machine/admin scope; Advanced startup Restart now is a separate entry action. No universal recovery/reset/security claim or extra RIDE subscription/account requirement; tools may need credentials, volume keys or networking. Require localized inspection, OS/boot identity, image/staged location and stable partition capture; unknown is not Disabled and repeat satisfied states do not cycle disable/enable. Preserve custom/OEM configuration, verify native results and stage partial recovery; opposite command alone is insufficient. Bound restore to verified native prior association/enablement, refuse servicing/image/partition identity conflicts and do not claim Exact without evidence. No image download/delete, partition/BCD-wide repair, forced reboot or protection suspension. Require independent recovery route before Disable and keep readiness guidance; nondestructive boot/encrypted recovery, lifecycle and Server/Core applicability remain deferred, outcome partial and estimates unchanged |
 | Browser service Hidden override | User accepted retirement of paired selectors from maintained migration candidates; preserve historical source and pre-existing values, no published ID or automatic cleanup. Retain modern GUI Network discovery guidance separately, with actual profile/machine/admin scope, sharing/security boundaries and future backend/peer evidence; no equivalent Hidden migration or network-invisibility claim. One legacy outcome resolved by retirement; all five rounded estimate groups reviewed unchanged, recorded in the dated plan |
@@ -200,16 +200,16 @@ is **40-60**, not the number of table rows.
 | Explorer Quick Access / Home HubMode | User accepted retaining normal current-user Open File Explorer to separately from an optional advanced experimental Hide Home navigation candidate, preserving legacy machine/admin scope pending actual multi-user evidence. Keep windows.explorer-start-location ID/state recovery; explicit Home differs from legacy LaunchTo removal. Verify HubMode's current surface/effect, startup interactions and typed prior-state recovery before availability; no implicit LaunchTo change, namespace deletion/reconstruction, ACL changes, pin/history reset or forced Explorer restart. GUI Home/This PC selection is partial coverage of the hiding outcome, not completion; keep omitted scope in the estimate |
 | Include in Library, Give access to and Share context menus | User accepted three independent optional advanced menu-visibility controls, leaving Windows menu availability in recommended profiles. Presentation only; preserve libraries, shares, permissions and other sharing routes. Resolve HKCR merged roots/views and use explicit physical scope; proposed machine/admin implementation must expose per-user precedence, with no silent user-scope fallback. Verify classic/modern/command-bar effects and prefer bounded reversible binding suppression. If subtree removal is needed, capture typed contents/subkeys/ACLs and prove exact recovery; no fixed-CLSID reconstruction, global COM removal, forced ownership or broad tree reset. Multi-binding preflight, partial failures and restore conflicts need explicit handling. All outcomes remain pending implementation and feature acceptance |
 | Five desktop icon ClassicStartMenu mirrors | User accepted five normal optional current-user controls matching Desktop Icon Settings, retaining published per-icon IDs and explicit Shown/Hidden/WindowsDefault semantics. Verify GUI/current rendering and independent/conflicting mirror states before adding or retiring omitted ClassicStartMenu writes. If needed, coordinate both values within one icon operation with captured typed prior state and partial-failure recovery; preserve old scalar saved records without inventing mirror history. Keep the all-icons switch and policy effects visible and separate; no implicit enabling, policy removal, file deletion or forced Explorer restart. Mirror disposition and feature acceptance remain pending |
-| Server Manager and shutdown tracker | User accepted two separate advanced machine/admin policies aligned with Group Policy choices. Server Manager automatic startup is distinct from its console preference; suppression/explicit startup/default removal need verified precedence and logon behavior. Shutdown Event Tracker is one coordinated control for Disabled, Always, Server Only, Workstation Only and Windows default, preserving/restoring paired On/UI values and unrelated logging. Local ADMX evidence is not target acceptance. Windows Server 2025 media/VM remains unavailable; no new Server/client support, implicit policy refresh, task/feature changes or host shutdown testing. Implementation and actual target outcomes remain pending |
-| Server password policy and IE Enhanced Security | User accepted independent advanced local-account complexity and maximum-age controls matching Local Security Policy, machine/admin with explicit scope and initial domain-controller refusal. Replace fixed-string 42-day presets with verified explicit values; preserve minimum-age and unrelated policies, distinguish local/effective sources, and prove focused recovery without full-export replay or password capture. No universal expiration baseline or generic deletion-as-default. User accepted retaining conditional Server IE ESC investigation with two GUI-aligned Administrators/Users On/Off controls, both machine/admin. Current Server Manager documentation still lists ESC despite standalone IE removal in Server 2025; verify actual component effect, GUID/class mapping, profile activation and derived-state recovery before availability. No Windows 11 control, automatic disable, broad historical script replay or claims of Edge/IE-mode equivalence. Server acceptance remains unavailable; implementation and feature acceptance remain pending, with no retirement or estimate closure accepted |
-| Windows Audio service and endpoint mute | User accepted separate advanced machine/admin Audiosrv control (Automatic/running or legacy Manual/stopped) and normal selected playback-device Mute/Unmute using native Core Audio. Manual is not Disabled; preflight/refuse undeclared dependency changes rather than force-stopping or silently configuring AudioEndpointBuilder. Capture service configuration/runtime and endpoint ID/prior mute separately; restore the original device, preserve volume, app/microphone/default-device state, and report missing endpoints without fallback. Endpoint control runs in the intended interactive user's context but affects a potentially shared endpoint; resolve metadata/execution scope and verify GUI roles, session boundaries, exclusive-mode limits and actual playback. No implicit service start, continuous enforcement or universal audio-silence claim. Implementation, feature acceptance and Server audio coverage remain pending |
+| Server Manager and shutdown tracker | User accepted two separate advanced machine/admin policies aligned with Group Policy choices. Server Manager automatic startup is distinct from its console preference; suppression/explicit startup/default removal need verified precedence and logon behavior. Shutdown Event Tracker is one coordinated control for Disabled, Always, Server Only, Workstation Only and Windows default, preserving/restoring paired On/UI values and unrelated logging. Local ADMX evidence is not target acceptance. Windows Server 2025 media/VM remains unavailable; no new Server/client support, implicit policy refresh, task/feature changes or host shutdown testing. Implementation and actual target outcomes remain pending 2026-10-13: both focused policy controls are implemented as pending Server 2025 candidates. Tracker Disabled preserves the display choice; exact paired recovery is retained. Actual Server/Core/logon/prompt and managed precedence acceptance remain open. |
+| Server password policy and IE Enhanced Security | User accepted independent advanced local-account complexity and maximum-age controls matching Local Security Policy, machine/admin with explicit scope and initial domain-controller refusal. Replace fixed-string 42-day presets with verified explicit values; preserve minimum-age and unrelated policies, distinguish local/effective sources, and prove focused recovery without full-export replay or password capture. No universal expiration baseline or generic deletion-as-default. User accepted retaining conditional Server IE ESC investigation with two GUI-aligned Administrators/Users On/Off controls, both machine/admin. Current Server Manager documentation still lists ESC despite standalone IE removal in Server 2025; verify actual component effect, GUID/class mapping, profile activation and derived-state recovery before availability. No Windows 11 control, automatic disable, broad historical script replay or claims of Edge/IE-mode equivalence. Server acceptance remains unavailable; implementation and feature acceptance remain pending, with no retirement or estimate closure accepted 2026-10-13: maximum age is implemented as a pending focused local SAM candidate with NoExpiry/Days1..Days999 and context-bound raw recovery; complexity and IE ESC remain deferred. |
+| Windows Audio service and endpoint mute | User accepted separate advanced machine/admin Audiosrv control (Automatic/running or legacy Manual/stopped) and normal selected playback-device Mute/Unmute using native Core Audio. Manual is not Disabled; preflight/refuse undeclared dependency changes rather than force-stopping or silently configuring AudioEndpointBuilder. Capture service configuration/runtime and endpoint ID/prior mute separately; restore the original device, preserve volume, app/microphone/default-device state, and report missing endpoints without fallback. Endpoint control runs in the intended interactive user's context but affects a potentially shared endpoint; resolve metadata/execution scope and verify GUI roles, session boundaries, exclusive-mode limits and actual playback. No implicit service start, continuous enforcement or universal audio-silence claim. Implementation, feature acceptance and Server audio coverage remain pending 2026-10-13: the advanced Audiosrv service control is implemented as a pending candidate with dependency refusal and primary-only exact recovery. Endpoint mute remains deferred at the native endpoint/session and GUI-role mapping boundary. |
 | BitLocker encryption/decryption and TPM+PIN enrollment | User accepted GUI-aligned guided machine/admin OS-volume setup connecting reviewed policy, TPM-only or TPM+startup PIN, recovery backup, encryption and real boot verification. Separate advanced Turn off BitLocker (decrypt) from suspend, PIN removal and ordinary restore. Preserve existing methods/protectors; no silent alternate-unlock removal, AES-CBC preset, used-space-only assumption, hardware-test skip, reboot, media ejection or plaintext/env-var PIN. Expose edition/admin/TPM and backend-specific account/license prerequisites. Require secure input/output redaction, nonsecret staged records, explicit protector ownership and compensating recovery; encrypted percentages and added PIN alone do not prove the complete outcome. Detailed recovery export/retrieval remains separate follow-up. Lifecycle implementation, actual feature acceptance and Server coverage remain pending |
 | BitLocker recovery protector creation and password display | User accepted guided recovery area with normal Back up, advanced Create additional, and explicit selected-key Show. Select RecoveryPassword by type and ID, never array position; backup reuses existing protectors without implicit rotation/duplicates. Require an explicit off-device-accessible destination, native GUI/portal handoff where secure custom handling is unproven, nonsecret staged reports and output redaction; no recovery secret in routine status/state/logs, auto upload/clipboard/print or cleanup of existing protectors/backups. Expose distinct offline, Microsoft-account, AD DS and Entra prerequisites; future Graph secret retrieval needs consent/owner-or-role checks and audit, not local admin alone. Actual backup retrieval/unlock, failure recovery, secure presentation and Server acceptance remain pending |
 | MaxDevicePasswordFailedAttempts lockout | User accepted optional advanced machine/admin Interactive logon: Machine account lockout threshold, with explicit zero or supported threshold and visible 1-3 effective-as-4 semantics. Intended local GUI/legacy registry mapping remains unverified; failed Windows sign-ins can cause reboot/BitLocker recovery, distinct from TPM startup-PIN retries, Hello or ordinary account lockout. No automatic ten-attempt preset or mobile-wipe label. Initial positive-threshold availability requires verified OS-volume protection and accessible 48-digit recovery backup; show managed precedence/restart/availability impact. Reconcile current versus archived non-BitLocker behavior in disposable targets; policy restore does not undo enacted lockout/protector transitions. Implementation, actual recovery/counting and Server evidence remain pending |
 | Photo Viewer associations and Open with registration | User accepted separate advanced Make Windows Photo Viewer available in Open with and normal Choose default photo app through supported Windows UI. Prefer bounded intended-user HKCU registration, explicitly changing ambiguous legacy HKCR scope, without elevation or machine fallback; native component/current-build behavior remains unverified. Registration does not select defaults; no built-in ProgID hijack, UserChoice/hash bypass, IE reconstruction, DLL download or Photos removal. Capture owned registration changes and preserve existing entries; GUI default recovery is a separate verified user step, never protected-registry replay. Show component/managed restrictions without invented cloud/license prerequisites. Exact extension coverage, quoting, Open with/Default apps discovery, rendering, recovery and Server evidence remain pending |
-| Media radio/WMDRM leftovers | User accepted separate conditional advanced Prevent Radio Station Preset Retrieval (user/no-admin) and Prevent Windows Media DRM Internet Access (machine/admin) investigations, excluded from normal/recommended selections until actual component effects are verified. Current CSP mappings and local ADMX exist; radio ADMX has pre-Vista applicability, and DRM deprecation does not prove universal Windows 11 removal. Correct blanket retired wording in later catalog follow-up. No all-traffic/PlayReady block or automatic DRM inclusion in metadata guide. Distinguish Blocked, explicit policy disabled and override removal; exact typed policy restore cannot revive servers/licenses. Expose component, edition/backend and managed-policy prerequisites; no automatic player installation or license-store changes. Current feature evidence and Server coverage remain pending; bundle stays partial without retirement or estimate closure |
-| Visual effects packed mask and mismatched KeyboardDelay type | User accepted full Keyboard repeat delay positions 0-3, retaining Shortest=0 and LegacyAppearance=1 compatibility and adding reviewed positions 2/3; earlier accepted individual GUI effects and separate timing controls remain in force. Fixed packed masks/whole presets stay deferred; no repeat-rate/Filter Keys changes or guaranteed intermediate timing. Catalog already uses String; prefer focused native API after proving effective-versus-stored state, persistence and exact recovery of legacy DWORD/String/absent/unexpected snapshots, with versioned compatibility for existing runs. No broad UI-effects master switch, silent backend change, forced restart or unrelated mask edits. Current-user/no-admin and active-session requirements; taskbar/Peek, mask mapping, GUI/runtime recovery and Server evidence remain pending; bundle stays partial |
-| Delayed-auto-start overrides for WAP/Search | User accepted additional Automatic (Delayed Start) + Start now preset for each stable existing service ID, candidate AutomaticDelayedRunning, reconciling legacy delayed enable while preserving AutomaticRunning's existing delay and Disabled's dormant flag. Earlier accepted GUI startup/runtime separation remains in force. One coordinated machine/admin SCM handler; startup-only choices do not request runtime actions. Capture literal/effective delay, startup and runtime; preserve snapshot compatibility and prove exact restoration despite SCM normalization. No raw registry catalog twin, reboot, fixed-delay guarantee, forced dependent stop, index repair or implicit enrollment/sync. Show Search and managed-device effects; actual GUI/SCM/boot/workload, partial-failure recovery and Server evidence remain pending; legacy coverage stays partial without estimate closure |
+| Media radio/WMDRM leftovers | User accepted separate conditional advanced Prevent Radio Station Preset Retrieval (user/no-admin) and Prevent Windows Media DRM Internet Access (machine/admin) investigations, excluded from normal/recommended selections until actual component effects are verified. Current CSP mappings and local ADMX exist; radio ADMX has pre-Vista applicability, and DRM deprecation does not prove universal Windows 11 removal. Correct blanket retired wording in later catalog follow-up. No all-traffic/PlayReady block or automatic DRM inclusion in metadata guide. Distinguish Blocked, explicit policy disabled and override removal; exact typed policy restore cannot revive servers/licenses. Expose component, edition/backend and managed-policy prerequisites; no automatic player installation or license-store changes. Current feature evidence and Server coverage remain pending; bundle stays partial without retirement or estimate closure 2026-10-13: both independent policy components are implemented as pending user/machine candidates; blanket retirement wording is corrected. Current consuming component/effective-policy and feature acceptance remain open. |
+| Visual effects packed mask and mismatched KeyboardDelay type | User accepted full Keyboard repeat delay positions 0-3, retaining Shortest=0 and LegacyAppearance=1 compatibility and adding reviewed positions 2/3; earlier accepted individual GUI effects and separate timing controls remain in force. Fixed packed masks/whole presets stay deferred; no repeat-rate/Filter Keys changes or guaranteed intermediate timing. Catalog already uses String; prefer focused native API after proving effective-versus-stored state, persistence and exact recovery of legacy DWORD/String/absent/unexpected snapshots, with versioned compatibility for existing runs. No broad UI-effects master switch, silent backend change, forced restart or unrelated mask edits. Current-user/no-admin and active-session requirements; taskbar/Peek, mask mapping, GUI/runtime recovery and Server evidence remain pending; bundle stays partial 2026-10-13: stored keyboard positions 0-3 and typed compatible recovery are implemented. Native backend change, packed masks and current GUI/session acceptance remain deferred. |
+| Delayed-auto-start overrides for WAP/Search | Implemented 2026-10-13 from the accepted design: AutomaticDelayedRunning and four startup-only choices on each stable existing service ID, reconciling legacy delayed enable while preserving AutomaticRunning's existing delay and Disabled's dormant flag. Earlier accepted GUI startup/runtime separation remains in force. One coordinated machine/admin SCM handler; startup-only choices do not request runtime actions. Capture literal/effective delay, startup and runtime; preserve snapshot compatibility and prove exact restoration despite SCM normalization. No raw registry catalog twin, reboot, fixed-delay guarantee, forced dependent stop, index repair or implicit enrollment/sync. Show Search and managed-device effects; actual GUI/SCM/boot/workload, partial-failure recovery and Server evidence remain pending; legacy coverage stays partial without estimate closure |
 | Security icon startup remainder | User accepted guided Show the Windows Security icon outcome, with earlier accepted focused machine/admin tray-icon policy separate from intended-user Settings/Task Manager startup handoff and user-controlled refresh; no automatic historical Run-entry reconstruction. Verify exact startup entry, effective user/machine scope, managed precedence, component and actual icon appearance; GUI handoff is pending user action, not successful reversible apply. Preserve alerts/protection/services; no binary download, duplicate registration, process kill/launch or implicit repair. Any later direct startup backend needs separate exact recovery/ownership review. Implementation, feature evidence and Server support remain pending; omitted startup mutations stay explicit partial scope |
 | User .NET assemblies (source identification pending) | Open provenance issue, not a known feature or proposed executable setting. No identified deployment/cache selector in legacy/v2, maintained modules/tools/components, local v1.337/v2.5.1 script/data files or the bounded all-ref identifier search. NumLock's System.Windows.Forms loads, machine strong-crypto policies and wallpaper bitmap conversion are separate outcomes. Possible bookkeeping error/duplicate remains unconfirmed. Preserve audit evidence for final walkthrough; does not block other identified work. Resolve by finding/assigning the real source outcome, linking a duplicate, or documenting an explicit agreed bookkeeping correction. No guessed mutation, migrated/retired claim or additional numeric component solely from this label; estimates unchanged |
 
@@ -249,6 +249,133 @@ Refresh them after every actual batch and record the outcome adjustment or why
 rounded ranges stay unchanged. Do not repeat chat approvals for already accepted
 designs unless new evidence requires a material design change.
 
+## Service implementation increment, 2026-10-13
+
+The accepted WAP Push/Search design is implemented on the two stable service IDs:
+explicit `AutomaticDelayedRunning`, plus startup-only Automatic, Automatic
+(Delayed Start), Manual and Disabled choices. Existing `AutomaticRunning` and
+`Disabled` retain delay-preservation and combined runtime semantics. Completion
+uses the same catalog states. State matching and display now distinguish SCM
+delay, stored literal delay and preserved runtime. Version-2 snapshots retain
+service identity, literal type/value/absence and the SCM flag; unversioned recovery
+remains available. Failures identify stages and retain engine saved-run records.
+
+See [service settings](../service-settings.md) for choices, native API references,
+recovery boundaries and the acceptance checklist. This advances implementation,
+not legacy-outcome closure: GUI/SCM normalization, boot, triggers/dependencies,
+actual workloads and Server evidence remain open. No profile or target is added.
+All five estimate ranges remain unchanged because these outcomes are still partial.
+
+Final focused native mocked checks passed **38 per edition** on Windows PowerShell
+5.1 and PowerShell 7; the preceding broader settings run passed **235**. Parser,
+catalog/profile and generated-reference checks passed on both editions. Native API
+compilation alone opens no service handles. The final suite covers exact typed
+serialized recovery, Disabled-but-running recovery, startup-only runtime
+preservation, preview/idempotence, failure records and public show/plan/status plus
+catalog-derived completion. These checks do not establish real feature acceptance.
+
+The user explicitly holds **all disposable VM tests until manual confirmation**
+that testing may resume after the GitHub cache/backoff investigation. Local mocked
+checks may proceed; this increment launches or schedules no VM tests. Do not infer
+permission from cache freshness, quota reset or elapsed time.
+
+## Keyboard range and service recovery follow-up, 2026-10-13
+
+Keyboard repeat delay now declares all stored positions 0-3, retaining Shortest
+and LegacyAppearance plus the stable ID, RegistryValue handler, override removal
+and typed saved recovery. `Position2` and `Longest` add no guaranteed timing or
+immediate-runtime claims. The [keyboard guide](../keyboard-repeat-delay.md)
+identifies the existing stored-state boundary and the native effective-state,
+persistence, user/session and versioned recovery work still deferred for VM
+acceptance. Packed visual-effect presets remain deferred; no legacy outcome closes.
+
+Service module 0.3.1 corrects the preceding key-existence capture mismatch. The
+generic registry reader omits `KeyExisted`; service capture now records it
+explicitly and refuses unavailable service keys. Older unversioned records missing
+that field retain named-value recovery without inferring service-key absence or
+deleting that key. New regression checks model the actual reader contract.
+
+Local validation passed **51 focused mocked tests per edition** on Windows
+PowerShell 5.1 and PowerShell 7.6.5; parser/catalog/profile/reference checks also
+passed on both editions. Detailed scope is recorded in the dated migration-plan
+entry. All five estimate
+ranges remain unchanged, with both areas partial. No recommended profile or target
+support is added. All disposable VM tests remain held until manual user
+confirmation; this continuation starts or schedules none and leaves packages paused.
+
+## Modern firewall implementation, 2026-10-13
+
+Implemented the accepted modern design as three independent controls and one
+captured enable-all composition. Only local Enabled in PersistentStore is changed;
+ActiveStore state/source availability, active networks and legacy-key presence
+remain separate inspection data. Complete preflight capture, drift/readback checks
+and profile-stage failure reports preserve bounded mixed-state recovery. No local
+NotConfigured/default/reset or automatic legacy cleanup is offered, and the
+original StandardProfile recovery remains intact.
+
+See [modern firewall profiles](../firewall-profiles.md) for IDs and boundaries.
+New records are pending with empty SupportedTargets. The migration-plan entry
+records local checks; GUI/connection/managed-policy and independent Server
+acceptance remain open. No legacy outcome closes; all five estimates stay
+unchanged. Packages stay paused. No VM test is started/scheduled while the
+manual-confirmation hold is active.
+
+## Update notification implementation, 2026-10-13
+
+Implemented a pending three-value display-policy candidate from the accepted
+design. Gate, enum and active-hours checkbox remain coordinated; explicit default,
+disabled local gate and all-value override removal are distinct. Existing typed
+value-set snapshots retain complete mixed/custom prior state. Read-only legacy
+Debugger observations are separate from mutation and recovery. The minimum build
+guard is 22621 and supported targets remain empty. Source evidence and gaps are
+in the [notification guide](../update-notifications.md).
+
+Effective organization policy/source inspection, GUI payload normalization,
+notification/reboot behavior and independent Server applicability remain pending.
+Native active-hours/restart/deadline guidance preserves the original interruption
+intent without a no-reboot claim. No legacy outcome closes and all five ranges
+stay unchanged. The migration-plan entry records local checks. No VM test, update
+or live policy change occurs while manual confirmation is outstanding.
+
+## Windows CEIP policy implementation, 2026-10-13
+
+Implemented the accepted advanced Windows participation policy as a pending
+scalar registry candidate: OptedOut=0, OptedIn=1 and WindowsDefault removal,
+preserving the negative Group Policy wording and exact typed legacy recovery.
+Local ICM.admx and the exact Microsoft reference confirm key/gate orientation;
+the [CEIP guide](../ceip-policies.md) records source hash and current-consumer,
+effective-policy/source and edition/Server gaps. No recommended profile, current
+GUI label, collection guarantee or new supported target is asserted.
+
+App-V CEIP remains separate pending relevant installed/enabled-client consumption
+and precedence evidence; no client activation is performed. Undocumented native/
+Wow6432Node telemetry mirrors remain deferred and untouched. The telemetry bundle
+remains partial and all five estimates stay unchanged. Local evidence is in the
+migration-plan entry. No VM tests start without manual user confirmation.
+
+## Windows Security icon guide implementation, 2026-10-13
+
+The accepted [guided startup workflow](../security-icon-startup.md) is delivered
+with catalog presentation distinguishing machine/admin hiding policy from
+intended-user startup, overflow, component readiness and user-controlled refresh.
+Published states and exact policy-only recovery remain unchanged. Manual GUI
+choices are not captured RIDE changes. No historical Run reconstruction, process/
+service repair or protection mutation is introduced. Appearance/multi-user and
+Server evidence remain pending, with all five estimates unchanged. Local
+catalog/parser/reference checks are recorded in the migration plan; no VM test
+is started/scheduled without manual user confirmation.
+
+## Registry lifecycle reporting repair, 2026-10-13
+
+Shared registry inspection now distinguishes real missing keys from denied or
+unavailable inspection and captures key existence with raw value/type. Named-value
+removal skips genuine absence; provider writes/removal and empty-key cleanup
+propagate failures. Value sets and scalar saved records reuse authoritative key
+capture, with earlier object/snapshot compatibility retained. This repairs
+pre-change and partial-failure reporting for migrated controls without claiming
+new GUI/provider/feature acceptance. Local evidence is in the dated migration-plan
+entry; no live setting or VM test runs and all five estimate ranges stay unchanged.
+
 ## Walkthrough milestone
 
 The requested final walkthrough starts after every retained current setting is
@@ -266,7 +393,7 @@ The first increment of work item 1 is implemented: shared scope/behavior/GUI and
 requirement presentation, explicit unknown/effective-policy gaps, scalar
 scope/root validation and four initial reviewed catalog entries. Defender
 Advanced-state requirements are now visible. IDs, states, handlers and saved-run
-recovery are preserved. See [the presentation contract](../SETTING-PRESENTATION.md)
+recovery are preserved. See [the presentation contract](../setting-presentation.md)
 and the implementation entry in the post-migration review.
 
 Tests were held until application migration and its tests completed. The first
@@ -278,3 +405,274 @@ inspection and the remaining catalog audits are still pending. The other
 implementation queue items remain open.
 No additional legacy outcome is counted complete and the final walkthrough
 milestone has not been reached.
+
+## Owned power-plan implementation review, 2026-10-13
+
+The accepted explicit machine/admin creation outcome now has pending Balanced,
+High Performance and conditional Ultimate template-copy operations, separate
+from existing-plan selection. Saved capture identifies the new GUID and owner
+before duplication; intent and export-proven Ready ownership are distinct.
+Only unchanged inactive finalized owned copies can be recovered automatically.
+Incomplete creation, lost/mismatched ownership, active copies and changed exports
+require review. Inspectors write nothing and do not claim configuration equality.
+Existing selection states/recovery remain intact; no implicit activation, reset,
+English-name matching, adoption or fallback is introduced. Native Power Options
+handoff is guidance, not a deployed intended-user menu.
+
+30 focused mocked checks passed on each native PowerShell edition; target
+acceptance is still empty. Native export reproducibility (including hidden values
+and name changes), hardware/edition/Ultimate availability, GUI and Server tests
+remain pending. See [owned power-plan copies](../owned-power-plans.md). The bundle
+remains partial, with no new legacy closure or estimate reduction. No live change,
+package action or VM test occurs; manual VM confirmation remains required.
+
+## Conditional media policy implementation review, 2026-10-13
+
+Separate radio-preset and WMDRM online policies now use exact local ADMX
+User/Machine scopes and DWORD 1/0 mappings, with explicit override removal matching
+the legacy reverse. Saved restore retains literal prior type/data/absence.
+Existing music-metadata retirement wording is corrected: the omitted components
+remain conditional investigations with no blanket retirement accepted. No current
+player/backend behavior is inferred from CSP delivery or local template presence;
+radio's pre-Vista applicability and WMDRM/backend deprecation remain material
+acceptance gaps. No player install, playback/license acquisition or license-store
+changes occur; DRM is excluded from automatic metadata outcome guidance.
+
+See [conditional media policies](../media-policies.md). Effective policy/source,
+GUI/content consequences, intended-user execution and target/Server acceptance
+remain open. Supported targets stay empty; the whole legacy bundle remains
+partial and estimates unchanged. Local mocked results are recorded in the
+migration plan. No disposable VM tests occur without manual user confirmation.
+
+## Server Manager startup implementation review, 2026-10-13
+
+The accepted advanced machine/admin policy now exposes suppression, explicit
+policy-disabled startup and override removal, with exact typed prior-state
+recovery. Local ServerManager.admx mapping is confirmed; console preference,
+logon behavior and effective source remain distinct. No task/console/component
+mutation occurs. Windows Server 2025 is a pending candidate with no supported
+targets or recommended selection. Desktop/Core, current logon/precedence and
+Server acceptance remain open. See [server policies](../server-policies.md).
+The legacy outcome remains partial and estimates unchanged. Local mocked
+results are recorded in the migration plan; no VM runs without manual confirmation.
+
+## Shutdown Event Tracker implementation review, 2026-10-13
+
+The accepted display policy is now one paired operation with Disabled, Always,
+ServerOnly, WorkstationOnly and WindowsDefault. Reliability.admx confirms exact
+1/2/3 display choices with gate 1/0. Disabled preserves any prior display type/data/
+absence; enabled choices write display before gate. WindowsDefault removes both
+explicit overrides and documents its difference from the narrower legacy reverse.
+Exact saved recovery retains the entire typed pair; new KeepCurrent metadata is
+validated before writes and rendered clearly. No shutdown/logging/timestamp/
+reporting or forced refresh occurs. Generated managed-target tables now include
+modern firewall profiles and owned-plan source identities.
+
+See [server policies](../server-policies.md). Windows Server 2025 remains a pending
+candidate; actual prompt routes, managed source/precedence, desktop/Core, client
+applicability and exact/partial target recovery remain open. The outcome is partial
+and all estimates stay unchanged. Local mocked evidence is recorded in the plan;
+no package or disposable VM runs occur, and manual VM confirmation remains required.
+
+## Windows Audio service implementation review, 2026-10-13
+
+The accepted optional advanced Audiosrv control now exposes Automatic/running
+and legacy Manual/stopped, with no Disabled substitution. Bounded related-service
+and load-order group inspection preflights before configuration and rechecks before
+runtime. Required services must already run, active dependents block stop, and
+post-transition drift is reported. No Force or related-service write/recovery is
+owned. The primary exact configuration/runtime plus SCM and typed literal delay
+capture retains snapshot v2; dependency conflicts remain manual review rather
+than invented recovery. Current-user playback-device mute remains a separate
+pending native endpoint-ID/session implementation. No device, volume, microphone,
+app or default-device setting is changed.
+
+See [Windows Audio service](../audio-service.md). Normal apply stays blocked for
+pending Windows 11/Server 2025 candidates. Actual render/capture, dependency/group,
+trigger, GUI, session and Server feature acceptance remain open. The legacy bundle
+stays partial and all five estimates unchanged. Local mocked results are recorded
+in the plan; no live service/audio, package or VM changes occur. Manual user
+confirmation remains required before disposable VM execution.
+
+## Windows Update interruption guide implementation review, 2026-10-13
+
+The accepted guided restart-interruption outcome now has concrete Windows 11
+active-hours, schedule-restart, personal notification and managed deadline/grace
+steps. It references current Microsoft documentation without GitHub quota use.
+The guide does not silently apply a profile, change policies or capture manual
+GUI actions. Existing machine display policy and old IFEO conflict observation
+stay separate. Actual feature/GUI/reboot and Server evidence remain pending;
+legacy coverage and all estimates remain partial/unchanged. See
+[update guide](../update-notifications.md#reduce-windows-update-interruptions).
+No package or disposable VM action occurs.
+
+## Local maximum password age implementation review, 2026-10-13
+
+The accepted independent Maximum password age control is implemented as a pending
+local SAM candidate, using native field-specific level 1002 and exact raw-seconds
+capture/recovery. Never expires and explicit Days1..Days999 are sourced from
+bounded catalog range metadata; no universal 42-day or definition-removal baseline
+is invented. Minimum age/unrelated modal fields remain untouched. Domain-controller,
+unknown authority/role, context and stale-recovery conflicts are explicit. The
+native reader reports applied SAM data; local GPO definitions and managed source
+are not inferred. Existing IDs/states/snapshots keep their prior contracts.
+
+54 selected mocked checks passed per native PowerShell edition; parser/catalog/
+profile/reference checks passed (318/3/5, 121 PowerShell files). No native policy,
+VM, package or anonymous GitHub action occurred. See
+[local password policy](../local-password-policy.md). Complexity remains separate;
+actual native/GUI, management/member/DC and Server expiry/recovery evidence remains
+pending. The legacy bundle and all estimates remain partial/unchanged.
+
+## BitLocker recovery handoff implementation review, 2026-10-13
+
+The accepted guided recovery area now has concrete native backup and explicit-ID
+retrieval instructions with volume/type selection and independently accessible
+destinations. Only nonsecret IDs/types appear in optional inspection examples;
+no example was executed and no key/account was accessed. Multiple or absent
+protectors and unclear native GUI ID selection remain explicit pending steps.
+Personal, Entra/work/school, AD DS, file/USB and print access requirements differ;
+local admin is not cloud secret-read permission. Creation/custom display stays
+advanced/deferred until secure output/ownership/partial recovery is proven.
+
+See [BitLocker recovery handoff](../bitlocker-recovery.md). The guide records no
+secret, creates no protector/profile and captures no manual GUI mutation. Actual
+retrieval/unlock, backend mapping/permission, redaction and Server acceptance remain
+pending. The whole outcome and estimates stay partial/unchanged; no package, VM or
+anonymous GitHub action occurs.
+
+## Windows recovery readiness implementation review, 2026-10-13
+
+Implemented the accepted Windows recovery readiness and native Advanced startup
+handoff in `docs/recovery-readiness.md`. Independent media/backup retrieval and
+credentials/encrypted access are separate readiness stages; unknown status is
+pending, not Disabled or verified. No native command or reboot was run. Entry,
+registered-image enablement, BCD automatic recovery and reset remain distinct.
+No universal recovery/security promise, destructive repair or forced-boot test
+was introduced. OEM/association capture and native bounded recovery remain
+deferred; boot, encrypted access, media, client GUI and Server/Core acceptance
+remain open. No whole legacy outcome closed; all five rounded ranges unchanged.
+
+## Network discovery handoff implementation review, 2026-10-13
+
+Implemented `docs/network-discovery.md` for the accepted modern discovery handoff
+following Computer Browser Hidden selector retirement. Explicit connection and
+profile selection, machine/admin/managed scope and separate sharing permissions
+are visible; no invisibility, broad firewall-rule, guest/Everyone, service-start
+or SMB1 behavior is introduced. Existing Hidden values remain untouched.
+Native peer, GUI, profile/multi-user and Server/Core evidence stays pending.
+The existing retirement is not counted twice and no legacy outcome closes in
+this prose-only batch. Focused references/whitespace reviewed; all five rounded
+migration ranges remain unchanged. No system, VM, package or GitHub request.
+Concurrent documentation/index changes are preserved; recovery readiness now
+uses the recorded lowercase topic convention, with its inbound links updated.
+
+## Storage Sense guidance implementation review, 2026-10-13
+
+Implemented `docs/storage-sense.md` with intended-user native cleanup choices,
+preserved unrelated preferences and separate immediate/content actions. Stable
+ID, stored state and captured type/absence recovery remain unchanged. Value
+removal is not recursive reset; restored configuration cannot recover deleted
+files or automatically rehydrate cloud content. No new guessed channel, marker,
+machine enforcement or executable profile was added. Current GUI/value/default,
+managed/content and Server evidence remain pending, keeping the legacy outcome
+partial and all five rounded ranges unchanged. Focused document checks passed;
+no Windows state, content, VM, package or GitHub request was used.
+
+## System protection guidance implementation review, 2026-10-13
+
+Implemented native `docs/system-protection.md` guidance for explicit machine/admin
+volume selection, normal On and advanced Off with visible potentially destructive
+history effects. Storage allowance is preserved; point creation/application and
+Delete stay separate. System-drive coupling requires verified whole affected
+scope; no wildcard/script backend is introduced. Exact prior configuration does
+not recreate deleted history. Traditional System Restore differs from current
+point-in-time restore, including personal-file behavior. Enabled-volume/native
+inspection, GUI/defaults, completion, coupling/history and recovery evidence
+remain pending; accepted scope remains Windows 11, with no Server port. No
+legacy outcome closes and all five rounded ranges stay unchanged. Focused prose
+checks passed; no native action, VM, package or GitHub request was performed.
+
+## Feedback frequency guidance implementation review, 2026-10-13
+
+Implemented `docs/feedback-frequency.md`: normal intended-user Settings handoff,
+only actually displayed choices, managed/unavailable control reporting and prior
+label recording. This manual route does not capture mixed/custom registry state
+or prove prompt suppression. Machine feedback-request policy, diagnostic-data
+collection and task/app/service changes stay separate. Paired literal types,
+large interval encoding/units, current-build dropdown mapping, typed partial
+recovery and Server evidence remain deferred; no executable payload/profile is
+invented. Existing policy ID/state recovery stays stable; the legacy outcome
+remains partial and all five ranges unchanged. Focused prose checks passed with
+no system, VM, package or anonymous GitHub request.
+
+## Non-VM settings continuation review review, 2026-10-13
+
+Non-VM continuation review: local maximum-age implementation and accepted native
+handoffs were recorded separately from current feature/GUI/target acceptance.
+Power Options native access was already present; clarified its canonical/full
+Windows path, with desktop deployment and direct selection still deferred rather
+than introducing an unowned shortcut/registry tree. Remaining mapping, native
+recovery, history, secret and session boundaries are retained; no guessed states
+or supported-target additions. No whole legacy closure, new retirement/exclusion
+or count subtraction; all five ranges unchanged. Latest quota bridge Full result
+remains failed, with inconsistent stale status/loop lines insufficient for idle
+acceptance. This chat's conditional heartbeat stays active and has submitted no
+VM work. Packages paused; no GitHub request, native settings action or external
+account operation. Concurrent documentation/code preserved and guides indexed.
+
+## Settings validation gate deferral at 08:49 UTC review, 2026-10-13
+
+08:49 UTC read-only heartbeat deferral: dependency active/preparing another Full request; local latest acceptance remains quota-failed. Preflight quota or prior idle inspection does not satisfy verified VM acceptance plus explicit resource backoff/yield. Settings tests not submitted, packages paused, no GitHub/native change or dependency interference. All pending implementation/GUI/target evidence and all five migration ranges remain unchanged; no legacy closure/retirement/exclusion. Conditional follow-up stays active.
+
+## Settings validation gate deferral at 09:04 UTC review, 2026-10-13
+
+09:04 UTC validation deferral: compact dependency status and both local bridge records confirm active competing Full Windows 11 request 2ceab6f49e6d408d86f713fc5ba4b28b. Verified acceptance and explicit shared-resource yield remain absent; no settings VM submitted, no GitHub/package/native change or dependency interference. Pending GUI/native/target evidence retained; no legacy closure/retirement/exclusion and all five rounded ranges unchanged. Conditional heartbeat stays active.
+
+## Settings validation gate deferral at 09:19 UTC review, 2026-10-13
+
+09:19 UTC read-only gate deferral: dependency revision 5 and both local records still show active competing request 2ceab6f49e6d408d86f713fc5ba4b28b. No verified completion/yield; no settings VM or GitHub/package/native action. Pending acceptance, all five ranges and existing legacy partial outcomes unchanged. Heartbeat active, dependency untouched.
+
+## Settings validation gate deferral at 09:34 UTC review, 2026-10-13
+
+09:34 UTC gate deferral: dependency and local loop record one verified Full Windows11 acceptance, including evidence/recovery/UAC and reported idle. Dependency remains active and plans further consecutive target tests; explicit backoff/yield and independently verified idle/no competing work are absent. Settings VM gate remains closed. No settings outcome closes or target expands; all five ranges unchanged. No GitHub/package/native change or dependency interference; heartbeat remains active.
+
+## Settings validation gate deferral at 09:49 UTC review, 2026-10-13
+
+09:49 UTC read-only deferral: verified first Full Windows 11 pass retained, dependency active/preparing second Full submission. No current explicit yield or independently verified idle/no competing work; settings gate remains closed. Pending setting acceptance and all five ranges unchanged, no legacy closure/retirement/exclusion. No VM/GitHub/package/native change or dependency interference; heartbeat active.
+
+## Settings validation gate deferral at 10:04 UTC review, 2026-10-13
+
+10:04 UTC read-only deferral: compact thread status and both local bridge records confirm active second Full Windows 11 request dbfd74b1bfca4e0a91c4f6b088f2ee23. Prior verified result does not establish current completion or yield; gate closed. No VM/GitHub/package/native action or dependency interference. Pending settings evidence, legacy partial scope and all five ranges unchanged; conditional heartbeat active.
+
+## Settings validation gate deferral at 10:19 UTC review, 2026-10-13
+
+10:19 UTC read-only dependency revision 9 and both local records still show active second Full Windows 11 request dbfd74b1bfca4e0a91c4f6b088f2ee23. Integration result and cleanup remain pending; no explicit resource yield. Settings validation deferred, packages paused; all five ranges unchanged.
+
+## Settings validation gate deferral at 10:34 UTC review, 2026-10-13
+
+10:34 UTC gate review: dependency Windows 11 pair verified 2/2 with recovery/UAC and reported idle, backoff deadline10:44:07UTC honored. Two Server passes remain and next competing Full is scheduled12:47Copenhagen; no current independent idle/no-competing-work evidence or settings resource yield. Settings submission deferred; no target expansion or legacy closure. All five ranges unchanged; no GitHub/package/native change or dependency interference, heartbeat active.
+
+## Settings validation gate deferral at 10:49 UTC review, 2026-10-13
+
+10:49 UTC read-only gate deferral: Windows11 2/2 acceptance retained; relevant recent read reveals new dependency heartbeat preparing competing Server Full. Stale local prior-idle records do not prove current yield/no competing work. No settings VM or GitHub/package/native action, dependency untouched. Pending migration evidence and all five ranges unchanged, no legacy closure/retirement/exclusion; conditional heartbeat active.
+
+## Settings validation gate deferral at 11:04 UTC review, 2026-10-13
+
+11:04 UTC read-only dependency revision 12 and both local bridge records confirm active first Server 2025 Full request 9f3c92ba97da41d4b88de8c86e380ab4. Windows 11 pair remains verified; Server completion and resource yield remain absent. Settings validation deferred, packages paused; all five ranges unchanged.
+
+## Settings validation gate deferral at 11:19 UTC review, 2026-10-13
+
+11:19 UTC read-only snapshot and both local records verify first Server Full pass: Windows 11 2/2, Server 2025 1/2, evidence/recovery/UAC and reported idle. Settings remain deferred behind recorded 11:44:22 UTC backoff and final competing Server run at 13:47 Copenhagen. Packages paused; all five ranges unchanged.
+
+## Settings validation gate deferral at 11:34 UTC review, 2026-10-13
+
+11:34 UTC read-only dependency revision 13 is unchanged. Windows 11 2/2 and Server 1/2 passes remain verified; recorded backoff through 11:44:22 UTC and final competing Server run at 13:47 Copenhagen remain. Settings tests deferred, packages paused; all five ranges unchanged.
+
+## Settings validation gate deferral at 11:49 UTC review, 2026-10-13
+
+11:49 UTC read-only dependency revision 14 and both local bridge records confirm active second Server Full request 420c567aea0b44118862ecfcf1de35a5. Final result/recovery and resource yield are pending; prior Windows 11 2/2 and Server 1/2 retained. Settings validation deferred, packages paused; all five ranges unchanged.
+
+## Settings validation gate deferral at 12:04 UTC review, 2026-10-13
+
+12:04 UTC read-only dependency revision 15 and both local records still show active second Server Full request 420c567aea0b44118862ecfcf1de35a5. Final export/recovery and resource yield are pending. Settings validation deferred; packages paused; all five ranges unchanged.

@@ -34,7 +34,7 @@
   Recovery: Keep evidence; restore the disposable measurement checkpoint.
   Changelog: 0.1.0: Add scoped before/after inventories without following reparse points.
 .LINK
-  ../../docs/SCREEN-LOCK-IMPACT.md
+  ../../docs/screen-lock-impact.md
 #>
 [CmdletBinding(SupportsShouldProcess)]
 param(

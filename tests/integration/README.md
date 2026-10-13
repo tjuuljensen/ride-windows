@@ -78,7 +78,7 @@ for executed evidence and remaining acceptance limits.
 
 The current VM suite checks Explorer settings; install, idempotence, and removal for 7-Zip, Notepad++, and Sysmon; the inking and typing setting; network category apply/restore for all non-domain profiles; Remote Assistance policy; the Microsoft product updates preference; and the BitLocker encryption-method policy on Windows 11. Git for Windows installation is not yet covered. The suite does **not yet** perform real-Windows round-trip tests for the service, UWP per-app override, or boot configuration handlers.
 
-The optional [God Mode folder](../../docs/GOD-MODE.md) scenario checks preview,
+The optional [God Mode folder](../../docs/god-mode.md) scenario checks preview,
 repeat apply and exact saved-run restore on Windows 11. Use a clean VM desktop;
 the scenario refuses a nonempty God Mode folder. Manually open the folder in
 Explorer to verify that it displays Control Panel tasks. The folder lifecycle
@@ -93,7 +93,7 @@ PowerShell process inside the VM. This keeps Pester's mock call stack outside
 the remoting thread. The guest entry point requires the host runner's VM marker;
 use the host runner or registered task rather than invoking it on a workstation.
 Refresh an installed controller through registration while its worker is idle
-after reviewing runner changes; see [task setup](AUTOMATEDLAB-TASKS.md#2-register-once).
+after reviewing runner changes; see [task setup](automatedlab-tasks.md#2-register-once).
 
 When using AutomatedLab, the runner waits up to five minutes for a guest PowerShell remoting session before staging files. A timeout indicates the guest is still starting or its WinRM listener/network firewall is unavailable; no RIDE test code runs until that session is established.
 
@@ -141,7 +141,7 @@ For the Hyper-V wizard and PowerShell alternatives, see Microsoft's [create a vi
 
 ### Optional: provision this VM with AutomatedLab
 
-The Hyper-V Manager flow above remains the primary setup path. For repeatable, host-driven provisioning, use the [AutomatedLab setup guide](AUTOMATEDLAB.md) and its OS-selectable script. The script checks host permissions and lab prerequisites, installs Pester through `Invoke-LabCommand`, creates the clean checkpoint, and performs the AutomatedLab copy step. AutomatedLab is an external dependency and is not installed by RIDE.
+The Hyper-V Manager flow above remains the primary setup path. For repeatable, host-driven provisioning, use the [AutomatedLab setup guide](automatedlab.md) and its OS-selectable script. The script checks host permissions and lab prerequisites, installs Pester through `Invoke-LabCommand`, creates the clean checkpoint, and performs the AutomatedLab copy step. AutomatedLab is an external dependency and is not installed by RIDE.
 
 ## 4. Install the test dependency in the guest
 
@@ -218,8 +218,9 @@ If PowerShell Direct cannot connect, confirm the VM is running, the guest has co
 
 ## 7. Run validation and the integration suite
 
-For an opt-in elevated task, local watcher and GitHub Actions entry point that
-keep host UAC enabled, follow [the task controller runbook](AUTOMATEDLAB-TASKS.md).
+For an opt-in elevated task, local watcher and GitHub Actions entry point,
+follow [the task controller runbook](automatedlab-tasks.md). Host UAC is not
+inspected or enforced; administrator elevation and VM recovery are still required.
 The existing direct commands below retain their default behavior. Validate the
 new controller on a separate pilot before agreeing a cutover.
 

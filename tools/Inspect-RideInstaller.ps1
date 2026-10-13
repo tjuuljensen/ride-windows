@@ -30,7 +30,7 @@
   Owner: RIDE-Windows maintainers. Version: 0.1.0.
   Changelog: 0.1.0: Add independent inspection of custom-library sample downloads.
 .LINK
-  ../docs/CUSTOM-LIBRARIES.md
+  ../docs/custom-libraries.md
 #>
 
 

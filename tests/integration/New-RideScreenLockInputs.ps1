@@ -32,7 +32,7 @@
   Changelog: 0.1.0: Add pinned, download-only evaluation input preparation.
 
 .LINK
-  ../../docs/SCREEN-LOCK-IMPACT.md
+  ../../docs/screen-lock-impact.md
 #>
 [CmdletBinding(SupportsShouldProcess)]
 param([string] $Destination, [switch] $Version)

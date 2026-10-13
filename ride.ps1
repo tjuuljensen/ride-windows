@@ -39,6 +39,8 @@
   Catalog state for set, also accepted positionally after the ID. Press Tab for declared states.
   PowerShell profile colors offer Recommended, AdminBlue, Default and the Baseline alias.
   Default and unset remove only the managed profile block; restore uses captured prior content.
+  Owned power-plan candidates offer Create only; creation never selects a plan.
+  Local password-age candidates offer NoExpiry and Days1 through Days999.
 
 .PARAMETER RunId
   32-character hexadecimal saved run ID for restore; press Tab to discover saved manifests.
@@ -94,8 +96,12 @@
   machine/user RIDE state stores. Package observations use catalog/artifact-observations.json.
   Recovery: Use restore -RunId for captured state. Package recovery has the catalog-declared limits.
   Author: RIDE-Windows maintainers.
-  Version: 0.10.0
+  Version: 0.10.4
   Changelog:
+    - 0.10.4: Complete bounded explicit local password-age day states from the catalog.
+    - 0.10.3: Complete explicit owned power-plan creation states from the catalog.
+    - 0.10.2: Complete catalog-declared local firewall profile states.
+    - 0.10.1: Complete catalog-declared Windows service states, including startup-only choices.
     0.10.0: Complete managed PowerShell profile color states and baseline removal.
     0.9.3: Refresh library metadata modules in long-lived PowerShell sessions.
     0.9.2: Forward effective WhatIf and explicitly bound Confirm to engine commands.
@@ -114,10 +120,10 @@
   README.md
 
 .LINK
-  docs/CATALOG-SEARCH.md
+  docs/catalog-search.md
 
 .LINK
-  docs/CUSTOM-LIBRARIES.md
+  docs/custom-libraries.md
 
 .LINK
   docs/models/script-repository-model.md
@@ -296,7 +302,7 @@ param(
       Import-Module (Join-Path (Split-Path -Parent $catalogPath) '../modules/RIDE.Libraries.psm1') -Force -ErrorAction Stop
       $catalog = (Get-RideCatalogContext -Root (Split-Path -Parent (Split-Path -Parent $catalogPath)) -Library $fakeBoundParameters.Library).Catalog
       $operation = $catalog.Operations | Where-Object { $_.Id -eq $fakeBoundParameters.Id } | Select-Object -First 1
-      if ($operation.Kind -in @('RegistryValue', 'RegistryValueSet', 'RegistryKeySet', 'PowerSetting', 'ShellFolder', 'ProfileSetting', 'ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme')) {
+      if ($operation.Kind -in @('RegistryValue', 'RegistryValueSet', 'RegistryKeySet', 'WindowsService', 'PowerSetting', 'ShellFolder', 'ProfileSetting', 'ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge')) {
         $states = @($operation.States.Keys)
         if ($operation.Kind -in @('RegistryValue', 'RegistryValueSet', 'ShellFolder', 'ProfileSetting') -and 'Baseline' -notin $states) { $states += 'Baseline' }
       }
@@ -349,7 +355,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.10.0'
+$script:ScriptVersion = '0.10.4'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 
 if ($Help) {
@@ -384,6 +390,8 @@ Options:
   -Field <fields>      Narrow search fields; press Tab to discover available fields.
   -View <view>         Narrow search to a list view/category (except profiles).
   -State <state>       Declared state for set; press Tab to complete available states.
+                       Service states include catalog-declared startup-only and combined presets.
+                       Pending firewall profile controls complete On/Off but await VM acceptance.
   -RunId <id>          Run ID required by restore.
   -Destination <path>  Retain a downloaded artifact under this directory.
   -WhatIf              Preview apply, download, install, set, unset, remove or restore.
@@ -413,6 +421,10 @@ In an interactive PowerShell session, press Tab after a command or value to
 complete commands, operation and group IDs, profiles, and saved run IDs.
 Put -Library before the value being completed to include its external metadata.
 Search also completes field names, views/categories, and catalog ID suggestions.
+Owned power-plan candidates complete Create; normal apply remains blocked until
+target acceptance. Creation and existing-plan selection are separate operations.
+Local maximum password age completes NoExpiry and Days1..Days999 from catalog
+range metadata; candidates remain blocked pending target acceptance.
 Search treats backslashes, wildcard and regex punctuation literally. Quote phrases
 and paths; backslashes need no doubling. Missing/blank queries are errors; no
 matches returns an empty collection. Multiple -Field values use OR matching.

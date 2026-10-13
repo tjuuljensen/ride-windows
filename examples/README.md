@@ -27,5 +27,5 @@ your own new directory, validate it and preview its explicit profile:
 Or copy the main library to try several operation kinds together. Its starter
 selects only the inert marker; choose settings or packages explicitly. Validation
 does not establish Windows behavior. Review selections and test in disposable
-Windows VMs. See the [custom-library guide](../docs/CUSTOM-LIBRARIES.md) for `-Add`,
+Windows VMs. See the [custom-library guide](../docs/custom-libraries.md) for `-Add`,
 references and recovery.

@@ -8,14 +8,17 @@
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
   Prerequisites: The focused Windows modules required by each catalog kind.
   Recovery: Saved-run restore; unavailable resources or policy failures throw.
-  Owner: RIDE-Windows maintainers. Version: 0.1.0.
-  Changelog: 0.1.0: Add focused managed-setting dispatch and power-scheme selection.
+  Owner: RIDE-Windows maintainers. Version: 0.2.0.
+  Changelog: 0.2.0: Dispatch local/effective firewall profiles with captured-state drift checks.
+    0.1.0: Add focused managed-setting dispatch and power-scheme selection.
 #>
 Import-Module (Join-Path $PSScriptRoot 'RIDE-ScheduledTasks.psm1') -Force
 Import-Module (Join-Path $PSScriptRoot 'RIDE-AdapterBindings.psm1') -Force
 Import-Module (Join-Path $PSScriptRoot 'RIDE-SystemPreferences.psm1') -Force
 Import-Module (Join-Path $PSScriptRoot 'RIDE-NetworkControls.psm1') -Force
 Import-Module (Join-Path $PSScriptRoot 'RIDE-SoundSchemes.psm1') -Force
+Import-Module (Join-Path $PSScriptRoot 'RIDE-FirewallProfiles.psm1') -Force
+$script:ModuleVersion = '0.2.0'
 function Invoke-RideSchemeCommand {
   <#
   .SYNOPSIS
@@ -69,6 +72,7 @@ function Get-RideManagedSettingState {
     DefenderPreference { return Get-RideDefenderPreferenceState $Operation }
     SmbProtocol { return Get-RideSmbProtocolState $Operation }
     SoundScheme { return Get-RideSoundSchemeState $Operation }
+    FirewallProfile { return Get-RideFirewallProfileState $Operation }
     { $_ -in @('NetBios', 'RemoteDesktopFirewall') } { return Get-RideNetworkControlState $Operation }
     PowerScheme {
       $active = Invoke-RideSchemeCommand @('/getactivescheme')
@@ -94,12 +98,15 @@ function Set-RideManagedSettingState {
     Catalog metadata.
   .PARAMETER State
     Declared state name.
+  .PARAMETER ExpectedState
+    Optional engine capture for handlers that reject configuration drift.
   .OUTPUTS
     None. Unavailable resources and write failures throw.
   #>
-  param([hashtable] $Operation, [string] $State)
+  param([hashtable] $Operation, [string] $State, $ExpectedState)
   if (-not $Operation.States.ContainsKey($State)) { throw 'Unsupported managed setting state.' }
   if ($Operation.Kind -eq 'SoundScheme') { Set-RideSoundSchemeState $Operation $State; return }
+  if ($Operation.Kind -eq 'FirewallProfile') { Set-RideFirewallProfileState $Operation $State $ExpectedState; return }
   if ($Operation.Kind -in @('NetBios', 'RemoteDesktopFirewall')) { Set-RideNetworkControlState $Operation $State; return }
   Set-RideManagedSettingValue $Operation $Operation.States[$State]
 }
@@ -148,6 +155,7 @@ function Restore-RideManagedSettingState {
     ScheduledTask { Restore-RideScheduledTaskState $Operation $Snapshot }
     AdapterBinding { Restore-RideAdapterBindingState $Operation $Snapshot }
     SoundScheme { Restore-RideSoundSchemeState $Operation $Snapshot }
+    FirewallProfile { Restore-RideFirewallProfileState $Operation $Snapshot }
     { $_ -in @('NetBios', 'RemoteDesktopFirewall') } { Restore-RideNetworkControlState $Operation $Snapshot }
     default { Set-RideManagedSettingValue $Operation $Snapshot.Value }
   }

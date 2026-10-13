@@ -26,7 +26,7 @@
     0.1.1: Allow thirty seconds for cold runtime discovery in disposable guests.
     0.1.0: Add bounded managed-block lifecycle and Terminal color rendering.
 .LINK
-  ../docs/POWERSHELL-PROFILES.md
+  ../docs/powershell-profiles.md
 .LINK
   https://learn.microsoft.com/en-us/windows/win32/fileio/reparse-point-tags
 #>

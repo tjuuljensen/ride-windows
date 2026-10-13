@@ -3,7 +3,7 @@
   Register or remove an opt-in elevated controller for a disposable RIDE VM.
 
 .DESCRIPTION
-  - Requires elevated setup with host UAC enabled; does not repair host policies.
+  - Requires elevated setup; does not inspect or repair host UAC policies.
   - Installs a fixed worker and runner outside the checkout and captures evidence.
   Creates protected controller files and a highest-privilege interactive task.
   Removal deletes only the task, preserving configuration and results.
@@ -40,16 +40,18 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.1.1
+  Version: 0.1.3
   Changelog:
+    - 0.1.3: Remove UAC observations from registration evidence; keep administrator elevation required.
+    - 0.1.2: Accept the existing host UAC configuration while retaining elevation and baseline capture.
     - 0.1.1: Document reuse of installed pinned configuration for idle controller refresh.
     - 0.1.0: Initial task registration and configuration evidence.
 
 .LINK
-  tests/integration/AUTOMATEDLAB-TASKS.md
+  tests/integration/automatedlab-tasks.md
 
 .LINK
-  tests/integration/AUTOMATEDLAB.md
+  tests/integration/automatedlab.md
 
 #>
 
@@ -60,7 +62,7 @@ param(
   [ValidateSet('Register', 'Remove')][string] $Action = 'Register',
   [switch] $Version
 )
-$script:ScriptVersion = '0.1.1'
+$script:ScriptVersion = '0.1.3'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -Force
@@ -69,7 +71,7 @@ $config = Read-RideAutomationConfiguration $ConfigurationPath
 $root = Get-RideAutomationRoot $config.Name
 $installedConfiguration = Join-Path $root 'configuration.json'
 Assert-RideAutomationDirectory $root
-if (-not (Test-RideAutomationAdministrator)) { throw 'Run registration/removal in elevated PowerShell. Do not disable UAC.' }
+if (-not (Test-RideAutomationAdministrator)) { throw 'Run registration/removal in elevated PowerShell.' }
 $existing = Get-ScheduledTask -TaskPath '\RIDE\' -TaskName $config.Name -ErrorAction SilentlyContinue
 if ($existing -and $existing.Description -ne "RIDE disposable VM test controller: $installedConfiguration") { throw 'A task with this name already exists and is not owned by this configuration.' }
 if ($existing -and $existing.State -eq 'Running') { throw 'Wait for the current test task to finish before registration/removal.' }
@@ -79,7 +81,7 @@ if ($Action -eq 'Remove') {
   Write-Output "Task removed. Configuration and results retained at '$root'. Stop the watcher/CI runner separately."
   return
 }
-$uac = Assert-RideAutomationHost
+Assert-RideAutomationHost
 $target = Import-RideAutomationLab $config
 $controllerBase = Split-Path -Parent $root
 if (Test-Path -LiteralPath $controllerBase) {
@@ -134,7 +136,7 @@ Write-RideAutomationJson -Path $installedConfiguration -Value $config
 $vm = $target.VM
 $evidence = @{
   SchemaVersion = 1; CapturedAtUtc = [datetime]::UtcNow.ToString('o'); ValidationStatus = 'NotValidated'
-  Host = @{ Account = $identity.Name; OS = (Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, BuildNumber); PowerShell = $PSVersionTable.PSVersion.ToString(); Uac = $uac }
+  Host = @{ Account = $identity.Name; OS = (Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, BuildNumber); PowerShell = $PSVersionTable.PSVersion.ToString() }
   VM = @{ Name = $vm.Name; Id = $vm.Id.ToString(); Generation = $vm.Generation; Version = $vm.Version.ToString(); MemoryStartup = $vm.MemoryStartup; ProcessorCount = $vm.ProcessorCount; Firmware = (Get-VMFirmware -VM $vm | Select-Object SecureBoot, SecureBootTemplate); Security = (Get-VMSecurity -VM $vm | Select-Object TpmEnabled); Network = @(Get-VMNetworkAdapter -VM $vm | Select-Object Name, SwitchName, MacAddress) }
   Checkpoint = @{ Id = $target.Snapshot.Id.ToString(); Name = $target.Snapshot.Name; CreationTime = $target.Snapshot.CreationTime.ToUniversalTime().ToString('o') }
   ISO = @{ Path = $config.IsoPath; SHA256 = $config.IsoSHA256 }; Dependencies = $config.DependencyVersions

@@ -52,7 +52,7 @@
   Owner: RIDE-Windows maintainers. Version: 0.1.0.
   Changelog: 0.1.0: Separate local license reviews from shared publisher metadata.
 .LINK
-  ../docs/PACKAGE-LICENSING.md
+  ../docs/package-licensing.md
 #>
 
 
