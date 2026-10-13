@@ -8,18 +8,20 @@
 | Packages, portable tools and downloadable artifacts | 58-73 | Remaining forensic tools, system-tool entries, general software/artifacts, AD tools, browsers and other products; 19 newly accepted distributions (7 installed, 12 portable), 10 earlier outcomes and Opera excluded; R01/R02 preparation remains partial; current BloodHound CE and both collectors selected, container deployment separate; Volatility 2 and ImproHound retirement reviews remain unresolved; corporate licensing watchlist added, with approvals kept local |
 | Windows components and optional features | 20-25 | WSL, Hyper-V, Sandbox, OpenSSH, printing features and built-in app management; RSAT remains a component/applicability decision; BloodHound CE selects no automatic Docker/WSL provisioning or Server Docker Desktop support; no new component acceptance |
 | Accounts, configuration and deployed files/assets | 25-35 | Users and administrator membership, Wi-Fi, regional settings, language packs, browser preferences, fonts and wallpapers; user-bin PATH, bin provisioning and WindowsApps repair remain deferred; VMware directory/profile-file and Python environment/symbol/plugin ownership remain under review |
-| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; quota/cache/backoff bridge passed Windows 11 Full with 1,280 tests, eight network and three real cache observations with matching publisher digests; consecutive acceptance Windows 11 2/2, Server 2025 2/2 on the current controller baseline; collector 0.4.1 bounded failure collection accepted, ArtCraft Launcher remains closed and must not be restarted; controller certification and default-branch cutover remain open; no automatic Python installation-time pip upgrade selected; runtime/rule updates and explicit maintenance remain separate review items; optional GitHub authentication approved as high-priority v3 infrastructure, with implementation/acceptance pending; controller 0.4.6 scoped normal/timeout/refusal acceptance complete on both targets; broader certification and hosted final-source validation remain open |
+| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; quota/cache/backoff bridge passed Windows 11 Full with 1,280 tests, eight network and three real cache observations with matching publisher digests; consecutive acceptance Windows 11 2/2, Server 2025 2/2 on the current controller baseline; collector 0.4.1 bounded failure collection accepted, ArtCraft Launcher remains closed and must not be restarted; controller certification and default-branch cutover remain open; no automatic Python installation-time pip upgrade selected; runtime/rule updates and explicit maintenance remain separate review items; optional GitHub authentication approved as high-priority v3 infrastructure, with implementation/acceptance pending; controller 0.4.6 scoped runtime/records accepted; hosted candidate f5e3218 validation passed both PowerShell editions; delivery/default-branch certification deferred until v3 release candidate |
 | **Total, rounded** | **150-205** | **About 180 for planning** |
 
-Last reviewed: **2026-10-13**. Latest run: [Controller acceptance records completed](#controller-acceptance-records-completed-2026-10-13).
-Protected acceptance.md records were saved on both configurations at 14:16:41
-UTC and verified against reviewed hashes; configurations and NotValidated status
-remain unchanged. Normal, timeout and refusal acceptance is complete for 0.4.6.
-Readiness at 14:17:38 UTC found both controllers/VMs idle, hashes/pins unchanged,
-CI clean and ArtCraft Launcher absent. No further VM run submitted. Existing
-bridge 2/2 pairs stay accepted and its heartbeat disabled. Final-source hosted
-validation and deferred delivery/default-branch gates remain open. All five
-migration ranges and the rounded total remain unchanged. Do not restart ArtCraft.
+Last reviewed: **2026-10-13**. Latest run: [Hosted final-source validation passed](#hosted-final-source-validation-passed-2026-10-13).
+GitHub-hosted Validate passed the exact f5e3218 candidate tree via isolated
+review-branch trigger cc5481f, run 38413683226. Windows PowerShell 5.1 passed
+1,455 tests with no skips; PowerShell 7 passed 1,453 with two expected host-
+preflight skips. Both passed catalog/syntax checks with zero failed/inconclusive/
+unrun tests. No Hyper-V request, master/variable change or frozen CI advance.
+New unfinished fixture edits remain excluded. Controller scoped acceptance and
+historical bridge 2/2 pairs stay accepted; bridge heartbeat disabled. Dispatch/
+master-push gates stay deferred until v3 release-candidate readiness and agreed
+publication. All five ranges and the rounded estimate remain unchanged.
+ArtCraft Launcher must not be restarted.
 
 Latest scope review: **2026-10-13**. [Optional GitHub authentication](#optional-github-authentication-v3-scope) is approved high-priority v3 work, with implementation/acceptance pending. All five legacy ranges and the rounded total remain unchanged; reusable-module extraction stays deferred.
 
@@ -40,15 +42,17 @@ mocked evidence is recorded below. No service, audio device, package or VM is
 changed. Packages stay paused; manual VM confirmation remains required. All five
 ranges and rounded total remain unchanged because the outcome stays partial.
 
-Latest infrastructure context: [Controller acceptance records completed](#controller-acceptance-records-completed-2026-10-13).
-Protected acceptance.md records were saved on both configurations at 14:16:41
-UTC and verified against reviewed hashes; configurations and NotValidated status
-remain unchanged. Normal, timeout and refusal acceptance is complete for 0.4.6.
-Readiness at 14:17:38 UTC found both controllers/VMs idle, hashes/pins unchanged,
-CI clean and ArtCraft Launcher absent. No further VM run submitted. Existing
-bridge 2/2 pairs stay accepted and its heartbeat disabled. Final-source hosted
-validation and deferred delivery/default-branch gates remain open. All five
-migration ranges and the rounded total remain unchanged. Do not restart ArtCraft.
+Latest infrastructure context: [Hosted final-source validation passed](#hosted-final-source-validation-passed-2026-10-13).
+GitHub-hosted Validate passed the exact f5e3218 candidate tree via isolated
+review-branch trigger cc5481f, run 38413683226. Windows PowerShell 5.1 passed
+1,455 tests with no skips; PowerShell 7 passed 1,453 with two expected host-
+preflight skips. Both passed catalog/syntax checks with zero failed/inconclusive/
+unrun tests. No Hyper-V request, master/variable change or frozen CI advance.
+New unfinished fixture edits remain excluded. Controller scoped acceptance and
+historical bridge 2/2 pairs stay accepted; bridge heartbeat disabled. Dispatch/
+master-push gates stay deferred until v3 release-candidate readiness and agreed
+publication. All five ranges and the rounded estimate remain unchanged.
+ArtCraft Launcher must not be restarted.
 
 ### Earlier migration and acceptance context
 
@@ -740,6 +744,40 @@ as absent in a loadable library. The published catalog schema and existing
 library identities remain unchanged; migration estimates remain unchanged.
 
 ## Migration estimate review history
+
+### Hosted final-source validation passed, 2026-10-13
+
+Published candidate f5e32180faf96508c35534ba46677bc78d0fe889 passed full hosted
+Validate through trigger cc5481f2bdff02015f939d1b9d631fca135737e7 on review branch
+codex/ride-v3-hosted-validation-20261013. Both reference the exact same tree
+29999e7a2f4e7e2dab74c35e3993782ca0cd025c, so the trigger changed no candidate
+content. [Run 38413683226](https://github.com/tjuuljensen/ride-windows/actions/runs/38413683226)
+finished both windows-latest jobs successfully: Windows PowerShell 5.1 passed
+1,455 tests with no skips; PowerShell 7 passed 1,453 with the two intentional
+Windows PowerShell-only host-preflight skips. Both had zero failures,
+inconclusive or unrun tests, and passed validation of 318 operations, three
+groups, five profiles and 120 PowerShell files. Decoded logs and completed job
+steps were audited at 14:42:11 UTC. The
+[dated evidence](archive/evidence/hosted-final-source-validation-2026-10-13.md)
+records actual revisions, job IDs, totals and retained log hashes.
+
+This closes hosted validation for the recorded candidate. The review branch
+is excluded from the VM workflow push filter; no Hyper-V request, self-hosted
+run, master/activation-variable change or frozen CI checkout advance occurred.
+Existing branch/index and unrelated unfinished service/settings fixture edits
+were preserved. Those unpublished edits are outside this result. Hosted mocked
+regression does not close their native/GUI/target acceptance. Controller 0.4.6
+scoped acceptance and historical anonymous bridge pairs remain accepted; its
+heartbeat stays disabled. The user requires v3 release-candidate readiness
+before master publication, so manual dispatch/trusted master-push gates remain
+deferred. Future implementation and eventual RC source need applicable fresh
+validation. ArtCraft Launcher must not be restarted.
+
+Resolved, retired and newly excluded legacy outcomes: **zero**; partial/deferred
+scope retained. All five reviewed ranges remain settings **38-58**, packages/
+artifacts **58-73**, components **20-25**, accounts/assets **25-35**, maintenance
+**8-12**; sum **149-203**, rounded **150-205**, about **180**. Hosted infrastructure
+validation closes no legacy feature/product outcome, so estimates are unchanged.
 
 ### Controller acceptance records completed, 2026-10-13
 

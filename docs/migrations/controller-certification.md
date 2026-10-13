@@ -9,11 +9,16 @@ for source/configuration boundaries, run IDs, fault results and delta review.
 The earlier [anonymous bridge pair gate](../archive/evidence/github-quota-bridge-pair-gate-complete-2026-10-13.md)
 remains accepted on its recorded baseline; its heartbeat is disabled.
 
+Full hosted regression also passed for published candidate **f5e3218**, through
+an identical-tree review-branch trigger. See the
+[hosted validation evidence](../archive/evidence/hosted-final-source-validation-2026-10-13.md).
+Master publication remains held until **v3 reaches release-candidate state**.
+
 ## Acceptance matrix
 
 | Requirement | Current evidence | Remaining acceptance |
 | --- | --- | --- |
-| Controller/profile/release mocked regression | Windows PowerShell 5.1: 109 passed; PowerShell 7: 107 passed, two host-preflight checks intentionally skipped; Danish-culture queue regression fixed | Complete for reviewed 0.4.6 source; hosted full-repository validation of newer migration work remains separate |
+| Controller/profile/release mocked regression | Focused 0.4.6 checks passed; full hosted candidate f5e3218: Windows PowerShell 5.1 1,455 passed, PowerShell 7 1,453 passed/two expected host-preflight skips; catalog/syntax checks passed both | Complete for the recorded published candidate; subsequent implementation and eventual RC source require validation |
 | Host preflight and result contract | No host registry inspection; elevation and recovery guards retained; fresh registration and normal/timeout/refusal results omit UAC fields | Complete for candidate |
 | Queue claim and serialization | Native ordered claims and timestamp regression pass; historical overlapping Local/CI runtime evidence retained with unchanged locking/task logic | Candidate delta reviewed; historical runs retain their actual versions |
 | Installed hashes, account and VM/checkpoint pins | Both controllers refreshed from published 3107711; all five hashes match; pins/configurations unchanged | Complete; recheck before future use |
@@ -26,7 +31,8 @@ remains accepted on its recorded baseline; its heartbeat is disabled.
 
 The default master branch currently lacks the VM workflow. GitHub documents
 the [default-branch requirement for manual dispatch](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow).
-No master or activation-variable change was made. Before broader certification,
+No master or activation-variable change was made. The user requires v3 release-
+candidate readiness before master publication. Before broader certification,
 complete the deferred delivery/cutover gates and reconcile applicable hosted
 validation with the final published source; record any unavailable scenario
 explicitly. Optional GitHub authentication and newer settings acceptance remain
