@@ -9,8 +9,8 @@
   Removal deletes only the task, preserving configuration and results.
 
 .PARAMETER ConfigurationPath
-  Seed PSD1 for registration, or installed configuration.json for removal. Required for operational
-  use.
+  Seed PSD1 or installed configuration.json. Reuse the installed JSON to refresh an idle
+  controller with its existing pinned configuration. Required for operational use.
 
 .PARAMETER Action
   Register (default) installs/updates the fixed controller; Remove unregisters its idle task while
@@ -35,13 +35,14 @@
 .NOTES
   Compatibility: 64-bit Windows PowerShell 5.1, AutomatedLab 5.61.0 on a Windows Hyper-V host.
   Prerequisites: Existing disposable lab, clean checkpoint, ISO file and prepared host remoting.
-  File/environment inputs: Configuration PSD1 for registration; installed configuration JSON for
-  removal.
+  File/environment inputs: Configuration PSD1 or installed configuration JSON for registration,
+  refresh or removal.
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.1.0
+  Version: 0.1.1
   Changelog:
+    - 0.1.1: Document reuse of installed pinned configuration for idle controller refresh.
     - 0.1.0: Initial task registration and configuration evidence.
 
 .LINK
@@ -59,7 +60,7 @@ param(
   [ValidateSet('Register', 'Remove')][string] $Action = 'Register',
   [switch] $Version
 )
-$script:ScriptVersion = '0.1.0'
+$script:ScriptVersion = '0.1.1'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -Force

@@ -49,6 +49,157 @@ administrator-only capture are confirmed from user replies. Other scope and
 integration choices remain open. The interactive driver step cannot
 be treated as an unattended successful installation or bypassed using OEM flags.
 
+## R02 preparation review, 2026-10-12
+
+The next discussion round is Python, Volatility 2/3, YARA and Loki. The unanswered
+R01 questions about portable ImageMagick scope, Npcap compatibility mode and
+Wireshark machine installation remain open; moving to this round does not answer
+or discard them. User replies confirmed both Python deployment models as
+selectable variants, Volatility 2 retirement review, and a managed pinned
+Volatility 3 release with an isolated environment. Other choices remain open.
+
+| Product | Confirmed choice, 2026-10-12 | Still to decide or verify |
+| --- | --- | --- |
+| Python | Both variants under one stable product ID; install manager default; traditional installer in machine scope with machine PATH unchanged and existing associations preserved; use bundled/validated pip without automatic upgrade | Manager deployment/command integration, compatible releases, architecture, runtime/update behavior, coexistence, installer flag verification and saved-selection recovery; managed runtimes remain per-user |
+| Volatility 2 | Review for retirement; prepare Volatility 3 | Check historical plugin/sample needs and record a final retirement/replacement decision; not retired by this preparation choice |
+| Volatility 3 | Managed pinned release with an isolated Python environment; core plus broader plugin dependencies | Verify exact interpreter and required/broader dependency compatibility; choose scope, symbols/caches, user plugins, updates and recovery; cloud/development extras remain separate |
+
+Legacy `InstallPython` selects the first matching amd64 EXE on a mutable download
+page, requests all-user installation, file associations and PATH, then upgrades
+pip using the resolved `python.exe`. These are separate behavior choices. A v3
+selection must identify the exact stable release/artifact and interpreter rather
+than inherit a page-order selection or upgrade another installation's pip.
+
+[Python's current Windows guide](https://docs.python.org/3/using/windows.html#advanced-installation)
+recommends the install manager, but its runtimes are per-user even when the
+manager MSI is machine-wide. Shared target extraction is a separate deployment
+contract, not native per-machine managed runtime support. Manager removal leaves
+runtimes, and automatic runtime acquisition is enabled by default unless
+configured otherwise. The [3.14 release notice](https://www.python.org/downloads/release/python-3140/)
+says traditional installers remain available through 3.14/3.15; exact selected
+release availability and both-target acceptance still need verification. Both
+models will be prepared as selectable variants. The user selected the install
+manager as default and all-user machine scope for the traditional installer.
+This does not make manager-managed runtimes machine-wide. Manager deployment,
+architecture, release family, manager aliases/associations and runtime/update
+policy remain undecided. Traditional-installer PATH/association and pip choices
+are confirmed below; their exact installer behavior still needs verification.
+Detect legacy-launcher/manager alias conflicts and use
+the selected interpreter explicitly rather than selecting whichever Python is
+first on PATH.
+
+[Volatility 2's repository](https://github.com/volatilityfoundation/volatility)
+is archived and its source requires Python 2 rather than Python 3. The legacy
+standalone archive is a distinct distribution; retaining it does not implicitly
+authorize installing a global Python 2 runtime. Historical plugins and sample
+compatibility need individual acceptance before any replacement/retirement. The
+user selected retirement review rather than retaining V2 for this preparation
+batch; V2 remains unresolved until that review reaches an explicit disposition.
+
+Legacy `InstallVolatility3` replaces a checkout, downloads symbols and invokes
+`setup.py build/install` through PATH. The reviewed [v2.28.2 requirements](https://github.com/volatilityfoundation/volatility3/blob/v2.28.2/pyproject.toml)
+declare Python >=3.8 and distinguish required dependencies from optional plugin,
+cloud and development dependencies. That lower bound does not establish
+compatibility with every later interpreter. The user selected a managed pinned
+release with an isolated environment and core plus broader plugin dependencies.
+For the reviewed tag, the broader set is the publisher's `full` extra: YARA,
+disassembly, cryptography, image and memory-access bindings. Confirm the exact
+selected release's dependency set and wheels against the chosen interpreter;
+cloud/development extras and any driver or acquisition execution remain separate.
+Resolve interpreter/dependency
+ownership, symbols, caches, user plugins and updates without modifying another
+Python environment or discarding edits. The inspected tag is evidence, not an
+automatic release selection.
+
+YARA binary/build availability and Loki's scanner/signature update ownership stay
+in individual review. Neither is admitted by a Python/Volatility choice, and no
+scanner execution or Defender exclusion is implied. Three R02 preparation
+questions have been answered: both Python model variants, Volatility 2 retirement
+review and a pinned Volatility 3 release with an isolated environment. The user
+also answered the follow-up choices as 1A/2A/3A: install-manager default,
+traditional installer in machine scope and broader Volatility 3 dependencies.
+Runtime compatibility, remaining environment behavior and symbol choices remain
+open before implementation.
+
+### Confirmed Python integration choices
+
+The user answered the integration round **1A, 2A, 3A** on 2026-10-12: keep the
+traditional installer's machine PATH unchanged, preserve existing Python file
+associations, and use bundled/validated pip without an automatic installation-time
+upgrade. This retains the earlier all-user machine scope while explicitly
+changing three legacy behaviors. The association choice covers the traditional
+installer; manager registration/aliases remain a separate review boundary.
+Inspect the exact installer's PATH/association/launcher controls and capture prior
+state for repeat install, removal and recovery. Do not reset existing user or
+unowned PATH/association entries. Tool dependency installation must use its
+recorded interpreter/environment; no global pip upgrade is implied by preparing
+Volatility's isolated environment. Explicit later pip maintenance remains a
+separate workflow.
+
+The [publisher guide](https://docs.python.org/3/using/windows.html#installation)
+warns that existing Python installations/PATH can affect commands; manager app
+updates, runtime installation/update behavior and pip maintenance are separate.
+The manager's automatic missing-runtime acquisition and its own update delivery
+remain additional unresolved choices. No blanket automatic-update policy follows
+from choosing the manager as the default variant.
+
+## R03 preparation review, 2026-10-12
+
+The user selected current BloodHound Community Edition with container deployment
+reviewed separately, both SharpHound (AD) and AzureHound (Entra/Azure) as optional
+collectors matched to the backend, and retirement review for ImproHound. These
+are preparation choices: no container runtime, service, database, collector or
+security exception was installed or executed. Existing data and earlier R01/R02
+open choices remain separate review items.
+
+| Product/outcome | Confirmed preparation | Still to decide or verify |
+| --- | --- | --- |
+| BloodHound | Current Community Edition; separate container deployment review | Supported host/runtime, versioned images and backend configuration, data migration, credentials, service/network ownership and recovery |
+| SharpHound / AzureHound | Keep both optional tools; match versions to the selected backend | Exact stable distributions, compatibility, scope/destination, licenses/notices and saved-selection lifecycle; no collection or service setup |
+| ImproHound | Review for retirement | Historical tiering-analysis needs, current-stack compatibility or explicit replacement/retirement decision; not retired yet |
+| Microsoft OpenJDK / Neo4j/APOC | No standalone-product decision confirmed | Determine independently useful deployments before choosing Java majors, server/plugin versions and environment/service behavior |
+| RSAT / ADReplStatus / PingCastle | Existing individual review retained | Exact component set/applicability, licensed binary/build or edition, runtime and applicable domain/lab acceptance |
+
+The [current CE quickstart](https://bloodhound.specterops.io/get-started/quickstart/community-edition-quickstart)
+uses a container backend and browser UI. The [Docker Windows requirements](https://docs.docker.com/desktop/setup/install/windows-install/)
+exclude Windows Server from Docker Desktop support. Choose an applicable host
+and deployment contract before implementation; a Windows CLI binary does not
+prove backend applicability on both test targets. No Docker/WSL provisioning or
+database-policy change follows automatically from the CE selection.
+
+[SharpHound's publisher](https://github.com/SpecterOps/SharpHound)
+directs users to the backend's collector selection for a compatible release.
+[AzureHound's publisher](https://github.com/SpecterOps/AzureHound)
+distinguishes release binaries from a potentially unstable rolling build. Both
+choices need stable artifacts matched to the selected backend rather than
+independent latest-version assumptions or an implicit replacement of legacy
+PowerShell collectors. Deploying collectors does not run them or configure
+collection services/credentials.
+
+[ImproHound's documented tested stack](https://github.com/improsec/ImproHound)
+remains BloodHound 4.2.0, Neo4j 4.4.10, APOC 4.4.0.8 and JDK 11.0.16.1. Current
+CE compatibility is not established by that matrix. Its retirement review must
+assess the wanted tiering-analysis outcome, not treat a container-backend choice
+as proof that its functionality is replaced.
+
+### Corrected Neo4j legacy contract
+
+The previous ledger statement that APOC assets were used as the Neo4j installer
+was incorrect. Re-reading `InstallNeo4j` in the [legacy source](../../legacy/v2/lib-windows.psm1)
+shows a Neo4j Community Windows ZIP selected using the APOC major/minor version,
+a separate pinned APOC JAR, extraction under Tools, replacement of an existing
+destination, `apoc.*` unrestricted-procedure configuration, and service
+installation/start when Java resolves on PATH. The database archive and plugin
+are distinct sources. Selection, destructive directory replacement, database
+files/credentials, broad procedure permission and service ownership each need
+explicit reconciliation and recovery; none is admitted implicitly into v3.
+
+Legacy OpenJDK selects Microsoft JDK 11 x64 MSI with PATH, JAVA_HOME and JAR
+association features for that stack. The [publisher roadmap](https://learn.microsoft.com/en-us/java/openjdk/support)
+still lists September 2027 as JDK 11's earliest end of support. Choosing CE does
+not itself justify retiring JDK 11 or adding a general-purpose Java install to
+profiles. Independently wanted Java/Neo4j uses remain a follow-up decision.
+
 ## Primary discussion groups
 
 Each unresolved ledger outcome belongs to exactly one primary group. Cross-group
@@ -211,7 +362,8 @@ publisher evidence or blockers. Components of legacy bundles remain separate.
 Coverage: 79 unresolved outcomes, each assigned once across 13 primary groups.
 All remain pending implementation/acceptance or individual review. This review
 resolves no legacy outcome, retires/excludes none, and changes no support claim.
-The three confirmed product choices cover four legacy outcomes with partial
-scope still open. Global estimates remain 38-58 settings, 58-73 packages/artifacts,
+R01 choices cover four legacy outcomes, R02 three (Python and Volatility 2/3), and
+R03 four (BloodHound, two collectors and ImproHound). All eleven retain technical
+acceptance or final disposition work. Global estimates remain 38-58 settings, 58-73 packages/artifacts,
 20-25 components, 25-35 accounts/assets and 8-12 maintenance actions, rounded
 150-205 / about 180; see the dated planning entry.

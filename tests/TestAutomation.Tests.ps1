@@ -68,7 +68,10 @@ Describe 'Partial guest evidence with unavailable files' {
     function Copy-Item {param($LiteralPath,$Destination,$FromSession,[switch]$Force,$ErrorAction)}
   }
   It 'retains readable evidence after a locked transcript and reports the omission' {
-    Mock Invoke-Command {@('C:\RIDE\TestResults\run\transcript.log','C:\RIDE\TestResults\run\state\saved.json')}
+    Mock Invoke-Command {@(
+      [pscustomobject]@{ Path='C:\RIDE\TestResults\run\transcript.log'; SHA256=('a'*64); Error=$null },
+      [pscustomobject]@{ Path='C:\RIDE\TestResults\run\state\saved.json'; SHA256=('b'*64); Error=$null }
+    )}
     Mock Copy-Item {
       if($LiteralPath -like '*transcript.log'){throw 'File is locked by another process.'}
       [IO.File]::WriteAllText($Destination,'saved recovery evidence')
@@ -81,10 +84,53 @@ Describe 'Partial guest evidence with unavailable files' {
     $omissions[0].Error | Should -Match 'locked'
   }
   It 'refuses evidence outside the correlated directory before copying' {
-    Mock Invoke-Command {@('C:\RIDE\TestResults\another-run\secret.json')}
+    Mock Invoke-Command {@([pscustomobject]@{ Path='C:\RIDE\TestResults\another-run\secret.json'; SHA256=('a'*64); Error=$null })}
     Mock Copy-Item {}
     {Copy-RidePartialGuestEvidence -Session 'mock' -GuestPath 'C:\RIDE\TestResults\run' -Destination $TestDrive} | Should -Throw '*escaped*'
     Should -Invoke Copy-Item -Times 0 -Exactly
+  }
+  It 'retains hundreds of identical exported state files without repeating remoting copies' {
+    $script:exportedFiles = @(foreach ($index in 1..400) {
+      $target = Join-Path $TestDrive "state/$index.json"
+      $null = New-Item -ItemType Directory -Path (Split-Path -Parent $target) -Force
+      [IO.File]::WriteAllText($target, "saved evidence $index")
+      [pscustomobject]@{ Path="C:\RIDE\TestResults\run\state\$index.json"; SHA256=(Get-FileHash -LiteralPath $target).Hash; Error=$null }
+    })
+    Mock Invoke-Command { $script:exportedFiles }
+    Mock Copy-Item { throw 'Identical exported files must not be transferred again.' }
+    Copy-RidePartialGuestEvidence -Session 'mock' -GuestPath 'C:\RIDE\TestResults\run' -Destination $TestDrive
+    Should -Invoke Copy-Item -Times 0 -Exactly
+    @((Get-Content (Join-Path $TestDrive 'collection-omissions.json') -Raw | ConvertFrom-Json)).Count | Should -Be 0
+    Get-Content (Join-Path $TestDrive 'state/400.json') -Raw | Should -Be 'saved evidence 400'
+  }
+  It 'refreshes an existing file whose bytes changed even when its length is unchanged' {
+    $target = Join-Path $TestDrive 'summary.json'
+    [IO.File]::WriteAllText($target,'old')
+    $expected = Join-Path $TestDrive 'expected.json'
+    [IO.File]::WriteAllText($expected,'new')
+    $script:changedFile = [pscustomobject]@{ Path='C:\RIDE\TestResults\run\summary.json'; SHA256=(Get-FileHash -LiteralPath $expected).Hash; Error=$null }
+    Mock Invoke-Command { @($script:changedFile) }
+    Mock Copy-Item { [IO.File]::WriteAllText($Destination,'new') }
+    Copy-RidePartialGuestEvidence -Session 'mock' -GuestPath 'C:\RIDE\TestResults\run' -Destination $TestDrive
+    Should -Invoke Copy-Item -Times 1 -Exactly
+    Get-Content $target -Raw | Should -Be 'new'
+  }
+  It 'reports unreadable guest evidence while retaining an already exported recovery file' {
+    $target=Join-Path $TestDrive 'state/saved.json'
+    $null=New-Item -ItemType Directory -Path (Split-Path -Parent $target) -Force
+    [IO.File]::WriteAllText($target,'saved recovery evidence')
+    $script:retainedHash=(Get-FileHash -LiteralPath $target).Hash
+    Mock Invoke-Command { @(
+      [pscustomobject]@{ Path='C:\RIDE\TestResults\run\transcript.log'; SHA256=$null; Error='File is locked by another process.' },
+      [pscustomobject]@{ Path='C:\RIDE\TestResults\run\state\saved.json'; SHA256=$script:retainedHash; Error=$null }
+    ) }
+    Mock Copy-Item { throw 'No transfer is needed for these records.' }
+    Copy-RidePartialGuestEvidence -Session 'mock' -GuestPath 'C:\RIDE\TestResults\run' -Destination $TestDrive -WarningAction SilentlyContinue
+    Should -Invoke Copy-Item -Times 0 -Exactly
+    $omissions=@(Get-Content (Join-Path $TestDrive 'collection-omissions.json') -Raw | ConvertFrom-Json)
+    $omissions.Count | Should -Be 1
+    $omissions[0].Path | Should -Be 'transcript.log'
+    Get-Content $target -Raw | Should -Be 'saved recovery evidence'
   }
 }
 

@@ -2,7 +2,22 @@
 
 ## Estimated remaining migration work
 
-Last reviewed: **2026-10-12**. Latest run: [application ledger decision review](#application-ledger-decision-review-2026-10-12).
+Last reviewed: **2026-10-13**. Latest run: [collector continuation readiness](#collector-continuation-readiness-2026-10-13).
+Both VMs remain Off, controllers Ready and queues empty. Collector source 0.4.0
+passed 71 mocked checks per edition, but installed versions remain 0.3.0/0.2.0;
+administrator refresh and live verification are pending. A new publisher lookup
+still deferred on quota zero, with earliest retry 02:42:39 UTC. Repeated Full
+acceptance remains open; no further VM request was submitted during this review.
+The [Windows 11 failure and repair](#windows-11-full-quota-failure-and-collector-repair-2026-10-12)
+records the preceding implementation and acceptance evidence.
+All 1,277 guest tests and the preceding setting round trips passed, but package
+integration deferred on quota zero after a fresh 58-request preflight. Partial
+collection timed out; checkpoint cleanup succeeded. Collector 0.4.0 now avoids
+recopying byte-identical exported evidence; 71 mocked controller tests passed
+per edition. Protected controller refresh and live acceptance remain pending.
+Consecutive two-target Full acceptance and overall certification remain open.
+The [Java and AD-analysis preparation review](#application-java-and-ad-analysis-preparation-review-2026-10-12)
+retains its separate partial requirements below.
 All 79 unresolved application-ledger outcomes are assigned once to 13 discussion
 groups. The user selected ImageMagick's x64 Q16 HDRI DLL installer with machine
 scope/PATH and listed Q16 portable build, current-user GnuPG command line/Kleopatra
@@ -12,6 +27,19 @@ These are partial requirements decisions, not
 completed migrations. No new outcome was resolved, retired or excluded; no
 installer, VM or handler ran. All five group ranges and the rounded total below
 were reviewed and remain unchanged, with scope, terms and acceptance retained.
+R02 confirms both Python models, with install manager as default and machine
+scope for the traditional installer. Manager-managed runtimes remain per-user.
+Volatility 3 will use a pinned release, isolated environment and broader plugin
+dependencies; Volatility 2 remains in retirement review. Exact runtime/dependency
+compatibility, environment behavior and unanswered R01 choices remain open.
+Latest follow-up confirms unchanged machine PATH and preserved associations for
+the traditional Python installer, and bundled/validated pip without an automatic
+installation-time upgrade. Exact controls and preservation/recovery still need
+acceptance; manager integration and runtime/update policy remain open.
+R03 confirms current BloodHound CE with container deployment reviewed separately,
+both compatible optional collectors and ImproHound retirement review. Corrected
+the Neo4j legacy contract: separate database/APOC artifacts plus configuration
+and service changes. Standalone Java/Neo4j and remaining AD tools stay unresolved.
 
 Approximately **150-205 distinct legacy work items**
 remain; use **about 180** for planning. These are candidates for migration,
@@ -19,11 +47,11 @@ retirement, combination or replacement, not a commitment to implement all of the
 
 | Group | Approximate remaining items | Examples |
 | --- | ---: | --- |
-| Windows and application settings | 38-58 | Deferred UI and Explorer behavior, security/network handlers, services, Server settings and BitLocker enrollment; Task Manager and Computer Browser selectors retired; optional PowerShell appearance accepted outside the legacy count; browser/Sysmon configuration remains in individual review |
-| Packages, portable tools and downloadable artifacts | 58-73 | Remaining forensic tools, system-tool entries, general software/artifacts, AD tools, browsers and other products; 19 newly accepted distributions (7 installed, 12 portable), 10 earlier outcomes and Opera excluded; both ImageMagick variants, Gpg4win components and Wireshark/Npcap selected for preparation with partial scope open |
-| Windows components and optional features | 20-25 | WSL, Hyper-V, Sandbox, OpenSSH, printing features and built-in app management; RSAT remains a component/applicability decision |
-| Accounts, configuration and deployed files/assets | 25-35 | Users and administrator membership, Wi-Fi, regional settings, language packs, browser preferences, fonts and wallpapers; user-bin PATH, bin provisioning and WindowsApps repair remain deferred; VMware directory/profile-file ownership remains under review |
-| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; release discovery passed native/hosted and network-isolated regression, first Full Server CI passed, second integration deferred on quota zero with cleanup accepted; consecutive two-target acceptance and controller certification remain open; package installation and automatic-maintenance policies stay separate in application review |
+| Windows and application settings | 38-58 | Deferred UI and Explorer behavior, security/network handlers, services, Server settings and BitLocker enrollment; Task Manager and Computer Browser selectors retired; optional PowerShell appearance accepted outside the legacy count; browser/Sysmon configuration remains under review; traditional Python association preservation awaits implementation/acceptance |
+| Packages, portable tools and downloadable artifacts | 58-73 | Remaining forensic tools, system-tool entries, general software/artifacts, AD tools, browsers and other products; 19 newly accepted distributions (7 installed, 12 portable), 10 earlier outcomes and Opera excluded; R01/R02 preparation remains partial; current BloodHound CE and both collectors selected, container deployment separate; Volatility 2 and ImproHound retirement reviews remain unresolved |
+| Windows components and optional features | 20-25 | WSL, Hyper-V, Sandbox, OpenSSH, printing features and built-in app management; RSAT remains a component/applicability decision; BloodHound CE selects no automatic Docker/WSL provisioning or Server Docker Desktop support; no new component acceptance |
+| Accounts, configuration and deployed files/assets | 25-35 | Users and administrator membership, Wi-Fi, regional settings, language packs, browser preferences, fonts and wallpapers; user-bin PATH, bin provisioning and WindowsApps repair remain deferred; VMware directory/profile-file and Python environment/symbol/plugin ownership remain under review |
+| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; release discovery regression and first Full Server CI passed, later Server/Windows 11 acquisition deferred on quota zero; collector 0.4.0 passed 71 mocked checks per edition, protected refresh/live acceptance pending; consecutive Full acceptance and controller certification remain open; no automatic Python installation-time pip upgrade selected; runtime/rule updates and explicit maintenance remain separate review items |
 | **Total, rounded** | **150-205** | **About 180 for planning** |
 
 ### Recent implementation and acceptance context
@@ -464,6 +492,165 @@ as absent in a loadable library. The published catalog schema and existing
 library identities remain unchanged; migration estimates remain unchanged.
 
 ## Migration estimate review history
+
+### Collector continuation readiness, 2026-10-13
+
+Read-only inspection at 02:01:43 UTC found both VMs Off, tasks Ready, empty
+pending/running queues and no recovery blocks. Installed Server/Windows 11
+collectors remain 0.3.0/0.2.0; tested source 0.4.0 is ready for administrator
+registration refresh. The current process has a non-elevated OS token. Other
+migration chats were idle. One publisher lookup again deferred on quota zero,
+with reset 02:42:38 UTC and earliest retry 02:42:39 UTC. No payload, automatic
+retry or VM submission followed. Remaining Full acceptance needs reliable
+publisher availability; explicit authenticated discovery remains a separate
+opt-in design, with no host credential forwarding introduced here.
+
+This continuation review resolves, retires and excludes **zero legacy outcomes**.
+All five overview ranges and their pending work were reviewed: settings **38-58**,
+packages/artifacts **58-73**, components **20-25**, accounts/assets **25-35**,
+maintenance **8-12**; sum **149-203**, rounded **150-205**, about **180**.
+Existing partial application choices, collector deployment/live verification,
+two-target Full acceptance, certification and default-branch cutover remain open.
+
+### Windows 11 Full quota failure and collector repair, 2026-10-12
+
+Post-reset host preflight at 16:37:35 UTC succeeded with 58 requests remaining;
+other migration activity was documentation review, and both VMs/controllers
+were idle with empty queues, available locks and unchanged pinned checkpoints.
+CI-source Full request `554bf0cb1598406f852d53ea1d5ca26b` ran
+16:38:15-17:07:47 UTC against `18d5f5b`. All 216 source hashes matched.
+Windows 11 Enterprise Evaluation build 26300, Windows PowerShell 5.1.26100.9444,
+passed validation and all 1,277 Pester tests. The preceding setting round trips
+completed, but integration stopped before 7-Zip acquisition: quota zero, reset
+17:37:26 UTC, earliest retry 17:37:27 UTC. There was no real successful release
+observation, expired-data fallback or automatic retry. No new Windows target
+or whole-build support declaration follows from this failed acceptance.
+
+Partial collection exceeded the worker's 60-second bound. The main runner had
+already retained summary, XML, transcript and 791 state JSON files, including
+395 manifests; these are retained evidence counts, not a claim that every file
+originated in this request. Guest state collection and checkpoint cleanup had
+no error, with UAC unchanged. Postflight at 17:08:59 UTC found both VMs Off,
+tasks Ready, empty queues, available locks, no blocks and pinned IDs unchanged.
+
+Collector 0.4.0 compares guest and existing export SHA-256 values in one remote
+enumeration, reuses identical files and independently copies changed/missing
+files while reporting unavailable files. The 60-second recovery bound stays
+unchanged. Three regressions cover 400 retained files, changed same-length bytes
+and unavailable evidence; all 71 controller tests passed per PowerShell edition.
+Both editions passed repository parser/catalog/profile/generated-doc validation.
+Installed collectors remain Server 0.3.0 and Windows 11 0.2.0. This process is
+not an OS administrator, so protected registration refresh and live verification
+remain pending. Closing this task's monitoring tab and limiting API checks did
+not establish a completed repeated-run sequence or identify the quota source.
+
+This failed acceptance and repair resolve, retire and exclude **zero legacy
+outcomes**. Settings **38-58**, packages/artifacts **58-73**, Windows components
+**20-25**, accounts/configuration/assets **25-35**, maintenance **8-12** were
+reviewed and remain unchanged: sum **149-203**, rounded **150-205**, about **180**.
+Partial/deferred scope, repeated Full acceptance, protected collector verification,
+overall certification and master/default-branch cutover remain open.
+
+### Application Java and AD-analysis preparation review, 2026-10-12
+
+Reviewed R03's nine unresolved outcomes. User confirmed current BloodHound CE
+with container deployment reviewed separately, both SharpHound/AzureHound
+matched to the chosen backend, and ImproHound retirement review. These four
+partial legacy-outcome decisions do not install databases or collect domain/cloud
+data. Host applicability, stable artifacts, licenses, compatibility and saved
+state/recovery remain open; standalone Java/Neo4j, RSAT, ADReplStatus and
+PingCastle remain individual choices.
+
+Corrected the ledger's Neo4j source interpretation: the selector downloads a
+Neo4j ZIP separately from APOC, modifies unrestricted procedures and installs/
+starts a service; it does not use an APOC asset as the database installer.
+This clarifies a blocker without accepting the outcome or its side effects.
+Publisher checks distinguish current CE container deployment, backend-compatible
+collectors, ImproHound's historical test matrix and Docker Desktop's exclusion
+of Windows Server. JDK 11's roadmap alone does not justify retirement.
+
+Resolved, retired or excluded this run: **zero**. Ledger totals remain 29 accepted,
+79 unresolved and one Opera exclusion. No installer, database, collector, VM
+test, profile or support declaration changed. Reviewed all five ranges and
+row progress: settings **38-58**, packages/artifacts **58-73**, components **20-25**,
+accounts/assets **25-35**, maintenance **8-12**; sum **149-203**, rounded
+**150-205**, about **180**. Package/component examples now reflect AD preparation
+and its deployment boundary; setting, asset and maintenance acceptance/ownership
+work remains unchanged. Partial/deferred scope remains counted, so estimates do
+not decrease for preference decisions or this source correction.
+
+### Application Python PATH, association and pip choices, 2026-10-12
+
+Recorded the integration-round reply **1A, 2A, 3A**: traditional Python machine
+installation leaves machine PATH unchanged and preserves existing file
+associations; installation uses bundled/validated pip without an automatic
+upgrade. These explicitly replace three legacy side effects while retaining the
+confirmed traditional machine scope and install-manager default. Exact installer
+controls, command coexistence, preserved state and recovery await verification.
+Manager registration/aliases, automatic missing-runtime acquisition and manager
+update delivery remain separate unresolved choices; existing installations and
+recommended profiles were not changed.
+
+Resolved, retired or excluded this run: **zero**. These are partial requirements
+for the existing Python outcome, not a new accepted migration. Ledger totals
+remain 29 accepted, 79 unresolved and one Opera exclusion. No installer, VM test
+or support declaration changed. Reviewed all five overview ranges and row
+progress: settings **38-58**, packages/artifacts **58-73**, components **20-25**,
+accounts/assets **25-35**, maintenance **8-12**; sum **149-203**, rounded
+**150-205**, about **180**. Association and pip examples now reflect the explicit
+choices; other groups retain their open acceptance/ownership work. No estimate
+change is justified before implementation/acceptance or final retirement.
+
+### Application Python defaults and Volatility plugin choices, 2026-10-12
+
+Recorded user reply **1A, 2A, 3A**: Python install manager is the default variant,
+the traditional installer serves all users in machine scope, and Volatility 3's
+isolated environment includes core plus broader plugin dependencies. Both Python
+models remain selectable under one stable product ID. Manager-managed runtimes
+remain per-user; the selected traditional scope does not change that contract.
+Exact releases, interpreter/wheel compatibility, manager deployment, PATH/aliases,
+associations, updates, symbols/caches and recovery remain unresolved. Volatility 2
+is still in retirement review; cloud/development extras and driver execution are
+separate. These are preparation decisions, not implementation acceptance.
+
+Resolved, retired or excluded this run: **zero**. The 109 application-ledger
+outcomes retain their dispositions: 29 accepted, 79 unresolved and the existing
+Opera exclusion. No installer, VM test or support declaration changed. Reviewed
+all five overview ranges and row progress: settings **38-58**, packages/artifacts
+**58-73**, components **20-25**, accounts/assets **25-35**, maintenance **8-12**;
+sum **149-203**, rounded **150-205**, about **180**. The packages row now records
+the confirmed default/scope/plugin choices; other examples still describe their
+open behavior/ownership/update work. The subsequent integration-preparation
+review presented machine-PATH, association and pip-upgrade questions, with no
+answers inferred; manager automatic runtime acquisition/update delivery remains
+separate. All five ranges and row examples were rechecked and remain unchanged.
+Ranges remain unchanged because preference
+decisions close no technical acceptance, retirement or deferred legacy outcome.
+
+### Application Python and memory-tools preparation review, 2026-10-12
+
+Reviewed the R02 group's five unresolved outcomes: Python, Volatility 2/3, YARA
+and Loki. The [preparation record](migrations/application-review-rounds-2026-10-12.md#r02-preparation-review-2026-10-12)
+captures legacy all-user Python/PATH/association/pip behavior, the install
+manager's per-user runtime ownership and separate uninstall/update semantics,
+archived Volatility 2 source versus standalone distribution, and Volatility 3's
+checkout/symbol/dependency lifecycle. User confirmed both Python deployment models
+as selectable variants under one stable product ID; its default, scope, release
+and environment behavior remain undecided. User also selected Volatility 2
+retirement review and a managed pinned Volatility 3 release with an isolated
+Python environment; final V2 disposition and V3 runtime/dependency/symbol details
+remain open. Earlier confirmed R01 choices
+remain recorded; its unanswered choices remain open.
+
+Resolved, retired or excluded this run: **zero**. No new migration implementation,
+installation, VM run or support declaration. All 109 ledger selectors and their
+dispositions remain: 29 accepted outcomes, 79 unresolved reviews and the existing
+Opera exclusion. YARA/Loki source and update blockers remain separate. Reviewed
+all five ranges and refreshed examples: settings **38-58**, packages/artifacts
+**58-73**, components **20-25**, accounts/assets **25-35**, maintenance **8-12**;
+sum **149-203**, rounded **150-205**, about **180**. No range adjustment is justified
+because this run prepares choices and closes no implementation/acceptance work.
+Existing partial/deferred outcomes and settings evaluation remain counted.
 
 ### Application ledger decision review, 2026-10-12
 

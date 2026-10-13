@@ -325,6 +325,45 @@ variables, protected controller binaries and overall NotValidated status remain
 unchanged. Historical locked/watcher acceptance is retained separately from
 the current-source release-discovery and default-branch certification gates.
 
+## Windows 11 Full quota failure and collector follow-up, 2026-10-12
+
+Native preflight at 16:36:06 UTC found both VMs Off, tasks Ready, queues empty,
+locks available, pinned clean checkpoint IDs unchanged and UAC 1/5/1. Other
+migration work was documentation review. One post-reset host release lookup at
+16:37:35 UTC returned 58 remaining, reset 17:37:26 UTC. This task's temporary
+GitHub browser tab was closed; the run used its installed client without workflow
+API polling. CI checkout remained frozen at `18d5f5b`.
+
+Ordinary-shell CI-source Full request `554bf0cb1598406f852d53ea1d5ca26b` ran
+16:38:15-17:07:47 UTC. All 216 source hashes and the reviewed package-module hash
+matched. Guest Windows 11 Enterprise Evaluation, build 26300, PowerShell
+5.1.26100.9444, Pester 5.7.1 passed validation and 1,277/1,277 tests; XML reports
+zero failures/errors/skips/not-run. Setting round trips preceded the failure,
+with lid-close cases explicitly excluded because the VM exposes no lid setting.
+7-Zip acquisition deferred on quota zero: reset 17:37:26 UTC, retry no earlier
+than 17:37:27 UTC. There was no real successful release observation or automatic
+retry. Full integration and repeated two-target acceptance remain failed/pending.
+
+Guest state collection had no error, but bounded partial collection timed out
+after 60 seconds. Summary/XML/transcript and 791 state JSON files, including
+395 manifests, were already retained by the main export. Those counts include
+the state available to export; they do not establish request ownership for every
+record. Checkpoint cleanup succeeded with UAC unchanged. At 17:08:59 UTC both
+VMs were Off, tasks Ready, queues empty, locks available, no blocks, both pinned
+IDs unchanged. This local request has no new GitHub workflow/upload artifact.
+
+Collector source 0.4.0 skips byte-identical files already exported by the main
+runner, using a single guest SHA-256 enumeration and local hash comparison.
+Changed/missing files are copied independently; unavailable files retain omission
+reporting. The worker still stops collection after 60 seconds to protect recovery.
+All 71 mocked controller tests passed per edition, including new large-export,
+same-length-change and unavailable-file regressions; repository validation passed
+on both editions. Live verification is pending: protected Server and Windows 11
+collectors are still 0.3.0 and 0.2.0. Refresh through elevated registration while
+both controllers are idle; do not overwrite binaries or weaken ACLs manually.
+This calling process has a non-elevated OS token. Overall status stays
+NotValidated; no master, repository-variable or new target-support change was made.
+
 ## Configuration contract
 
 The finite integration selections include `ApplicationsBatch1` and
