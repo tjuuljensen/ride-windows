@@ -25,6 +25,7 @@ declares each operation's support, actions, references and recovery limits.
 - [Task list](../TODO.md): priorities and future work.
 - [Migration plan](MIGRATION-PLAN.md): current legacy outcome estimates and
   release acceptance, including documentation and licensing requirements.
+- [Controller and GitHub bridge RC resumption](migrations/controller-certification.md#resume-near-v3-release-candidate): accepted source boundaries, deferred certification and safe restart procedure.
 - [Settings implementation handoff](migrations/settings-implementation-handoff.md),
   [remaining decisions](migrations/remaining-settings-decisions.md) and
   [settings review ledger](migrations/settings-post-migration-review.md): open

@@ -11,17 +11,16 @@
 | Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; quota/cache/backoff bridge passed Windows 11 Full with 1,280 tests, eight network and three real cache observations with matching publisher digests; consecutive acceptance Windows 11 2/2, Server 2025 2/2 on the current controller baseline; collector 0.4.1 bounded failure collection accepted, ArtCraft Launcher remains closed and must not be restarted; controller certification and default-branch cutover remain open; no automatic Python installation-time pip upgrade selected; runtime/rule updates and explicit maintenance remain separate review items; optional GitHub authentication approved as high-priority v3 infrastructure, with implementation/acceptance pending; controller 0.4.6 scoped runtime/records accepted; hosted candidate f5e3218 validation passed both PowerShell editions; delivery/default-branch certification deferred until v3 release candidate |
 | **Total, rounded** | **150-205** | **About 180 for planning** |
 
-Last reviewed: **2026-10-13**. Latest run: [Hosted final-source validation passed](#hosted-final-source-validation-passed-2026-10-13).
-GitHub-hosted Validate passed the exact f5e3218 candidate tree via isolated
-review-branch trigger cc5481f, run 38413683226. Windows PowerShell 5.1 passed
-1,455 tests with no skips; PowerShell 7 passed 1,453 with two expected host-
-preflight skips. Both passed catalog/syntax checks with zero failed/inconclusive/
-unrun tests. No Hyper-V request, master/variable change or frozen CI advance.
-New unfinished fixture edits remain excluded. Controller scoped acceptance and
-historical bridge 2/2 pairs stay accepted; bridge heartbeat disabled. Dispatch/
-master-push gates stay deferred until v3 release-candidate readiness and agreed
-publication. All five ranges and the rounded estimate remain unchanged.
-ArtCraft Launcher must not be restarted.
+Last reviewed: **2026-10-13**. Latest run: [Bridge/controller RC resumption retained](#bridgecontroller-rc-resumption-retained-2026-10-13).
+The user will return near v3 RC. The active controller ledger retains accepted
+bridge, newer-controller and hosted-source baselines separately, plus remaining
+RC validation/delivery/portability work and safety constraints. No new run is
+scheduled; bridge heartbeat confirmed PAUSED. Master publication stays held
+until v3 release-candidate readiness and an agreed decision. Optional PAT support
+remains approved/pending; reusable extraction stays deferred. Raw local evidence
+needs preservation outside Git; ArtCraft Launcher must not be restarted. This
+handoff closes no legacy outcome; all five ranges and rounded estimates remain
+unchanged. Other migration activity and unfinished fixture edits are preserved.
 
 Latest scope review: **2026-10-13**. [Optional GitHub authentication](#optional-github-authentication-v3-scope) is approved high-priority v3 work, with implementation/acceptance pending. All five legacy ranges and the rounded total remain unchanged; reusable-module extraction stays deferred.
 
@@ -42,17 +41,16 @@ mocked evidence is recorded below. No service, audio device, package or VM is
 changed. Packages stay paused; manual VM confirmation remains required. All five
 ranges and rounded total remain unchanged because the outcome stays partial.
 
-Latest infrastructure context: [Hosted final-source validation passed](#hosted-final-source-validation-passed-2026-10-13).
-GitHub-hosted Validate passed the exact f5e3218 candidate tree via isolated
-review-branch trigger cc5481f, run 38413683226. Windows PowerShell 5.1 passed
-1,455 tests with no skips; PowerShell 7 passed 1,453 with two expected host-
-preflight skips. Both passed catalog/syntax checks with zero failed/inconclusive/
-unrun tests. No Hyper-V request, master/variable change or frozen CI advance.
-New unfinished fixture edits remain excluded. Controller scoped acceptance and
-historical bridge 2/2 pairs stay accepted; bridge heartbeat disabled. Dispatch/
-master-push gates stay deferred until v3 release-candidate readiness and agreed
-publication. All five ranges and the rounded estimate remain unchanged.
-ArtCraft Launcher must not be restarted.
+Latest infrastructure context: [Bridge/controller RC resumption retained](#bridgecontroller-rc-resumption-retained-2026-10-13).
+The user will return near v3 RC. The active controller ledger retains accepted
+bridge, newer-controller and hosted-source baselines separately, plus remaining
+RC validation/delivery/portability work and safety constraints. No new run is
+scheduled; bridge heartbeat confirmed PAUSED. Master publication stays held
+until v3 release-candidate readiness and an agreed decision. Optional PAT support
+remains approved/pending; reusable extraction stays deferred. Raw local evidence
+needs preservation outside Git; ArtCraft Launcher must not be restarted. This
+handoff closes no legacy outcome; all five ranges and rounded estimates remain
+unchanged. Other migration activity and unfinished fixture edits are preserved.
 
 ### Earlier migration and acceptance context
 
@@ -744,6 +742,39 @@ as absent in a loadable library. The published catalog schema and existing
 library identities remain unchanged; migration estimates remain unchanged.
 
 ## Migration estimate review history
+
+### Bridge/controller RC resumption retained, 2026-10-13
+
+Before archiving this chat, reconciled its durable decisions and unresolved work
+into the existing [controller ledger](migrations/controller-certification.md#resume-near-v3-release-candidate),
+with links from the task list, documentation index and controller/release guides.
+The accepted anonymous Full pair baseline (guest a156475/controller 55e97c0),
+new host-controller scoped baseline (3107711 over guest a156475) and hosted
+candidate validation (f5e3218 through identical-tree cc5481f) remain distinct.
+Their committed dated reports retain the actual revisions, run IDs and hashes.
+No future RC revision, newer guest source or unfinished settings is claimed
+accepted by those results.
+
+The user will resume remaining work near v3 RC; master publication is held until
+RC readiness and an agreed publication/activation decision. Remaining work is
+RC-source comparison/revalidation, affected live scenario acceptance, actual
+workflow_dispatch/trusted master-push delivery and record reconciliation. The
+runbook's cross-host reproduction requirement remains unclaimed. Optional PAT
+support is approved high-priority v3 scope with implementation/acceptance pending;
+reusable extraction remains deferred. The completed bridge heartbeat is confirmed
+PAUSED with no next run. Backoff, process-cache boundaries, no token forwarding,
+busy-resource avoidance, frozen-checkout preservation and the prohibition on
+restarting ArtCraft Launcher are retained. TCP samples did not establish quota
+request counts or complete causal attribution. Preserve ignored/protected raw
+diagnostics when moving hosts; only the summarized evidence is version controlled.
+No VM, publisher preflight, master, controller or activation-variable change.
+Other migration work and unfinished fixture edits remain untouched.
+
+Resolved, retired and newly excluded legacy outcomes: **zero**; partial/deferred
+scope retained. All five reviewed ranges remain settings **38-58**, packages/
+artifacts **58-73**, components **20-25**, accounts/assets **25-35**, maintenance
+**8-12**; sum **149-203**, rounded **150-205**, about **180**. Handoff documentation
+closes no legacy feature/product outcome, so estimates remain unchanged.
 
 ### Hosted final-source validation passed, 2026-10-13
 

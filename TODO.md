@@ -31,6 +31,7 @@
 
 ### Verification
 
+- [ ] Near v3 release-candidate readiness, resume [controller and GitHub bridge certification](docs/migrations/controller-certification.md#resume-near-v3-release-candidate): validate the actual RC source, reconcile changed live scenarios, and complete deferred dispatch/master-push gates after agreed publication. Existing bridge, scoped controller and hosted passes retain their recorded baselines; master publication stays held until RC readiness.
 - [ ] Complete the screen-lock comparison on Windows 11 and Server 2025 Desktop Experience using the [procedure and acceptance table](docs/screen-lock-impact.md#acceptance-status). Clean repeated controls, write attribution and behavior/cleanup checks remain open; the guide owns the current findings and evidence links.
 - [ ] Run the disposable VM suite on Windows 11 and Windows Server 2025.
 - [ ] Add CI result publishing for Pester and test both Windows PowerShell 5.1 and PowerShell 7.

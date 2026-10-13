@@ -41,3 +41,97 @@ separate work.
 Other migration activity owns its VM tests. Leave busy resources untouched and
 recheck readiness before use. ArtCraft Launcher remains closed and must not be
 restarted, including when testing or its automation finishes.
+
+## Resume near v3 release candidate
+
+The user will return to this work near the v3 RC milestone. No further run is
+scheduled. The completed bridge heartbeat is PAUSED; its historical prompt and
+saved retry deadlines are not instructions to restart testing. Resume from this
+ledger and the evidence links, rather than from an archived chat or ignored
+`.local` state. Do not commit to master before v3 reaches release-candidate state;
+RC readiness does not itself enable the VM activation flag or authorize a merge.
+
+### Accepted baselines
+
+| Scope | Published baseline | Evidence and limit |
+| --- | --- | --- |
+| Anonymous quota/cache/backoff bridge | Guest CI a156475; installed controller 55e97c0/module 0.4.3; collector 0.4.1 | Two consecutive complete Full passes per target, Windows 11 and Server 2025; [pair evidence](../archive/evidence/github-quota-bridge-pair-gate-complete-2026-10-13.md) |
+| New host controller | Controller source 3107711/module 0.4.6; registration 0.1.3; collector 0.4.1; guest CI still a156475 | Fresh normal UnitOnly, expected timeout and refusal cases on both configurations; protected records saved; [scoped evidence](../archive/evidence/controller-046-scoped-acceptance-2026-10-13.md) |
+| Full hosted regression | Candidate f5e3218; content-identical trigger cc5481f | Both PowerShell editions passed in [run 38413683226](https://github.com/tjuuljensen/ride-windows/actions/runs/38413683226); [source/tree and log evidence](../archive/evidence/hosted-final-source-validation-2026-10-13.md) |
+
+These are different source boundaries. Newer guest source, unfinished migration
+fixtures, native/GUI setting effects and future RC revisions were not accepted
+by these results. Preserve historical passes with their actual revisions; do not
+relabel UnitOnly or hosted regression as new Full integration evidence. The
+installed configurations remain NotValidated for broader certification.
+
+### Remaining work and sequence
+
+1. Select the reviewed RC source and compare its engine, controller, workflow
+   and tests with the accepted baselines. Run full hosted validation on that
+   published revision in both PowerShell editions. Repeat live scenarios where
+   changed behavior invalidates earlier evidence; explain any historical reuse.
+2. Recheck competing migration activity, both VM/task states, queues, worker
+   locks, recovery blocks, five installed controller hashes and pinned VM/
+   checkpoint/account/ISO/repository configuration. Leave busy resources alone.
+   Preserve unrelated work and repository switches. The previously frozen CI
+   checkout must not be reset or silently advanced; coordinate an intentional
+   clean published-source update when future CI testing requires it.
+3. When renewed Full bridge acceptance is needed, check publisher availability
+   once after any current backoff deadline and submit serialized registered-task
+   requests with Source CI, IntegrationSuite Full, TimeoutMinutes 90 and correlated
+   receipts. The pair gate is two consecutive complete Full passes per target on
+   a coherent published source/controller baseline. Failed or quota-deferred
+   acceptance clears the affected target's current sequence. Retain diagnostics,
+   digest/cache provenance, cleanup and final idle evidence. Schedule retries
+   only as authorized; the completed heartbeat stays paused.
+4. After RC readiness and an agreed publication/activation decision, publish the
+   VM workflow to the default branch. Complete a real workflow_dispatch and then
+   a trusted master push, verifying actual source hashes, correlated guest results,
+   uploaded evidence and recovery. A manual re-run of an old job is not dispatch
+   acceptance. The workflow selects one configuration at a time; serialize the
+   coverage required for each configuration being certified.
+5. Reconcile the [controller runbook's applicable checks](../../tests/integration/automatedlab-tasks.md),
+   record unavailable scenarios explicitly and update acceptance.md beside each
+   protected evidence.json before changing broader certification status. The
+   runbook also calls for reproduction on another host using pinned dependencies,
+   matching ISO/settings and regenerated host/VM IDs; no such portability evidence
+   is claimed by this chat's single-host results.
+
+[Optional PAT-based GitHub authentication](../MIGRATION-PLAN.md#optional-github-authentication-v3-scope)
+remains approved high-priority v3 work with implementation and acceptance pending.
+Anonymous behavior stays supported; explicit protected credential references,
+account/cache separation and guest credential boundaries require their own tests.
+No credential was configured here. Reusable release-module extraction remains
+[deferred downstream work](../../TODO.md#optional-reusable-github-release-discovery-module).
+Unrelated settings acceptance belongs to its own migration ledger and holds.
+
+### Knowledge and constraints to retain
+
+- Release metadata is process/module-local for five minutes, bounded to 64
+  endpoints and two MiB per response. It does not persist across processes or
+  restored checkpoints. Payload caching is separate. Follow the
+  [release-discovery contract](../github-release-discovery.md), including no
+  expired fallback, silent authentication or token forwarding.
+- Host preflight cannot reserve shared-IP quota for a guest. At exhaustion, use
+  the later of primary reset plus one second and Retry-After; missing usable
+  timing uses the documented conservative one-minute fallback. Do not poll or
+  start a knowingly blocked Full test. Saved quota/idle observations are dated,
+  not current availability.
+- PowerShell 7 can deserialize queue timestamps as DateTime. Controller 0.4.6
+  restores UTC round-trip strings before validation; retain the Danish-culture
+  regression. It also intentionally removes host-UAC inspection/evidence while
+  retaining elevation and recovery guards. Do not reintroduce old UAC reads or
+  policy repair from historical automation instructions.
+- Collector 0.4.1 has a 90-second bound. Successful partial collection with an
+  explicit locked-transcript omission is fault-path evidence, not proof that
+  guest Pester or Full integration completed.
+- ArtCraft Launcher must not be restarted, including after testing or archiving.
+  Only a later explicit user request changes this constraint. Its observed TCP
+  connections did not establish API request counts or prove the source of all
+  quota consumption; that attribution remains unresolved.
+- Detailed raw diagnostics remain in ignored `.local` folders and protected
+  controller result roots. Committed dated reports retain run IDs, revisions,
+  hashes and outcomes. Preserve raw evidence when moving or rebuilding the host;
+  another clone will not contain those local files or credential/configuration
+  stores. Runtime pins and availability must be rediscovered on the actual host.

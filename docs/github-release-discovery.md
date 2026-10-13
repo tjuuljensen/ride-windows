@@ -132,3 +132,6 @@ correlated guest/controller results, acquisition evidence and checkpoint cleanup
 Check for competing migration work before each submission. Default-branch VM
 testing and `master` publication remain deferred until their separate cutover
 and controller certification requirements are satisfied.
+
+The [active controller ledger](migrations/controller-certification.md#resume-near-v3-release-candidate)
+owns accepted baselines, remaining RC gates and the procedure for resuming testing.

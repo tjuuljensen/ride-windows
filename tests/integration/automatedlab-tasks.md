@@ -1,8 +1,11 @@
 # AutomatedLab task controller
 
-This is an **opt-in implementation awaiting pilot validation**, not a certified
-stable configuration. Existing direct VM commands continue to work. Do not
-redirect the current Windows 11 lab until an agreed cutover.
+This is an **opt-in controller with scoped acceptance**; broader stable-
+configuration certification remains open. The
+[active acceptance and RC resumption ledger](../../docs/migrations/controller-certification.md#resume-near-v3-release-candidate)
+owns current baselines, constraints and unresolved gates; dated records below
+retain their original scope. Existing direct VM commands continue to work. Do
+not redirect the current Windows 11 lab until an agreed cutover.
 
 ## Controller workflow
 
