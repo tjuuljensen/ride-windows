@@ -399,6 +399,36 @@ configuration or credential forwarding was changed, and no further Full request
 was submitted after the exhaustion observation. Master and repository variables
 remain unchanged.
 
+## Focused installed collector failure acceptance, 2026-10-13
+
+Run `13eb2e6239c444e6b3eefa8a79d19a3f`, 04:11:25-04:16:40 UTC, passed
+against the pinned Windows 11 VM with the installed collector **0.4.0**, SHA-256
+`57DFFD7B437B180C9136DBC3F4AE6C244915706F05095F56384EB15A476215C2`.
+The exclusive controller lock was held while a controlled guest failure fixture
+preseeded host evidence, changed a same-length file, added a missing file and
+locked the guest transcript. The installed `Save-RideAutomationFailureEvidence`
+launcher completed collection in **36.1126535 seconds**, inside its unchanged
+60-second limit. All 800 identical fixture JSON files retained their hashes and
+timestamps, changed/new bytes arrived, and the pre-exported transcript survived
+with exactly one omission reported. The host export contains 806 fixture files.
+
+The test invoked the installed failure launcher directly; it did not submit a
+queued Full request, run operation handlers or acquire publisher packages. The
+helper's optional AutomatedLab version check was disabled only in that process;
+no dependency configuration was persisted. The correlated helper, logs and result
+remain under `.local/collector-failure-live/`; helper SHA-256 is
+`8EF90C84999340234D71EDB4A7C25A08FF97DA6DCD4231314ABAF5CAD6EF7430`.
+Checkpoint cleanup succeeded, UAC stayed 1/5/1, and both VMs are Off, controllers
+Ready, queues empty, locks available and no recovery blocks. This accepts the
+focused Windows 11 collector failure path; overall status remains NotValidated.
+
+A single task follow-up is scheduled for **06:43 Europe/Copenhagen on
+2026-10-13**, after the reported 04:42:59 UTC reset. It will check current quota,
+source/controller hashes and competing VM work before one Full Windows 11
+CI-source request. Unavailable quota or occupied controllers defer submission;
+there is no duplicate request or repeated API polling scheduled. Full Windows 11,
+consecutive two-target acceptance and certification remain open.
+
 ## Configuration contract
 
 The finite integration selections include `ApplicationsBatch1` and
