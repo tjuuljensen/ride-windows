@@ -2,19 +2,23 @@
 
 ## Estimated remaining migration work
 
-Last reviewed: **2026-10-13**. Latest run: [collector continuation readiness](#collector-continuation-readiness-2026-10-13).
-Both VMs remain Off, controllers Ready and queues empty. Collector source 0.4.0
-passed 71 mocked checks per edition, but installed versions remain 0.3.0/0.2.0;
-administrator refresh and live verification are pending. A new publisher lookup
-still deferred on quota zero, with earliest retry 02:42:39 UTC. Repeated Full
-acceptance remains open; no further VM request was submitted during this review.
+Last reviewed: **2026-10-13**. Latest run: [published Server acceptance and controller refresh](#published-server-acceptance-and-controller-refresh-2026-10-13).
+Commit `a156475` is published. Hosted validation passed 1,280 tests per edition;
+its Full Server CI request passed all 1,280 guest tests and integration, with
+successful collection and checkpoint cleanup. Both protected controllers now
+use collector 0.4.0, with all five installed file hashes matching reviewed source.
+Both VMs are Off and controllers Ready. A refresh attempted during the Server
+request stopped before changing either controller, then succeeded after cleanup.
+Live failure-path collector verification and consecutive two-target Full
+acceptance remain open; an AutomatedLab import again encountered quota exhaustion.
 The [Windows 11 failure and repair](#windows-11-full-quota-failure-and-collector-repair-2026-10-12)
 records the preceding implementation and acceptance evidence.
 All 1,277 guest tests and the preceding setting round trips passed, but package
 integration deferred on quota zero after a fresh 58-request preflight. Partial
 collection timed out; checkpoint cleanup succeeded. Collector 0.4.0 now avoids
 recopying byte-identical exported evidence; 71 mocked controller tests passed
-per edition. Protected controller refresh and live acceptance remain pending.
+per edition. Controller refresh is now complete; live failure-path acceptance
+remains pending.
 Consecutive two-target Full acceptance and overall certification remain open.
 The [Java and AD-analysis preparation review](#application-java-and-ad-analysis-preparation-review-2026-10-12)
 retains its separate partial requirements below.
@@ -51,7 +55,7 @@ retirement, combination or replacement, not a commitment to implement all of the
 | Packages, portable tools and downloadable artifacts | 58-73 | Remaining forensic tools, system-tool entries, general software/artifacts, AD tools, browsers and other products; 19 newly accepted distributions (7 installed, 12 portable), 10 earlier outcomes and Opera excluded; R01/R02 preparation remains partial; current BloodHound CE and both collectors selected, container deployment separate; Volatility 2 and ImproHound retirement reviews remain unresolved |
 | Windows components and optional features | 20-25 | WSL, Hyper-V, Sandbox, OpenSSH, printing features and built-in app management; RSAT remains a component/applicability decision; BloodHound CE selects no automatic Docker/WSL provisioning or Server Docker Desktop support; no new component acceptance |
 | Accounts, configuration and deployed files/assets | 25-35 | Users and administrator membership, Wi-Fi, regional settings, language packs, browser preferences, fonts and wallpapers; user-bin PATH, bin provisioning and WindowsApps repair remain deferred; VMware directory/profile-file and Python environment/symbol/plugin ownership remain under review |
-| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; release discovery regression and first Full Server CI passed, later Server/Windows 11 acquisition deferred on quota zero; collector 0.4.0 passed 71 mocked checks per edition, protected refresh/live acceptance pending; consecutive Full acceptance and controller certification remain open; no automatic Python installation-time pip upgrade selected; runtime/rule updates and explicit maintenance remain separate review items |
+| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; release discovery regression and published a156475 Full Server CI passed, intervening Server/Windows 11 acquisition deferred on quota zero; collector 0.4.0 passed 71 mocked checks per edition and is installed on both controllers with matching hashes; live failure-path verification, consecutive Full acceptance and controller certification remain open; no automatic Python installation-time pip upgrade selected; runtime/rule updates and explicit maintenance remain separate review items |
 | **Total, rounded** | **150-205** | **About 180 for planning** |
 
 ### Recent implementation and acceptance context
@@ -492,6 +496,49 @@ as absent in a loadable library. The published catalog schema and existing
 library identities remain unchanged; migration estimates remain unchanged.
 
 ## Migration estimate review history
+
+### Published Server acceptance and controller refresh, 2026-10-13
+
+Commits `c415aba` and `a156475` are published on `codex/ride-v3-migration`.
+[Hosted validation 38342901538](https://github.com/tjuuljensen/ride-windows/actions/runs/38342901538)
+passed all **1,280 tests per edition**, with no failures, skips or unrun tests.
+[Full Server CI 38342901443](https://github.com/tjuuljensen/ride-windows/actions/runs/38342901443),
+request `bade4fd6631e4283a326a05c47fcc7e0`, passed at
+03:42:02-03:58:58 UTC on Server 2025 build 26100. Validation, all **1,280 guest
+tests** and Full integration passed. All 217 snapshot/CI source hashes matched;
+collection, guest-state export and checkpoint cleanup reported no errors, with
+UAC unchanged. Ten retained state JSON files include three manifests. Fresh
+network metadata selected 7-Zip 26.04 and Notepad++ 8.9.8.1, with matching
+publisher digests and quota 14/13 remaining at 03:58:23/26 UTC. Reset was
+04:42:59 UTC. Artifact `11788600887` is 131,331 bytes, SHA-256
+`2226dae3aae4c56957aba48be99960a2beffa2e725004ca41db5c8105cadc40f`.
+
+The first elevated registration helper stopped at 03:44:42 UTC because the
+Server VM was Running, before changing either controller. After the request's
+cleanup and upload completed, registration refresh succeeded at
+03:59:50-04:02:23 UTC under the existing controller account. Both installed
+collectors are now **0.4.0**, SHA-256
+`57DFFD7B437B180C9136DBC3F4AE6C244915706F05095F56384EB15A476215C2`;
+all five controller files match reviewed source. VM/checkpoint/account/ISO hashes
+and repository paths are unchanged. Both VMs are Off, tasks Ready, queues empty,
+locks available and no recovery blocks. Registration retains **NotValidated**.
+The successful Full run used the preceding Server collector 0.3.0; it does not
+establish live failure-path acceptance of the newly installed collector.
+
+Refresh logged a caught GitHub quota error during AutomatedLab initialization.
+Installed AutomatedLabCore 5.61.0 makes an optional release-version request on
+module import unless `AutomatedLab.DisableVersionCheck` is true. This identifies
+one additional request path, not the source of all observed quota consumption.
+No global dependency configuration or host credential forwarding was changed.
+No additional Full request was submitted after that exhaustion observation.
+
+This acceptance and deployment resolve, retire and exclude **zero legacy
+outcomes**. All five overview ranges and row examples were reviewed: settings
+**38-58**, packages/artifacts **58-73**, components **20-25**, accounts/assets
+**25-35**, maintenance **8-12**; sum **149-203**, rounded **150-205**, about
+**180**, unchanged because infrastructure acceptance closes no legacy outcome.
+Partial application choices, live collector failure-path verification, consecutive
+two-target Full acceptance, certification and default-branch cutover remain open.
 
 ### Collector continuation readiness, 2026-10-13
 

@@ -364,6 +364,41 @@ both controllers are idle; do not overwrite binaries or weaken ACLs manually.
 This calling process has a non-elevated OS token. Overall status stays
 NotValidated; no master, repository-variable or new target-support change was made.
 
+## Published Server acceptance and controller refresh, 2026-10-13
+
+Published source `a15647590a1324681bbe4a69cbb55e498a623522` passed
+[hosted validation](https://github.com/tjuuljensen/ride-windows/actions/runs/38342901538),
+1,280 tests per edition with zero failures/skips/unrun tests.
+[Full Server CI](https://github.com/tjuuljensen/ride-windows/actions/runs/38342901443),
+request `bade4fd6631e4283a326a05c47fcc7e0`, passed
+03:42:02-03:58:58 UTC: validation, all 1,280 guest tests and Full integration.
+All 217 snapshot/CI source hashes matched. Collection, guest-state export and
+checkpoint cleanup succeeded with unchanged UAC. Fresh 7-Zip 26.04 and
+Notepad++ 8.9.8.1 network metadata retained matching publisher digests, with
+14/13 requests remaining and reset 04:42:59 UTC. Ten retained state JSON files
+include three manifests. Uploaded artifact `11788600887` is 131,331 bytes,
+SHA-256 `2226dae3aae4c56957aba48be99960a2beffa2e725004ca41db5c8105cadc40f`.
+
+An elevated refresh attempt stopped before registration at 03:44:42 UTC because
+the Server VM was in use. After CI cleanup, the same guarded helper refreshed
+both controllers through their existing installed JSON at
+03:59:50-04:02:23 UTC. Both now report collector **0.4.0**, SHA-256
+`57DFFD7B437B180C9136DBC3F4AE6C244915706F05095F56384EB15A476215C2`.
+All five installed files match reviewed source; VM/checkpoint/account/ISO hashes
+and repository paths are preserved. Both VMs are Off, tasks Ready, queues empty,
+worker locks available and no recovery blocks. Registration remains NotValidated.
+The preceding passed Full request used Server collector 0.3.0, so newly installed
+failure-path behavior still needs live acceptance; consecutive two-target Full
+acceptance and certification remain open.
+
+AutomatedLab initialization during refresh logged a caught GitHub quota error.
+Installed AutomatedLabCore 5.61.0 contains an optional release-version request
+on module import, controlled by `AutomatedLab.DisableVersionCheck`. This explains
+an additional request path, not all quota consumption. No global dependency
+configuration or credential forwarding was changed, and no further Full request
+was submitted after the exhaustion observation. Master and repository variables
+remain unchanged.
+
 ## Configuration contract
 
 The finite integration selections include `ApplicationsBatch1` and
