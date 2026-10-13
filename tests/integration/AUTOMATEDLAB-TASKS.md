@@ -464,6 +464,50 @@ The single follow-up is complete with no new request or automation. New settings
 manual VM-acceptance hold remains separate. Full Windows 11 package acceptance,
 repeated two-target acceptance and overall NotValidated certification remain open.
 
+## Recurring bridge Full Windows 11 attempt, 2026-10-13
+
+One anonymous 7-Zip metadata preflight at 05:46:13 UTC returned HTTP 200,
+45 requests remaining and reset 06:43:22 UTC. Both controllers were idle and
+their five installed files matched reviewed source. The approved CI checkout
+was clean at `a15647590a1324681bbe4a69cbb55e498a623522`; newer settings
+work in the shared working tree was excluded. CI-source Full request
+`ef33b0ad1cf04029959590b02178d7d9` ran 05:46:41-06:23:44 UTC.
+All 217 source hashes matched. Guest validation and 1,280 Pester tests passed,
+with zero XML failures/errors/skips/not-run. Full integration failed at the
+first 7-Zip release lookup: quota zero, reset 06:43:22 UTC, retry no earlier
+than 06:43:23 UTC. No expired metadata, automatic retry, payload acquisition
+or successful release observation was used. This is failed Full acceptance and
+resets the consecutive-pass sequence.
+
+The installed 0.4.0 collector retained summary/XML/transcript and 791 state
+JSON files, including 395 manifests. It wrote an empty omissions list at
+06:23:32 UTC but the launcher terminated the process at its 60-second bound,
+so `CollectionError` records a timeout. The timing suggests session/process
+teardown, but the exact slow step was not logged. Guest state export and
+checkpoint cleanup succeeded, UAC stayed 1/5/1, both VMs returned Off, tasks
+Ready, queues empty, locks available, no recovery blocks and pinned checkpoint
+IDs unchanged. The failure therefore does not certify bounded collection.
+
+Collector 0.4.1 adds copy/teardown timing markers; controller module 0.4.3
+allows a still-bounded 90 seconds and sets AutomatedLab's optional version
+check off only in its process before import. The collector launcher tests passed
+71/71 under Windows PowerShell 5.1. PowerShell 7 passed the three affected
+launcher tests; its full 71-test file retained one unrelated queue-order failure
+and is not reported as passing. Both protected controllers were refreshed
+through guarded registration at 06:39:45-06:41:54 UTC; all five installed
+hashes matched source, pinned fields stayed fixed, and both VMs were idle.
+A new live failure-path run remains required to accept the revised bound.
+
+During the first guarded refresh, before the process-only suppression was
+installed, AutomatedLab attempted its optional GitHub version lookup inside
+the recorded quota backoff and received a rate-limit error. Registration still
+completed. This extra request was unintended and is retained as a backoff
+process defect; no token or shared host configuration was used. The recurring
+bridge heartbeat is set for 08:44 Europe/Copenhagen, after the guest-reported
+retry deadline. New settings' manual VM-test hold remains separate. Full
+Windows 11 package acquisition, consecutive two-target Full acceptance and
+overall controller certification remain open.
+
 ## Configuration contract
 
 The finite integration selections include `ApplicationsBatch1` and

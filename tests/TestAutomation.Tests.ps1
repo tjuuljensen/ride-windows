@@ -526,7 +526,7 @@ Describe 'Failure-evidence collector process results' {
       Mock Start-Process {
         $process = [pscustomobject]@{ ExitCode = $null; HandleRetained = $false; CompletedExitCode = $script:collectorExitCode }
         $process | Add-Member ScriptProperty Handle { $this.HandleRetained = $true; [intptr]1 }
-        $process | Add-Member ScriptMethod WaitForExit { param($Milliseconds) if ($this.HandleRetained) { $this.ExitCode = $this.CompletedExitCode }; $true }
+        $process | Add-Member ScriptMethod WaitForExit { param($Milliseconds) if ($Milliseconds -ne 90000) { throw 'Unexpected collector deadline.' }; if ($this.HandleRetained) { $this.ExitCode = $this.CompletedExitCode }; $true }
         $process | Add-Member ScriptMethod Refresh { }
         $process
       }

@@ -4,7 +4,7 @@
 
 .DESCRIPTION
   - Reads saved RIDE state and guest logs; never invokes RIDE handlers or tests.
-  - The worker bounds this collector to 60 seconds before checkpoint recovery.
+  - The worker bounds this collector to 90 seconds before checkpoint recovery.
   Copies evidence into the guest result directory and back to the host.
   Copies files independently and records unavailable files in collection-omissions.json.
   Reuses byte-identical files already exported by the main runner to avoid repeating
@@ -39,8 +39,9 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.4.0
+  Version: 0.4.1
   Changelog:
+    - 0.4.1: Log collection and session-teardown timing for bounded failure diagnosis.
     - 0.4.0: Skip byte-identical exported evidence while preserving changed and unavailable files.
     - 0.3.0: Preserve readable partial evidence when another file is locked.
   - 0.2.0: Collect observations from the configured guest repository after failure.
@@ -59,7 +60,7 @@
 
 [CmdletBinding()]
 param([string] $ConfigurationPath, [ValidatePattern('^[0-9a-f]{32}$')][string] $RunId, [string] $ResultDirectory, [switch] $Version)
-$script:ScriptVersion = '0.4.0'
+$script:ScriptVersion = '0.4.1'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 function Copy-RidePartialGuestEvidence {
@@ -123,6 +124,14 @@ try {
   } -ErrorAction Stop
   $destination = Join-Path $ResultDirectory 'guest'
   New-Item -ItemType Directory -Path $destination -Force | Out-Null
+  Write-Output ("{0:o} Beginning partial guest evidence copy." -f [datetime]::UtcNow)
   Copy-RidePartialGuestEvidence -Session $session -GuestPath $guestPath -Destination $destination
+  Write-Output ("{0:o} Partial guest evidence copy complete." -f [datetime]::UtcNow)
 }
-finally { if ($session) { Remove-PSSession -Session $session -ErrorAction SilentlyContinue } }
+finally {
+  if ($session) {
+    Write-Output ("{0:o} Closing guest session." -f [datetime]::UtcNow)
+    Remove-PSSession -Session $session -ErrorAction SilentlyContinue
+    Write-Output ("{0:o} Guest session closed." -f [datetime]::UtcNow)
+  }
+}

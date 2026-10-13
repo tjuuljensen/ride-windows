@@ -25,8 +25,10 @@
   Recovery: Follow AUTOMATEDLAB-TASKS.md for blocked requests; the fixed worker restores only its
   pinned disposable VM/checkpoint.
   Author: RIDE-Windows maintainers.
-  Version: 0.4.1
+  Version: 0.4.3
   Changelog:
+    - 0.4.3: Disable AutomatedLab's optional release check in each controller process.
+    - 0.4.2: Allow bounded failure-evidence session teardown up to 90 seconds.
     - 0.4.1: Stop callers when controller JSON writes or final renames fail.
     0.4.0: Validate application suite requests and exclude private local configuration from snapshots.
   - 0.3.0: Validate and correlate both remaining-settings batch selections.
@@ -41,7 +43,7 @@
 #>
 
 
-$script:ModuleVersion = '0.4.1'
+$script:ModuleVersion = '0.4.3'
 
 Set-StrictMode -Version 2
 
@@ -242,7 +244,7 @@ function Save-RideAutomationFailureEvidence {
 
   .DESCRIPTION
     Starts the installed collector in hidden 64-bit Windows PowerShell, redirects logs, retains the
-    process handle, and waits at most 60 seconds. Terminates a timed-out process tree; failure does
+    process handle, and waits at most 90 seconds. Terminates a timed-out process tree; failure does
     not itself reset the VM.
 
   .PARAMETER Root
@@ -275,7 +277,7 @@ function Save-RideAutomationFailureEvidence {
   $collector = Start-Process -FilePath (Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe') -ArgumentList $arguments -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $ResultDirectory 'collection.log') -RedirectStandardError (Join-Path $ResultDirectory 'collection-errors.log')
   # Windows PowerShell 5.1 needs the handle retained before a redirected child exits.
   $null = $collector.Handle
-  if (-not $collector.WaitForExit(60000)) { Stop-RideAutomationProcess $collector; throw 'Partial-evidence collection timed out after 60 seconds.' }
+  if (-not $collector.WaitForExit(90000)) { Stop-RideAutomationProcess $collector; throw 'Partial-evidence collection timed out after 90 seconds.' }
   $collector.Refresh()
   if ($null -eq $collector.ExitCode) { throw 'Could not read the partial-evidence collector exit code.' }
   if ($collector.ExitCode -ne 0) { throw 'Partial-evidence collection failed. See collection-errors.log.' }
@@ -373,6 +375,10 @@ function Assert-RideAutomationHost {
     if ((Get-Service -Name $name -ErrorAction Stop).Status -ne 'Running') { throw "$name must already be running. Prepare the host in an elevated session; no services were started." }
   }
   $null = Get-VMHost -ErrorAction Stop
+  # The public publisher quota belongs to RIDE package discovery, not this optional dependency check.
+  # This PSFramework setting is process-local; never export it to host or user configuration.
+  Import-Module PSFramework -RequiredVersion '1.14.457' -ErrorAction Stop
+  Set-PSFConfig -FullName 'AutomatedLab.DisableVersionCheck' -Value $true -EnableException
   Import-Module AutomatedLab -RequiredVersion '5.61.0' -ErrorAction Stop
   if ((Get-Module AutomatedLab.Common).Version -ne [version]'2.3.37') { throw 'AutomatedLab.Common 2.3.37 is required.' }
   foreach ($companion in Get-Module -Name 'AutomatedLab*' | Where-Object Name -NE 'AutomatedLab.Common') {
