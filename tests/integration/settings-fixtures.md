@@ -1,5 +1,28 @@
 # Request-bound settings fixtures
 
+## Isolated Solitaire lifecycle fixture
+
+`Invoke-RideStoreSolitaireFixture.ps1` and its desktop actor use a separate bounded
+JSON request for exactly `app.solitaire` on the separately pinned UAC-enabled
+Windows 11 desktop. This is independent of settings fixture schemas 1-7. The
+host retains an original current-source snapshot and creates a private copy;
+the only catalog edit opens Solitaire's empty target array for Windows 11.
+Published catalog support and every identity/protection/source guard remain
+unchanged. Original/private catalog hashes and all guest source hashes are recorded.
+
+The actor validates that exact catalog edit, real intended-user SID/session and
+unelevated Explorer/worker before production Store handlers run. It exercises
+uninstall preview, native uninstall and repeat, retained-source preflight,
+reinstall preview, native registration and repeat. Previews/repeats must create
+no extra records; unrelated current-user registrations must remain unchanged.
+Schema-1 owned removal/reinstall records and actual source survival are retained.
+Missing local source is failed/partial evidence, with no acquisition fallback.
+Registration recovery is best effort; app data, exact versions, full launcher and
+alternate-administrator acceptance remain distinct. Owned transient task cleanup
+and separate VM checkpoint recovery are independently required.
+
+Packages and downloads remain paused. No other app or original VM is selected.
+
 Schema 2 also supports **MinimumAgeConflict** only for
 `windows.local-password-maximum-age`, with exactly `States=@('Days1')` and explicit
 pending-target approval. It requires captured minimum age zero and maximum above
