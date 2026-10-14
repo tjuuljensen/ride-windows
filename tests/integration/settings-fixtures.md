@@ -1,5 +1,61 @@
 # Request-bound settings fixtures
 
+Schema 2 also supports **MinimumAgeConflict** only for
+`windows.local-password-maximum-age`, with exactly `States=@('Days1')` and explicit
+pending-target approval. It requires captured minimum age zero and maximum above
+one day. A test-only local
+[level-1003 setter](https://learn.microsoft.com/en-us/windows/win32/api/lmaccess/nf-lmaccess-netusermodalsset)
+seeds a one-day minimum; production maximum-age code retains its level-1002-only
+ownership. Preview and attempted Days1 must preserve the seed, refuse the
+minimum/maximum conflict and invoke the counted native maximum setter zero times.
+The captured failed run is inspected/recovered while its unchanged seed remains.
+
+Finally, only the fixture's minimum is returned to captured zero after SAM and
+unrelated-field comparison; drift refuses replay. `RecoveryMode=ExactFixtureSeed`
+and `MinimumSeedRecoveryPassed` describe this separate recovery. LifecyclePassed
+and ExactRecovery remain false: refusal is not successful primary apply or a
+whole policy lifecycle. Checkpoint cleanup remains independently required.
+No user passwords, account flags, full security-policy replay, UAC or package
+acquisition are involved. Published target declarations remain unchanged.
+
+Schema 7 selects **StoreDesktopPlan**, with the same eight request/identity/group
+keys as schema 5. It accepts no command/action switches and cannot widen targets.
+The elevated disposable coordinator requires exactly one existing expected-SID
+Explorer candidate and starts a RunId-owned Interactive/Limited guest task.
+The worker verifies real current desktop SID/session/shell/elevation, fixture,
+actor-script and catalog/module hashes before read-only Plan and the desktop
+request worker. Registrations are compared before/after; all published app targets
+remain blocked. It retains actor.json under the intended user's local fixture
+directory and copies bounded/hash-checked evidence into guest results, including
+available failures. No credentials, sign-in configuration, app actions or package
+requests are used. No execution-policy setting is changed.
+
+Only the exact owned task definition may be stopped/unregistered in finally;
+cleanup failure invalidates Plan acceptance. The pinned checkpoint remains a
+separate required cleanup boundary. DesktopPlanPassed covers the real worker's
+read-only Plan, **not** the production shell launcher, alternate-administrator
+route or uninstall/reinstall. Those acceptance flags remain false.
+
+Schema 6 selects **StoreDesktopProbe**, with exactly SchemaVersion, RunId,
+IntegrationSuite, Target, Scenario, ExpectedUserSid and ExpectedUserName. It
+observes at most 32 existing Explorer processes and whether each owner matches
+the configured disposable guest SID. It records caller/shell session IDs and
+candidate count; no other owner's SID is retained. Missing or ambiguous shells
+remain pending resources, not failed app lifecycle or successful handoff.
+Shell presence does not verify active connection state, a real desktop, an
+unelevated token or source-bound child completion. This probe starts no session,
+process, task or app and changes no Windows configuration. Selection/action/state
+keys are refused. Native lifecycle, DesktopHandoffPassed and ExactRecovery stay
+false; ProbePassed accepts observation only. Packages remain paused.
+
+Schema 5 selects **StoreAppPreflight** for an exact configured guest account/SID
+and a declared Store app group. It preserves empty published target support and
+requires every action to refuse without state records or native app changes.
+It retains current registration/protection/source observations and compares them
+after the refusal. No uninstall, reinstall, handoff, policy or recovery lifecycle
+acceptance is implied. Packages/downloads remain forbidden. Other schemas retain
+their existing contracts; extra action/state/package keys in schema 5 are refused.
+
 Use the accepted pinned task controller with **Source Local** to validate one
 setting from the current checkout, including its uncommitted implementation.
 Never use the frozen CI checkout as evidence for those changes. Record the
@@ -31,10 +87,36 @@ and unsupported unapproved targets are refused before integration.
 
 Fixture files are bounded to 16 KiB and sixteen unique declared states. The
 schema-1 seven-key contract remains valid. Schema 2 adds required `Scenario`:
-`Lifecycle`, `ActiveRefusal`, `SettingDrift` or `InterruptedCreation`. Non-lifecycle
+`Lifecycle`, `ActiveRefusal`, `SettingDrift` or `InterruptedCreation`. Schema-2 non-lifecycle
 scenarios require an owned power-plan operation and keep the same target approval,
 source/request binding and package exclusions. The data module supplies scenario
 enumeration for validation and optional command completion.
+
+Schema 3 is a separate **read-only Store inventory** contract. It has exactly
+SchemaVersion, RunId, IntegrationSuite, Target, Scenario (`StoreInventory`),
+ExpectedUserSid and ExpectedUserName. It accepts no operation, state, app selection
+or candidate-widening keys. The guest verifies both expected account name and SID
+before querying current-user Appx registrations. Use established pinned guest
+identity evidence, never an inferred interactive desktop user. The current request
+must still match the target, source hashes and installed controller pins.
+
+It retains store-app-inventory.json, store-app-review.json and a correlated
+settings-fixture.json with InventoryCollected and WindowsMutation=false. Lifecycle
+and ExactRecovery remain false; RecoveryMode is NoWindowsMutation. The configured
+guest execution account is labelled explicitly, including its session, and is
+not proof of other users, an interactive desktop, an untouched inbox image, Home,
+Pro or another release. Native inventory acceptance is distinct from app removal,
+policy consumption and data recovery. Packages remain paused. Final checkpoint
+recovery and current idle/hash checks remain required even for this read-only mode.
+
+Schema 4 uses the same seven keys with Scenario `StoreReferenceInventory`. It
+explicitly collects separate CurrentUser and online ProvisionedImage JSON files,
+plus a local DISM diagnostic log and individual collection flags/hashes. No PFN
+or user registration is inferred from provisioning. A second collection failure
+retains the already collected user evidence as partial; it does not make the
+combined reference successful. It accepts no app selection or removal keys.
+Schema 3 remains user-only. Current review defaults exclude historical-only v2
+names; optional history is data comparison, never a removal preset.
 
 `ActiveRefusal` selects only its new owned copy through a separate engine-captured
 selection run using an in-memory GUID state. On Server only, the existing selection

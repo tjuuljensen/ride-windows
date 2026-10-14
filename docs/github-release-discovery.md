@@ -185,60 +185,206 @@ as observations, not remaining-budget guarantees.
 
 ## Disposable guest authentication
 
-Guest authentication is explicit per request and initially restricted to the
-`GitHubAuthentication` suite. This suite downloads and verifies the catalog's
-7-Zip payload without installing it. UnitOnly and broad suites refuse PAT mode.
+**Enroll once on the host, configure each controller, then select PAT for each
+test request.** Enrollment or configuration alone does not enable PAT in guests.
+Host RIDE commands using PAT also do not change guest authentication.
 
-1. Enroll a separate short-lived PAT with `-Purpose VmTest` under the registered
-   host account. An Interactive enrollment is refused for guest delivery.
-2. Use controller configuration schema 2 and set `GuestGitHubCredentialReference`
-   to that nonsecret enrollment name. Refresh protected controller files through
-   registration while the controller is idle. Registration advertises
-   `GitHubPatGuestV1` and records all seven installed helper hashes. Existing
-   schema-1 configurations/requests remain anonymous; old controllers cannot accept PAT requests.
-   PAT delivery refuses runners invoked from a mutable checkout; use the registered
-   protected installation even when selecting PowerShell Direct.
-3. Select an isolated reviewed source without the active settings fixture. Keep
-   VM/checkpoint/account/source/ISO pins and existing package pauses intact.
-4. Use the installed client, explicitly selecting mode:
+PAT is currently restricted to the `GitHubAuthentication` integration suite.
+That suite downloads and verifies the catalog's 7-Zip payload without installing
+it. `UnitOnly`, settings suites and broad suites such as `Full` refuse PAT mode.
+These instructions do not authorize package testing while a package pause is
+in force. Live authenticated acceptance remains pending as described below.
+
+### 1. Enroll a dedicated test PAT on the host
+
+Use the short-lived, public-only PAT described in the enrollment section above.
+Sign in to the Hyper-V host as the **same Windows account that registered the
+controller** (`HostAccount` in its installed configuration). Enrollment under a
+different administrator account cannot be decrypted by the controller.
+
+From the reviewed repository root, run:
 
 ```powershell
-& $installedClient -ConfigurationPath $configuration -IntegrationSuite GitHubAuthentication -GuestGitHubAuthentication PAT
-& $installedClient -ConfigurationPath $configuration -IntegrationSuite GitHubAuthentication -GuestGitHubAuthentication Anonymous
+# Example: an eight-hour local cutoff. Shorten it if the PAT expires sooner.
+.\tools\Manage-RideGitHubCredential.ps1 Add -Name vm-public-releases -Purpose VmTest -ExpiresAtUtc ([datetime]::UtcNow.AddHours(8))
+.\tools\Manage-RideGitHubCredential.ps1 List
 ```
 
-The controller pins the credential revision so a rotation between preflight and
-delivery fails before sending a different credential. PowerShell Direct or encrypted
-Negotiate/Kerberos WSMan carries a SecureString, never a token in command arguments.
-The guest seals it for its executing SID below
-`%LOCALAPPDATA%\RIDE\TransientCredentials\<RunId>`, with the earlier of the request
-deadline or credential expiry. Only a run reference and expected SID reach the
-fresh test process. No lease is baked into the clean checkpoint.
+`Add` prompts for the token with hidden input and makes one GitHub identity
+request to validate it. Do not put the token in commands, environment variables,
+configuration files or source control. Use `-Purpose VmTest`: the default
+`Interactive` enrollment is refused for guest delivery. `List` makes no network
+request; check that the name, purpose and UTC cutoff are correct. An optional
+`Test -Name vm-public-releases` makes another identity request.
+
+The host enrollment persists after closing PowerShell or restarting the host.
+Its local cutoff must be no later than the token's actual GitHub expiration.
+Expiry prevents use; it does not automatically delete the host record. To renew
+an existing name, use `Replace` with `-Purpose VmTest` and a new cutoff, while
+controllers using it are idle. Each replacement changes the credential revision.
+
+### 2. Configure and refresh each controller
+
+Each disposable VM has its own controller configuration. Repeat this step for
+each controller that should be allowed to deliver the enrollment. The same host
+enrollment can be referenced by several controllers running as the same account;
+they share the GitHub account's allowance.
+
+Use **elevated, 64-bit Windows PowerShell 5.1 as the registered host account** for
+this setup step. Wait until the controller is idle, its pending/running queues
+are empty and no recovery block exists. Coordinate with other users of the VM.
+Follow the [controller runbook](../tests/integration/automatedlab-tasks.md) for
+host prerequisites, pin checks and recovery.
+
+For an existing controller, prepare a local registration file from its installed
+configuration, preserving its VM, checkpoint, host account, source and ISO pins.
+The following example uses `RIDEWin11Pilot`; replace that name with your controller
+name. Keep the registration file outside the checkout:
+
+```powershell
+$configuration = "$env:ProgramData\RIDE\TestAutomation\RIDEWin11Pilot\configuration.json"
+$registration = Join-Path $env:TEMP 'ride-vm-pat-registration.json'
+$seed = Get-Content -LiteralPath $configuration -Raw | ConvertFrom-Json
+$seed | Add-Member -NotePropertyName SchemaVersion -NotePropertyValue 2 -Force
+$seed | Add-Member -NotePropertyName GuestGitHubCredentialReference -NotePropertyValue 'vm-public-releases' -Force
+$seed | ConvertTo-Json -Depth 20 | Set-Content -LiteralPath $registration -Encoding UTF8
+
+# Run from the reviewed repository root. Preview, then register after review.
+.\tests\integration\Register-RideVmTestTask.ps1 -ConfigurationPath $registration -WhatIf
+.\tests\integration\Register-RideVmTestTask.ps1 -ConfigurationPath $registration
+```
+
+For first-time registration, use a local copy of
+[`automation.example.psd1`](../tests/integration/automation.example.psd1), fill in
+the real pins and paths, and set `SchemaVersion = 2` and
+`GuestGitHubCredentialReference = 'vm-public-releases'`. Then register that seed
+using the same preview/register commands.
+
+Registration installs the protected helpers, advertises `GitHubPatGuestV1` and
+records all seven installed helper hashes. It does not start a test. Confirm the
+installed configuration before requesting PAT:
+
+```powershell
+Get-Content -LiteralPath $configuration -Raw | ConvertFrom-Json |
+    Select-Object SchemaVersion, HostAccount, Capabilities, GuestGitHubCredentialReference
+```
+
+The installed file must show schema 2, the expected account, `GitHubPatGuestV1`
+and `vm-public-releases`. Older schema-1 configurations/requests remain anonymous;
+an old controller cannot accept PAT requests. A reference is only a nonsecret
+enrollment name, not the token and not a default authentication mode.
+
+### 3. Request one PAT run
+
+Requests can be submitted from **ordinary PowerShell as the registered host
+account**. In a new session, define the paths again; these PowerShell variables
+are conveniences, not persistent authentication settings:
+
+```powershell
+$configuration = "$env:ProgramData\RIDE\TestAutomation\RIDEWin11Pilot\configuration.json"
+$installedClient = Join-Path (Split-Path -Parent $configuration) 'bin\Invoke-RideVmTestTask.ps1'
+& $installedClient -ConfigurationPath $configuration -Source Local -IntegrationSuite GitHubAuthentication -GuestGitHubAuthentication PAT
+```
+
+Use the installed client and protected runner, including for PowerShell Direct;
+PAT delivery refuses runners invoked from a mutable checkout. The example selects
+the configured `LocalRepositoryPath`; `-Source CI` selects `CIRepositoryPath`.
+Before submitting, verify the chosen source is an isolated reviewed source
+without `tests\integration\settings-validation.fixture.psd1`. Retain existing
+source/hash and VM/checkpoint/account/ISO checks; do not change a source pin merely
+to bypass a refusal.
+
+The request carries the mode, not the token or an arbitrary credential name.
+The controller resolves its configured host enrollment and pins its revision;
+replacement between preflight and delivery fails instead of sending a different
+credential. Missing, expired, revoked or rejected credentials cause failure,
+with **no automatic fallback to anonymous**. Results record
+`GuestGitHubAuthentication`; check that it is `PAT` alongside the acquisition
+and cleanup evidence. Selection alone is not successful acceptance.
+
+### Scope and lifetime
+
+| Item | Scope and lifetime |
+| --- | --- |
+| Host enrollment | Persistent for the enrolling Windows account on that host, protected with CurrentUser DPAPI under `%LOCALAPPDATA%\RIDE\Credentials\GitHub`. Usable until the local cutoff or earlier GitHub expiry/revocation; remains stored until removed or replaced. |
+| Controller reference | Persistent in that controller's installed `configuration.json`; affects only requests to that controller. Does not enable PAT by itself and has no session timeout. |
+| `-GuestGitHubAuthentication PAT` | One submitted request only. A later invocation defaults to `Anonymous` even in the same PowerShell session. Already queued requests retain their selected mode. |
+| Guest credential lease | One run ID and the guest execution SID, stored below `%LOCALAPPDATA%\RIDE\TransientCredentials\<RunId>`. Its use expires at the earlier of the host cutoff or request submission time plus `TimeoutMinutes` (default 90, including queue waiting). Cleanup removes it; expiry alone is not proof of deletion. |
+| CI selection | The nonsecret GitHub Actions configuration variable applies to subsequent workflow runs until changed or removed. It does not override separately submitted local requests. |
+
+PowerShell Direct or encrypted Negotiate/Kerberos WSMan carries a SecureString,
+never a plaintext token in command arguments. Only a run reference and expected
+SID reach the fresh guest test process. No credential is baked into the clean
+checkpoint; guests need no manual PAT enrollment. Authentication applies to
+GitHub release API discovery, not payload/checksum/installer destinations or all
+programs on the guest.
+
+### Return to anonymous access
+
+For the next local request, explicitly select `Anonymous`, or omit the mode
+parameter (its default is `Anonymous`). Keep the focused suite selected in either
+case; omitting `-IntegrationSuite` would select `Full`:
+
+```powershell
+& $installedClient -ConfigurationPath $configuration -IntegrationSuite GitHubAuthentication -GuestGitHubAuthentication Anonymous
+# Equivalent anonymous selection:
+& $installedClient -ConfigurationPath $configuration -IntegrationSuite GitHubAuthentication
+```
+
+No controller refresh, credential removal, PowerShell restart or host reboot is
+needed for this switch. You can leave the reference and enrollment in place for
+future explicit PAT requests. Switching does not change a running or queued PAT
+request; let it complete and verify cleanup before further work.
+
+To remove the saved host credential as well, wait for all controllers using it
+to become idle, then run as the enrolling host account from the repository root:
+
+```powershell
+.\tools\Manage-RideGitHubCredential.ps1 Remove -Name vm-public-releases
+.\tools\Manage-RideGitHubCredential.ps1 List
+```
+
+Removal deletes the local enrollment, not the token at GitHub. Anonymous runs
+still work with a stale controller reference; a future PAT request fails until
+the name is enrolled again. If you also want to remove the reference, delete
+`GuestGitHubCredentialReference` from the **installed** `configuration.json` in
+an elevated session while idle. Do not set it to an empty string (validation
+refuses that). Removing it only from a seed and re-registering does not clear the
+installed reference: registration preserves an existing reference when the seed
+omits it. Update any retained local seed too, so a later refresh cannot re-add it.
+Revoke the PAT separately in GitHub when it is no longer needed or exposure is
+suspected; local removal and checkpoint reset do not revoke it.
+
+### CI selection and recovery evidence
+
+After host enrollment and controller setup, set the nonsecret GitHub Actions
+configuration variable `RIDE_VM_GITHUB_AUTHENTICATION` to `PAT`. Also select
+`RIDE_VM_PILOT_MODE=GitHubAuthentication` for the existing pilot, or
+`RIDE_VM_INTEGRATION_SUITE=GitHubAuthentication` after the separate main cutover.
+The self-hosted runner must submit as the registered host account. No CI token
+or secret environment variable is forwarded. To return subsequent CI runs to
+anonymous, set `RIDE_VM_GITHUB_AUTHENTICATION=Anonymous` or remove that variable;
+the workflow defaults to Anonymous. Changing `$env:` in a local shell does not
+update GitHub Actions configuration variables. Suite selection and activation
+switches remain separate; retain the focused suite while comparing modes.
 
 Guest and host finally paths remove the lease. The controller restores the pinned
 checkpoint, runs a bounded credential-absence probe under the delivery identity,
-then restores it again and leaves the guest Off. Unverified recovery blocks further
-requests. An interrupted worker retains the existing recovery block behavior.
-Reset is cleanup, not token revocation.
+then restores it again and leaves the guest Off. Unverified recovery or an
+interrupted worker blocks further requests; follow the controller runbook rather
+than bypassing the block.
 
 For recovery acceptance, select `-GitHubTestScenario FailAfterDelivery` or
 `WaitForTimeout`; expected Failed/TimedOut results remain failures, and evidence
-must prove the intended phase was reached. Never count an earlier Pester or setup
-failure as the requested fault scenario.
+must prove the intended phase was reached. An earlier Pester or setup failure
+does not establish the requested fault scenario.
 
 PAT runs scan the entire retained run directory, including snapshots and sidecars,
 then publish only a separate scanned `export` directory. Scanning rejects token
 representations, credential-record markers, unreadable files, links and oversized
 evidence. A correlated `export-safety.json` pins every file hash; CI refuses missing,
 modified or extra files. Raw evidence remains local if scanning fails. Restrict
-access and revoke the test PAT if actual exposure is detected; checkpoint reset
-cannot revoke it.
-
-CI selection uses nonsecret `RIDE_VM_GITHUB_AUTHENTICATION=PAT` plus
-`RIDE_VM_PILOT_MODE=GitHubAuthentication` for the existing pilot, or
-`RIDE_VM_INTEGRATION_SUITE=GitHubAuthentication` after the separate main cutover.
-Defaults remain Anonymous and the existing suite choices. No CI token or secret
-environment variable is forwarded.
+access and revoke the test PAT if actual exposure is detected.
 
 ## Authentication acceptance status
 

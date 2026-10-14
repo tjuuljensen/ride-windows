@@ -20,6 +20,55 @@ BeforeAll {
   }
 }
 Describe 'Request-bound settings fixtures' {
+  It 'restricts minimum-age conflict to one explicit local maximum-age state' {
+    $path=New-FixtureDataFile -Id windows.local-password-maximum-age -StateText "'Days1'" -Allow '$true' -Schema 2 -Extra "Scenario='MinimumAgeConflict'"
+    (Read-RideSettingsFixture -Path $path -RunId $runId -IntegrationSuite SettingsBatch60 -CatalogPath $catalogPath).Fixture.Scenario|Should -Be MinimumAgeConflict
+    foreach($states in @("'Days2'","'Days1','Days2'")){
+      {Read-RideSettingsFixture -Path (New-FixtureDataFile -Id windows.local-password-maximum-age -StateText $states -Allow '$true' -Schema 2 -Extra "Scenario='MinimumAgeConflict'") -RunId $runId -IntegrationSuite SettingsBatch60 -CatalogPath $catalogPath}|Should -Throw '*exactly the local maximum-age Days1*'
+    }
+    {Read-RideSettingsFixture -Path (New-FixtureDataFile -Id windows.owned-balanced-power-plan -StateText "'Create'" -Allow '$true' -Schema 2 -Extra "Scenario='MinimumAgeConflict'") -RunId $runId -IntegrationSuite SettingsBatch60 -CatalogPath $catalogPath}|Should -Throw '*exactly the local maximum-age Days1*'
+  }
+  It 'binds schema-7 desktop Plan to a pending Store group without accepting action switches' {
+    $path=Join-Path $TestDrive 'desktop-plan.psd1'
+    $text="@{SchemaVersion=7;RunId='$runId';IntegrationSuite='SettingsBatch60';Target='Windows 11';Scenario='StoreDesktopPlan';ExpectedUserSid='S-1-5-21-1-2-3-1001';ExpectedUserName='GUEST\admin';SelectionId='solution.store-consumer-apps'}"
+    [IO.File]::WriteAllText($path,$text,[Text.UTF8Encoding]::new($false))
+    $d=Read-RideSettingsFixture -Path $path -RunId $runId -IntegrationSuite SettingsBatch60 -CatalogPath $catalogPath
+    $d.Operation|Should -BeNullOrEmpty;$d.Fixture.Scenario|Should -Be StoreDesktopPlan
+    foreach($extra in @(";Action='Uninstall'",";Command='Reinstall'",";AllowPendingCandidate=`$true")){
+      [IO.File]::WriteAllText($path,$text.Replace('}',$extra+'}'),[Text.UTF8Encoding]::new($false))
+      {Read-RideSettingsFixture -Path $path -RunId $runId -IntegrationSuite SettingsBatch60 -CatalogPath $catalogPath}|Should -Throw '*non-mutating Store preflight*'
+    }
+    [IO.File]::WriteAllText($path,$text.Replace('solution.store-consumer-apps','solution.analyst-basics'),[Text.UTF8Encoding]::new($false))
+    {Read-RideSettingsFixture -Path $path -RunId $runId -IntegrationSuite SettingsBatch60 -CatalogPath $catalogPath}|Should -Throw '*Store app group*'
+  }
+  It 'accepts only the identity-bound read-only desktop resource probe in schema 6' {
+    $path=Join-Path $TestDrive 'desktop-probe.psd1'
+    $text="@{SchemaVersion=6;RunId='$runId';IntegrationSuite='SettingsBatch60';Target='Windows 11';Scenario='StoreDesktopProbe';ExpectedUserSid='S-1-5-21-1-2-3-1001';ExpectedUserName='GUEST\admin'}"
+    [IO.File]::WriteAllText($path,$text,[Text.UTF8Encoding]::new($false))
+    $d=Read-RideSettingsFixture -Path $path -RunId $runId -IntegrationSuite SettingsBatch60 -CatalogPath $catalogPath
+    $d.Operation|Should -BeNullOrEmpty;$d.Fixture.Scenario|Should -Be StoreDesktopProbe
+    foreach($extra in @(";SelectionId='solution.store-consumer-apps'",";Action='Uninstall'",";AllowPendingCandidate=`$true")){
+      [IO.File]::WriteAllText($path,$text.Replace('}',$extra+'}'),[Text.UTF8Encoding]::new($false))
+      {Read-RideSettingsFixture -Path $path -RunId $runId -IntegrationSuite SettingsBatch60 -CatalogPath $catalogPath}|Should -Throw '*read-only inventory fixture*'
+    }
+    [IO.File]::WriteAllText($path,$text.Replace('SchemaVersion=6','SchemaVersion=3'),[Text.UTF8Encoding]::new($false))
+    {Read-RideSettingsFixture -Path $path -RunId $runId -IntegrationSuite SettingsBatch60 -CatalogPath $catalogPath}|Should -Throw '*read-only inventory fixture*'
+  }
+  It 'accepts schema-5 Store guard preflight without opening supported targets' {
+    $path=Join-Path $TestDrive 'store-guard.psd1'
+    $text="@{SchemaVersion=5;RunId='$runId';IntegrationSuite='SettingsBatch60';Target='Windows 11';Scenario='StoreAppPreflight';ExpectedUserSid='S-1-5-21-1-2-3-1001';ExpectedUserName='GUEST\admin';SelectionId='solution.store-consumer-apps'}"
+    [IO.File]::WriteAllText($path,$text,[Text.UTF8Encoding]::new($false))
+    $d=Read-RideSettingsFixture -Path $path -RunId $runId -IntegrationSuite SettingsBatch60 -CatalogPath $catalogPath
+    $d.Operation|Should -BeNullOrEmpty;$d.Fixture.Scenario|Should -Be StoreAppPreflight
+    [IO.File]::WriteAllText($path,$text.Replace("SelectionId='solution.store-consumer-apps'","SelectionId='solution.analyst-basics'"),[Text.UTF8Encoding]::new($false))
+    {Read-RideSettingsFixture -Path $path -RunId $runId -IntegrationSuite SettingsBatch60 -CatalogPath $catalogPath}|Should -Throw '*Store app group*'
+  }
+  It 'refuses extra action/data selectors in a non-mutating Store preflight' {
+    $path=Join-Path $TestDrive 'store-guard-extra.psd1'
+    $text="@{SchemaVersion=5;RunId='$runId';IntegrationSuite='SettingsBatch60';Target='Windows 11';Scenario='StoreAppPreflight';ExpectedUserSid='S-1-5-21-1-2-3-1001';ExpectedUserName='GUEST\admin';SelectionId='solution.store-consumer-apps';Action='Uninstall'}"
+    [IO.File]::WriteAllText($path,$text,[Text.UTF8Encoding]::new($false))
+    {Read-RideSettingsFixture -Path $path -RunId $runId -IntegrationSuite SettingsBatch60 -CatalogPath $catalogPath}|Should -Throw '*non-mutating*'
+  }
   It 'accepts explicit schema-2 owned scenario <Scenario> without widening public support' -ForEach @(@{Scenario='ActiveRefusal'},@{Scenario='SettingDrift'},@{Scenario='InterruptedCreation'}) {
     $p=New-FixtureDataFile -Id windows.owned-balanced-power-plan -StateText "'Create'" -Allow '$true' -Schema 2 -Extra "Scenario='$Scenario'"
     $d=Read-RideSettingsFixture -Path $p -RunId $runId -IntegrationSuite SettingsBatch60 -CatalogPath $catalogPath
@@ -32,7 +81,26 @@ Describe 'Request-bound settings fixtures' {
   }
   It 'refuses owned guards for another handler family and enumerates the same finite choices' {
     {Read-RideSettingsFixture -Path (New-FixtureDataFile -Schema 2 -Extra "Scenario='ActiveRefusal'") -RunId $runId -IntegrationSuite SettingsBatch60 -CatalogPath $catalogPath} | Should -Throw '*owned power*'
-    @(Get-RideSettingsFixtureScenario).Count | Should -Be 4
+    @(Get-RideSettingsFixtureScenario).Count | Should -Be 10
+  }
+  It 'accepts only identity-bound no-operation inventory schema 3' {
+    $path=Join-Path $TestDrive 'inventory.psd1'
+    $text="@{SchemaVersion=3;RunId='$runId';IntegrationSuite='SettingsBatch60';Target='Windows 11';Scenario='StoreInventory';ExpectedUserSid='S-1-5-21-1-2-3-1001';ExpectedUserName='GUEST\admin'}"
+    [IO.File]::WriteAllText($path,$text,[Text.UTF8Encoding]::new($false))
+    $d=Read-RideSettingsFixture -Path $path -RunId $runId -IntegrationSuite SettingsBatch60 -CatalogPath $catalogPath
+    $d.Operation|Should -BeNullOrEmpty;$d.Fixture.Scenario|Should -Be StoreInventory
+    [IO.File]::WriteAllText($path,$text.Replace("ExpectedUserName='GUEST\admin'","ExpectedUserName='GUEST\admin';OperationId='package.7zip'"),[Text.UTF8Encoding]::new($false))
+    {Read-RideSettingsFixture -Path $path -RunId $runId -IntegrationSuite SettingsBatch60 -CatalogPath $catalogPath}|Should -Throw '*read-only inventory fixture*'
+    {Read-RideSettingsFixture -Path (New-FixtureDataFile -Schema 2 -Extra "Scenario='StoreInventory'") -RunId $runId -IntegrationSuite SettingsBatch60 -CatalogPath $catalogPath}|Should -Throw '*scenario*'
+  }
+  It 'requires explicit schema 4 for combined reference collection' {
+    $path=Join-Path $TestDrive 'reference.psd1'
+    $text="@{SchemaVersion=4;RunId='$runId';IntegrationSuite='SettingsBatch60';Target='Windows Server 2025';Scenario='StoreReferenceInventory';ExpectedUserSid='S-1-5-21-1-2-3-1001';ExpectedUserName='GUEST\admin'}"
+    [IO.File]::WriteAllText($path,$text,[Text.UTF8Encoding]::new($false))
+    $d=Read-RideSettingsFixture -Path $path -RunId $runId -IntegrationSuite SettingsBatch60 -CatalogPath $catalogPath
+    $d.Operation|Should -BeNullOrEmpty;$d.Fixture.Scenario|Should -Be StoreReferenceInventory
+    [IO.File]::WriteAllText($path,$text.Replace('SchemaVersion=4','SchemaVersion=3'),[Text.UTF8Encoding]::new($false))
+    {Read-RideSettingsFixture -Path $path -RunId $runId -IntegrationSuite SettingsBatch60 -CatalogPath $catalogPath}|Should -Throw '*read-only inventory fixture*'
   }
   It 'resolves a declared single setting without changing published support' {
     $data=Read-RideSettingsFixture -Path (New-FixtureDataFile) -RunId $runId -IntegrationSuite SettingsBatch60 -CatalogPath $catalogPath

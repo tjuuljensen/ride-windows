@@ -6,6 +6,534 @@
   SchemaVersion = 1
   Operations = @(
     @{
+      Id = 'app.xbox-tcui'
+      Name = 'Xbox TCUI Store registration (experimental)'
+      Kind = 'StoreApp'
+      Category = 'Windows components / Store apps'
+      Description = 'Optional intended-desktop-user Xbox TCUI registration action in batch 3. Captured exact family; known protection/type, other-app consumers, policy, desktop and retained-source checks required. No downloads, shared framework removal, AllUsers changes or deprovisioning. Missing removability/type/source proof and pending target acceptance refuse changes; IsPartOfSystem stays visibly unknown under the reviewed identity rule. App data and previous versions are not guaranteed recovery.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Uninstall', 'Reinstall')
+      Handler = 'StoreApp'
+      TargetDefaults = @{}
+      AppxName = 'Microsoft.Xbox.TCUI'
+      PackageFamilyName = 'Microsoft.Xbox.TCUI_8wekyb3d8bbwe'
+      PolicySelectionId = 'XboxTCUI'
+      RequireKnownProtectionFlags = $true
+      ProtectionRule = 'ReviewedIdentityRemovabilityV1'
+      ReinstallSource = 'RetainedManifestOnly'
+      Rollback = 'BestEffort'
+      MigrationBatch = 'StoreBatch320261014'
+    }
+    @{
+      Id = 'app.xbox-identity-provider'
+      Name = 'Xbox Identity Provider Store registration (experimental)'
+      Kind = 'StoreApp'
+      Category = 'Windows components / Store apps'
+      Description = 'Optional intended-desktop-user Xbox Identity Provider registration action in batch 3. Captured exact family; known protection/type, other-app consumers, policy, desktop and retained-source checks required. No downloads, shared framework removal, AllUsers changes or deprovisioning. Missing removability/type/source proof and pending target acceptance refuse changes; IsPartOfSystem stays visibly unknown under the reviewed identity rule. App data and previous versions are not guaranteed recovery.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Uninstall', 'Reinstall')
+      Handler = 'StoreApp'
+      TargetDefaults = @{}
+      AppxName = 'Microsoft.XboxIdentityProvider'
+      PackageFamilyName = 'Microsoft.XboxIdentityProvider_8wekyb3d8bbwe'
+      PolicySelectionId = 'XboxIdentityProvider'
+      RequireKnownProtectionFlags = $true
+      ProtectionRule = 'ReviewedIdentityRemovabilityV1'
+      ReinstallSource = 'RetainedManifestOnly'
+      Rollback = 'BestEffort'
+      MigrationBatch = 'StoreBatch320261014'
+    }
+    @{
+      Id = 'app.xbox-speech-overlay'
+      Name = 'Xbox Speech to Text Overlay Store registration (experimental)'
+      Kind = 'StoreApp'
+      Category = 'Windows components / Store apps'
+      Description = 'Optional intended-desktop-user Xbox Speech to Text Overlay registration action in batch 3. Captured exact family; known protection/type, other-app consumers, policy, desktop and retained-source checks required. No downloads, shared framework removal, AllUsers changes or deprovisioning. Missing removability/type/source proof and pending target acceptance refuse changes; IsPartOfSystem stays visibly unknown under the reviewed identity rule. App data and previous versions are not guaranteed recovery.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Uninstall', 'Reinstall')
+      Handler = 'StoreApp'
+      TargetDefaults = @{}
+      AppxName = 'Microsoft.XboxSpeechToTextOverlay'
+      PackageFamilyName = 'Microsoft.XboxSpeechToTextOverlay_8wekyb3d8bbwe'
+      PolicySelectionId = 'XboxSpeechToTextOverlay'
+      RequireKnownProtectionFlags = $true
+      ProtectionRule = 'ReviewedIdentityRemovabilityV1'
+      ReinstallSource = 'RetainedManifestOnly'
+      Rollback = 'BestEffort'
+      MigrationBatch = 'StoreBatch320261014'
+    }
+    @{
+      Id = 'app.xbox'
+      Name = 'Xbox app Store registration (experimental)'
+      Kind = 'StoreApp'
+      Category = 'Windows components / Store apps'
+      Description = 'Optional intended-desktop-user Xbox app registration action in batch 3. Captured exact family; known protection/type, other-app consumers, policy, desktop and retained-source checks required. No downloads, shared framework removal, AllUsers changes or deprovisioning. Missing removability/type/source proof and pending target acceptance refuse changes; IsPartOfSystem stays visibly unknown under the reviewed identity rule. App data and previous versions are not guaranteed recovery.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Uninstall', 'Reinstall')
+      Handler = 'StoreApp'
+      TargetDefaults = @{}
+      AppxName = 'Microsoft.GamingApp'
+      PackageFamilyName = 'Microsoft.GamingApp_8wekyb3d8bbwe'
+      PolicySelectionId = 'GamingApp'
+      RequireKnownProtectionFlags = $true
+      ProtectionRule = 'ReviewedIdentityRemovabilityV1'
+      ReinstallSource = 'RetainedManifestOnly'
+      Rollback = 'BestEffort'
+      MigrationBatch = 'StoreBatch320261014'
+    }
+    @{
+      Id = 'app.game-bar'
+      Name = 'Game Bar Store registration (experimental)'
+      Kind = 'StoreApp'
+      Category = 'Windows components / Store apps'
+      Description = 'Optional intended-desktop-user Game Bar registration action in batch 3. Captured exact family; known protection/type, other-app consumers, policy, desktop and retained-source checks required. No downloads, shared framework removal, AllUsers changes or deprovisioning. Missing removability/type/source proof and pending target acceptance refuse changes; IsPartOfSystem stays visibly unknown under the reviewed identity rule. App data and previous versions are not guaranteed recovery.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Uninstall', 'Reinstall')
+      Handler = 'StoreApp'
+      TargetDefaults = @{}
+      AppxName = 'Microsoft.XboxGamingOverlay'
+      PackageFamilyName = 'Microsoft.XboxGamingOverlay_8wekyb3d8bbwe'
+      PolicySelectionId = $null
+      RequireKnownProtectionFlags = $true
+      ProtectionRule = 'ReviewedIdentityRemovabilityV1'
+      ReinstallSource = 'RetainedManifestOnly'
+      Rollback = 'BestEffort'
+      MigrationBatch = 'StoreBatch320261014'
+    }
+    @{
+      Id = 'app.quick-assist'
+      Name = 'Quick Assist Store registration (experimental)'
+      Kind = 'StoreApp'
+      Category = 'Windows components / Store apps'
+      Description = 'Optional intended-desktop-user Quick Assist registration action in batch 2C. Captured exact family; known protection/type, other-app consumers, policy, desktop and retained-source checks required. No downloads, shared framework removal, AllUsers changes or deprovisioning. Missing removability/type/source proof and pending target acceptance refuse changes; IsPartOfSystem stays visibly unknown under the reviewed identity rule. App data and previous versions are not guaranteed recovery.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Uninstall', 'Reinstall')
+      Handler = 'StoreApp'
+      TargetDefaults = @{}
+      AppxName = 'MicrosoftCorporationII.QuickAssist'
+      PackageFamilyName = 'MicrosoftCorporationII.QuickAssist_8wekyb3d8bbwe'
+      PolicySelectionId = 'QuickAssist'
+      RequireKnownProtectionFlags = $true
+      ProtectionRule = 'ReviewedIdentityRemovabilityV1'
+      ReinstallSource = 'RetainedManifestOnly'
+      Rollback = 'BestEffort'
+      MigrationBatch = 'StoreBatch2C20261014'
+    }
+    @{
+      Id = 'app.sticky-notes'
+      Name = 'Sticky Notes Store registration (experimental)'
+      Kind = 'StoreApp'
+      Category = 'Windows components / Store apps'
+      Description = 'Optional intended-desktop-user Sticky Notes registration action in batch 2C. Captured exact family; known protection/type, other-app consumers, policy, desktop and retained-source checks required. No downloads, shared framework removal, AllUsers changes or deprovisioning. Missing removability/type/source proof and pending target acceptance refuse changes; IsPartOfSystem stays visibly unknown under the reviewed identity rule. App data and previous versions are not guaranteed recovery.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Uninstall', 'Reinstall')
+      Handler = 'StoreApp'
+      TargetDefaults = @{}
+      AppxName = 'Microsoft.MicrosoftStickyNotes'
+      PackageFamilyName = 'Microsoft.MicrosoftStickyNotes_8wekyb3d8bbwe'
+      PolicySelectionId = 'MicrosoftStickyNotes'
+      RequireKnownProtectionFlags = $true
+      ProtectionRule = 'ReviewedIdentityRemovabilityV1'
+      ReinstallSource = 'RetainedManifestOnly'
+      Rollback = 'BestEffort'
+      MigrationBatch = 'StoreBatch2C20261014'
+    }
+    @{
+      Id = 'app.outlook'
+      Name = 'Outlook Store registration (experimental)'
+      Kind = 'StoreApp'
+      Category = 'Windows components / Store apps'
+      Description = 'Optional intended-desktop-user Outlook registration action in batch 2C. Captured exact family; known protection/type, other-app consumers, policy, desktop and retained-source checks required. No downloads, shared framework removal, AllUsers changes or deprovisioning. Missing removability/type/source proof and pending target acceptance refuse changes; IsPartOfSystem stays visibly unknown under the reviewed identity rule. App data and previous versions are not guaranteed recovery.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Uninstall', 'Reinstall')
+      Handler = 'StoreApp'
+      TargetDefaults = @{}
+      AppxName = 'Microsoft.OutlookForWindows'
+      PackageFamilyName = 'Microsoft.OutlookForWindows_8wekyb3d8bbwe'
+      PolicySelectionId = 'OutlookForWindows'
+      RequireKnownProtectionFlags = $true
+      ProtectionRule = 'ReviewedIdentityRemovabilityV1'
+      ReinstallSource = 'RetainedManifestOnly'
+      Rollback = 'BestEffort'
+      MigrationBatch = 'StoreBatch2C20261014'
+    }
+    @{
+      Id = 'app.todo'
+      Name = 'To Do Store registration (experimental)'
+      Kind = 'StoreApp'
+      Category = 'Windows components / Store apps'
+      Description = 'Optional intended-desktop-user To Do registration action in batch 2C. Captured exact family; known protection/type, other-app consumers, policy, desktop and retained-source checks required. No downloads, shared framework removal, AllUsers changes or deprovisioning. Missing removability/type/source proof and pending target acceptance refuse changes; IsPartOfSystem stays visibly unknown under the reviewed identity rule. App data and previous versions are not guaranteed recovery.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Uninstall', 'Reinstall')
+      Handler = 'StoreApp'
+      TargetDefaults = @{}
+      AppxName = 'Microsoft.Todos'
+      PackageFamilyName = 'Microsoft.Todos_8wekyb3d8bbwe'
+      PolicySelectionId = 'Todo'
+      RequireKnownProtectionFlags = $true
+      ProtectionRule = 'ReviewedIdentityRemovabilityV1'
+      ReinstallSource = 'RetainedManifestOnly'
+      Rollback = 'BestEffort'
+      MigrationBatch = 'StoreBatch2C20261014'
+    }
+    @{
+      Id = 'app.photos'
+      Name = 'Photos Store registration (experimental)'
+      Kind = 'StoreApp'
+      Category = 'Windows components / Store apps'
+      Description = 'Optional intended-desktop-user Photos registration action in batch 2B. Captured exact family; known protection/type, other-app consumers, policy, desktop and retained-source checks required. No downloads, shared framework removal, AllUsers changes or deprovisioning. Missing removability/type/source proof and pending target acceptance refuse changes; IsPartOfSystem stays visibly unknown under the reviewed identity rule. App data and previous versions are not guaranteed recovery.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Uninstall', 'Reinstall')
+      Handler = 'StoreApp'
+      TargetDefaults = @{}
+      AppxName = 'Microsoft.Windows.Photos'
+      PackageFamilyName = 'Microsoft.Windows.Photos_8wekyb3d8bbwe'
+      PolicySelectionId = 'Photos'
+      RequireKnownProtectionFlags = $true
+      ProtectionRule = 'ReviewedIdentityRemovabilityV1'
+      ReinstallSource = 'RetainedManifestOnly'
+      Rollback = 'BestEffort'
+      MigrationBatch = 'StoreBatch2B20261014'
+    }
+    @{
+      Id = 'app.paint'
+      Name = 'Paint Store registration (experimental)'
+      Kind = 'StoreApp'
+      Category = 'Windows components / Store apps'
+      Description = 'Optional intended-desktop-user Paint registration action in batch 2B. Captured exact family; known protection/type, other-app consumers, policy, desktop and retained-source checks required. No downloads, shared framework removal, AllUsers changes or deprovisioning. Missing removability/type/source proof and pending target acceptance refuse changes; IsPartOfSystem stays visibly unknown under the reviewed identity rule. App data and previous versions are not guaranteed recovery.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Uninstall', 'Reinstall')
+      Handler = 'StoreApp'
+      TargetDefaults = @{}
+      AppxName = 'Microsoft.Paint'
+      PackageFamilyName = 'Microsoft.Paint_8wekyb3d8bbwe'
+      PolicySelectionId = 'Paint'
+      RequireKnownProtectionFlags = $true
+      ProtectionRule = 'ReviewedIdentityRemovabilityV1'
+      ReinstallSource = 'RetainedManifestOnly'
+      Rollback = 'BestEffort'
+      MigrationBatch = 'StoreBatch2B20261014'
+    }
+    @{
+      Id = 'app.camera'
+      Name = 'Camera Store registration (experimental)'
+      Kind = 'StoreApp'
+      Category = 'Windows components / Store apps'
+      Description = 'Optional intended-desktop-user Camera registration action in batch 2B. Captured exact family; known protection/type, other-app consumers, policy, desktop and retained-source checks required. No downloads, shared framework removal, AllUsers changes or deprovisioning. Missing removability/type/source proof and pending target acceptance refuse changes; IsPartOfSystem stays visibly unknown under the reviewed identity rule. App data and previous versions are not guaranteed recovery.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Uninstall', 'Reinstall')
+      Handler = 'StoreApp'
+      TargetDefaults = @{}
+      AppxName = 'Microsoft.WindowsCamera'
+      PackageFamilyName = 'Microsoft.WindowsCamera_8wekyb3d8bbwe'
+      PolicySelectionId = 'WindowsCamera'
+      RequireKnownProtectionFlags = $true
+      ProtectionRule = 'ReviewedIdentityRemovabilityV1'
+      ReinstallSource = 'RetainedManifestOnly'
+      Rollback = 'BestEffort'
+      MigrationBatch = 'StoreBatch2B20261014'
+    }
+    @{
+      Id = 'app.media-player'
+      Name = 'Media Player Store registration (experimental)'
+      Kind = 'StoreApp'
+      Category = 'Windows components / Store apps'
+      Description = 'Optional intended-desktop-user Media Player registration action in batch 2B. Captured exact family; known protection/type, other-app consumers, policy, desktop and retained-source checks required. No downloads, shared framework removal, AllUsers changes or deprovisioning. Missing removability/type/source proof and pending target acceptance refuse changes; IsPartOfSystem stays visibly unknown under the reviewed identity rule. App data and previous versions are not guaranteed recovery.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Uninstall', 'Reinstall')
+      Handler = 'StoreApp'
+      TargetDefaults = @{}
+      AppxName = 'Microsoft.ZuneMusic'
+      PackageFamilyName = 'Microsoft.ZuneMusic_8wekyb3d8bbwe'
+      PolicySelectionId = 'MediaPlayer'
+      RequireKnownProtectionFlags = $true
+      ProtectionRule = 'ReviewedIdentityRemovabilityV1'
+      ReinstallSource = 'RetainedManifestOnly'
+      Rollback = 'BestEffort'
+      MigrationBatch = 'StoreBatch2B20261014'
+    }
+    @{
+      Id = 'app.sound-recorder'
+      Name = 'Sound Recorder Store registration (experimental)'
+      Kind = 'StoreApp'
+      Category = 'Windows components / Store apps'
+      Description = 'Optional intended-desktop-user Sound Recorder registration action in batch 2B. Captured exact family; known protection/type, other-app consumers, policy, desktop and retained-source checks required. No downloads, shared framework removal, AllUsers changes or deprovisioning. Missing removability/type/source proof and pending target acceptance refuse changes; IsPartOfSystem stays visibly unknown under the reviewed identity rule. App data and previous versions are not guaranteed recovery.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Uninstall', 'Reinstall')
+      Handler = 'StoreApp'
+      TargetDefaults = @{}
+      AppxName = 'Microsoft.WindowsSoundRecorder'
+      PackageFamilyName = 'Microsoft.WindowsSoundRecorder_8wekyb3d8bbwe'
+      PolicySelectionId = 'WindowsSoundRecorder'
+      RequireKnownProtectionFlags = $true
+      ProtectionRule = 'ReviewedIdentityRemovabilityV1'
+      ReinstallSource = 'RetainedManifestOnly'
+      Rollback = 'BestEffort'
+      MigrationBatch = 'StoreBatch2B20261014'
+    }
+    @{
+      Id = 'app.calculator'
+      Name = 'Calculator Store registration (experimental)'
+      Kind = 'StoreApp'
+      Category = 'Windows components / Store apps'
+      Description = 'Optional intended-desktop-user Calculator registration action in batch 2A. Captured exact family; known protection/type, other-app consumers, policy, desktop and retained-source checks required. No downloads, shared framework removal, AllUsers changes or deprovisioning. Missing removability/type/source proof and pending target acceptance refuse changes; IsPartOfSystem stays visibly unknown under the reviewed identity rule. App data and previous versions are not guaranteed recovery.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Uninstall', 'Reinstall')
+      Handler = 'StoreApp'
+      TargetDefaults = @{}
+      AppxName = 'Microsoft.WindowsCalculator'
+      PackageFamilyName = 'Microsoft.WindowsCalculator_8wekyb3d8bbwe'
+      PolicySelectionId = 'WindowsCalculator'
+      RequireKnownProtectionFlags = $true
+      ProtectionRule = 'ReviewedIdentityRemovabilityV1'
+      ReinstallSource = 'RetainedManifestOnly'
+      Rollback = 'BestEffort'
+      MigrationBatch = 'StoreBatch2A20261014'
+    }
+    @{
+      Id = 'app.notepad'
+      Name = 'Notepad Store registration (experimental)'
+      Kind = 'StoreApp'
+      Category = 'Windows components / Store apps'
+      Description = 'Optional intended-desktop-user Notepad registration action in batch 2A. Captured exact family; known protection/type, other-app consumers, policy, desktop and retained-source checks required. No downloads, shared framework removal, AllUsers changes or deprovisioning. Missing removability/type/source proof and pending target acceptance refuse changes; IsPartOfSystem stays visibly unknown under the reviewed identity rule. App data and previous versions are not guaranteed recovery.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Uninstall', 'Reinstall')
+      Handler = 'StoreApp'
+      TargetDefaults = @{}
+      AppxName = 'Microsoft.WindowsNotepad'
+      PackageFamilyName = 'Microsoft.WindowsNotepad_8wekyb3d8bbwe'
+      PolicySelectionId = 'WindowsNotepad'
+      RequireKnownProtectionFlags = $true
+      ProtectionRule = 'ReviewedIdentityRemovabilityV1'
+      ReinstallSource = 'RetainedManifestOnly'
+      Rollback = 'BestEffort'
+      MigrationBatch = 'StoreBatch2A20261014'
+    }
+    @{
+      Id = 'app.snipping-tool'
+      Name = 'Snipping Tool Store registration (experimental)'
+      Kind = 'StoreApp'
+      Category = 'Windows components / Store apps'
+      Description = 'Optional intended-desktop-user Snipping Tool registration action in batch 2A. Captured exact family; known protection/type, other-app consumers, policy, desktop and retained-source checks required. No downloads, shared framework removal, AllUsers changes or deprovisioning. Missing removability/type/source proof and pending target acceptance refuse changes; IsPartOfSystem stays visibly unknown under the reviewed identity rule. App data and previous versions are not guaranteed recovery.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Uninstall', 'Reinstall')
+      Handler = 'StoreApp'
+      TargetDefaults = @{}
+      AppxName = 'Microsoft.ScreenSketch'
+      PackageFamilyName = 'Microsoft.ScreenSketch_8wekyb3d8bbwe'
+      PolicySelectionId = 'ScreenSketch'
+      RequireKnownProtectionFlags = $true
+      ProtectionRule = 'ReviewedIdentityRemovabilityV1'
+      ReinstallSource = 'RetainedManifestOnly'
+      Rollback = 'BestEffort'
+      MigrationBatch = 'StoreBatch2A20261014'
+    }
+    @{
+      Id = 'app.terminal'
+      Name = 'Terminal Store registration (experimental)'
+      Kind = 'StoreApp'
+      Category = 'Windows components / Store apps'
+      Description = 'Optional intended-desktop-user Terminal registration action in batch 2A. Captured exact family; known protection/type, other-app consumers, policy, desktop and retained-source checks required. No downloads, shared framework removal, AllUsers changes or deprovisioning. Missing removability/type/source proof and pending target acceptance refuse changes; IsPartOfSystem stays visibly unknown under the reviewed identity rule. App data and previous versions are not guaranteed recovery.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Uninstall', 'Reinstall')
+      Handler = 'StoreApp'
+      TargetDefaults = @{}
+      AppxName = 'Microsoft.WindowsTerminal'
+      PackageFamilyName = 'Microsoft.WindowsTerminal_8wekyb3d8bbwe'
+      PolicySelectionId = 'WindowsTerminal'
+      RequireKnownProtectionFlags = $true
+      ProtectionRule = 'ReviewedIdentityRemovabilityV1'
+      ReinstallSource = 'RetainedManifestOnly'
+      Rollback = 'BestEffort'
+      MigrationBatch = 'StoreBatch2A20261014'
+    }
+    @{
+      Id = 'app.clipchamp'
+      Name = 'Clipchamp Store registration (experimental)'
+      Kind = 'StoreApp'
+      Category = 'Windows components / Store apps'
+      Description = 'Optional current-desktop-user registration uninstall and retained-payload reinstall for Clipchamp. Reviewed exact identity, known removability/runtime types, policy, user/session and usable local source checks are required; IsPartOfSystem stays visibly unknown. No downloads, AllUsers removal, image deprovisioning or device policy changes. Native interactive/lifecycle acceptance pending; normal mutation is blocked. App data and old versions are not recoverable by this contract.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Uninstall', 'Reinstall')
+      Handler = 'StoreApp'
+      TargetDefaults = @{}
+      AppxName = 'Clipchamp.Clipchamp'
+      PackageFamilyName = 'Clipchamp.Clipchamp_yxz26nhyzhsrt'
+      PolicySelectionId = 'Clipchamp'
+      RequireKnownProtectionFlags = $true
+      ProtectionRule = 'ReviewedIdentityRemovabilityV1'
+      ReinstallSource = 'RetainedManifestOnly'
+      Rollback = 'BestEffort'
+      MigrationBatch = 'StoreConsumerApps20261014'
+    }
+    @{
+      Id = 'app.news'
+      Name = 'News Store registration (experimental)'
+      Kind = 'StoreApp'
+      Category = 'Windows components / Store apps'
+      Description = 'Optional current-desktop-user registration uninstall and retained-payload reinstall for News. Reviewed exact identity, known removability/runtime types, policy, user/session and usable local source checks are required; IsPartOfSystem stays visibly unknown. No downloads, AllUsers removal, image deprovisioning or device policy changes. Native interactive/lifecycle acceptance pending; normal mutation is blocked. App data and old versions are not recoverable by this contract.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Uninstall', 'Reinstall')
+      Handler = 'StoreApp'
+      TargetDefaults = @{}
+      AppxName = 'Microsoft.BingNews'
+      PackageFamilyName = 'Microsoft.BingNews_8wekyb3d8bbwe'
+      PolicySelectionId = 'BingNews'
+      RequireKnownProtectionFlags = $true
+      ProtectionRule = 'ReviewedIdentityRemovabilityV1'
+      ReinstallSource = 'RetainedManifestOnly'
+      Rollback = 'BestEffort'
+      MigrationBatch = 'StoreConsumerApps20261014'
+    }
+    @{
+      Id = 'app.weather'
+      Name = 'Weather Store registration (experimental)'
+      Kind = 'StoreApp'
+      Category = 'Windows components / Store apps'
+      Description = 'Optional current-desktop-user registration uninstall and retained-payload reinstall for Weather. Reviewed exact identity, known removability/runtime types, policy, user/session and usable local source checks are required; IsPartOfSystem stays visibly unknown. No downloads, AllUsers removal, image deprovisioning or device policy changes. Native interactive/lifecycle acceptance pending; normal mutation is blocked. App data and old versions are not recoverable by this contract.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Uninstall', 'Reinstall')
+      Handler = 'StoreApp'
+      TargetDefaults = @{}
+      AppxName = 'Microsoft.BingWeather'
+      PackageFamilyName = 'Microsoft.BingWeather_8wekyb3d8bbwe'
+      PolicySelectionId = 'BingWeather'
+      RequireKnownProtectionFlags = $true
+      ProtectionRule = 'ReviewedIdentityRemovabilityV1'
+      ReinstallSource = 'RetainedManifestOnly'
+      Rollback = 'BestEffort'
+      MigrationBatch = 'StoreConsumerApps20261014'
+    }
+    @{
+      Id = 'app.solitaire'
+      Name = 'Solitaire Store registration (experimental)'
+      Kind = 'StoreApp'
+      Category = 'Windows components / Store apps'
+      Description = 'Optional current-desktop-user registration uninstall and retained-payload reinstall for Solitaire. Reviewed exact identity, known removability/runtime types, policy, user/session and usable local source checks are required; IsPartOfSystem stays visibly unknown. No downloads, AllUsers removal, image deprovisioning or device policy changes. Native interactive/lifecycle acceptance pending; normal mutation is blocked. App data and old versions are not recoverable by this contract.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Uninstall', 'Reinstall')
+      Handler = 'StoreApp'
+      TargetDefaults = @{}
+      AppxName = 'Microsoft.MicrosoftSolitaireCollection'
+      PackageFamilyName = 'Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe'
+      PolicySelectionId = 'MicrosoftSolitaireCollection'
+      RequireKnownProtectionFlags = $true
+      ProtectionRule = 'ReviewedIdentityRemovabilityV1'
+      ReinstallSource = 'RetainedManifestOnly'
+      Rollback = 'BestEffort'
+      MigrationBatch = 'StoreConsumerApps20261014'
+    }
+    @{
       Id = 'windows.local-password-maximum-age'
       Name = 'Local-account maximum password age (experimental)'
       Kind = 'LocalPasswordMaximumAge'
@@ -1797,6 +2325,15 @@
     @{
       Id = 'windows.control-panel-view'
       Name = 'Control Panel opening view'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: Control Panel opening view'
+        Behavior = 'Preference'
+        GuiPath = 'Control Panel > View by'
+        GuiEffect = 'SmallIcons, LargeIcons and Categories select one coordinated opening view; WindowsDefault removes both overrides, matching the legacy categories reverse'
+        Requirements = @('Intended user with the Windows 11 Control Panel; this ID does not require administrator rights', 'The reference describes Control Panel, not the two registry preferences; current GUI and managed precedence need acceptance')
+        OtherSupportedChoices = @('Explicit Categories differs from WindowsDefault; neither is saved-run restore', 'The current handler preserves both prior value types/absence and unrelated data; no shell refresh or restart is requested')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/shell/control-panel-applications')
+      }
       Kind = 'RegistryValueSet'
       Category = 'Windows settings / UI'
       Description = 'Choose the Control Panel view as one coherent preference. Categories explicitly writes 0 to both values; legacy categories removed both, reproduced by WindowsDefault. The Microsoft page describes Control Panel, not these two preferences; UI acceptance remains pending. One state changes all declared values together; partial failures retain the complete pre-change record. WindowsDefault removes all overrides. Saved-run restore preserves individual prior values/types and unrelated data. No UI refresh or restart occurs.'
@@ -3186,6 +3723,15 @@
     @{
       Id = 'windows.protected-files-visibility'
       Name = 'Protected operating system files visibility'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: protected operating system file visibility in File Explorer'
+        Behavior = 'Preference'
+        GuiPath = 'File Explorer Options > View > Hide protected operating system files'
+        GuiEffect = 'Visible requests showing protected files; Hidden requests hiding them; WindowsDefault removes only this override. The separate hidden-files choice can still limit visibility'
+        Requirements = @('Intended user with Windows 11 File Explorer; this ID does not require administrator rights', 'The reference describes folder visibility preferences; current GUI, interaction with hidden files and managed precedence need acceptance')
+        OtherSupportedChoices = @('Hidden files remain a separate setting; no automatic combined rewrite', 'File attributes, permissions and contents are unchanged; saved-run restore preserves the prior value type/data/absence')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-gppref/3c837e92-016e-4148-86e5-b4f0381a757f')
+      }
       Kind = 'RegistryValue'
       Category = 'Windows settings / Explorer'
       Description = 'Show or hide protected operating system files in File Explorer, or remove the current-user override. Visibility also depends on the separate hidden-files setting; this operation does not change file attributes or permissions.'
@@ -4757,6 +5303,15 @@
     @{
       Id = 'windows.hidden-files-visibility'
       Name = 'Hidden files visibility'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: hidden-file visibility in File Explorer'
+        Behavior = 'Preference'
+        GuiPath = 'File Explorer Options > View > Hidden files and folders'
+        GuiEffect = 'Visible and Hidden are explicit preferences; protected operating system files have a separate visibility control'
+        Requirements = @('Intended user with Windows 11 File Explorer; this ID does not require administrator rights', 'The reference explains hidden-file visibility, not the registry encoding; current GUI and managed precedence need acceptance')
+        OtherSupportedChoices = @('Baseline Hidden is a RIDE choice; this ID does not declare a WindowsDefault state', 'No file attribute/permission changes, Explorer restart or automatic protected-file change; saved-run restore preserves prior type/data/absence')
+        ReferenceUris = @('https://support.microsoft.com/en-us/windows/deployment/install-upgrade/find-lost-files-after-upgrading-windows')
+      }
       Kind = 'RegistryValue'
       Category = 'Windows settings / Explorer'
       Description = 'Show hidden files in File Explorer.'
@@ -4823,6 +5378,15 @@
     @{
       Id = 'windows.explorer-recent-shortcuts'
       Name = 'Recent file shortcuts in File Explorer'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: recent file shortcuts in File Explorer Home'
+        Behavior = 'Preference'
+        GuiPath = 'File Explorer Options > General > Privacy > Show recently used files'
+        GuiEffect = 'Hidden suppresses recent shortcuts; the published Visible state removes the ShowRecent override and delegates to Windows and applicable controls rather than explicitly forcing the switch on'
+        Requirements = @('Intended user with Windows 11 File Explorer Home; this ID does not require administrator rights', 'The reference documents the preference surface, not the ShowRecent registry mapping; current GUI, policy interaction and actual history display need acceptance')
+        OtherSupportedChoices = @('Frequent folders and recent-history policies remain separate; no history is cleared', 'Visible and saved-run restore differ; restore preserves the prior value type/data/absence and no shell refresh is forced')
+        ReferenceUris = @('https://support.microsoft.com/en-us/windows/experience/backup-recovery/windows-backup-settings-catalog')
+      }
       Kind = 'RegistryValue'
       Category = 'Windows settings / Explorer'
       Description = 'Hide recent file shortcuts in File Explorer Home.'
@@ -4845,6 +5409,15 @@
     @{
       Id = 'windows.explorer-frequent-shortcuts'
       Name = 'Frequent folder shortcuts in File Explorer'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: frequent folder shortcuts in File Explorer Home'
+        Behavior = 'Preference'
+        GuiPath = 'File Explorer Options > General > Privacy > Show frequently used folders'
+        GuiEffect = 'Hidden suppresses frequent shortcuts; the published Visible state removes the ShowFrequent override and delegates to Windows and applicable controls rather than explicitly forcing the switch on'
+        Requirements = @('Intended user with Windows 11 File Explorer Home; this ID does not require administrator rights', 'The reference documents the preference surface, not the ShowFrequent registry mapping; current GUI, policy interaction and actual history display need acceptance')
+        OtherSupportedChoices = @('Recent files and history policies remain separate; no history is cleared', 'Visible and saved-run restore differ; restore preserves the prior value type/data/absence and no shell refresh is forced')
+        ReferenceUris = @('https://support.microsoft.com/en-us/windows/experience/backup-recovery/windows-backup-settings-catalog')
+      }
       Kind = 'RegistryValue'
       Category = 'Windows settings / Explorer'
       Description = 'Hide frequent folder shortcuts in File Explorer Home.'
@@ -6319,6 +6892,15 @@
     @{
       Id = 'application.edge-background-mode'
       Name = 'Microsoft Edge background applications policy'
+      SettingPresentation = @{
+        AppliesTo = 'Whole device: Microsoft Edge background mode across browser profiles'
+        Behavior = 'EnforcedPolicy'
+        GuiPath = 'Microsoft Edge > Settings > System > Continue running background apps when Microsoft Edge is closed'
+        GuiEffect = 'Enabled and Disabled configure the mandatory policy; WindowsDefault removes this local policy override so the user preference and other applicable management can determine behavior'
+        Requirements = @('Administrator rights; installed Microsoft Edge 77 or later on Windows', 'No extra RIDE account or cloud subscription for this local policy; current effective source, locked GUI and process behavior need acceptance')
+        OtherSupportedChoices = @('Microsoft also supports a recommended policy path; this ID retains its existing machine mandatory path only', 'Startup boost, Edge Update scheduling and existing processes remain separate; this operation does not terminate processes')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/backgroundmodeenabled')
+      }
       Kind = 'RegistryValue'
       Category = 'Application settings / Microsoft Edge'
       Description = 'Controls whether current Microsoft Edge can keep background applications running after its last browser window closes. Disabled writes 0; WindowsDefault removes the policy. This is an independently useful current replacement in the legacy preloading area; startup boost remains a separate control. Does not terminate existing processes or change Edge update scheduling.'
@@ -7415,6 +7997,56 @@
     }
   )
   Groups = @(
+    @{
+      Id = 'solution.store-gaming'
+      Name = 'Xbox and gaming Store apps (experimental)'
+      Category = 'Windows components / Store app groups'
+      Description = 'Optional batch 3 intended-user app actions with per-app partial results and retained-source best-effort registration. Inspect actual dependencies/consumers before changes; shared frameworks and protected components stay guarded. Reverse member order for uninstall. Device policy stays separate; no default profile selection or package acquisition.'
+      Workflow = 'StoreApps'
+      Members = @('app.xbox-tcui', 'app.xbox-identity-provider', 'app.xbox-speech-overlay', 'app.xbox', 'app.game-bar')
+      Actions = @('Uninstall', 'Reinstall')
+      Rollback = 'BestEffort'
+    }
+    @{
+      Id = 'solution.store-productivity'
+      Name = 'Assistance and personal productivity Store apps (experimental)'
+      Category = 'Windows components / Store app groups'
+      Description = 'Optional batch 2C intended-user app actions with per-app partial results and retained-source best-effort registration. Inspect actual dependencies/consumers before changes; shared frameworks and protected components stay guarded. Reverse member order for uninstall. Device policy stays separate; no default profile selection or package acquisition.'
+      Workflow = 'StoreApps'
+      Members = @('app.quick-assist', 'app.sticky-notes', 'app.outlook', 'app.todo')
+      Actions = @('Uninstall', 'Reinstall')
+      Rollback = 'BestEffort'
+    }
+    @{
+      Id = 'solution.store-multimedia'
+      Name = 'Multimedia Store apps (experimental)'
+      Category = 'Windows components / Store app groups'
+      Description = 'Optional batch 2B intended-user app actions with per-app partial results and retained-source best-effort registration. Inspect actual dependencies/consumers before changes; shared frameworks and protected components stay guarded. Reverse member order for uninstall. Device policy stays separate; no default profile selection or package acquisition.'
+      Workflow = 'StoreApps'
+      Members = @('app.photos', 'app.paint', 'app.camera', 'app.media-player', 'app.sound-recorder')
+      Actions = @('Uninstall', 'Reinstall')
+      Rollback = 'BestEffort'
+    }
+    @{
+      Id = 'solution.store-core-utilities'
+      Name = 'Core utilities Store apps (experimental)'
+      Category = 'Windows components / Store app groups'
+      Description = 'Optional batch 2A intended-user app actions with per-app partial results and retained-source best-effort registration. Inspect actual dependencies/consumers before changes; shared frameworks and protected components stay guarded. Reverse member order for uninstall. Device policy stays separate; no default profile selection or package acquisition.'
+      Workflow = 'StoreApps'
+      Members = @('app.calculator', 'app.notepad', 'app.snipping-tool', 'app.terminal')
+      Actions = @('Uninstall', 'Reinstall')
+      Rollback = 'BestEffort'
+    }
+    @{
+      Id = 'solution.store-consumer-apps'
+      Name = 'Consumer Store apps (experimental)'
+      Category = 'Windows components / Store app groups'
+      Description = 'Optional Clipchamp, News, Weather and Solitaire registration actions; per-app results and source-bound best-effort reinstall. Uninstall uses reverse member order. Device policy is a separate workflow; this group downloads nothing and is excluded from profiles pending lifecycle acceptance.'
+      Workflow = 'StoreApps'
+      Members = @('app.clipchamp', 'app.news', 'app.weather', 'app.solitaire')
+      Actions = @('Uninstall', 'Reinstall')
+      Rollback = 'BestEffort'
+    }
     @{
       Id = 'solution.artcraft-apps'
       Name = 'Artcraft creative apps'

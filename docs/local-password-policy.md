@@ -91,3 +91,13 @@ Current installed edition and local security GUI availability need target eviden
 No extra RIDE/cloud subscription or domain join is required for local configuration.
 Packages remain paused. VM tests remain held at the Github cache verification
 and resource-backoff gate; this implementation uses no anonymous GitHub quota.
+
+## Additional disposable evidence, 2026-10-14
+
+Days1/Days2/Days998 repeat apply, reverse exact recovery and controlled real-write
+interruption recovery passed on both targets. An explicit one-day minimum fixture
+seed also proved Days1 refusal with zero production maximum writes and separate
+exact seed recovery. See the [dated validation handoff](migrations/settings-validation-resume.md#password-age-boundary-and-refusal-follow-up-2026-10-14).
+The temporary minimum setter belongs only to the isolated test fixture; this
+operation continues to own only maximum age. GUI, managed/default and complexity
+evidence remain pending, and published support remains unchanged.

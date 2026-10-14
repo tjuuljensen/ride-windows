@@ -1,12 +1,12 @@
 # Remaining settings migration plan and decisions
 
-Reviewed: **2026-10-13**. The next implementation should extend reviewed setting
+Reviewed: **2026-10-14**. The next implementation should extend reviewed setting
 presentation to a small set of well-understood existing controls. Native proxy,
 Terminal profile and local password-complexity work follow after their recovery
 contracts are demonstrated. Small registry changes with uncertain current effects
 remain investigations, even when their code would be short.
 
-This is the follow-up requested while the user is away. It covers all 29 entries
+This is the follow-up requested while the user is away. It covers all 30 entries
 in the remaining-settings ledger, earlier accepted setting reviews, shared engine
 gaps and the separate acceptance backlog. It collects decisions and test resources
 without reopening accepted designs. Implementation priorities remain in
@@ -16,12 +16,18 @@ settings analysis and questions, not a second catalog or release plan.
 
 ## Current implementation and validation
 
-The catalog has 318 operations: 277 setting/control declarations, 40 packages and
-one artifact. These are declarations, not counts of remaining legacy outcomes.
-Twenty-two settings have explicit `SettingPresentation` metadata; the other 255
+The catalog has 340 operations: 277 setting/control declarations, 40 packages,
+one artifact and 22 pending Store app declarations. These are declarations, not
+counts of remaining legacy outcomes.
+Twenty-eight settings have explicit `SettingPresentation` metadata; the other 249
 still require individual review before the fallback display can be replaced with
 specific behavior, GUI effects and requirements. Fifteen settings are pending
 candidates. Do not widen their published support from a lifecycle result alone.
+
+All five accepted Store groups have guarded declarations and a separate
+current-user/desktop-handoff tool. App-specific native acceptance remains pending;
+[Store follow-up decisions and resources](store-app-follow-up-decisions.md) owns
+the approved reviewed-identity guard, interactive actor and retained-payload boundaries.
 
 The completed [validation matrix](settings-validation-resume.md) includes stored
 keyboard delay, WAP Push/Search startup/runtime/delay, update-notification policy,
@@ -52,24 +58,25 @@ has already passed.
 
 | Order | Work that can start without another product decision | Prerequisite and completion boundary |
 | --- | --- | --- |
-| E01 | Extend explicit scope, behavior, GUI-effect and prerequisite metadata for known existing controls, starting with hidden/protected files, Explorer recent/frequent items, Control Panel view and the remaining reviewed Edge policy | Read the existing accepted section and exact Microsoft reference for each control. Keep IDs, values, handlers, defaults and recommended selections unchanged. Generate OPERATIONS.md; validate display, references and catalog-derived completion with mocked native calls |
+| E01 | First six-control batch implemented 2026-10-14: hidden/protected files, Explorer recent/frequent items, Control Panel view and Edge background mode | Metadata-only contract comparison passed; generated documentation current; 122 tests passed on each native PowerShell edition. The initial 5.1 authorization deferral was resolved using README's process-only launch. Broader metadata review and actual GUI/managed acceptance remain open |
 | E02 | Reconcile current acceptance pointers and history | Keep failed evidence and older holds as dated history. Current summaries must point to the later accepted runs. Distinguish implementation, lifecycle, guard, consumer/GUI and target acceptance. This closes no legacy outcome by itself |
-| E03 | Complete native UI handoffs for accepted outcomes that still lack guidance, starting with Terminal default profile and selected playback-device mute | Show installed-component and intended-user prerequisites. Treat the manual UI step as pending user work, not captured RIDE apply. Reuse existing guides where present; do not add installers or acquire a component |
-| E04 | Extend focused maximum-age boundary evidence | Current NoExpiry/90/999-day and reverse/fault recovery evidence is complete. A narrow 1/2/998-day selection and conflicting minimum-age refusal can add boundary evidence. Verify untouched fields and native readback; never exercise all generated day choices or create/change user passwords |
+| E03 | Terminal default-profile [native guidance](../windows-terminal-profile.md) implemented; complete selected playback-device mute guidance and remaining accepted UI handoffs | Terminal guide distinguishes profile identity from OS terminal host, records prior selection and verifies a new tab; manual GUI/file-editor acceptance remains pending. Endpoint mute needs separate device/session mapping. Reuse guides and acquire no components |
+| E04 | Extend focused maximum-age boundary evidence | NoExpiry/90/999 and 1/2/998-day repeat/reverse/fault recovery passed on both targets. MinimumAgeConflict guard passed on both targets with a one-day fixture seed, zero primary native writes and separate exact seed recovery. GUI, managed/default and complexity-backend acceptance remain pending. Preserve all other fields; no user passwords change |
 | E05 | Add isolated intended-user and managed-source validation designs | Capture expected SID/session before changing a user setting; refuse mismatched account recovery. Plan mixed-scope and alternate-administrator cases before any profile recommendation. Decision D01 governs an explicit cross-account route |
 | E06 | Implement Terminal default-profile selection after an isolated file-preservation proof | Enumerate existing installed profiles, choose by identity and update only the root default-profile field. Preserve JSON-with-comments, unknown fields and unrelated concurrent edits. Bound saved recovery and refuse profile disappearance or restore conflict. No Terminal installation or default-terminal-host change |
 | E07 | Implement coherent user proxy detection/setup-script controls after query/capture proof | Use the documented connection API, not guessed packed bytes. Preserve manual proxy, bypass and unrelated flags; capture connection identity and prior URL/flags. Separate WinHTTP machine settings. Prove user context, partial failures and refresh before connectivity acceptance |
 | E08 | Investigate a focused local complexity backend | Existing maximum-age code does not supply a complexity setter. Prove a narrowly owned policy mutation and unrelated-field preservation before implementation. Refuse domain controllers and distinguish local definition from effective managed policy |
 
-**Start with E01.** It advances the accepted common presentation contract without
-adding another system-mutation backend. E06-E08 are the strongest candidates for
+**E01's first batch and D01's explicit user-only handoff are implemented.** Native
+interactive handoff acceptance and mixed-profile recovery remain pending; see the
+[handoff guide](../intended-user-handoff.md). Continue the other independent work. E06-E08 are candidates for
 the next new controls, but they have real file/API/recovery work and should not be
 classified as simple registry edits.
 
 The first concrete batch is `windows.hidden-files-visibility`,
 `windows.protected-files-visibility`, `windows.explorer-recent-shortcuts`,
 `windows.explorer-frequent-shortcuts`, `windows.control-panel-view` and
-`application.edge-background-mode`. All six currently lack explicit presentation
+`application.edge-background-mode`. All six now have explicit presentation
 metadata. Hidden files uses 1/2, while protected files uses 1/0/removal; preserve
 that difference. Both Explorer shortcut controls' published `Visible` state removes
 the override, rather than writing an explicit On value. Control Panel is already
@@ -100,8 +107,9 @@ replaying a whole security export.
 ## Complete remaining ledger triage
 
 The following numbers correspond to every current remaining-ledger row. Multiple
-controls within a row keep separate evidence and recovery boundaries. These 29
-rows do not replace the 38-58 remaining-feature estimate.
+controls within a row keep separate evidence and recovery boundaries. These 30
+rows do not replace the 38-58 remaining-feature estimate. R30 evaluates an already
+counted built-in app/component outcome rather than adding another legacy count.
 
 | Row | Outcome and current state | Next work and edge cases | Classification |
 | --- | --- | --- | --- |
@@ -134,6 +142,7 @@ rows do not replace the 38-58 remaining-feature estimate.
 | R27 | WAP Push/Search delayed and startup-only states | Implementation, stored/runtime lifecycle and controlled recovery passed. Test boot scheduling, workload, dormant flags and trigger/dependency effects. No reboot or fixed-delay guarantee is implicit | Boot/workload acceptance; D03 |
 | R28 | Windows Security startup icon | Guide and policy presentation exist. Verify intended-user startup entry, overflow and managed precedence. Native handoff remains pending user work; no historical Run-entry reconstruction | GUI/session acceptance; D02 |
 | R29 | User .NET assemblies | No identified source outcome. Keep the existing provenance issue separate from NumLock's Forms load, strong-crypto policy and wallpaper conversion. Finding a duplicate or bookkeeping error needs an explicit evidenced disposition | Source question D09 |
+| R30 | Reviewed Store app selection, policy and user uninstall | [Five optional uninstall/reinstall groups](../store-app-groups.md) accepted, with Media Player/Sound Recorder in multimedia and Xbox dependencies reviewed together. Device policy stays a separate linked workflow. Both references collected; apps kept; source/protection, policy schema, app/data recovery and sign-in acceptance remain open | All five groups implemented as guarded candidates; native handoff/removal/policy acceptance pending; components owner; D11 |
 
 ## Earlier accepted controls that still need evaluation
 
@@ -178,7 +187,7 @@ it or acquiring a package.
 
 | ID | Question | Proposed course while awaiting an answer |
 | --- | --- | --- |
-| D01 | For an explicitly requested alternate-administrator mixed-scope run, should RIDE offer a separate intended-user process handoff, or refuse user changes and require rerunning them as that user? | Prefer refusal plus clear separate-user instructions first. Do not target another HKCU implicitly. Existing fixed-scope IDs and recovery remain unchanged |
+| D01 | Answered 2026-10-14: use a separate process handoff to the intended user | First delivery targets the signed-in user in the current desktop session; other sessions or no desktop are refused. Preserve user-owned saved recovery and explicit identity/session checks; no fallback to another administrator's HKCU. Mixed-scope ordering and recovery require their own implementation |
 | D02 | Which visible GUI checks should we walk through first when you return: Explorer/icons, feedback/Storage Sense, or keyboard/input? | Prepare a short checklist for each; start with Explorer because several small remaining controls depend on observed mappings. Do not request screenshots while AFK |
 | D03 | Which visible sign-in/reboot/shutdown outcomes should be prioritized when usable interactive test sessions are available: service boot behavior, UAC/sign-in, update prompts or Server logon/tracker? | Design separate fixtures and recovery routes. Existing unattended disposable testing remains authorized; postpone cases needing interactive credentials, elevation responses or unavailable recovery resources |
 | D04 | Which pre-existing test resources can be provided: Office/App-V/Edge Update client, Server Core/Desktop Experience, usable audio endpoint, EFS-capable user, and two peers/adapters? | Use the existing Windows 11/Server 2025 settings targets where applicable. Mark unavailable components and physical/peer coverage deferred; packages stay paused |
@@ -188,6 +197,7 @@ it or acquiring a package.
 | D08 | Should direct playback mute initially require an explicit endpoint ID, or allow selecting a currently observed default endpoint and capture its ID at apply time? | Prefer explicit selection with a discoverable list, then restore exactly that endpoint. Device disappearance is an explicit failure; no fallback to a different endpoint |
 | D09 | Can the original source or intent behind User .NET assemblies be identified, or may it be reconciled as an evidenced duplicate/bookkeeping correction once the bounded source audit is attached? | Preserve the unresolved outcome and estimates. Do not invent a deployment action from the label |
 | D10 | Which adapter-selection experience should the later binding/NetBIOS work use: explicit adapter identities each time, or a reviewed named selection saved in local configuration? | Preserve existing all-visible compatibility scope and make it visible. Prefer explicit adapter identity for new controls; do not silently change stable IDs or follow new adapters during recovery |
+| D11 | Answered: modern v3 scope; five optional uninstall/reinstall groups; device policy separate | [Accepted membership](../store-app-groups.md) includes 22 apps, with Media Player/Sound Recorder in 2B. All five groups implemented as candidates. Reviewed identity/removability rule approved; usable local reinstall source required. Start native acceptance with Clipchamp/Solitaire after desktop acceptance. Current apps stay installed; packages paused; no automatic policy changes or v2 replay |
 
 ## Testing and elevation while the user is away
 
@@ -234,7 +244,7 @@ owner instead of being counted twice as settings.
 
 | Group | Current remaining range | Planning boundary |
 | --- | ---: | --- |
-| Windows and application settings | 38-58 | The 29 remainder rows and earlier accepted-control families above; implementation and acceptance tracked separately |
+| Windows and application settings | 38-58 | The 30 remainder rows and earlier accepted-control families above; implementation and acceptance tracked separately, with R30's app lifecycle counted under components |
 | Packages, portable tools and artifacts | 58-73 | Paused. Conditional settings tests use pre-existing consumers; no anonymous GitHub request, download, install or replacement package |
 | Components and optional features | 20-25 | App-V/SMB1/IE-related consumers, RSAT, WSL/Hyper-V/Sandbox/OpenSSH and app management need their own component applicability and recovery; no automatic provisioning here |
 | Accounts, configuration and assets | 25-35 | Alternate users, Wi-Fi, region/language, fonts/wallpapers, PATH/bin and application configuration belong here when they are deployed configuration. Browser/Sysmon and traditional Python association/ownership reviews remain separate from package installation |
@@ -248,12 +258,24 @@ matrix and this requested planning pass. The chat remains open. Pending migratio
 implementation and feature acceptance are still recorded below and in TODO.md;
 the pause does not change the package hold or dispose of their evidence.
 
-E01 is ready for a small implementation batch. E02-E03 can follow independently.
+E01's first six-control batch is implemented; see its
+[evidence and limitations](../archive/evidence/settings-presentation-batch1-2026-10-14.md).
+The selected same-session intended-user process handoff is implemented for explicit
+user-only actions; see the [batch evidence](../archive/evidence/intended-user-handoff-batch1-2026-10-14.md).
+Read-only native readiness outside the sandbox resolved the CIM access issue.
+User-authorized WinRM preparation and both Store reference captures have passed;
+[grouped app review](store-app-inventory-review.md) is next. Native interactive
+intended-user handoff acceptance remains pending; inventory collection does not
+exercise that handoff.
+Mixed-profile completion, ordering and cross-store recovery remain separate work.
+E02-E03 can follow independently.
 Prepare E04-E05 fixtures without repeating completed matrices. Investigate E06-E08
 one at a time, keeping D01 and resource questions visible. Mapping-dependent R10-R17
 remain unavailable until their actual feature evidence supports the backend.
 
-When the user returns, begin with D01, D02 and D04; D06 precedes security/recovery
+D11's first group and later group membership are answered; implement them in matching batches.
+Next interactive decisions are D02 and D04;
+D01's mixed-profile ordering/completion still needs design. D06 precedes security/recovery
 experiments. D07 is conditional on failed bounded-menu recovery, and D09 is the
 provenance issue. A final migration walkthrough still waits for every retained
 setting to be implemented or explicitly replaced/retired with remaining acceptance

@@ -8,11 +8,12 @@
   it does not establish that this is the intended interactive user.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Owner: RIDE-Windows maintainers. Version: 0.1.0.
-  Changelog: 0.1.0: Add additive, read-only setting presentation metadata.
+  Owner: RIDE-Windows maintainers. Version: 0.1.1.
+  Changelog: 0.1.1: Keep Store app registrations outside setting semantics.
+    0.1.0: Add additive, read-only setting presentation metadata.
 #>
 
-$script:ModuleVersion = '0.1.0'
+$script:ModuleVersion = '0.1.1'
 
 function Get-RideSettingExecutionIdentity {
   try {
@@ -42,7 +43,7 @@ function Get-RideSettingPresentation {
   [CmdletBinding()]
   param([Parameter(Mandatory)][hashtable] $Operation, [switch] $IncludeExecutionIdentity)
 
-  $isSetting = $Operation.Kind -and $Operation.Kind -notin @('Package', 'Artifact')
+  $isSetting = $Operation.Kind -and $Operation.Kind -notin @('Package', 'Artifact', 'StoreApp')
   $isSelection = -not $Operation.ContainsKey('Kind')
   $metadata = $Operation.SettingPresentation
   $behaviorNames = @{

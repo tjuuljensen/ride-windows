@@ -47,8 +47,9 @@
   generated.
   Recovery: Regenerate from the reviewed catalog. Check mode is read-only.
   Author: RIDE-Windows maintainers.
-  Version: 0.15.0
+  Version: 0.15.1
   Changelog:
+    0.15.1: Keep Store app registrations outside reversible setting presentation.
     0.15.0: Render bounded local maximum-age day choices and SAM authority.
     0.14.0: Render KeepCurrent registry components, firewall profiles and owned plan GUIDs.
     0.13.1: Qualify effective-policy inspection by handler after firewall integration.
@@ -81,7 +82,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.15.0'
+$script:ScriptVersion = '0.15.1'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 if ($Help) { Get-Help -Name $PSCommandPath -Full; return }
 $ErrorActionPreference = 'Stop'
@@ -140,7 +141,7 @@ $lines.Add('')
 $lines.Add('| ID | Applies to | Behavior | GUI effect / location | Requirements | Other supported choices | Evidence |')
 $lines.Add('| --- | --- | --- | --- | --- | --- | --- |')
 $settingsById = @{}
-foreach ($entry in ($catalog.Operations | Where-Object { $_.Kind -notin @('Package', 'Artifact') })) { $settingsById[$entry.Id] = $entry }
+foreach ($entry in ($catalog.Operations | Where-Object { $_.Kind -notin @('Package', 'Artifact', 'StoreApp') })) { $settingsById[$entry.Id] = $entry }
 $settingIds = [string[]]@($settingsById.Keys)
 [Array]::Sort($settingIds, [StringComparer]::Ordinal)
 foreach ($settingId in $settingIds) {

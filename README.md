@@ -28,6 +28,9 @@ tracks edition- and build-specific setup behavior.
 Run `.\ride.ps1 -Help` for command usage, options, and examples.
 When using PowerShell interactively, press Tab to complete commands, operation and group IDs, profile paths, saved run IDs, declared setting states, package variants, and search fields/views.
 State-changing commands honor `-WhatIf` and the caller's `$WhatIfPreference`.
+Optional Store registrations use the separate
+[Store app/group tool](docs/store-app-groups.md#batch-1-commands); `list store-apps`
+discovers its catalog entries. They are not package downloads or profile settings.
 Use `-WhatIf:$false` to explicitly disable inherited preview for one invocation;
 `-Confirm` requests confirmation for each supported change.
 
@@ -61,6 +64,11 @@ ToolsDirectory configuration, portable ownership and saved-selection recovery. C
 
 See [Artcraft packages](docs/artcraft-packages.md) for the twelve standalone
 creative apps, optional launcher and verified full MSI downloads.
+
+For explicit user-only settings, `-UserContext Desktop` starts a separate process
+for the signed-in user in the current desktop session. See the
+[intended-user handoff guide](docs/intended-user-handoff.md) for preview, child
+results, user-owned recovery and pending native acceptance. Mixed profiles are refused.
 
 See the [Windows settings guide](docs/windows-settings.md) for defaults,
 scope, recovery and individual policy/service guides, including pending candidates.

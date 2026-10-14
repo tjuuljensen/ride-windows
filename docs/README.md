@@ -11,6 +11,9 @@ declares each operation's support, actions, references and recovery limits.
 | License review before corporate deployment or paid work | [Important to review licensing](package-licensing.md#important-to-review-licensing), including Npcap and KAPE; [local review records](package-licensing.md#local-usercompany-reviews) |
 | Finding operations | [Catalog search](catalog-search.md) |
 | Settings and their individual guides | [Windows settings](windows-settings.md), [scope, defaults and recovery](setting-presentation.md) |
+| Explicit current-desktop user actions | [Intended-user handoff](intended-user-handoff.md), including pending native acceptance and mixed-profile recovery |
+| Existing Terminal default-profile selection | [Native profile workflow](windows-terminal-profile.md), with manual recovery and pending file-editor/GUI acceptance |
+| Reviewing built-in Store apps | [Accepted uninstall/reinstall groups](store-app-groups.md), [separate policy workflow](migrations/store-app-removal-review.md), [collected references](migrations/store-app-inventory-review.md), [user/provisioning inventory](store-app-inventory.md) |
 | Windows installation with a local account | [Local-account setup](windows-local-account-setup.md) |
 | Installed/portable packages and recovery | [Application packages](application-packages.md), [Artcraft packages](artcraft-packages.md) |
 | Downloads and provenance | [Package verification](package-verification-matrix.md), [GitHub release discovery](github-release-discovery.md) |

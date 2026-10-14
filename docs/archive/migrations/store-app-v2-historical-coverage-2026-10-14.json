@@ -1,0 +1,1289 @@
+{
+  "SchemaVersion": 1,
+  "Status": "HistoricalCoverageOnly",
+  "RecordedDate": "2026-10-14",
+  "SourcePath": "legacy/v2/lib-windows.psm1",
+  "SourceSHA256": "4827A032607E96A2EB49BD53BB02BDEAB860A5481A1AB68954480452A3F4CDEA",
+  "Functions": {
+    "UninstallThirdPartyBloat": [
+      "2414FC7A.Viber",
+      "41038Axilesoft.ACGMediaPlayer",
+      "46928bounde.EclipseManager",
+      "4DF9E0F8.Netflix",
+      "64885BlueEdge.OneCalendar",
+      "7EE7776C.LinkedInforWindows",
+      "828B5831.HiddenCityMysteryofShadows",
+      "89006A2E.AutodeskSketchBook",
+      "9E2F88E3.Twitter",
+      "A278AB0D.DisneyMagicKingdoms",
+      "A278AB0D.DragonManiaLegends",
+      "A278AB0D.MarchofEmpires",
+      "ActiproSoftwareLLC.562882FEEB491",
+      "AD2F1837.GettingStartedwithWindows8",
+      "AD2F1837.HPJumpStart",
+      "AD2F1837.HPRegistration",
+      "AdobeSystemsIncorporated.AdobePhotoshopExpress",
+      "Amazon.com.Amazon",
+      "AmazonVideo.PrimeVideo",
+      "BytedancePte.Ltd.TikTok",
+      "C27EB4BA.DropboxOEM",
+      "CAF9E577.Plex",
+      "Clipchamp.Clipchamp",
+      "CyberLinkCorp.hs.PowerMediaPlayer14forHPConsumerPC",
+      "D52A8D61.FarmVille2CountryEscape",
+      "D5EA27B7.Duolingo-LearnLanguagesforFree",
+      "DB6EA5DB.CyberLinkMediaSuiteEssentials",
+      "DolbyLaboratories.DolbyAccess",
+      "Drawboard.DrawboardPDF",
+      "Facebook.Facebook",
+      "Facebook.InstagramBeta",
+      "Fitbit.FitbitCoach",
+      "flaregamesGmbH.RoyalRevolt2",
+      "GAMELOFTSA.Asphalt8Airborne",
+      "KeeperSecurityInc.Keeper",
+      "king.com.BubbleWitch3Saga",
+      "king.com.CandyCrushFriends",
+      "king.com.CandyCrushSaga",
+      "king.com.CandyCrushSodaSaga",
+      "king.com.FarmHeroesSaga",
+      "Nordcurrent.CookingFever",
+      "PandoraMediaInc.29680B314EFC2",
+      "PricelinePartnerNetwork.Booking.comBigsavingsonhot",
+      "SpotifyAB.SpotifyMusic",
+      "ThumbmunkeysLtd.PhototasticCollage",
+      "WinZipComputing.WinZipUniversal",
+      "XINGAG.XING",
+      "Disney.37853FC22B2CE"
+    ],
+    "InstallThirdPartyBloat": [
+      "2414FC7A.Viber",
+      "41038Axilesoft.ACGMediaPlayer",
+      "46928bounde.EclipseManager",
+      "4DF9E0F8.Netflix",
+      "64885BlueEdge.OneCalendar",
+      "7EE7776C.LinkedInforWindows",
+      "828B5831.HiddenCityMysteryofShadows",
+      "89006A2E.AutodeskSketchBook",
+      "9E2F88E3.Twitter",
+      "A278AB0D.DisneyMagicKingdoms",
+      "A278AB0D.DragonManiaLegends",
+      "A278AB0D.MarchofEmpires",
+      "ActiproSoftwareLLC.562882FEEB491",
+      "AD2F1837.GettingStartedwithWindows8",
+      "AD2F1837.HPJumpStart",
+      "AD2F1837.HPRegistration",
+      "AdobeSystemsIncorporated.AdobePhotoshopExpress",
+      "Amazon.com.Amazon",
+      "C27EB4BA.DropboxOEM",
+      "CAF9E577.Plex",
+      "CyberLinkCorp.hs.PowerMediaPlayer14forHPConsumerPC",
+      "D52A8D61.FarmVille2CountryEscape",
+      "D5EA27B7.Duolingo-LearnLanguagesforFree",
+      "DB6EA5DB.CyberLinkMediaSuiteEssentials",
+      "DolbyLaboratories.DolbyAccess",
+      "Drawboard.DrawboardPDF",
+      "Facebook.Facebook",
+      "Fitbit.FitbitCoach",
+      "flaregamesGmbH.RoyalRevolt2",
+      "GAMELOFTSA.Asphalt8Airborne",
+      "KeeperSecurityInc.Keeper",
+      "king.com.BubbleWitch3Saga",
+      "king.com.CandyCrushFriends",
+      "king.com.CandyCrushSaga",
+      "king.com.CandyCrushSodaSaga",
+      "king.com.FarmHeroesSaga",
+      "Nordcurrent.CookingFever",
+      "PandoraMediaInc.29680B314EFC2",
+      "PricelinePartnerNetwork.Booking.comBigsavingsonhot",
+      "SpotifyAB.SpotifyMusic",
+      "ThumbmunkeysLtd.PhototasticCollage",
+      "WinZipComputing.WinZipUniversal",
+      "XINGAG.XING",
+      "Disney.37853FC22B2CE"
+    ],
+    "UninstallMsftBloat": [
+      "Microsoft.3DBuilder",
+      "Microsoft.AppConnector",
+      "Microsoft.BingFinance",
+      "Microsoft.BingFoodAndDrink",
+      "Microsoft.BingHealthAndFitness",
+      "Microsoft.BingMaps",
+      "Microsoft.BingNews",
+      "Microsoft.BingSports",
+      "Microsoft.BingTranslator",
+      "Microsoft.BingTravel",
+      "Microsoft.BingWeather",
+      "Microsoft.CommsPhone",
+      "Microsoft.ConnectivityStore",
+      "Microsoft.FreshPaint",
+      "Microsoft.GetHelp",
+      "Microsoft.Getstarted",
+      "Microsoft.HelpAndTips",
+      "Microsoft.Media.PlayReadyClient.2",
+      "Microsoft.Messaging",
+      "Microsoft.Microsoft3DViewer",
+      "Microsoft.MicrosoftOfficeHub",
+      "Microsoft.MicrosoftPowerBIForWindows",
+      "Microsoft.MicrosoftSolitaireCollection",
+      "Microsoft.MicrosoftStickyNotes",
+      "Microsoft.MinecraftUWP",
+      "Microsoft.MixedReality.Portal",
+      "Microsoft.MoCamera",
+      "Microsoft.MSPaint",
+      "Microsoft.NetworkSpeedTest",
+      "Microsoft.OfficeLens",
+      "Microsoft.Office.OneNote",
+      "Microsoft.Office.Sway",
+      "Microsoft.OneConnect",
+      "Microsoft.People",
+      "Microsoft.Print3D",
+      "Microsoft.Reader",
+      "Microsoft.RemoteDesktop",
+      "Microsoft.SkypeApp",
+      "Microsoft.Todos",
+      "Microsoft.Wallet",
+      "Microsoft.WebMediaExtensions",
+      "Microsoft.Whiteboard",
+      "Microsoft.WindowsAlarms",
+      "Microsoft.WindowsCamera",
+      "microsoft.windowscommunicationsapps",
+      "Microsoft.WindowsFeedbackHub",
+      "Microsoft.WindowsMaps",
+      "Microsoft.WindowsPhone",
+      "Microsoft.Windows.Photos",
+      "Microsoft.WindowsReadingList",
+      "Microsoft.WindowsScan",
+      "Microsoft.WindowsSoundRecorder",
+      "Microsoft.WinJS.1.0",
+      "Microsoft.WinJS.2.0",
+      "Microsoft.YourPhone",
+      "Microsoft.ZuneMusic",
+      "Microsoft.ZuneVideo",
+      "Microsoft.Advertising.Xaml"
+    ],
+    "InstallMsftBloat": [
+      "Microsoft.3DBuilder",
+      "Microsoft.Advertising.Xaml",
+      "Microsoft.AppConnector",
+      "Microsoft.BingFinance",
+      "Microsoft.BingFoodAndDrink",
+      "Microsoft.BingHealthAndFitness",
+      "Microsoft.BingMaps",
+      "Microsoft.BingNews",
+      "Microsoft.BingSports",
+      "Microsoft.BingTranslator",
+      "Microsoft.BingTravel",
+      "Microsoft.BingWeather",
+      "Microsoft.CommsPhone",
+      "Microsoft.ConnectivityStore",
+      "Microsoft.FreshPaint",
+      "Microsoft.GetHelp",
+      "Microsoft.Getstarted",
+      "Microsoft.HelpAndTips",
+      "Microsoft.Media.PlayReadyClient.2",
+      "Microsoft.Messaging",
+      "Microsoft.Microsoft3DViewer",
+      "Microsoft.MicrosoftOfficeHub",
+      "Microsoft.MicrosoftPowerBIForWindows",
+      "Microsoft.MicrosoftSolitaireCollection",
+      "Microsoft.MicrosoftStickyNotes",
+      "Microsoft.MinecraftUWP",
+      "Microsoft.MixedReality.Portal",
+      "Microsoft.MoCamera",
+      "Microsoft.MSPaint",
+      "Microsoft.NetworkSpeedTest",
+      "Microsoft.OfficeLens",
+      "Microsoft.Office.OneNote",
+      "Microsoft.Office.Sway",
+      "Microsoft.OneConnect",
+      "Microsoft.People",
+      "Microsoft.Print3D",
+      "Microsoft.Reader",
+      "Microsoft.RemoteDesktop",
+      "Microsoft.SkypeApp",
+      "Microsoft.Todos",
+      "Microsoft.Wallet",
+      "Microsoft.WebMediaExtensions",
+      "Microsoft.Whiteboard",
+      "Microsoft.WindowsAlarms",
+      "Microsoft.WindowsCamera",
+      "Microsoft.windowscommunicationsapps",
+      "Microsoft.WindowsFeedbackHub",
+      "Microsoft.WindowsMaps",
+      "Microsoft.WindowsPhone",
+      "Microsoft.Windows.Photos",
+      "Microsoft.WindowsReadingList",
+      "Microsoft.WindowsScan",
+      "Microsoft.WindowsSoundRecorder",
+      "Microsoft.WinJS.1.0",
+      "Microsoft.WinJS.2.0",
+      "Microsoft.YourPhone",
+      "Microsoft.ZuneMusic",
+      "Microsoft.ZuneVideo"
+    ]
+  },
+  "RemovalOnly": {
+    "Microsoft": [],
+    "ThirdParty": [
+      "AmazonVideo.PrimeVideo",
+      "BytedancePte.Ltd.TikTok",
+      "Clipchamp.Clipchamp",
+      "Facebook.InstagramBeta"
+    ]
+  },
+  "Definitions": [
+    {
+      "Name": "2414FC7A.Viber",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "41038Axilesoft.ACGMediaPlayer",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "46928bounde.EclipseManager",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "4DF9E0F8.Netflix",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "64885BlueEdge.OneCalendar",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "7EE7776C.LinkedInforWindows",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "828B5831.HiddenCityMysteryofShadows",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "89006A2E.AutodeskSketchBook",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "9E2F88E3.Twitter",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "A278AB0D.DisneyMagicKingdoms",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "A278AB0D.DragonManiaLegends",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "A278AB0D.MarchofEmpires",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "ActiproSoftwareLLC.562882FEEB491",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "AD2F1837.GettingStartedwithWindows8",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "AD2F1837.HPJumpStart",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "AD2F1837.HPRegistration",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "AdobeSystemsIncorporated.AdobePhotoshopExpress",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Amazon.com.Amazon",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "AmazonVideo.PrimeVideo",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "BytedancePte.Ltd.TikTok",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "C27EB4BA.DropboxOEM",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "CAF9E577.Plex",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Clipchamp.Clipchamp",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "CyberLinkCorp.hs.PowerMediaPlayer14forHPConsumerPC",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "D52A8D61.FarmVille2CountryEscape",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "D5EA27B7.Duolingo-LearnLanguagesforFree",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "DB6EA5DB.CyberLinkMediaSuiteEssentials",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Disney.37853FC22B2CE",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "DolbyLaboratories.DolbyAccess",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Drawboard.DrawboardPDF",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Facebook.Facebook",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Facebook.InstagramBeta",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Fitbit.FitbitCoach",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "flaregamesGmbH.RoyalRevolt2",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "GAMELOFTSA.Asphalt8Airborne",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "KeeperSecurityInc.Keeper",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "king.com.BubbleWitch3Saga",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "king.com.CandyCrushFriends",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "king.com.CandyCrushSaga",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "king.com.CandyCrushSodaSaga",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "king.com.FarmHeroesSaga",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.3DBuilder",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.Advertising.Xaml",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "DependencyReview"
+    },
+    {
+      "Name": "Microsoft.AppConnector",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.BingFinance",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.BingFoodAndDrink",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.BingHealthAndFitness",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.BingMaps",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.BingNews",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.BingSports",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.BingTranslator",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.BingTravel",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.BingWeather",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.CommsPhone",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.ConnectivityStore",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.FreshPaint",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.GetHelp",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.Getstarted",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.HelpAndTips",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.Media.PlayReadyClient.2",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "DependencyReview"
+    },
+    {
+      "Name": "Microsoft.Messaging",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.Microsoft3DViewer",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.MicrosoftOfficeHub",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.MicrosoftPowerBIForWindows",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.MicrosoftSolitaireCollection",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.MicrosoftStickyNotes",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.MinecraftUWP",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.MixedReality.Portal",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.MoCamera",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.MSPaint",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.NetworkSpeedTest",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.Office.OneNote",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.Office.Sway",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.OfficeLens",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.OneConnect",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.People",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.Print3D",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.Reader",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.RemoteDesktop",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.SkypeApp",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.Todos",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.Wallet",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.WebMediaExtensions",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.Whiteboard",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.Windows.Photos",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.WindowsAlarms",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.WindowsCamera",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "microsoft.windowscommunicationsapps",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.WindowsFeedbackHub",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.WindowsMaps",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.WindowsPhone",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.WindowsReadingList",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.WindowsScan",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.WindowsSoundRecorder",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.WinJS.1.0",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "DependencyReview"
+    },
+    {
+      "Name": "Microsoft.WinJS.2.0",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "DependencyReview"
+    },
+    {
+      "Name": "Microsoft.YourPhone",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.ZuneMusic",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Microsoft.ZuneVideo",
+      "LegacyRemoval": [
+        "Microsoft"
+      ],
+      "LegacyRegistration": [
+        "Microsoft"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "Nordcurrent.CookingFever",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "PandoraMediaInc.29680B314EFC2",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "PricelinePartnerNetwork.Booking.comBigsavingsonhot",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "SpotifyAB.SpotifyMusic",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "ThumbmunkeysLtd.PhototasticCollage",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "WinZipComputing.WinZipUniversal",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    },
+    {
+      "Name": "XINGAG.XING",
+      "LegacyRemoval": [
+        "ThirdParty"
+      ],
+      "LegacyRegistration": [
+        "ThirdParty"
+      ],
+      "ReviewClass": "AppReview"
+    }
+  ],
+  "Execution": "Data-only history; no v2 runner or active removal preset"
+}

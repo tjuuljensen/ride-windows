@@ -7,6 +7,14 @@
   A pending candidate can use an explicitly approved target in a private catalog
   copy; published SupportedTargets stay unchanged. Never runs packages or Full.
   Captured setting recovery and the host checkpoint are separate boundaries.
+  Schemas 3/4 select read-only Store inventories for an explicitly expected guest
+  account instead; it invokes no setting or app mutation and claims no lifecycle.
+  Schema 5 inspects pending Store guards without opening target support or
+  performing app mutations; it accepts preflight only.
+  Schema 6 observes existing guest Explorer session ownership only. It does not
+  start a session, actor, task or app; shell presence is not desktop acceptance.
+  Schema 7 uses one RunId-owned Interactive/Limited task to inspect Plan in an
+  existing guest desktop. It cleans only that task and never applies app changes.
 .PARAMETER FixturePath
   Literal path to the request-bound PowerShell data fixture in the staged checkout.
 .PARAMETER EvidencePath
@@ -24,9 +32,18 @@
   Prerequisites: Pinned elevated Hyper-V guest through the existing controller;
     RIDE_TEST_GUEST=1, RIDE_INTEGRATION_VM=1 and a correlated RIDE_TEST_RUN_ID.
   File/environment inputs: Explicit fixture, staged catalog/modules and evidence path.
-  Recovery: Captured state in finally, then the host's pinned clean checkpoint.
-  Owner: RIDE-Windows maintainers. Version: 0.7.2.
-  Changelog: 0.7.2: Describe checkpoint-only guard acceptance accurately in progress.
+  Recovery: Captured setting state in finally; inventory has no Windows mutation.
+    The host's pinned clean checkpoint remains an independent required boundary.
+  Owner: RIDE-Windows maintainers. Version: 0.12.0.
+  Changelog: 0.12.0: Seed/recover only minimum age for a native maximum-age refusal test.
+    0.11.1: Retain bounded task console diagnostics, including worker startup failures.
+    0.11.0: Add isolated same-desktop Plan worker with owned task cleanup.
+    0.10.0: Observe bounded existing guest desktop-shell candidates without changes.
+    0.9.1: Verify reviewed protection rule and visible unknown system observations.
+    0.9.0: Verify non-mutating Store target/refusal guards in native guests.
+    0.8.1: Prepare separate provisioning/user reference files and partial evidence.
+    0.8.0: Add explicit no-mutation current-user Store inventory mode.
+    0.7.2: Describe checkpoint-only guard acceptance accurately in progress.
     0.7.1: Compare interrupted ownership against the saved run's actual
     creation capture, rather than random identities proposed by earlier inspection.
     0.7.0: Add explicit owned active/setting-drift/interrupted-creation
@@ -60,7 +77,7 @@
 #>
 [CmdletBinding()]
 param([string] $FixturePath, [string] $EvidencePath, [switch] $Version)
-$script:ScriptVersion = '0.7.2'
+$script:ScriptVersion = '0.12.0'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 if ($env:RIDE_TEST_GUEST -ne '1' -or $env:RIDE_INTEGRATION_VM -ne '1' -or $env:RIDE_TEST_RUN_ID -notmatch '^[0-9a-f]{32}$') { throw 'Use only the correlated disposable-VM controller.' }
@@ -75,10 +92,207 @@ Import-Module (Join-Path $sourceRoot 'modules/RIDE.SettingsFixtureData.psm1') -F
 $inputFixture=Import-PowerShellDataFile -LiteralPath $FixturePath
 $fixtureData=Read-RideSettingsFixture -Path $FixturePath -RunId $env:RIDE_TEST_RUN_ID -IntegrationSuite $inputFixture.IntegrationSuite -CatalogPath (Join-Path $sourceRoot 'catalog/operations.psd1')
 $fixture=$fixtureData.Fixture
-$scenario=if($fixture.SchemaVersion -eq 2){$fixture.Scenario}else{'Lifecycle'}
+$scenario=if($fixture.SchemaVersion -in @(2,3,4,5,6,7)){$fixture.Scenario}else{'Lifecycle'}
 Import-Module (Join-Path $sourceRoot 'modules/RIDE.Engine.psm1') -Force
 $target = Get-RidePlatform
 if ($fixture.Target -cne $target -or $target -notin @('Windows 11','Windows Server 2025')) { throw 'Fixture target does not match the disposable guest.' }
+if($scenario -eq 'StoreDesktopPlan'){
+  $report=[ordered]@{SchemaVersion=1;RunId=$fixture.RunId;Target=$target;Scenario=$scenario;Status='Failed';FixtureSHA256=(Get-FileHash -LiteralPath $FixturePath).Hash;UserSid=$fixture.ExpectedUserSid;DesktopPlanPassed=$false;FullHandoffPassed=$false;AlternateAdministratorPassed=$false;LifecyclePassed=$false;ExactRecovery=$false;WindowsAppMutation=$false;RecoveryMode='OwnedTransientTaskCleanup';TaskCleanupVerified=$false;Error=$null;CleanupError=$null}
+  $taskName='RIDE-Test-StoreDesktopPlan-'+$fixture.RunId;$registered=$false;$arguments=$null
+  $executable=Join-Path $env:SystemRoot 'System32/WindowsPowerShell/v1.0/powershell.exe'
+  try{
+    $identity=[Security.Principal.WindowsIdentity]::GetCurrent()
+    try{if($identity.User.Value -cne $fixture.ExpectedUserSid -or $identity.Name -ine $fixture.ExpectedUserName){throw 'Desktop coordinator guest identity changed.'}}finally{$identity.Dispose()}
+    if(Get-ScheduledTask -TaskName $taskName -TaskPath '\' -ErrorAction SilentlyContinue){throw 'Owned fixture task already exists; preserve it.'}
+    $shells=@(Get-CimInstance -ClassName Win32_Process -Filter "Name = 'explorer.exe'" -ErrorAction Stop)
+    if($shells.Count -gt 32){throw 'Desktop shell candidates exceed their bound.'}
+    $matches=@(foreach($shell in $shells){
+      $owner=Invoke-CimMethod -InputObject $shell -MethodName GetOwnerSid -ErrorAction Stop
+      if($owner.ReturnValue -ne 0 -or -not $owner.Sid){throw 'Desktop shell owner unavailable.'}
+      if($owner.Sid -ceq $fixture.ExpectedUserSid -and $shell.SessionId -gt 0){$shell}
+    })
+    if($matches.Count -ne 1){throw 'A unique existing expected-user shell is required; sign-in/session preparation remains pending.'}
+    $store=Import-Module (Join-Path $sourceRoot 'modules/RIDE.StoreApps.psm1') -Force -PassThru
+    $actorScript=Join-Path $PSScriptRoot 'Invoke-RideStoreDesktopPlanActor.ps1'
+    $sourceHash=& $store {Get-RideStoreHandoffSourceHash}
+    $actorHash=(Get-FileHash -LiteralPath $actorScript).Hash
+    $actorPath=Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) ('RIDE/TestFixtures/StoreDesktopPlan/'+$fixture.RunId+'/actor.json')
+    $null=& $store {param($p,$r) Assert-RideStorePath -Path $p -Root $r} $actorPath ([Environment]::GetFolderPath('LocalApplicationData'))
+    if(Test-Path -LiteralPath (Split-Path -Parent $actorPath)){throw 'Actor evidence already exists; preserve it.'}
+    $consolePath=Join-Path (Split-Path -Parent $actorPath) 'actor-console.log'
+    $null=New-Item -ItemType Directory -Path (Split-Path -Parent $actorPath) -Force
+    $request=[ordered]@{RunId=$fixture.RunId;FixturePath=$FixturePath;FixtureSHA256=$report.FixtureSHA256;ActorScript=$actorScript;ActorSHA256=$actorHash;SourceHash=$sourceHash;SessionId=[int]$matches[0].SessionId;ShellProcessId=[int]$matches[0].ProcessId;ConsolePath=$consolePath}
+    $data=[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes(($request|ConvertTo-Json -Compress)))
+    $bootstrap=@'
+$ErrorActionPreference='Stop'
+$r=[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String('__REQUEST__'))|ConvertFrom-Json
+$transcribing=$false
+try {
+ Start-Transcript -LiteralPath $r.ConsolePath -NoClobber -ErrorAction Stop|Out-Null;$transcribing=$true
+ $env:RIDE_TEST_GUEST='1';$env:RIDE_INTEGRATION_VM='1';$env:RIDE_TEST_RUN_ID=$r.RunId
+ if((Get-FileHash -LiteralPath $r.ActorScript).Hash -cne $r.ActorSHA256){throw 'Actor script changed; no worker invoked.'}
+ & $r.ActorScript -FixturePath $r.FixturePath -FixtureSHA256 $r.FixtureSHA256 -ActorSHA256 $r.ActorSHA256 -SourceHash $r.SourceHash -SessionId $r.SessionId -ShellProcessId $r.ShellProcessId
+}catch{Write-Error -ErrorRecord $_ -ErrorAction Continue;exit 1}finally{if($transcribing){Stop-Transcript|Out-Null}}
+'@
+    $arguments='-NoProfile -NonInteractive -WindowStyle Hidden -EncodedCommand '+[Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($bootstrap.Replace('__REQUEST__',$data)))
+    if($arguments.Length -gt 30000){throw 'Actor command exceeds its size bound.'}
+    $principal=New-ScheduledTaskPrincipal -UserId $fixture.ExpectedUserSid -LogonType Interactive -RunLevel Limited
+    $action=New-ScheduledTaskAction -Execute $executable -Argument $arguments
+    $settings=New-ScheduledTaskSettingsSet -ExecutionTimeLimit (New-TimeSpan -Seconds 120) -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries
+    $null=Register-ScheduledTask -TaskName $taskName -TaskPath '\' -Action $action -Principal $principal -Settings $settings -ErrorAction Stop
+    $registered=$true
+    $initialLastRun=(Get-ScheduledTaskInfo -TaskName $taskName -TaskPath '\' -ErrorAction Stop).LastRunTime
+    Start-ScheduledTask -TaskName $taskName -TaskPath '\' -ErrorAction Stop
+    $deadline=[DateTime]::UtcNow.AddSeconds(120)
+    do{
+      Start-Sleep -Seconds 1
+      $task=Get-ScheduledTask -TaskName $taskName -TaskPath '\' -ErrorAction Stop
+      $info=Get-ScheduledTaskInfo -TaskName $taskName -TaskPath '\' -ErrorAction Stop
+      if($info.LastRunTime -ne $initialLastRun -and $info.LastTaskResult -ne 0 -and $info.LastTaskResult -ne 267009 -and $task.State -notin @('Running','Queued')){throw "Desktop actor failed: task result $($info.LastTaskResult)."}
+    }while(((-not(Test-Path -LiteralPath $actorPath)) -or $task.State -eq 'Running') -and [DateTime]::UtcNow -lt $deadline)
+    if(-not(Test-Path -LiteralPath $actorPath) -or $task.State -eq 'Running' -or $info.LastTaskResult -ne 0){throw 'Desktop actor completion unavailable or timed out.'}
+    if((Get-Item -LiteralPath $actorPath).Length -gt 1048576){throw 'Actor evidence exceeds its bound.'}
+    $null=& $store {param($p,$r) Assert-RideStorePath -Path $p -Root $r} $actorPath ([Environment]::GetFolderPath('LocalApplicationData'))
+    $actor=Get-Content -LiteralPath $actorPath -Raw|ConvertFrom-Json
+    Copy-Item -LiteralPath $actorPath -Destination (Join-Path (Split-Path -Parent $EvidencePath) 'store-desktop-actor.json') -ErrorAction Stop
+    $report['ActorEvidenceSHA256']=(Get-FileHash -LiteralPath $actorPath).Hash
+    if((Get-FileHash -LiteralPath (Join-Path (Split-Path -Parent $EvidencePath) 'store-desktop-actor.json')).Hash -cne $report.ActorEvidenceSHA256){throw 'Actor evidence copy changed.'}
+    $report['Actor']=$actor
+    if($actor.Status -cne 'Passed' -or -not $actor.DesktopPlanPassed -or $actor.RunId -cne $fixture.RunId -or $actor.UserSid -cne $fixture.ExpectedUserSid -or $actor.Target -cne $fixture.Target -or $actor.SelectionId -cne $fixture.SelectionId -or $actor.SourceHash -cne $sourceHash -or $actor.ActorSHA256 -cne $actorHash -or $actor.FixtureSHA256 -cne $report.FixtureSHA256 -or $actor.Desktop.CurrentElevated -or $actor.Desktop.ShellElevated -or $actor.Desktop.CurrentSessionId -ne $request.SessionId -or $actor.Desktop.SessionId -ne $request.SessionId -or $actor.Desktop.ShellProcessId -ne $request.ShellProcessId -or $actor.FullHandoffPassed -ne $false -or $actor.LifecyclePassed -ne $false -or $actor.WindowsAppMutation -ne $false){throw 'Actor evidence correlation/desktop/Plan boundary failed.'}
+    $report.DesktopPlanPassed=$true;$report.Status='Passed'
+  }catch{
+    $report.Error=$_.Exception.Message
+    if($actorPath -and (Test-Path -LiteralPath $actorPath -PathType Leaf)){
+      try{
+        $null=& $store {param($p,$r) Assert-RideStorePath -Path $p -Root $r} $actorPath ([Environment]::GetFolderPath('LocalApplicationData'))
+        if((Get-Item -LiteralPath $actorPath).Length -gt 1048576){throw 'Failed actor evidence exceeds its bound.'}
+        $failurePath=Join-Path (Split-Path -Parent $EvidencePath) 'store-desktop-actor.json'
+        Copy-Item -LiteralPath $actorPath -Destination $failurePath -Force -ErrorAction Stop
+        $report['ActorEvidenceSHA256']=(Get-FileHash -LiteralPath $actorPath).Hash
+        if((Get-FileHash -LiteralPath $failurePath).Hash -cne $report.ActorEvidenceSHA256){throw 'Failed actor evidence copy changed.'}
+      }catch{$report['ActorCollectionError']=$_.Exception.Message}
+    }
+  }
+  finally{
+    if($registered){
+      try{
+        $owned=Get-ScheduledTask -TaskName $taskName -TaskPath '\' -ErrorAction Stop
+        $ownerSid=if($owned.Principal.UserId -match '^S-1-'){$owned.Principal.UserId}else{([Security.Principal.NTAccount]::new($owned.Principal.UserId)).Translate([Security.Principal.SecurityIdentifier]).Value}
+        if(@($owned.Actions).Count -ne 1 -or $owned.Actions[0].Execute -ine $executable -or $owned.Actions[0].Arguments -cne $arguments -or $ownerSid -cne $fixture.ExpectedUserSid -or $owned.Principal.LogonType -ne 'Interactive' -or $owned.Principal.RunLevel -ne 'Limited'){throw 'Fixture task ownership changed; no task cleanup attempted.'}
+        if($owned.State -eq 'Running'){Stop-ScheduledTask -TaskName $taskName -TaskPath '\' -ErrorAction Stop}
+        $stopDeadline=[DateTime]::UtcNow.AddSeconds(15)
+        while((Get-ScheduledTask -TaskName $taskName -TaskPath '\' -ErrorAction Stop).State -eq 'Running' -and [DateTime]::UtcNow -lt $stopDeadline){Start-Sleep -Seconds 1}
+        if((Get-ScheduledTask -TaskName $taskName -TaskPath '\' -ErrorAction Stop).State -eq 'Running'){throw 'Owned actor task did not stop.'}
+        Unregister-ScheduledTask -TaskName $taskName -TaskPath '\' -Confirm:$false -ErrorAction Stop
+        if(Get-ScheduledTask -TaskName $taskName -TaskPath '\' -ErrorAction SilentlyContinue){throw 'Owned actor task still exists.'}
+        $report.TaskCleanupVerified=$true
+      }catch{$report.CleanupError=$_.Exception.Message;$report.Status='Failed';$report.DesktopPlanPassed=$false}
+    }
+    if($consolePath -and (Test-Path -LiteralPath $consolePath -PathType Leaf)){
+      try{
+        $null=& $store {param($p,$r) Assert-RideStorePath -Path $p -Root $r} $consolePath ([Environment]::GetFolderPath('LocalApplicationData'))
+        if((Get-Item -LiteralPath $consolePath).Length -gt 1048576){throw 'Actor console exceeds its evidence bound.'}
+        $retainedConsole=Join-Path (Split-Path -Parent $EvidencePath) 'store-desktop-actor-console.log'
+        Copy-Item -LiteralPath $consolePath -Destination $retainedConsole -ErrorAction Stop
+        $report['ConsoleSHA256']=(Get-FileHash -LiteralPath $consolePath).Hash
+        if((Get-FileHash -LiteralPath $retainedConsole).Hash -cne $report.ConsoleSHA256){throw 'Console evidence copy changed.'}
+      }catch{$report['ConsoleCollectionError']=$_.Exception.Message;$report.Status='Failed';$report.DesktopPlanPassed=$false}
+    }
+  }
+  $report|ConvertTo-Json -Depth 20|Set-Content -LiteralPath $EvidencePath -Encoding UTF8
+  if($report.Status -ne 'Passed' -or -not $report.TaskCleanupVerified){throw "Desktop Plan fixture failed: $($report.Error) $($report.CleanupError)"}
+  'Isolated desktop Plan worker passed; owned task removed, no app/alternate-admin/full-handoff acceptance.'
+  return
+}
+if($scenario -eq 'StoreDesktopProbe'){
+  $report=[ordered]@{SchemaVersion=1;RunId=$fixture.RunId;Target=$target;Scenario=$scenario;Status='Failed';FixtureSHA256=(Get-FileHash -LiteralPath $FixturePath).Hash;UserSid=$fixture.ExpectedUserSid;LifecyclePassed=$false;DesktopHandoffPassed=$false;ExactRecovery=$false;RecoveryMode='NoWindowsMutation';WindowsMutation=$false;ProbePassed=$false;Error=$null}
+  try{
+    $identity=[Security.Principal.WindowsIdentity]::GetCurrent()
+    try{if($identity.Name -ine $fixture.ExpectedUserName -or $identity.User.Value -cne $fixture.ExpectedUserSid){throw 'Configured desktop probe identity changed'}}finally{$identity.Dispose()}
+    $processes=@(Get-CimInstance -ClassName Win32_Process -Filter "Name = 'explorer.exe'" -ErrorAction Stop)
+    if($processes.Count -gt 32){throw 'Desktop shell observation exceeds its bound'}
+    $observations=@(foreach($process in $processes){
+      $owner=Invoke-CimMethod -InputObject $process -MethodName GetOwnerSid -ErrorAction Stop
+      if($owner.ReturnValue -ne 0 -or -not $owner.Sid){throw 'Desktop shell owner unavailable'}
+      [pscustomobject]@{ProcessId=[int]$process.ProcessId;SessionId=[int]$process.SessionId;OwnerMatchesExpectedSid=($owner.Sid -ceq $fixture.ExpectedUserSid)}
+    })
+    $candidates=@($observations|Where-Object {$_.OwnerMatchesExpectedSid -and $_.SessionId -gt 0})
+    $report['CallerSessionId']=[Diagnostics.Process]::GetCurrentProcess().SessionId
+    $report['ShellObservations']=$observations;$report['CandidateCount']=$candidates.Count
+    $report['Readiness']=if($candidates.Count -eq 1){'CandidateShellObserved; actual desktop/token/actor unverified'}elseif($candidates.Count -eq 0){'NoExpectedUserShell; real sign-in prerequisite pending'}else{'AmbiguousExpectedUserShells; no actor may be chosen'}
+    $report['PendingEvidence']=@('Actual current desktop and unelevated shell token','Same-session source-bound child and alternate-administrator handoff','Store removal/reinstall lifecycle')
+    $report.ProbePassed=$true;$report.Status='Passed'
+  }catch{$report.Error=$_.Exception.Message}
+  $report|ConvertTo-Json -Depth 8|Set-Content -LiteralPath $EvidencePath -Encoding UTF8
+  if($report.Status -ne 'Passed'){throw $report.Error}
+  'Read-only desktop resource probe passed; shell observations grant no handoff or app acceptance.'
+  return
+}
+if($scenario -eq 'StoreAppPreflight'){
+  $report=[ordered]@{SchemaVersion=1;RunId=$fixture.RunId;Target=$target;Scenario=$scenario;Status='Failed';FixtureSHA256=(Get-FileHash -LiteralPath $FixturePath).Hash;LifecyclePassed=$false;ExactRecovery=$false;RecoveryMode='NoWindowsMutation';WindowsMutation=$false;GuardValidationPassed=$false;Error=$null}
+  try{
+    $identity=[Security.Principal.WindowsIdentity]::GetCurrent()
+    try{if($identity.Name -ine $fixture.ExpectedUserName -or $identity.User.Value -cne $fixture.ExpectedUserSid){throw 'Configured Store preflight identity changed'}}finally{$identity.Dispose()}
+    Import-Module (Join-Path $sourceRoot 'modules/RIDE.StoreApps.psm1') -Force
+    $plan=@(Get-RideStoreAppPlan -Id $fixture.SelectionId -Action Uninstall -ExpectedUserSid $fixture.ExpectedUserSid)
+    if($plan.Count -ne 4 -or @($plan|Where-Object {'Target acceptance pending or unsupported' -notin $_.Refusals}).Count){throw 'Published target guard unexpectedly open; no action submitted'}
+    if(@($plan|Where-Object {$_.Operation.ProtectionRule -cne 'ReviewedIdentityRemovabilityV1'}).Count){throw 'Reviewed protection rule missing from selection'}
+    foreach($item in $plan){
+      if(@($item.Before.Packages|Where-Object {$null -eq $_.IsPartOfSystem -and $_.SystemProtectionObservation -cne 'Unknown'}).Count){throw 'Unknown system protection was not reported explicitly'}
+    }
+    $before=$plan.Before|ConvertTo-Json -Depth 12 -Compress
+    $results=@(Invoke-RideStoreAppAction -Id $fixture.SelectionId -Action Uninstall -ExpectedUserSid $fixture.ExpectedUserSid -Confirm:$false)
+    if($results.Count -ne 4 -or @($results|Where-Object {$_.Status -ne 'Refused' -or $_.RecordCreated -or $_.RunId}).Count){throw 'Store target guard did not refuse without creating records'}
+    $after=@(Get-RideStoreAppPlan -Id $fixture.SelectionId -Action Uninstall -ExpectedUserSid $fixture.ExpectedUserSid)
+    if(($after.Before|ConvertTo-Json -Depth 12 -Compress) -cne $before){throw 'Store registration observations changed during preflight'}
+    $report['UserSid']=$fixture.ExpectedUserSid;$report['SelectionId']=$fixture.SelectionId
+    $report['Plan']=$plan;$report['Results']=$results;$report.GuardValidationPassed=$true
+    $report['ProtectionRule']='ReviewedIdentityRemovabilityV1'
+    $report['PendingEvidence']=@('Reviewed identity/removability/type rule native lifecycle acceptance; IsPartOfSystem may remain visibly unknown','Unelevated current desktop and alternate-admin handoff','Actual app uninstall/retained-source reinstall and partial native failures','Policy consumer/schema and acquisition-dependent recovery')
+    $report.Status='Passed'
+  }catch{$report.Error=$_.Exception.Message}
+  $report|ConvertTo-Json -Depth 18|Set-Content -LiteralPath $EvidencePath -Encoding UTF8
+  if($report.Status -ne 'Passed'){throw $report.Error}
+  'Store app preflight passed; all actions refused, no removal/reinstall acceptance claimed.'
+  return
+}
+if($scenario -in @('StoreInventory','StoreReferenceInventory')){
+  $report=[ordered]@{SchemaVersion=1;RunId=$fixture.RunId;Target=$target;Scenario=$scenario;Status='Failed';FixtureSHA256=(Get-FileHash -LiteralPath $FixturePath).Hash;LifecyclePassed=$false;ExactRecovery=$false;RecoveryMode='NoWindowsMutation';InventoryCollected=$false;WindowsMutation=$false;Error=$null}
+  $report['UserInventoryCollected']=$false
+  $report['ProvisioningCollected']=$false
+  try {
+    $identity=[Security.Principal.WindowsIdentity]::GetCurrent()
+    try {if($identity.Name -ine $fixture.ExpectedUserName -or $identity.User.Value -cne $fixture.ExpectedUserSid){throw 'Configured guest inventory identity changed; nothing queried.'}}finally{$identity.Dispose()}
+    Import-Module (Join-Path $sourceRoot 'modules/RIDE.StoreAppReview.psm1') -Force
+    $inventory=Get-RideStoreAppInventory -ExpectedUserSid $fixture.ExpectedUserSid
+    $inventory|Add-Member NoteProperty CaptureProvenance ([pscustomobject]@{RunId=$fixture.RunId;Subject='Explicit configured disposable guest execution user';SessionId=[Diagnostics.Process]::GetCurrentProcess().SessionId;InteractiveDesktopVerified=$false;CheckpointImageBaselineVerified=$false})
+    $inventoryPath=Join-Path (Split-Path -Parent $EvidencePath) 'store-app-inventory.json'
+    $inventory|ConvertTo-Json -Depth 12|Set-Content -LiteralPath $inventoryPath -Encoding UTF8
+    $report.UserInventoryCollected=$true
+    $report['InventorySHA256']=(Get-FileHash -LiteralPath $inventoryPath).Hash
+    if($scenario -eq 'StoreReferenceInventory'){
+      $provisioned=Get-RideStoreProvisionedAppInventory -LogPath (Join-Path (Split-Path -Parent $EvidencePath) 'store-provisioning.dism.log')
+      $provisioned|Add-Member NoteProperty CaptureProvenance ([pscustomobject]@{RunId=$fixture.RunId;Subject='Online provisioning of pinned reference image';CollectedBy=$fixture.ExpectedUserName;SessionId=$inventory.CaptureProvenance.SessionId;CheckpointImageBaselineVerified=$false})
+      $provisioningPath=Join-Path (Split-Path -Parent $EvidencePath) 'store-provisioned-inventory.json'
+      $provisioned|ConvertTo-Json -Depth 12|Set-Content -LiteralPath $provisioningPath -Encoding UTF8
+      $report['ProvisionedInventorySHA256']=(Get-FileHash -LiteralPath $provisioningPath).Hash
+      $report['ProvisionedPackagesObserved']=@($provisioned.Packages).Count
+      $report.ProvisioningCollected=$true
+    }
+    $review=@(Compare-RideStoreAppInventory -Inventory $inventory)
+    $review|ConvertTo-Json -Depth 12|Set-Content -LiteralPath (Join-Path (Split-Path -Parent $EvidencePath) 'store-app-review.json') -Encoding UTF8
+    $report['InventorySHA256']=(Get-FileHash -LiteralPath $inventoryPath).Hash
+    $report['PackagesObserved']=@($inventory.Packages).Count
+    $report['WindowsContext']=$inventory.WindowsContext
+    $report['ReviewRows']=$review.Count
+    $report['MappingCounts']=@($review|Group-Object MappingStatus|Select-Object Name,Count)
+    $report['PendingEvidence']=@('Other editions/releases/OEM/region/user profiles','Interactive desktop identity and sign-in timing','Provisioned image baseline','App selections/removal/policy/reinstall lifecycle')
+    $report.InventoryCollected=$true;$report.Status='Passed'
+    'Read-only Store inventory collected; no app selection, mutation or recovery acceptance claimed.'
+  }catch{$report.Error=$_.Exception.Message;throw}
+  finally{$report|ConvertTo-Json -Depth 12|Set-Content -LiteralPath $EvidencePath -Encoding UTF8}
+  return
+}
 $operation = Get-RideOperation -Id $fixture.OperationId
 if ($operation.Kind -notin @('RegistryValue','RegistryValueSet','WindowsService','FirewallProfile','LocalPasswordMaximumAge','OwnedPowerPlan') -or 'Set' -notin $operation.Actions -or 'Restore' -notin $operation.Actions) { throw 'This fixture supports only implemented captured setting families.' }
 $states = @($fixture.States)
@@ -158,6 +372,79 @@ function Get-FixtureOwnedExportObservation($Current) {
     Start-Sleep -Milliseconds 100
   }
   [pscustomobject]@{DestinationGuid=$Current.DestinationGuid;CapturedExportSHA256=$Current.OriginalRecord.ExportSha256;Method='Three consecutive native exports without any intervening plan mutation';Exports=$exports;Comparisons=$comparisons;Inference='No bytes are masked and no deletion guard is relaxed; file stability is diagnostic evidence only'}
+}
+function Invoke-FixtureMinimumAgeConflict {
+  $handler=& (Get-Module RIDE.Engine) {(Get-Command Get-RideLocalPasswordAgeState -CommandType Function).Module}
+  if(-not $handler -or $handler.Path -ine (Join-Path $privateRoot 'modules/RIDE-LocalPasswordAge.psm1')){throw 'Conflict requires its retained private candidate handler.'}
+  $before=Get-RideCurrentState -Operation $operation
+  if($before.Policy.MinAgeSeconds -ne 0 -or $before.Policy.MaxAgeSeconds -le 86400){throw 'Conflict seed requires captured zero minimum and a maximum above one day.'}
+  $guard=[ordered]@{Method='Native local level-1003 one-day minimum seed; attempt maximum Days1';MaximumAgeRefused=$false;MaximumNativeWrites=0;PolicyUnchangedAfterRefusal=$false;FailedRunId=$null;FailedRunRecoveryPassed=$false;MinimumSeedRecoveryPassed=$false;Error=$null}
+  $report['MinimumAgeConflict']=$guard
+  $seedAttempted=$false;$wrapped=$false;$failureId=$null
+  if(-not ('Ride.FixtureMinimumAgeV1' -as [type])){
+    Add-Type -TypeDefinition @'
+using System;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
+namespace Ride {
+ public static class FixtureMinimumAgeV1 {
+  [StructLayout(LayoutKind.Sequential)] struct Minimum { public uint Seconds; }
+  [DllImport("netapi32.dll",CharSet=CharSet.Unicode)]
+  [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+  static extern uint NetUserModalsSet(string server,uint level,ref Minimum value,out uint error);
+  public static void Set(uint seconds) {
+   if(seconds!=0 && seconds!=86400) throw new ArgumentOutOfRangeException("seconds");
+   Minimum value=new Minimum{Seconds=seconds};uint error;
+   uint status=NetUserModalsSet(null,1003,ref value,out error);
+   if(status!=0) throw new Win32Exception((int)status,"Fixture minimum-age seed/recovery failed: "+error);
+  }
+ }
+}
+'@ -ErrorAction Stop
+  }
+  try{
+    $seedAttempted=$true;[Ride.FixtureMinimumAgeV1]::Set(86400)
+    $seed=Get-RideCurrentState -Operation $operation
+    foreach($field in @('SamDomainSid','MaxAgeSeconds','MinLength','ForceLogoffSeconds','HistoryLength')){if($seed.Policy.$field -ne $before.Policy.$field){throw 'Minimum seed changed unrelated context.'}}
+    if($seed.Policy.MinAgeSeconds -ne 86400){throw 'Minimum seed readback failed.'}
+    $guard['Seed']=$seed
+    & $handler {
+      $script:FixtureOriginalMaximumSetter=(Get-Command Set-RideLocalPasswordAgeNative -CommandType Function).ScriptBlock
+      $script:FixtureMaximumCalls=0
+      Set-Item Function:script:Set-RideLocalPasswordAgeNative -Value {param([uint32]$Seconds) $script:FixtureMaximumCalls++;& $script:FixtureOriginalMaximumSetter $Seconds}
+    }
+    $wrapped=$true
+    $plan=@(Get-RideSingleOperationPlan -Id $operation.Id -Action Set -State Days1)
+    $null=Invoke-RidePlan -Plan $plan -WhatIf -Confirm:$false
+    if((ConvertTo-FixtureState (Get-RideCurrentState -Operation $operation)) -cne (ConvertTo-FixtureState $seed)){throw 'Conflict preview changed the seed.'}
+    try{$null=Invoke-RidePlan -Plan $plan -Confirm:$false;throw 'Conflicting maximum age was not refused.'}
+    catch{
+      if($_.Exception.Message -notlike '*Explicit maximum password age must be greater than the current minimum age*'){throw}
+      $guard.Error=$_.Exception.Message
+      if($_.Exception.Message -notmatch 'Run ID: ([0-9a-f]{32})'){throw 'No captured failure intent returned.'}
+      $failureId=$Matches[1];$guard.FailedRunId=$failureId;$report.SavedRunIds += $failureId
+      $guard.MaximumAgeRefused=$true
+    }
+    $guard.MaximumNativeWrites=& $handler {$script:FixtureMaximumCalls}
+    $guard.PolicyUnchangedAfterRefusal=(ConvertTo-FixtureState (Get-RideCurrentState -Operation $operation)) -ceq (ConvertTo-FixtureState $seed)
+    if($guard.MaximumNativeWrites -ne 0 -or -not $guard.PolicyUnchangedAfterRefusal){throw 'Conflict reached native maximum setter or changed policy.'}
+    $null=Restore-RideRun -RunId $failureId -WhatIf -Confirm:$false
+    $null=Restore-RideRun -RunId $failureId -Confirm:$false
+    $guard.FailedRunRecoveryPassed=(ConvertTo-FixtureState (Get-RideCurrentState -Operation $operation)) -ceq (ConvertTo-FixtureState $seed)
+    if(-not $guard.FailedRunRecoveryPassed -or (& $handler {$script:FixtureMaximumCalls}) -ne 0){throw 'Unchanged failed-run recovery changed the primary field.'}
+    $report['GuardValidationPassed']=$true
+  }finally{
+    if($wrapped){& $handler {Set-Item Function:script:Set-RideLocalPasswordAgeNative -Value $script:FixtureOriginalMaximumSetter;Remove-Variable FixtureOriginalMaximumSetter,FixtureMaximumCalls -Scope Script}}
+    if($seedAttempted){
+      $current=Get-RideCurrentState -Operation $operation
+      foreach($field in @('SamDomainSid','MaxAgeSeconds','MinLength','ForceLogoffSeconds','HistoryLength')){if($current.Policy.$field -ne $before.Policy.$field){throw 'Conflict cleanup context changed; no unrelated policy replay.'}}
+      if($current.Policy.MinAgeSeconds -notin @(0,86400)){throw 'Minimum seed drifted; cleanup refuses independent changes.'}
+      [Ride.FixtureMinimumAgeV1]::Set(0)
+      $guard.MinimumSeedRecoveryPassed=(ConvertTo-FixtureState (Get-RideCurrentState -Operation $operation)) -ceq (ConvertTo-FixtureState $before)
+      if(-not $guard.MinimumSeedRecoveryPassed){throw 'Exact minimum-seed recovery failed.'}
+    }
+    $report['MinimumAgeConflict']=$guard;$report['RecoveryMode']='ExactFixtureSeed';$report['RecoveryPassed']=$guard.MinimumSeedRecoveryPassed;$report.Restored=Get-RideCurrentState -Operation $operation
+  }
 }
 function Wait-FixtureState($Operation, [string] $State) {
   $deadline = [DateTime]::UtcNow.AddSeconds(30)
@@ -576,6 +863,9 @@ try {
   }
   $report.Original=$original
   $originalText=ConvertTo-FixtureState $original
+  if($scenario -eq 'MinimumAgeConflict'){
+    Invoke-FixtureMinimumAgeConflict
+  }else{
   if ($operation.Kind -eq 'WindowsService' -and $original.Status -notin @('Running','Stopped','Paused')) { throw 'Transient service runtime is not an acceptance baseline.' }
   $first=@($states | Where-Object { -not (Test-RideDesiredState -Operation $operation -State $_) }) | Select-Object -First 1
   if (-not $first) { throw 'No alternate declared state is available for captured recovery.' }
@@ -632,6 +922,7 @@ try {
   if ((ConvertTo-FixtureState (Get-RideCurrentState -Operation $operation)) -cne $beforeRestore) { throw 'Restore preview changed captured state.' }
   if($scenario -notin @('SettingDrift','InterruptedCreation')){$report.LifecyclePassed=$true}
   }
+  }
 }
 catch { $report.Error=$_.Exception.Message }
 finally {
@@ -674,7 +965,7 @@ finally {
       if (-not $report.SeedRecoveryPassed) { throw 'Enable-all seed recovery failed.' }
     } catch { $report.RecoveryError=$_.Exception.Message }
   }
-  if((($report.LifecyclePassed -and $report.RecoveryPassed) -or ($report.GuardValidationPassed -and $report.RecoveryMode -eq 'CheckpointOnly')) -and -not $report.Error -and -not $report.RecoveryError){$report.Status='Passed'}
+  if((($report.LifecyclePassed -and $report.RecoveryPassed) -or ($report.GuardValidationPassed -and $report.RecoveryMode -eq 'CheckpointOnly') -or ($report.GuardValidationPassed -and $report.RecoveryMode -eq 'ExactFixtureSeed' -and $report.MinimumAgeConflict.MinimumSeedRecoveryPassed -and $report.MinimumAgeConflict.FailedRunRecoveryPassed -and $report.MinimumAgeConflict.MaximumNativeWrites -eq 0)) -and -not $report.Error -and -not $report.RecoveryError){$report.Status='Passed'}
   $report | ConvertTo-Json -Depth 30 | Set-Content -LiteralPath $EvidencePath -Encoding UTF8
   if ($privateRoot) {
     $expected=[IO.Path]::GetFullPath((Join-Path $env:TEMP ('RIDE-settings-fixture-'+$fixture.RunId)))
@@ -683,7 +974,9 @@ finally {
   }
 }
 if ($report.Status -ne 'Passed') { Write-Error ("Fixture failed: $($report.Error) Recovery: $($report.RecoveryError)"); exit 1 }
-if($report.RecoveryMode -eq 'CheckpointOnly'){
+if($report.RecoveryMode -eq 'ExactFixtureSeed'){
+  Write-Output 'Minimum-age conflict refusal passed with zero maximum writes and exact fixture-seed recovery; no successful primary apply lifecycle claimed.'
+}elseif($report.RecoveryMode -eq 'CheckpointOnly'){
   Write-Output "Setting fixture passed $scenario refusal guard; RIDE recovery did not occur and host checkpoint cleanup is required: $($operation.Id)"
 }else{
   Write-Output "Setting fixture passed lifecycle and captured recovery; feature/GUI and deliberate partial-failure evidence remain pending: $($operation.Id)"

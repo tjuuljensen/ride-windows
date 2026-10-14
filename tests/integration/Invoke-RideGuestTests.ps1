@@ -56,8 +56,13 @@
   File/environment inputs: Staged checkout; RIDE_TEST_GUEST must be 1.
   Recovery: The host controller restores the clean disposable-VM checkpoint.
   Author: RIDE-Windows maintainers.
-  Version: 0.8.1
+  Version: 0.8.6
   Changelog:
+    0.8.6: Select isolated Store desktop Plan regression with no app mutations.
+    0.8.5: Select focused Store desktop resource-probe regression.
+    0.8.4: Select Store app preflight regression without mutation or package suites.
+    0.8.3: Select combined provisioning/user reference collection regression.
+    0.8.2: Select read-only Store inventory regression independently from setting lifecycle.
     0.8.1: Select focused firewall, local maximum-age and owned-copy fixture regression.
     0.8.0: Add explicit GitHub PAT selection and credential-safe acceptance boundaries.
     0.7.0: Support explicit request-bound single-setting fixtures in a fresh process.
@@ -84,7 +89,7 @@ param(
   [ValidatePattern('^[0-9a-f]{32}$')][string] $ResultRunId,
   [switch] $Version
 )
-$script:ScriptVersion = '0.8.1'
+$script:ScriptVersion = '0.8.6'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 if ($env:RIDE_TEST_GUEST -ne '1') { throw 'Use the disposable-VM host runner; this entry point must not run on a developer workstation.' }
@@ -129,12 +134,14 @@ try {
   $summary.ValidationPassed = $true
   $testPaths = if ($fixture) {
     $names = @('Catalog.Tests.ps1','SettingsFixtureData.Tests.ps1','CliShouldProcess.Tests.ps1')
+    if($fixture.Scenario -in @('StoreAppPreflight','StoreDesktopProbe','StoreDesktopPlan')){$names += @('StoreAppReview.Tests.ps1','StoreApps.Tests.ps1','SettingPresentation.Tests.ps1')}elseif($fixture.Scenario -in @('StoreInventory','StoreReferenceInventory')){$names += 'StoreAppReview.Tests.ps1'}else{
     switch ($fixtureData.Operation.Kind) {
       WindowsService { $names += @('ServiceSettings.Tests.ps1','AudioService.Tests.ps1') }
       FirewallProfile { $names += 'FirewallProfiles.Tests.ps1' }
       LocalPasswordMaximumAge { $names += 'LocalPasswordAge.Tests.ps1' }
       OwnedPowerPlan { $names += 'OwnedPowerPlans.Tests.ps1' }
       default { $names += @('RegistryFailures.Tests.ps1','KeyboardSettings.Tests.ps1','ServerPolicies.Tests.ps1','UpdateNotificationPolicy.Tests.ps1','MediaPolicies.Tests.ps1','CeipPolicy.Tests.ps1') }
+    }
     }
     @($names | ForEach-Object { Join-Path $GuestPath ('tests/'+$_) })
   } elseif ($IntegrationSuite -eq 'GitHubAuthentication') {

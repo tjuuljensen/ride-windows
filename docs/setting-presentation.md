@@ -74,10 +74,18 @@ invalid reference URLs, machine settings without elevation, and scalar registry
 roots inconsistent with scope. Built-in references use Microsoft Learn or Support;
 external libraries may provide their own authoritative HTTPS sources.
 
-Initial reviewed metadata covers file-name extensions, sound-scheme editing,
-Edge startup boost and Defender cloud-delivered protection. Their feature/GUI
+Reviewed metadata includes file-name extensions, hidden/protected file visibility,
+Explorer recent/frequent shortcuts, Control Panel opening view, sound-scheme editing,
+Edge startup boost/background mode and Defender cloud-delivered protection. Their feature/GUI
 acceptance remains tracked in the
 [post-migration review](migrations/settings-post-migration-review.md).
+
+The Explorer shortcut IDs retain their published `Visible` state as override
+removal, rather than an explicit On write. Control Panel's explicit Categories
+choice still differs from removing both preferences. Hidden and protected files
+remain independent preferences, and the Edge background-mode ID keeps its existing
+machine mandatory policy path. Presentation describes these contracts without
+changing values, physical scope, defaults or saved recovery.
 
 The Defender `Advanced` state retains its published value and recovery contract.
 The catalog explains built-in protection versus separately licensed enterprise
@@ -88,10 +96,10 @@ of a separate account/onboarding step. Local-account VM acceptance remains pendi
 
 Audit the remaining settings before filling their presentation fields. Add
 observable effective-policy/source inspection per feature, not a generic registry
-heuristic. Enforce and verify intended-user selection for mixed-scope elevation,
-including alternate administrator credentials, before declaring execution safe
-for the interactive user's profile. This first increment displays that gap; it
-does not introduce a user selector or change HKCU execution semantics.
+heuristic. The [intended-user handoff](intended-user-handoff.md) now implements
+explicit user-only actions for the current desktop session. Its native interactive
+acceptance remains pending; automatic mixed-scope ordering and recovery are still
+separate work. The default Current context continues to use the execution account.
 
 The first increment's focused Pester and catalog/reference checks passed on
 native Windows PowerShell 5.1 and PowerShell 7 after the concurrent application

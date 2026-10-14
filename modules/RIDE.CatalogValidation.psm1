@@ -6,8 +6,10 @@
   Returns diagnostic strings without importing handlers or inspecting Windows.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Owner: RIDE-Windows maintainers. Version: 0.19.0.
-  Changelog: 0.19.0: Validate pending local password-age range and focused lifecycle.
+  Owner: RIDE-Windows maintainers. Version: 0.21.0.
+  Changelog: 0.21.0: Require explicit reviewed Store identity/removability metadata.
+    0.20.0: Validate separate pending Store app actions and refuse profile routing.
+    0.19.0: Validate pending local password-age range and focused lifecycle.
     0.18.0: Validate pending service candidates and dependency refusal metadata.
     0.17.0: Validate exact KeepCurrent markers in coordinated registry states.
     0.16.0: Validate pending owned power-plan creation and compensating recovery.
@@ -29,7 +31,7 @@
     0.1.0: Extract the existing validator for shared library validation.
 #>
 
-$script:ModuleVersion = '0.19.0'
+$script:ModuleVersion = '0.21.0'
 
 
 function Get-RideCatalogValidationErrors {
@@ -136,7 +138,7 @@ function Get-RideCatalogValidationErrors {
       }
     }
     if ($operation.ContainsKey('MinimumBuild') -and ($operation.MinimumBuild -isnot [int] -or $operation.MinimumBuild -lt 1)) { Add-Error "MinimumBuild must be a positive integer: $($operation.Id)" }
-    $pendingPackage = $operation.Kind -in @('Package', 'ProfileSetting', 'FirewallProfile', 'RegistryValueSet', 'RegistryValue', 'OwnedPowerPlan', 'WindowsService', 'LocalPasswordMaximumAge') -and $operation.PendingAcceptance -eq $true -and @($operation.SupportedTargets).Count -eq 0
+    $pendingPackage = $operation.Kind -in @('Package', 'StoreApp', 'ProfileSetting', 'FirewallProfile', 'RegistryValueSet', 'RegistryValue', 'OwnedPowerPlan', 'WindowsService', 'LocalPasswordMaximumAge') -and $operation.PendingAcceptance -eq $true -and @($operation.SupportedTargets).Count -eq 0
     if ($operation.ContainsKey('PendingAcceptance') -and ($operation.PendingAcceptance -isnot [bool] -or ($operation.PendingAcceptance -and -not $pendingPackage))) { Add-Error "Pending acceptance requires a supported candidate kind with no supported targets: $($operation.Id)" }
     if ($pendingPackage -and (-not $operation.CandidateTargets -or @($operation.CandidateTargets | Where-Object { $_ -notin @('Windows 11', 'Windows Server 2025') }).Count)) { Add-Error "Pending operation requires explicit candidate targets: $($operation.Id)" }
     if (@($operation.SupportedTargets).Count -eq 0 -and -not $pendingPackage) { Add-Error "No supported target declared for $($operation.Id)" }
@@ -187,7 +189,13 @@ function Get-RideCatalogValidationErrors {
         Add-Error "Operation '$($operation.Id)' is missing a power-setting default for '$target'."
       }
     }
-    if ($operation.Kind -eq 'RegistryValue') {
+    if ($operation.Kind -eq 'StoreApp') {
+      if($operation.Handler -ne 'StoreApp' -or $operation.Scope -ne 'User' -or $operation.RequiresAdmin -ne $false -or $operation.Rollback -ne 'BestEffort' -or $operation.RequireKnownProtectionFlags -ne $true -or $operation.ProtectionRule -cne 'ReviewedIdentityRemovabilityV1' -or $operation.ReinstallSource -cne 'RetainedManifestOnly'){Add-Error "Invalid guarded Store lifecycle/scope: $($operation.Id)"}
+      if($operation.AppxName -notmatch '^[a-zA-Z0-9][a-zA-Z0-9.-]+$' -or $operation.PackageFamilyName -cnotmatch ('^'+[regex]::Escape([string]$operation.AppxName)+'_[a-z0-9]{13}$')){Add-Error "Invalid exact Store app identity: $($operation.Id)"}
+      if(@(Compare-Object @('Get','Test','Uninstall','Reinstall') @($operation.Actions)).Count -or $operation.ContainsKey('BaselineState') -or $operation.ContainsKey('States')){Add-Error "Store app requires distinct uninstall/reinstall actions without setting defaults: $($operation.Id)"}
+      if(-not [Uri]::IsWellFormedUriString([string]$operation.DocumentationUri,[UriKind]::Absolute) -or ([Uri]$operation.DocumentationUri).Scheme -ne 'https' -or ([Uri]$operation.DocumentationUri).Host -ne 'learn.microsoft.com'){Add-Error "Store app requires Microsoft HTTPS documentation: $($operation.Id)"}
+    }
+    elseif ($operation.Kind -eq 'RegistryValue') {
       $expectedRoot = if ($operation.Scope -eq 'User') { 'HKCU:\' } else { 'HKLM:\' }
       if (-not ([string]$operation.RegistryPath).StartsWith($expectedRoot, [StringComparison]::OrdinalIgnoreCase)) { Add-Error "Registry path conflicts with declared scope: $($operation.Id)" }
       foreach ($field in @('RegistryPath', 'ValueName', 'ValueType', 'States', 'BaselineState')) {
@@ -546,6 +554,8 @@ function Get-RideCatalogValidationErrors {
     if ($ids.ContainsKey($group.Id)) { Add-Error "Duplicate catalog ID: $($group.Id)" }
     $ids[$group.Id] = $true
     if (@($group.Members).Count -eq 0) { Add-Error "Group has no members: $($group.Id)" }
+    $storeMembers=@($catalog.Operations|Where-Object {$_.Id -in $group.Members -and $_.Kind -eq 'StoreApp'})
+    if($storeMembers.Count -and ($group.Workflow -cne 'StoreApps' -or $storeMembers.Count -ne @($group.Members).Count -or @($group.Members|Sort-Object -Unique).Count -ne @($group.Members).Count -or @($group.Members).Count -gt 32 -or @($group.Actions).Count -ne 2 -or 'Uninstall' -notin $group.Actions -or 'Reinstall' -notin $group.Actions -or $group.Rollback -ne 'BestEffort')){Add-Error "Store group requires a separate bounded app workflow: $($group.Id)"}
     foreach ($member in $group.Members) {
       if (-not ($catalog.Operations | Where-Object { $_.Id -eq $member })) { Add-Error "Unknown member '$member' in group '$($group.Id)'" }
     }
@@ -562,6 +572,7 @@ function Get-RideCatalogValidationErrors {
       if (-not $ids.ContainsKey($selection.Id)) { Add-Error "$($profileFile.Name) references unknown ID '$($selection.Id)'"; continue }
       $operation = $catalog.Operations | Where-Object { $_.Id -eq $selection.Id } | Select-Object -First 1
       $group = $catalog.Groups | Where-Object { $_.Id -eq $selection.Id } | Select-Object -First 1
+      if(($operation -and $operation.Kind -eq 'StoreApp') -or ($group -and $group.Workflow -eq 'StoreApps')){Add-Error "$($profileFile.Name) cannot route Store apps through setting/package profiles; use the explicit Store workflow."}
       if ($operation -and $operation.Kind -eq 'RegistryValue' -and $selection.State -ne 'Baseline' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid state for '$($selection.Id)'" }
       if ($selection.Variant -and (-not $operation -or $operation.Kind -ne 'Package' -or ($operation.Variants -and -not $operation.Variants.ContainsKey($selection.Variant)) -or (-not $operation.Variants -and $selection.Variant -ne 'installed'))) { Add-Error "Invalid profile package variant: $($selection.Id)" }
       if ($operation -and $operation.Kind -eq 'Artifact') { Add-Error "$($profileFile.Name) cannot select download-only artifact '$($selection.Id)' as a desired Windows state." }

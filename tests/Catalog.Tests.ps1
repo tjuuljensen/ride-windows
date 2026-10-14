@@ -85,13 +85,13 @@ Describe 'RIDE operation catalog' {
   It 'declares support, scope, privilege, actions, and rollback for every operation' {
     foreach ($operation in $script:Catalog.Operations) {
       if ($operation.PendingAcceptance) {
-        $operation.Kind | Should -BeIn @('Package', 'ProfileSetting', 'FirewallProfile', 'RegistryValueSet', 'RegistryValue', 'OwnedPowerPlan', 'WindowsService', 'LocalPasswordMaximumAge')
+        $operation.Kind | Should -BeIn @('Package', 'StoreApp', 'ProfileSetting', 'FirewallProfile', 'RegistryValueSet', 'RegistryValue', 'OwnedPowerPlan', 'WindowsService', 'LocalPasswordMaximumAge')
         $operation.SupportedTargets.Count | Should -Be 0
         $operation.CandidateTargets.Count | Should -BeGreaterThan 0
       } else { $operation.SupportedTargets.Count | Should -BeGreaterThan 0 }
       $operation.Scope | Should -BeIn @('User', 'Machine')
       $operation.Actions.Count | Should -BeGreaterThan 0
-      $operation.Rollback | Should -BeIn @('Exact', 'Compensating', 'None')
+      $operation.Rollback | Should -BeIn @('Exact', 'Compensating', 'BestEffort', 'None')
     }
   }
 

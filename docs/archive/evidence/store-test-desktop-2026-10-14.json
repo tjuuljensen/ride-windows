@@ -1,0 +1,271 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-14T14:03:02.1938831Z",
+  "Acceptance": "SeparateDesktopReadOnlyPlanOnly",
+  "Preparation": {
+    "SchemaVersion": 1,
+    "StartedAtUtc": "2026-10-14T13:47:29.4911376Z",
+    "Status": "ClonePrepared",
+    "Stage": "Independent offline clone prepared",
+    "Root": "Z:\\VMs\\RIDE-StoreDesktop-20261014",
+    "VMName": "RIDE-Store-W11",
+    "VMId": "ac29b689-f62d-4e5b-a4bc-25987f1fe843",
+    "SourceVMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "SourceCheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+    "Network": "No network adapter",
+    "PackageAcquisition": false,
+    "Error": null,
+    "ExportedConfiguration": "Z:\\VMs\\RIDE-StoreDesktop-20261014\\export\\RIDE-Win11-Test\\Virtual Machines\\A1D87BDD-4C98-4C4B-A6F7-A4F0C5BF21A9.vmcx",
+    "ExportedConfigurationSHA256": "2767B7CB2487E45C0E3A6D7FD57629DF2CD7A0E8ACF0465007ECBA77212EE9E6",
+    "FirstImportError": "Failed to modify device 'Synthetic Ethernet Port'.\n\nInvalid MAC address.\r\n\r\n'RIDE-Store-W11' failed to modify device 'Synthetic Ethernet Port'. (Virtual machine ID AC29B689-F62D-4E5B-A4BC-25987F1FE843)\n\n'RIDE-Store-W11' Dynamic MAC address 00-00-00-00-00-00 for RIDE-Internet (ED263B8C-9ACE-420A-AAAF-2F188891A9E3) is invalid.",
+    "Disks": [
+      {
+        "Path": "Z:\\VMs\\RIDE-StoreDesktop-20261014\\disks\\RIDE-Win11-Test.vhdx"
+      }
+    ],
+    "CompletedAtUtc": "2026-10-14T13:55:25.0323244Z"
+  },
+  "UacPreparation": {
+    "SchemaVersion": 1,
+    "StartedAtUtc": "2026-10-14T13:55:25.0915943Z",
+    "Status": "UacDesktopPrepared",
+    "Stage": "Ready for source-bound unelevated desktop proof",
+    "VMId": "ac29b689-f62d-4e5b-a4bc-25987f1fe843",
+    "VMName": "RIDE-Store-W11",
+    "SourceCheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+    "GuestBefore": {
+      "ComputerName": "RIDE-WIN11-TEST",
+      "Sid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+      "Account": "RIDE-WIN11-TEST\\admin",
+      "EnableLUA": 0,
+      "ConsentPromptBehaviorAdmin": 5,
+      "PromptOnSecureDesktop": 1,
+      "InheritedAutoLogon": true,
+      "LastBootUpTime": "2026-10-14T13:55:56.563023Z",
+      "PesterPresent": true,
+      "PSComputerName": "RIDE-Store-W11",
+      "RunspaceId": "8467e4d6-9654-468f-b3c1-9c4f04e19be1",
+      "PSShowComputerName": true
+    },
+    "GuestAfter": {
+      "EnableLUA": 1,
+      "ConsentPromptBehaviorAdmin": 5,
+      "PromptOnSecureDesktop": 1,
+      "LastBootUpTime": "2026-10-14T13:56:51.669969Z",
+      "Shells": [
+        {
+          "Sid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+          "SessionId": 1,
+          "ProcessId": 5504
+        }
+      ],
+      "ComputerName": "RIDE-WIN11-TEST",
+      "Sid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+      "PSComputerName": "RIDE-Store-W11",
+      "RunspaceId": "21bfc177-20d9-4691-a257-d33bda2cfc3a",
+      "PSShowComputerName": true
+    },
+    "CheckpointId": "35b4f659-f168-4c22-bfc4-b6e7651a09e2",
+    "Error": null,
+    "PackageAcquisition": false,
+    "CheckpointName": "RIDE-store-uac-clean-20261014",
+    "CompletedAtUtc": "2026-10-14T13:57:42.3901098Z"
+  },
+  "PlanResult": {
+    "SchemaVersion": 1,
+    "RunId": "080d9d9404274f349857f1e06166fe80",
+    "StartedAtUtc": "2026-10-14T13:57:42.4599033Z",
+    "Status": "Passed",
+    "Stage": "Source-bound read-only desktop Plan",
+    "VMId": "ac29b689-f62d-4e5b-a4bc-25987f1fe843",
+    "CheckpointId": "35b4f659-f168-4c22-bfc4-b6e7651a09e2",
+    "SourceRevision": "2b799873f0f95b7569945373ab576f00d13a5b40",
+    "DesktopPlanPassed": true,
+    "CheckpointRecoveryPassed": true,
+    "PackageAcquisition": false,
+    "WindowsAppMutation": false,
+    "Error": null,
+    "CleanupError": null,
+    "FixtureSHA256": "5C7E37766BFFD3F3D4213A3C1D578A86427CAFF9D01ABB5B1416F7309B48DE02",
+    "OriginalManifestSHA256": "8691DF1CB8BBBEB20FC114537A5BD3412654E47B30E278AC66B11362BB659ECC",
+    "SourceFileCount": 362,
+    "IsolatedAddedFile": "tests/integration/settings-validation.fixture.psd1",
+    "StagedManifestSHA256": "CE16A3FA10B28971487547CB0A0357972DE6017705FE044AC14BBA51DBC93D59",
+    "StagedSourceFileCount": 363,
+    "GuestSourceVerified": true,
+    "Execution": {
+      "ExitCode": 0,
+      "Uac": {
+        "EnableLUA": 1,
+        "ConsentPromptBehaviorAdmin": 5,
+        "PromptOnSecureDesktop": 1
+      },
+      "EvidenceFiles": [
+        {
+          "Name": "coordinator.log",
+          "SHA256": "5DB7AA2E40D6F5C729F1F8FC14862EF60014C9C3439A9456589F60F582FF8758"
+        },
+        {
+          "Name": "fixture.json",
+          "SHA256": "E9FCC9C3A49D45903A58DBFDEA1779BD890AA483BF2D9FA02CEFDBFD4B151332"
+        },
+        {
+          "Name": "store-desktop-actor-console.log",
+          "SHA256": "6221131F706561091236B0CA1B382C33EB40BBF8BC268FF980918CFECE8D1E6C"
+        },
+        {
+          "Name": "store-desktop-actor.json",
+          "SHA256": "B409BC6184F356E03A4AAC84E77EE58DC11C907893136C6791BF8DD3C81FA7CF"
+        }
+      ],
+      "PSComputerName": "RIDE-Store-W11",
+      "RunspaceId": "44a6c881-9d9f-4dd7-9d0a-26033bca484d",
+      "PSShowComputerName": true
+    },
+    "ExistingBaselineUnchanged": true,
+    "CompletedAtUtc": "2026-10-14T13:59:40.5254723Z"
+  },
+  "Actor": {
+    "RunId": "080d9d9404274f349857f1e06166fe80",
+    "Status": "Passed",
+    "DesktopPlanPassed": true,
+    "Desktop": {
+      "TargetSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+      "SessionId": 1,
+      "ShellProcessId": 5568,
+      "ShellElevated": false,
+      "CurrentSessionId": 1,
+      "CurrentSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+      "CurrentElevated": false
+    },
+    "FullHandoffPassed": false,
+    "AlternateAdministratorPassed": false,
+    "LifecyclePassed": false,
+    "WindowsAppMutation": false,
+    "SourceHash": "17137431ABE230C372ABD867CD33A967C80C413DD2DEE277676853B15B11E4A9",
+    "ActorSHA256": "FDA77845740789704373FF29412D595130D65588CE78834129E37E3906F5DD98",
+    "FixtureSHA256": "5C7E37766BFFD3F3D4213A3C1D578A86427CAFF9D01ABB5B1416F7309B48DE02"
+  },
+  "Scripts": [
+    {
+      "Name": "prepare-store-desktop-clone.ps1",
+      "SHA256": "1A6B4AE530F51074CF0A190D41394E43A3E86ADC8353F9CEB3446E8C258B6393"
+    },
+    {
+      "Name": "finish-store-desktop-clone.ps1",
+      "SHA256": "D591FD187E26049A4FA371163CA4794B30C8EFCE7936F131F84CEF90D9407A48"
+    },
+    {
+      "Name": "configure-store-desktop-uac.ps1",
+      "SHA256": "7AC63B65249CAFC0EB2C525186B967812E7924BC2B691481B6925AB4FF4D31A7"
+    },
+    {
+      "Name": "validate-store-desktop-plan-clone.ps1",
+      "SHA256": "C070C4207B200854CBC3B92466BD8FDCB3741572D8D9942B87D0156824D425F2"
+    },
+    {
+      "Name": "prepare-store-desktop-guest-and-validate.ps1",
+      "SHA256": "B5A49BC318C0FB84FA1EF974BD2F0C3ECCF4E8DACC87DBAF51157756698A666B"
+    }
+  ],
+  "OriginalBaselines": [
+    {
+      "Name": "RIDEWin11Test",
+      "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+      "CheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+      "ConfigurationSHA256": "A030B809E0ED7EBFDA53A97FF7112EA0E69072D1D1F904E0A7E5C5441AB8D687",
+      "Files": [
+        {
+          "Name": "Export-RideVmTestEvidence.ps1",
+          "SHA256": "ACB739EFD9ECD3423EC4B0E9217DA08352F586A0F2747D32B2045BB21587CA14"
+        },
+        {
+          "Name": "Invoke-RideVmTest.ps1",
+          "SHA256": "03166FC83F3E80E5309AE08A346F82E9CB3F76D7B51C0A80203B6E2B75F7A1AF"
+        },
+        {
+          "Name": "Invoke-RideVmTestTask.ps1",
+          "SHA256": "87CB49843350782D6624E0DA8664D0C6204607D79094D448D6E3BF15A38CA558"
+        },
+        {
+          "Name": "Invoke-RideVmTestTaskWorker.ps1",
+          "SHA256": "36A81A1392D5BEAEFD8CE85F8D90DE95F76E14479475E56872550A79870C9C6A"
+        },
+        {
+          "Name": "RIDE.TestAutomation.psm1",
+          "SHA256": "2920E1BCF41EB61564F74315FC1D004872DC0BD2DF1697CC65420A30293F2507"
+        }
+      ]
+    },
+    {
+      "Name": "RIDESrv2025Test",
+      "VMId": "06c2ae01-bf82-4634-9215-f240f3ea4147",
+      "CheckpointId": "4a5b49ba-0795-480a-8d01-6f4f670577c8",
+      "ConfigurationSHA256": "D48BE32FA7D1ADE4F83DAD94B78D586B1478FFED889EFDA8B22040D9FE8BE7C6",
+      "Files": [
+        {
+          "Name": "Export-RideVmTestEvidence.ps1",
+          "SHA256": "ACB739EFD9ECD3423EC4B0E9217DA08352F586A0F2747D32B2045BB21587CA14"
+        },
+        {
+          "Name": "Invoke-RideVmTest.ps1",
+          "SHA256": "03166FC83F3E80E5309AE08A346F82E9CB3F76D7B51C0A80203B6E2B75F7A1AF"
+        },
+        {
+          "Name": "Invoke-RideVmTestTask.ps1",
+          "SHA256": "87CB49843350782D6624E0DA8664D0C6204607D79094D448D6E3BF15A38CA558"
+        },
+        {
+          "Name": "Invoke-RideVmTestTaskWorker.ps1",
+          "SHA256": "36A81A1392D5BEAEFD8CE85F8D90DE95F76E14479475E56872550A79870C9C6A"
+        },
+        {
+          "Name": "RIDE.TestAutomation.psm1",
+          "SHA256": "2920E1BCF41EB61564F74315FC1D004872DC0BD2DF1697CC65420A30293F2507"
+        }
+      ]
+    }
+  ],
+  "Postflight": {
+    "CheckedAtUtc": "2026-10-14T14:00:06.7679432Z",
+    "Ready": true,
+    "Controllers": [
+      {
+        "Name": "RIDEWin11Test",
+        "VMState": "Off",
+        "TaskState": "Ready",
+        "Pending": 0,
+        "Running": 0,
+        "LockAvailable": true,
+        "RecoveryBlocked": false,
+        "CheckpointPresent": true,
+        "PinChanges": [],
+        "HashChanges": []
+      },
+      {
+        "Name": "RIDESrv2025Test",
+        "VMState": "Off",
+        "TaskState": "Ready",
+        "Pending": 0,
+        "Running": 0,
+        "LockAvailable": true,
+        "RecoveryBlocked": false,
+        "CheckpointPresent": true,
+        "PinChanges": [],
+        "HashChanges": []
+      }
+    ],
+    "CIRevision": "a15647590a1324681bbe4a69cbb55e498a623522",
+    "CIStatus": [],
+    "LauncherProcesses": 0
+  },
+  "Estimates": {
+    "Settings": "38-58",
+    "PlanningTotal": 180,
+    "Maintenance": "8-12",
+    "AccountsConfigurationFiles": "25-35",
+    "RoundedTotal": "150-205",
+    "Components": "20-25",
+    "Packages": "58-73"
+  }
+}

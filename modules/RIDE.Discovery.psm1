@@ -7,14 +7,15 @@
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
   Prerequisites: RIDE.CatalogData.psm1 and the declarative operation catalog.
-  Owner: RIDE-Windows maintainers. Version: 0.4.0.
-  Changelog: 0.4.0: Expose setting scope, behavior, GUI and requirement evidence gaps.
+  Owner: RIDE-Windows maintainers. Version: 0.4.1.
+  Changelog: 0.4.1: Add a separate Store app view without setting/package classification.
+    0.4.0: Expose setting scope, behavior, GUI and requirement evidence gaps.
     0.3.0: Expose catalog package variants and defaults without loading handlers.
     0.2.0: Search resolved external catalog metadata without handlers.
     0.1.0: Add literal catalog search, match evidence and shared views.
 #>
 
-$script:ModuleVersion = '0.4.0'
+$script:ModuleVersion = '0.4.1'
 
 Import-Module (Join-Path $PSScriptRoot 'RIDE.CatalogData.psm1') -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.SettingPresentation.psm1') -ErrorAction Stop
@@ -27,7 +28,7 @@ $script:SearchFields = [ordered]@{
   Category = @('Category')
   RegistryPath = @('RegistryPath', 'RegistryPaths', 'RegistryValues.RegistryPath')
   ValueName = @('ValueName', 'ValueNames', 'RegistryValues.ValueName')
-  ResourceId = @('PackageId', 'ArtifactId', 'ServiceName', 'PowerSettingGuid',
+  ResourceId = @('PackageId', 'ArtifactId', 'AppxName', 'PackageFamilyName', 'ServiceName', 'PowerSettingGuid',
     'PowerSubgroupGuid', 'BcdElement', 'FolderName', 'TaskPath', 'TaskName',
     'ComponentId', 'ComponentIds', 'PreferenceName', 'Preference', 'Protocol', 'SchemeGuid')
 }
@@ -76,7 +77,7 @@ function Get-RideCatalogViews {
     [string] $CatalogPath = (Join-Path $PSScriptRoot '../catalog/operations.psd1')
   )
   if ($null -eq $Catalog) { $Catalog = Import-RideCatalogData -Path $CatalogPath -ErrorAction Stop }
-  $views = @('all', 'packages', 'artifacts', 'groups', 'settings')
+  $views = @('all', 'packages', 'artifacts', 'groups', 'settings', 'store-apps')
   if ($IncludeProfiles) { $views += 'profiles' }
   foreach ($entry in @($Catalog.Operations) + @($Catalog.Groups)) {
     $parts = @(([string]$entry.Category) -split '\s*/\s*')
@@ -182,7 +183,8 @@ function Select-RideCatalogView {
       'packages' { $row.Type -eq 'Operation' -and $row.Kind -eq 'Package'; break }
       'artifacts' { $row.Type -eq 'Operation' -and $row.Kind -eq 'Artifact'; break }
       'groups' { $row.Type -eq 'Group'; break }
-      'settings' { $row.Type -eq 'Operation' -and $row.Kind -notin @('Package', 'Artifact'); break }
+      'store-apps' { $row.Type -eq 'Operation' -and $row.Kind -eq 'StoreApp'; break }
+      'settings' { $row.Type -eq 'Operation' -and $row.Kind -notin @('Package', 'Artifact', 'StoreApp'); break }
       default {
         $parts = @(([string]$row.Category) -split '\s*/\s*' | ForEach-Object { ConvertTo-RideViewKey $_ })
         $row.Type -ne 'Profile' -and ($viewKey -in $parts -or

@@ -16,9 +16,17 @@ target acceptance and individual blockers before applying them.
 Tab completes `-Variant` from the selected package's catalog metadata, including
 custom libraries. Completion reads data only. An unsupported explicit choice
 fails. A local preference may fall back to the catalog default with a planning
-note. RIDE refuses a different installed edition; switching editions requires
-a reviewed edition change. `show`, default `status` and removal use the recorded
-selection where available. An explicit profile compares its requested edition.
+note. The current implementation refuses a different installed edition;
+switching editions requires a reviewed edition change. `show`, default `status`
+and removal use the recorded selection where available. An explicit profile
+compares its requested edition.
+
+The [approved deployment decision](migrations/package-deployment-decisions.md)
+of 2026-10-14 allows future workstation installation, separate portable copies
+and acquisition USB/toolkit assembly to coexist under one product ID, with
+independent ownership and recovery. Deployment selection, state migration,
+product conflict checks and kit acceptance remain pending. The examples in
+this guide describe the current single-selection behavior. Packages remain paused.
 
 Profiles select a distribution on the package entry:
 

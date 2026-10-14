@@ -8,6 +8,25 @@ for current guidance. No acceptance is granted by moving a report here.
 
 ## Completed migration runs and superseded planning
 
+- [Separate Store test desktop and read-only Plan, 2026-10-14](evidence/store-test-desktop-2026-10-14.md).
+  Independent offline UAC-enabled resource, actual unelevated worker/Explorer
+  proof and checkpoint recovery accepted; app lifecycle and full launcher pending.
+
+- [Store app candidate implementation and native preflight, 2026-10-14](evidence/store-consumer-apps-batch1-2026-10-14.md).
+  All five groups implemented as candidates; source-correlated guard/inspection
+  evidence remains distinct from native desktop/uninstall/reinstall acceptance.
+  Current tasks and answered choices are in the [follow-up document](../migrations/store-app-follow-up-decisions.md).
+
+- [Store app group decisions, 2026-10-14](evidence/store-app-group-decisions-2026-10-14.md).
+  Accepted optional memberships and separate policy workflow; executable lifecycle
+  work remains in the [group contract](../store-app-groups.md).
+- [Store app reference collection, 2026-10-14](evidence/store-app-reference-collection-2026-10-14.md).
+  Verified user/provisioning captures and source/checkpoint evidence for both pinned
+  references; [app choices](../migrations/store-app-inventory-review.md) remain open.
+- [V2 Store app historical coverage, archived 2026-10-14](migrations/store-app-v2-historical-coverage-2026-10-14.md),
+  with [data-only original lists and source hash](migrations/store-app-v2-historical-coverage-2026-10-14.json).
+  Active v3 scope uses representative inventories and reviewed selections; historical
+  names are not an executable preset or required per-app migration backlog.
 - [Unattended results, 2026-10-08](migrations/2026-10-08-unattended-results.md).
 - [Application batch acceptance, 2026-10-11](migrations/applications-batch-acceptance-2026-10-11.md).
 - [Caffeine and NetworkMiner continuation, 2026-10-11](migrations/application-follow-up-2026-10-11.md).

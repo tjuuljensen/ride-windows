@@ -36,8 +36,9 @@
   Recovery: Restore-RideRun recovers captured settings/presence. Read catalog rollback limits before
   applying packages or grouped changes.
   Author: RIDE-Windows maintainers.
-  Version: 0.20.0
+  Version: 0.20.1
   Changelog:
+    0.20.1: Inspect Store app registrations and refuse implicit profile/package routing.
     0.20.0: Add explicit GitHub PAT selection and credential-safe acceptance boundaries.
     - 0.19.0: Add local SAM maximum-age capture, day states and focused recovery.
     - 0.18.2: Expose read-only dependency observations for guarded service details.
@@ -73,7 +74,7 @@
 #>
 
 
-$script:ModuleVersion = '0.20.0'
+$script:ModuleVersion = '0.20.1'
 
 $script:RideRoot = Split-Path -Parent $PSScriptRoot
 $script:RideCatalogPath = Join-Path $script:RideRoot 'catalog/operations.psd1'
@@ -108,6 +109,7 @@ Import-Module (Join-Path $PSScriptRoot 'RIDE-OwnedPowerPlans.psm1') -Force -Erro
 Import-Module (Join-Path $PSScriptRoot 'RIDE-LocalPasswordAge.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE-ShellFolders.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE-ProfileSettings.psm1') -Force -ErrorAction Stop
+Import-Module (Join-Path $PSScriptRoot 'RIDE.StoreApps.psm1') -Force -ErrorAction Stop
 
 function Set-RideLibraryContext {
   <#
@@ -277,6 +279,7 @@ function Expand-RideProfileOperations {
   foreach ($selection in $Profile.Operations) {
     $entry = $catalog.Operations | Where-Object { $_.Id -eq $selection.Id } | Select-Object -First 1
     if ($entry) {
+      if($entry.Kind -eq 'StoreApp'){throw 'Use tools/Invoke-RideStoreApps.ps1 for explicit Store app actions; profiles cannot change app registrations.'}
       if ($selection.Variant -and $entry.Kind -ne 'Package') { throw 'Variant requires a package selection.' }
       if ($entry.Kind -eq 'Package') {
         $removing = $Action -eq 'Remove' -or $selection.State -eq 'Absent'
@@ -291,6 +294,7 @@ function Expand-RideProfileOperations {
 
     $group = $catalog.Groups | Where-Object { $_.Id -eq $selection.Id } | Select-Object -First 1
     if (-not $group) { throw "Profile references unknown operation or group: $($selection.Id)" }
+    if($group.Workflow -eq 'StoreApps'){throw 'Use tools/Invoke-RideStoreApps.ps1 for explicit Store group actions; profiles cannot change app registrations.'}
     if ($selection.Variant) { throw 'Select variants on individual package entries, not groups.' }
     if ($Action -eq 'Remove' -or $selection.State -eq 'Absent') {
       $members = @($group.Members)
@@ -386,6 +390,7 @@ function Get-RideCurrentState {
 
   param([Parameter(Mandatory = $true)][hashtable] $Operation)
   switch ($Operation.Handler) {
+    'StoreApp' { return Get-RideStoreAppState -Operation $Operation }
     'LocalPasswordMaximumAge' { return Get-RideLocalPasswordAgeState $Operation }
     'OwnedPowerPlan' { return Get-RideOwnedPowerPlanState -Operation $Operation -OwnershipRoot (Join-Path (Get-RideStateRoot -Scope Machine) 'OwnedPowerPlans') }
     { $_ -in @('ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge') } { return Get-RideManagedSettingState -Operation $Operation }
@@ -660,7 +665,7 @@ function Get-RideCurrentStateName {
     if (-not $CurrentState.Present) { return 'Reset' }
     return 'Configured'
   }
-  if ($Operation.Kind -in @('Package', 'DefenderExclusion', 'ShellFolder')) {
+  if ($Operation.Kind -in @('Package', 'StoreApp', 'DefenderExclusion', 'ShellFolder')) {
     if ($Operation.InstallerType -eq 'Portable' -and $CurrentState.Present -and -not $CurrentState.Healthy) { return 'Incomplete or modified' }
     if ($CurrentState.Present) { return 'Present' }
     return 'Absent'

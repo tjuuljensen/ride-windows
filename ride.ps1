@@ -45,6 +45,13 @@
 .PARAMETER RunId
   32-character hexadecimal saved run ID for restore; press Tab to discover saved manifests.
 
+.PARAMETER UserContext
+  Current (default) uses the execution account. Desktop explicitly launches a
+  separate process for the signed-in user in this desktop session. Supports only
+  user-setting set/unset, user-only apply/plan and user-only restore. WhatIf launches
+  nothing. Results and saved run IDs appear in the new user window; the caller
+  receives a launch receipt, not proof of completed changes.
+
 .PARAMETER Library
   Explicit local ride-library.psd1 manifest paths. Press Tab for filesystem paths.
   External IDs, states, categories and declared profiles complete from selected libraries.
@@ -81,6 +88,9 @@
   .\ride.ps1 set windows.show-known-extensions Enabled -WhatIf
 
 .EXAMPLE
+  .\ride.ps1 set windows.show-known-extensions Enabled -UserContext Desktop -WhatIf
+
+.EXAMPLE
   .\ride.ps1 apply -Profile .\profiles\analyst-basics.psd1 -WhatIf
 
 .EXAMPLE
@@ -102,8 +112,10 @@
   machine/user RIDE state stores. Package observations use catalog/artifact-observations.json.
   Recovery: Use restore -RunId for captured state. Package recovery has the catalog-declared limits.
   Author: RIDE-Windows maintainers.
-  Version: 0.11.0
+  Version: 0.12.1
   Changelog:
+    0.12.1: Document discovery of the separate guarded Store app workflow.
+    0.12.0: Add explicit same-session desktop-user handoff for user-only settings.
     0.11.0: Add explicit GitHub PAT selection and credential-safe acceptance boundaries.
     - 0.10.4: Complete bounded explicit local password-age day states from the catalog.
     - 0.10.3: Complete explicit owned power-plan creation states from the catalog.
@@ -125,6 +137,9 @@
 
 .LINK
   README.md
+
+.LINK
+  docs/intended-user-handoff.md
 
 .LINK
   docs/catalog-search.md
@@ -331,6 +346,7 @@ param(
   [ArgumentCompleter({
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     try {
+      if ($fakeBoundParameters.UserContext -eq 'Desktop') { return }
       $stateRoots = @(
         (Join-Path ([Environment]::GetFolderPath('CommonApplicationData')) 'RIDE/State'),
         (Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) 'RIDE/State')
@@ -356,6 +372,7 @@ param(
     }
   })]
   [string] $RunId = '',
+  [ValidateSet('Current','Desktop')][string] $UserContext = 'Current',
   [string[]] $Library = @(),
   [string] $Destination = '',
   [switch] $Help,
@@ -372,7 +389,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.11.0'
+$script:ScriptVersion = '0.12.1'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 
 if ($Help) {
@@ -410,6 +427,12 @@ Options:
                        Service states include catalog-declared startup-only and combined presets.
                        Pending firewall profile controls complete On/Off but await VM acceptance.
   -RunId <id>          Run ID required by restore.
+  -UserContext Current (default) or Desktop. Desktop starts a separate signed-in-user
+                      window for set/unset, user-only apply/plan or user-only restore.
+                      Refuses machine/mixed/package plans and missing/other desktop
+                      sessions. WhatIf starts nothing; the receipt reports launch only.
+                      Inspect child output for completion and saved user run IDs.
+                      RunId completion is available in the actual user's session.
   -Destination <path>  Retain a downloaded artifact under this directory.
   -WhatIf              Preview apply, download, install, set, unset, remove or restore.
   -Confirm             Ask before each supported change.
@@ -427,6 +450,8 @@ List views:
   all                  Show operations, groups, and profiles.
   profiles             Show available profile files and the operations they select.
   packages             Show software install and uninstall operations.
+  store-apps           Show optional Store registration operations; use the separate
+                       tools/Invoke-RideStoreApps.ps1 workflow for app actions.
   artifacts            Show standalone download-only artifacts.
   windows              Show Windows setting operations; after status, show their defaults or profile state.
   explorer             Show Explorer-related settings; after status, show their defaults or profile state.
@@ -512,6 +537,22 @@ foreach ($parameter in @('Query', 'Field', 'View')) {
 }
 if ($Variant -and $Command -notin @('install', 'remove', 'download', 'show')) { throw '-Variant is supported by install, remove, download and show.' }
 if ($Variant -and -not $Id) { throw '-Variant requires a package ID.' }
+if ($UserContext -eq 'Desktop') {
+  if ($Command -notin @('set','unset','apply','plan','restore')) { throw '-UserContext Desktop supports set, unset, apply, plan and restore for user-only settings.' }
+  foreach ($parameter in @('GitHubAuthentication','GitHubCredentialReference','Destination','Variant')) {
+    if ($PSBoundParameters.ContainsKey($parameter)) { throw "-$parameter is not supported by desktop-user setting handoff." }
+  }
+  if ($Command -in @('set','unset') -and $PSBoundParameters.ContainsKey('Profile')) { throw 'Direct desktop-user settings do not accept -Profile.' }
+  if ($Command -eq 'set' -and (-not $Id -or -not $State)) { throw 'Desktop set requires a setting ID and -State.' }
+  if ($Command -eq 'unset' -and -not $Id) { throw 'Desktop unset requires a setting ID.' }
+  $handoff=@{Command=$Command;Id=$Id;State=$State;RunId=$RunId;Library=$Library}
+  if ($Command -in @('apply','plan')) {
+    $handoff.Profile=if($Profile){(Resolve-Path -LiteralPath $Profile -ErrorAction Stop).ProviderPath}else{Join-Path $PSScriptRoot 'profiles/default.psd1'}
+  }
+  Import-Module (Join-Path $PSScriptRoot 'modules/RIDE.UserHandoff.psm1') -Force -ErrorAction Stop
+  Start-RideDesktopUserHandoff @handoff @shouldProcessParameters
+  return
+}
 if (-not $Profile) { $Profile = Join-Path $PSScriptRoot 'profiles/default.psd1' }
 Import-Module (Join-Path $PSScriptRoot 'modules/RIDE.Engine.psm1') -Force -ErrorAction Stop
 Set-RideLibraryContext -Library $Library
