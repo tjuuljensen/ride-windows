@@ -32,8 +32,9 @@
   Recovery: State-changing handlers are engine-internal: use ride.ps1 preview and captured-run
   restoration. Direct calls bypass ShouldProcess and snapshot capture.
   Author: RIDE-Windows maintainers.
-  Version: 0.10.0
+  Version: 0.11.0
   Changelog:
+    0.11.0: Add explicit GitHub PAT selection and credential-safe acceptance boundaries.
     0.10.0: Bound latest-release metadata reuse and defer shared GitHub quota exhaustion.
     - 0.9.0: Reject conflicting scope, language, architecture and destinations for reviewed user packages.
     0.8.0: Route checksummed WinSCP portable page acquisition.
@@ -58,7 +59,7 @@
 #>
 
 
-$script:ModuleVersion = '0.10.0'
+$script:ModuleVersion = '0.11.0'
 $script:GitHubReleaseCache = @{}
 $script:GitHubReleaseNotBefore = $null
 $script:GitHubReleaseRate = $null
@@ -206,7 +207,12 @@ function Stop-RideGitHubReleaseLookup {
 }
 
 function Get-RideGitHubReleaseMetadata {
-  param([Parameter(Mandatory)][string] $Uri)
+  param([Parameter(Mandatory)][string] $Uri, [ValidateSet('Anonymous','PAT')][string] $GitHubAuthentication = 'Anonymous', [string] $GitHubCredentialReference)
+  if (($GitHubAuthentication -eq 'PAT') -ne (-not [string]::IsNullOrWhiteSpace($GitHubCredentialReference))) { throw 'PAT requires an explicit GitHubCredentialReference; Anonymous forbids one.' }
+  if ($GitHubAuthentication -eq 'PAT') {
+    Import-Module (Join-Path $PSScriptRoot 'RIDE.GitHubAuthentication.psm1') -ErrorAction Stop
+    return Get-RideAuthenticatedGitHubRelease -Uri $Uri -CredentialReference $GitHubCredentialReference -Cache $script:GitHubReleaseCache
+  }
   $endpoint = $null
   if (-not [Uri]::TryCreate($Uri, [UriKind]::Absolute, [ref]$endpoint) -or
       $endpoint.Scheme -ne 'https' -or $endpoint.Host -ne 'api.github.com' -or
@@ -261,7 +267,7 @@ function Get-RideGitHubReleaseMetadata {
   [pscustomobject]@{
     Release = ($entry.Json | ConvertFrom-Json -ErrorAction Stop)
     Provenance = [pscustomobject]@{
-      ApiUri = $key; AcquisitionKind = $kind
+      ApiUri = $key; AcquisitionKind = $kind; AuthenticationMode = 'Anonymous'
       RetrievedAtUtc = $entry.RetrievedAtUtc.ToString('o'); ExpiresAtUtc = $entry.ExpiresAtUtc.ToString('o')
       RemainingQuota = $entry.Rate.Remaining
       ResetAtUtc = if ($entry.Rate.ResetAtUtc) { $entry.Rate.ResetAtUtc.ToString('o') } else { $null }
@@ -285,6 +291,12 @@ function Resolve-RidePackageArtifact {
   .PARAMETER Operation
     Catalog operation metadata for this focused handler; use the engine to select and validate it.
 
+  .PARAMETER GitHubAuthentication
+    Anonymous (default) or explicit PAT for GitHub release discovery only.
+
+  .PARAMETER GitHubCredentialReference
+    Nonsecret enrolled reference required with PAT. Resolved only during acquisition.
+
   .EXAMPLE
     Get-Help Resolve-RidePackageArtifact -Full
     Inspect this command's contract without invoking its implementation.
@@ -301,7 +313,7 @@ function Resolve-RidePackageArtifact {
 
   #>
 
-  param([Parameter(Mandatory = $true)][hashtable] $Operation)
+  param([Parameter(Mandatory = $true)][hashtable] $Operation, [ValidateSet('Anonymous','PAT')][string] $GitHubAuthentication = 'Anonymous', [string] $GitHubCredentialReference)
 
   if ($Operation.DownloadProvider -in @('VSCodeUpdateApi', 'MozillaVersionsJson', 'PublisherLinkPage', 'SignalDesktopFeed', 'WinSCPPortablePage')) { return Resolve-RidePublisherArtifact -Operation $Operation }
   if ($Operation.DownloadProvider -eq 'DirectHttps') {
@@ -386,7 +398,7 @@ function Resolve-RidePackageArtifact {
   if (-not [uri]::IsWellFormedUriString([string]$Operation.DownloadUri, [UriKind]::Absolute) -or ([uri]$Operation.DownloadUri).Scheme -ne 'https' -or ([uri]$Operation.DownloadUri).Host -ne 'api.github.com') {
     throw "The GitHub release API URI for $($Operation.PackageId) must use HTTPS on api.github.com."
   }
-  $metadata = Get-RideGitHubReleaseMetadata -Uri $Operation.DownloadUri
+  $metadata = Get-RideGitHubReleaseMetadata -Uri $Operation.DownloadUri -GitHubAuthentication $GitHubAuthentication -GitHubCredentialReference $GitHubCredentialReference
   $release = $metadata.Release
   $matches = @($release.assets | Where-Object { $_.name -match $Operation.AssetPattern })
   if ($matches.Count -ne 1) {
@@ -562,6 +574,12 @@ function Save-RidePackageArtifact {
   .PARAMETER Route
     Observation route label; defaults to direct.
 
+  .PARAMETER GitHubAuthentication
+    Anonymous (default) or explicit PAT for GitHub release discovery only.
+
+  .PARAMETER GitHubCredentialReference
+    Nonsecret enrolled reference required with PAT. Resolved only during acquisition.
+
   .EXAMPLE
     Get-Help Save-RidePackageArtifact -Full
     Inspect this command's contract without invoking its implementation.
@@ -582,11 +600,13 @@ function Save-RidePackageArtifact {
     [Parameter(Mandatory = $true)][hashtable] $Operation,
     [Parameter(Mandatory = $true)][string] $DestinationDirectory,
     [string] $ObservationPath = (Join-Path (Split-Path -Parent $PSScriptRoot) 'catalog/artifact-observations.json'),
-    [string] $Route = 'direct'
+    [string] $Route = 'direct',
+    [ValidateSet('Anonymous','PAT')][string] $GitHubAuthentication = 'Anonymous',
+    [string] $GitHubCredentialReference
   )
 
   $Operation = Resolve-RidePackageSelection -Operation $Operation
-  $artifact = Resolve-RidePackageArtifact -Operation $Operation
+  $artifact = Resolve-RidePackageArtifact -Operation $Operation -GitHubAuthentication $GitHubAuthentication -GitHubCredentialReference $GitHubCredentialReference
   # Keep Windows PowerShell 5.1 payload transfers from rendering byte progress.
   $ProgressPreference = 'SilentlyContinue'
   # Public references accompany the exact retained version; private review decisions stay local.
@@ -741,6 +761,12 @@ function Install-RidePackage {
   .PARAMETER CacheDirectory
     Versioned artifact cache root selected by the engine for the operation scope.
 
+  .PARAMETER GitHubAuthentication
+    Anonymous (default) or explicit PAT for GitHub release discovery only.
+
+  .PARAMETER GitHubCredentialReference
+    Nonsecret enrolled reference required with PAT. Resolved only during acquisition.
+
   .EXAMPLE
     Get-Help Install-RidePackage -Full
     Inspect this command's contract without invoking its implementation.
@@ -758,7 +784,9 @@ function Install-RidePackage {
 
   param(
     [Parameter(Mandatory = $true)][hashtable] $Operation,
-    [Parameter(Mandatory = $true)][string] $CacheDirectory
+    [Parameter(Mandatory = $true)][string] $CacheDirectory,
+    [ValidateSet('Anonymous','PAT')][string] $GitHubAuthentication = 'Anonymous',
+    [string] $GitHubCredentialReference
   )
 
   $Operation = Resolve-RidePackageSelection -Operation $Operation
@@ -772,7 +800,7 @@ function Install-RidePackage {
     }
     if ((Test-Path -LiteralPath $Operation.InstallDirectory) -and -not (Get-RideInstalledPackage -Operation $Operation).Present) { throw 'Unowned content occupies the current-user installation destination; review it before installing.' }
   }
-  $download = Save-RidePackageArtifact -Operation $Operation -DestinationDirectory $CacheDirectory
+  $download = Save-RidePackageArtifact -Operation $Operation -DestinationDirectory $CacheDirectory -GitHubAuthentication $GitHubAuthentication -GitHubCredentialReference $GitHubCredentialReference
   if ($download.Sha256 -and (Get-FileHash -LiteralPath $download.Path -Algorithm SHA256).Hash -ne $download.Sha256) { throw 'Retained artifact SHA-256 changed before installation.' }
   if ($Operation.InstallerType -eq 'Portable') { Install-RidePortablePayload -Operation $Operation -Artifact $download; return $download }
   if ($Operation.InstallerType -eq 'SysmonZip') {

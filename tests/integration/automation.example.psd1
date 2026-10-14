@@ -1,9 +1,11 @@
-# Disposable-VM controller seed example. SchemaVersion 1; replace placeholder IDs/paths in a local configuration before registration. No runtime credentials are stored here.
+# Disposable-VM controller seed example. SchemaVersion 2; replace placeholder IDs/paths in a local configuration before registration. No runtime credentials are stored here.
 # Owner: RIDE-Windows maintainers. Keep values as declarative data.
 # Versioning: SchemaVersion governs the data contract; no independent script CLI/version.
 
 @{
-  SchemaVersion = 1
+  SchemaVersion = 2
+  # Optional nonsecret reference to a dedicated VmTest enrollment under the host account.
+  # GuestGitHubCredentialReference = 'vm-public-releases'
   Name = 'RIDEWin11Pilot'
   IsDisposable = $true
   LabName = 'RIDEWin11Pilot'

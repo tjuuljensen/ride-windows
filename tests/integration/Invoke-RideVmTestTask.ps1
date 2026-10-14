@@ -33,6 +33,12 @@
 .PARAMETER ReceiptPath
   Optional caller-owned JSON output identifying the request and its result directory.
 
+.PARAMETER GuestGitHubAuthentication
+  Anonymous (default) or explicit PAT; PAT requires the focused GitHubAuthentication suite.
+
+.PARAMETER GitHubTestScenario
+  Acquire (default), FailAfterDelivery or WaitForTimeout; focused-suite recovery scenarios.
+
 .PARAMETER Version
   Print the existing script version and return before module imports or operational checks.
 
@@ -57,8 +63,9 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.4.0
+  Version: 0.5.0
   Changelog:
+    0.5.0: Add explicit GitHub PAT selection and credential-safe acceptance boundaries.
     0.4.0: Accept application migration suites in correlated task requests.
   - 0.3.0: Submit either remaining-settings migration batch.
     - 0.2.0: Forward validated integration-suite selection through the protected controller.
@@ -78,27 +85,35 @@ param(
   [string] $ConfigurationPath,
   [ValidateSet('Local', 'CI')][string] $Source = 'Local',
   [switch] $UnitOnly,
-  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2')][string] $IntegrationSuite = 'Full',
+  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2', 'GitHubAuthentication')][string] $IntegrationSuite = 'Full',
   [ValidateRange(1, 180)][int] $TimeoutMinutes = 90,
   [string] $ReceiptPath,
+  [ValidateSet('Anonymous','PAT')][string] $GuestGitHubAuthentication = 'Anonymous',
+  [ValidateSet('Acquire','FailAfterDelivery','WaitForTimeout')][string] $GitHubTestScenario = 'Acquire',
   [switch] $Version
 )
-$script:ScriptVersion = '0.4.0'
+$script:ScriptVersion = '0.5.0'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 if ($UnitOnly -and $IntegrationSuite -ne 'Full') { throw 'IntegrationSuite cannot be selected with UnitOnly.' }
+if ($GitHubTestScenario -ne 'Acquire' -and $IntegrationSuite -ne 'GitHubAuthentication') { throw 'GitHub recovery scenarios require the focused suite.' }
 Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -Force
 if (-not $ConfigurationPath) { throw '-ConfigurationPath is required.' }
 $config = Read-RideAutomationConfiguration $ConfigurationPath
+if ($GuestGitHubAuthentication -eq 'PAT') {
+  if ($UnitOnly -or $IntegrationSuite -ne 'GitHubAuthentication') { throw 'PAT is initially supported only by the GitHubAuthentication suite.' }
+  if ($config.SchemaVersion -ne 2 -or 'GitHubPatGuestV1' -notin @($config.Capabilities) -or -not $config.GuestGitHubCredentialReference) { throw 'Refresh and configure the protected controller before submitting PAT requests.' }
+}
 if ([Security.Principal.WindowsIdentity]::GetCurrent().User.Value -ne $config.HostAccountSid) { throw 'Submit requests as the same account used to register the task.' }
 $root = Get-RideAutomationRoot $config.Name
 if (Test-Path -LiteralPath (Join-Path $root 'runtime\blocked.json')) { throw 'VM cleanup is blocked. Follow automatedlab-tasks.md before requesting more runs.' }
 $request = [ordered]@{ RunId = [guid]::NewGuid().ToString('N'); Source = $Source; UnitOnly = [bool]$UnitOnly; IntegrationSuite = $IntegrationSuite; TimeoutMinutes = $TimeoutMinutes; SubmittedAtUtc = [datetime]::UtcNow.ToString('o') }
+if ($IntegrationSuite -eq 'GitHubAuthentication') { $request.SchemaVersion = 2; $request.GuestGitHubAuthentication = $GuestGitHubAuthentication; $request.GitHubTestScenario = $GitHubTestScenario }
 $pendingPath = Join-Path $root "queue\pending\$($request.RunId).json"
 $runningPath = Join-Path $root "queue\running\$($request.RunId).json"
 $resultPath = Join-Path $root "results\$($request.RunId)\result.json"
 Write-RideAutomationJson -Path $pendingPath -Value $request
-if ($ReceiptPath) { Write-RideAutomationJson -Path $ReceiptPath -Value @{ RunId = $request.RunId; ResultDirectory = (Split-Path -Parent $resultPath) } }
+if ($ReceiptPath) { Write-RideAutomationJson -Path $ReceiptPath -Value @{ RunId = $request.RunId; ResultDirectory = (Split-Path -Parent $resultPath); GuestGitHubAuthentication = $GuestGitHubAuthentication } }
 Write-Host "RIDE request $($request.RunId): $Source; results at $(Split-Path -Parent $resultPath)"
 # Give the worker five additional minutes to collect evidence and restore the VM.
 $deadline = [datetime]::UtcNow.AddMinutes($TimeoutMinutes + 5)
@@ -106,6 +121,7 @@ while ([datetime]::UtcNow -lt $deadline) {
   if (Test-Path -LiteralPath $resultPath) {
     $result = Get-Content -LiteralPath $resultPath -Raw | ConvertFrom-Json
     if ($result.RunId -ne $request.RunId) { throw 'Result correlation failed.' }
+    if ($IntegrationSuite -eq 'GitHubAuthentication' -and $result.GuestGitHubAuthentication -ne $GuestGitHubAuthentication) { throw 'Controller authentication evidence is missing or mismatched.' }
     if (-not $UnitOnly -and $IntegrationSuite -ne 'Full' -and ($result.PSObject.Properties.Name -notcontains 'IntegrationSuite' -or $result.IntegrationSuite -ne $IntegrationSuite)) { throw 'Installed controller did not return evidence for the requested integration suite. Refresh its protected files using Register-RideVmTestTask.ps1.' }
     if ($result.Status -ne 'Passed') { throw "RIDE run $($request.RunId) $($result.Status): $($result.Error) $($result.CleanupError). Results: $(Split-Path -Parent $resultPath)" }
     $result

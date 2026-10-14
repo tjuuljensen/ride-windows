@@ -25,6 +25,11 @@ Describe 'Owned power-plan handler' {
       $script:PlanGuids = @($script:OwnedOp.SourcePowerPlanGuid)
       $script:PlanActive = $script:OwnedOp.SourcePowerPlanGuid
       $script:PlanExport = 'all-settings-export-fixture'
+      Mock Get-RidePowerPlanExportFingerprint {
+        $bytes=[IO.File]::ReadAllBytes($LiteralPath)
+        $sha=[Security.Cryptography.SHA256]::Create()
+        try{[BitConverter]::ToString($sha.ComputeHash($bytes)).Replace('-','').ToLowerInvariant()}finally{$sha.Dispose()}
+      }
       Mock Invoke-RideOwnedPlanCommand {
         switch ($Arguments[0]) {
           '/list' { return [pscustomobject]@{ ExitCode = 0; Output = ($script:PlanGuids -join "`n") } }
@@ -61,6 +66,9 @@ Describe 'Owned power-plan handler' {
       Set-RideOwnedPowerPlanState $script:OwnedOp Create $before $script:OwnedRoot
       $record = Get-RideOwnedPlanRecord $script:OwnedOp $script:OwnedRoot
       $record.Stage | Should -Be 'Ready'
+      $record.Version | Should -Be 2
+      $record.Comparison | Should -Be 'LogicalExportV1'
+      $record.ConfigurationSha256 | Should -Match '^[a-f0-9]{64}$'
       $record.DestinationGuid | Should -Be $before.DestinationGuid
       $record.OwnerToken | Should -Be $before.OwnerToken
       $record.ExportSha256 | Should -Match '^[a-f0-9]{64}$'
@@ -68,6 +76,52 @@ Describe 'Owned power-plan handler' {
       $script:PlanActive | Should -Be $before.SourceGuid
       @(Get-ChildItem -LiteralPath $script:OwnedRoot -Filter '*.pow').Count | Should -Be 0
       Should -Invoke Invoke-RideOwnedPlanCommand -Times 0 -ParameterFilter { $Arguments[0] -eq '/setactive' }
+    }
+  }
+  It 'retains intent if the logical comparison cannot parse' {
+    InModuleScope RIDE-OwnedPowerPlans {
+      $before=Get-RideOwnedPowerPlanState $script:OwnedOp $script:OwnedRoot
+      Mock Get-RidePowerPlanExportFingerprint {throw 'fixture logical export unreadable'}
+      {Set-RideOwnedPowerPlanState $script:OwnedOp Create $before $script:OwnedRoot} | Should -Throw '*unreadable*'
+      (Get-RideOwnedPlanRecord $script:OwnedOp $script:OwnedRoot).Stage | Should -Be Intent
+      {Restore-RideOwnedPowerPlanState $script:OwnedOp $before $script:OwnedRoot} | Should -Throw '*incomplete creation*'
+      Should -Invoke Invoke-RideOwnedPlanCommand -Times 0 -ParameterFilter {$Arguments[0] -eq '/delete'}
+    }
+  }
+  It 'retains the raw comparison contract for a captured version-1 ownership record' {
+    InModuleScope RIDE-OwnedPowerPlans {
+      $before=Get-RideOwnedPowerPlanState $script:OwnedOp $script:OwnedRoot
+      Set-RideOwnedPowerPlanState $script:OwnedOp Create $before $script:OwnedRoot
+      $record=Get-RideOwnedPlanRecord $script:OwnedOp $script:OwnedRoot
+      $record.Version=1
+      $record.PSObject.Properties.Remove('Comparison')
+      $record.PSObject.Properties.Remove('ConfigurationSha256')
+      Write-RideOwnedPlanRecord $script:OwnedOp $script:OwnedRoot $record
+      Mock Get-RidePowerPlanExportFingerprint {throw 'legacy recovery must not silently convert'}
+      Restore-RideOwnedPowerPlanState $script:OwnedOp $before $script:OwnedRoot
+      Get-RideOwnedPlanRecord $script:OwnedOp $script:OwnedRoot | Should -BeNullOrEmpty
+      Should -Invoke Get-RidePowerPlanExportFingerprint -Times 2 -Exactly
+    }
+  }
+  It 'retains intent when consecutive logical fingerprints disagree' {
+    InModuleScope RIDE-OwnedPowerPlans {
+      $before=Get-RideOwnedPowerPlanState $script:OwnedOp $script:OwnedRoot
+      $script:LogicalSequence=0
+      Mock Get-RidePowerPlanExportFingerprint {$script:LogicalSequence++;('{0:x64}' -f $script:LogicalSequence)}
+      {Set-RideOwnedPowerPlanState $script:OwnedOp Create $before $script:OwnedRoot} | Should -Throw '*not stable*'
+      (Get-RideOwnedPlanRecord $script:OwnedOp $script:OwnedRoot).Stage | Should -Be Intent
+      Should -Invoke Invoke-RideOwnedPlanCommand -Times 0 -ParameterFilter {$Arguments[0] -eq '/delete'}
+    }
+  }
+  It 'permits version-2 recovery when only raw transport bytes differ' {
+    InModuleScope RIDE-OwnedPowerPlans {
+      Mock Get-RidePowerPlanExportFingerprint {('a'*64)}
+      $before=Get-RideOwnedPowerPlanState $script:OwnedOp $script:OwnedRoot
+      Set-RideOwnedPowerPlanState $script:OwnedOp Create $before $script:OwnedRoot
+      $script:PlanExport='different transport metadata; same logical data'
+      Restore-RideOwnedPowerPlanState $script:OwnedOp $before $script:OwnedRoot
+      Get-RideOwnedPlanRecord $script:OwnedOp $script:OwnedRoot | Should -BeNullOrEmpty
+      Should -Invoke Invoke-RideOwnedPlanCommand -Times 1 -Exactly -ParameterFilter {$Arguments[0] -eq '/delete'}
     }
   }
   It 'does not duplicate if the ownership intent cannot be saved' {

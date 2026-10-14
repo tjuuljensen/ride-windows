@@ -24,6 +24,8 @@ jobs:
       RIDE_AUTOMATION_CONFIGURATION: ${{ vars.RIDE_AUTOMATION_CONFIGURATION }}
       RIDE_VM_PILOT: ${{ github.ref == 'refs/heads/codex/ride-v3-migration' }}
       RIDE_VM_PILOT_MODE: ${{ vars.RIDE_VM_PILOT_MODE || 'UnitOnly' }}
+      RIDE_VM_GITHUB_AUTHENTICATION: ${{ vars.RIDE_VM_GITHUB_AUTHENTICATION || 'Anonymous' }}
+      RIDE_VM_INTEGRATION_SUITE: ${{ vars.RIDE_VM_INTEGRATION_SUITE || 'Full' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -40,9 +42,15 @@ jobs:
           $receipt = Join-Path $env:RUNNER_TEMP 'ride-vm-request.json'
           if (Test-Path -LiteralPath $receipt) { Remove-Item -LiteralPath $receipt -Force }
           $parameters = @{ ConfigurationPath = $env:RIDE_AUTOMATION_CONFIGURATION; Source = 'CI'; ReceiptPath = $receipt }
+          if ($env:RIDE_VM_GITHUB_AUTHENTICATION -notin @('Anonymous','PAT')) { throw 'Invalid RIDE_VM_GITHUB_AUTHENTICATION.' }
+          if ($env:RIDE_VM_INTEGRATION_SUITE -notin @('Full','GitHubAuthentication')) { throw 'Invalid RIDE_VM_INTEGRATION_SUITE.' }
+          $parameters.GuestGitHubAuthentication = $env:RIDE_VM_GITHUB_AUTHENTICATION
+          $parameters.IntegrationSuite = $env:RIDE_VM_INTEGRATION_SUITE
+          "authentication=$($env:RIDE_VM_GITHUB_AUTHENTICATION)" | Add-Content -LiteralPath $env:GITHUB_OUTPUT
           if ($env:RIDE_VM_PILOT -eq 'true') {
-            if ($env:RIDE_VM_PILOT_MODE -notin @('UnitOnly', 'Full')) { throw 'RIDE_VM_PILOT_MODE must be UnitOnly or Full.' }
-            if ($env:RIDE_VM_PILOT_MODE -eq 'UnitOnly') { $parameters.UnitOnly = $true }
+            if ($env:RIDE_VM_PILOT_MODE -notin @('UnitOnly', 'Full', 'GitHubAuthentication')) { throw 'RIDE_VM_PILOT_MODE must be UnitOnly, Full or GitHubAuthentication.' }
+            if ($env:RIDE_VM_PILOT_MODE -eq 'UnitOnly') { $parameters.UnitOnly = $true; $parameters.IntegrationSuite = 'Full' }
+            else { $parameters.IntegrationSuite = $env:RIDE_VM_PILOT_MODE }
           }
           try { & $client @parameters }
           finally {
@@ -53,7 +61,7 @@ jobs:
             }
           }
       - name: Upload this request's evidence
-        if: always() && steps.test.outputs.results != ''
+        if: always() && steps.test.outputs.results != '' && steps.test.outputs.authentication == 'Anonymous'
         uses: actions/upload-artifact@v4
         with:
           name: ride-vm-${{ steps.test.outputs.run_id }}
@@ -64,3 +72,22 @@ jobs:
             ${{ steps.test.outputs.results }}/collection*.log
             ${{ steps.test.outputs.results }}/source-files.json
             ${{ steps.test.outputs.results }}/guest/**
+      - name: Verify scanned PAT evidence
+        id: pat-evidence
+        if: always() && steps.test.outputs.results != '' && steps.test.outputs.authentication == 'PAT'
+        shell: powershell
+        env:
+          RIDE_RESULT_DIRECTORY: ${{ steps.test.outputs.results }}
+          RIDE_RESULT_RUN_ID: ${{ steps.test.outputs.run_id }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Import-Module (Join-Path (Split-Path -Parent $env:RIDE_AUTOMATION_CONFIGURATION) 'bin\RIDE.GitHubVmAuthentication.psm1') -Force
+          if (-not (Test-RideVmGitHubExport -ResultDirectory $env:RIDE_RESULT_DIRECTORY -RunId $env:RIDE_RESULT_RUN_ID)) { throw 'PAT evidence export is missing, unsafe or changed; upload refused.' }
+          'safe=true' | Add-Content -LiteralPath $env:GITHUB_OUTPUT
+      - name: Upload scanned PAT evidence
+        if: always() && steps.pat-evidence.outputs.safe == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ride-vm-${{ steps.test.outputs.run_id }}
+          if-no-files-found: error
+          path: ${{ steps.test.outputs.results }}/export/**

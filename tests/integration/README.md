@@ -1,5 +1,11 @@
 # Windows VM integration test runbook (draft)
 
+Optional public-release authentication has a dedicated
+[`GitHubAuthentication` suite](../../docs/github-release-discovery.md#disposable-guest-authentication).
+It supports explicit anonymous/PAT comparison and verified payload downloads without
+installation. PAT requires a dedicated account-bound enrollment and upgraded protected
+controller; broad suites and UnitOnly remain anonymous. Live PAT acceptance is pending.
+
 This runbook is intended for an advanced first-time contributor setting up a disposable Windows 11 test VM with Hyper-V. Please use it as the first pilot and report any step that is unclear, stale, or fails on your host.
 
 The VM is for integration tests that change Windows state. Routine validation and mocked Pester tests remain available through the repository's GitHub Actions workflow and do not require a VM.

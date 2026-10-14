@@ -22,6 +22,11 @@
 .PARAMETER Version
   Print the existing script version and return before module imports or operational checks.
 
+.PARAMETER VerifyGitHubCredentialAbsence
+  Bounded post-reset probe: start the pinned guest, verify the request's credential
+  is absent under the delivery identity, and save nonsecret evidence. The parent
+  controller must restore the checkpoint again in finally, including on timeout.
+
 .EXAMPLE
   .\tests\integration\Export-RideVmTestEvidence.ps1 -Version
 
@@ -39,8 +44,9 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.4.1
+  Version: 0.5.0
   Changelog:
+    0.5.0: Add explicit GitHub PAT selection and credential-safe acceptance boundaries.
     - 0.4.1: Log collection and session-teardown timing for bounded failure diagnosis.
     - 0.4.0: Skip byte-identical exported evidence while preserving changed and unavailable files.
     - 0.3.0: Preserve readable partial evidence when another file is locked.
@@ -59,8 +65,8 @@
 
 
 [CmdletBinding()]
-param([string] $ConfigurationPath, [ValidatePattern('^[0-9a-f]{32}$')][string] $RunId, [string] $ResultDirectory, [switch] $Version)
-$script:ScriptVersion = '0.4.1'
+param([string] $ConfigurationPath, [ValidatePattern('^[0-9a-f]{32}$')][string] $RunId, [string] $ResultDirectory, [switch] $VerifyGitHubCredentialAbsence, [switch] $Version)
+$script:ScriptVersion = '0.5.0'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 function Copy-RidePartialGuestEvidence {
@@ -103,7 +109,24 @@ $null = Assert-RideAutomationHost $config
 $null = Import-RideAutomationLab $config
 $session = $null
 try {
-  $session = New-LabPSSession -ComputerName $config.VMName -Retries 1 -Interval 1
+  if ($VerifyGitHubCredentialAbsence) { Start-VM -VM (Get-VM -Id ([guid]$config.VMId) -ErrorAction Stop) -ErrorAction Stop | Out-Null }
+  $retries = if ($VerifyGitHubCredentialAbsence) { 15 } else { 1 }
+  $session = New-LabPSSession -ComputerName $config.VMName -Retries $retries -Interval 2
+  if ($VerifyGitHubCredentialAbsence) {
+    $receiptPath = Join-Path $ResultDirectory 'guest-authentication.json'
+    $expectedSid = if (Test-Path -LiteralPath $receiptPath) { (Get-Content -LiteralPath $receiptPath -Raw | ConvertFrom-Json).WindowsSid } else { '' }
+    $absent = Invoke-Command -Session $session -ArgumentList @($RunId, $expectedSid) -ScriptBlock {
+      param($Id, $ExpectedSid)
+      $sid = [Security.Principal.WindowsIdentity]::GetCurrent().User.Value
+      if ($ExpectedSid -and $ExpectedSid -ne $sid) { throw 'Recovered guest identity differs from credential delivery.' }
+      $path = Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) ('RIDE\TransientCredentials\' + $Id + '\credential.json')
+      [pscustomobject]@{ RunId = $Id; WindowsSid = $sid; CredentialAbsent = -not (Test-Path -LiteralPath $path) }
+    } -ErrorAction Stop
+    if ($absent.RunId -ne $RunId -or $absent.CredentialAbsent -ne $true) { throw 'Recovered guest credential absence check failed.' }
+    $null = New-Item -ItemType Directory -Path (Join-Path $ResultDirectory 'guest') -Force
+    $absent | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $ResultDirectory 'guest\credential-recovery.json') -Encoding UTF8
+    return
+  }
   $guestPath = "C:\RIDE\TestResults\$RunId"
   Invoke-Command -Session $session -ArgumentList @($guestPath, $config.GuestRepositoryPath) -ScriptBlock {
     param($Path, $RepositoryPath)

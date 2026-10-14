@@ -30,6 +30,9 @@ declares each operation's support, actions, references and recovery limits.
   [remaining decisions](migrations/remaining-settings-decisions.md) and
   [settings review ledger](migrations/settings-post-migration-review.md): open
   decisions and feature acceptance.
+- [Remaining settings plan and questions](migrations/remaining-settings-plan.md):
+  complete remainder triage, recommended first batch, decision IDs and deferred
+  interactive or test-resource work.
 - [Application review](migrations/application-migration-review.md) and
   [review rounds](migrations/application-review-rounds-2026-10-12.md): product
   choices and outstanding deployment/runtime acceptance.

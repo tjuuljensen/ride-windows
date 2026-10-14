@@ -1,5 +1,12 @@
 # AutomatedLab task controller
 
+The authentication candidate adds schema-2 configuration, the `GitHubPatGuestV1`
+capability and two protected helper modules. Existing schema-1 requests remain
+anonymous. PAT is explicit per request and limited to `GitHubAuthentication`;
+read the [credential delivery and evidence workflow](../../docs/github-release-discovery.md#disposable-guest-authentication)
+before refreshing a controller. This source change does not promote the installed
+controller baseline or its existing certification status.
+
 This is an **opt-in controller with scoped acceptance**; broader stable-
 configuration certification remains open. The
 [active acceptance and RC resumption ledger](../../docs/migrations/controller-certification.md#resume-near-v3-release-candidate)

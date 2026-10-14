@@ -30,8 +30,19 @@ Ownership records are bounded to 16 KiB; reparse paths and mismatched identities
 are rejected. A name is a user-visible label, never proof of ownership.
 
 After explicit-GUID duplication, the handler labels the copy, verifies that it
-is inactive and fingerprints a native `/export` file. A successful record is
-marked `Ready`. Temporary export files are limited to 1 MiB and cleaned up;
+is inactive and fingerprints logical data in native `/export` files. New version-2
+records use `LogicalExportV1`: the complete sorted key hierarchy, key classes,
+raw named value types/bytes and owner/group/DACL from a private read-only
+[application-hive handle](https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regloadappkeyw).
+Names retain their UTF-16 code units; values are not expanded or retyped. Subkey
+links are opened without following them. Two consecutive logical comparisons must
+agree before finalizing ownership. Native parsing, bounds or stability failure
+retains Intent. Import performs no native inspection.
+A successful record is marked `Ready`. Transport headers and key timestamps are
+excluded through the documented API, without masking byte ranges. SACL, policy
+provenance and effective inherited or hardware-dependent behavior are outside
+this logical-data comparison. It does not certify Windows registry security policy
+or complete feature behavior. Temporary exports are limited to 1 MiB and cleaned up;
 their content is not stored in logs or snapshots. Inspection reports ownership,
 presence, source availability and active state. It writes no export, lock,
 directory or ownership record, and explicitly reports that unchanged
@@ -43,7 +54,10 @@ additional copy.
 Restore uses the trusted engine state directory, never a snapshot-supplied path.
 It requires the captured operation, source, destination and owner token to match
 a finalized ownership record. The same destination must be inactive and its
-new native export must match the original SHA-256 before `/delete` is allowed.
+new logical export must match the recorded configuration SHA-256 before `/delete`
+is allowed. Raw export SHA-256 is retained as creation evidence. Version-1 records
+retain their original raw-file comparison contract, with no automatic conversion
+or weaker fallback; unstable legacy exports can therefore still refuse recovery.
 The active GUID is checked again immediately before deletion. Restore removes
 the ownership record only after native deletion is confirmed; failed deletion
 retains it for retry. It never changes the active plan to make deletion possible.

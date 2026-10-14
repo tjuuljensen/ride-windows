@@ -141,7 +141,8 @@ Describe 'Task configuration and read-only watch selection' {
     $client = Get-Command (Join-Path $PSScriptRoot 'integration\Invoke-RideVmTestTask.ps1')
     $setup = Get-Command (Join-Path $PSScriptRoot 'integration\Register-RideVmTestTask.ps1')
     ($client.Parameters.Source.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Local', 'CI')
-    ($client.Parameters.IntegrationSuite.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2')
+    ($client.Parameters.IntegrationSuite.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2', 'GitHubAuthentication')
+    ($client.Parameters.GuestGitHubAuthentication.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Anonymous','PAT')
     ($setup.Parameters.Action.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Register', 'Remove')
   }
 
@@ -181,7 +182,7 @@ Describe 'Task configuration and read-only watch selection' {
   }
 
   It 'reports the guest entry point version before checking the VM marker' {
-    & (Join-Path $PSScriptRoot 'integration/Invoke-RideGuestTests.ps1') -Version | Should -Be '0.6.0'
+    & (Join-Path $PSScriptRoot 'integration/Invoke-RideGuestTests.ps1') -Version | Should -Match '^\d+\.\d+\.\d+$'
   }
 
   It 'dispatches <Suite> to its requested scenario without real integration calls' -ForEach @(
@@ -192,13 +193,14 @@ Describe 'Task configuration and read-only watch selection' {
     @{ Suite='SettingsRemainingBatch1'; Expected='Remaining/1' },
     @{ Suite='SettingsRemainingBatch2'; Expected='Remaining/2' },
     @{ Suite='ApplicationsBatch1'; Expected='Applications/1' },
-    @{ Suite='ApplicationsBatch2'; Expected='Applications/2' }
+    @{ Suite='ApplicationsBatch2'; Expected='Applications/2' },
+    @{ Suite='GitHubAuthentication'; Expected='Authentication/Anonymous/Acquire' }
   ) {
     $tokens=$null; $errors=$null
     $ast=[Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'integration/Invoke-RideGuestTests.ps1'),[ref]$tokens,[ref]$errors)
     $dispatch=@($ast.FindAll({param($node)
       $node -is [Management.Automation.Language.IfStatementAst] -and
-      $node.Clauses[0].Item1.Extent.Text -eq '$IntegrationSuite -eq ''SettingsBatch40'''
+      @($node.Clauses | Where-Object { $_.Item1.Extent.Text -eq '$IntegrationSuite -eq ''SettingsBatch40''' }).Count -eq 1
     },$true))
     $dispatch.Count | Should -Be 1
     $scripts=Join-Path $TestDrive 'tests/integration'
@@ -208,6 +210,8 @@ Describe 'Task configuration and read-only watch selection' {
     'param($Selection); "Batch60/$Selection"' | Set-Content (Join-Path $scripts 'Invoke-RideSettingsBatch60.ps1')
     'param($Batch); "Remaining/$Batch"' | Set-Content (Join-Path $scripts 'Invoke-RideRemainingSettings.ps1')
     'param($Batch); "Applications/$Batch"' | Set-Content (Join-Path $scripts 'Invoke-RideApplicationBatch.ps1')
+    'param($RunId,$ResultsPath,$Authentication,$Scenario); "Authentication/$Authentication/$Scenario"' | Set-Content (Join-Path $scripts 'Invoke-RideGitHubAuthentication.ps1')
+    $fixture = $null; $GuestGitHubAuthentication = 'Anonymous'; $GitHubTestScenario = 'Acquire'
     $IntegrationSuite=$Suite
     Push-Location $TestDrive
     try { & ([scriptblock]::Create($dispatch[0].Extent.Text)) | Should -Be $Expected }
@@ -333,6 +337,8 @@ Describe 'Correlated execution, failures and VM recovery' {
       function Get-VM { param($Id) }
       function Stop-VM { param($VM, [switch]$TurnOff, [switch]$Force, [switch]$Confirm) }
       function Restore-VMSnapshot { param($VMSnapshot, [switch]$Confirm) }
+      function Get-RideVmGitHubContext { param($Configuration) }
+      function Publish-RideVmGitHubEvidence { param($ResultDirectory,$RunId,$Token,$Summary) }
     }
     BeforeEach {
       $script:testRoot = Join-Path $TestDrive ([guid]::NewGuid().ToString('N'))
@@ -340,9 +346,17 @@ Describe 'Correlated execution, failures and VM recovery' {
       $script:config = [pscustomobject]@{ Name = 'RIDETest'; VMId = [guid]::NewGuid().ToString(); LocalRepositoryPath = 'C:\local\ride-windows'; CIRepositoryPath = 'C:\ci\ride-windows'; LabName = 'RIDETest'; VMName = 'RIDE-Test'; GuestRepositoryPath = 'C:\RIDE\ride-windows' }
       $script:request = [pscustomobject]@{ RunId = [guid]::NewGuid().ToString('N'); Source = 'Local'; UnitOnly = $false; TimeoutMinutes = 90; SubmittedAtUtc = [datetime]::UtcNow.ToString('o') }
       Mock Assert-RideAutomationHost { }
+      Mock Import-Module { } -ParameterFilter { $Name -like '*RIDE.GitHubVmAuthentication.psm1' }
+      Mock Get-RideVmGitHubContext { [pscustomobject]@{ Revision = ('c'*32); Token = ConvertTo-SecureString 'synthetic-controller-canary' -AsPlainText -Force } }
+      Mock Publish-RideVmGitHubEvidence { }
       Mock Import-RideAutomationLab { [pscustomobject]@{ VM = [pscustomobject]@{ State = 'Running' }; Snapshot = 'clean' } }
       Mock Reset-RideAutomationVm { }
-      Mock Save-RideAutomationFailureEvidence { }
+      Mock Save-RideAutomationFailureEvidence {
+        if ($VerifyGitHubCredentialAbsence) {
+          $guest = Join-Path $ResultDirectory 'guest'; $null = New-Item -ItemType Directory $guest -Force
+          @{ RunId = $RunId; CredentialAbsent = $true } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $guest 'credential-recovery.json')
+        }
+      }
       Mock Stop-RideAutomationProcess { }
       Mock Get-VM { [pscustomobject]@{ Id = [guid]$script:config.VMId; Name = $script:config.VMName } }
       Mock Start-VM { }
@@ -351,13 +365,74 @@ Describe 'Correlated execution, failures and VM recovery' {
         $guest = Join-Path $script:testRoot "results\$($script:request.RunId)\guest"
         $null = New-Item -ItemType Directory $guest -Force
         $suite = if ($script:request.PSObject.Properties.Name -contains 'IntegrationSuite') { $script:request.IntegrationSuite } else { 'Full' }
-        @{ RunId = $script:request.RunId; Status = 'Passed'; ValidationPassed = $true; IntegrationPassed = $true; IntegrationSuite = $suite; Pester = @{ Total = 3; Failed = 0 } } | ConvertTo-Json | Set-Content (Join-Path $guest 'summary.json')
+        $mode = if ($script:request.PSObject.Properties.Name -contains 'GuestGitHubAuthentication') { $script:request.GuestGitHubAuthentication } else { 'Anonymous' }
+        @{ RunId = $script:request.RunId; Status = 'Passed'; ValidationPassed = $true; IntegrationPassed = $true; IntegrationSuite = $suite; Pester = @{ Total = 3; Failed = 0 }; GuestGitHubAuthentication = $mode; GitHubTestScenario = 'Acquire'; CredentialCleanupVerified = $true } | ConvertTo-Json | Set-Content (Join-Path $guest 'summary.json')
         '<test-results />' | Set-Content (Join-Path $guest 'pester.xml')
         $process = [pscustomobject]@{ Handle = [intptr]1; ExitCode = 0; Id = 123 }
         $process | Add-Member ScriptMethod WaitForExit { param($Milliseconds) return $true }
         $process | Add-Member ScriptMethod Refresh { }
         $process
       }
+    }
+
+    It 'correlates PAT evidence, verifies post-reset absence and scans before terminal publication' {
+      $script:request | Add-Member -NotePropertyMembers @{ SchemaVersion=2; GuestGitHubAuthentication='PAT'; IntegrationSuite='GitHubAuthentication' }
+      $result = Invoke-RideAutomationRequest $script:config $script:request $script:testRoot
+      $result.Status | Should -Be Passed
+      $result.CredentialCleanupVerified | Should -BeTrue
+      Should -Invoke Get-RideVmGitHubContext -Exactly 1
+      Should -Invoke Reset-RideAutomationVm -Exactly 3
+      Should -Invoke Save-RideAutomationFailureEvidence -Exactly 1 -ParameterFilter { $VerifyGitHubCredentialAbsence }
+      Should -Invoke Publish-RideVmGitHubEvidence -Exactly 1 -ParameterFilter { $Summary.GuestGitHubAuthentication -eq 'PAT' }
+      Should -Invoke Start-Process -Exactly 1 -ParameterFilter { $ArgumentList -match '-AuthenticationCredentialRevision c{32}' -and $ArgumentList -notmatch 'synthetic-controller-canary' }
+    }
+
+    It 'refuses unavailable PAT credentials before touching the VM' {
+      $script:request | Add-Member -NotePropertyMembers @{ SchemaVersion=2; GuestGitHubAuthentication='PAT'; IntegrationSuite='GitHubAuthentication' }
+      Mock Get-RideVmGitHubContext { throw 'GitHub CredentialExpired.' }
+      $result = Invoke-RideAutomationRequest $script:config $script:request $script:testRoot
+      $result.Status | Should -Be Failed
+      Should -Invoke Reset-RideAutomationVm -Exactly 0
+      Should -Invoke Start-Process -Exactly 0
+      Should -Invoke Publish-RideVmGitHubEvidence -Exactly 0
+    }
+
+    It 'retains a recovery block when post-reset credential absence cannot be verified' {
+      $script:request | Add-Member -NotePropertyMembers @{ SchemaVersion=2; GuestGitHubAuthentication='PAT'; IntegrationSuite='GitHubAuthentication' }
+      Mock Save-RideAutomationFailureEvidence { throw 'Recovery probe unavailable.' } -ParameterFilter { $VerifyGitHubCredentialAbsence }
+      $result = Invoke-RideAutomationRequest $script:config $script:request $script:testRoot
+      $result.Status | Should -Be Failed
+      $result.CleanupError | Should -Match 'Recovery probe'
+      Test-Path -LiteralPath (Join-Path $script:testRoot 'runtime/blocked.json') | Should -BeTrue
+      Should -Invoke Reset-RideAutomationVm -Exactly 3
+    }
+
+    It 'fails acceptance when evidence scanning cannot complete' {
+      $script:request | Add-Member -NotePropertyMembers @{ SchemaVersion=2; GuestGitHubAuthentication='PAT'; IntegrationSuite='GitHubAuthentication' }
+      Mock Publish-RideVmGitHubEvidence { throw 'synthetic scanner detail' }
+      $result = Invoke-RideAutomationRequest $script:config $script:request $script:testRoot
+      $result.Status | Should -Be Failed
+      $result.EvidenceExportError | Should -Match 'export refused'
+      ($result | ConvertTo-Json) | Should -Not -Match 'synthetic scanner detail'
+    }
+
+    It 'recovers and gates export after PAT <Failure> without accepting acquisition' -TestCases @(@{Failure='GuestExit';Expected='Failed'},@{Failure='Timeout';Expected='TimedOut'}) {
+      param($Failure,$Expected)
+      $script:request | Add-Member -NotePropertyMembers @{ SchemaVersion=2; GuestGitHubAuthentication='PAT'; IntegrationSuite='GitHubAuthentication' }
+      $script:controllerTimeout = $Failure -eq 'Timeout'
+      Mock Start-Process {
+        $process = [pscustomobject]@{ Handle=[intptr]1; ExitCode=7; Id=123; TimedOut=$script:controllerTimeout }
+        $process | Add-Member ScriptMethod WaitForExit { param($Milliseconds) -not $this.TimedOut }
+        $process | Add-Member ScriptMethod Refresh { }
+        $process
+      }
+      $result = Invoke-RideAutomationRequest $script:config $script:request $script:testRoot
+      $result.Status | Should -Be $Expected
+      $result.CredentialCleanupVerified | Should -BeTrue
+      Should -Invoke Save-RideAutomationFailureEvidence -Exactly 2
+      Should -Invoke Reset-RideAutomationVm -Exactly 3
+      Should -Invoke Publish-RideVmGitHubEvidence -Exactly 1
+      Should -Invoke Stop-RideAutomationProcess -Exactly ([int]$script:controllerTimeout)
     }
 
     It 'restores before and after a successful run and returns only its correlated result' {

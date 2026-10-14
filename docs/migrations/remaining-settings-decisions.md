@@ -7,6 +7,11 @@ It is a follow-up agenda, not a declaration that the last setting is migrated.
 
 For a concise resume point and durable validation notes, see the
 [settings implementation handoff](settings-implementation-handoff.md).
+The current disposable validation sequence and owned-export failure investigation
+are recorded in [settings validation resume](settings-validation-resume.md).
+The [remaining settings plan and questions](remaining-settings-plan.md) consolidates
+all 29 remainder rows, earlier accepted-control families, the next implementation
+batch and deferred interactive/resource decisions after the completed guard matrix.
 
 ## Decisions implemented in the two batches
 
@@ -676,3 +681,251 @@ account operation. Concurrent documentation/code preserved and guides indexed.
 ## Settings validation gate deferral at 12:04 UTC review, 2026-10-13
 
 12:04 UTC read-only dependency revision 15 and both local records still show active second Server Full request 420c567aea0b44118862ecfcf1de35a5. Final export/recovery and resource yield are pending. Settings validation deferred; packages paused; all five ranges unchanged.
+
+## Settings validation gate deferral at 12:19 UTC review, 2026-10-13
+
+12:19 UTC read-only review confirms bridge gate complete: Windows 11 2/2 and Server 2025 2/2, evidence/recovery/UAC, loop paused and resources explicitly yielded. A new separately authorized dependency turn now plans controller validation/refresh and VM acceptance. Settings remain deferred behind competing work; packages paused and all five ranges unchanged.
+
+## Settings validation gate deferral at 12:34 UTC review, 2026-10-13
+
+12:34 UTC read-only dependency revision 17 reports local controller checks passed and active preparation of protected controller 0.4.6 refresh/live acceptance. Bridge pair gate remains complete and paused, but competing controller work prevents settings submission. Packages paused; all five ranges unchanged.
+
+## Settings validation gate deferral at 12:49 UTC review, 2026-10-13
+
+12:49 UTC read-only dependency snapshot and release status confirm active Server UnitOnly acceptance request 20186578684e4716a1f633a99393fe9d on refreshed controller 0.4.6. Bridge gate remains complete/paused; current controller result/recovery and resource yield pending. Settings deferred, packages paused; all five ranges unchanged.
+
+## Settings validation gate deferral at 13:04 UTC review, 2026-10-13
+
+13:04 UTC read-only dependency revision 19 and release status still show pending Server controller 0.4.6 acceptance request 20186578684e4716a1f633a99393fe9d. Installation checks alone do not verify retained guest evidence/result format/checkpoint recovery. Settings deferred; packages paused; all five ranges unchanged.
+
+## Settings validation gate deferral at 13:19 UTC review, 2026-10-13
+
+13:19 UTC read-only review records Server controller 0.4.6 normal acceptance passed, followed by active Windows 11 UnitOnly request 3c0a98c38c5b42b5991f9a5f8f150e0d. Bridge pair gate remains complete/paused; shared resources remain occupied. Settings deferred, packages paused; all five ranges unchanged.
+
+## Settings validation gate deferral at 13:34 UTC review, 2026-10-13
+
+13:34 UTC read-only review records both controller 0.4.6 normal runs accepted, followed by active deliberate Server timeout request e9dbd5a238914edea6915bb6de7eeea7. Bounded evidence/recovery and resource yield remain pending. Settings deferred, packages paused; all five ranges unchanged.
+
+## Settings validation gate deferral at 13:49 UTC review, 2026-10-13
+
+13:49 UTC read-only review records normal/timeout controller 0.4.6 cases accepted. Active missing-checkpoint/expired-request probes now hold both worker locks, preventing settings use despite idle VMs. Final evidence/resource yield pending; packages paused; all five migration ranges unchanged.
+
+## Focused settings fixture preparation review, 2026-10-13
+
+Validation gate satisfied after completed bridge/controller checks and independent native idle/queue/lock/checkpoint/hash verification. Implemented request-bound single-setting fixtures without changing the protected controller or published SupportedTargets. WAP Push lifecycle is first; packages and broad suites stay paused. All five ranges unchanged pending actual evidence.
+
+## WAP Push focused fixture baseline repair review, 2026-10-13
+
+WAP Push first focused VM fixture passed seven named states/repeat apply and exact captured recovery, but overall validation failed at its baseline alias. Fixture 0.1.1 now applies the declared baseline directly; focused retry required. Evidence/checkpoint cleanup clean. Packages paused; all five ranges unchanged.
+
+## WAP Push focused lifecycle validation review, 2026-10-13
+
+WAP Push focused lifecycle passed on disposable Windows 11: seven states/repeat, startup-only runtime preservation, preview, declared baseline and exact typed/SCM recovery. All273 source hashes matched; evidence/checkpoint cleanup and independent both-VM idle verified. GUI/boot/workload/native-fault evidence remains partial; all five ranges unchanged, packages paused. Windows Search follows.
+
+## Windows Search focused lifecycle validation review, 2026-10-13
+
+Windows Search has Windows 11 lifecycle evidence for all seven states, repeat apply, baseline, preview and exact raw/effective service recovery. [Evidence](../archive/evidence/settings-search-lifecycle-2026-10-13.md). The startup-only variants preserved the running service, including DisabledStartup. Search/indexing user outcome, GUI/session and boot behavior, default/managed precedence and deliberate native failures remain pending. No Server applicability or support widening is inferred; no whole legacy outcome closes.
+
+## Keyboard repeat delay Windows 11 lifecycle passed review, 2026-10-13
+
+Request `2771dbd781814f6db578520e5796dd51` for `windows.keyboard-repeat-delay` on Windows 11: passed; 5 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-keyboard-repeat-delay-win11-2771dbd7-2026-10-13.md). Controller: ; cleanup: ; collection: ; guest: ; fixture: ; recovery: . GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Update-notification policy Windows 11 lifecycle passed review, 2026-10-13
+
+Request `8ca9c85022ee40c8bda98b1850297c6e` for `windows.update-notification-display-policy` on Windows 11: passed; 7 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-update-notification-display-policy-win11-8ca9c850-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## CEIP policy controlled-failure attempt Windows 11 lifecycle failed or incomplete review, 2026-10-13
+
+Request `85e70971f142431bac40fc8d250caf4d` for `windows.ceip-participation-policy` on Windows 11: failed or incomplete; 3 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-ceip-participation-policy-win11-85e70971-2026-10-13.md). Controller: Test controller exited with code 1. See controller-errors.log.; cleanup: ; collection: ; guest: Settings fixture failed with exit code 1; inspect settings-fixture.json.; fixture: ; recovery: Controlled native-write interruption did not trigger.. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## CEIP policy Windows 11 lifecycle failed or incomplete review, 2026-10-13
+
+Request `aa2bcd713bc74c1f8bdad36d134c7e92` for `windows.ceip-participation-policy` on Windows 11: failed or incomplete; 3 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-ceip-participation-policy-win11-aa2bcd71-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## CEIP policy source-reconciled Windows 11 lifecycle passed review, 2026-10-13
+
+Request `aa2bcd713bc74c1f8bdad36d134c7e92` for `windows.ceip-participation-policy` on Windows 11: passed; 3 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-ceip-participation-policy-win11-aa2bcd71-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Firewall enable-all seed-recovery attempt Windows 11 lifecycle failed or incomplete review, 2026-10-13
+
+Request `ffca76b53da744bfbe200daaeaec271f` for `windows.firewall-all-profiles` on Windows 11: failed or incomplete; 1 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-firewall-all-profiles-win11-ffca76b5-2026-10-13.md). Controller: Test controller exited with code 1. See controller-errors.log.; cleanup: ; collection: ; guest: Settings fixture failed with exit code 1; inspect settings-fixture.json.; fixture: ; recovery: The term 'Restore-RideFirewallProfileState' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Firewall enable-all Windows 11 lifecycle failed or incomplete review, 2026-10-13
+
+Request `fd277d27cf694ad7a764005e804e37fd` for `windows.firewall-all-profiles` on Windows 11: failed or incomplete; 1 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-firewall-all-profiles-win11-fd277d27-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Firewall enable-all source-reconciled Windows 11 lifecycle passed review, 2026-10-13
+
+Request `fd277d27cf694ad7a764005e804e37fd` for `windows.firewall-all-profiles` on Windows 11: passed; 1 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-firewall-all-profiles-win11-fd277d27-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Firewall enable-all Windows Server 2025 lifecycle passed review, 2026-10-13
+
+Request `a9529e92f9a04790b96ef69e3c33701b` for `windows.firewall-all-profiles` on Windows Server 2025: passed; 1 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-firewall-all-profiles-winserver-2025-a9529e92-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Public firewall profile Windows 11 lifecycle passed review, 2026-10-13
+
+Request `75c16478a8d04d66ad1a4614b49b7698` for `windows.firewall-public-profiles` on Windows 11: passed; 2 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-firewall-public-profiles-win11-75c16478-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Public firewall profile Windows Server 2025 lifecycle passed review, 2026-10-13
+
+Request `c3ab9d4cb70a46059f946983919c70ce` for `windows.firewall-public-profiles` on Windows Server 2025: passed; 2 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-firewall-public-profiles-winserver-2025-c3ab9d4c-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Domain firewall profile Windows 11 lifecycle passed review, 2026-10-13
+
+Request `087701dce1ba484795bf59765e980074` for `windows.firewall-domain-profiles` on Windows 11: passed; 2 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-firewall-domain-profiles-win11-087701dc-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Domain firewall profile Windows Server 2025 lifecycle passed review, 2026-10-13
+
+Request `02e343a038694f88bb01294a24c18dcd` for `windows.firewall-domain-profiles` on Windows Server 2025: passed; 2 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-firewall-domain-profiles-winserver-2025-02e343a0-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Private firewall profile Windows 11 lifecycle passed review, 2026-10-13
+
+Request `e7e35109260b46aa886b6eb540a6ad35` for `windows.firewall-private-profiles` on Windows 11: passed; 2 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-firewall-private-profiles-win11-e7e35109-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Private firewall profile Windows Server 2025 lifecycle passed review, 2026-10-13
+
+Request `7e3dea5bf4df48c485077c4df9e274c8` for `windows.firewall-private-profiles` on Windows Server 2025: passed; 2 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-firewall-private-profiles-winserver-2025-7e3dea5b-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Owned Balanced power plan Windows 11 lifecycle failed or incomplete review, 2026-10-13
+
+Request `7a00278ac82a41ef9d47cd2a59186df2` for `windows.owned-balanced-power-plan` on Windows 11: failed or incomplete; 1 states completed, lifecycle=True, exact recovery=False. [Evidence](../archive/evidence/settings-owned-balanced-power-plan-win11-7a00278a-2026-10-13.md). Controller: Test controller exited with code 1. See controller-errors.log.; cleanup: ; collection: ; guest: Settings fixture failed with exit code 1; inspect settings-fixture.json.; fixture: ; recovery: Owned copy changed or native export is not reproducible; refusing deletion.. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Owned-plan export diagnostic implemented; VM submission deferred review, 2026-10-13
+
+Implemented retained consecutive-export diagnostics in fixture 0.6.3; native PowerShell 5.1 and 7 parser checks passed. No product fingerprint/deletion guard, SupportedTargets or profiles changed. Approval review blocked VM submission twice before queueing; direct authorization is pending. Owned copy recovery remains failed/pending, with prior checkpoint cleanup evidence retained. No feature closure or estimate adjustment; packages paused.
+
+## Owned Balanced export diagnostic Windows 11 lifecycle failed or incomplete review, 2026-10-13
+
+Request `94297e8f3d5646308f11e786355584bf` for `windows.owned-balanced-power-plan` on Windows 11: failed or incomplete; 1 states completed, lifecycle=True, exact recovery=False. [Evidence](../archive/evidence/settings-owned-balanced-power-plan-win11-94297e8f-2026-10-13.md). Controller: Test controller exited with code 1. See controller-errors.log.; cleanup: ; collection: ; guest: Settings fixture failed with exit code 1; inspect settings-fixture.json.; fixture: ; recovery: Owned copy changed or native export is not reproducible; refusing deletion.. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Conditional radio policy Windows 11 lifecycle passed review, 2026-10-13
+
+Request `9cbb0b2a72e94a9ea14900842e5faac3` for `windows.media-radio-preset-retrieval-policy` on Windows 11: passed; 3 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-media-radio-preset-retrieval-policy-win11-9cbb0b2a-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Conditional Windows Media DRM policy Windows 11 lifecycle passed review, 2026-10-13
+
+Request `aca17a85e3ab46a1bf4664b93cd40c3e` for `windows.media-drm-online-access-policy` on Windows 11: passed; 3 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-media-drm-online-access-policy-win11-aca17a85-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Server Manager startup policy Windows Server 2025 lifecycle passed review, 2026-10-13
+
+Request `cce2df896ad047a6b71d9df6aa4f8230` for `windows.server-manager-startup-policy` on Windows Server 2025: passed; 3 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-server-manager-startup-policy-winserver-2025-cce2df89-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Shutdown Event Tracker Windows Server 2025 lifecycle passed review, 2026-10-13
+
+Request `2479f56603b1464598f23d47ab7a5363` for `windows.shutdown-event-tracker-policy` on Windows Server 2025: passed; 5 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-shutdown-event-tracker-policy-winserver-2025-2479f566-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Local SAM maximum password age Windows Server 2025 lifecycle failed or incomplete review, 2026-10-13
+
+Request `acf7c02d919c40208548d1cdf93fa9b7` for `windows.local-password-maximum-age` on Windows Server 2025: failed or incomplete; 3 states completed, lifecycle=True, exact recovery=False. [Evidence](../archive/evidence/settings-local-password-maximum-age-winserver-2025-acf7c02d-2026-10-13.md). Controller: Test controller exited with code 1. See controller-errors.log.; cleanup: ; collection: ; guest: Settings fixture failed with exit code 1; inspect settings-fixture.json.; fixture: ; recovery: Local maximum age or related policy context changed; refusing stale recovery.. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Maximum-age fixture reverse recovery repaired review, 2026-10-13
+
+Fixture 0.6.4 reverses maximum-age saved-run recovery order, preserving expected-post-write drift refusal. Server request acf7c02d919c40208548d1cdf93fa9b7 failed recovery with clean checkpoint/source-hash evidence; native retry pending. Both PowerShell editions passed 20 focused mocked tests. No product drift-guard relaxation or support widening. Packages paused; estimates unchanged.
+
+## Local SAM maximum password age Windows Server 2025 lifecycle failed or incomplete review, 2026-10-13
+
+Request `4486e991080b404f9cb60f5fb1b8ec10` for `windows.local-password-maximum-age` on Windows Server 2025: failed or incomplete; 3 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-local-password-maximum-age-winserver-2025-4486e991-2026-10-13.md). Controller: Test controller exited with code 1. See controller-errors.log.; cleanup: ; collection: ; guest: Settings fixture failed with exit code 1; inspect settings-fixture.json.; fixture: ; recovery: The term 'Set-RideLocalPasswordAgeState' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Maximum-age fault binding repaired after exact recovery review, 2026-10-13
+
+Maximum-age exact reverse-chain recovery passed in request 4486e991080b404f9cb60f5fb1b8ec10, but controlled-fault lookup failed before injection. Fixture 0.6.5 resolves the direct engine-retained handler. Read-only binding and both parsers passed. Full retry remains pending; failed evidence retained, no target promotion or estimate closure.
+
+## Local SAM maximum password age Windows Server 2025 lifecycle passed review, 2026-10-13
+
+Request `9dd8005663cc4a5894c97b6ec04bb047` for `windows.local-password-maximum-age` on Windows Server 2025: passed; 3 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-local-password-maximum-age-winserver-2025-9dd80056-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Local SAM maximum password age Windows 11 lifecycle passed review, 2026-10-13
+
+Request `95845a6e61344116bc5684aae0ec18b7` for `windows.local-password-maximum-age` on Windows 11: passed; 3 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-local-password-maximum-age-win11-95845a6e-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## WAP Push controlled startup recovery Windows 11 lifecycle passed review, 2026-10-13
+
+Request `a7f221f3b078422690a7abd6b2623873` for `windows.wap-push-service` on Windows 11: passed; 2 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-wap-push-service-win11-a7f221f3-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Search controlled startup recovery Windows 11 lifecycle passed review, 2026-10-13
+
+Request `826e79723cf8457d8b0279e5fd355fd9` for `windows.search-indexing-service` on Windows 11: passed; 2 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-search-indexing-service-win11-826e7972-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Keyboard delay controlled write recovery Windows 11 lifecycle passed review, 2026-10-13
+
+Request `5195b4e734dc4d9ea37ad8a1dcdb79e5` for `windows.keyboard-repeat-delay` on Windows 11: passed; 2 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-keyboard-repeat-delay-win11-5195b4e7-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Update notification controlled paired-write recovery Windows 11 lifecycle passed review, 2026-10-13
+
+Request `5803c01cb50543a29982e8d6d9a9dc86` for `windows.update-notification-display-policy` on Windows 11: passed; 2 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-update-notification-display-policy-win11-5803c01c-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Guarded Windows Audio service Windows Server 2025 lifecycle passed review, 2026-10-13
+
+Request `7fe176404e774e75bee47b169b5e7094` for `windows.audio-service` on Windows Server 2025: passed; 2 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-audio-service-winserver-2025-7fe17640-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Owned logical-export comparison implemented review, 2026-10-13
+
+Owned handler 0.2.0/LogicalExportV1 preserves stable logical exported data with bounded read-only application-hive access. Existing v1 raw-hash contract remains. Three retained exports compared equally; 29 mocked tests passed per native edition and catalog/docs/parser checks passed. Fixture 0.6.6 adds real owned-copy label drift refusal and seed recovery. Native retry, source-template availability, hidden-setting drift, partial-failure and actual feature/default/GUI acceptance remain pending. No target promotion, package work or whole-outcome closure; estimates unchanged.
+
+## Guarded Windows Audio service Windows 11 lifecycle passed review, 2026-10-13
+
+Request `3134e804661844108b9ed894cde274a2` for `windows.audio-service` on Windows 11: passed; 2 states completed, lifecycle=True, exact recovery=True. [Evidence](../archive/evidence/settings-audio-service-win11-3134e804-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Owned Balanced logical-export recovery Windows Server 2025 lifecycle passed review, 2026-10-13
+
+Request `365e4b4da29e4fcbb4762463f276ea35` for `windows.owned-balanced-power-plan` on Windows Server 2025: passed; 1 states completed, lifecycle=True, exact recovery=False. [Evidence](../archive/evidence/settings-owned-balanced-power-plan-winserver-2025-365e4b4d-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Owned Balanced logical-export recovery Windows 11 lifecycle passed review, 2026-10-13
+
+Request `cbb7a29d7111435da5b83cb7203f24b8` for `windows.owned-balanced-power-plan` on Windows 11: passed; 1 states completed, lifecycle=True, exact recovery=False. [Evidence](../archive/evidence/settings-owned-balanced-power-plan-win11-cbb7a29d-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Owned High Performance logical-export recovery Windows Server 2025 lifecycle passed review, 2026-10-13
+
+Request `6021fbd5f4254fc1932e6828ee35fdfc` for `windows.owned-high-performance-power-plan` on Windows Server 2025: passed; 1 states completed, lifecycle=True, exact recovery=False. [Evidence](../archive/evidence/settings-owned-high-performance-power-plan-winserver-2025-6021fbd5-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Owned High Performance logical-export recovery Windows 11 lifecycle passed review, 2026-10-13
+
+Request `0e7add1b8e1c483fbab35f23a74f808c` for `windows.owned-high-performance-power-plan` on Windows 11: passed; 1 states completed, lifecycle=True, exact recovery=False. [Evidence](../archive/evidence/settings-owned-high-performance-power-plan-win11-0e7add1b-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Conditional owned Ultimate Performance Windows Server 2025 lifecycle passed review, 2026-10-13
+
+Request `2cd90b3981df499c8f4b499dc9a87117` for `windows.owned-ultimate-performance-power-plan` on Windows Server 2025: passed; 1 states completed, lifecycle=True, exact recovery=False. [Evidence](../archive/evidence/settings-owned-ultimate-performance-power-plan-winserver-2025-2cd90b39-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Conditional owned Ultimate Performance Windows 11 lifecycle passed review, 2026-10-13
+
+Request `38e4646949c7439ca9f74c1e45e0dc92` for `windows.owned-ultimate-performance-power-plan` on Windows 11: passed; 1 states completed, lifecycle=True, exact recovery=False. [Evidence](../archive/evidence/settings-owned-ultimate-performance-power-plan-win11-38e46469-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Explicit owned-plan guard fixtures implemented review, 2026-10-13
+
+Implemented explicit owned guard modes in fixture 0.7.0 and compatible schema-2 data validation. Active selection has its own capture/recovery; deliberate setting drift and incomplete Intent retain the copy for checkpoint-only cleanup. Both native editions passed 18 pure data tests and parser checks. Native acceptance pending, published catalog targets/states unchanged, packages paused and estimates unchanged.
+
+## Owned Balanced active-copy refusal Windows Server 2025 ActiveRefusal guard passed review, 2026-10-13
+
+Request `4c1579dfc525486a9812979ca8b05a20` for `windows.owned-balanced-power-plan` on Windows Server 2025: passed; 1 states completed, lifecycle=True, exact recovery=False. [Evidence](../archive/evidence/settings-owned-balanced-power-plan-winserver-2025-4c1579df-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Owned Balanced ActiveRefusal Windows 11 ActiveRefusal guard passed review, 2026-10-13
+
+Request `76fbb477b11142288f90531093e6f833` for `windows.owned-balanced-power-plan` on Windows 11: passed; 1 states completed, lifecycle=True, exact recovery=False. [Evidence](../archive/evidence/settings-owned-balanced-power-plan-win11-76fbb477-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Owned Balanced SettingDrift Windows Server 2025 SettingDrift guard passed review, 2026-10-13
+
+Request `8889c7171a8f4a9ebac14a5e456c271b` for `windows.owned-balanced-power-plan` on Windows Server 2025: passed; 1 states completed, lifecycle=False, exact recovery=False. [Evidence](../archive/evidence/settings-owned-balanced-power-plan-winserver-2025-8889c717-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Owned Balanced SettingDrift Windows 11 SettingDrift guard passed review, 2026-10-13
+
+Request `75c3d9e2ece44fb9ad98a2a385cade8a` for `windows.owned-balanced-power-plan` on Windows 11: passed; 1 states completed, lifecycle=False, exact recovery=False. [Evidence](../archive/evidence/settings-owned-balanced-power-plan-win11-75c3d9e2-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Owned Balanced InterruptedCreation Windows Server 2025 InterruptedCreation guard failed or incomplete review, 2026-10-13
+
+Request `77ef1aa1c89240ddbb7d70e9dc4045f7` for `windows.owned-balanced-power-plan` on Windows Server 2025: failed or incomplete; 0 states completed, lifecycle=False, exact recovery=False. [Evidence](../archive/evidence/settings-owned-balanced-power-plan-winserver-2025-77ef1aa1-2026-10-13.md). Controller: Test controller exited with code 1. See controller-errors.log.; cleanup: ; collection: ; guest: Settings fixture failed with exit code 1; inspect settings-fixture.json.; fixture: Interrupted creation did not retain the exact captured inactive Intent copy.; recovery: . GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Interrupted ownership capture fixture repaired review, 2026-10-13
+
+The failed assertion compared preliminary absent inspection random proposals rather than the actual captured creation contract. Retained saved snapshot and version-2 Intent have identical destination/token identities. Fixture 0.7.1 verifies the saved run correlation and retains observed Intent. No ownership guard was relaxed; no interrupted-copy deletion or compensation is claimed. Both targets require retry.
+
+## Owned Balanced InterruptedCreation Windows Server 2025 InterruptedCreation guard passed review, 2026-10-13
+
+Request `bf89d6e09ab8448e8e5a2e3cf3312bc3` for `windows.owned-balanced-power-plan` on Windows Server 2025: passed; 0 states completed, lifecycle=False, exact recovery=False. [Evidence](../archive/evidence/settings-owned-balanced-power-plan-winserver-2025-bf89d6e0-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Owned Balanced InterruptedCreation Windows 11 InterruptedCreation guard passed review, 2026-10-13
+
+Request `6573f64481da4770b783f33e6d7a04ad` for `windows.owned-balanced-power-plan` on Windows 11: passed; 0 states completed, lifecycle=False, exact recovery=False. [Evidence](../archive/evidence/settings-owned-balanced-power-plan-win11-6573f644-2026-10-13.md). Controller, cleanup, collection, guest, fixture and recovery errors were absent. GUI/feature, component presence/applicability, boot/workload, managed/default and deliberate native-failure evidence remain pending. No supported-target widening or whole legacy closure.
+
+## Remaining settings analysis and decision plan complete review, 2026-10-13
+
+All three owned refusal modes passed both targets; retained structured records distinguish active selection recovery/compensation from checkpoint-only drift/Intent cleanup. The failed interruption fixture remains archived; corrected creation capture passed. Fixture 0.7.2 fixes only progress wording and has parser evidence. [Full settings analysis and numbered questions](remaining-settings-plan.md) retains every current remainder row, earlier accepted families and independent work. Published targets, profiles, package pause and all five ranges remain unchanged.

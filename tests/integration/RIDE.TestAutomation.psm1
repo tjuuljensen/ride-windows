@@ -25,8 +25,9 @@
   Recovery: Follow automatedlab-tasks.md for blocked requests; the fixed worker restores only its
   pinned disposable VM/checkpoint.
   Author: RIDE-Windows maintainers.
-  Version: 0.4.6
+  Version: 0.5.0
   Changelog:
+    0.5.0: Add explicit GitHub PAT selection and credential-safe acceptance boundaries.
     - 0.4.6: Normalize JSON-parsed queue timestamps before culture-sensitive validation.
     - 0.4.5: Remove host UAC inspection and comparison from controller execution.
     - 0.4.4: Preserve the host's existing UAC configuration without requiring enabled prompting.
@@ -46,7 +47,7 @@
 #>
 
 
-$script:ModuleVersion = '0.4.6'
+$script:ModuleVersion = '0.5.0'
 
 Set-StrictMode -Version 2
 
@@ -118,7 +119,10 @@ function Read-RideAutomationConfiguration {
   foreach ($key in @('SchemaVersion', 'Name', 'LabName', 'VMName', 'VMId', 'CheckpointName', 'GuestRepositoryPath', 'LocalRepositoryPath', 'CIRepositoryPath', 'IsDisposable')) {
     if ($null -eq $config.$key -or [string]::IsNullOrWhiteSpace([string]$config.$key)) { throw "Configuration is missing $key." }
   }
-  if ($config.SchemaVersion -ne 1 -or $config.IsDisposable -ne $true) { throw 'SchemaVersion 1 and IsDisposable = true are required.' }
+  if ($config.SchemaVersion -notin @(1,2) -or $config.IsDisposable -ne $true) { throw 'SchemaVersion 1 or 2 and IsDisposable = true are required.' }
+  if ($config.PSObject.Properties.Name -contains 'GuestGitHubCredentialReference' -or ($config -is [Collections.IDictionary] -and $config.Contains('GuestGitHubCredentialReference'))) {
+    if ($config.SchemaVersion -ne 2 -or $config.GuestGitHubCredentialReference -notmatch '^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$') { throw 'Guest GitHub reference requires SchemaVersion 2 and a safe enrollment name.' }
+  }
   if ($config.LabName -notmatch '^[A-Za-z0-9][A-Za-z0-9-]{0,30}$' -or $config.VMName -notmatch '^[A-Za-z0-9][A-Za-z0-9-]{0,14}$') { throw 'Invalid lab or VM name.' }
   $null = Get-RideAutomationRoot $config.Name
   $null = [guid]::Parse($config.VMId)
@@ -129,6 +133,32 @@ function Read-RideAutomationConfiguration {
   }
   if ($config.LocalRepositoryPath.TrimEnd('\') -eq $config.CIRepositoryPath.TrimEnd('\')) { throw 'Local and CI checkout paths must be separate.' }
   $config
+}
+
+function Assert-RideAutomationRegistrationPins {
+  <#
+  .SYNOPSIS
+    Refuse a controller refresh that changes existing resource or account pins.
+  .DESCRIPTION
+    Authentication capability upgrades retain the registered VM, checkpoint,
+    execution identity, approved source paths and installation ISO identity.
+  .PARAMETER Existing
+    Previously installed configuration.
+  .PARAMETER Candidate
+    Newly resolved registration configuration.
+  .EXAMPLE
+    Assert-RideAutomationRegistrationPins $installed $candidate
+  .INPUTS
+    None.
+  .OUTPUTS
+    None; throws before registration writes when any pin changes.
+  .NOTES
+    Version and compatibility follow this module. Read-only comparison.
+  #>
+  param($Existing, $Candidate)
+  foreach ($field in @('Name','LabName','VMName','VMId','CheckpointName','CheckpointId','HostAccountSid','GuestRepositoryPath','LocalRepositoryPath','CIRepositoryPath','IsoPath','IsoSHA256')) {
+    if ([string]$Existing.$field -ne [string]$Candidate.$field) { throw "Controller refresh must preserve the registered $field pin." }
+  }
 }
 
 function Write-RideAutomationJson {
@@ -259,6 +289,9 @@ function Save-RideAutomationFailureEvidence {
   .PARAMETER ResultDirectory
     Existing correlated host result directory for collector logs and guest exports.
 
+  .PARAMETER VerifyGitHubCredentialAbsence
+    After checkpoint recovery, verify the request-bound credential is absent in a bounded guest session.
+
   .EXAMPLE
     Get-Help Save-RideAutomationFailureEvidence -Full
     Inspect this command's contract without invoking its implementation.
@@ -274,10 +307,12 @@ function Save-RideAutomationFailureEvidence {
 
   #>
 
-  param([string] $Root, [string] $RunId, [string] $ResultDirectory)
+  param([string] $Root, [string] $RunId, [string] $ResultDirectory, [switch] $VerifyGitHubCredentialAbsence)
   # A separate bounded collector ensures broken remoting cannot prevent VM reset.
   $arguments = "-NoLogo -NoProfile -ExecutionPolicy Bypass -NonInteractive -WindowStyle Hidden -File `"$(Join-Path $Root 'bin\Export-RideVmTestEvidence.ps1')`" -ConfigurationPath `"$(Join-Path $Root 'configuration.json')`" -RunId $RunId -ResultDirectory `"$ResultDirectory`""
-  $collector = Start-Process -FilePath (Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe') -ArgumentList $arguments -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $ResultDirectory 'collection.log') -RedirectStandardError (Join-Path $ResultDirectory 'collection-errors.log')
+  $logPrefix = 'collection'
+  if ($VerifyGitHubCredentialAbsence) { $arguments += ' -VerifyGitHubCredentialAbsence'; $logPrefix = 'collection-credential-recovery' }
+  $collector = Start-Process -FilePath (Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe') -ArgumentList $arguments -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $ResultDirectory ($logPrefix + '.log')) -RedirectStandardError (Join-Path $ResultDirectory ($logPrefix + '-errors.log'))
   # Windows PowerShell 5.1 needs the handle retained before a redirected child exits.
   $null = $collector.Handle
   if (-not $collector.WaitForExit(90000)) { Stop-RideAutomationProcess $collector; throw 'Partial-evidence collection timed out after 90 seconds.' }
@@ -572,8 +607,18 @@ function Assert-RideAutomationRequest {
   param([object] $Request)
   $null = [guid]::ParseExact([string]$Request.RunId, 'N')
   if ($Request.Source -notin @('Local', 'CI') -or $Request.UnitOnly -isnot [bool]) { throw 'Invalid request source or UnitOnly value.' }
+  if ($Request.PSObject.Properties.Name -contains 'GuestGitHubAuthentication') {
+    if ($Request.GuestGitHubAuthentication -notin @('Anonymous','PAT')) { throw 'Invalid guest GitHub authentication mode.' }
+    if ($Request.GuestGitHubAuthentication -eq 'PAT' -and ($Request.UnitOnly -or $Request.IntegrationSuite -ne 'GitHubAuthentication' -or $Request.SchemaVersion -ne 2)) { throw 'Guest PAT requires a version-2 GitHubAuthentication suite request.' }
+  }
+  if ($Request.PSObject.Properties.Name -contains 'GitHubTestScenario') {
+    if ($Request.GitHubTestScenario -notin @('Acquire','FailAfterDelivery','WaitForTimeout') -or $Request.IntegrationSuite -ne 'GitHubAuthentication') { throw 'Invalid focused GitHub recovery scenario.' }
+  }
+  foreach ($name in $Request.PSObject.Properties.Name) {
+    if ($name -notin @('SchemaVersion','RunId','Source','UnitOnly','IntegrationSuite','TimeoutMinutes','SubmittedAtUtc','GuestGitHubAuthentication','GitHubTestScenario')) { throw 'Request contains an unsupported field; credentials and paths are not accepted in the queue.' }
+  }
   if ($Request.PSObject.Properties.Name -contains 'IntegrationSuite') {
-    if ($Request.IntegrationSuite -notin @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2')) { throw 'Invalid request IntegrationSuite.' }
+    if ($Request.IntegrationSuite -notin @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2', 'GitHubAuthentication')) { throw 'Invalid request IntegrationSuite.' }
     if ($Request.UnitOnly -and $Request.IntegrationSuite -ne 'Full') { throw 'IntegrationSuite cannot be selected with UnitOnly.' }
   }
   if ($Request.TimeoutMinutes -lt 1 -or $Request.TimeoutMinutes -gt 180) { throw 'Invalid request timeout.' }
@@ -744,20 +789,32 @@ function Invoke-RideAutomationRequest {
   param([object] $Configuration, [object] $Request, [string] $Root)
   Assert-RideAutomationRequest $Request
   $selectedSuite = if ($Request.PSObject.Properties.Name -contains 'IntegrationSuite') { $Request.IntegrationSuite } else { 'Full' }
+  $guestAuthentication = if ($Request.PSObject.Properties.Name -contains 'GuestGitHubAuthentication') { $Request.GuestGitHubAuthentication } else { 'Anonymous' }
+  $authenticationContext = $null
+  $gitHubScenario = if ($Request.PSObject.Properties.Name -contains 'GitHubTestScenario') { $Request.GitHubTestScenario } else { 'Acquire' }
   $runDirectory = Join-Path $Root "results\$($Request.RunId)"
   Assert-RideAutomationDirectory $runDirectory
   New-Item -ItemType Directory -Path $runDirectory -Force | Out-Null
   $summary = [ordered]@{ SchemaVersion = 1; RunId = $Request.RunId; Source = $Request.Source; UnitOnly = $Request.UnitOnly; IntegrationSuite = $selectedSuite; Status = 'Failed'; StartedAtUtc = [datetime]::UtcNow.ToString('o'); FinishedAtUtc = $null; Error = $null; CleanupError = $null; CollectionError = $null }
   $touchedVm = $false
+  $summary.GuestGitHubAuthentication = $guestAuthentication
+  $summary.GitHubTestScenario = $gitHubScenario
+  $summary.CredentialCleanupVerified = $null
+  $summary.EvidenceExportError = $null
   try {
     if (Test-Path -LiteralPath (Join-Path $Root 'runtime\blocked.json')) { throw 'VM cleanup is blocked. Follow the recovery runbook before submitting another run.' }
     Assert-RideAutomationHost $Configuration
+    if ($guestAuthentication -eq 'PAT') {
+      Import-Module (Join-Path $Root 'bin\RIDE.GitHubVmAuthentication.psm1') -ErrorAction Stop
+      $authenticationContext = Get-RideVmGitHubContext $Configuration
+    }
     $null = Import-RideAutomationLab $Configuration
     if (([datetime]::UtcNow - [datetime]::Parse($Request.SubmittedAtUtc).ToUniversalTime()).TotalMinutes -ge $Request.TimeoutMinutes) { throw 'Request expired while waiting in the queue.' }
     $source = if ($Request.Source -eq 'CI') { $Configuration.CIRepositoryPath } else { $Configuration.LocalRepositoryPath }
     $snapshotPath = Join-Path $runDirectory 'snapshot\ride-windows'
     $manifest = @(Copy-RideAutomationSnapshot -Source $source -Destination $snapshotPath)
     Write-RideAutomationJson -Path (Join-Path $runDirectory 'source-files.json') -Value $manifest
+    if ($selectedSuite -eq 'GitHubAuthentication' -and (Test-Path -LiteralPath (Join-Path $snapshotPath 'tests\integration\settings-validation.fixture.psd1'))) { throw 'Use an isolated reviewed authentication source without the active settings fixture.' }
     if (([datetime]::UtcNow - [datetime]::Parse($Request.SubmittedAtUtc).ToUniversalTime()).TotalMinutes -ge $Request.TimeoutMinutes) { throw 'Request expired while staging the checkout.' }
     $touchedVm = $true
     Reset-RideAutomationVm $Configuration
@@ -765,6 +822,11 @@ function Invoke-RideAutomationRequest {
     $arguments = "-NoLogo -NoProfile -ExecutionPolicy Bypass -NonInteractive -WindowStyle Hidden -File `"$(Join-Path $Root 'bin\Invoke-RideVmTest.ps1')`" -Transport AutomatedLab -LabName `"$($Configuration.LabName)`" -VMName `"$($Configuration.VMName)`" -RepositoryPath `"$snapshotPath`" -GuestRepositoryPath `"$($Configuration.GuestRepositoryPath)`" -ResultDirectory `"$runDirectory`" -RunId $($Request.RunId)"
     if ($Request.UnitOnly) { $arguments += ' -UnitOnly' }
     else { $arguments += " -IntegrationSuite $selectedSuite" }
+    if ($selectedSuite -eq 'GitHubAuthentication') { $arguments += " -GuestGitHubAuthentication $guestAuthentication -GitHubTestScenario $gitHubScenario" }
+    if ($guestAuthentication -eq 'PAT') {
+      $deadline = ([datetime]::Parse($Request.SubmittedAtUtc).ToUniversalTime()).AddMinutes($Request.TimeoutMinutes).ToString('o')
+      $arguments += " -AuthenticationConfigurationPath `"$(Join-Path $Root 'configuration.json')`" -AuthenticationDeadlineUtc $deadline -AuthenticationCredentialRevision $($authenticationContext.Revision)"
+    }
     $process = Start-Process -FilePath (Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe') -ArgumentList $arguments -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $runDirectory 'controller.log') -RedirectStandardError (Join-Path $runDirectory 'controller-errors.log')
     # Retain the handle before waiting; otherwise Windows PowerShell 5.1 can lose ExitCode.
     $null = $process.Handle
@@ -786,6 +848,9 @@ function Invoke-RideAutomationRequest {
     $guest = Get-Content -LiteralPath (Join-Path $runDirectory 'guest\summary.json') -Raw -ErrorAction Stop | ConvertFrom-Json
     if ($guest.RunId -ne $Request.RunId -or $guest.Status -ne 'Passed' -or $guest.Pester.Total -lt 1 -or $guest.Pester.Failed -ne 0 -or -not $guest.ValidationPassed -or (-not $Request.UnitOnly -and -not $guest.IntegrationPassed)) { throw 'Guest result is missing, mismatched, incomplete or unsuccessful.' }
     if (-not $Request.UnitOnly -and ($guest.PSObject.Properties.Name -notcontains 'IntegrationSuite' -or $guest.IntegrationSuite -ne $selectedSuite)) { throw 'Guest integration suite does not match the requested suite.' }
+    if ($selectedSuite -eq 'GitHubAuthentication' -and $guest.GuestGitHubAuthentication -ne $guestAuthentication) { throw 'Guest authentication mode does not match the request.' }
+    if ($selectedSuite -eq 'GitHubAuthentication' -and $guest.GitHubTestScenario -ne $gitHubScenario) { throw 'Guest authentication scenario does not match the request.' }
+    if ($guestAuthentication -eq 'PAT' -and $guest.CredentialCleanupVerified -ne $true) { throw 'Guest credential cleanup evidence is missing.' }
     if (-not (Test-Path -LiteralPath (Join-Path $runDirectory 'guest\pester.xml') -PathType Leaf)) { throw 'Guest Pester XML is missing.' }
     $summary.Status = 'Passed'
   }
@@ -796,7 +861,16 @@ function Invoke-RideAutomationRequest {
         try { Save-RideAutomationFailureEvidence -Root $Root -RunId $Request.RunId -ResultDirectory $runDirectory }
         catch { $summary.CollectionError = $_.Exception.Message }
       }
-      try { Reset-RideAutomationVm $Configuration }
+      try {
+        Reset-RideAutomationVm $Configuration
+        if ($guestAuthentication -eq 'PAT') {
+          try { Save-RideAutomationFailureEvidence -Root $Root -RunId $Request.RunId -ResultDirectory $runDirectory -VerifyGitHubCredentialAbsence }
+          finally { Reset-RideAutomationVm $Configuration }
+          $recovery = Get-Content -LiteralPath (Join-Path $runDirectory 'guest\credential-recovery.json') -Raw | ConvertFrom-Json
+          if ($recovery.RunId -ne $Request.RunId -or $recovery.CredentialAbsent -ne $true) { throw 'Post-reset credential absence was not verified.' }
+          $summary.CredentialCleanupVerified = $true
+        }
+      }
       catch {
         $summary.Status = 'Failed'
         $summary.CleanupError = $_.Exception.Message
@@ -804,6 +878,13 @@ function Invoke-RideAutomationRequest {
       }
     }
     $summary.FinishedAtUtc = [datetime]::UtcNow.ToString('o')
+    if ($authenticationContext) {
+      try { Publish-RideVmGitHubEvidence -ResultDirectory $runDirectory -RunId $Request.RunId -Token $authenticationContext.Token -Summary $summary }
+      catch {
+        $summary.Status = 'Failed'; $summary.EvidenceExportError = 'PAT evidence scan failed or was incomplete; export refused.'
+      }
+      finally { $authenticationContext.Token.Dispose() }
+    }
     Write-RideAutomationJson -Path (Join-Path $runDirectory 'result.json') -Value $summary
   }
   [pscustomobject]$summary

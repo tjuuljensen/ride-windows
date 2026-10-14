@@ -68,6 +68,10 @@ scope, recovery and individual policy/service guides, including pending candidat
 Use `download package.7zip -Destination <path>` to choose the artifact directory. Use `download artifact.sysmon-swift-config` to retain the latest SwiftOnSecurity XML at an immutable Git commit revision; RIDE does not apply this file automatically. Download records in `catalog/artifact-observations.json` are metadata only; a locally observed SHA-256 is not publisher authentication. See the [package verification matrix](docs/package-verification-matrix.md) for current source evidence. Append `-WhatIf` to a state-changing command to preview a change. An operation's supported actions, privilege needs, scope, and rollback limits are shown by `list`, `show`, and the generated [operation catalog](docs/OPERATIONS.md).
 
 GitHub latest-release lookups use [bounded freshness and shared quota backoff](docs/github-release-discovery.md).
+Optional PAT discovery uses `-GitHubAuthentication PAT -GitHubCredentialReference <name>`
+on download/install/apply/restore. Enroll through `tools/Manage-RideGitHubCredential.ps1`;
+Tab completes nonsecret references without reading tokens. See the same guide for
+DPAPI storage, explicit VM delivery and pending live authentication acceptance.
 
 The optional God Mode desktop shortcut uses the current user's desktop,
 including a redirected desktop. Preview it with

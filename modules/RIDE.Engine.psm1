@@ -36,8 +36,9 @@
   Recovery: Restore-RideRun recovers captured settings/presence. Read catalog rollback limits before
   applying packages or grouped changes.
   Author: RIDE-Windows maintainers.
-  Version: 0.19.0
+  Version: 0.20.0
   Changelog:
+    0.20.0: Add explicit GitHub PAT selection and credential-safe acceptance boundaries.
     - 0.19.0: Add local SAM maximum-age capture, day states and focused recovery.
     - 0.18.2: Expose read-only dependency observations for guarded service details.
     - 0.18.1: Present preserved registry components as keep current in plans and status.
@@ -72,7 +73,7 @@
 #>
 
 
-$script:ModuleVersion = '0.19.0'
+$script:ModuleVersion = '0.20.0'
 
 $script:RideRoot = Split-Path -Parent $PSScriptRoot
 $script:RideCatalogPath = Join-Path $script:RideRoot 'catalog/operations.psd1'
@@ -1088,6 +1089,12 @@ function Save-RidePackage {
   .PARAMETER Destination
     Artifact destination root; defaults to the user RIDE state root Artifacts directory.
 
+  .PARAMETER GitHubAuthentication
+    Anonymous (default) or explicit PAT for GitHub release discovery only.
+
+  .PARAMETER GitHubCredentialReference
+    Nonsecret enrolled reference required with PAT. Resolved only during acquisition.
+
   .EXAMPLE
     Save-RidePackage -Id package.7zip -WhatIf
 
@@ -1106,7 +1113,9 @@ function Save-RidePackage {
   param(
     [Parameter(Mandatory = $true)][string] $Id,
     [string] $Variant,
-    [string] $Destination = (Join-Path (Get-RideStateRoot -Scope User) 'Artifacts')
+    [string] $Destination = (Join-Path (Get-RideStateRoot -Scope User) 'Artifacts'),
+    [ValidateSet('Anonymous','PAT')][string] $GitHubAuthentication = 'Anonymous',
+    [string] $GitHubCredentialReference
   )
 
   $operation = Get-RideOperation -Id $Id
@@ -1114,7 +1123,7 @@ function Save-RidePackage {
   if ($operation.Kind -notin @('Package', 'Artifact')) { throw "The download command requires a package or artifact ID; '$Id' is a $($operation.Kind) operation." }
   if ('Download' -notin $operation.Actions) { throw "Catalog item '$Id' does not support download." }
   if ($PSCmdlet.ShouldProcess($operation.Name, "Download latest artifact to '$Destination'")) {
-    Save-RidePackageArtifact -Operation $operation -DestinationDirectory $Destination
+    Save-RidePackageArtifact -Operation $operation -DestinationDirectory $Destination -GitHubAuthentication $GitHubAuthentication -GitHubCredentialReference $GitHubCredentialReference
   }
 }
 
@@ -1130,6 +1139,12 @@ function Invoke-RidePlan {
 
   .PARAMETER Plan
     Ordered operation/state objects returned by Get-RidePlan or Get-RideSingleOperationPlan.
+
+  .PARAMETER GitHubAuthentication
+    Anonymous (default) or explicit PAT for GitHub release discovery only.
+
+  .PARAMETER GitHubCredentialReference
+    Nonsecret enrolled reference required with PAT. Resolved only during acquisition.
 
   .EXAMPLE
     Invoke-RidePlan -Plan (Get-RidePlan -Profile (Get-RideProfile)) -WhatIf
@@ -1147,7 +1162,9 @@ function Invoke-RidePlan {
 
   [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
   param(
-    [Parameter(Mandatory = $true)][object[]] $Plan
+    [Parameter(Mandatory = $true)][object[]] $Plan,
+    [ValidateSet('Anonymous','PAT')][string] $GitHubAuthentication = 'Anonymous',
+    [string] $GitHubCredentialReference
   )
   Assert-RidePlanAllowed -Plan $Plan
   $runId = [guid]::NewGuid().ToString('N')
@@ -1195,7 +1212,7 @@ function Invoke-RidePlan {
           Save-RidePackageSelectionIndex -Operation $operation
           if ($item.State -eq 'Present') {
             $cache = Join-Path (Get-RideStateRoot -Scope $operation.Scope) 'Cache'
-            $artifact = Install-RidePackage -Operation $operation -CacheDirectory $cache
+            $artifact = Install-RidePackage -Operation $operation -CacheDirectory $cache -GitHubAuthentication $GitHubAuthentication -GitHubCredentialReference $GitHubCredentialReference
             if ($artifact) {
               $recordPath = Join-Path (Get-RideStateRoot -Scope $operation.Scope) (Join-Path $runId (($operation.Id -replace '[^a-zA-Z0-9._-]', '_') + '.json'))
               $savedRecord = Get-Content -LiteralPath $recordPath -Raw | ConvertFrom-Json
@@ -1756,6 +1773,12 @@ function Restore-RideRun {
   .PARAMETER RunId
     32 hexadecimal characters identifying a saved run; machine-scoped records require elevation.
 
+  .PARAMETER GitHubAuthentication
+    Anonymous (default) or explicit PAT for GitHub release discovery only.
+
+  .PARAMETER GitHubCredentialReference
+    Nonsecret enrolled reference required with PAT. Resolved only during acquisition.
+
   .EXAMPLE
     Get-Help Restore-RideRun -Full
     Inspect this command's contract without invoking its implementation.
@@ -1772,7 +1795,7 @@ function Restore-RideRun {
   #>
 
   [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
-  param([Parameter(Mandatory = $true)][string] $RunId)
+  param([Parameter(Mandatory = $true)][string] $RunId, [ValidateSet('Anonymous','PAT')][string] $GitHubAuthentication = 'Anonymous', [string] $GitHubCredentialReference)
   if ($RunId -notmatch '^[a-fA-F0-9]{32}$') { throw 'Run ID must be a 32-character hexadecimal value.' }
   $roots = @((Get-RideStateRoot -Scope 'User'))
   if (Test-RideAdministrator) { $roots += (Get-RideStateRoot -Scope 'Machine') }
@@ -1855,7 +1878,7 @@ function Restore-RideRun {
         Write-Warning "$($operation.Name) was previously installed, but exact package version recovery is unavailable; reinstalling the catalog's declared installer."
         if ($record.RecoveryUri) { Write-Warning "Recovery information: $($record.RecoveryUri)" }
         $cache = Join-Path (Get-RideStateRoot -Scope $operation.Scope) 'Cache'
-        Install-RidePackage -Operation $operation -CacheDirectory $cache
+        Install-RidePackage -Operation $operation -CacheDirectory $cache -GitHubAuthentication $GitHubAuthentication -GitHubCredentialReference $GitHubCredentialReference
       }
       elseif (-not $record.Snapshot.Present -and $currentlyInstalled) {
         Uninstall-RidePackage -Operation $operation

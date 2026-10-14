@@ -4,7 +4,7 @@
 
 ### Development reliability - high priority
 
-- [ ] Implement **optional GitHub authentication** as approved v3 scope, ahead of lower-priority feature expansion. Start with explicit personal access token support for public release discovery, protected credential references and separate authentication/cache contexts. Preserve anonymous mode, cache/backoff and explicit VM credential boundaries; complete the [scope and acceptance work](docs/MIGRATION-PLAN.md#optional-github-authentication-v3-scope). Authentication must be optional for users, but its implementation and validation are now part of the v3 workplan.
+- [ ] Complete **optional GitHub authentication** acceptance: DPAPI enrollment, explicit PAT discovery, shared-account backoff and run-bound guest delivery are implemented in source. Finish dedicated credential enrollment, reviewed controller refresh, focused anonymous/PAT acquisition and failure/timeout cleanup on both VMs, and hosted final-source validation. Keep broad PAT suites and default-branch cutover separate; see the [workflow and acceptance status](docs/github-release-discovery.md#authentication-acceptance-status) and [approved scope](docs/MIGRATION-PLAN.md#optional-github-authentication-v3-scope).
 
 ### Engine correctness
 
@@ -20,7 +20,7 @@
 
 ### Migration
 
-- [ ] Continue the accepted settings decisions from the [implementation handoff](docs/migrations/settings-implementation-handoff.md); complete the remaining metadata, handlers and acceptance before the final outstanding-issue walkthrough.
+- [ ] Continue the accepted settings decisions from the [implementation handoff](docs/migrations/settings-implementation-handoff.md); start the six-control metadata batch in the [remaining settings plan](docs/migrations/remaining-settings-plan.md#recommended-implementation-order), retain its numbered questions and complete remaining handlers/acceptance before the final walkthrough.
 - [ ] Include **Rufus** as an optional v3 tool for bootable USB media creation; see the [requested additions](docs/candidate-tools.md#requested-v3-additions-2026-10-11) for portable acquisition, publisher/license references and acceptance work.
 - [ ] Include **HashCheck - idrassi fork** as an optional v3 app; see the [requested additions](docs/candidate-tools.md#requested-v3-additions-2026-10-11) for publisher, license and acceptance work.
 - [ ] Include the supplied **Hash value** submenu and corrected **SHA-256 with Certutil** context-menu setting as optional v3 solutions; see the [source and corrected registry example](examples/hash-context-menu/README.md).

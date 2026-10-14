@@ -46,20 +46,21 @@ function New-SpyRecord {
     Stage = 'Engine'; Command = $Command; Performed = $Performed
     WhatIf = [bool]$Bound['WhatIf']; Preference = [bool]$Preference
     ConfirmBound = $Bound.ContainsKey('Confirm'); Confirm = [bool]$Bound['Confirm']
+    GitHubAuthentication = $Bound['GitHubAuthentication']; GitHubCredentialReference = $Bound['GitHubCredentialReference']
   }
 }
 function Invoke-RidePlan {
-  [CmdletBinding(SupportsShouldProcess)] param($Plan)
+  [CmdletBinding(SupportsShouldProcess)] param($Plan, $GitHubAuthentication, $GitHubCredentialReference)
   $performed = if ($PSBoundParameters.ContainsKey('Confirm') -and [bool]$PSBoundParameters['Confirm']) { $false } else { $PSCmdlet.ShouldProcess('synthetic target', 'record only') }
   New-SpyRecord $PSBoundParameters $WhatIfPreference $performed 'plan'
 }
 function Save-RidePackage {
-  [CmdletBinding(SupportsShouldProcess)] param($Id, $Variant, $Destination)
+  [CmdletBinding(SupportsShouldProcess)] param($Id, $Variant, $Destination, $GitHubAuthentication, $GitHubCredentialReference)
   $performed = if ($PSBoundParameters.ContainsKey('Confirm') -and [bool]$PSBoundParameters['Confirm']) { $false } else { $PSCmdlet.ShouldProcess('synthetic download', 'record only') }
   New-SpyRecord $PSBoundParameters $WhatIfPreference $performed 'download'
 }
 function Restore-RideRun {
-  [CmdletBinding(SupportsShouldProcess)] param($RunId)
+  [CmdletBinding(SupportsShouldProcess)] param($RunId, $GitHubAuthentication, $GitHubCredentialReference)
   $performed = if ($PSBoundParameters.ContainsKey('Confirm') -and [bool]$PSBoundParameters['Confirm']) { $false } else { $PSCmdlet.ShouldProcess('synthetic restore', 'record only') }
   New-SpyRecord $PSBoundParameters $WhatIfPreference $performed 'restore'
 }
@@ -77,6 +78,25 @@ Describe 'CLI ShouldProcess forwarding' {
   }
   AfterEach {
     Get-Module -All | Where-Object { $_.Path -and $_.Path.StartsWith($script:Isolated + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase) } | Remove-Module -Force
+  }
+
+  It 'forwards explicit PAT selection for <Command> without resolving credentials during preview' -TestCases @(
+    @{ Command='download'; Arguments=@{ Command='download'; Id='fake.package' } },
+    @{ Command='install'; Arguments=@{ Command='install'; Id='fake.package' } },
+    @{ Command='apply'; Arguments=@{ Command='apply'; Profile='fake.psd1' } },
+    @{ Command='restore'; Arguments=@{ Command='restore'; RunId=('a'*32) } }
+  ) {
+    param($Command,$Arguments)
+    $record = & $script:Runner @Arguments -GitHubAuthentication PAT -GitHubCredentialReference nonexistent -WhatIf | Where-Object Stage -eq Engine
+    $record.GitHubAuthentication | Should -Be PAT
+    $record.GitHubCredentialReference | Should -Be nonexistent
+    $record.Performed | Should -BeFalse
+  }
+
+  It 'refuses incomplete or conflicting authentication choices before loading handlers' {
+    { & $script:Runner download fake.package -GitHubAuthentication PAT } | Should -Throw '*requires*'
+    { & $script:Runner download fake.package -GitHubCredentialReference fake } | Should -Throw '*Anonymous forbids*'
+    { & $script:Runner list -GitHubAuthentication PAT -GitHubCredentialReference fake } | Should -Throw '*only*'
   }
 
   It 'allows <Command> without an accidental preview or confirmation switch' -TestCases $commandCases {

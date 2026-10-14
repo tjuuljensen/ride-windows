@@ -4,25 +4,20 @@
 
 | Group | Approximate remaining items | Examples |
 | --- | ---: | --- |
-| Windows and application settings | 38-58 | Deferred UI/Explorer, network, Server and BitLocker work; modern firewall, update-notification, Windows CEIP and separately owned power-plan creation plus conditional radio/WMDRM, Server Manager startup and paired Shutdown Event Tracker policies and guarded Windows Audio service implemented as pending candidates; Security icon startup guidance and registry failure/capture repair implemented; keyboard stored positions 0-3 implemented, native/GUI acceptance deferred; WAP Push/Search startup choices implemented and key-state recovery corrected, VM acceptance held behind verified Github cache results and resource backoff; 12:04 UTC dependency Windows 11 2/2 and Server 1/2 verified; final competing Server Full is active; Task Manager and Computer Browser selectors retired; optional PowerShell appearance accepted outside the legacy count; browser/Sysmon configuration remains under review; traditional Python association preservation awaits implementation/acceptance; Windows Update interruption guide implemented; manual GUI/target acceptance remains open; local SAM maximum-age candidate implemented with finite explicit day states; native/GUI acceptance remains open; native BitLocker recovery backup/retrieval guide implemented; secure custom actions and recovery acceptance remain open; Windows recovery readiness/native entry guide implemented; registration lifecycle and boot evidence remain open; modern Network discovery handoff implemented; profile/peer/target acceptance remains open; Storage Sense native cleanup-choice guidance implemented; GUI/content acceptance remains open; System protection native guidance implemented; volume coupling/history acceptance remains open; Feedback frequency native guidance implemented; paired type/unit/GUI evidence remains open |
+| Windows and application settings | 38-58 | Deferred UI/Explorer, network, Server and BitLocker work; modern firewall, update-notification, Windows CEIP and separately owned power-plan creation plus conditional radio/WMDRM, Server Manager startup and paired Shutdown Event Tracker policies and guarded Windows Audio service implemented as pending candidates; Security icon startup guidance and registry failure/capture repair implemented; keyboard stored positions 0-3 implemented with Windows 11 literal lifecycle evidence; GUI/native-failure acceptance remains open; WAP Push/Search startup choices implemented with Windows 11 literal lifecycle evidence and corrected key-state recovery; verified bridge backoff and idle-controller evidence lifted the VM hold; focused candidate validation is ongoing; Task Manager and Computer Browser selectors retired; optional PowerShell appearance accepted outside the legacy count; browser/Sysmon configuration remains under review; traditional Python association preservation awaits implementation/acceptance; Windows Update interruption guide implemented; manual GUI/target acceptance remains open; local SAM maximum-age candidate implemented with finite explicit day states and bounded two-target native apply/reverse/fault recovery evidence; GUI/managed/additional-boundary acceptance remains open; native BitLocker recovery backup/retrieval guide implemented; secure custom actions and recovery acceptance remain open; Windows recovery readiness/native entry guide implemented; registration lifecycle and boot evidence remain open; modern Network discovery handoff implemented; profile/peer/target acceptance remains open; Storage Sense native cleanup-choice guidance implemented; GUI/content acceptance remains open; System protection native guidance implemented; volume coupling/history acceptance remains open; Feedback frequency native guidance implemented; paired type/unit/GUI evidence remains open; Latest focused validation: Owned guard matrix complete on both targets; 29-row settings analysis and E01-E08/D01-D10 follow-up plan complete; six-control metadata batch ready |
 | Packages, portable tools and downloadable artifacts | 58-73 | Remaining forensic tools, system-tool entries, general software/artifacts, AD tools, browsers and other products; 19 newly accepted distributions (7 installed, 12 portable), 10 earlier outcomes and Opera excluded; R01/R02 preparation remains partial; current BloodHound CE and both collectors selected, container deployment separate; Volatility 2 and ImproHound retirement reviews remain unresolved; corporate licensing watchlist added, with approvals kept local |
 | Windows components and optional features | 20-25 | WSL, Hyper-V, Sandbox, OpenSSH, printing features and built-in app management; RSAT remains a component/applicability decision; BloodHound CE selects no automatic Docker/WSL provisioning or Server Docker Desktop support; no new component acceptance |
 | Accounts, configuration and deployed files/assets | 25-35 | Users and administrator membership, Wi-Fi, regional settings, language packs, browser preferences, fonts and wallpapers; user-bin PATH, bin provisioning and WindowsApps repair remain deferred; VMware directory/profile-file and Python environment/symbol/plugin ownership remain under review |
-| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; quota/cache/backoff bridge passed Windows 11 Full with 1,280 tests, eight network and three real cache observations with matching publisher digests; consecutive acceptance Windows 11 2/2, Server 2025 2/2 on the current controller baseline; collector 0.4.1 bounded failure collection accepted, ArtCraft Launcher remains closed and must not be restarted; controller certification and default-branch cutover remain open; no automatic Python installation-time pip upgrade selected; runtime/rule updates and explicit maintenance remain separate review items; optional GitHub authentication approved as high-priority v3 infrastructure, with implementation/acceptance pending; controller 0.4.6 scoped runtime/records accepted; hosted candidate f5e3218 validation passed both PowerShell editions; delivery/default-branch certification deferred until v3 release candidate |
+| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; quota/cache/backoff bridge passed Windows 11 Full with 1,280 tests, eight network and three real cache observations with matching publisher digests; consecutive acceptance Windows 11 2/2, Server 2025 2/2 on the current controller baseline; collector 0.4.1 bounded failure collection accepted, ArtCraft Launcher remains closed and must not be restarted; controller certification and default-branch cutover remain open; no automatic Python installation-time pip upgrade selected; runtime/rule updates and explicit maintenance remain separate review items; optional GitHub PAT infrastructure implemented in source; dedicated enrollment, controller refresh, hosted CI and live acceptance pending; controller 0.4.6 scoped runtime/records accepted; hosted candidate f5e3218 validation passed both PowerShell editions; delivery/default-branch certification deferred until v3 release candidate |
 | **Total, rounded** | **150-205** | **About 180 for planning** |
 
-Last reviewed: **2026-10-13**. Latest run: [Bridge/controller RC resumption retained](#bridgecontroller-rc-resumption-retained-2026-10-13).
-The user will return near v3 RC. The active controller ledger retains accepted
-bridge, newer-controller and hosted-source baselines separately, plus remaining
-RC validation/delivery/portability work and safety constraints. No new run is
-scheduled; bridge heartbeat confirmed PAUSED. Master publication stays held
-until v3 release-candidate readiness and an agreed decision. Optional PAT support
-remains approved/pending; reusable extraction stays deferred. Raw local evidence
-needs preservation outside Git; ArtCraft Launcher must not be restarted. This
-handoff closes no legacy outcome; all five ranges and rounded estimates remain
-unchanged. Other migration activity and unfinished fixture edits are preserved.
+Last reviewed: **2026-10-13**. Latest run: [Remaining settings analysis and decision plan complete](#remaining-settings-analysis-and-decision-plan-complete-2026-10-13).
+Completed analysis of all 29 remaining-settings ledger rows and earlier accepted-control families. The follow-up plan records a six-control presentation batch, eight ordered work steps, ten questions and deferred interactive/resource work. All six owned active/drift/interruption target guards passed with retained current Local hashes; drift/interruption cleanup remains checkpoint-only. Fixture 0.7.2 fixes reporting text with native parser evidence only. No new legacy feature is resolved, retired or excluded. All five ranges remain settings 38-58, packages 58-73, components 20-25, accounts/config/files 25-35, maintenance 8-12; rounded total 150-205, about 180. Packages paused.
 
-Latest scope review: **2026-10-13**. [Optional GitHub authentication](#optional-github-authentication-v3-scope) is approved high-priority v3 work, with implementation/acceptance pending. All five legacy ranges and the rounded total remain unchanged; reusable-module extraction stays deferred.
+Latest scope review: **2026-10-13**. [Optional GitHub authentication](#optional-github-authentication-v3-scope) is implemented in source, with live acceptance pending. All five legacy ranges and the rounded total remain unchanged; reusable-module extraction stays deferred.
+
+Latest infrastructure implementation: [GitHub PAT source implementation](#github-pat-source-implementation-2026-10-13).
+Host enrollment/acquisition and explicitly selected focused guest delivery are implemented. The isolated candidate excludes the active settings fixture; the original fixture and concurrent guest-runner work are preserved. The user confirmed no VmTest enrollment exists and requested leaving live PAT acceptance pending. Existing installed controllers, VM pins and package pauses are unchanged by this work. All five legacy ranges and the rounded total remain unchanged.
 
 Previous settings implementation: [Windows recovery readiness implementation](#windows-recovery-readiness-implementation-2026-10-13).
 Implemented the accepted Windows recovery readiness/native entry guide, with
@@ -307,8 +302,8 @@ guides. Preserve real schema/recovery migration procedures and evidence links.
 
 ## Optional GitHub authentication: v3 scope
 
-**Approved 2026-10-13; implementation and acceptance pending. High priority for
-development and acquisition reliability.** Optional use by end users is part
+**Approved 2026-10-13; source implementation complete, live acceptance pending.
+High priority for development and acquisition reliability.** Optional use by end users is part
 of the feature; implementing it is now approved v3 scope. Track execution in
 the [active backlog](../TODO.md#development-reliability---high-priority), ahead
 of lower-priority feature expansion.
@@ -361,9 +356,11 @@ publisher or payload verification and does not itself close controller acceptanc
 This adds acquisition infrastructure, not a migrated legacy product/feature
 outcome. Track its pending work separately from the five legacy estimate ranges.
 The reusable release-discovery module remains [optional downstream work](../TODO.md#optional-reusable-github-release-discovery-module),
-deferred and outside current v3 scope. No authentication implementation, token
-acquisition/configuration, package acquisition or VM run is performed by this
-planning change; existing package pauses and acceptance gates remain in force.
+deferred and outside current v3 scope. The [source implementation entry](#github-pat-source-implementation-2026-10-13)
+and [operating guide](github-release-discovery.md#explicit-pat-enrollment-and-selection)
+record delivery and remaining acceptance. No real credential enrollment, package
+acquisition, controller refresh or VM run is performed by this implementation
+turn; existing package pauses and acceptance gates remain in force.
 
 ## Purpose and inventory
 
@@ -876,160 +873,6 @@ deferred legacy scope is retained. All five reviewed ranges remain settings
 **180**. Controller infrastructure acceptance closes no legacy feature/product
 outcome, so ranges and rounded estimate remain unchanged.
 
-### Controller 0.4.6 Server timeout acceptance, 2026-10-13
-
-Deliberate five-minute UnitOnly/CI request e9dbd5a238914edea6915bb6de7eeea7
-returned expected TimedOut, 13:33:15-13:39:10 UTC; client exit 1 was expected.
-The process tree terminated and collector 0.4.1 completed within its unchanged
-90-second bound. Readable artifact/partial guest evidence was retained; the
-locked transcript was explicitly omitted. Copy ran 13:39:05.998-08.163 UTC,
-session closed 08.207, stderr empty, collection/cleanup errors null. No complete
-transcript or Pester pass is claimed. Host-UAC fields were absent. All 217 source
-hashes, five installed hashes and pins matched; target VM Off/task Ready/queues
-empty/lock available/no block, clean CI a156475 and launcher absent.
-
-Both normal configurations had passed. Readiness at 13:40:37 UTC preceded
-Windows 11 timeout c61528bb07394d02aec9430ac17dfa9c. Its result and final refusal
-probes were pending at this checkpoint; their completion is recorded above.
-See the [dated report](archive/evidence/controller-046-scoped-acceptance-2026-10-13.md)
-and .local/controller-046-server-timeout-audit.json. An intentional timeout is
-accepted fault handling, not a passing Full integration run. Existing bridge
-pairs remain accepted; heartbeat disabled; broader certification/master
-publication deferred. No variable, CI checkout or other migration changed.
-ArtCraft Launcher must not be restarted.
-
-Resolved, retired and newly excluded legacy outcomes: zero; partial/deferred
-scope retained. Reviewed ranges: settings 38-58, packages/artifacts 58-73,
-components 20-25, accounts/assets 25-35, maintenance 8-12; sum 149-203, rounded
-150-205/about 180, unchanged because this infrastructure run closes no legacy
-feature/product outcome.
-
-### Controller 0.4.6 Windows 11 normal acceptance, 2026-10-13
-
-Registered UnitOnly/CI request 3c0a98c38c5b42b5991f9a5f8f150e0d passed
-13:07:39-13:32:02 UTC under installed 0.4.6/collector 0.4.1 from source 3107711.
-Validation, all 1,280 guest Pester tests and 217 snapshot/clean CI hashes passed;
-XML has zero failures/errors/skips/unrun tests. IntegrationPassed=false is
-expected for UnitOnly. The new result omits UacBefore/UacAfter. Export and
-checkpoint cleanup had no errors, retaining zero state JSON/manifests. Target
-VM Off/task Ready/queues empty/lock available/no block, pins/checkpoint/five
-installed hashes unchanged, CI a156475 clean and launcher absent.
-
-Both normal configurations are accepted over frozen guest source; newer guest
-settings are outside this result. Both controllers were idle at 13:33:01 UTC
-before Server timeout e9dbd5a238914edea6915bb6de7eeea7 started. Its expected
-fault outcome was pending at this checkpoint; completion is recorded above.
-See the [dated report](archive/evidence/controller-046-scoped-acceptance-2026-10-13.md)
-and .local/controller-046-win11-normal-audit.json. Broader certification/manual
-dispatch/master publication remain deferred, with no master, activation-variable
-or CI checkout change. Bridge heartbeat remains disabled; launcher must not
-be restarted.
-
-Resolved, retired and newly excluded legacy outcomes: zero; partial/deferred
-scope retained. Reviewed ranges: settings 38-58, packages/artifacts 58-73,
-components 20-25, accounts/assets 25-35, maintenance 8-12; sum 149-203, rounded
-150-205/about 180, unchanged because this infrastructure run closes no legacy
-feature/product outcome.
-
-### Controller 0.4.6 guarded refresh, 2026-10-13
-
-Administrator-approved registration refreshed both protected controllers
-12:37:53-12:40:02UTC from isolated reviewed source published in3107711. Both
-worker locks were held, with guards refusing busy VMs/tasks/queues/recovery
-blocks. All five installed hashes matched source; the module hash is
-2920E1BCF41EB61564F74315FC1D004872DC0BD2DF1697CC65420A30293F2507.
-VM/checkpoint/account/ISO/repository pins remained unchanged. Registration
-0.1.3 omitted Host.Uac and retained NotValidated; collector stays0.4.1. Readiness
-at12:42:30UTC verified both VMs Off/tasksReady/queuesempty/locksavailable/noblocks,
-CIa156 clean and launcher absent. No VM or publisher request was part of refresh;
-no host-UAC inspection or global policy change was performed.
-
-The first installed candidate request20186578684e4716a1f633a99393fe9d is a
-registered Server UnitOnly/CI request with90minute timeout; its later acceptance is recorded separately.
-This tests the new host controller over frozen guest source, excluding other
-new migration settings. The [acceptance matrix](migrations/controller-certification.md)
-retains before/after evidence and open normal/fault/runtime gates. GitHub's
-default master README is readable, but its VM workflow file returns404; manual
-workflow_dispatch remains deferred behind default-branch publication. No master,
-repository variable, CI checkout or unrelated migration activity was changed.
-Current anonymous bridge2/2 pairs remain accepted and its heartbeat disabled;
-ArtCraft Launcher must not be restarted.
-
-Resolved/retired/newly excluded legacy outcomes: zero; partial/deferred scope
-retained. All five reviewed ranges stay settings38-58, packages/artifacts58-73,
-components20-25, accounts/assets25-35 andmaintenance8-12; sum149-203, rounded
-150-205/about180. This controller refresh closes no legacy feature/product
-outcome, so estimates remain unchanged; broader certification remains pending.
-
-### Controller 0.4.6 Server normal acceptance, 2026-10-13
-
-Registered UnitOnly/CI request20186578684e4716a1f633a99393fe9d passed
-12:43:08-13:03:10UTC under installed candidate0.4.6/collector0.4.1 and reviewed
-host source3107711. Guest validation and all1280 Pester tests passed, with zero
-XML failures/errors/skips/unrun. IntegrationPassedfalse is expectedUnitOnly;
-this is normal controller acceptance, not a Full bridge/package run. All217
-snapshot/CI source hashes match clean frozen a156475. The new final result
-omits UacBefore/UacAfter; no host-UAC inspection was performed. Export and
-checkpoint cleanup had no error, with zero stateJSON/manifests expected from
-this unit-only run. TargetVMOff/taskReady/queuesempty/lockavailable/noblocks,
-pins/checkpoint/fiveinstalledhashes unchanged; CI stayedclean and launcherabsent.
-Audit.local/controller-046-server-normal-audit.json retains the actual result,
-guest identity/XML/hash and recovery evidence. Both controllers were idle at
-13:06:54UTC before Windows11 request3c0a98c38c5b42b5991f9a5f8f150e0d started;
-that candidate normal request is active.
-
-The [controller matrix](migrations/controller-certification.md) records Server
-normal acceptance and remaining Windows11/timeout/refusal gates. Candidate
-host execution is distinguished from frozen guest source and from historical
-anonymous bridge2/2 acceptance. Manual GitHub dispatch/master push remain
-deferred behind default-branch publication; no master, variable or CI checkout
-change was made. Competing migration work remains untouched; ArtCraft Launcher
-must not be restarted. Existing bridge heartbeat staysdisabled.
-
-Resolved/retired/newly excluded legacy outcomes: zero; partial/deferred scope
-retained. All five reviewed ranges remain settings38-58, packages/artifacts
-58-73, components20-25, accounts/assets25-35 andmaintenance8-12; sum149-203,
-rounded150-205/about180. No legacy feature/product outcome was closed, so
-estimates stayunchanged; broader certification remains open.
-
-### Controller 0.4.6 regression validation, 2026-10-13
-
-The newer controller0.4.5 was committed in5fdde5d. Native Windows PowerShell
-5.1 passed108 focused tests; PowerShell7 reproduced the prior queue-claim
-failure. JSON deserialization produced a DateTime submission value, whose
-string coercion was incompatible with the Danish parser. Valid requests were
-quarantined, so that PowerShell7 run failed acceptance. Controller0.4.6
-normalizes parsed DateTime values to UTC round-trip strings before existing
-validation. The new October13/Danish-culture regression preserves the exact
-submission instant; ordered claims and malformed-request quarantine remain.
-
-The repaired source passed109 controller/profile-boundary/release-discovery
-checks on Windows PowerShell5.1 and107 on PowerShell7, with only two intentional
-Windows PowerShell-only host-preflight skips. Neither had failures or unrun
-tests. Parser and whitespace checks passed. Tests used isolated temporary
-files and mocked system/network calls, with no VM, publisher, installer,
-host-registry or global-policy actions. Source hashes, XML and pre-fix failures
-are retained under.local/controller-045-ps51 and.local/controller-045-ps7.
-Current recovery guidance was corrected to remove obsolete host-UAC drift
-inspection. The [controller acceptance matrix](migrations/controller-certification.md)
-separates this source validation from installed runtime evidence and records
-historical evidence that may be reused after delta review.
-
-Installed controllers remain0.4.3 until an idle guarded refresh. Registration
-0.1.3 and candidate0.4.6 normal/failure/timeout result contracts still require
-live acceptance. Existing anonymous bridge pairs Windows11 2/2 andServer2025
-2/2 remain accepted on their recorded CI/controller baseline; its heartbeat
-stays disabled. Competing migration work must finish before shared resources
-are touched. ArtCraft Launcher must not be restarted. Broader certification,
-optional authentication, settings acceptance and default-branch cutover remain
-separate; no master/support-declaration change is implied.
-
-Resolved, retired and newly excluded legacy outcomes: zero; partial/deferred
-migration outcomes retained. All five reviewed ranges stay settings38-58,
-packages/artifacts58-73, components20-25, accounts/assets25-35 andmaintenance
-8-12; sum149-203, rounded150-205/about180. The infrastructure correction closes
-no legacy feature/product outcome, so estimates remain unchanged.
-
 ### Registry failure and capture repair, 2026-10-13
 
 Follow-up implementation review found shared registry reads used silent errors,
@@ -1275,6 +1118,160 @@ accounts/assets **25-35**, maintenance **8-12**; sum **149-203**, rounded
 legacy feature/product outcome. Full Windows 11 package acquisition,
 consecutive Windows 11/Server 2025 acceptance, controller certification,
 settings acceptance and default-branch cutover remain open.
+
+### Controller 0.4.6 Server timeout acceptance, 2026-10-13
+
+Deliberate five-minute UnitOnly/CI request e9dbd5a238914edea6915bb6de7eeea7
+returned expected TimedOut, 13:33:15-13:39:10 UTC; client exit 1 was expected.
+The process tree terminated and collector 0.4.1 completed within its unchanged
+90-second bound. Readable artifact/partial guest evidence was retained; the
+locked transcript was explicitly omitted. Copy ran 13:39:05.998-08.163 UTC,
+session closed 08.207, stderr empty, collection/cleanup errors null. No complete
+transcript or Pester pass is claimed. Host-UAC fields were absent. All 217 source
+hashes, five installed hashes and pins matched; target VM Off/task Ready/queues
+empty/lock available/no block, clean CI a156475 and launcher absent.
+
+Both normal configurations had passed. Readiness at 13:40:37 UTC preceded
+Windows 11 timeout c61528bb07394d02aec9430ac17dfa9c. Its result and final refusal
+probes were pending at this checkpoint; their completion is recorded above.
+See the [dated report](archive/evidence/controller-046-scoped-acceptance-2026-10-13.md)
+and .local/controller-046-server-timeout-audit.json. An intentional timeout is
+accepted fault handling, not a passing Full integration run. Existing bridge
+pairs remain accepted; heartbeat disabled; broader certification/master
+publication deferred. No variable, CI checkout or other migration changed.
+ArtCraft Launcher must not be restarted.
+
+Resolved, retired and newly excluded legacy outcomes: zero; partial/deferred
+scope retained. Reviewed ranges: settings 38-58, packages/artifacts 58-73,
+components 20-25, accounts/assets 25-35, maintenance 8-12; sum 149-203, rounded
+150-205/about 180, unchanged because this infrastructure run closes no legacy
+feature/product outcome.
+
+### Controller 0.4.6 Windows 11 normal acceptance, 2026-10-13
+
+Registered UnitOnly/CI request 3c0a98c38c5b42b5991f9a5f8f150e0d passed
+13:07:39-13:32:02 UTC under installed 0.4.6/collector 0.4.1 from source 3107711.
+Validation, all 1,280 guest Pester tests and 217 snapshot/clean CI hashes passed;
+XML has zero failures/errors/skips/unrun tests. IntegrationPassed=false is
+expected for UnitOnly. The new result omits UacBefore/UacAfter. Export and
+checkpoint cleanup had no errors, retaining zero state JSON/manifests. Target
+VM Off/task Ready/queues empty/lock available/no block, pins/checkpoint/five
+installed hashes unchanged, CI a156475 clean and launcher absent.
+
+Both normal configurations are accepted over frozen guest source; newer guest
+settings are outside this result. Both controllers were idle at 13:33:01 UTC
+before Server timeout e9dbd5a238914edea6915bb6de7eeea7 started. Its expected
+fault outcome was pending at this checkpoint; completion is recorded above.
+See the [dated report](archive/evidence/controller-046-scoped-acceptance-2026-10-13.md)
+and .local/controller-046-win11-normal-audit.json. Broader certification/manual
+dispatch/master publication remain deferred, with no master, activation-variable
+or CI checkout change. Bridge heartbeat remains disabled; launcher must not
+be restarted.
+
+Resolved, retired and newly excluded legacy outcomes: zero; partial/deferred
+scope retained. Reviewed ranges: settings 38-58, packages/artifacts 58-73,
+components 20-25, accounts/assets 25-35, maintenance 8-12; sum 149-203, rounded
+150-205/about 180, unchanged because this infrastructure run closes no legacy
+feature/product outcome.
+
+### Controller 0.4.6 Server normal acceptance, 2026-10-13
+
+Registered UnitOnly/CI request20186578684e4716a1f633a99393fe9d passed
+12:43:08-13:03:10UTC under installed candidate0.4.6/collector0.4.1 and reviewed
+host source3107711. Guest validation and all1280 Pester tests passed, with zero
+XML failures/errors/skips/unrun. IntegrationPassedfalse is expectedUnitOnly;
+this is normal controller acceptance, not a Full bridge/package run. All217
+snapshot/CI source hashes match clean frozen a156475. The new final result
+omits UacBefore/UacAfter; no host-UAC inspection was performed. Export and
+checkpoint cleanup had no error, with zero stateJSON/manifests expected from
+this unit-only run. TargetVMOff/taskReady/queuesempty/lockavailable/noblocks,
+pins/checkpoint/fiveinstalledhashes unchanged; CI stayedclean and launcherabsent.
+Audit.local/controller-046-server-normal-audit.json retains the actual result,
+guest identity/XML/hash and recovery evidence. Both controllers were idle at
+13:06:54UTC before Windows11 request3c0a98c38c5b42b5991f9a5f8f150e0d started;
+that candidate normal request is active.
+
+The [controller matrix](migrations/controller-certification.md) records Server
+normal acceptance and remaining Windows11/timeout/refusal gates. Candidate
+host execution is distinguished from frozen guest source and from historical
+anonymous bridge2/2 acceptance. Manual GitHub dispatch/master push remain
+deferred behind default-branch publication; no master, variable or CI checkout
+change was made. Competing migration work remains untouched; ArtCraft Launcher
+must not be restarted. Existing bridge heartbeat staysdisabled.
+
+Resolved/retired/newly excluded legacy outcomes: zero; partial/deferred scope
+retained. All five reviewed ranges remain settings38-58, packages/artifacts
+58-73, components20-25, accounts/assets25-35 andmaintenance8-12; sum149-203,
+rounded150-205/about180. No legacy feature/product outcome was closed, so
+estimates stayunchanged; broader certification remains open.
+
+### Controller 0.4.6 guarded refresh, 2026-10-13
+
+Administrator-approved registration refreshed both protected controllers
+12:37:53-12:40:02UTC from isolated reviewed source published in3107711. Both
+worker locks were held, with guards refusing busy VMs/tasks/queues/recovery
+blocks. All five installed hashes matched source; the module hash is
+2920E1BCF41EB61564F74315FC1D004872DC0BD2DF1697CC65420A30293F2507.
+VM/checkpoint/account/ISO/repository pins remained unchanged. Registration
+0.1.3 omitted Host.Uac and retained NotValidated; collector stays0.4.1. Readiness
+at12:42:30UTC verified both VMs Off/tasksReady/queuesempty/locksavailable/noblocks,
+CIa156 clean and launcher absent. No VM or publisher request was part of refresh;
+no host-UAC inspection or global policy change was performed.
+
+The first installed candidate request20186578684e4716a1f633a99393fe9d is a
+registered Server UnitOnly/CI request with90minute timeout; its later acceptance is recorded separately.
+This tests the new host controller over frozen guest source, excluding other
+new migration settings. The [acceptance matrix](migrations/controller-certification.md)
+retains before/after evidence and open normal/fault/runtime gates. GitHub's
+default master README is readable, but its VM workflow file returns404; manual
+workflow_dispatch remains deferred behind default-branch publication. No master,
+repository variable, CI checkout or unrelated migration activity was changed.
+Current anonymous bridge2/2 pairs remain accepted and its heartbeat disabled;
+ArtCraft Launcher must not be restarted.
+
+Resolved/retired/newly excluded legacy outcomes: zero; partial/deferred scope
+retained. All five reviewed ranges stay settings38-58, packages/artifacts58-73,
+components20-25, accounts/assets25-35 andmaintenance8-12; sum149-203, rounded
+150-205/about180. This controller refresh closes no legacy feature/product
+outcome, so estimates remain unchanged; broader certification remains pending.
+
+### Controller 0.4.6 regression validation, 2026-10-13
+
+The newer controller0.4.5 was committed in5fdde5d. Native Windows PowerShell
+5.1 passed108 focused tests; PowerShell7 reproduced the prior queue-claim
+failure. JSON deserialization produced a DateTime submission value, whose
+string coercion was incompatible with the Danish parser. Valid requests were
+quarantined, so that PowerShell7 run failed acceptance. Controller0.4.6
+normalizes parsed DateTime values to UTC round-trip strings before existing
+validation. The new October13/Danish-culture regression preserves the exact
+submission instant; ordered claims and malformed-request quarantine remain.
+
+The repaired source passed109 controller/profile-boundary/release-discovery
+checks on Windows PowerShell5.1 and107 on PowerShell7, with only two intentional
+Windows PowerShell-only host-preflight skips. Neither had failures or unrun
+tests. Parser and whitespace checks passed. Tests used isolated temporary
+files and mocked system/network calls, with no VM, publisher, installer,
+host-registry or global-policy actions. Source hashes, XML and pre-fix failures
+are retained under.local/controller-045-ps51 and.local/controller-045-ps7.
+Current recovery guidance was corrected to remove obsolete host-UAC drift
+inspection. The [controller acceptance matrix](migrations/controller-certification.md)
+separates this source validation from installed runtime evidence and records
+historical evidence that may be reused after delta review.
+
+Installed controllers remain0.4.3 until an idle guarded refresh. Registration
+0.1.3 and candidate0.4.6 normal/failure/timeout result contracts still require
+live acceptance. Existing anonymous bridge pairs Windows11 2/2 andServer2025
+2/2 remain accepted on their recorded CI/controller baseline; its heartbeat
+stays disabled. Competing migration work must finish before shared resources
+are touched. ArtCraft Launcher must not be restarted. Broader certification,
+optional authentication, settings acceptance and default-branch cutover remain
+separate; no master/support-declaration change is implied.
+
+Resolved, retired and newly excluded legacy outcomes: zero; partial/deferred
+migration outcomes retained. All five reviewed ranges stay settings38-58,
+packages/artifacts58-73, components20-25, accounts/assets25-35 andmaintenance
+8-12; sum149-203, rounded150-205/about180. The infrastructure correction closes
+no legacy feature/product outcome, so estimates remain unchanged.
 
 ### GitHub quota bridge two-target pair complete, 2026-10-13
 
@@ -4126,7 +4123,7 @@ asset and maintenance progress retain their prior acceptance limits.
 
 | Group reviewed | Remaining range | Effect of this run |
 | --- | ---: | --- |
-| Windows and application settings | 38-58 | Navigation and evidence cleanup only; feature acceptance unchanged; modern Network discovery handoff implemented; profile/peer/target acceptance remains open; Storage Sense native cleanup-choice guidance implemented; GUI/content acceptance remains open; System protection native guidance implemented; volume coupling/history acceptance remains open; Feedback frequency native guidance implemented; paired type/unit/GUI evidence remains open |
+| Windows and application settings | 38-58 | Navigation and evidence cleanup only; feature acceptance unchanged; modern Network discovery handoff implemented; profile/peer/target acceptance remains open; Storage Sense native cleanup-choice guidance implemented; GUI/content acceptance remains open; System protection native guidance implemented; volume coupling/history acceptance remains open; Feedback frequency native guidance implemented; paired type/unit/GUI evidence remains open; Latest focused validation: Owned guard matrix complete on both targets; 29-row settings analysis and E01-E08/D01-D10 follow-up plan complete; six-control metadata batch ready |
 | Packages, portable tools and downloadable artifacts | 58-73 | Licensing review guidance added; product outcomes and deployment acceptance unchanged |
 | Windows components and optional features | 20-25 | No component implemented or accepted |
 | Accounts, configuration and deployed files/assets | 25-35 | No configuration or asset outcome closed |
@@ -4346,3 +4343,267 @@ Read-only wake2026-10-13T11:49:51.456Z: dependency revision14 and both local rec
 ## Settings validation gate deferral at 12:04 UTC, 2026-10-13
 
 Read-only wake2026-10-13T12:04:51.682Z: dependency revision15 reports guest command in progress, no controller errors, final evidence export not begun. Both local bridge records retain active request420c567aea0b44118862ecfcf1de35a5 and prior Windows11 2/2, Server1/2 acceptance. No final current result/recovery or yield. No settings controller query, VM submission, GitHub/publisher request, package/native change or dependency interference; conditional heartbeat active and concurrent staging preserved. No legacy resolution/retirement/exclusion; partial/deferred settings scope retained. All five ranges reviewed unchanged: settings 38-58, packages/artifacts 58-73, components 20-25, accounts/configuration/files 25-35, maintenance 8-12; total 150-205/about 180. No new settings acceptance supports count reduction. Focused whitespace checks passed; no tests for status-only deferral.
+
+## Settings validation gate deferral at 12:19 UTC, 2026-10-13
+
+Wake2026-10-13T12:19:51.947Z: compact revision16 and both local bridge records confirm second Server420c567aea0b44118862ecfcf1de35a5 passed, complete pairs2/2 on each target, evidence/export/cleanup/UAC and reported postflight idle. Bridge Activefalse, CurrentRequestnull, NextScheduledLocalnull; local release record explicitly yields resources, retaining publisher deadline12:44:36UTC. A relevant recent read confirms new user-authorized dependency turn01a13534-63ae-7c52-8b09-0dfc5a9ef41a plans newer-controller unit validation, protected refresh and VM acceptance. This competing work prevents relying on the earlier resource yield as current unrestricted availability. No settings controller query, VM submission, GitHub/publisher request, package/native change or dependency interference. Re-read current repository/script instructions, migration ledger and settings runner structure locally; discovered focused selector routing needs preparation rather than a broad Full/default-profile run. No controller/fixture changes made while the other owner validates/refreshes it. Conditional settings heartbeat remains active; bridge schedule untouched. No legacy resolution/retirement/exclusion or support expansion; all five ranges reviewed unchanged: settings 38-58, packages/artifacts 58-73, components 20-25, accounts/configuration/files 25-35, maintenance 8-12; total 150-205/about 180. Frozen-source bridge acceptance excludes current migration source; no legacy count reduction. Focused whitespace checks passed; no tests for this deferral review.
+
+## Settings validation gate deferral at 12:34 UTC, 2026-10-13
+
+Read-only wake2026-10-13T12:34:52.149Z: dependency revision17 remains active, reports controller unit checks passed (109 on5.1,107 on7 with two expected skips), and prepares reviewed0.4.6 refresh plus live acceptance. Local bridge records retain completed frozen-source pairs2/2 per target, inactive loop/prior resource yield and deadline12:44:36UTC. Pre-refresh reported VM idle does not establish no competing controller work or acceptance of the new installed version. No settings controller query, VM submission, GitHub/publisher request, package/native change or dependency interference; heartbeat active and concurrent work preserved. No legacy resolution/retirement/exclusion; pending settings feature/target evidence retained. All five ranges reviewed unchanged: settings 38-58, packages/artifacts 58-73, components 20-25, accounts/configuration/files 25-35, maintenance 8-12; total 150-205/about 180. Controller unit progress closes no settings outcome. Focused whitespace checks passed; no tests for this deferral record.
+
+## Settings validation gate deferral at 12:49 UTC, 2026-10-13
+
+Read-only wake2026-10-13T12:49:52.370Z: dependency revision18 reports Server command active; release status records protected0.4.6 refresh completed then live request20186578684e4716a1f633a99393fe9d active, with normal/focusedfailure acceptance still pending. Quota loop retains completed inactive bridge pairs on its recorded earlier baseline and is not current controller-availability evidence. No settings controller query, VM submission, GitHub/publisher request, package/native change or dependency interference; no use of now-unverified current installed controller for migration acceptance. Conditional heartbeat active. No legacy resolution/retirement/exclusion; all five ranges reviewed unchanged: settings 38-58, packages/artifacts 58-73, components 20-25, accounts/configuration/files 25-35, maintenance 8-12; total 150-205/about 180. Frozen-source controller checks exclude current migration changes and close no settings outcome. Focused whitespace checks passed; no tests for this deferral record.
+
+## Settings validation gate deferral at 13:04 UTC, 2026-10-13
+
+Read-only wake2026-10-13T13:04:52.593Z: dependency revision19 explicitly retains pending Server20186578684e4716a1f633a99393fe9d result/evidence/newformat/recovery. Release status agrees active controller acceptance; completed inactive quota loop is earlier bridge evidence, not current VM availability. No controller query, settings VM submission, GitHub/publisher request, package/native change or dependency interference; heartbeat active. No legacy resolution/retirement/exclusion, partial/deferred evidence retained. All five ranges reviewed unchanged: settings 38-58, packages/artifacts 58-73, components 20-25, accounts/configuration/files 25-35, maintenance 8-12; total 150-205/about 180. Pending controller result supplies no current migration acceptance/count reduction. Focused whitespace checks passed; no tests for this deferral record.
+
+## Settings validation gate deferral at 13:19 UTC, 2026-10-13
+
+Read-only wake2026-10-13T13:19:52.825Z: dependency revision20 reports Server tests/export/recovery passed; release status records Server20186578684e4716a1f633a99393fe9d accepted with217hashes/1,280tests/newresultformat/idle, then Windows11normal3c0a98c38c5b42b5991f9a5f8f150e0d active on installed0.4.6. Current Windows11 result and further timeout/failure checks pending; prior bridge yield is not current no-competing-work evidence. No settings controller query, VM submission, GitHub/publisher request, package/native change or dependency interference; heartbeat active. No legacy resolution/retirement/exclusion; all five ranges reviewed unchanged: settings 38-58, packages/artifacts 58-73, components 20-25, accounts/configuration/files 25-35, maintenance 8-12; total 150-205/about 180. Frozen-source controller acceptance covers no current setting migration/GUI outcome or count reduction. Focused whitespace checks passed; no tests for this deferral record.
+
+## Settings validation gate deferral at 13:34 UTC, 2026-10-13
+
+Read-only wake2026-10-13T13:34:53.083Z: dependency revision21 reports Windows11 normal result passed/auditing; release status records both normal0.4.6 runs accepted with hashes/export/cleanup and then active deliberate Server timeout e9dbd5a238914edea6915bb6de7eeea7. Its expectedTimedOut/clientexit1 is a separate controller fault scenario, not failure of the completed bridge gate. Final bounded collection, checkpoint recovery and idle must verify before resource use. No settings controller query, VM submission, GitHub/publisher request, package/native change or dependency interference; heartbeat active. No legacy resolution/retirement/exclusion; all five ranges reviewed unchanged: settings 38-58, packages/artifacts 58-73, components 20-25, accounts/configuration/files 25-35, maintenance 8-12; total 150-205/about 180. Controller control-flow acceptance covers no migration feature or count reduction. Focused whitespace checks passed; no tests for deferral record.
+
+## Settings validation gate deferral at 13:49 UTC, 2026-10-13
+
+Read-only wake2026-10-13T13:49:53.332Z: dependency revision22 reports both timeout cases passed with process termination/bounded collection/declared omissions and recovery. Release status then records active refusal probes holding both worker locks, using in-memory configurations/isolated results with no real checkpoint/config/queue changes. VMs Off does not establish controller availability while locks are held. No settings controller query, VM submission, GitHub/publisher request, package/native change or dependency interference; heartbeat active. Completed bridge pair evidence remains distinct from controller fault acceptance and settings feature acceptance. No legacy resolution/retirement/exclusion; all five ranges reviewed unchanged: settings 38-58, packages/artifacts 58-73, components 20-25, accounts/configuration/files 25-35, maintenance 8-12; total 150-205/about 180. Controller progress closes no settings outcome/count. Focused whitespace checks passed; no tests for deferral record.
+
+## Focused settings fixture preparation, 2026-10-13
+
+The dependency bridge passed both consecutive target pairs and explicitly yielded resources; current0.4.6 normal/timeout/refusal checks completed. Independent read-only Hyper-V checks required sandbox escalation after ordinary CIM access failed; escalated checks14:11:56-14:11:59UTC confirmed both VMsOff/tasksReady/empty queues/no blocks/matching pinned checkpoints/available worker locks. All five installed files on each controller match registration and current reviewed source. No extra VM confirmation requested; conditional authorization is now applicable. No GitHub/publisher request or package acquisition.
+
+Implemented modules/RIDE.SettingsFixtureData.psm1, tests/SettingsFixtureData.Tests.ps1, tests/integration/Invoke-RideSettingsFixture.ps1 and guest runner0.7.0. Explicit data binds one operation/states/target to one request ID and named settings-only suite; package/Full/application, wrong-ID, unapproved candidate and unknown-state selections are refused. Live native calls use a fresh process after Pester to avoid mock native-type leakage. Candidate support changes are restricted to a guest-private catalog copy and recorded original/fixture hashes; published targets unchanged. Engine capture/repeat/preview/baseline/restore stay primary; actual feature/GUI/boot and deliberate native failures remain pending.
+
+Both native5.1/7.6.5 passed162 focused checks, one WindowsIntegration excluded; validation passed318 operations/3 groups/5 profiles/124 scripts. Focused diff/whitespace reviewed. The first correlated Local-source fixture will select only windows.wap-push-service and include current uncommitted framework and migration source in the hashed snapshot, never the old frozen CI revision. No state-changing test ran on the developer workstation. No legacy outcome closed/retired/excluded; all five ranges reviewed unchanged: settings38-58, packages/artifacts58-73, components20-25, accounts/configuration/files25-35, maintenance8-12; total150-205/about180. Fixture preparation and mocked tests are not feature acceptance. Conditional heartbeat remains active through validation work; dependency untouched.
+
+## WAP Push focused fixture baseline repair, 2026-10-13
+
+Local-source request ee270da2819b48b78683aa09147a23be on disposable Windows11 build26300 used commitf5e32180faf96508c35534ba46677bc78d0fe889 plus uncommitted fixture implementation. All270 source snapshot hashes match the preflight copy. Guest validation and162 focused tests passed, one WindowsIntegration excluded. WAP allseven states/repeat apply and startup-only runtime preservation passed; captured recovery exactly returned Manual/stopped, DelayedAutoStart DWORD1/key-present and SCMtrue. Overall request Failed because fixture0.1.0 attempted unsupported Baseline alias for this service kind, before restore-preview coverage. No handler defect claimed. Fixture0.1.1 now uses explicit BaselineState; retry follows fresh readiness checks. Final collection/cleanup and guest state export errors null, omissions empty; checkpoint recovery succeeded. Dated evidence archived at docs/archive/evidence/settings-wap-first-fixture-2026-10-13.md with active ledger pointer. No GitHub/publisher request, package acquisition or developer-machine state-changing test. No legacy outcome closed/retired/excluded; GUI/boot/workload/default/managed and deliberate native partial-failure evidence pending. All five ranges reviewed unchanged: settings38-58, packages/artifacts58-73, components20-25, accounts/configuration/files25-35, maintenance8-12; total150-205/about180. Failed fixture completion does not justify count reduction. Focused parser/diff checks passed after the one-line fixture repair; conditional heartbeat active.
+
+## WAP Push focused lifecycle validation, 2026-10-13
+
+Corrected Local-source request807cb015f98047548c59941bc5da3460 Passed, using00e820f876f6c00f70750c732b3057f5e82f79bd plus uncommitted fixture code. All273 retained/preflight hashes matched. Windows11 build26300/WinPS5.1.26100.9444 validation and162 focused Pester checks passed, one WindowsIntegration excluded. Allseven WAP choices/repeat apply, startup-only runtime preservation, apply/restore preview and explicit declared baseline passed. Exact captured recovery returned Manual/stopped, DWORD1/key-present and effectiveSCMtrue. Controller Error/CleanupError/CollectionError and guest StateCollectionError null; normal export/checkpoint recovery clean. Independent postflight bothVMsOff/tasksReady/queuesempty/locksavailable/noblocks/pinnedcheckpoints unchanged. Archive docs/archive/evidence/settings-wap-lifecycle-2026-10-13.md retains scope/hashes and prior failure pointer. No GitHub/package/host-UAC change or developer-machine integration. No new support/Server declaration or legacy closure/retirement/exclusion: GUI/session, boot/workload, defaults/managed and deliberate native partial failures remain pending. All five ranges reviewed unchanged: settings38-58, packages/artifacts58-73, components20-25, accounts/configuration/files25-35, maintenance8-12; total150-205/about180 because literal lifecycle is not the complete legacy feature. Conditional heartbeat active; WindowsSearch validation next, one operation at a time.
+
+## Windows Search focused lifecycle validation, 2026-10-13
+
+Request `53357a9252764c0fa543cd594f297de4` passed at 15:14:58 UTC. [Retained evidence](archive/evidence/settings-search-lifecycle-2026-10-13.md) records the current Local source snapshot, 277 matching hashes, 162 focused Pester passes, all seven states, exact Automatic/running/delayed recovery and independent idle/checkpoint verification. The implemented legacy service selector remains partial pending feature, GUI/session, boot/workload, managed/default and deliberately induced native failure evidence. No resolved/retired/excluded whole outcome or target expansion; package pause and other deferred outcomes remain. All five rounded ranges and total remain unchanged because this adds lifecycle evidence without closing a legacy feature.
+
+## Keyboard repeat delay Windows 11 lifecycle passed, 2026-10-13
+
+Request `2771dbd781814f6db578520e5796dd51`: passed. [Evidence](archive/evidence/settings-keyboard-repeat-delay-win11-2771dbd7-2026-10-13.md) retains 280 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller: ; cleanup: ; collection: ; guest: ; fixture: ; recovery: . No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Update-notification policy Windows 11 lifecycle passed, 2026-10-13
+
+Request `8ca9c85022ee40c8bda98b1850297c6e`: passed. [Evidence](archive/evidence/settings-update-notification-display-policy-win11-8ca9c850-2026-10-13.md) retains 282 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## CEIP policy controlled-failure attempt Windows 11 lifecycle failed or incomplete, 2026-10-13
+
+Request `85e70971f142431bac40fc8d250caf4d`: failed or incomplete. [Evidence](archive/evidence/settings-ceip-participation-policy-win11-85e70971-2026-10-13.md) retains 283 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller: Test controller exited with code 1. See controller-errors.log.; cleanup: ; collection: ; guest: Settings fixture failed with exit code 1; inspect settings-fixture.json.; fixture: ; recovery: Controlled native-write interruption did not trigger.. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## GitHub PAT source implementation, 2026-10-13
+
+Implemented the approved host and guest authentication stages: explicit secure enrollment with account-bound DPAPI and restricted ACLs; authenticated public-only discovery through a bounded, redirect-free HttpClient boundary; explicit CLI/engine propagation through download, install, apply and restore; revision/identity cache separation and shared-account backoff; additive AuthenticationMode provenance; versioned controller capability and dedicated run-bound guest delivery; focused acquisition/failure/timeout scenarios; cleanup/recovery verification and a scanned, hash-correlated evidence export gate. Controller refresh preserves existing resource, account, source and ISO pins. See the [operating guide](github-release-discovery.md#explicit-pat-enrollment-and-selection).
+
+The final isolated source candidate is retained locally at `.local/github-authentication-candidate-20261013-2b6d9963/ride-windows`, with 283 matching hashes and all seven proposed installed-controller file hashes beside it in `source-files.json`, `candidate.json` and `verification.json`. The active `settings-validation.fixture.psd1` is omitted only from that copy. The original fixture, concurrent settings changes and guest-runner additions remain intact. The candidate has not replaced any approved source-path pin or installed controller.
+
+Native Windows validation passed 318 operations, three groups, five profiles and 130 PowerShell files in both PowerShell editions. Independent parsing and hash verification also passed for the isolated candidate (130 scripts, zero parser errors). Its final focused Pester run passed 247 tests on Windows PowerShell 5.1.26100.9549; PowerShell 7.6.5 passed 245 with two expected Windows PowerShell-only host-preflight skips. The broader PowerShell 7 run passed 1,536 tests with two expected skips and one WindowsIntegration exclusion. The broader Windows PowerShell 5.1 run passed 1,538 tests with one WindowsIntegration exclusion and no failures. Final enrollment-quota and protected-host-runner corrections then passed all 75 authentication boundary tests in both editions; the candidate was refreshed with those exact tested files. Tests used synthetic credentials, mocked HTTP/controller/installer operations and isolated TestDrive state; no actual publisher traffic or workstation integration changes. Final focused tests cover changes added during the broader regression run, including null-DACL rejection, rejection-driven shared-cache invalidation, controller pin preservation and retained snapshot/sidecar scanning.
+
+The user confirmed no dedicated enrollment exists and explicitly left live PAT acceptance pending. Remaining acceptance: enroll a short-lived VmTest credential under the registered account; review/refresh the protected controller while idle; stage the reviewed candidate at an already approved source path; run focused anonymous/PAT discovery, publisher-digest download, cross-account DPAPI refusal, deliberate post-delivery failure and timeout on Windows 11 and Server 2025; retain verified absence, bounded collection, checkpoint recovery, idle state and safe export evidence. Hosted final-source Windows CI is also pending publication of the reviewed changes. No real credential was enrolled or read, no installed controller refreshed, no VM request submitted and no branch published by this implementation turn. Broad PAT Full runs, controller/default-branch certification and reusable-module extraction remain separate gates.
+
+No legacy outcome was resolved, retired or excluded by this infrastructure work; partial and deferred feature acceptance remains. All five ranges were reviewed unchanged: settings 38-58; packages/artifacts 58-73; components 20-25; accounts/configuration/files 25-35; maintenance 8-12; rounded total 150-205/about 180. Package pauses remain in force. Authentication adds acquisition infrastructure and does not reduce the legacy outcome count.
+
+## CEIP policy Windows 11 lifecycle failed or incomplete, 2026-10-13
+
+Request `aa2bcd713bc74c1f8bdad36d134c7e92`: failed or incomplete. [Evidence](archive/evidence/settings-ceip-participation-policy-win11-aa2bcd71-2026-10-13.md) retains 284 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## CEIP policy source-reconciled Windows 11 lifecycle passed, 2026-10-13
+
+Request `aa2bcd713bc74c1f8bdad36d134c7e92`: passed. [Evidence](archive/evidence/settings-ceip-participation-policy-win11-aa2bcd71-2026-10-13.md) retains 284 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Firewall enable-all seed-recovery attempt Windows 11 lifecycle failed or incomplete, 2026-10-13
+
+Request `ffca76b53da744bfbe200daaeaec271f`: failed or incomplete. [Evidence](archive/evidence/settings-firewall-all-profiles-win11-ffca76b5-2026-10-13.md) retains 285 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller: Test controller exited with code 1. See controller-errors.log.; cleanup: ; collection: ; guest: Settings fixture failed with exit code 1; inspect settings-fixture.json.; fixture: ; recovery: The term 'Restore-RideFirewallProfileState' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Firewall enable-all Windows 11 lifecycle failed or incomplete, 2026-10-13
+
+Request `fd277d27cf694ad7a764005e804e37fd`: failed or incomplete. [Evidence](archive/evidence/settings-firewall-all-profiles-win11-fd277d27-2026-10-13.md) retains 286 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Firewall enable-all source-reconciled Windows 11 lifecycle passed, 2026-10-13
+
+Request `fd277d27cf694ad7a764005e804e37fd`: passed. [Evidence](archive/evidence/settings-firewall-all-profiles-win11-fd277d27-2026-10-13.md) retains 286 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Firewall enable-all Windows Server 2025 lifecycle passed, 2026-10-13
+
+Request `a9529e92f9a04790b96ef69e3c33701b`: passed. [Evidence](archive/evidence/settings-firewall-all-profiles-winserver-2025-a9529e92-2026-10-13.md) retains 287 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Public firewall profile Windows 11 lifecycle passed, 2026-10-13
+
+Request `75c16478a8d04d66ad1a4614b49b7698`: passed. [Evidence](archive/evidence/settings-firewall-public-profiles-win11-75c16478-2026-10-13.md) retains 288 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Public firewall profile Windows Server 2025 lifecycle passed, 2026-10-13
+
+Request `c3ab9d4cb70a46059f946983919c70ce`: passed. [Evidence](archive/evidence/settings-firewall-public-profiles-winserver-2025-c3ab9d4c-2026-10-13.md) retains 289 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Domain firewall profile Windows 11 lifecycle passed, 2026-10-13
+
+Request `087701dce1ba484795bf59765e980074`: passed. [Evidence](archive/evidence/settings-firewall-domain-profiles-win11-087701dc-2026-10-13.md) retains 290 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Domain firewall profile Windows Server 2025 lifecycle passed, 2026-10-13
+
+Request `02e343a038694f88bb01294a24c18dcd`: passed. [Evidence](archive/evidence/settings-firewall-domain-profiles-winserver-2025-02e343a0-2026-10-13.md) retains 291 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Private firewall profile Windows 11 lifecycle passed, 2026-10-13
+
+Request `e7e35109260b46aa886b6eb540a6ad35`: passed. [Evidence](archive/evidence/settings-firewall-private-profiles-win11-e7e35109-2026-10-13.md) retains 292 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Private firewall profile Windows Server 2025 lifecycle passed, 2026-10-13
+
+Request `7e3dea5bf4df48c485077c4df9e274c8`: passed. [Evidence](archive/evidence/settings-firewall-private-profiles-winserver-2025-7e3dea5b-2026-10-13.md) retains 293 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Owned Balanced power plan Windows 11 lifecycle failed or incomplete, 2026-10-13
+
+Request `7a00278ac82a41ef9d47cd2a59186df2`: failed or incomplete. [Evidence](archive/evidence/settings-owned-balanced-power-plan-win11-7a00278a-2026-10-13.md) retains 294 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller: Test controller exited with code 1. See controller-errors.log.; cleanup: ; collection: ; guest: Settings fixture failed with exit code 1; inspect settings-fixture.json.; fixture: ; recovery: Owned copy changed or native export is not reproducible; refusing deletion.. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Owned-plan export diagnostic implemented; VM submission deferred, 2026-10-13
+
+The owned Balanced recovery failure remains unresolved. Fixture 0.6.3 is ready for a current Local snapshot and bounded diagnostic acceptance, but no native export evidence was produced in this run. Approval review rejected both submissions before execution. Both controllers were independently verified Off/Ready with empty queues, available locks, no blocks, matching pinned checkpoints and installed hashes. The dependency explicitly verified Full pairs and yielded; review nevertheless requires direct user authorization. A concrete approval question is pending. No resolved, retired or excluded whole legacy outcome; all prior partial/deferred acceptance remains. All five ranges and rounded total are unchanged because implementation and parser checks do not resolve native comparison or feature acceptance.
+
+## Owned Balanced export diagnostic Windows 11 lifecycle failed or incomplete, 2026-10-13
+
+Request `94297e8f3d5646308f11e786355584bf`: failed or incomplete. [Evidence](archive/evidence/settings-owned-balanced-power-plan-win11-94297e8f-2026-10-13.md) retains 296 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller: Test controller exited with code 1. See controller-errors.log.; cleanup: ; collection: ; guest: Settings fixture failed with exit code 1; inspect settings-fixture.json.; fixture: ; recovery: Owned copy changed or native export is not reproducible; refusing deletion.. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Conditional radio policy Windows 11 lifecycle passed, 2026-10-13
+
+Request `9cbb0b2a72e94a9ea14900842e5faac3`: passed. [Evidence](archive/evidence/settings-media-radio-preset-retrieval-policy-win11-9cbb0b2a-2026-10-13.md) retains 297 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Conditional Windows Media DRM policy Windows 11 lifecycle passed, 2026-10-13
+
+Request `aca17a85e3ab46a1bf4664b93cd40c3e`: passed. [Evidence](archive/evidence/settings-media-drm-online-access-policy-win11-aca17a85-2026-10-13.md) retains 298 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Server Manager startup policy Windows Server 2025 lifecycle passed, 2026-10-13
+
+Request `cce2df896ad047a6b71d9df6aa4f8230`: passed. [Evidence](archive/evidence/settings-server-manager-startup-policy-winserver-2025-cce2df89-2026-10-13.md) retains 299 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Shutdown Event Tracker Windows Server 2025 lifecycle passed, 2026-10-13
+
+Request `2479f56603b1464598f23d47ab7a5363`: passed. [Evidence](archive/evidence/settings-shutdown-event-tracker-policy-winserver-2025-2479f566-2026-10-13.md) retains 300 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Local SAM maximum password age Windows Server 2025 lifecycle failed or incomplete, 2026-10-13
+
+Request `acf7c02d919c40208548d1cdf93fa9b7`: failed or incomplete. [Evidence](archive/evidence/settings-local-password-maximum-age-winserver-2025-acf7c02d-2026-10-13.md) retains 301 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller: Test controller exited with code 1. See controller-errors.log.; cleanup: ; collection: ; guest: Settings fixture failed with exit code 1; inspect settings-fixture.json.; fixture: ; recovery: Local maximum age or related policy context changed; refusing stale recovery.. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Maximum-age fixture reverse recovery repaired, 2026-10-13
+
+Failed request acf7c02d919c40208548d1cdf93fa9b7 is retained as evidence. Apply/readback/repeat passed for three bounded states; RIDE recovery did not pass because the fixture restored the earliest run across later writes. The expected-post-write refusal is correct. Repaired the fixture to recover the last run first and retain each per-step preview/readback. Added a regression proving out-of-order refusal and exact reverse-chain recovery with mocked native calls; 20 tests passed on PowerShell 5.1 and 7. Published targets, policy setter and stale/context safeguards unchanged. No resolved/retired/excluded outcome, all partial/deferred feature/default/managed evidence retained. All five rounded ranges remain unchanged because runtime retry and actual policy behavior are still pending.
+
+## Local SAM maximum password age Windows Server 2025 lifecycle failed or incomplete, 2026-10-13
+
+Request `4486e991080b404f9cb60f5fb1b8ec10`: failed or incomplete. [Evidence](archive/evidence/settings-local-password-maximum-age-winserver-2025-4486e991-2026-10-13.md) retains 302 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller: Test controller exited with code 1. See controller-errors.log.; cleanup: ; collection: ; guest: Settings fixture failed with exit code 1; inspect settings-fixture.json.; fixture: ; recovery: The term 'Set-RideLocalPasswordAgeState' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Maximum-age fault binding repaired after exact recovery, 2026-10-13
+
+Retained request 4486e991080b404f9cb60f5fb1b8ec10 as incomplete acceptance. NoExpiry/Days90/Days999 and per-step restore preview passed; reverse recovery returned exact original 42-day policy/context. The later controlled-fault probe failed before injection because maximum-age calls route directly from the engine, unlike firewall managed dispatch. Fixture 0.6.5 matches that retained module route; read-only module-path/native-setter discovery and both parser checks passed. Product policy/context guards and support declarations unchanged. Source and checkpoint audits passed with no delta. No resolved/retired/excluded outcome, pending feature/default/managed and native fault acceptance retained, all five ranges unchanged.
+
+## Local SAM maximum password age Windows Server 2025 lifecycle passed, 2026-10-13
+
+Request `9dd8005663cc4a5894c97b6ec04bb047`: passed. [Evidence](archive/evidence/settings-local-password-maximum-age-winserver-2025-9dd80056-2026-10-13.md) retains 303 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Local SAM maximum password age Windows 11 lifecycle passed, 2026-10-13
+
+Request `95845a6e61344116bc5684aae0ec18b7`: passed. [Evidence](archive/evidence/settings-local-password-maximum-age-win11-95845a6e-2026-10-13.md) retains 304 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## WAP Push controlled startup recovery Windows 11 lifecycle passed, 2026-10-13
+
+Request `a7f221f3b078422690a7abd6b2623873`: passed. [Evidence](archive/evidence/settings-wap-push-service-win11-a7f221f3-2026-10-13.md) retains 305 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Search controlled startup recovery Windows 11 lifecycle passed, 2026-10-13
+
+Request `826e79723cf8457d8b0279e5fd355fd9`: passed. [Evidence](archive/evidence/settings-search-indexing-service-win11-826e7972-2026-10-13.md) retains 306 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Keyboard delay controlled write recovery Windows 11 lifecycle passed, 2026-10-13
+
+Request `5195b4e734dc4d9ea37ad8a1dcdb79e5`: passed. [Evidence](archive/evidence/settings-keyboard-repeat-delay-win11-5195b4e7-2026-10-13.md) retains 307 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Update notification controlled paired-write recovery Windows 11 lifecycle passed, 2026-10-13
+
+Request `5803c01cb50543a29982e8d6d9a9dc86`: passed. [Evidence](archive/evidence/settings-update-notification-display-policy-win11-5803c01c-2026-10-13.md) retains 308 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Guarded Windows Audio service Windows Server 2025 lifecycle passed, 2026-10-13
+
+Request `7fe176404e774e75bee47b169b5e7094`: passed. [Evidence](archive/evidence/settings-audio-service-winserver-2025-7fe17640-2026-10-13.md) retains 309 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Owned logical-export comparison implemented, 2026-10-13
+
+Raw export instability is repaired through documented application-hive data access rather than byte masking. New records retain raw evidence plus a versioned logical configuration digest. Existing version-1 ownership is not silently upgraded or given a fallback. Parser bounds, key/value class/type/raw bytes, UTF-16 names, ordinal ordering, no-follow subkeys and owner/group/DACL are explicit; transport timestamps, SACL, inherited/hardware effects and policy provenance remain outside the comparison. Native read-only parsing of scratch copies preserved original VM artifacts and returned equal f9a7db2de9b914fe7b79d9848a4d4507f843bfef34a0863f5c0868ba19055e74 digests. Both native editions passed 29 mocked tests; validation passed 131 source files. Fixture 0.6.6 checks real owned-copy label drift and restores only its known seed before normal saved-run compensation. Applicable VM creation/repeat/drift/compensation remains pending; source targets unchanged, no legacy resolution/retirement/exclusion. All five ranges unchanged because implementation does not close native/GUI/availability acceptance.
+
+## Guarded Windows Audio service Windows 11 lifecycle passed, 2026-10-13
+
+Request `3134e804661844108b9ed894cde274a2`: passed. [Evidence](archive/evidence/settings-audio-service-win11-3134e804-2026-10-13.md) retains 311 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Owned Balanced logical-export recovery Windows Server 2025 lifecycle passed, 2026-10-13
+
+Request `365e4b4da29e4fcbb4762463f276ea35`: passed. [Evidence](archive/evidence/settings-owned-balanced-power-plan-winserver-2025-365e4b4d-2026-10-13.md) retains 312 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Owned Balanced logical-export recovery Windows 11 lifecycle passed, 2026-10-13
+
+Request `cbb7a29d7111435da5b83cb7203f24b8`: passed. [Evidence](archive/evidence/settings-owned-balanced-power-plan-win11-cbb7a29d-2026-10-13.md) retains 313 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Owned High Performance logical-export recovery Windows Server 2025 lifecycle passed, 2026-10-13
+
+Request `6021fbd5f4254fc1932e6828ee35fdfc`: passed. [Evidence](archive/evidence/settings-owned-high-performance-power-plan-winserver-2025-6021fbd5-2026-10-13.md) retains 314 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Owned High Performance logical-export recovery Windows 11 lifecycle passed, 2026-10-13
+
+Request `0e7add1b8e1c483fbab35f23a74f808c`: passed. [Evidence](archive/evidence/settings-owned-high-performance-power-plan-win11-0e7add1b-2026-10-13.md) retains 315 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Conditional owned Ultimate Performance Windows Server 2025 lifecycle passed, 2026-10-13
+
+Request `2cd90b3981df499c8f4b499dc9a87117`: passed. [Evidence](archive/evidence/settings-owned-ultimate-performance-power-plan-winserver-2025-2cd90b39-2026-10-13.md) retains 316 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Conditional owned Ultimate Performance Windows 11 lifecycle passed, 2026-10-13
+
+Request `38e4646949c7439ca9f74c1e45e0dc92`: passed. [Evidence](archive/evidence/settings-owned-ultimate-performance-power-plan-win11-38e46469-2026-10-13.md) retains 317 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Explicit owned-plan guard fixtures implemented, 2026-10-13
+
+Schema 2 adds one required finite Scenario field; schema 1 remains the exact seven-key contract. The read-only data module rejects unknown/non-owned guard scenarios and supplies completion enumeration. ActiveRefusal temporarily selects only the newly owned GUID via a separate engine-saved selection run; Server selection support/default fields are guest-private only. SettingDrift changes and reads back one AC sleep setting on the inactive new copy, requiring fingerprint change and retained ownership after refusal. InterruptedCreation wraps the exact retained command, throws after successful native duplication and checks Intent plus no continuation/delete. CheckpointOnly scenarios keep RIDE recovery false; audit records accepted guard evidence independently from lifecycle. Eighteen tests passed per native edition; parser checks passed. No resolved, retired or excluded outcome; native/GUI/default/managed acceptance stays partial, all five ranges unchanged.
+
+## Owned Balanced active-copy refusal Windows Server 2025 ActiveRefusal guard passed, 2026-10-13
+
+Request `4c1579dfc525486a9812979ca8b05a20`: passed. [Evidence](archive/evidence/settings-owned-balanced-power-plan-winserver-2025-4c1579df-2026-10-13.md) retains 318 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Owned Balanced ActiveRefusal Windows 11 ActiveRefusal guard passed, 2026-10-13
+
+Request `76fbb477b11142288f90531093e6f833`: passed. [Evidence](archive/evidence/settings-owned-balanced-power-plan-win11-76fbb477-2026-10-13.md) retains 319 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Owned Balanced SettingDrift Windows Server 2025 SettingDrift guard passed, 2026-10-13
+
+Request `8889c7171a8f4a9ebac14a5e456c271b`: passed. [Evidence](archive/evidence/settings-owned-balanced-power-plan-winserver-2025-8889c717-2026-10-13.md) retains 320 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Scope: SettingDrift guard; guard accepted=True; RIDE recovery=False. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle or refusal evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Owned Balanced SettingDrift Windows 11 SettingDrift guard passed, 2026-10-13
+
+Request `75c3d9e2ece44fb9ad98a2a385cade8a`: passed. [Evidence](archive/evidence/settings-owned-balanced-power-plan-win11-75c3d9e2-2026-10-13.md) retains 321 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Scope: SettingDrift guard; guard accepted=True; RIDE recovery=False. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle or refusal evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Owned Balanced InterruptedCreation Windows Server 2025 InterruptedCreation guard failed or incomplete, 2026-10-13
+
+Request `77ef1aa1c89240ddbb7d70e9dc4045f7`: failed or incomplete. [Evidence](archive/evidence/settings-owned-balanced-power-plan-winserver-2025-77ef1aa1-2026-10-13.md) retains 322 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Scope: InterruptedCreation guard; guard accepted=False; RIDE recovery=False. Controller: Test controller exited with code 1. See controller-errors.log.; cleanup: ; collection: ; guest: Settings fixture failed with exit code 1; inspect settings-fixture.json.; fixture: Interrupted creation did not retain the exact captured inactive Intent copy.; recovery: . No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle or refusal evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Interrupted ownership capture fixture repaired, 2026-10-13
+
+Failed request 77ef1aa1c89240ddbb7d70e9dc4045f7 remains archived. Native parser checks passed on 5.1 and 7. The fixture identity correction resolves no legacy outcome; interruption acceptance awaits focused retries. Rounded ranges remain unchanged.
+
+## Owned Balanced InterruptedCreation Windows Server 2025 InterruptedCreation guard passed, 2026-10-13
+
+Request `bf89d6e09ab8448e8e5a2e3cf3312bc3`: passed. [Evidence](archive/evidence/settings-owned-balanced-power-plan-winserver-2025-bf89d6e0-2026-10-13.md) retains 323 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Scope: InterruptedCreation guard; guard accepted=True; RIDE recovery=False. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle or refusal evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Owned Balanced InterruptedCreation Windows 11 InterruptedCreation guard passed, 2026-10-13
+
+Request `6573f64481da4770b783f33e6d7a04ad`: passed. [Evidence](archive/evidence/settings-owned-balanced-power-plan-win11-6573f644-2026-10-13.md) retains 324 source hashes, the explicit single-operation selection, completed states, capture/recovery and clean postflight. Scope: InterruptedCreation guard; guard accepted=True; RIDE recovery=False. Controller, cleanup, collection, guest, fixture and recovery errors were absent. No resolved, retired or excluded whole legacy outcome; partial/deferred scope and package pause remain. All five ranges and total remain unchanged because this run adds bounded lifecycle or refusal evidence without closing feature, GUI/component, defaults/managed or native-failure acceptance.
+
+## Remaining settings analysis and decision plan complete, 2026-10-13
+
+See [remaining settings plan](migrations/remaining-settings-plan.md) for complete 29-row triage, earlier accepted-control acceptance, six verified first-batch IDs, E01-E08 implementation order and D01-D10 questions. Current catalog has 277 setting/control declarations, including 22 explicit presentation records and 15 pending candidates; these are not remaining legacy counts. All estimates remain unchanged because this analysis closes no feature outcome. Interactive elevation and unavailable session/component/physical/security resources are deferred while the user is away; existing unattended disposable tests remain authorized.

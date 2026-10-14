@@ -3,7 +3,7 @@
   Create separately owned, inactive copies of exact power-plan GUIDs.
 .DESCRIPTION
   Inspection uses powercfg queries and bounded ownership records without writing.
-  Creation records intent before duplication and fingerprints a native export.
+  Creation records intent before duplication and fingerprints logical export data.
   Recovery deletes only the same owned, unchanged, inactive destination. It never
   selects a plan, adopts an existing destination or resets built-in plans.
 .NOTES
@@ -11,16 +11,19 @@
   Prerequisites: powercfg; machine administrator; engine-protected machine state.
   Recovery: Compensating; incomplete ownership or changed/active copies require
   manual review. Internal setters require engine capture and ShouldProcess gates.
-  Owner: RIDE-Windows maintainers. Version: 0.1.0.
-  Changelog: 0.1.0: Add pending owned-copy lifecycle; no target acceptance claimed.
+  Owner: RIDE-Windows maintainers. Version: 0.2.0.
+  Changelog: 0.2.0: Compare versioned logical exports rather than unstable file
+    headers; retain the raw-export contract for existing version-1 records.
+    0.1.0: Add pending owned-copy lifecycle; no target acceptance claimed.
 .LINK
   ../docs/owned-power-plans.md
 .LINK
   https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options
 #>
 
-$script:ModuleVersion = '0.1.0'
+$script:ModuleVersion = '0.2.0'
 $ErrorActionPreference = 'Stop'
+Import-Module (Join-Path $PSScriptRoot 'RIDE.PowerPlanExportData.psm1') -ErrorAction Stop
 $script:GuidPattern = '^[0-9a-fA-F]{8}-(?:[0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$'
 
 function Invoke-RideOwnedPlanCommand {
@@ -81,13 +84,15 @@ function Get-RideOwnedPlanRecord {
 
 function Assert-RideOwnedPlanRecord {
   param([hashtable] $Operation, $Record)
-  if ($Record.Version -ne 1 -or $Record.OperationId -cne $Operation.Id -or
+  if ($Record.Version -notin @(1,2) -or $Record.OperationId -cne $Operation.Id -or
       $Record.SourceGuid -ne $Operation.SourcePowerPlanGuid -or
       $Record.DestinationGuid -notmatch $script:GuidPattern -or
       $Record.DestinationGuid -eq $Record.SourceGuid -or
       $Record.OwnerToken -notmatch $script:GuidPattern -or
       $Record.Stage -notin @('Intent', 'Ready') -or
-      ($Record.Stage -eq 'Ready' -and $Record.ExportSha256 -notmatch '^[a-f0-9]{64}$')) {
+      ($Record.Stage -eq 'Ready' -and $Record.ExportSha256 -notmatch '^[a-f0-9]{64}$') -or
+      ($Record.Version -eq 2 -and ($Record.Comparison -cne 'LogicalExportV1' -or
+       ($Record.Stage -eq 'Ready' -and $Record.ConfigurationSha256 -notmatch '^[a-f0-9]{64}$')))) {
     throw 'Ownership record identity, stage or export fingerprint is invalid.'
   }
 }
@@ -152,7 +157,7 @@ function Write-RideOwnedPlanRecord {
 }
 
 function Get-RideOwnedPlanExportHash {
-  param([string] $Guid, [string] $OwnershipRoot)
+  param([string] $Guid, [string] $OwnershipRoot, [switch] $Logical)
   if ($Guid -notmatch $script:GuidPattern) { throw 'Invalid export GUID.' }
   Assert-RideOwnedPlanPath $OwnershipRoot
   $path = Join-Path $OwnershipRoot ([guid]::NewGuid().ToString() + '.pow')
@@ -162,7 +167,8 @@ function Get-RideOwnedPlanExportHash {
     Assert-RideOwnedPlanPath $path
     $size = (Get-Item -LiteralPath $path -ErrorAction Stop).Length
     if ($size -lt 1 -or $size -gt 1048576) { throw 'Power-plan export must be between 1 byte and 1 MiB.' }
-    (Get-FileHash -LiteralPath $path -Algorithm SHA256 -ErrorAction Stop).Hash.ToLowerInvariant()
+    if($Logical){Get-RidePowerPlanExportFingerprint -LiteralPath $path}
+    else{(Get-FileHash -LiteralPath $path -Algorithm SHA256 -ErrorAction Stop).Hash.ToLowerInvariant()}
   }
   finally { if (Test-Path -LiteralPath $path) { Remove-Item -LiteralPath $path -ErrorAction Stop } }
 }
@@ -222,9 +228,9 @@ function Set-RideOwnedPowerPlanState {
     $source = Invoke-RideOwnedPlanCommand @('/query', $Operation.SourcePowerPlanGuid)
     if ($source.ExitCode -ne 0) { throw 'Source template is unavailable; no fallback or implicit plan creation is permitted.' }
     $record = [pscustomobject]@{
-      Version = 1; OperationId = $Operation.Id; SourceGuid = $Operation.SourcePowerPlanGuid
+      Version = 2; OperationId = $Operation.Id; SourceGuid = $Operation.SourcePowerPlanGuid
       DestinationGuid = $ExpectedState.DestinationGuid; OwnerToken = $ExpectedState.OwnerToken
-      Stage = 'Intent'; ExportSha256 = $null
+      Stage = 'Intent'; ExportSha256 = $null; Comparison = 'LogicalExportV1'; ConfigurationSha256 = $null
     }
     Write-RideOwnedPlanRecord $Operation $OwnershipRoot $record
     $result = Invoke-RideOwnedPlanCommand @('/duplicatescheme', $record.SourceGuid, $record.DestinationGuid)
@@ -233,6 +239,8 @@ function Set-RideOwnedPowerPlanState {
     if ($result.ExitCode -ne 0) { throw 'Copy naming failed. Ownership intent retained; manual review required.' }
     if ((Get-RideOwnedPlanActiveGuid) -eq $record.DestinationGuid) { throw 'Copy unexpectedly became active. Ownership intent retained; manual review required.' }
     $record.ExportSha256 = Get-RideOwnedPlanExportHash $record.DestinationGuid $OwnershipRoot
+    $record.ConfigurationSha256 = Get-RideOwnedPlanExportHash $record.DestinationGuid $OwnershipRoot -Logical
+    if((Get-RideOwnedPlanExportHash $record.DestinationGuid $OwnershipRoot -Logical) -cne $record.ConfigurationSha256){throw 'Logical export is not stable; ownership intent retained for review.'}
     $record.Stage = 'Ready'
     Write-RideOwnedPlanRecord $Operation $OwnershipRoot $record
   }
@@ -272,8 +280,9 @@ function Restore-RideOwnedPowerPlanState {
     }
     if ($exists) {
       if ((Get-RideOwnedPlanActiveGuid) -eq $record.DestinationGuid) { throw 'Owned copy is active; restore the saved selection first.' }
-      $hash = Get-RideOwnedPlanExportHash $record.DestinationGuid $OwnershipRoot
-      if ($hash -cne $record.ExportSha256) { throw 'Owned copy changed or native export is not reproducible; refusing deletion.' }
+      $hash = Get-RideOwnedPlanExportHash $record.DestinationGuid $OwnershipRoot -Logical:($record.Version -eq 2)
+      $expected=if($record.Version -eq 2){$record.ConfigurationSha256}else{$record.ExportSha256}
+      if ($hash -cne $expected) { throw 'Owned copy changed or native export is not reproducible; refusing deletion.' }
       if ((Get-RideOwnedPlanActiveGuid) -eq $record.DestinationGuid) { throw 'Owned copy became active during recovery; refusing deletion.' }
       $result = Invoke-RideOwnedPlanCommand @('/delete', $record.DestinationGuid)
       if ($result.ExitCode -ne 0 -or $record.DestinationGuid -in @(Get-RideOwnedPlanGuids)) { throw 'Owned-copy deletion failed; ownership retained for retry.' }

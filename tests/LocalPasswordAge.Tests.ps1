@@ -153,6 +153,23 @@ Describe 'Local maximum password age handler' {
       Should -Invoke Set-RideLocalPasswordAgeNative -Times 1 -Exactly
     }
   }
+  It 'refuses an early run after later owned writes and recovers the chain in reverse' {
+    InModuleScope RIDE-LocalPasswordAge {
+      $script:AgeOperation.States.Days999 = 999
+      $snapshots=@()
+      foreach($state in @('NoExpiry','Days90','Days999')){
+        $before=Get-RideLocalPasswordAgeState $script:AgeOperation
+        Set-RideLocalPasswordAgeState $script:AgeOperation $state $before
+        $snapshots += @{SnapshotVersion=1;OperationId=$script:AgeOperation.Id;Prior=$before.Policy;ExpectedMaxAgeSeconds=ConvertTo-RideLocalPasswordAgeSeconds $script:AgeOperation $state}
+      }
+      {Restore-RideLocalPasswordAgeState $script:AgeOperation $snapshots[0]} | Should -Throw '*refusing stale recovery*'
+      $script:AgeRecord.MaxAgeSeconds | Should -Be (999*86400)
+      [array]::Reverse($snapshots)
+      foreach($saved in $snapshots){Restore-RideLocalPasswordAgeState $script:AgeOperation $saved}
+      $script:AgeRecord.MaxAgeSeconds | Should -Be (42*86400)
+      Should -Invoke Set-RideLocalPasswordAgeNative -Times 6 -Exactly
+    }
+  }
   It 'rejects malformed snapshots and unrepresentable prior values before writes' {
     InModuleScope RIDE-LocalPasswordAge {
       $before = Get-RideLocalPasswordAgeState $script:AgeOperation

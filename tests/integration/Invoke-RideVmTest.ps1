@@ -53,6 +53,21 @@
   32 lowercase hexadecimal characters for result correlation; defaults to a newly generated GUID in
   N format.
 
+.PARAMETER GuestGitHubAuthentication
+  Anonymous (default) or explicit PAT; PAT requires the focused GitHubAuthentication suite.
+
+.PARAMETER AuthenticationConfigurationPath
+  Protected installed controller configuration supplying the dedicated VmTest reference.
+
+.PARAMETER AuthenticationDeadlineUtc
+  Absolute request deadline; bounds the transient guest credential lifetime.
+
+.PARAMETER AuthenticationCredentialRevision
+  Nonsecret credential revision pinned by the controller for delivery and evidence scanning.
+
+.PARAMETER GitHubTestScenario
+  Acquire (default), FailAfterDelivery or WaitForTimeout; focused-suite recovery scenarios.
+
 .PARAMETER Version
   Print the existing script version and return before module imports or operational checks.
 
@@ -81,8 +96,9 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.10.0
+  Version: 0.11.0
   Changelog:
+    0.11.0: Add explicit GitHub PAT selection and credential-safe acceptance boundaries.
     0.10.0: Accept application migration suites through the VM runner.
   - 0.9.0: Forward remaining-settings acceptance batches without package downloads.
   - 0.8.0: Select the twelve outstanding BCD/coordinated recovery scenarios.
@@ -113,15 +129,20 @@ param(
   [string] $RepositoryPath,
   [string] $GuestRepositoryPath = 'C:\RIDE\ride-windows',
   [switch] $UnitOnly,
-  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2')][string] $IntegrationSuite = 'Full',
+  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2', 'GitHubAuthentication')][string] $IntegrationSuite = 'Full',
   [string] $ResultDirectory,
+  [ValidateSet('Anonymous','PAT')][string] $GuestGitHubAuthentication = 'Anonymous',
+  [ValidateSet('Acquire','FailAfterDelivery','WaitForTimeout')][string] $GitHubTestScenario = 'Acquire',
+  [string] $AuthenticationConfigurationPath,
+  [datetime] $AuthenticationDeadlineUtc,
+  [ValidatePattern('^[0-9a-f]{32}$')][string] $AuthenticationCredentialRevision,
   [ValidatePattern('^[0-9a-f]{32}$')]
   [string] $RunId = ([guid]::NewGuid().ToString('N')),
 
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.10.0'
+$script:ScriptVersion = '0.11.0'
 if ($Version) {
   Write-Output $script:ScriptVersion
   return
@@ -133,6 +154,14 @@ if (-not $Transport) {
 
 $ErrorActionPreference = 'Stop'
 if ($UnitOnly -and $IntegrationSuite -ne 'Full') { throw 'IntegrationSuite cannot be selected with UnitOnly.' }
+if ($GuestGitHubAuthentication -eq 'PAT' -and ($UnitOnly -or $IntegrationSuite -ne 'GitHubAuthentication' -or -not $ResultDirectory -or -not $AuthenticationConfigurationPath)) { throw 'PAT requires the focused GitHubAuthentication suite, retained results and protected configuration.' }
+if ($GuestGitHubAuthentication -eq 'PAT') {
+  $configurationFullPath = [IO.Path]::GetFullPath($AuthenticationConfigurationPath)
+  $configurationRoot = Split-Path -Parent $configurationFullPath
+  $controllerName = Split-Path -Leaf $configurationRoot
+  $protectedRoot = Join-Path ([Environment]::GetFolderPath('CommonApplicationData')) ('RIDE\TestAutomation\' + $controllerName)
+  if ($controllerName -notmatch '^RIDE[A-Za-z0-9-]{1,55}$' -or (Split-Path -Leaf $configurationFullPath) -ne 'configuration.json' -or $configurationRoot -ne $protectedRoot -or [IO.Path]::GetFullPath($PSScriptRoot).TrimEnd('\') -ne (Join-Path $protectedRoot 'bin')) { throw 'PAT guest delivery must run from the registered protected controller installation.' }
+}
 
 if ($Transport -eq 'AutomatedLab' -and -not $LabName) {
   throw "-LabName is required when -Transport is 'AutomatedLab'."
@@ -160,10 +189,22 @@ $stageRoot = Join-Path ([System.IO.Path]::GetTempPath()) ('ride-vm-test-' + [gui
 $stagedRepository = Join-Path $stageRoot 'ride-windows'
 $session = $null
 $resultSession = $null
+$authenticationContext = $null
+$leaseSession = $null
+$lease = $null
 $guestResultsPath = if ($ResultDirectory) { "C:\RIDE\TestResults\$RunId" } else { '' }
 if ($ResultDirectory) { New-Item -ItemType Directory -Path $ResultDirectory -Force | Out-Null }
 
 try {
+  if ($GuestGitHubAuthentication -eq 'PAT') {
+    Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -ErrorAction Stop
+    Import-Module (Join-Path $PSScriptRoot 'RIDE.GitHubVmAuthentication.psm1') -ErrorAction Stop
+    $authConfiguration = Read-RideAutomationConfiguration $AuthenticationConfigurationPath
+    if ($authConfiguration.VMName -ne $VMName -or $authConfiguration.GuestRepositoryPath -ne $GuestRepositoryPath -or $AuthenticationDeadlineUtc.ToUniversalTime() -le [datetime]::UtcNow) { throw 'Authentication target or request deadline does not match.' }
+    if ((Get-VM -Name $VMName -ErrorAction Stop).Id -ne [guid]$authConfiguration.VMId) { throw 'Authentication VM identity differs from its configured pin.' }
+    $authenticationContext = Get-RideVmGitHubContext $authConfiguration
+    if ($authenticationContext.Revision -ne $AuthenticationCredentialRevision) { throw 'Credential changed after request preflight; submit a new request.' }
+  }
   New-Item -ItemType Directory -Path $stagedRepository -Force | Out-Null
   Get-ChildItem -LiteralPath $resolvedRepositoryPath -Force |
     Where-Object { $_.Name -notin @('.git', '.local', 'testResults.xml') } |
@@ -175,7 +216,10 @@ try {
       [bool] $RunIntegration,
       [string] $ResultsPath,
       [string] $ResultRunId,
-      [string] $SelectedSuite
+      [string] $SelectedSuite,
+      [string] $AuthenticationMode,
+      [string] $ExpectedCredentialSid,
+      [string] $AuthenticationScenario
     )
 
     $ErrorActionPreference = 'Stop'
@@ -189,6 +233,8 @@ try {
       if ($ResultsPath) { $arguments += @('-ResultsPath', $ResultsPath, '-ResultRunId', $ResultRunId) }
       # File arguments do not reliably accept Boolean strings on Windows PowerShell 5.1.
       if ($RunIntegration) { $arguments += @('-Integration', '-IntegrationSuite', $SelectedSuite) }
+      if ($SelectedSuite -eq 'GitHubAuthentication') { $arguments += @('-GuestGitHubAuthentication', $AuthenticationMode, '-GitHubTestScenario', $AuthenticationScenario) }
+      if ($AuthenticationMode -eq 'PAT') { $arguments += @('-ExpectedCredentialSid', $ExpectedCredentialSid) }
       & (Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe') @arguments
       if ($LASTEXITCODE -ne 0) { throw "Guest test process failed with exit code $LASTEXITCODE." }
     }
@@ -226,7 +272,14 @@ try {
     } -ArgumentList $GuestRepositoryPath | Out-Null
 
     Copy-LabFileItem -Path $stagedRepository -ComputerName $VMName -DestinationFolderPath (Split-Path -Parent $GuestRepositoryPath) -Recurse
-    Invoke-LabCommand -ComputerName $VMName -ScriptBlock $remoteTest -ArgumentList @($GuestRepositoryPath, [bool]$runIntegration, $guestResultsPath, $RunId, $IntegrationSuite) -PassThru
+    if ($GuestGitHubAuthentication -eq 'PAT') {
+      $leaseSession = $resultSession
+      $lease = New-RideVmGitHubLease $leaseSession $GuestRepositoryPath $RunId $authenticationContext $AuthenticationDeadlineUtc
+      $lease | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $ResultDirectory 'guest-authentication.json') -Encoding UTF8
+      Invoke-Command -Session $leaseSession -ScriptBlock $remoteTest -ArgumentList @($GuestRepositoryPath, [bool]$runIntegration, $guestResultsPath, $RunId, $IntegrationSuite, $GuestGitHubAuthentication, $lease.WindowsSid, $GitHubTestScenario) -ErrorAction Stop
+    } else {
+      Invoke-LabCommand -ComputerName $VMName -ScriptBlock $remoteTest -ArgumentList @($GuestRepositoryPath, [bool]$runIntegration, $guestResultsPath, $RunId, $IntegrationSuite, $GuestGitHubAuthentication, '', $GitHubTestScenario) -PassThru
+    }
   }
   else {
     $credential = Get-Credential -Message "Enter the local administrator account for guest VM '$VMName'."
@@ -237,13 +290,19 @@ try {
     } -ArgumentList $GuestRepositoryPath | Out-Null
 
     Copy-Item -Path (Join-Path $stagedRepository '*') -Destination $GuestRepositoryPath -ToSession $session -Recurse -Force
-    Invoke-Command -Session $session -ScriptBlock $remoteTest -ArgumentList @($GuestRepositoryPath, [bool]$runIntegration, $guestResultsPath, $RunId, $IntegrationSuite)
+    if ($GuestGitHubAuthentication -eq 'PAT') {
+      $leaseSession = $session
+      $lease = New-RideVmGitHubLease $leaseSession $GuestRepositoryPath $RunId $authenticationContext $AuthenticationDeadlineUtc
+      $lease | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $ResultDirectory 'guest-authentication.json') -Encoding UTF8
+    }
+    Invoke-Command -Session $session -ScriptBlock $remoteTest -ArgumentList @($GuestRepositoryPath, [bool]$runIntegration, $guestResultsPath, $RunId, $IntegrationSuite, $GuestGitHubAuthentication, $(if ($lease) { $lease.WindowsSid } else { '' }), $GitHubTestScenario)
   }
 
   Write-Output "RIDE VM test completed on '$VMName'. Restore the VM's clean checkpoint before its next integration run."
 }
 finally {
   try {
+    if ($leaseSession) { $null = Remove-RideVmGitHubLease $leaseSession $GuestRepositoryPath $RunId }
     if ($ResultDirectory) {
       $exportSession = if ($resultSession) { $resultSession } else { $session }
       if (-not $exportSession) { throw 'No guest session available to export results.' }
@@ -253,6 +312,7 @@ finally {
     }
   }
   finally {
+    if ($authenticationContext) { $authenticationContext.Token.Dispose() }
     if ($resultSession) { Remove-PSSession -Session $resultSession -ErrorAction SilentlyContinue }
     if ($session) { Remove-PSSession -Session $session -ErrorAction SilentlyContinue }
     if (Test-Path -LiteralPath $stageRoot) {

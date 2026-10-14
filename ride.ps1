@@ -55,6 +55,12 @@
 .PARAMETER Help
   Display help and return before operational work.
 
+.PARAMETER GitHubAuthentication
+  Anonymous (default) or explicit PAT for download/install/apply/restore release discovery.
+
+.PARAMETER GitHubCredentialReference
+  Nonsecret enrolled PAT name. Required with PAT; Tab lists metadata without decryption.
+
 .PARAMETER Variant
   Catalog-declared package variant for install, remove, download or show. Press Tab
   after -Variant to complete choices for the selected package ID.
@@ -96,8 +102,9 @@
   machine/user RIDE state stores. Package observations use catalog/artifact-observations.json.
   Recovery: Use restore -RunId for captured state. Package recovery has the catalog-declared limits.
   Author: RIDE-Windows maintainers.
-  Version: 0.10.4
+  Version: 0.11.0
   Changelog:
+    0.11.0: Add explicit GitHub PAT selection and credential-safe acceptance boundaries.
     - 0.10.4: Complete bounded explicit local password-age day states from the catalog.
     - 0.10.3: Complete explicit owned power-plan creation states from the catalog.
     - 0.10.2: Complete catalog-declared local firewall profile states.
@@ -352,10 +359,20 @@ param(
   [string[]] $Library = @(),
   [string] $Destination = '',
   [switch] $Help,
+  [ValidateSet('Anonymous','PAT')][string] $GitHubAuthentication = 'Anonymous',
+  [ArgumentCompleter({
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    try {
+      $path = $commandAst.CommandElements[0].Value
+      if (-not (Test-Path -LiteralPath $path)) { $path = (Get-Command $commandName -CommandType ExternalScript).Source }
+      Import-Module (Join-Path (Split-Path -Parent $path) 'modules/RIDE.GitHubAuthentication.psm1') -ErrorAction Stop
+      Get-RideGitHubCredentialInfo | Where-Object { $_.Name.StartsWith([string]$wordToComplete, [StringComparison]::OrdinalIgnoreCase) } | Sort-Object Name -Unique | ForEach-Object { [Management.Automation.CompletionResult]::new($_.Name, $_.Name, 'ParameterValue', $_.Name) }
+    } catch { }
+  })][string] $GitHubCredentialReference,
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.10.4'
+$script:ScriptVersion = '0.11.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 
 if ($Help) {
@@ -399,6 +416,9 @@ Options:
   -Help                Display this help.
   -Variant <name>      Select a declared package edition; Tab completes its variants.
   -Version             Print the script version without loading the engine.
+  -GitHubAuthentication Anonymous (default) or PAT; download/install/apply/restore only.
+  -GitHubCredentialReference Enrolled nonsecret PAT name; Tab reads local metadata only.
+                       Enroll using tools/Manage-RideGitHubCredential.ps1; no ambient tokens.
 
 Package scope follows its catalog selection. Thunderbird's user selection requires
 non-elevated PowerShell for install, removal and restore; preview remains read-only.
@@ -462,6 +482,12 @@ Examples:
 }
 
 $ErrorActionPreference = 'Stop'
+$githubParameters = @{}
+if ($PSBoundParameters.ContainsKey('GitHubAuthentication') -or $PSBoundParameters.ContainsKey('GitHubCredentialReference')) {
+  if ($Command -notin @('download','install','apply','restore')) { throw 'GitHub authentication options are supported by download, install, apply and restore only.' }
+  if (($GitHubAuthentication -eq 'PAT') -ne (-not [string]::IsNullOrWhiteSpace($GitHubCredentialReference))) { throw 'PAT requires -GitHubCredentialReference; Anonymous forbids it.' }
+  $githubParameters = @{ GitHubAuthentication = $GitHubAuthentication; GitHubCredentialReference = $GitHubCredentialReference }
+}
 $shouldProcessParameters = @{ WhatIf = [bool]$WhatIfPreference }
 if ($PSBoundParameters.ContainsKey('Confirm')) { $shouldProcessParameters.Confirm = $PSBoundParameters['Confirm'] }
 if ($Command -eq 'search') {
@@ -507,12 +533,12 @@ switch ($Command) {
     $loadedProfile = Get-RideProfile -Path $Profile
     $plan = @(Get-RidePlan -Profile $loadedProfile)
     if ($shouldProcessParameters.WhatIf) { Show-RidePlan -Plan $plan }
-    Invoke-RidePlan -Plan $plan @shouldProcessParameters
+    Invoke-RidePlan -Plan $plan @shouldProcessParameters @githubParameters
   }
   'download' {
     if (-not $Id) { throw 'The download command requires a package or artifact ID.' }
     if ($PSBoundParameters.ContainsKey('Profile')) { throw 'The download command accepts one catalog ID and does not use -Profile.' }
-    $downloadParameters = @{ Id = $Id; Variant = $Variant } + $shouldProcessParameters
+    $downloadParameters = @{ Id = $Id; Variant = $Variant } + $shouldProcessParameters + $githubParameters
     if ($Destination) { $downloadParameters.Destination = $Destination }
     Save-RidePackage @downloadParameters
   }
@@ -521,7 +547,7 @@ switch ($Command) {
     if ($PSBoundParameters.ContainsKey('Profile')) { throw 'The install command accepts one package ID and does not use -Profile.' }
     $plan = @(Get-RideSingleOperationPlan -Id $Id -Action Install -Variant $Variant)
     if ($shouldProcessParameters.WhatIf) { Show-RidePlan -Plan $plan }
-    Invoke-RidePlan -Plan $plan @shouldProcessParameters
+    Invoke-RidePlan -Plan $plan @shouldProcessParameters @githubParameters
   }
   'set' {
     if (-not $Id) { throw 'The set command requires a setting ID.' }
@@ -552,7 +578,7 @@ switch ($Command) {
   }
   'restore' {
     if (-not $RunId) { throw 'The restore command requires -RunId.' }
-    Restore-RideRun -RunId $RunId @shouldProcessParameters
+    Restore-RideRun -RunId $RunId @shouldProcessParameters @githubParameters
   }
   'remove' {
     if ($Id) {
