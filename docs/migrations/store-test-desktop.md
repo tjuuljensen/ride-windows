@@ -67,3 +67,10 @@ See the [dated completion evidence](../archive/evidence/store-test-desktop-2026-
 for source manifests, hashes and exact acceptance boundaries.
 There is no new registered controller or scheduled test loop at this stage.
 Do not repoint either existing controller to this copy.
+
+Solitaire's [isolated native validation](../archive/evidence/store-solitaire-validation-2026-10-14.md)
+passed both previews, uninstall/reinstall and repeats, local-source registration
+recovery and unchanged unrelated registrations after a WhatIf projection repair.
+Run `3899597cd74e477195a35b280b201308` passed task cleanup and recovery to this
+same clean pin. GUI/data, interruption, full launcher and other-target acceptance
+remain pending. The two earlier failures and canceled elevation are historical.

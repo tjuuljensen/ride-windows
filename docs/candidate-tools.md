@@ -68,7 +68,7 @@ These useful capabilities already appear in legacy selectors, so they are migrat
 
 ## Repository implementation notes
 
-- The existing `RIDE-Packages.psm1` handler currently accepts `InstallerType = 'Exe'`. Several candidates are portable releases or archives, so add and validate archive extraction, version detection, and removal behavior before representing them as ordinary package operations.
+- The current `RIDE-Packages.psm1` handler supports EXE, MSI, managed portable payloads and its specialized Sysmon ZIP workflow, with guarded ZIP installer-entry handling. Evaluate each candidate's actual format, nested installer, presence/version detection and owned-file removal/recovery; those paths do not establish arbitrary archive or MSIX support. Independent deployment/kit coexistence is approved design and remains unimplemented. See the [full migration follow-up](migrations/remaining-migrations-follow-up.md); packages remain paused.
 - Prefer upstream release pages or official Microsoft distribution channels. Pin or resolve versions deliberately, verify downloaded artifacts where upstream publishes hashes/signatures, and retain license and rule-pack attribution.
 - Keep acquisition, examination, and live-response tools opt-in in profiles. Their presence does not configure logging, deploy an endpoint service, or establish evidence-handling procedures by itself.
 - Confirm target support and behavior on the repository's declared Windows 11 and Windows Server targets before adding catalog entries. In particular, verify elevated operation needs, unattended install/removal, update semantics, and whether a tool is appropriate for server images.

@@ -10,8 +10,10 @@
   Prerequisites: Applicable accepted target and the unelevated current desktop user.
   State: LocalApplicationData/RIDE/State/StoreApps, owned by the execution user.
   Recovery: Best effort retained-payload registration; no app-data/version guarantee.
-  Owner: RIDE-Windows maintainers. Version: 0.3.1.
-  Changelog: 0.3.1: Refuse unverified/conflicting runtime identity/type evidence.
+  Owner: RIDE-Windows maintainers. Version: 0.3.3.
+  Changelog: 0.3.3: Keep read-only dependency projection active during WhatIf.
+    0.3.2: Retain precise source-refusal diagnostics without changing guards.
+    0.3.1: Refuse unverified/conflicting runtime identity/type evidence.
     0.3.0: Apply reviewed identity/removability rule; report unknown system flags.
     0.2.0: Add source-bound same-session desktop-user Store handoff.
     0.1.2: Query documented client management registration instead of
@@ -241,7 +243,7 @@ function Get-RideStoreAppPlan {
   $target=Get-RideStoreTarget
   foreach($operation in $operations){
     $before=Get-RideStoreAppState $operation
-    $reasons=[Collections.Generic.List[string]]::new();$source=$null
+    $reasons=[Collections.Generic.List[string]]::new();$source=$null;$sourceError=$null
     if($operation.ProtectionRule -cne 'ReviewedIdentityRemovabilityV1' -or $operation.RequireKnownProtectionFlags -ne $true){$reasons.Add('Reviewed identity/removability rule required')}
     if($target -notin $operation.SupportedTargets){$reasons.Add('Target acceptance pending or unsupported')}
     try{
@@ -266,7 +268,7 @@ function Get-RideStoreAppPlan {
     }
     if($Action -eq 'Uninstall' -and $before.Present){
       if($sourcePrimary.Count -ne 1){$reasons.Add('Retained main-payload source ambiguous or unavailable')}
-      else{try{$source=Get-RideStoreManifestProof $sourcePrimary[0]}catch{$reasons.Add('Retained-payload capture unavailable')}}
+      else{try{$source=Get-RideStoreManifestProof $sourcePrimary[0]}catch{$sourceError=$_.Exception.Message;$reasons.Add('Retained-payload capture unavailable')}}
     }
     if($Action -eq 'Uninstall' -and $before.Present){
       try{
@@ -285,12 +287,12 @@ function Get-RideStoreAppPlan {
           $proof=Get-RideStoreManifestProof ([pscustomobject]@{InstallLocation=(Split-Path -Parent $s.Path);Name=$operation.AppxName;Publisher=$s.Publisher;Version=$s.Version;Dependencies=@($s.Dependencies);IsStub=$false})
           if($proof.SHA256 -cne $s.SHA256){throw 'Retained manifest changed'}
           $source=$proof
-          $available=@(Get-RideStoreRegisteredPackages|ForEach-Object PackageFullName)
+          $available=@(Get-RideStoreRegisteredPackages|Select-Object -ExpandProperty PackageFullName)
           if(@($proof.Dependencies|Where-Object {$_ -notin $available}).Count){throw 'Retained dependencies unavailable'}
-        }catch{$reasons.Add('Source unavailable or changed; acquisition remains paused')}
+        }catch{$sourceError=$_.Exception.Message;$reasons.Add('Source unavailable or changed; acquisition remains paused')}
       }
     }
-    [pscustomobject]@{Operation=$operation;Action=$Action;ExpectedUserSid=$ExpectedUserSid;RemovalRunId=$RemovalRunId;Before=$before;Source=$source;Primary=$(if($primary.Count -eq 1){$primary[0]}else{$null});Refusals=@($reasons|Sort-Object -Unique);Target=$target;DesiredPresence=($Action -eq 'Reinstall');Recovery='BestEffortRetainedPayload; app data and prior version not guaranteed'}
+    [pscustomobject]@{Operation=$operation;Action=$Action;ExpectedUserSid=$ExpectedUserSid;RemovalRunId=$RemovalRunId;Before=$before;Source=$source;SourceError=$sourceError;Primary=$(if($primary.Count -eq 1){$primary[0]}else{$null});Refusals=@($reasons|Sort-Object -Unique);Target=$target;DesiredPresence=($Action -eq 'Reinstall');Recovery='BestEffortRetainedPayload; app data and prior version not guaranteed'}
   }
 }
 

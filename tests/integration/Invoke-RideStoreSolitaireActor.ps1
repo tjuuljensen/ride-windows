@@ -30,8 +30,9 @@
   File/environment inputs: Bound source/request and correlated RIDE test markers.
   Recovery: Best-effort local registration; host checkpoint recovery is separate.
     App data and exact prior versions are not recoverable by this contract.
-  Owner: RIDE-Windows maintainers. Version: 0.1.0.
-  Changelog: 0.1.0: Add one-app native lifecycle and unrelated-registration checks.
+  Owner: RIDE-Windows maintainers. Version: 0.1.1.
+  Changelog: 0.1.1: Capture source stability/refusal details and partial registration checks.
+    0.1.0: Add one-app native lifecycle and unrelated-registration checks.
 #>
 [CmdletBinding()]
 param([Parameter(Mandatory)][string]$RequestPath,
@@ -83,6 +84,10 @@ try{
  Assert-Result $repeat 'AlreadyMatching' 'UninstallRepeat'
  if($repeat.RecordCreated){throw 'Repeat removal created an extra record.'}
  if((ConvertTo-Json -InputObject @(Get-OtherRegistrations) -Compress) -cne (ConvertTo-Json -InputObject $others -Compress)){throw 'Unrelated registration changed after removal.'}
+ $report['UnrelatedRegistrationsUnchangedAfterRemoval']=$true
+ $initialReinstallPlan=@(Get-RideStoreAppPlan -Id app.solitaire -Action Reinstall -ExpectedUserSid $r.ExpectedUserSid -RemovalRunId $report.RemovalRunId)
+ $report['InitialReinstallPlan']=$initialReinstallPlan;Save-Report
+ Start-Sleep -Seconds 5
  $reinstallPlan=@(Get-RideStoreAppPlan -Id app.solitaire -Action Reinstall -ExpectedUserSid $r.ExpectedUserSid -RemovalRunId $report.RemovalRunId)
  $report['ReinstallPlan']=$reinstallPlan;$report.SourceSurvivedRemoval=($reinstallPlan.Count -eq 1 -and $reinstallPlan[0].Source -and -not $reinstallPlan[0].Refusals.Count);Save-Report
  if(-not $report.SourceSurvivedRemoval){throw "Local reinstall preflight refused: $($reinstallPlan[0].Refusals -join '; ')"}
@@ -104,6 +109,17 @@ try{
 }catch{$report.Error=$_.Exception.Message}
 finally{
  try{
+  $report['UnrelatedRegistrationsUnchangedAtExit']=((ConvertTo-Json -InputObject @(Get-OtherRegistrations) -Compress) -ceq (ConvertTo-Json -InputObject $others -Compress))
+  if($report.CapturedSource){
+   $sourceDiagnostics=[ordered]@{ManifestPresent=$null;ManifestSHA256=$null;ManifestHashMatches=$false;MissingDependencies=@();Error=$null}
+   try{
+    $sourceDiagnostics.ManifestPresent=Test-Path -LiteralPath $report.CapturedSource.Path -PathType Leaf
+    if($sourceDiagnostics.ManifestPresent){$sourceDiagnostics.ManifestSHA256=(Get-FileHash -LiteralPath $report.CapturedSource.Path).Hash;$sourceDiagnostics.ManifestHashMatches=($sourceDiagnostics.ManifestSHA256 -ceq $report.CapturedSource.SHA256)}
+    $available=@(Get-AppxPackage -PackageTypeFilter Main,Bundle,Resource,Framework,Optional|Select-Object -ExpandProperty PackageFullName)
+    $sourceDiagnostics.MissingDependencies=@($report.CapturedSource.Dependencies|Where-Object {$_ -notin $available})
+   }catch{$sourceDiagnostics.Error=$_.Exception.Message}
+   $report['SourceDiagnosticsAtExit']=$sourceDiagnostics
+  }
   $records=@(foreach($id in @(Get-RunIds|Where-Object {$_ -notin $beforeRuns})){
    if($id -notin @($report.RemovalRunId,$report.ReinstallRunId)){throw 'Unexpected Store run record created.'}
    $recordPath=Join-Path $stateRoot ($id+'/manifest.json');$record=Get-Content -LiteralPath $recordPath -Raw|ConvertFrom-Json

@@ -183,3 +183,32 @@ remain unchanged. The next Store migration step is the explicit isolated
 Solitaire lifecycle fixture described above. Full launcher and
 alternate-administrator acceptance remain separate. The independent maximum-age
 Days1/Days2/Days998 and minimum-conflict follow-ups already passed on both targets.
+
+## Solitaire native validation follow-up
+
+The isolated fixture is implemented. Runs `dfd6c2c94edd4eb09bd6457194f3bb82`
+and `10a640b3ab10400ba06eb99f0aefa3e5` passed Solitaire preview/uninstall/repeat,
+but failed at reinstall preview before any native registration. The diagnostic
+run proved the manifest hash and all five dependencies remained available, and
+unrelated registrations stayed unchanged. The defect was a read-only dependency
+member projection suppressed by WhatIf; handler 0.3.3 uses Select-Object instead.
+Both PowerShell editions passed 37 focused regression checks, including retained
+refusal when a dependency is actually missing. Guard semantics and schema-1
+records are unchanged. See [dated evidence](../archive/evidence/store-solitaire-validation-2026-10-14.md).
+
+The first repaired rerun was canceled at elevation at 14:40:57 UTC. The user then
+resumed it. Run `3899597cd74e477195a35b280b201308` passed at 14:53:26 UTC on
+handler 0.3.3/actor 0.1.1 with fresh current-source hashes. Both previews, native
+uninstall/reinstall and repeats, retained-source registration recovery, owned
+schema-1 records and unchanged unrelated registrations passed. Actual worker and
+Explorer were unelevated in the expected session. Task cleanup, bounded evidence
+hashes and separate checkpoint recovery passed; the desktop is Off on its
+unchanged clean pin, with no network adapter.
+
+This accepts the basic Solitaire registration lifecycle on this Windows 11
+reference. GUI/application data, interruption, full production launcher,
+alternate administrator, other editions and Server acceptance remain pending.
+Published support stays closed and packages paused; original pins/controllers
+are unchanged. The user requested this result before another app, so no next
+app is started. Clipchamp is the next independent full-payload candidate after
+this result is reported. News and Weather still await usable local sources.

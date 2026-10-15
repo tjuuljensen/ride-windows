@@ -142,7 +142,7 @@ counted built-in app/component outcome rather than adding another legacy count.
 | R27 | WAP Push/Search delayed and startup-only states | Implementation, stored/runtime lifecycle and controlled recovery passed. Test boot scheduling, workload, dormant flags and trigger/dependency effects. No reboot or fixed-delay guarantee is implicit | Boot/workload acceptance; D03 |
 | R28 | Windows Security startup icon | Guide and policy presentation exist. Verify intended-user startup entry, overflow and managed precedence. Native handoff remains pending user work; no historical Run-entry reconstruction | GUI/session acceptance; D02 |
 | R29 | User .NET assemblies | No identified source outcome. Keep the existing provenance issue separate from NumLock's Forms load, strong-crypto policy and wallpaper conversion. Finding a duplicate or bookkeeping error needs an explicit evidenced disposition | Source question D09 |
-| R30 | Reviewed Store app selection, policy and user uninstall | [Five optional uninstall/reinstall groups](../store-app-groups.md) accepted, with Media Player/Sound Recorder in multimedia and Xbox dependencies reviewed together. Device policy stays a separate linked workflow. Both references collected; apps kept; source/protection, policy schema, app/data recovery and sign-in acceptance remain open | All five groups implemented as guarded candidates; native handoff/removal/policy acceptance pending; components owner; D11 |
+| R30 | Reviewed Store app selection, policy and user uninstall | [Five optional uninstall/reinstall groups](../store-app-groups.md) accepted, with Media Player/Sound Recorder in multimedia and Xbox dependencies reviewed together. Device policy stays a separate linked workflow. Both references collected; reviewed protection/source rule retained. Solitaire basic native registration lifecycle accepted; policy schema, interruption, app/data recovery and sign-in acceptance remain open | All five groups implemented as guarded candidates; Clipchamp next when elevation available; GUI/full handoff/group/policy and other targets pending; components owner; D11 |
 
 ## Earlier accepted controls that still need evaluation
 
@@ -263,17 +263,22 @@ E01's first six-control batch is implemented; see its
 The selected same-session intended-user process handoff is implemented for explicit
 user-only actions; see the [batch evidence](../archive/evidence/intended-user-handoff-batch1-2026-10-14.md).
 Read-only native readiness outside the sandbox resolved the CIM access issue.
-User-authorized WinRM preparation and both Store reference captures have passed;
-[grouped app review](store-app-inventory-review.md) is next. Native interactive
-intended-user handoff acceptance remains pending; inventory collection does not
-exercise that handoff.
+User-authorized WinRM preparation, both Store reference captures and grouped
+app review have passed. All five groups are implemented as guarded candidates.
+[Solitaire basic native registration lifecycle](../archive/evidence/store-solitaire-validation-2026-10-14.md)
+passed; Clipchamp is next when fresh elevation is available. Interruption,
+GUI/data, group behavior and the full intended-user handoff remain pending;
+inventory collection and the isolated worker do not prove the full handoff.
 Mixed-profile completion, ordering and cross-store recovery remain separate work.
 E02-E03 can follow independently.
 Prepare E04-E05 fixtures without repeating completed matrices. Investigate E06-E08
 one at a time, keeping D01 and resource questions visible. Mapping-dependent R10-R17
 remain unavailable until their actual feature evidence supports the backend.
 
-D11's first group and later group membership are answered; implement them in matching batches.
+D11's first group and later group membership are answered and implemented as candidates.
+The [full remaining migration follow-up](remaining-migrations-follow-up.md)
+collects all five groups and questions for the user's return. Packages stay
+paused and elevation-dependent work is postponed while AFK.
 Next interactive decisions are D02 and D04;
 D01's mixed-profile ordering/completion still needs design. D06 precedes security/recovery
 experiments. D07 is conditional on failed bounded-menu recovery, and D09 is the

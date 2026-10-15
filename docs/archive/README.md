@@ -8,6 +8,16 @@ for current guidance. No acceptance is granted by moving a report here.
 
 ## Completed migration runs and superseded planning
 
+- [Full remaining migration source audit, 2026-10-14](evidence/remaining-migrations-analysis-2026-10-14.json).
+  Input hashes, all 79 unresolved application outcomes with individual gates,
+  30 settings rows and complete inventory-family selector coverage. Analysis
+  grants no runtime acceptance; [active decisions](../migrations/remaining-migrations-follow-up.md)
+  retain packages/elevation holds and implementation sequencing.
+
+- [Isolated Solitaire validation and repaired preview defect, 2026-10-14](evidence/store-solitaire-validation-2026-10-14.md).
+  Repaired basic uninstall/reinstall lifecycle and task/checkpoint cleanup passed;
+  earlier failures retained. GUI/data, interruption and full launcher remain pending.
+
 - [Separate Store test desktop and read-only Plan, 2026-10-14](evidence/store-test-desktop-2026-10-14.md).
   Independent offline UAC-enabled resource, actual unelevated worker/Explorer
   proof and checkpoint recovery accepted; app lifecycle and full launcher pending.

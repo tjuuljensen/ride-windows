@@ -1,0 +1,1697 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-14T14:57:05.8987158Z",
+  "Acceptance": "BasicSolitaireNativeRegistrationLifecycleAccepted;GUIFaultsLauncherOtherTargetsPending",
+  "Runs": [
+    {
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "dfd6c2c94edd4eb09bd6457194f3bb82",
+        "StartedAtUtc": "2026-10-14T14:21:43.4648133Z",
+        "Status": "Failed",
+        "Stage": "Source-bound Solitaire lifecycle",
+        "VMId": "ac29b689-f62d-4e5b-a4bc-25987f1fe843",
+        "CheckpointId": "35b4f659-f168-4c22-bfc4-b6e7651a09e2",
+        "SourceRevision": "e977b814bc0646d2fce3bf305752eab3a6344eb2",
+        "LifecyclePassed": false,
+        "CheckpointRecoveryPassed": true,
+        "PackageAcquisition": false,
+        "WindowsAppMutation": true,
+        "Error": "Solitaire lifecycle failed; inspect retained evidence.",
+        "CleanupError": null,
+        "RequestSHA256": "F01891BEE98FA43F8676119D8434E384AA7CCFE9227011E2A97524A175AAAC52",
+        "OriginalManifestSHA256": "FDD2FC6EF73F0B8F26943FEE0B1A0EF74B0817D12F4166B50726A6AA32E5C09B",
+        "SourceFileCount": 369,
+        "IsolatedAddedFile": "tests/integration/store-solitaire.fixture.json",
+        "OriginalCatalogSHA256": "CCADC1F33882D23CE1EC9832E32BCBAB6C06E638C8DCDEAA868EAE2A68FF91B7",
+        "CandidateCatalogSHA256": "FA4B0567C41292DC46046A1ACE6D2B7A87AC5BC5457DE0D31C8B27CD34DD799F",
+        "PrivateSourceChangedFiles": [
+          "catalog/operations.psd1"
+        ],
+        "PrivateSourceAddedFiles": [
+          "tests/integration/store-solitaire.fixture.json",
+          "tests/integration/store-solitaire.original-catalog.psd1"
+        ],
+        "StagedManifestSHA256": "47EEE4DAFACE207371C180A351679487D6BF95E50FA914DF927D2355E7BC31AA",
+        "StagedSourceFileCount": 371,
+        "GuestSourceVerified": true,
+        "Execution": {
+          "ExitCode": null,
+          "TimedOut": false,
+          "Uac": {
+            "EnableLUA": 1,
+            "ConsentPromptBehaviorAdmin": 5,
+            "PromptOnSecureDesktop": 1
+          },
+          "EvidenceFiles": [
+            {
+              "Name": "coordinator-error.log",
+              "SHA256": "AD890018B1B2E18BE274174C202DC0C53D57BD4AB4EC89777B1EBCE3139B10B2"
+            },
+            {
+              "Name": "coordinator.log",
+              "SHA256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+            },
+            {
+              "Name": "fixture.json",
+              "SHA256": "5547AC2647D254CF92B2C51A379569D1AF156EFCBF4556A5E79F015E99488000"
+            },
+            {
+              "Name": "store-solitaire-actor-console.log",
+              "SHA256": "656E518C5CB864AF3EC4262E44A5620A3B9D183C23F4869A4C425A5271547819"
+            },
+            {
+              "Name": "store-solitaire-actor.json",
+              "SHA256": "B7E8D1B193899E2F73A229676F457BC650258D81B6299E2CEFB05A032EF9626B"
+            }
+          ],
+          "PSComputerName": "RIDE-Store-W11",
+          "RunspaceId": "fd67468c-f0c0-4852-8534-0ece953b1f18",
+          "PSShowComputerName": true
+        },
+        "ActorSummary": {
+          "Status": "Failed",
+          "LifecyclePassed": false,
+          "RegistrationRecoveryPassed": false,
+          "SourceSurvivedRemoval": true,
+          "RemovalRunId": "03da459cd8d24a49a4b503d0adab46c7",
+          "ReinstallRunId": null,
+          "UnrelatedRegistrationsUnchanged": false,
+          "Error": "ReinstallPreview did not return NotApplied: {\"OperationId\":\"app.solitaire\",\"Action\":\"Reinstall\",\"Status\":\"Refused\",\"Error\":\"Source unavailable or changed; acquisition remains paused\",\"RunId\":null,\"RecordCreated\":false,\"UserSid\":\"S-1-5-21-3381495413-3650599264-2815280620-1000\",\"ExactRecovery\":false}",
+          "CollectionError": null
+        },
+        "ExistingBaselineUnchanged": true,
+        "CompletedAtUtc": "2026-10-14T14:24:28.3197167Z"
+      },
+      "FixtureSummary": {
+        "RunId": "dfd6c2c94edd4eb09bd6457194f3bb82",
+        "Status": "Failed",
+        "TaskCleanupVerified": true,
+        "Error": "Desktop actor failed: task result 1.",
+        "CleanupError": null,
+        "RequestSHA256": "F01891BEE98FA43F8676119D8434E384AA7CCFE9227011E2A97524A175AAAC52",
+        "ActorEvidenceSHA256": "B7E8D1B193899E2F73A229676F457BC650258D81B6299E2CEFB05A032EF9626B",
+        "ConsoleSHA256": "656E518C5CB864AF3EC4262E44A5620A3B9D183C23F4869A4C425A5271547819"
+      },
+      "Actor": {
+        "SchemaVersion": 1,
+        "RunId": "dfd6c2c94edd4eb09bd6457194f3bb82",
+        "OperationId": "app.solitaire",
+        "Status": "Failed",
+        "LifecyclePassed": false,
+        "ExactRecovery": false,
+        "RecoveryMode": "BestEffortRetainedPayload",
+        "RegistrationRecoveryPassed": false,
+        "FullHandoffPassed": false,
+        "AlternateAdministratorPassed": false,
+        "WindowsAppMutation": true,
+        "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+        "Desktop": {
+          "TargetSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+          "SessionId": 1,
+          "ShellProcessId": 5732,
+          "ShellElevated": false,
+          "CurrentSessionId": 1,
+          "CurrentSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+          "CurrentElevated": false
+        },
+        "RequestSHA256": "F01891BEE98FA43F8676119D8434E384AA7CCFE9227011E2A97524A175AAAC52",
+        "SourceHash": "05F0E7460595143EB029AB0936B0A91B15BA9256829AE35387FDD9D3050A7ECF",
+        "ActorSHA256": "E5CE8849B79BA8EA5A42413C32FCE63A91CA06E6E5020DACBE921333872589CA",
+        "OriginalCatalogSHA256": "CCADC1F33882D23CE1EC9832E32BCBAB6C06E638C8DCDEAA868EAE2A68FF91B7",
+        "CandidateCatalogSHA256": "FA4B0567C41292DC46046A1ACE6D2B7A87AC5BC5457DE0D31C8B27CD34DD799F",
+        "Steps": [
+          {
+            "Stage": "UninstallPreview",
+            "Result": [
+              {
+                "OperationId": "app.solitaire",
+                "Action": "Uninstall",
+                "Status": "NotApplied",
+                "Error": null,
+                "RunId": null,
+                "RecordCreated": false,
+                "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                "ExactRecovery": false
+              }
+            ]
+          },
+          {
+            "Stage": "Uninstall",
+            "Result": [
+              {
+                "OperationId": "app.solitaire",
+                "Action": "Uninstall",
+                "Status": "Completed",
+                "Error": null,
+                "RunId": "03da459cd8d24a49a4b503d0adab46c7",
+                "RecordCreated": true,
+                "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                "ExactRecovery": false
+              }
+            ]
+          },
+          {
+            "Stage": "UninstallRepeat",
+            "Result": [
+              {
+                "OperationId": "app.solitaire",
+                "Action": "Uninstall",
+                "Status": "AlreadyMatching",
+                "Error": null,
+                "RunId": null,
+                "RecordCreated": false,
+                "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                "ExactRecovery": false
+              }
+            ]
+          }
+        ],
+        "RemovalRunId": "03da459cd8d24a49a4b503d0adab46c7",
+        "ReinstallRunId": null,
+        "SourceSurvivedRemoval": true,
+        "UnrelatedRegistrationsUnchanged": false,
+        "Error": "ReinstallPreview did not return NotApplied: {\"OperationId\":\"app.solitaire\",\"Action\":\"Reinstall\",\"Status\":\"Refused\",\"Error\":\"Source unavailable or changed; acquisition remains paused\",\"RunId\":null,\"RecordCreated\":false,\"UserSid\":\"S-1-5-21-3381495413-3650599264-2815280620-1000\",\"ExactRecovery\":false}",
+        "CollectionError": null,
+        "Before": {
+          "SnapshotVersion": 1,
+          "OperationId": "app.solitaire",
+          "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+          "Present": true,
+          "Packages": [
+            {
+              "Name": "Microsoft.MicrosoftSolitaireCollection",
+              "Family": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+              "FullName": "Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_neutral_~_8wekyb3d8bbwe",
+              "Version": "4.19.3190.0",
+              "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+              "Status": "Ok",
+              "InstallLocation": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_neutral_~_8wekyb3d8bbwe",
+              "Dependencies": [],
+              "IsFramework": false,
+              "IsResourcePackage": false,
+              "NonRemovable": false,
+              "IsPartOfSystem": null,
+              "IsBundle": true,
+              "IsStub": false,
+              "SystemProtectionObservation": "Unknown",
+              "RuntimeVerified": true,
+              "RuntimeError": null,
+              "SignatureKind": "Store"
+            },
+            {
+              "Name": "Microsoft.MicrosoftSolitaireCollection",
+              "Family": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+              "FullName": "Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe",
+              "Version": "4.19.3190.0",
+              "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+              "Status": "Ok",
+              "InstallLocation": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe",
+              "Dependencies": [
+                "Microsoft.NET.Native.Runtime.2.2_2.2.28604.0_x64__8wekyb3d8bbwe",
+                "Microsoft.NET.Native.Framework.2.2_2.2.29512.0_x64__8wekyb3d8bbwe",
+                "Microsoft.UI.Xaml.2.8_8.2511.26001.0_x64__8wekyb3d8bbwe",
+                "Microsoft.VCLibs.140.00.UWPDesktop_14.0.30704.0_x64__8wekyb3d8bbwe",
+                "Microsoft.VCLibs.140.00_14.0.33519.0_x64__8wekyb3d8bbwe"
+              ],
+              "IsFramework": false,
+              "IsResourcePackage": false,
+              "NonRemovable": false,
+              "IsPartOfSystem": null,
+              "IsBundle": false,
+              "IsStub": false,
+              "SystemProtectionObservation": "Unknown",
+              "RuntimeVerified": true,
+              "RuntimeError": null,
+              "SignatureKind": "Store"
+            }
+          ],
+          "ExactRecovery": false,
+          "DisplayName": "Solitaire Store registration (experimental)",
+          "DisplayVersion": "4.19.3190.0"
+        },
+        "CapturedSource": {
+          "Path": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe\\AppxManifest.xml",
+          "SHA256": "F5FF2A0F339EFAC089294F297EA46BB82F80F205D07DD4A581C42453E6D881D0",
+          "Name": "Microsoft.MicrosoftSolitaireCollection",
+          "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+          "Version": "4.19.3190.0",
+          "Dependencies": [
+            "Microsoft.NET.Native.Runtime.2.2_2.2.28604.0_x64__8wekyb3d8bbwe",
+            "Microsoft.NET.Native.Framework.2.2_2.2.29512.0_x64__8wekyb3d8bbwe",
+            "Microsoft.UI.Xaml.2.8_8.2511.26001.0_x64__8wekyb3d8bbwe",
+            "Microsoft.VCLibs.140.00.UWPDesktop_14.0.30704.0_x64__8wekyb3d8bbwe",
+            "Microsoft.VCLibs.140.00_14.0.33519.0_x64__8wekyb3d8bbwe"
+          ]
+        },
+        "ReinstallPlan": [
+          {
+            "Operation": {
+              "Rollback": "BestEffort",
+              "Id": "app.solitaire",
+              "Scope": "User",
+              "TargetDefaults": {},
+              "Actions": [
+                "Get",
+                "Test",
+                "Uninstall",
+                "Reinstall"
+              ],
+              "AppxName": "Microsoft.MicrosoftSolitaireCollection",
+              "MigrationBatch": "StoreConsumerApps20261014",
+              "Handler": "StoreApp",
+              "PendingAcceptance": true,
+              "Name": "Solitaire Store registration (experimental)",
+              "RequiresAdmin": false,
+              "Kind": "StoreApp",
+              "ReinstallSource": "RetainedManifestOnly",
+              "Category": "Windows components / Store apps",
+              "PolicySelectionId": "MicrosoftSolitaireCollection",
+              "Description": "Optional current-desktop-user registration uninstall and retained-payload reinstall for Solitaire. Reviewed exact identity, known removability/runtime types, policy, user/session and usable local source checks are required; IsPartOfSystem stays visibly unknown. No downloads, AllUsers removal, image deprovisioning or device policy changes. Native interactive/lifecycle acceptance pending; normal mutation is blocked. App data and old versions are not recoverable by this contract.",
+              "RequireKnownProtectionFlags": true,
+              "CandidateTargets": [
+                "Windows 11",
+                "Windows Server 2025"
+              ],
+              "SupportedTargets": [
+                "Windows 11"
+              ],
+              "ProtectionRule": "ReviewedIdentityRemovabilityV1",
+              "PackageFamilyName": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+              "DocumentationUri": "https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps"
+            },
+            "Action": "Reinstall",
+            "ExpectedUserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+            "RemovalRunId": "03da459cd8d24a49a4b503d0adab46c7",
+            "Before": {
+              "SnapshotVersion": 1,
+              "OperationId": "app.solitaire",
+              "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+              "Present": false,
+              "Packages": [],
+              "ExactRecovery": false,
+              "DisplayName": "Solitaire Store registration (experimental)",
+              "DisplayVersion": ""
+            },
+            "Source": {
+              "Path": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe\\AppxManifest.xml",
+              "SHA256": "F5FF2A0F339EFAC089294F297EA46BB82F80F205D07DD4A581C42453E6D881D0",
+              "Name": "Microsoft.MicrosoftSolitaireCollection",
+              "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+              "Version": "4.19.3190.0",
+              "Dependencies": [
+                "Microsoft.NET.Native.Runtime.2.2_2.2.28604.0_x64__8wekyb3d8bbwe",
+                "Microsoft.NET.Native.Framework.2.2_2.2.29512.0_x64__8wekyb3d8bbwe",
+                "Microsoft.UI.Xaml.2.8_8.2511.26001.0_x64__8wekyb3d8bbwe",
+                "Microsoft.VCLibs.140.00.UWPDesktop_14.0.30704.0_x64__8wekyb3d8bbwe",
+                "Microsoft.VCLibs.140.00_14.0.33519.0_x64__8wekyb3d8bbwe"
+              ]
+            },
+            "Primary": null,
+            "Refusals": [],
+            "Target": "Windows 11",
+            "DesiredPresence": true,
+            "Recovery": "BestEffortRetainedPayload; app data and prior version not guaranteed"
+          }
+        ],
+        "StoreRecords": [
+          {
+            "SchemaVersion": 1,
+            "Workflow": "StoreApps",
+            "RunId": "03da459cd8d24a49a4b503d0adab46c7",
+            "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+            "Action": "Uninstall",
+            "RemovalRunId": "",
+            "StartedAtUtc": "2026-10-14T14:24:06.6337033Z",
+            "Status": "Completed",
+            "ExactRecovery": false,
+            "Items": [
+              {
+                "OperationId": "app.solitaire",
+                "Family": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+                "Before": {
+                  "SnapshotVersion": 1,
+                  "OperationId": "app.solitaire",
+                  "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                  "Present": true,
+                  "Packages": [
+                    {
+                      "Name": "Microsoft.MicrosoftSolitaireCollection",
+                      "Family": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+                      "FullName": "Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_neutral_~_8wekyb3d8bbwe",
+                      "Version": "4.19.3190.0",
+                      "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+                      "Status": "Ok",
+                      "InstallLocation": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_neutral_~_8wekyb3d8bbwe",
+                      "Dependencies": [],
+                      "IsFramework": false,
+                      "IsResourcePackage": false,
+                      "NonRemovable": false,
+                      "IsPartOfSystem": null,
+                      "IsBundle": true,
+                      "IsStub": false,
+                      "SystemProtectionObservation": "Unknown",
+                      "RuntimeVerified": true,
+                      "RuntimeError": null,
+                      "SignatureKind": "Store"
+                    },
+                    {
+                      "Name": "Microsoft.MicrosoftSolitaireCollection",
+                      "Family": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+                      "FullName": "Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe",
+                      "Version": "4.19.3190.0",
+                      "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+                      "Status": "Ok",
+                      "InstallLocation": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe",
+                      "Dependencies": [
+                        "Microsoft.NET.Native.Runtime.2.2_2.2.28604.0_x64__8wekyb3d8bbwe",
+                        "Microsoft.NET.Native.Framework.2.2_2.2.29512.0_x64__8wekyb3d8bbwe",
+                        "Microsoft.UI.Xaml.2.8_8.2511.26001.0_x64__8wekyb3d8bbwe",
+                        "Microsoft.VCLibs.140.00.UWPDesktop_14.0.30704.0_x64__8wekyb3d8bbwe",
+                        "Microsoft.VCLibs.140.00_14.0.33519.0_x64__8wekyb3d8bbwe"
+                      ],
+                      "IsFramework": false,
+                      "IsResourcePackage": false,
+                      "NonRemovable": false,
+                      "IsPartOfSystem": null,
+                      "IsBundle": false,
+                      "IsStub": false,
+                      "SystemProtectionObservation": "Unknown",
+                      "RuntimeVerified": true,
+                      "RuntimeError": null,
+                      "SignatureKind": "Store"
+                    }
+                  ],
+                  "ExactRecovery": false,
+                  "DisplayName": "Solitaire Store registration (experimental)",
+                  "DisplayVersion": "4.19.3190.0"
+                },
+                "Source": {
+                  "Path": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe\\AppxManifest.xml",
+                  "SHA256": "F5FF2A0F339EFAC089294F297EA46BB82F80F205D07DD4A581C42453E6D881D0",
+                  "Name": "Microsoft.MicrosoftSolitaireCollection",
+                  "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+                  "Version": "4.19.3190.0",
+                  "Dependencies": [
+                    "Microsoft.NET.Native.Runtime.2.2_2.2.28604.0_x64__8wekyb3d8bbwe",
+                    "Microsoft.NET.Native.Framework.2.2_2.2.29512.0_x64__8wekyb3d8bbwe",
+                    "Microsoft.UI.Xaml.2.8_8.2511.26001.0_x64__8wekyb3d8bbwe",
+                    "Microsoft.VCLibs.140.00.UWPDesktop_14.0.30704.0_x64__8wekyb3d8bbwe",
+                    "Microsoft.VCLibs.140.00_14.0.33519.0_x64__8wekyb3d8bbwe"
+                  ]
+                },
+                "Status": "Completed",
+                "Error": null,
+                "After": {
+                  "SnapshotVersion": 1,
+                  "OperationId": "app.solitaire",
+                  "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                  "Present": false,
+                  "Packages": [],
+                  "ExactRecovery": false,
+                  "DisplayName": "Solitaire Store registration (experimental)",
+                  "DisplayVersion": ""
+                }
+              }
+            ],
+            "FinishedAtUtc": "2026-10-14T14:24:10.4949983Z"
+          }
+        ]
+      }
+    },
+    {
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "10a640b3ab10400ba06eb99f0aefa3e5",
+        "StartedAtUtc": "2026-10-14T14:31:01.698518Z",
+        "Status": "Failed",
+        "Stage": "Source-bound Solitaire lifecycle",
+        "VMId": "ac29b689-f62d-4e5b-a4bc-25987f1fe843",
+        "CheckpointId": "35b4f659-f168-4c22-bfc4-b6e7651a09e2",
+        "SourceRevision": "006f5ab8cdd09f32711f2ea55f9a2666aaf52acc",
+        "LifecyclePassed": false,
+        "CheckpointRecoveryPassed": true,
+        "PackageAcquisition": false,
+        "WindowsAppMutation": true,
+        "Error": "Solitaire lifecycle failed; inspect retained evidence.",
+        "CleanupError": null,
+        "RequestSHA256": "6514D950CF0DCBE912C79BF131191DA572FC6378058C238565B65EB3ADA2FAED",
+        "OriginalManifestSHA256": "45B98912F4A0D908D75BCB4FE6B1406766E65D7B5E227180200B6FAD56106F91",
+        "SourceFileCount": 369,
+        "IsolatedAddedFile": "tests/integration/store-solitaire.fixture.json",
+        "OriginalCatalogSHA256": "CCADC1F33882D23CE1EC9832E32BCBAB6C06E638C8DCDEAA868EAE2A68FF91B7",
+        "CandidateCatalogSHA256": "FA4B0567C41292DC46046A1ACE6D2B7A87AC5BC5457DE0D31C8B27CD34DD799F",
+        "PrivateSourceChangedFiles": [
+          "catalog/operations.psd1"
+        ],
+        "PrivateSourceAddedFiles": [
+          "tests/integration/store-solitaire.fixture.json",
+          "tests/integration/store-solitaire.original-catalog.psd1"
+        ],
+        "StagedManifestSHA256": "8C6EAED6B3E7270A9E2989462DECF7BBDF57FD19A7C458547276EC28AA1CF9E1",
+        "StagedSourceFileCount": 371,
+        "GuestSourceVerified": true,
+        "Execution": {
+          "ExitCode": 1,
+          "TimedOut": false,
+          "Uac": {
+            "EnableLUA": 1,
+            "ConsentPromptBehaviorAdmin": 5,
+            "PromptOnSecureDesktop": 1
+          },
+          "EvidenceFiles": [
+            {
+              "Name": "coordinator-error.log",
+              "SHA256": "AD890018B1B2E18BE274174C202DC0C53D57BD4AB4EC89777B1EBCE3139B10B2"
+            },
+            {
+              "Name": "coordinator.log",
+              "SHA256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+            },
+            {
+              "Name": "fixture.json",
+              "SHA256": "AC015E42D92453ACC39D45316E27B82CBB7C07E0C61701EB441F5DB5DAF90B1D"
+            },
+            {
+              "Name": "store-solitaire-actor-console.log",
+              "SHA256": "ED70B21F4C98D925E36BB54593F5A4AB0257C8C6330CC215B3ECC2D6BA56BC27"
+            },
+            {
+              "Name": "store-solitaire-actor.json",
+              "SHA256": "CF8BA0FFB4D6BDABD52F64056EA314157014437CCDF4F33613EA0C203C24D57A"
+            }
+          ],
+          "PSComputerName": "RIDE-Store-W11",
+          "RunspaceId": "1727a2c9-ba19-4478-82c6-410a01eaebf1",
+          "PSShowComputerName": true
+        },
+        "ActorSummary": {
+          "Status": "Failed",
+          "LifecyclePassed": false,
+          "RegistrationRecoveryPassed": false,
+          "SourceSurvivedRemoval": true,
+          "RemovalRunId": "27f78e7617d342bc8b6c0127de861411",
+          "ReinstallRunId": null,
+          "UnrelatedRegistrationsUnchanged": false,
+          "Error": "ReinstallPreview did not return NotApplied: {\"OperationId\":\"app.solitaire\",\"Action\":\"Reinstall\",\"Status\":\"Refused\",\"Error\":\"Source unavailable or changed; acquisition remains paused\",\"RunId\":null,\"RecordCreated\":false,\"UserSid\":\"S-1-5-21-3381495413-3650599264-2815280620-1000\",\"ExactRecovery\":false}",
+          "CollectionError": null
+        },
+        "ExistingBaselineUnchanged": true,
+        "CompletedAtUtc": "2026-10-14T14:33:48.4699966Z"
+      },
+      "FixtureSummary": {
+        "RunId": "10a640b3ab10400ba06eb99f0aefa3e5",
+        "Status": "Failed",
+        "TaskCleanupVerified": true,
+        "Error": "Desktop actor failed: task result 1.",
+        "CleanupError": null,
+        "RequestSHA256": "6514D950CF0DCBE912C79BF131191DA572FC6378058C238565B65EB3ADA2FAED",
+        "ActorEvidenceSHA256": "CF8BA0FFB4D6BDABD52F64056EA314157014437CCDF4F33613EA0C203C24D57A",
+        "ConsoleSHA256": "ED70B21F4C98D925E36BB54593F5A4AB0257C8C6330CC215B3ECC2D6BA56BC27"
+      },
+      "Actor": {
+        "SchemaVersion": 1,
+        "RunId": "10a640b3ab10400ba06eb99f0aefa3e5",
+        "OperationId": "app.solitaire",
+        "Status": "Failed",
+        "LifecyclePassed": false,
+        "ExactRecovery": false,
+        "RecoveryMode": "BestEffortRetainedPayload",
+        "RegistrationRecoveryPassed": false,
+        "FullHandoffPassed": false,
+        "AlternateAdministratorPassed": false,
+        "WindowsAppMutation": true,
+        "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+        "Desktop": {
+          "TargetSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+          "SessionId": 1,
+          "ShellProcessId": 5700,
+          "ShellElevated": false,
+          "CurrentSessionId": 1,
+          "CurrentSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+          "CurrentElevated": false
+        },
+        "RequestSHA256": "6514D950CF0DCBE912C79BF131191DA572FC6378058C238565B65EB3ADA2FAED",
+        "SourceHash": "F3EEB621CC8FEA600959456EBC3ACF2298A8D890BED6ED0A49342901BA3C4E21",
+        "ActorSHA256": "1981BC0CAE0E25F27E61BF776DFBBCE6074C190EF98E372E2B295FD269776582",
+        "OriginalCatalogSHA256": "CCADC1F33882D23CE1EC9832E32BCBAB6C06E638C8DCDEAA868EAE2A68FF91B7",
+        "CandidateCatalogSHA256": "FA4B0567C41292DC46046A1ACE6D2B7A87AC5BC5457DE0D31C8B27CD34DD799F",
+        "Steps": [
+          {
+            "Stage": "UninstallPreview",
+            "Result": [
+              {
+                "OperationId": "app.solitaire",
+                "Action": "Uninstall",
+                "Status": "NotApplied",
+                "Error": null,
+                "RunId": null,
+                "RecordCreated": false,
+                "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                "ExactRecovery": false
+              }
+            ]
+          },
+          {
+            "Stage": "Uninstall",
+            "Result": [
+              {
+                "OperationId": "app.solitaire",
+                "Action": "Uninstall",
+                "Status": "Completed",
+                "Error": null,
+                "RunId": "27f78e7617d342bc8b6c0127de861411",
+                "RecordCreated": true,
+                "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                "ExactRecovery": false
+              }
+            ]
+          },
+          {
+            "Stage": "UninstallRepeat",
+            "Result": [
+              {
+                "OperationId": "app.solitaire",
+                "Action": "Uninstall",
+                "Status": "AlreadyMatching",
+                "Error": null,
+                "RunId": null,
+                "RecordCreated": false,
+                "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                "ExactRecovery": false
+              }
+            ]
+          }
+        ],
+        "RemovalRunId": "27f78e7617d342bc8b6c0127de861411",
+        "ReinstallRunId": null,
+        "SourceSurvivedRemoval": true,
+        "UnrelatedRegistrationsUnchanged": false,
+        "Error": "ReinstallPreview did not return NotApplied: {\"OperationId\":\"app.solitaire\",\"Action\":\"Reinstall\",\"Status\":\"Refused\",\"Error\":\"Source unavailable or changed; acquisition remains paused\",\"RunId\":null,\"RecordCreated\":false,\"UserSid\":\"S-1-5-21-3381495413-3650599264-2815280620-1000\",\"ExactRecovery\":false}",
+        "CollectionError": null,
+        "Before": {
+          "SnapshotVersion": 1,
+          "OperationId": "app.solitaire",
+          "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+          "Present": true,
+          "Packages": [
+            {
+              "Name": "Microsoft.MicrosoftSolitaireCollection",
+              "Family": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+              "FullName": "Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_neutral_~_8wekyb3d8bbwe",
+              "Version": "4.19.3190.0",
+              "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+              "Status": "Ok",
+              "InstallLocation": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_neutral_~_8wekyb3d8bbwe",
+              "Dependencies": [],
+              "IsFramework": false,
+              "IsResourcePackage": false,
+              "NonRemovable": false,
+              "IsPartOfSystem": null,
+              "IsBundle": true,
+              "IsStub": false,
+              "SystemProtectionObservation": "Unknown",
+              "RuntimeVerified": true,
+              "RuntimeError": null,
+              "SignatureKind": "Store"
+            },
+            {
+              "Name": "Microsoft.MicrosoftSolitaireCollection",
+              "Family": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+              "FullName": "Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe",
+              "Version": "4.19.3190.0",
+              "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+              "Status": "Ok",
+              "InstallLocation": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe",
+              "Dependencies": [
+                "Microsoft.NET.Native.Runtime.2.2_2.2.28604.0_x64__8wekyb3d8bbwe",
+                "Microsoft.NET.Native.Framework.2.2_2.2.29512.0_x64__8wekyb3d8bbwe",
+                "Microsoft.UI.Xaml.2.8_8.2511.26001.0_x64__8wekyb3d8bbwe",
+                "Microsoft.VCLibs.140.00.UWPDesktop_14.0.30704.0_x64__8wekyb3d8bbwe",
+                "Microsoft.VCLibs.140.00_14.0.33519.0_x64__8wekyb3d8bbwe"
+              ],
+              "IsFramework": false,
+              "IsResourcePackage": false,
+              "NonRemovable": false,
+              "IsPartOfSystem": null,
+              "IsBundle": false,
+              "IsStub": false,
+              "SystemProtectionObservation": "Unknown",
+              "RuntimeVerified": true,
+              "RuntimeError": null,
+              "SignatureKind": "Store"
+            }
+          ],
+          "ExactRecovery": false,
+          "DisplayName": "Solitaire Store registration (experimental)",
+          "DisplayVersion": "4.19.3190.0"
+        },
+        "CapturedSource": {
+          "Path": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe\\AppxManifest.xml",
+          "SHA256": "F5FF2A0F339EFAC089294F297EA46BB82F80F205D07DD4A581C42453E6D881D0",
+          "Name": "Microsoft.MicrosoftSolitaireCollection",
+          "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+          "Version": "4.19.3190.0",
+          "Dependencies": [
+            "Microsoft.NET.Native.Runtime.2.2_2.2.28604.0_x64__8wekyb3d8bbwe",
+            "Microsoft.NET.Native.Framework.2.2_2.2.29512.0_x64__8wekyb3d8bbwe",
+            "Microsoft.UI.Xaml.2.8_8.2511.26001.0_x64__8wekyb3d8bbwe",
+            "Microsoft.VCLibs.140.00.UWPDesktop_14.0.30704.0_x64__8wekyb3d8bbwe",
+            "Microsoft.VCLibs.140.00_14.0.33519.0_x64__8wekyb3d8bbwe"
+          ]
+        },
+        "UnrelatedRegistrationsUnchangedAfterRemoval": true,
+        "InitialReinstallPlan": [
+          {
+            "Operation": {
+              "Rollback": "BestEffort",
+              "Id": "app.solitaire",
+              "Scope": "User",
+              "TargetDefaults": {},
+              "Actions": [
+                "Get",
+                "Test",
+                "Uninstall",
+                "Reinstall"
+              ],
+              "AppxName": "Microsoft.MicrosoftSolitaireCollection",
+              "MigrationBatch": "StoreConsumerApps20261014",
+              "Handler": "StoreApp",
+              "PendingAcceptance": true,
+              "Name": "Solitaire Store registration (experimental)",
+              "RequiresAdmin": false,
+              "Kind": "StoreApp",
+              "ReinstallSource": "RetainedManifestOnly",
+              "Category": "Windows components / Store apps",
+              "PolicySelectionId": "MicrosoftSolitaireCollection",
+              "Description": "Optional current-desktop-user registration uninstall and retained-payload reinstall for Solitaire. Reviewed exact identity, known removability/runtime types, policy, user/session and usable local source checks are required; IsPartOfSystem stays visibly unknown. No downloads, AllUsers removal, image deprovisioning or device policy changes. Native interactive/lifecycle acceptance pending; normal mutation is blocked. App data and old versions are not recoverable by this contract.",
+              "RequireKnownProtectionFlags": true,
+              "CandidateTargets": [
+                "Windows 11",
+                "Windows Server 2025"
+              ],
+              "SupportedTargets": [
+                "Windows 11"
+              ],
+              "ProtectionRule": "ReviewedIdentityRemovabilityV1",
+              "PackageFamilyName": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+              "DocumentationUri": "https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps"
+            },
+            "Action": "Reinstall",
+            "ExpectedUserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+            "RemovalRunId": "27f78e7617d342bc8b6c0127de861411",
+            "Before": {
+              "SnapshotVersion": 1,
+              "OperationId": "app.solitaire",
+              "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+              "Present": false,
+              "Packages": [],
+              "ExactRecovery": false,
+              "DisplayName": "Solitaire Store registration (experimental)",
+              "DisplayVersion": ""
+            },
+            "Source": {
+              "Path": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe\\AppxManifest.xml",
+              "SHA256": "F5FF2A0F339EFAC089294F297EA46BB82F80F205D07DD4A581C42453E6D881D0",
+              "Name": "Microsoft.MicrosoftSolitaireCollection",
+              "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+              "Version": "4.19.3190.0",
+              "Dependencies": [
+                "Microsoft.NET.Native.Runtime.2.2_2.2.28604.0_x64__8wekyb3d8bbwe",
+                "Microsoft.NET.Native.Framework.2.2_2.2.29512.0_x64__8wekyb3d8bbwe",
+                "Microsoft.UI.Xaml.2.8_8.2511.26001.0_x64__8wekyb3d8bbwe",
+                "Microsoft.VCLibs.140.00.UWPDesktop_14.0.30704.0_x64__8wekyb3d8bbwe",
+                "Microsoft.VCLibs.140.00_14.0.33519.0_x64__8wekyb3d8bbwe"
+              ]
+            },
+            "SourceError": null,
+            "Primary": null,
+            "Refusals": [],
+            "Target": "Windows 11",
+            "DesiredPresence": true,
+            "Recovery": "BestEffortRetainedPayload; app data and prior version not guaranteed"
+          }
+        ],
+        "ReinstallPlan": [
+          {
+            "Operation": {
+              "Rollback": "BestEffort",
+              "Id": "app.solitaire",
+              "Scope": "User",
+              "TargetDefaults": {},
+              "Actions": [
+                "Get",
+                "Test",
+                "Uninstall",
+                "Reinstall"
+              ],
+              "AppxName": "Microsoft.MicrosoftSolitaireCollection",
+              "MigrationBatch": "StoreConsumerApps20261014",
+              "Handler": "StoreApp",
+              "PendingAcceptance": true,
+              "Name": "Solitaire Store registration (experimental)",
+              "RequiresAdmin": false,
+              "Kind": "StoreApp",
+              "ReinstallSource": "RetainedManifestOnly",
+              "Category": "Windows components / Store apps",
+              "PolicySelectionId": "MicrosoftSolitaireCollection",
+              "Description": "Optional current-desktop-user registration uninstall and retained-payload reinstall for Solitaire. Reviewed exact identity, known removability/runtime types, policy, user/session and usable local source checks are required; IsPartOfSystem stays visibly unknown. No downloads, AllUsers removal, image deprovisioning or device policy changes. Native interactive/lifecycle acceptance pending; normal mutation is blocked. App data and old versions are not recoverable by this contract.",
+              "RequireKnownProtectionFlags": true,
+              "CandidateTargets": [
+                "Windows 11",
+                "Windows Server 2025"
+              ],
+              "SupportedTargets": [
+                "Windows 11"
+              ],
+              "ProtectionRule": "ReviewedIdentityRemovabilityV1",
+              "PackageFamilyName": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+              "DocumentationUri": "https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps"
+            },
+            "Action": "Reinstall",
+            "ExpectedUserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+            "RemovalRunId": "27f78e7617d342bc8b6c0127de861411",
+            "Before": {
+              "SnapshotVersion": 1,
+              "OperationId": "app.solitaire",
+              "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+              "Present": false,
+              "Packages": [],
+              "ExactRecovery": false,
+              "DisplayName": "Solitaire Store registration (experimental)",
+              "DisplayVersion": ""
+            },
+            "Source": {
+              "Path": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe\\AppxManifest.xml",
+              "SHA256": "F5FF2A0F339EFAC089294F297EA46BB82F80F205D07DD4A581C42453E6D881D0",
+              "Name": "Microsoft.MicrosoftSolitaireCollection",
+              "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+              "Version": "4.19.3190.0",
+              "Dependencies": [
+                "Microsoft.NET.Native.Runtime.2.2_2.2.28604.0_x64__8wekyb3d8bbwe",
+                "Microsoft.NET.Native.Framework.2.2_2.2.29512.0_x64__8wekyb3d8bbwe",
+                "Microsoft.UI.Xaml.2.8_8.2511.26001.0_x64__8wekyb3d8bbwe",
+                "Microsoft.VCLibs.140.00.UWPDesktop_14.0.30704.0_x64__8wekyb3d8bbwe",
+                "Microsoft.VCLibs.140.00_14.0.33519.0_x64__8wekyb3d8bbwe"
+              ]
+            },
+            "SourceError": null,
+            "Primary": null,
+            "Refusals": [],
+            "Target": "Windows 11",
+            "DesiredPresence": true,
+            "Recovery": "BestEffortRetainedPayload; app data and prior version not guaranteed"
+          }
+        ],
+        "UnrelatedRegistrationsUnchangedAtExit": true,
+        "SourceDiagnosticsAtExit": {
+          "ManifestPresent": true,
+          "ManifestSHA256": "F5FF2A0F339EFAC089294F297EA46BB82F80F205D07DD4A581C42453E6D881D0",
+          "ManifestHashMatches": true,
+          "MissingDependencies": [],
+          "Error": null
+        },
+        "StoreRecords": [
+          {
+            "SchemaVersion": 1,
+            "Workflow": "StoreApps",
+            "RunId": "27f78e7617d342bc8b6c0127de861411",
+            "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+            "Action": "Uninstall",
+            "RemovalRunId": "",
+            "StartedAtUtc": "2026-10-14T14:33:23.5161391Z",
+            "Status": "Completed",
+            "ExactRecovery": false,
+            "Items": [
+              {
+                "OperationId": "app.solitaire",
+                "Family": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+                "Before": {
+                  "SnapshotVersion": 1,
+                  "OperationId": "app.solitaire",
+                  "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                  "Present": true,
+                  "Packages": [
+                    {
+                      "Name": "Microsoft.MicrosoftSolitaireCollection",
+                      "Family": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+                      "FullName": "Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_neutral_~_8wekyb3d8bbwe",
+                      "Version": "4.19.3190.0",
+                      "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+                      "Status": "Ok",
+                      "InstallLocation": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_neutral_~_8wekyb3d8bbwe",
+                      "Dependencies": [],
+                      "IsFramework": false,
+                      "IsResourcePackage": false,
+                      "NonRemovable": false,
+                      "IsPartOfSystem": null,
+                      "IsBundle": true,
+                      "IsStub": false,
+                      "SystemProtectionObservation": "Unknown",
+                      "RuntimeVerified": true,
+                      "RuntimeError": null,
+                      "SignatureKind": "Store"
+                    },
+                    {
+                      "Name": "Microsoft.MicrosoftSolitaireCollection",
+                      "Family": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+                      "FullName": "Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe",
+                      "Version": "4.19.3190.0",
+                      "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+                      "Status": "Ok",
+                      "InstallLocation": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe",
+                      "Dependencies": [
+                        "Microsoft.NET.Native.Runtime.2.2_2.2.28604.0_x64__8wekyb3d8bbwe",
+                        "Microsoft.NET.Native.Framework.2.2_2.2.29512.0_x64__8wekyb3d8bbwe",
+                        "Microsoft.UI.Xaml.2.8_8.2511.26001.0_x64__8wekyb3d8bbwe",
+                        "Microsoft.VCLibs.140.00.UWPDesktop_14.0.30704.0_x64__8wekyb3d8bbwe",
+                        "Microsoft.VCLibs.140.00_14.0.33519.0_x64__8wekyb3d8bbwe"
+                      ],
+                      "IsFramework": false,
+                      "IsResourcePackage": false,
+                      "NonRemovable": false,
+                      "IsPartOfSystem": null,
+                      "IsBundle": false,
+                      "IsStub": false,
+                      "SystemProtectionObservation": "Unknown",
+                      "RuntimeVerified": true,
+                      "RuntimeError": null,
+                      "SignatureKind": "Store"
+                    }
+                  ],
+                  "ExactRecovery": false,
+                  "DisplayName": "Solitaire Store registration (experimental)",
+                  "DisplayVersion": "4.19.3190.0"
+                },
+                "Source": {
+                  "Path": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe\\AppxManifest.xml",
+                  "SHA256": "F5FF2A0F339EFAC089294F297EA46BB82F80F205D07DD4A581C42453E6D881D0",
+                  "Name": "Microsoft.MicrosoftSolitaireCollection",
+                  "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+                  "Version": "4.19.3190.0",
+                  "Dependencies": [
+                    "Microsoft.NET.Native.Runtime.2.2_2.2.28604.0_x64__8wekyb3d8bbwe",
+                    "Microsoft.NET.Native.Framework.2.2_2.2.29512.0_x64__8wekyb3d8bbwe",
+                    "Microsoft.UI.Xaml.2.8_8.2511.26001.0_x64__8wekyb3d8bbwe",
+                    "Microsoft.VCLibs.140.00.UWPDesktop_14.0.30704.0_x64__8wekyb3d8bbwe",
+                    "Microsoft.VCLibs.140.00_14.0.33519.0_x64__8wekyb3d8bbwe"
+                  ]
+                },
+                "Status": "Completed",
+                "Error": null,
+                "After": {
+                  "SnapshotVersion": 1,
+                  "OperationId": "app.solitaire",
+                  "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                  "Present": false,
+                  "Packages": [],
+                  "ExactRecovery": false,
+                  "DisplayName": "Solitaire Store registration (experimental)",
+                  "DisplayVersion": ""
+                }
+              }
+            ],
+            "FinishedAtUtc": "2026-10-14T14:33:27.7732757Z"
+          }
+        ]
+      }
+    },
+    {
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "3899597cd74e477195a35b280b201308",
+        "StartedAtUtc": "2026-10-14T14:50:33.1071063Z",
+        "Status": "Passed",
+        "Stage": "Source-bound Solitaire lifecycle",
+        "VMId": "ac29b689-f62d-4e5b-a4bc-25987f1fe843",
+        "CheckpointId": "35b4f659-f168-4c22-bfc4-b6e7651a09e2",
+        "SourceRevision": "006f5ab8cdd09f32711f2ea55f9a2666aaf52acc",
+        "LifecyclePassed": true,
+        "CheckpointRecoveryPassed": true,
+        "PackageAcquisition": false,
+        "WindowsAppMutation": true,
+        "Error": null,
+        "CleanupError": null,
+        "RequestSHA256": "761F17F96FE3E3637D8F660E5418C2AC25954BC6FD58D50BABCE42DDF10C88BD",
+        "OriginalManifestSHA256": "07D00667A69D6D32847C46154A00643E2FA5C547EDE7C402FB0EBB17C269F7B1",
+        "SourceFileCount": 371,
+        "IsolatedAddedFile": "tests/integration/store-solitaire.fixture.json",
+        "OriginalCatalogSHA256": "CCADC1F33882D23CE1EC9832E32BCBAB6C06E638C8DCDEAA868EAE2A68FF91B7",
+        "CandidateCatalogSHA256": "FA4B0567C41292DC46046A1ACE6D2B7A87AC5BC5457DE0D31C8B27CD34DD799F",
+        "PrivateSourceChangedFiles": [
+          "catalog/operations.psd1"
+        ],
+        "PrivateSourceAddedFiles": [
+          "tests/integration/store-solitaire.fixture.json",
+          "tests/integration/store-solitaire.original-catalog.psd1"
+        ],
+        "StagedManifestSHA256": "E1A9CEDBED38B0222A7684FBF097A530C8A2F0350A42C71B99E82BF4232F94F2",
+        "StagedSourceFileCount": 373,
+        "GuestSourceVerified": true,
+        "Execution": {
+          "ExitCode": 0,
+          "TimedOut": false,
+          "Uac": {
+            "EnableLUA": 1,
+            "ConsentPromptBehaviorAdmin": 5,
+            "PromptOnSecureDesktop": 1
+          },
+          "EvidenceFiles": [
+            {
+              "Name": "coordinator-error.log",
+              "SHA256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+            },
+            {
+              "Name": "coordinator.log",
+              "SHA256": "0D8DD1B69E7ACD65A1B492CF213D6AAA7FB3FC628FE52B869EA9F5024AB29404"
+            },
+            {
+              "Name": "fixture.json",
+              "SHA256": "A2EE3371DB3010A79709BBFFACBBA643AB28E77175077344142B0C4523CA0680"
+            },
+            {
+              "Name": "store-solitaire-actor-console.log",
+              "SHA256": "1C84929E1303C898A44E3107D49E138333CC2F9AC6A98B2EA8F012D04A64853C"
+            },
+            {
+              "Name": "store-solitaire-actor.json",
+              "SHA256": "40F08F1DD167D95B62FB55FE5677E84040A253D3FB769F56F39D1DD8332A38FD"
+            }
+          ],
+          "PSComputerName": "RIDE-Store-W11",
+          "RunspaceId": "33e81366-e098-4867-97a0-ccf30691cb6f",
+          "PSShowComputerName": true
+        },
+        "ActorSummary": {
+          "Status": "Passed",
+          "LifecyclePassed": true,
+          "RegistrationRecoveryPassed": true,
+          "SourceSurvivedRemoval": true,
+          "RemovalRunId": "75a3c361b3de453188c6d7d5110caef1",
+          "ReinstallRunId": "a67d72606707454c8122b122fb6a0fae",
+          "UnrelatedRegistrationsUnchanged": true,
+          "Error": null,
+          "CollectionError": null
+        },
+        "RegistrationRecoveryPassed": true,
+        "ExistingBaselineUnchanged": true,
+        "CompletedAtUtc": "2026-10-14T14:53:26.46958Z"
+      },
+      "FixtureSummary": {
+        "RunId": "3899597cd74e477195a35b280b201308",
+        "Status": "Passed",
+        "TaskCleanupVerified": true,
+        "Error": null,
+        "CleanupError": null,
+        "RequestSHA256": "761F17F96FE3E3637D8F660E5418C2AC25954BC6FD58D50BABCE42DDF10C88BD",
+        "ActorEvidenceSHA256": "40F08F1DD167D95B62FB55FE5677E84040A253D3FB769F56F39D1DD8332A38FD",
+        "ConsoleSHA256": "1C84929E1303C898A44E3107D49E138333CC2F9AC6A98B2EA8F012D04A64853C"
+      },
+      "Actor": {
+        "SchemaVersion": 1,
+        "RunId": "3899597cd74e477195a35b280b201308",
+        "OperationId": "app.solitaire",
+        "Status": "Passed",
+        "LifecyclePassed": true,
+        "ExactRecovery": false,
+        "RecoveryMode": "BestEffortRetainedPayload",
+        "RegistrationRecoveryPassed": true,
+        "FullHandoffPassed": false,
+        "AlternateAdministratorPassed": false,
+        "WindowsAppMutation": true,
+        "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+        "Desktop": {
+          "TargetSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+          "SessionId": 1,
+          "ShellProcessId": 5656,
+          "ShellElevated": false,
+          "CurrentSessionId": 1,
+          "CurrentSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+          "CurrentElevated": false
+        },
+        "RequestSHA256": "761F17F96FE3E3637D8F660E5418C2AC25954BC6FD58D50BABCE42DDF10C88BD",
+        "SourceHash": "29489321A3749CDA4E397B23FF43322B4B8136A32DAB761168E6A98FA57ED0A4",
+        "ActorSHA256": "1981BC0CAE0E25F27E61BF776DFBBCE6074C190EF98E372E2B295FD269776582",
+        "OriginalCatalogSHA256": "CCADC1F33882D23CE1EC9832E32BCBAB6C06E638C8DCDEAA868EAE2A68FF91B7",
+        "CandidateCatalogSHA256": "FA4B0567C41292DC46046A1ACE6D2B7A87AC5BC5457DE0D31C8B27CD34DD799F",
+        "Steps": [
+          {
+            "Stage": "UninstallPreview",
+            "Result": [
+              {
+                "OperationId": "app.solitaire",
+                "Action": "Uninstall",
+                "Status": "NotApplied",
+                "Error": null,
+                "RunId": null,
+                "RecordCreated": false,
+                "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                "ExactRecovery": false
+              }
+            ]
+          },
+          {
+            "Stage": "Uninstall",
+            "Result": [
+              {
+                "OperationId": "app.solitaire",
+                "Action": "Uninstall",
+                "Status": "Completed",
+                "Error": null,
+                "RunId": "75a3c361b3de453188c6d7d5110caef1",
+                "RecordCreated": true,
+                "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                "ExactRecovery": false
+              }
+            ]
+          },
+          {
+            "Stage": "UninstallRepeat",
+            "Result": [
+              {
+                "OperationId": "app.solitaire",
+                "Action": "Uninstall",
+                "Status": "AlreadyMatching",
+                "Error": null,
+                "RunId": null,
+                "RecordCreated": false,
+                "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                "ExactRecovery": false
+              }
+            ]
+          },
+          {
+            "Stage": "ReinstallPreview",
+            "Result": [
+              {
+                "OperationId": "app.solitaire",
+                "Action": "Reinstall",
+                "Status": "NotApplied",
+                "Error": null,
+                "RunId": null,
+                "RecordCreated": false,
+                "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                "ExactRecovery": false
+              }
+            ]
+          },
+          {
+            "Stage": "Reinstall",
+            "Result": [
+              {
+                "OperationId": "app.solitaire",
+                "Action": "Reinstall",
+                "Status": "Completed",
+                "Error": null,
+                "RunId": "a67d72606707454c8122b122fb6a0fae",
+                "RecordCreated": true,
+                "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                "ExactRecovery": false
+              }
+            ]
+          },
+          {
+            "Stage": "ReinstallRepeat",
+            "Result": [
+              {
+                "OperationId": "app.solitaire",
+                "Action": "Reinstall",
+                "Status": "AlreadyMatching",
+                "Error": null,
+                "RunId": null,
+                "RecordCreated": false,
+                "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                "ExactRecovery": false
+              }
+            ]
+          }
+        ],
+        "RemovalRunId": "75a3c361b3de453188c6d7d5110caef1",
+        "ReinstallRunId": "a67d72606707454c8122b122fb6a0fae",
+        "SourceSurvivedRemoval": true,
+        "UnrelatedRegistrationsUnchanged": true,
+        "Error": null,
+        "CollectionError": null,
+        "Before": {
+          "SnapshotVersion": 1,
+          "OperationId": "app.solitaire",
+          "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+          "Present": true,
+          "Packages": [
+            {
+              "Name": "Microsoft.MicrosoftSolitaireCollection",
+              "Family": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+              "FullName": "Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_neutral_~_8wekyb3d8bbwe",
+              "Version": "4.19.3190.0",
+              "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+              "Status": "Ok",
+              "InstallLocation": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_neutral_~_8wekyb3d8bbwe",
+              "Dependencies": [],
+              "IsFramework": false,
+              "IsResourcePackage": false,
+              "NonRemovable": false,
+              "IsPartOfSystem": null,
+              "IsBundle": true,
+              "IsStub": false,
+              "SystemProtectionObservation": "Unknown",
+              "RuntimeVerified": true,
+              "RuntimeError": null,
+              "SignatureKind": "Store"
+            },
+            {
+              "Name": "Microsoft.MicrosoftSolitaireCollection",
+              "Family": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+              "FullName": "Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe",
+              "Version": "4.19.3190.0",
+              "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+              "Status": "Ok",
+              "InstallLocation": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe",
+              "Dependencies": [
+                "Microsoft.NET.Native.Runtime.2.2_2.2.28604.0_x64__8wekyb3d8bbwe",
+                "Microsoft.NET.Native.Framework.2.2_2.2.29512.0_x64__8wekyb3d8bbwe",
+                "Microsoft.UI.Xaml.2.8_8.2511.26001.0_x64__8wekyb3d8bbwe",
+                "Microsoft.VCLibs.140.00.UWPDesktop_14.0.30704.0_x64__8wekyb3d8bbwe",
+                "Microsoft.VCLibs.140.00_14.0.33519.0_x64__8wekyb3d8bbwe"
+              ],
+              "IsFramework": false,
+              "IsResourcePackage": false,
+              "NonRemovable": false,
+              "IsPartOfSystem": null,
+              "IsBundle": false,
+              "IsStub": false,
+              "SystemProtectionObservation": "Unknown",
+              "RuntimeVerified": true,
+              "RuntimeError": null,
+              "SignatureKind": "Store"
+            }
+          ],
+          "ExactRecovery": false,
+          "DisplayName": "Solitaire Store registration (experimental)",
+          "DisplayVersion": "4.19.3190.0"
+        },
+        "CapturedSource": {
+          "Path": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe\\AppxManifest.xml",
+          "SHA256": "F5FF2A0F339EFAC089294F297EA46BB82F80F205D07DD4A581C42453E6D881D0",
+          "Name": "Microsoft.MicrosoftSolitaireCollection",
+          "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+          "Version": "4.19.3190.0",
+          "Dependencies": [
+            "Microsoft.NET.Native.Runtime.2.2_2.2.28604.0_x64__8wekyb3d8bbwe",
+            "Microsoft.NET.Native.Framework.2.2_2.2.29512.0_x64__8wekyb3d8bbwe",
+            "Microsoft.UI.Xaml.2.8_8.2511.26001.0_x64__8wekyb3d8bbwe",
+            "Microsoft.VCLibs.140.00.UWPDesktop_14.0.30704.0_x64__8wekyb3d8bbwe",
+            "Microsoft.VCLibs.140.00_14.0.33519.0_x64__8wekyb3d8bbwe"
+          ]
+        },
+        "UnrelatedRegistrationsUnchangedAfterRemoval": true,
+        "InitialReinstallPlan": [
+          {
+            "Operation": {
+              "Rollback": "BestEffort",
+              "Id": "app.solitaire",
+              "Scope": "User",
+              "TargetDefaults": {},
+              "Actions": [
+                "Get",
+                "Test",
+                "Uninstall",
+                "Reinstall"
+              ],
+              "AppxName": "Microsoft.MicrosoftSolitaireCollection",
+              "MigrationBatch": "StoreConsumerApps20261014",
+              "Handler": "StoreApp",
+              "PendingAcceptance": true,
+              "Name": "Solitaire Store registration (experimental)",
+              "RequiresAdmin": false,
+              "Kind": "StoreApp",
+              "ReinstallSource": "RetainedManifestOnly",
+              "Category": "Windows components / Store apps",
+              "PolicySelectionId": "MicrosoftSolitaireCollection",
+              "Description": "Optional current-desktop-user registration uninstall and retained-payload reinstall for Solitaire. Reviewed exact identity, known removability/runtime types, policy, user/session and usable local source checks are required; IsPartOfSystem stays visibly unknown. No downloads, AllUsers removal, image deprovisioning or device policy changes. Native interactive/lifecycle acceptance pending; normal mutation is blocked. App data and old versions are not recoverable by this contract.",
+              "RequireKnownProtectionFlags": true,
+              "CandidateTargets": [
+                "Windows 11",
+                "Windows Server 2025"
+              ],
+              "SupportedTargets": [
+                "Windows 11"
+              ],
+              "ProtectionRule": "ReviewedIdentityRemovabilityV1",
+              "PackageFamilyName": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+              "DocumentationUri": "https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps"
+            },
+            "Action": "Reinstall",
+            "ExpectedUserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+            "RemovalRunId": "75a3c361b3de453188c6d7d5110caef1",
+            "Before": {
+              "SnapshotVersion": 1,
+              "OperationId": "app.solitaire",
+              "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+              "Present": false,
+              "Packages": [],
+              "ExactRecovery": false,
+              "DisplayName": "Solitaire Store registration (experimental)",
+              "DisplayVersion": ""
+            },
+            "Source": {
+              "Path": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe\\AppxManifest.xml",
+              "SHA256": "F5FF2A0F339EFAC089294F297EA46BB82F80F205D07DD4A581C42453E6D881D0",
+              "Name": "Microsoft.MicrosoftSolitaireCollection",
+              "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+              "Version": "4.19.3190.0",
+              "Dependencies": [
+                "Microsoft.NET.Native.Runtime.2.2_2.2.28604.0_x64__8wekyb3d8bbwe",
+                "Microsoft.NET.Native.Framework.2.2_2.2.29512.0_x64__8wekyb3d8bbwe",
+                "Microsoft.UI.Xaml.2.8_8.2511.26001.0_x64__8wekyb3d8bbwe",
+                "Microsoft.VCLibs.140.00.UWPDesktop_14.0.30704.0_x64__8wekyb3d8bbwe",
+                "Microsoft.VCLibs.140.00_14.0.33519.0_x64__8wekyb3d8bbwe"
+              ]
+            },
+            "SourceError": null,
+            "Primary": null,
+            "Refusals": [],
+            "Target": "Windows 11",
+            "DesiredPresence": true,
+            "Recovery": "BestEffortRetainedPayload; app data and prior version not guaranteed"
+          }
+        ],
+        "ReinstallPlan": [
+          {
+            "Operation": {
+              "Rollback": "BestEffort",
+              "Id": "app.solitaire",
+              "Scope": "User",
+              "TargetDefaults": {},
+              "Actions": [
+                "Get",
+                "Test",
+                "Uninstall",
+                "Reinstall"
+              ],
+              "AppxName": "Microsoft.MicrosoftSolitaireCollection",
+              "MigrationBatch": "StoreConsumerApps20261014",
+              "Handler": "StoreApp",
+              "PendingAcceptance": true,
+              "Name": "Solitaire Store registration (experimental)",
+              "RequiresAdmin": false,
+              "Kind": "StoreApp",
+              "ReinstallSource": "RetainedManifestOnly",
+              "Category": "Windows components / Store apps",
+              "PolicySelectionId": "MicrosoftSolitaireCollection",
+              "Description": "Optional current-desktop-user registration uninstall and retained-payload reinstall for Solitaire. Reviewed exact identity, known removability/runtime types, policy, user/session and usable local source checks are required; IsPartOfSystem stays visibly unknown. No downloads, AllUsers removal, image deprovisioning or device policy changes. Native interactive/lifecycle acceptance pending; normal mutation is blocked. App data and old versions are not recoverable by this contract.",
+              "RequireKnownProtectionFlags": true,
+              "CandidateTargets": [
+                "Windows 11",
+                "Windows Server 2025"
+              ],
+              "SupportedTargets": [
+                "Windows 11"
+              ],
+              "ProtectionRule": "ReviewedIdentityRemovabilityV1",
+              "PackageFamilyName": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+              "DocumentationUri": "https://learn.microsoft.com/en-us/powershell/module/appx/remove-appxpackage?view=windowsserver2025-ps"
+            },
+            "Action": "Reinstall",
+            "ExpectedUserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+            "RemovalRunId": "75a3c361b3de453188c6d7d5110caef1",
+            "Before": {
+              "SnapshotVersion": 1,
+              "OperationId": "app.solitaire",
+              "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+              "Present": false,
+              "Packages": [],
+              "ExactRecovery": false,
+              "DisplayName": "Solitaire Store registration (experimental)",
+              "DisplayVersion": ""
+            },
+            "Source": {
+              "Path": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe\\AppxManifest.xml",
+              "SHA256": "F5FF2A0F339EFAC089294F297EA46BB82F80F205D07DD4A581C42453E6D881D0",
+              "Name": "Microsoft.MicrosoftSolitaireCollection",
+              "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+              "Version": "4.19.3190.0",
+              "Dependencies": [
+                "Microsoft.NET.Native.Runtime.2.2_2.2.28604.0_x64__8wekyb3d8bbwe",
+                "Microsoft.NET.Native.Framework.2.2_2.2.29512.0_x64__8wekyb3d8bbwe",
+                "Microsoft.UI.Xaml.2.8_8.2511.26001.0_x64__8wekyb3d8bbwe",
+                "Microsoft.VCLibs.140.00.UWPDesktop_14.0.30704.0_x64__8wekyb3d8bbwe",
+                "Microsoft.VCLibs.140.00_14.0.33519.0_x64__8wekyb3d8bbwe"
+              ]
+            },
+            "SourceError": null,
+            "Primary": null,
+            "Refusals": [],
+            "Target": "Windows 11",
+            "DesiredPresence": true,
+            "Recovery": "BestEffortRetainedPayload; app data and prior version not guaranteed"
+          }
+        ],
+        "After": {
+          "SnapshotVersion": 1,
+          "OperationId": "app.solitaire",
+          "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+          "Present": true,
+          "Packages": [
+            {
+              "Name": "Microsoft.MicrosoftSolitaireCollection",
+              "Family": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+              "FullName": "Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_neutral_~_8wekyb3d8bbwe",
+              "Version": "4.19.3190.0",
+              "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+              "Status": "Ok",
+              "InstallLocation": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_neutral_~_8wekyb3d8bbwe",
+              "Dependencies": [],
+              "IsFramework": false,
+              "IsResourcePackage": false,
+              "NonRemovable": false,
+              "IsPartOfSystem": null,
+              "IsBundle": true,
+              "IsStub": false,
+              "SystemProtectionObservation": "Unknown",
+              "RuntimeVerified": true,
+              "RuntimeError": null,
+              "SignatureKind": "Store"
+            },
+            {
+              "Name": "Microsoft.MicrosoftSolitaireCollection",
+              "Family": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+              "FullName": "Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe",
+              "Version": "4.19.3190.0",
+              "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+              "Status": "Ok",
+              "InstallLocation": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe",
+              "Dependencies": [
+                "Microsoft.NET.Native.Runtime.2.2_2.2.28604.0_x64__8wekyb3d8bbwe",
+                "Microsoft.NET.Native.Framework.2.2_2.2.29512.0_x64__8wekyb3d8bbwe",
+                "Microsoft.UI.Xaml.2.8_8.2511.26001.0_x64__8wekyb3d8bbwe",
+                "Microsoft.VCLibs.140.00.UWPDesktop_14.0.30704.0_x64__8wekyb3d8bbwe",
+                "Microsoft.VCLibs.140.00_14.0.33519.0_x64__8wekyb3d8bbwe"
+              ],
+              "IsFramework": false,
+              "IsResourcePackage": false,
+              "NonRemovable": false,
+              "IsPartOfSystem": null,
+              "IsBundle": false,
+              "IsStub": false,
+              "SystemProtectionObservation": "Unknown",
+              "RuntimeVerified": true,
+              "RuntimeError": null,
+              "SignatureKind": "Store"
+            }
+          ],
+          "ExactRecovery": false,
+          "DisplayName": "Solitaire Store registration (experimental)",
+          "DisplayVersion": "4.19.3190.0"
+        },
+        "UnrelatedRegistrationsUnchangedAtExit": true,
+        "SourceDiagnosticsAtExit": {
+          "ManifestPresent": true,
+          "ManifestSHA256": "F5FF2A0F339EFAC089294F297EA46BB82F80F205D07DD4A581C42453E6D881D0",
+          "ManifestHashMatches": true,
+          "MissingDependencies": [],
+          "Error": null
+        },
+        "StoreRecords": [
+          {
+            "SchemaVersion": 1,
+            "Workflow": "StoreApps",
+            "RunId": "75a3c361b3de453188c6d7d5110caef1",
+            "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+            "Action": "Uninstall",
+            "RemovalRunId": "",
+            "StartedAtUtc": "2026-10-14T14:52:57.7577799Z",
+            "Status": "Completed",
+            "ExactRecovery": false,
+            "Items": [
+              {
+                "OperationId": "app.solitaire",
+                "Family": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+                "Before": {
+                  "SnapshotVersion": 1,
+                  "OperationId": "app.solitaire",
+                  "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                  "Present": true,
+                  "Packages": [
+                    {
+                      "Name": "Microsoft.MicrosoftSolitaireCollection",
+                      "Family": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+                      "FullName": "Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_neutral_~_8wekyb3d8bbwe",
+                      "Version": "4.19.3190.0",
+                      "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+                      "Status": "Ok",
+                      "InstallLocation": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_neutral_~_8wekyb3d8bbwe",
+                      "Dependencies": [],
+                      "IsFramework": false,
+                      "IsResourcePackage": false,
+                      "NonRemovable": false,
+                      "IsPartOfSystem": null,
+                      "IsBundle": true,
+                      "IsStub": false,
+                      "SystemProtectionObservation": "Unknown",
+                      "RuntimeVerified": true,
+                      "RuntimeError": null,
+                      "SignatureKind": "Store"
+                    },
+                    {
+                      "Name": "Microsoft.MicrosoftSolitaireCollection",
+                      "Family": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+                      "FullName": "Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe",
+                      "Version": "4.19.3190.0",
+                      "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+                      "Status": "Ok",
+                      "InstallLocation": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe",
+                      "Dependencies": [
+                        "Microsoft.NET.Native.Runtime.2.2_2.2.28604.0_x64__8wekyb3d8bbwe",
+                        "Microsoft.NET.Native.Framework.2.2_2.2.29512.0_x64__8wekyb3d8bbwe",
+                        "Microsoft.UI.Xaml.2.8_8.2511.26001.0_x64__8wekyb3d8bbwe",
+                        "Microsoft.VCLibs.140.00.UWPDesktop_14.0.30704.0_x64__8wekyb3d8bbwe",
+                        "Microsoft.VCLibs.140.00_14.0.33519.0_x64__8wekyb3d8bbwe"
+                      ],
+                      "IsFramework": false,
+                      "IsResourcePackage": false,
+                      "NonRemovable": false,
+                      "IsPartOfSystem": null,
+                      "IsBundle": false,
+                      "IsStub": false,
+                      "SystemProtectionObservation": "Unknown",
+                      "RuntimeVerified": true,
+                      "RuntimeError": null,
+                      "SignatureKind": "Store"
+                    }
+                  ],
+                  "ExactRecovery": false,
+                  "DisplayName": "Solitaire Store registration (experimental)",
+                  "DisplayVersion": "4.19.3190.0"
+                },
+                "Source": {
+                  "Path": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe\\AppxManifest.xml",
+                  "SHA256": "F5FF2A0F339EFAC089294F297EA46BB82F80F205D07DD4A581C42453E6D881D0",
+                  "Name": "Microsoft.MicrosoftSolitaireCollection",
+                  "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+                  "Version": "4.19.3190.0",
+                  "Dependencies": [
+                    "Microsoft.NET.Native.Runtime.2.2_2.2.28604.0_x64__8wekyb3d8bbwe",
+                    "Microsoft.NET.Native.Framework.2.2_2.2.29512.0_x64__8wekyb3d8bbwe",
+                    "Microsoft.UI.Xaml.2.8_8.2511.26001.0_x64__8wekyb3d8bbwe",
+                    "Microsoft.VCLibs.140.00.UWPDesktop_14.0.30704.0_x64__8wekyb3d8bbwe",
+                    "Microsoft.VCLibs.140.00_14.0.33519.0_x64__8wekyb3d8bbwe"
+                  ]
+                },
+                "Status": "Completed",
+                "Error": null,
+                "After": {
+                  "SnapshotVersion": 1,
+                  "OperationId": "app.solitaire",
+                  "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                  "Present": false,
+                  "Packages": [],
+                  "ExactRecovery": false,
+                  "DisplayName": "Solitaire Store registration (experimental)",
+                  "DisplayVersion": ""
+                }
+              }
+            ],
+            "FinishedAtUtc": "2026-10-14T14:53:01.0158963Z"
+          },
+          {
+            "SchemaVersion": 1,
+            "Workflow": "StoreApps",
+            "RunId": "a67d72606707454c8122b122fb6a0fae",
+            "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+            "Action": "Reinstall",
+            "RemovalRunId": "75a3c361b3de453188c6d7d5110caef1",
+            "StartedAtUtc": "2026-10-14T14:53:09.1723936Z",
+            "Status": "Completed",
+            "ExactRecovery": false,
+            "Items": [
+              {
+                "OperationId": "app.solitaire",
+                "Family": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+                "Before": {
+                  "SnapshotVersion": 1,
+                  "OperationId": "app.solitaire",
+                  "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                  "Present": false,
+                  "Packages": [],
+                  "ExactRecovery": false,
+                  "DisplayName": "Solitaire Store registration (experimental)",
+                  "DisplayVersion": ""
+                },
+                "Source": {
+                  "Path": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe\\AppxManifest.xml",
+                  "SHA256": "F5FF2A0F339EFAC089294F297EA46BB82F80F205D07DD4A581C42453E6D881D0",
+                  "Name": "Microsoft.MicrosoftSolitaireCollection",
+                  "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+                  "Version": "4.19.3190.0",
+                  "Dependencies": [
+                    "Microsoft.NET.Native.Runtime.2.2_2.2.28604.0_x64__8wekyb3d8bbwe",
+                    "Microsoft.NET.Native.Framework.2.2_2.2.29512.0_x64__8wekyb3d8bbwe",
+                    "Microsoft.UI.Xaml.2.8_8.2511.26001.0_x64__8wekyb3d8bbwe",
+                    "Microsoft.VCLibs.140.00.UWPDesktop_14.0.30704.0_x64__8wekyb3d8bbwe",
+                    "Microsoft.VCLibs.140.00_14.0.33519.0_x64__8wekyb3d8bbwe"
+                  ]
+                },
+                "Status": "Completed",
+                "Error": null,
+                "After": {
+                  "SnapshotVersion": 1,
+                  "OperationId": "app.solitaire",
+                  "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                  "Present": true,
+                  "Packages": [
+                    {
+                      "Name": "Microsoft.MicrosoftSolitaireCollection",
+                      "Family": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+                      "FullName": "Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_neutral_~_8wekyb3d8bbwe",
+                      "Version": "4.19.3190.0",
+                      "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+                      "Status": "Ok",
+                      "InstallLocation": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_neutral_~_8wekyb3d8bbwe",
+                      "Dependencies": [],
+                      "IsFramework": false,
+                      "IsResourcePackage": false,
+                      "NonRemovable": false,
+                      "IsPartOfSystem": null,
+                      "IsBundle": true,
+                      "IsStub": false,
+                      "SystemProtectionObservation": "Unknown",
+                      "RuntimeVerified": true,
+                      "RuntimeError": null,
+                      "SignatureKind": "Store"
+                    },
+                    {
+                      "Name": "Microsoft.MicrosoftSolitaireCollection",
+                      "Family": "Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe",
+                      "FullName": "Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe",
+                      "Version": "4.19.3190.0",
+                      "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+                      "Status": "Ok",
+                      "InstallLocation": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftSolitaireCollection_4.19.3190.0_x64__8wekyb3d8bbwe",
+                      "Dependencies": [
+                        "Microsoft.NET.Native.Runtime.2.2_2.2.28604.0_x64__8wekyb3d8bbwe",
+                        "Microsoft.NET.Native.Framework.2.2_2.2.29512.0_x64__8wekyb3d8bbwe",
+                        "Microsoft.UI.Xaml.2.8_8.2511.26001.0_x64__8wekyb3d8bbwe",
+                        "Microsoft.VCLibs.140.00.UWPDesktop_14.0.30704.0_x64__8wekyb3d8bbwe",
+                        "Microsoft.VCLibs.140.00_14.0.33519.0_x64__8wekyb3d8bbwe"
+                      ],
+                      "IsFramework": false,
+                      "IsResourcePackage": false,
+                      "NonRemovable": false,
+                      "IsPartOfSystem": null,
+                      "IsBundle": false,
+                      "IsStub": false,
+                      "SystemProtectionObservation": "Unknown",
+                      "RuntimeVerified": true,
+                      "RuntimeError": null,
+                      "SignatureKind": "Store"
+                    }
+                  ],
+                  "ExactRecovery": false,
+                  "DisplayName": "Solitaire Store registration (experimental)",
+                  "DisplayVersion": "4.19.3190.0"
+                }
+              }
+            ],
+            "FinishedAtUtc": "2026-10-14T14:53:10.4857539Z"
+          }
+        ]
+      }
+    }
+  ],
+  "CanceledLaunch": {
+    "ProcessId": null,
+    "LaunchedAtUtc": "2026-10-14T14:40:57.742375Z",
+    "RunnerSHA256": "A5BFB04CC61945E50E1062DED0F9B20BDFF673232EA6748C4BEE26F48CF0F1BA",
+    "HandlerSHA256": "1BDC1D55229909F6A0EE672A8363485668F43F7FA613FF92AD31714BB75F27A7",
+    "Status": "CanceledBeforeLaunch",
+    "Error": "Windows elevation launch returned: The operation was canceled by the user.",
+    "VMSubmitted": false
+  },
+  "FocusedTests": [
+    {
+      "PowerShell": "5.1.26100.9711",
+      "Passed": 37,
+      "Failed": 0,
+      "Total": 37
+    },
+    {
+      "PowerShell": "7.6.5",
+      "Passed": 37,
+      "Failed": 0,
+      "Total": 37
+    }
+  ],
+  "OriginalPostflight": {
+    "CheckedAtUtc": "2026-10-14T14:54:48.4446686Z",
+    "Ready": true,
+    "Controllers": [
+      {
+        "Name": "RIDEWin11Test",
+        "VMState": "Off",
+        "TaskState": "Ready",
+        "Pending": 0,
+        "Running": 0,
+        "LockAvailable": true,
+        "RecoveryBlocked": false,
+        "CheckpointPresent": true,
+        "PinChanges": [],
+        "HashChanges": []
+      },
+      {
+        "Name": "RIDESrv2025Test",
+        "VMState": "Off",
+        "TaskState": "Ready",
+        "Pending": 0,
+        "Running": 0,
+        "LockAvailable": true,
+        "RecoveryBlocked": false,
+        "CheckpointPresent": true,
+        "PinChanges": [],
+        "HashChanges": []
+      }
+    ],
+    "CIRevision": "a15647590a1324681bbe4a69cbb55e498a623522",
+    "CIStatus": [],
+    "LauncherProcesses": 0
+  },
+  "SeparatePostflight": {
+    "CheckedAtUtc": "2026-10-14T14:54:48.5541931Z",
+    "VMId": "ac29b689-f62d-4e5b-a4bc-25987f1fe843",
+    "State": "Off",
+    "CheckpointPresent": true,
+    "CheckpointId": "35b4f659-f168-4c22-bfc4-b6e7651a09e2",
+    "NetworkAdapters": 0
+  },
+  "CurrentHandlerSHA256": "1BDC1D55229909F6A0EE672A8363485668F43F7FA613FF92AD31714BB75F27A7",
+  "CurrentActorSHA256": "1981BC0CAE0E25F27E61BF776DFBBCE6074C190EF98E372E2B295FD269776582",
+  "PackagesPaused": true,
+  "NextAppStarted": false,
+  "ResumedLaunch": {
+    "ProcessId": 36828,
+    "LaunchedAtUtc": "2026-10-14T14:50:30.4524083Z",
+    "RunnerSHA256": "A5BFB04CC61945E50E1062DED0F9B20BDFF673232EA6748C4BEE26F48CF0F1BA",
+    "HandlerSHA256": "1BDC1D55229909F6A0EE672A8363485668F43F7FA613FF92AD31714BB75F27A7"
+  },
+  "AcceptedRunId": "3899597cd74e477195a35b280b201308",
+  "AcceptedHostRunnerSHA256": "A5BFB04CC61945E50E1062DED0F9B20BDFF673232EA6748C4BEE26F48CF0F1BA"
+}

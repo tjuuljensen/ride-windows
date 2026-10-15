@@ -1,0 +1,2705 @@
+{
+  "SchemaVersion": 1,
+  "ReviewedAtUtc": "2026-10-14T15:35:43.0147166Z",
+  "Scope": "Read-only planning; overlapping ledger rows are not additive migration counts.",
+  "SourceRevision": "006f5ab8cdd09f32711f2ea55f9a2666aaf52acc",
+  "Inputs": [
+    {
+      "Path": "legacy/v2/default.preset",
+      "Sha256": "4C9CA54F01C4DB54694E7090879B5267430279AADB27D0957FAA82700A13FB50"
+    },
+    {
+      "Path": "legacy/v2/lib-windows.psm1",
+      "Sha256": "4827A032607E96A2EB49BD53BB02BDEAB860A5481A1AB68954480452A3F4CDEA"
+    },
+    {
+      "Path": "docs/MIGRATION-PLAN.md",
+      "Sha256": "6A8B59F3362AAFD25975EFE32B7FEEB03CE40485D3CB6EF2AA0FDC78989FEE01"
+    },
+    {
+      "Path": "docs/migrations/remaining-settings-plan.md",
+      "Sha256": "758BA8B4B7BA9835611E0A940A5636CB3DA2CCFC3325FE519331254FDA757A75"
+    },
+    {
+      "Path": "docs/migrations/application-migration-review.md",
+      "Sha256": "F7AAAE652E09837A8A78E0BF9BB9F09E2007138FF03865F1E0FB5E5999F8C74F"
+    },
+    {
+      "Path": "docs/migrations/application-review-rounds-2026-10-12.md",
+      "Sha256": "94968F34427DCBA6C31DB9F1D8831C3E67831F9DD74B2F14F4C91C3605D90B13"
+    },
+    {
+      "Path": "docs/migrations/package-deployment-decisions.md",
+      "Sha256": "75EFE935DE68EFD46859413211D827216B5E92CD2F804F030BFE8466965DD9F3"
+    },
+    {
+      "Path": "docs/migrations/custom-ride-dispositions.md",
+      "Sha256": "EA6B43B66961D00179E45C6CD2BCD2C6F71B24B54C1F2D2CC207551695F8416C"
+    },
+    {
+      "Path": "docs/candidate-tools.md",
+      "Sha256": "29E85EF4AD306FA6B996645EB99E2ED832B4BEC3741EAAA837D5938F2566C8FF"
+    },
+    {
+      "Path": "catalog/operations.psd1",
+      "Sha256": "CCADC1F33882D23CE1EC9832E32BCBAB6C06E638C8DCDEAA868EAE2A68FF91B7"
+    },
+    {
+      "Path": "legacy/v2/modules/RIDE-DomainJoined.psm1",
+      "Sha256": "338050B6BA7AA54108966485B99457D207D5255AD2D7FE27A911A1DC8BECBC6B"
+    },
+    {
+      "Path": "legacy/v2/modules/RIDE-Tools.psm1",
+      "Sha256": "7ADAEE850B6EF9A78F16B179CA6CCF5368AF612AB6FA98882B4BA1360EF0EB77"
+    }
+  ],
+  "ApplicationSummary": [
+    {
+      "Disposition": "Accepted migration: `package.autopsy`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Accepted migration: `package.caffeine`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Accepted migration: `package.chainsaw`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Accepted migration: `package.chrome`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Accepted migration: `package.cyberchef`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Accepted migration: `package.cylr`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Accepted migration: `package.dejsonlz4`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Accepted migration: `package.firefox`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Accepted migration: `package.hindsight`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Accepted migration: `package.networkminer`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Accepted migration: `package.putty`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Accepted migration: `package.sharex / portable`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Accepted migration: `package.signal`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Accepted migration: `package.sqlitebrowser`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Accepted migration: `package.srum-dump`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Accepted migration: `package.srum-monkey`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Accepted migration: `package.thunderbird`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Accepted migration: `package.vscode`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Accepted migration: `package.winscp` / `portable`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Excluded by user: Opera",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: adreplstatus",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: arsenalrecon",
+      "Count": 2
+    },
+    {
+      "Disposition": "Individual review: automatedlab",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: autorunner",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: azurehound",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: bloodhound",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: ccleaner",
+      "Count": 4
+    },
+    {
+      "Disposition": "Individual review: chromeparser",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: chromepreferencefile",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: edgepageprediction",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: firefoxpreferencefiles",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: firewallnotifier",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: gglcookiecruncher",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: gpgwin",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: hashcat",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: hashcatlauncher",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: hex2text",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: imagemagick",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: imagemagickportable",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: improhound",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: joeware",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: kape",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: lenovovantage",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: loki",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: mitec",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: neo4j",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: nirsoftlauncher",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: nirsoftpkgfiles",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: nirsofttoolsx64",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: ntcore",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: office365",
+      "Count": 2
+    },
+    {
+      "Disposition": "Individual review: onedrive",
+      "Count": 2
+    },
+    {
+      "Disposition": "Individual review: openjdk",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: ostviewer",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: partdiagparser",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: pingcastle",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: psscripttools",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: pstviewer",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: python",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: regripper",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: rsat",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: sharphound",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: shimcacheparser",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: sigma",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: spiceguesttool",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: spicewebdav",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: ssview",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: superfetchtools2",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: sysinternalssuite",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: sysmonolafxml",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: teamsautostart",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: teamsstoreapp",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: teamswideinstaller",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: thumbcacheviewer",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: thumbsviewer",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: tmog",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: userassist",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: veracrypt",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: veracryptportable",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: virtioguesttool",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: visiopro",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: vmdirdocuments",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: vmdiruserhome",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: vmwareworkstation",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: volatility2",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: volatility3",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: winget",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: wingetautoupdate",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: winhex",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: winpmem",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: wireshark",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: yara",
+      "Count": 1
+    },
+    {
+      "Disposition": "Individual review: zimmermantools",
+      "Count": 1
+    },
+    {
+      "Disposition": "Previously migrated: `artifact.sysmon-swift-config`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Previously migrated: `package.7zip`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Previously migrated: `package.git-for-windows`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Previously migrated: `package.git-lfs`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Previously migrated: `package.joplin`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Previously migrated: `package.notepadpp`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Previously migrated: `package.powershell`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Previously migrated: `package.sharex`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Previously migrated: `package.sysmon64`",
+      "Count": 1
+    },
+    {
+      "Disposition": "Previously migrated: `package.windirstat`",
+      "Count": 1
+    }
+  ],
+  "ApplicationReviewGroups": [
+    {
+      "Group": "R01",
+      "Count": 4
+    },
+    {
+      "Group": "R02",
+      "Count": 5
+    },
+    {
+      "Group": "R03",
+      "Count": 9
+    },
+    {
+      "Group": "R04",
+      "Count": 6
+    },
+    {
+      "Group": "R05",
+      "Count": 8
+    },
+    {
+      "Group": "R06",
+      "Count": 4
+    },
+    {
+      "Group": "R07",
+      "Count": 4
+    },
+    {
+      "Group": "R08",
+      "Count": 8
+    },
+    {
+      "Group": "R09",
+      "Count": 5
+    },
+    {
+      "Group": "R10",
+      "Count": 2
+    },
+    {
+      "Group": "R11",
+      "Count": 4
+    },
+    {
+      "Group": "R12",
+      "Count": 9
+    },
+    {
+      "Group": "R13",
+      "Count": 11
+    }
+  ],
+  "ApplicationCrosswalk": [
+    {
+      "ReviewGroup": "R01",
+      "Batch": "1",
+      "Outcome": "`InstallGPGwin`",
+      "LedgerLine": 29,
+      "RoundLine": 282,
+      "Disposition": "Individual review: gpgwin",
+      "NextGate": "User confirmed current-user scope, GnuPG command line and Kleopatra only, without Explorer/Outlook integration, on 2026-10-12. Verify current-user scope in both the outer and nested GnuPG installers and explicit component exclusions before admission. Inspected 5.1.1 installer/source hashes and certificate are recorded; nested GnuPG install/removal can affect both registry views. Resolve dependency ownership, process handling and key/configuration preservation; outer EXE presence is insufficient recovery.",
+      "SourceEvidence": "[Confirmed preparation choices](application-review-rounds-2026-10-12.md#confirmed-first-round-choices); [exact integrity/certificate reference](https://gpg4win.org/package-integrity.html); [source inspection](../archive/migrations/application-installed-follow-up-2026-10-11.md#gpg4win-component-and-dependency-preparation)"
+    },
+    {
+      "ReviewGroup": "R01",
+      "Batch": "1",
+      "Outcome": "`InstallImageMagick`",
+      "LedgerLine": 37,
+      "RoundLine": 283,
+      "Disposition": "Individual review: imagemagick",
+      "NextGate": "User confirmed keeping both distributions and selected the x64 Q16 HDRI DLL installer, all-user machine scope and machine PATH on 2026-10-12. Optional integrations, exact revision-bearing version/uninstall detection and environment recovery remain pending.",
+      "SourceEvidence": "[Confirmed preparation choices](application-review-rounds-2026-10-12.md#confirmed-first-round-choices); [current publisher builds](https://imagemagick.org/download/#windows)"
+    },
+    {
+      "ReviewGroup": "R01",
+      "Batch": "2",
+      "Outcome": "`InstallImageMagickPortable`, `RemoveImageMagickPortable`",
+      "LedgerLine": 38,
+      "RoundLine": 284,
+      "Disposition": "Individual review: imagemagickportable",
+      "NextGate": "User confirmed this separate outcome and selected the listed x64 Q16 static portable build on 2026-10-12. Verify actual features, required files and scoped destination. Publisher uses 7z; bounded extraction and lifecycle acceptance remain technical work.",
+      "SourceEvidence": "[Confirmed preparation choices](application-review-rounds-2026-10-12.md#confirmed-first-round-choices); [current publisher builds](https://imagemagick.org/download/#windows)"
+    },
+    {
+      "ReviewGroup": "R01",
+      "Batch": "1",
+      "Outcome": "`InstallWireshark`, `RemoveWireshark`",
+      "LedgerLine": 73,
+      "RoundLine": 285,
+      "Disposition": "Individual review: wireshark",
+      "NextGate": "User confirmed live capture with a separate interactive Npcap step, without assumed OEM rights, and administrator-only capture on 2026-10-12; this extends legacy /S, which omits Npcap. Verify capture access and resolve compatibility flags, driver ownership, interactive completion detection and reboot recovery. Normal Wireshark removal deletes global plugins/profiles/settings: preserve unowned global content, shared Visual C++ runtime, associations and user settings; inspected 4.6.9 evidence is historical, not today's release selection.",
+      "SourceEvidence": "[Confirmed preparation choices](application-review-rounds-2026-10-12.md#confirmed-first-round-choices); [publisher installation contract](https://www.wireshark.org/docs/wsug_html_chunked/ChBuildInstallWinInstall.html); [Npcap deployment methods](https://npcap.com/oem/); [installer-source review](../archive/migrations/application-installed-follow-up-2026-10-11.md#wireshark-silent-install-and-unowned-content-preparation)"
+    },
+    {
+      "ReviewGroup": "R02",
+      "Batch": "1",
+      "Outcome": "`InstallPython`",
+      "LedgerLine": 40,
+      "RoundLine": 286,
+      "Disposition": "Individual review: python",
+      "NextGate": "User confirmed both selectable variants under one stable product ID on 2026-10-12: install manager default; traditional installer in all-user machine scope with unchanged machine PATH and preserved file associations; bundled/validated pip without automatic upgrade. These explicitly change legacy PATH/association/pip behavior. Manager deployment/command integration, releases, launcher coexistence and runtime/update policy remain undecided; manager-managed runtimes remain per-user even with a machine manager MSI. Verify exact installer controls, stable artifacts, dependency ownership and preservation/recovery; do not upgrade another interpreter or silently switch recorded variants.",
+      "SourceEvidence": "[Publisher downloads](https://www.python.org/downloads/windows/); [confirmed integration choices](application-review-rounds-2026-10-12.md#confirmed-python-integration-choices); [manager scope](https://docs.python.org/3/using/windows.html#advanced-installation)"
+    },
+    {
+      "ReviewGroup": "R02",
+      "Batch": "2",
+      "Outcome": "`InstallYara`, `RemoveYara`",
+      "LedgerLine": 41,
+      "RoundLine": 287,
+      "Disposition": "Individual review: yara",
+      "NextGate": "Official stable v4.5.8 still has no binary assets on the 2026-10-11 recheck. Establish a publisher-declared binary or reviewed reproducible Windows build; an older binary or YARA-X substitution requires its own decision.",
+      "SourceEvidence": "[Current release evidence](https://github.com/VirusTotal/yara/releases/tag/v4.5.8); [dated availability check](../archive/migrations/application-winscp-follow-up-2026-10-11.md#yara-binary-availability-recheck)"
+    },
+    {
+      "ReviewGroup": "R02",
+      "Batch": "2",
+      "Outcome": "`InstallLoki`, `RemoveLoki`",
+      "LedgerLine": 112,
+      "RoundLine": 288,
+      "Disposition": "Individual review: loki",
+      "NextGate": "Current release includes scanner/signature update behavior. Define exact rules, updates and runtime dependencies; no execution or implicit Defender exclusions.",
+      "SourceEvidence": "[Legacy publisher reference](https://github.com/Neo23x0/Loki)"
+    },
+    {
+      "ReviewGroup": "R02",
+      "Batch": "2",
+      "Outcome": "`InstallVolatility2`, `RemoveVolatility2`",
+      "LedgerLine": 123,
+      "RoundLine": 289,
+      "Disposition": "Individual review: volatility2",
+      "NextGate": "User selected retirement review while preparing Volatility 3 on 2026-10-12; this is not a completed retirement or replacement. Legacy 2.6 standalone archive is historical and HTTP. Publisher repository is archived; source requires Python 2 rather than Python 3. Check historical plugin/sample needs before a final disposition and distinguish standalone distribution from global Python runtime installation. An authoritative HTTPS artifact would be required for retention.",
+      "SourceEvidence": "[Legacy publisher reference](http://downloads.volatilityfoundation.org/releases/2.6/volatility_2.6_win64_standalone.zip); [archived publisher source/requirements](https://github.com/volatilityfoundation/volatility); [R02 preparation](application-review-rounds-2026-10-12.md#r02-preparation-review-2026-10-12)"
+    },
+    {
+      "ReviewGroup": "R02",
+      "Batch": "2",
+      "Outcome": "`InstallVolatility3`",
+      "LedgerLine": 124,
+      "RoundLine": 290,
+      "Disposition": "Individual review: volatility3",
+      "NextGate": "User confirmed a managed pinned release with an isolated Python environment and core plus broader plugin dependencies on 2026-10-12. Inspected 2.28.2 declares Python >=3.8, pefile >=2024.8.26 and a full plugin extra under VSL-1.0; verify the selected release/interpreter/dependency matrix rather than assuming all later-interpreter compatibility. Cloud/development extras and driver/acquisition execution remain separate. Define scope, symbols/caches, updates and environment recovery; preserve license and user plugins. Existing bounded ZIP deployment can serve a reviewed pinned archive; no global pip install or executable-edition substitution.",
+      "SourceEvidence": "[Confirmed preparation](application-review-rounds-2026-10-12.md#r02-preparation-review-2026-10-12); [publisher release](https://github.com/volatilityfoundation/volatility3/releases/tag/v2.28.2); [exact release requirements](https://github.com/volatilityfoundation/volatility3/blob/v2.28.2/pyproject.toml); [exact license](https://github.com/volatilityfoundation/volatility3/blob/v2.28.2/LICENSE.txt)"
+    },
+    {
+      "ReviewGroup": "R03",
+      "Batch": "1",
+      "Outcome": "`InstallADReplStatus`, `RemoveADReplStatus`",
+      "LedgerLine": 49,
+      "RoundLine": 291,
+      "Disposition": "Individual review: adreplstatus",
+      "NextGate": "Latest-release endpoint returned HTTP 404, but the source repository remains available. Publisher describes an early personal rebuild targeting .NET Framework 4.8.1, not Microsoft support. Establish a licensed binary/build and domain-test prerequisites; do not infer retirement or substitute the expired original tool.",
+      "SourceEvidence": "[Publisher README and dependency evidence](https://github.com/ryanries/ADReplStatus)"
+    },
+    {
+      "ReviewGroup": "R03",
+      "Batch": "1",
+      "Outcome": "`InstallRSAT`, `RemoveRSAT`",
+      "LedgerLine": 82,
+      "RoundLine": 292,
+      "Disposition": "Individual review: rsat",
+      "NextGate": "Windows capabilities on client and features on Server differ. Use a Windows-component handler with edition/build applicability and exact feature-state recovery.",
+      "SourceEvidence": "Legacy function defines local Windows/application state; see source."
+    },
+    {
+      "ReviewGroup": "R03",
+      "Batch": "1",
+      "Outcome": "`InstallOpenJDK`",
+      "LedgerLine": 83,
+      "RoundLine": 293,
+      "Disposition": "Individual review: openjdk",
+      "NextGate": "Legacy selects Microsoft JDK 11 x64 MSI with PATH, JAVA_HOME and .jar associations. Current publisher roadmap lists earliest end of support September 2027, so no retirement or Java-major substitution is justified. Pin the current update/source; capture environment and association state. Microsoft requires one installation method per JDK major and uninstall before MSI/EXE conversion; inspect existing editions and preserve the method during recovery.",
+      "SourceEvidence": "[Publisher downloads](https://learn.microsoft.com/en-us/java/openjdk/download); [current JDK 11 roadmap](https://learn.microsoft.com/en-us/java/openjdk/support); [method/features constraint](https://learn.microsoft.com/en-us/java/openjdk/install)"
+    },
+    {
+      "ReviewGroup": "R03",
+      "Batch": "1",
+      "Outcome": "`InstallNeo4j`",
+      "LedgerLine": 84,
+      "RoundLine": 294,
+      "Disposition": "Individual review: neo4j",
+      "NextGate": "Corrected source reading 2026-10-12: legacy downloads a Neo4j Community Windows ZIP and a separate APOC JAR, replaces the Tools destination, enables unrestricted apoc.* procedures, and installs/starts a service. It does not use APOC as a Neo4j installer. Decide any independently wanted server/plugin deployment after current CE selection; verify exact Neo4j/APOC/Java compatibility and preserve database/configuration/credentials/service state. Broad procedure permissions and directory replacement are not implicitly approved.",
+      "SourceEvidence": "[Legacy selector](../../legacy/v2/lib-windows.psm1); [legacy APOC publisher](https://github.com/neo4j-contrib/neo4j-apoc-procedures); [corrected contract](application-review-rounds-2026-10-12.md#corrected-neo4j-legacy-contract)"
+    },
+    {
+      "ReviewGroup": "R03",
+      "Batch": "2",
+      "Outcome": "`GetBloodhound`, `RemoveBloodhound`",
+      "LedgerLine": 85,
+      "RoundLine": 295,
+      "Disposition": "Individual review: bloodhound",
+      "NextGate": "User confirmed current Community Edition preparation with container deployment reviewed separately on 2026-10-12. This changes the legacy desktop distribution; implementation/data migration and target applicability remain unaccepted. Choose supported host/runtime, images, backend configuration, data/credentials/network ownership and recovery. No automatic Docker/WSL provisioning; Docker Desktop does not support Windows Server.",
+      "SourceEvidence": "[Confirmed R03 preparation](application-review-rounds-2026-10-12.md#r03-preparation-review-2026-10-12); [current publisher deployment](https://bloodhound.specterops.io/get-started/quickstart/community-edition-quickstart); [legacy publisher reference](https://github.com/BloodHoundAD/BloodHound)"
+    },
+    {
+      "ReviewGroup": "R03",
+      "Batch": "2",
+      "Outcome": "`GetSharphound`, `RemoveSharphound`",
+      "LedgerLine": 86,
+      "RoundLine": 296,
+      "Disposition": "Individual review: sharphound",
+      "NextGate": "User confirmed retaining optional SharpHound for AD, matched to the chosen backend, on 2026-10-12. Inspect exact stable publisher binary/source, license/notices and scoped ownership; publisher directs compatible CE version selection through the backend. Legacy references older repository collectors; record distribution changes explicitly. No collection or service configuration is implied.",
+      "SourceEvidence": "[Confirmed R03 preparation](application-review-rounds-2026-10-12.md#r03-preparation-review-2026-10-12); [current publisher/version contract](https://github.com/SpecterOps/SharpHound); [legacy publisher reference](https://github.com/BloodHoundAD/SharpHound)"
+    },
+    {
+      "ReviewGroup": "R03",
+      "Batch": "2",
+      "Outcome": "`GetAzurehound`, `RemoveAzurehound`",
+      "LedgerLine": 87,
+      "RoundLine": 297,
+      "Disposition": "Individual review: azurehound",
+      "NextGate": "User confirmed retaining optional AzureHound for Entra/Azure, matched to the chosen backend, on 2026-10-12. Legacy mixes release assets and a raw PowerShell collector; resolve the exact stable distribution/dependencies and record any replacement explicitly. Current publisher distinguishes stable releases from potentially unstable rolling binaries. Verify notices, scope/destination and recovery; no collection, authentication or service setup is implied.",
+      "SourceEvidence": "[Confirmed R03 preparation](application-review-rounds-2026-10-12.md#r03-preparation-review-2026-10-12); [current publisher distributions](https://github.com/SpecterOps/AzureHound); [legacy publisher reference](https://github.com/BloodHoundAD/AzureHound)"
+    },
+    {
+      "ReviewGroup": "R03",
+      "Batch": "2",
+      "Outcome": "`GetImproHound`, `RemoveImprohound`",
+      "LedgerLine": 88,
+      "RoundLine": 298,
+      "Disposition": "Individual review: improhound",
+      "NextGate": "User selected retirement review on 2026-10-12; not a completed retirement or replacement. Official v2.0.1 supplies a standalone x64 GUI, not a collector. Its documented/tested stack is legacy BloodHound 4.2.0, Neo4j 4.4.10, APOC 4.4.0.8 and JDK 11. Assess historical tiering-analysis needs and current-stack compatibility or an explicit replacement before final disposition. Existing binary/license/data evidence remains retained; no APOC/database setup or AD collection.",
+      "SourceEvidence": "[Confirmed R03 preparation](application-review-rounds-2026-10-12.md#r03-preparation-review-2026-10-12); [exact release and dependency review](../archive/migrations/application-winscp-follow-up-2026-10-11.md#improhound-role-and-dependency-reconciliation)"
+    },
+    {
+      "ReviewGroup": "R03",
+      "Batch": "2",
+      "Outcome": "`GetPingCastle`, `RemovePingCastle`",
+      "LedgerLine": 89,
+      "RoundLine": 299,
+      "Disposition": "Individual review: pingcastle",
+      "NextGate": "Review current license and supported distribution, pin exact edition and verify executable/dependency compatibility before deployment.",
+      "SourceEvidence": "[Legacy publisher reference](https://github.com/vletoux/pingcastle)"
+    },
+    {
+      "ReviewGroup": "R04",
+      "Batch": "1",
+      "Outcome": "`InstallOffice365` / Office deployment",
+      "LedgerLine": 58,
+      "RoundLine": 300,
+      "Disposition": "Individual review: office365",
+      "NextGate": "Legacy bundles Office Deployment Tool XML and Teams changes. Choose licensed product/channel/architecture, retain supplied configuration and separate Teams effects before unattended acceptance.",
+      "SourceEvidence": "[Legacy publisher reference](https://www.microsoft.com/en-us/download/confirmation.aspx?id=49117)"
+    },
+    {
+      "ReviewGroup": "R04",
+      "Batch": "1",
+      "Outcome": "`InstallOffice365` / Bundled Teams actions",
+      "LedgerLine": 59,
+      "RoundLine": 301,
+      "Disposition": "Individual review: office365",
+      "NextGate": "Legacy bundles Office Deployment Tool XML and Teams changes. Choose licensed product/channel/architecture, retain supplied configuration and separate Teams effects before unattended acceptance.",
+      "SourceEvidence": "[Legacy publisher reference](https://www.microsoft.com/en-us/download/confirmation.aspx?id=49117)"
+    },
+    {
+      "ReviewGroup": "R04",
+      "Batch": "1",
+      "Outcome": "`DisableTeamsAutoStart`, `ResetTeamsAutoStart`",
+      "LedgerLine": 60,
+      "RoundLine": 302,
+      "Disposition": "Individual review: teamsautostart",
+      "NextGate": "Legacy Run/StartupApproved and classic Teams behavior differ from current Teams. Identify supported edition and exact preference restoration; do not delete application data.",
+      "SourceEvidence": "Legacy function defines local Windows/application state; see source."
+    },
+    {
+      "ReviewGroup": "R04",
+      "Batch": "1",
+      "Outcome": "`RemoveTeamsStoreApp`",
+      "LedgerLine": 61,
+      "RoundLine": 303,
+      "Disposition": "Individual review: teamsstoreapp",
+      "NextGate": "Resolve classic/current AppX identity and user/all-user/provisioned scope; add the applicable Windows component lifecycle and recovery.",
+      "SourceEvidence": "Legacy function defines local Windows/application state; see source."
+    },
+    {
+      "ReviewGroup": "R04",
+      "Batch": "1",
+      "Outcome": "`RemoveTeamsWideInstaller`",
+      "LedgerLine": 62,
+      "RoundLine": 304,
+      "Disposition": "Individual review: teamswideinstaller",
+      "NextGate": "Microsoft ended classic desktop support in 2024 and availability on 2025-07-01. Decide whether narrowly identified historical MSI cleanup remains useful or retire the outcome; resolve retained-artifact recovery and client/Outlook add-in ownership. Never substitute new Teams or reconnect legacy Win32_Product.",
+      "SourceEvidence": "[Microsoft availability evidence](https://learn.microsoft.com/en-us/microsoftteams/teams-classic-client-end-of-availability); [exact legacy cleanup reconciliation](../archive/migrations/application-winscp-follow-up-2026-10-11.md#classic-teams-cleanup)"
+    },
+    {
+      "ReviewGroup": "R04",
+      "Batch": "1",
+      "Outcome": "`InstallVisioPro`",
+      "LedgerLine": 63,
+      "RoundLine": 305,
+      "Disposition": "Individual review: visiopro",
+      "NextGate": "Select licensed product/channel/architecture and activation model. Legacy requests en-gb on VisioProRetail, but current ODT documentation explicitly excludes UK English for Visio. Retain the requested language bundle as intent and obtain a supported product-language decision; never silently substitute en-us. Review MatchOS fallback, existing MSI/language ownership and recovery separately.",
+      "SourceEvidence": "[Current ODT language constraints](https://learn.microsoft.com/en-us/microsoft-365-apps/deploy/office-deployment-tool-configuration-options); [confirmed bundle/customization requirement](application-batch-decisions-2026-10-11.md#confirmed-officevisio-language-preparation-requirement)"
+    },
+    {
+      "ReviewGroup": "R05",
+      "Batch": "2",
+      "Outcome": "`GetSysinternalsSuite`, `RemoveSysinternalsSuite`",
+      "LedgerLine": 64,
+      "RoundLine": 306,
+      "Disposition": "Individual review: sysinternalssuite",
+      "NextGate": "Mutable suite contains independently useful EXEs and EULA acceptance behavior. Inventory/hash exact members, retain notices and choose version evidence before collection admission.",
+      "SourceEvidence": "[Legacy publisher reference](https://download.sysinternals.com/files/SysinternalsSuite.zip)"
+    },
+    {
+      "ReviewGroup": "R05",
+      "Batch": "2",
+      "Outcome": "`InstallJoeWare`, `RemoveJoeWare`",
+      "LedgerLine": 65,
+      "RoundLine": 307,
+      "Disposition": "Individual review: joeware",
+      "NextGate": "Legacy crawls a changing tool collection. Select and license exact utilities; AdFind has publisher-documented AV interaction. No implicit exclusions.",
+      "SourceEvidence": "[Legacy publisher reference](http://www.joeware.net/freetools/index.htm)"
+    },
+    {
+      "ReviewGroup": "R05",
+      "Batch": "2",
+      "Outcome": "`InstallMitec`, `RemoveMitec`",
+      "LedgerLine": 70,
+      "RoundLine": 308,
+      "Disposition": "Individual review: mitec",
+      "NextGate": "Legacy crawls changing EXE/ZIP links and filters trial/demo by filenames. Pin an explicit product list, versions and licenses; do not treat the whole website as one package.",
+      "SourceEvidence": "[Legacy publisher reference](http://www.mitec.cz)"
+    },
+    {
+      "ReviewGroup": "R05",
+      "Batch": "2",
+      "Outcome": "`InstallNtcore`, `RemoveNTCore`",
+      "LedgerLine": 71,
+      "RoundLine": 309,
+      "Disposition": "Individual review: ntcore",
+      "NextGate": "Legacy downloads multiple linked EXE/ZIP artifacts. Identify intended tools, current versions and per-tool license/ownership; preserve independent outcomes.",
+      "SourceEvidence": "[Legacy publisher reference](https://ntcore.com/?page_id=345)"
+    },
+    {
+      "ReviewGroup": "R05",
+      "Batch": "2",
+      "Outcome": "`InstallZimmermanTools`, `RemoveZimmermanTools`",
+      "LedgerLine": 74,
+      "RoundLine": 310,
+      "Disposition": "Individual review: zimmermantools",
+      "NextGate": "Legacy executes a mutable bootstrap script and copies a changing result set. Pin/review script and inventory signed payloads before running a collection workflow.",
+      "SourceEvidence": "[Legacy publisher reference](https://raw.githubusercontent.com/EricZimmerman/Get-ZimmermanTools/master/Get-ZimmermanTools.ps1)"
+    },
+    {
+      "ReviewGroup": "R05",
+      "Batch": "2",
+      "Outcome": "`InstallNirsoftLauncher`, `RemoveNirsoftLauncher`",
+      "LedgerLine": 75,
+      "RoundLine": 311,
+      "Disposition": "Individual review: nirsoftlauncher",
+      "NextGate": "Collection uses 7z plus dynamic tools and package files. Define exact version/member inventory and safe bounded extraction; individual credential utilities need AV review.",
+      "SourceEvidence": "[Legacy publisher reference](https://launcher.nirsoft.net/downloads/index.html)"
+    },
+    {
+      "ReviewGroup": "R05",
+      "Batch": "2",
+      "Outcome": "`InstallNirsoftToolsX64`, `RemoveNirsoftToolsX64`",
+      "LedgerLine": 76,
+      "RoundLine": 312,
+      "Disposition": "Individual review: nirsofttoolsx64",
+      "NextGate": "Dynamic x64 collection needs exact utility/version/license inventory and notices. Publisher documents AV alerts for some tools; no broad exclusion.",
+      "SourceEvidence": "[Legacy publisher reference](https://www.nirsoft.net/x64_download_package.html)"
+    },
+    {
+      "ReviewGroup": "R05",
+      "Batch": "2",
+      "Outcome": "`InstallNirsoftPkgFiles`, `RemoveNirsoftPkgFiles`",
+      "LedgerLine": 77,
+      "RoundLine": 313,
+      "Disposition": "Individual review: nirsoftpkgfiles",
+      "NextGate": "Package/config files belong to the launcher integration outcome. Pin revision and capture existing configuration before replacing or removing files.",
+      "SourceEvidence": "[Legacy publisher reference](https://launcher.nirsoft.net/downloads/index.html)"
+    },
+    {
+      "ReviewGroup": "R06",
+      "Batch": "2",
+      "Outcome": "`InstallPSScriptTools`, `RemovePSScriptTools`",
+      "LedgerLine": 27,
+      "RoundLine": 314,
+      "Disposition": "Individual review: psscripttools",
+      "NextGate": "Legacy copies a Git clone under Tools. Current inspected MIT source is module 3.2.0, PowerShell >=5.1/Desktop/Core, requiring Microsoft.PowerShell.Threadjob and System.Drawing. Choose retained Git workspace or pinned source archive; Gallery installation is a separate publisher-recommended distribution. Define dependency ownership, notices and preservation of user edits before deployment; never auto-import the module or silently replace with Install-Module.",
+      "SourceEvidence": "[Exact source/initialization review](../archive/migrations/application-winscp-follow-up-2026-10-11.md#psscripttools-repository-and-module-boundary)"
+    },
+    {
+      "ReviewGroup": "R06",
+      "Batch": "2",
+      "Outcome": "`InstallPartDiagParser`, `RemovePartDiagParser`",
+      "LedgerLine": 125,
+      "RoundLine": 315,
+      "Disposition": "Individual review: partdiagparser",
+      "NextGate": "Latest-release lookup returned HTTP 404 but legacy uses a repository zipball. Verify repository revision, license and script runtime before admission.",
+      "SourceEvidence": "[Legacy publisher reference](https://github.com/theAtropos4n6/Partition-4DiagnosticParser)"
+    },
+    {
+      "ReviewGroup": "R06",
+      "Batch": "2",
+      "Outcome": "`InstallGglCookieCruncher`, `RemoveGglCookieCruncher`",
+      "LedgerLine": 126,
+      "RoundLine": 316,
+      "Disposition": "Individual review: gglcookiecruncher",
+      "NextGate": "Latest-release lookup returned HTTP 404 but legacy uses a repository zipball. Verify current repository, pinned revision, license and runtime.",
+      "SourceEvidence": "[Legacy publisher reference](https://github.com/mdegrazia/Google-Analytic-Cookie-Cruncher)"
+    },
+    {
+      "ReviewGroup": "R06",
+      "Batch": "2",
+      "Outcome": "`InstallSigma`, `RemoveSigma`",
+      "LedgerLine": 127,
+      "RoundLine": 317,
+      "Disposition": "Individual review: sigma",
+      "NextGate": "Rule repository clone is a dynamic data collection, not one executable. Pin rules revision/license, retain user rules and define explicit tooling dependencies.",
+      "SourceEvidence": "[Legacy publisher reference](https://github.com/SigmaHQ/sigma)"
+    },
+    {
+      "ReviewGroup": "R07",
+      "Batch": "1",
+      "Outcome": "`DisableOneDrive`, `UninstallOneDrive`, `EnableOneDrive`, `InstallOneDrive` / OneDrive package",
+      "LedgerLine": 56,
+      "RoundLine": 318,
+      "Disposition": "Individual review: onedrive",
+      "NextGate": "Separate OneDrive sync policy from installation/removal. Resolve built-in/updated edition and user data handling; saved settings and package state need distinct recovery.",
+      "SourceEvidence": "Legacy function defines local Windows/application state; see source."
+    },
+    {
+      "ReviewGroup": "R07",
+      "Batch": "1",
+      "Outcome": "`DisableOneDrive`, `UninstallOneDrive`, `EnableOneDrive`, `InstallOneDrive` / OneDrive sync policy",
+      "LedgerLine": 57,
+      "RoundLine": 319,
+      "Disposition": "Individual review: onedrive",
+      "NextGate": "Separate OneDrive sync policy from installation/removal. Resolve built-in/updated edition and user data handling; saved settings and package state need distinct recovery.",
+      "SourceEvidence": "Legacy function defines local Windows/application state; see source."
+    },
+    {
+      "ReviewGroup": "R07",
+      "Batch": "1",
+      "Outcome": "`InstallWinget`",
+      "LedgerLine": 80,
+      "RoundLine": 320,
+      "Disposition": "Individual review: winget",
+      "NextGate": "App Installer MSIX plus dependencies needs AppX lifecycle, minimum OS and per-user/provisioned scope. Do not substitute an EXE package or enable updates implicitly.",
+      "SourceEvidence": "[Legacy publisher reference](https://aka.ms/getwinget)"
+    },
+    {
+      "ReviewGroup": "R07",
+      "Batch": "1",
+      "Outcome": "`InstallWingetAutoUpdate`",
+      "LedgerLine": 81,
+      "RoundLine": 321,
+      "Disposition": "Individual review: wingetautoupdate",
+      "NextGate": "Automatic maintenance changes tasks/service/configuration beyond package presence. Declare update policy and capture each reversible component before admission.",
+      "SourceEvidence": "[Legacy publisher reference](https://github.com/Romanitho/Winget-AutoUpdate)"
+    },
+    {
+      "ReviewGroup": "R08",
+      "Batch": "1",
+      "Outcome": "`InstallVMwareWorkstation`, `RemoveVMwareWorkstation`",
+      "LedgerLine": 32,
+      "RoundLine": 322,
+      "Disposition": "Individual review: vmwareworkstation",
+      "NextGate": "Resolve Broadcom download entitlement, supplied artifact and license acceptance; test drivers, reboot and machine recovery independently.",
+      "SourceEvidence": "[Legacy publisher reference](https://www.vmware.com/go/getworkstation-win)"
+    },
+    {
+      "ReviewGroup": "R08",
+      "Batch": "2",
+      "Outcome": "`SetVMDirUserhome`",
+      "LedgerLine": 33,
+      "RoundLine": 323,
+      "Disposition": "Individual review: vmdiruserhome",
+      "NextGate": "VMware preference edit, not an install. Discover preferences.ini, capture the prior value and test exact current-user restore.",
+      "SourceEvidence": "Legacy function defines local Windows/application state; see source."
+    },
+    {
+      "ReviewGroup": "R08",
+      "Batch": "2",
+      "Outcome": "`SetVMDirDocuments`",
+      "LedgerLine": 34,
+      "RoundLine": 324,
+      "Disposition": "Individual review: vmdirdocuments",
+      "NextGate": "VMware preference edit, not an install. Resolve the Documents path, capture the prior value and test exact current-user restore.",
+      "SourceEvidence": "Legacy function defines local Windows/application state; see source."
+    },
+    {
+      "ReviewGroup": "R08",
+      "Batch": "1",
+      "Outcome": "`InstallAutomatedLab`",
+      "LedgerLine": 55,
+      "RoundLine": 325,
+      "Disposition": "Individual review: automatedlab",
+      "NextGate": "Inspected machine MSI has ProductVersion 5.61.18 under release 5.61.0 and bundles Pester 5.7.1, PSFramework, SHiPS, transfer/logging and DSC modules. Define version/file collisions, dependency ownership and LabSources recovery; package-only versus host provisioning remains separate. No Hyper-V/remoting/trust action is implied.",
+      "SourceEvidence": "[Exact MSI/component inspection](../archive/migrations/application-winscp-follow-up-2026-10-11.md#installed-candidates-requiring-review)"
+    },
+    {
+      "ReviewGroup": "R08",
+      "Batch": "1",
+      "Outcome": "`InstallVirtIOGuestTool`",
+      "LedgerLine": 90,
+      "RoundLine": 326,
+      "Disposition": "Individual review: virtioguesttool",
+      "NextGate": "QEMU VirtIO guest drivers are inappropriate for the current Hyper-V acceptance VMs. Test on a matching disposable guest with driver/reboot recovery.",
+      "SourceEvidence": "[Legacy publisher reference](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/latest-virtio)"
+    },
+    {
+      "ReviewGroup": "R08",
+      "Batch": "1",
+      "Outcome": "`InstallSpiceGuestTool`",
+      "LedgerLine": 91,
+      "RoundLine": 327,
+      "Disposition": "Individual review: spiceguesttool",
+      "NextGate": "SPICE drivers/agent require a matching QEMU/SPICE guest. Hyper-V tests cannot establish driver applicability or recovery.",
+      "SourceEvidence": "[Legacy publisher reference](https://spice-space.org/download/windows/spice-guest-tools/spice-guest-tools-latest.exe)"
+    },
+    {
+      "ReviewGroup": "R08",
+      "Batch": "1",
+      "Outcome": "`InstallSpiceWebDAV`",
+      "LedgerLine": 92,
+      "RoundLine": 328,
+      "Disposition": "Individual review: spicewebdav",
+      "NextGate": "WebDAV daemon requires SPICE transport and service recovery. Use a matching guest; installation on Hyper-V alone is not acceptance.",
+      "SourceEvidence": "[Legacy publisher reference](https://spice-space.org/download/windows/spice-webdavd/spice-webdavd-x64-latest.msi)"
+    },
+    {
+      "ReviewGroup": "R08",
+      "Batch": "1",
+      "Outcome": "`InstallLenovoVantage`, `RemoveLenovoVantage`",
+      "LedgerLine": 130,
+      "RoundLine": 329,
+      "Disposition": "Individual review: lenovovantage",
+      "NextGate": "Store/OEM hardware-specific deployment needs AppX identity, Lenovo service dependencies and matching hardware applicability; Hyper-V is unavailable for hardware acceptance.",
+      "SourceEvidence": "[Legacy publisher reference](https://www.lenovo.com/)"
+    },
+    {
+      "ReviewGroup": "R09",
+      "Batch": "2",
+      "Outcome": "`InstallVeraCrypt`",
+      "LedgerLine": 47,
+      "RoundLine": 330,
+      "Disposition": "Individual review: veracrypt",
+      "NextGate": "Driver/reboot installation requires orchestrated reboot and retained-version recovery tests; ordinary EXE presence is insufficient.",
+      "SourceEvidence": "[Legacy publisher reference](https://github.com/veracrypt/VeraCrypt)"
+    },
+    {
+      "ReviewGroup": "R09",
+      "Batch": "2",
+      "Outcome": "`InstallVeraCryptPortable`",
+      "LedgerLine": 48,
+      "RoundLine": 331,
+      "Disposition": "Individual review: veracryptportable",
+      "NextGate": "Portable self-extractor still loads a driver. Resolve driver ownership, cleanup/reboot and exact version recovery separately from file deployment.",
+      "SourceEvidence": "[Legacy publisher reference](https://github.com/veracrypt/VeraCrypt)"
+    },
+    {
+      "ReviewGroup": "R09",
+      "Batch": "2",
+      "Outcome": "`InstallArsenalRecon` / Arsenal products",
+      "LedgerLine": 78,
+      "RoundLine": 332,
+      "Disposition": "Individual review: arsenalrecon",
+      "NextGate": "Legacy crawls MEGA links and also installs MEGAcmd. Select actual Arsenal products, licensed distribution, drivers and VM/AV side effects; account for MEGAcmd separately.",
+      "SourceEvidence": "[Legacy publisher reference](https://mega.nz/MEGAcmdSetup64.exe)"
+    },
+    {
+      "ReviewGroup": "R09",
+      "Batch": "2",
+      "Outcome": "`InstallArsenalRecon` / MEGAcmd helper",
+      "LedgerLine": 79,
+      "RoundLine": 333,
+      "Disposition": "Individual review: arsenalrecon",
+      "NextGate": "Legacy crawls MEGA links and also installs MEGAcmd. Select actual Arsenal products, licensed distribution, drivers and VM/AV side effects; account for MEGAcmd separately.",
+      "SourceEvidence": "[Legacy publisher reference](https://mega.nz/MEGAcmdSetup64.exe)"
+    },
+    {
+      "ReviewGroup": "R09",
+      "Batch": "2",
+      "Outcome": "`InstallWinPmem`, `RemoveWinPmem`",
+      "LedgerLine": 122,
+      "RoundLine": 334,
+      "Disposition": "Individual review: winpmem",
+      "NextGate": "Memory acquisition loads a kernel driver. Review signing, Secure Boot/current-build support and exact driver unload/reboot recovery before execution.",
+      "SourceEvidence": "[Legacy publisher reference](https://github.com/Velocidex/WinPmem)"
+    },
+    {
+      "ReviewGroup": "R10",
+      "Batch": "2",
+      "Outcome": "`InstallHashcat`, `RemoveHashcat`",
+      "LedgerLine": 128,
+      "RoundLine": 335,
+      "Disposition": "Individual review: hashcat",
+      "NextGate": "Official 7.1.2 release is a 7z archive. Add bounded 7z extraction and GPU/runtime applicability tests; no driver install or cracking execution implied.",
+      "SourceEvidence": "[Legacy publisher reference](https://hashcat.net)"
+    },
+    {
+      "ReviewGroup": "R10",
+      "Batch": "2",
+      "Outcome": "`InstallHashcatLauncher`, `RemoveHashcatLauncher`",
+      "LedgerLine": 129,
+      "RoundLine": 336,
+      "Disposition": "Individual review: hashcatlauncher",
+      "NextGate": "Legacy latest-release endpoint returned HTTP 404. Verify maintained launcher release and Hashcat-version compatibility before admitting the pair.",
+      "SourceEvidence": "[Legacy publisher reference](https://github.com/s77rt/hashcat.launcher)"
+    },
+    {
+      "ReviewGroup": "R11",
+      "Batch": "2",
+      "Outcome": "`GetSysmonOlafXML`",
+      "LedgerLine": 31,
+      "RoundLine": 337,
+      "Disposition": "Individual review: sysmonolafxml",
+      "NextGate": "Legacy root XML differs from the current template collection. Choose one template and immutable revision; acceptance must assess policy intent before applying any XML.",
+      "SourceEvidence": "[Legacy publisher reference](https://raw.githubusercontent.com/olafhartong/sysmon-modular/master/sysmonconfig.xml)"
+    },
+    {
+      "ReviewGroup": "R11",
+      "Batch": "1",
+      "Outcome": "`DisableEdgePagePrediction`",
+      "LedgerLine": 93,
+      "RoundLine": 338,
+      "Disposition": "Individual review: edgepageprediction",
+      "NextGate": "Microsoft ended Edge Legacy support on 2021-03-09. Review retirement of the old EdgeHTML outcome or explicitly choose a current policy; NetworkPredictionOptions is a different mapping, not an implicit replacement. No setting acceptance is inferred.",
+      "SourceEvidence": "[Microsoft lifecycle evidence](https://learn.microsoft.com/en-us/lifecycle/announcements/edge-legacy-eos-details); [current policy reference](https://learn.microsoft.com/en-us/deployedge/microsoft-edge-browser-policies/networkpredictionoptions); [legacy third-party explanation](https://www.kapilarya.com/how-to-enable-disable-page-prediction-in-microsoft-edge)"
+    },
+    {
+      "ReviewGroup": "R11",
+      "Batch": "2",
+      "Outcome": "`CreateFirefoxPreferenceFiles`, `RemoveFirefoxPreferenceFiles`",
+      "LedgerLine": 95,
+      "RoundLine": 339,
+      "Disposition": "Individual review: firefoxpreferencefiles",
+      "NextGate": "Legacy deploys prefs.js and search data. Choose enterprise policy versus user-file intent, pin data and capture/restore existing profile files.",
+      "SourceEvidence": "[Legacy publisher reference](https://developer.mozilla.org/en-US/Firefox/Enterprise_deployment)"
+    },
+    {
+      "ReviewGroup": "R11",
+      "Batch": "2",
+      "Outcome": "`CreateChromePreferenceFile`, `RemoveChromePreferenceFile`",
+      "LedgerLine": 97,
+      "RoundLine": 340,
+      "Disposition": "Individual review: chromepreferencefile",
+      "NextGate": "Legacy writes preferences from obsolete Chromium source mappings. Reconcile each current policy/key and capture existing profile data before deployment.",
+      "SourceEvidence": "[Legacy publisher reference](https://src.chromium.org/viewvc/chrome/trunk/src/chrome/common/pref_names.cc)"
+    },
+    {
+      "ReviewGroup": "R12",
+      "Batch": "2",
+      "Outcome": "`InstallKAPE`, `RemoveKAPE`",
+      "LedgerLine": 46,
+      "RoundLine": 341,
+      "Disposition": "Individual review: kape",
+      "NextGate": "Resolve applicable license/download terms and exact modules/targets. Current publisher clarification excludes third-party-network/paid-engagement use while allowing internal company use; retain this distinction in the corporate licensing review. Never add the legacy implicit Defender exclusion; acceptance requires a separate policy decision.",
+      "SourceEvidence": "[Licensing watchlist and current publisher references](../package-licensing.md#important-to-review-licensing); [legacy publisher reference](https://s3.amazonaws.com/cyb-us-prd-kape/kape.zip)"
+    },
+    {
+      "ReviewGroup": "R12",
+      "Batch": "2",
+      "Outcome": "`InstallCCleaner`, `RemoveCCleaner` / CCleaner portable",
+      "LedgerLine": 66,
+      "RoundLine": 342,
+      "Disposition": "Individual review: ccleaner",
+      "NextGate": "Four-product bundle must be split into CCleaner, Defraggler, Recuva and Speccy outcomes; select portable/installed artifacts and terms per product.",
+      "SourceEvidence": "[Legacy publisher reference](https://www.ccleaner.com/ccleaner/download/portable)"
+    },
+    {
+      "ReviewGroup": "R12",
+      "Batch": "2",
+      "Outcome": "`InstallCCleaner`, `RemoveCCleaner` / Defraggler",
+      "LedgerLine": 67,
+      "RoundLine": 343,
+      "Disposition": "Individual review: ccleaner",
+      "NextGate": "Four-product bundle must be split into CCleaner, Defraggler, Recuva and Speccy outcomes; select portable/installed artifacts and terms per product.",
+      "SourceEvidence": "[Legacy publisher reference](https://www.ccleaner.com/ccleaner/download/portable)"
+    },
+    {
+      "ReviewGroup": "R12",
+      "Batch": "2",
+      "Outcome": "`InstallCCleaner`, `RemoveCCleaner` / Recuva",
+      "LedgerLine": 68,
+      "RoundLine": 344,
+      "Disposition": "Individual review: ccleaner",
+      "NextGate": "Four-product bundle must be split into CCleaner, Defraggler, Recuva and Speccy outcomes; select portable/installed artifacts and terms per product.",
+      "SourceEvidence": "[Legacy publisher reference](https://www.ccleaner.com/ccleaner/download/portable)"
+    },
+    {
+      "ReviewGroup": "R12",
+      "Batch": "2",
+      "Outcome": "`InstallCCleaner`, `RemoveCCleaner` / Speccy",
+      "LedgerLine": 69,
+      "RoundLine": 345,
+      "Disposition": "Individual review: ccleaner",
+      "NextGate": "Four-product bundle must be split into CCleaner, Defraggler, Recuva and Speccy outcomes; select portable/installed artifacts and terms per product.",
+      "SourceEvidence": "[Legacy publisher reference](https://www.ccleaner.com/ccleaner/download/portable)"
+    },
+    {
+      "ReviewGroup": "R12",
+      "Batch": "1",
+      "Outcome": "`InstallTMOG`, `RemoveTMOG`",
+      "LedgerLine": 72,
+      "RoundLine": 346,
+      "Disposition": "Individual review: tmog",
+      "NextGate": "Exact signed 1.0.1.0/Inno 6.7.0 payload includes notices and TMOG.scr with application/system destinations. Included free-edition license calls itself a release-candidate document requiring publisher approval and grants personal use; resolve applicable approved terms, unattended scope/screensaver controls and entitlement/configuration recovery. No activation or screen-saver execution.",
+      "SourceEvidence": "[Current installer, license and component inspection](../archive/migrations/application-winscp-follow-up-2026-10-11.md#installed-candidates-requiring-review)"
+    },
+    {
+      "ReviewGroup": "R12",
+      "Batch": "1",
+      "Outcome": "`GetPSTViewer`",
+      "LedgerLine": 110,
+      "RoundLine": 347,
+      "Disposition": "Individual review: pstviewer",
+      "NextGate": "Exact signed free 20.3 installer is identified and hashed. Included EULA still uses licensed-copy terms without an explicit freeware grant; resolve applicable terms and shared RICHTX32.OCX registration/ownership/recovery before admission.",
+      "SourceEvidence": "[Exact installer, terms and dependency evidence](../archive/migrations/application-winscp-follow-up-2026-10-11.md#installed-candidates-requiring-review)"
+    },
+    {
+      "ReviewGroup": "R12",
+      "Batch": "1",
+      "Outcome": "`GetOSTViewer`",
+      "LedgerLine": 111,
+      "RoundLine": 348,
+      "Disposition": "Individual review: ostviewer",
+      "NextGate": "Exact signed free 21.1 installer is identified and hashed. Included EULA still uses licensed-copy terms without an explicit freeware grant; resolve applicable terms and shared RICHTX32.OCX registration/ownership/recovery before admission.",
+      "SourceEvidence": "[Exact installer, terms and dependency evidence](../archive/migrations/application-winscp-follow-up-2026-10-11.md#installed-candidates-requiring-review)"
+    },
+    {
+      "ReviewGroup": "R12",
+      "Batch": "2",
+      "Outcome": "`InstallWinhex`, `RemoveWinhex`",
+      "LedgerLine": 121,
+      "RoundLine": 349,
+      "Disposition": "Individual review: winhex",
+      "NextGate": "Legacy HTTP archive and licensed edition need official HTTPS source, terms and version evidence; no unlocked or substitute distribution.",
+      "SourceEvidence": "[Legacy publisher reference](http://www.x-ways.net/winhex.zip)"
+    },
+    {
+      "ReviewGroup": "R13",
+      "Batch": "2",
+      "Outcome": "`InstallFirewallNotifier`, `RemoveFirewallNotifier`",
+      "LedgerLine": 50,
+      "RoundLine": 350,
+      "Disposition": "Individual review: firewallnotifier",
+      "NextGate": "Latest-release lookup returned HTTP 404; publisher README still offers beta/nightly choices and says Server is not officially supported. Choose a pinned GPLv3 distribution and applicable target; capture/restore firewall policy before treating package presence as recovery.",
+      "SourceEvidence": "[Publisher versions, requirements and support limits](https://github.com/wokhan/WFN)"
+    },
+    {
+      "ReviewGroup": "R13",
+      "Batch": "2",
+      "Outcome": "`InstallAutorunner`, `RemoveAutorunner`",
+      "LedgerLine": 101,
+      "RoundLine": 351,
+      "Disposition": "Individual review: autorunner",
+      "NextGate": "Latest-release endpoint returned HTTP 404, but source/README remain available. Publisher requires x64/.NET Framework 4.7.2 and describes privileged forensic-image access and a Sigcheck dependency. Establish a licensed binary/build, pin dependencies and keep deployment separate from investigation execution.",
+      "SourceEvidence": "[Publisher README and dependency evidence](https://github.com/woanware/autorunner)"
+    },
+    {
+      "ReviewGroup": "R13",
+      "Batch": "2",
+      "Outcome": "`GetChromeParser`, `RemoveChromeParser`",
+      "LedgerLine": 103,
+      "RoundLine": 352,
+      "Disposition": "Individual review: chromeparser",
+      "NextGate": "Raw Python file requires immutable revision, license/notices and explicit interpreter dependencies. Pin the script; no implicit Python installation.",
+      "SourceEvidence": "[Legacy publisher reference](https://raw.githubusercontent.com/marleyjaffe/ChromeSyncParser/master/ChromeParser.py)"
+    },
+    {
+      "ReviewGroup": "R13",
+      "Batch": "2",
+      "Outcome": "`GetHex2text`, `RemoveHex2text`",
+      "LedgerLine": 106,
+      "RoundLine": 353,
+      "Disposition": "Individual review: hex2text",
+      "NextGate": "Raw Python script needs immutable commit, verified license and interpreter contract; deployed source and its dependency remain separate outcomes.",
+      "SourceEvidence": "[Legacy publisher reference](https://raw.githubusercontent.com/gh05t-4/hex2text/master/hex2text.py)"
+    },
+    {
+      "ReviewGroup": "R13",
+      "Batch": "2",
+      "Outcome": "`GetShimCacheParser`, `RemoveShimCacheParser`",
+      "LedgerLine": 109,
+      "RoundLine": 354,
+      "Disposition": "Individual review: shimcacheparser",
+      "NextGate": "Legacy Python parser needs supported interpreter/dependencies and immutable revision/license; current registry-format support is a separate forensic acceptance decision.",
+      "SourceEvidence": "[Legacy publisher reference](https://raw.githubusercontent.com/mandiant/ShimCacheParser/master/ShimCacheParser.py)"
+    },
+    {
+      "ReviewGroup": "R13",
+      "Batch": "2",
+      "Outcome": "`InstallSSView`, `RemoveSSView`",
+      "LedgerLine": 113,
+      "RoundLine": 355,
+      "Disposition": "Individual review: ssview",
+      "NextGate": "Publisher distinguishes non-commercial freeware from paid commercial/Professional use. Choose intended edition and applicable terms, inspect exact ZIP version/members and pin its hash before lifecycle acceptance. No local/company license approval is inferred from research.",
+      "SourceEvidence": "[Publisher features, edition and license terms](https://www.mitec.cz/ssv.html)"
+    },
+    {
+      "ReviewGroup": "R13",
+      "Batch": "2",
+      "Outcome": "`InstallThumbcacheviewer`, `RemoveThumbcacheviewer`",
+      "LedgerLine": 116,
+      "RoundLine": 356,
+      "Disposition": "Individual review: thumbcacheviewer",
+      "NextGate": "Publisher site offers GUI 1.0.4.0 x86/x64 and CMD 1.0.2.1, but declares Visual C++ 2008 runtime dependency. Microsoft ended general v90 support in 2018; product-specific exceptions do not establish support for this tool. Choose reviewed binary/license/runtime or rebuild; no implicit obsolete dependency installation.",
+      "SourceEvidence": "[Publisher binaries and requirements](https://thumbcacheviewer.github.io/); [Microsoft runtime lifecycle](https://learn.microsoft.com/en-us/lifecycle/faq/visual-c-faq)"
+    },
+    {
+      "ReviewGroup": "R13",
+      "Batch": "2",
+      "Outcome": "`InstallSuperFetchTools2`, `RemoveSuperFetchTools2`",
+      "LedgerLine": 117,
+      "RoundLine": 357,
+      "Disposition": "Individual review: superfetchtools2",
+      "NextGate": "Historical archive requires supported-build and dependency review. Do not imply modern Prefetch/SysMain compatibility from successful extraction.",
+      "SourceEvidence": "[Legacy publisher reference](https://www.tmurgent.com/download/SuperFetch_Tools2.zip)"
+    },
+    {
+      "ReviewGroup": "R13",
+      "Batch": "2",
+      "Outcome": "`InstallUserAssist`, `RemoveUserAssist`",
+      "LedgerLine": 118,
+      "RoundLine": 358,
+      "Disposition": "Individual review: userassist",
+      "NextGate": "Official 2.6.0 archive matches published SHA-256 F6F73F4E00905A7727ED4136DE875DD1FBCF4B90FFEE4B93D4A46E58C0314D45. Source declares public-domain dedication and targets .NET 2.0; includes separate x64/AnyCPU Debug/Release and development host executables. Choose one Release distribution and establish explicit .NET 3.5 prerequisites without silently enabling Windows components. Publisher only declares through experimental Windows 8; modern format/runtime acceptance is separate.",
+      "SourceEvidence": "[Exact publisher release/checksum](https://blog.didierstevens.com/2012/07/19/userassist-windows-2000-thru-windows-8/); [runtime requirement](https://blog.didierstevens.com/programs/userassist/); [current Microsoft prerequisite routes](https://learn.microsoft.com/en-us/dotnet/framework/install/dotnet-35-windows-11)"
+    },
+    {
+      "ReviewGroup": "R13",
+      "Batch": "2",
+      "Outcome": "`InstallThumbsviewer`, `RemoveThumbsviewer`",
+      "LedgerLine": 119,
+      "RoundLine": 359,
+      "Disposition": "Individual review: thumbsviewer",
+      "NextGate": "Publisher site offers 1.0.3.1 x86/x64 but requires Visual C++ 2008 runtime. Microsoft ended general v90 support in 2018; exceptions for Microsoft products do not establish this application's runtime support. Choose reviewed binary/license/runtime or rebuild; do not silently install the obsolete dependency or retire the product.",
+      "SourceEvidence": "[Publisher binaries and requirements](https://thumbsviewer.github.io/); [Microsoft runtime lifecycle](https://learn.microsoft.com/en-us/lifecycle/faq/visual-c-faq)"
+    },
+    {
+      "ReviewGroup": "R13",
+      "Batch": "2",
+      "Outcome": "`InstallRegRipper`, `RemoveRegRipper`",
+      "LedgerLine": 120,
+      "RoundLine": 360,
+      "Disposition": "Individual review: regripper",
+      "NextGate": "Legacy downloads only rr.exe and omits plugins/support files. Define complete pinned distribution and dependencies; preserve user plugins and rules.",
+      "SourceEvidence": "[Legacy publisher reference](https://github.com/keydet89/RegRipper3.0/raw/master/rr.exe)"
+    }
+  ],
+  "RemainingSettings": [
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 116,
+      "Cells": [
+        "R01",
+        "Existing-plan selection, owned creation and desktop Power plans access",
+        "Creation and shared guards now have two-target evidence. Keep Ultimate activation separate; earlier native activation failed. Inspect menu installation-path ownership and intended-user scope before deploying a reversible helper. Physical device/power-mode effects and template absence remain separate",
+        "Implemented core; menu and physical acceptance pending"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 117,
+      "Cells": [
+        "R02",
+        "Proxy detection, setup script and WinHTTP",
+        "E07. Query flags/URL for the selected connection; retain manual proxy and VPN/dial-up fields. Capture typed/structural prior state and explicit managed scope. A PAC test must use a controlled local server, not a publisher endpoint",
+        "Backend investigation, then implementation"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 118,
+      "Cells": [
+        "R03",
+        "Telemetry mirrors, Windows CEIP and conditional App-V CEIP",
+        "Windows CEIP typed lifecycle is done. Verify an actual App-V client, policy mapping and consumer before availability. Leave Native/Wow telemetry mirrors untouched and unexposed; do not infer effect from duplicate values",
+        "Conditional consumer evidence; D04"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 119,
+      "Cells": [
+        "R04",
+        "Paired feedback frequency",
+        "Existing native guidance is available. Confirm current GUI choices, both value kinds and time units before exposing executable states. Preserve mixed/custom prior pairs and unrelated Rules values; exact paired restore needs partial-write evidence",
+        "Mapping investigation; D02"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 120,
+      "Cells": [
+        "R05",
+        "Windows RE registration lifecycle",
+        "Read-only registration/OS/image/partition capture first. Existing readiness guide covers independent recovery. Prove restoring a prior registration association, not merely calling the opposite command. Refuse identity/servicing conflicts; no image or partition changes",
+        "High dependency recovery work; D06"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 121,
+      "Cells": [
+        "R06",
+        "Browser service Hidden override",
+        "Accepted retirement is complete. Preserve legacy source and existing values. Network discovery guidance is implemented; peer/profile acceptance is separate",
+        "Retired selector; modern outcome partial"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 122,
+      "Cells": [
+        "R07",
+        "Retired MusNotification interception and supported update interruption control",
+        "Interception remains retired and untouched. Notification literal lifecycle/fault recovery and guidance are implemented. Validate visible warnings, active-hours combinations, deadlines and effective policy without promising no reboot",
+        "Consumer/restart acceptance; D03"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 123,
+      "Cells": [
+        "R08",
+        "System protection",
+        "Native guidance exists. Prove enabled-volume inspection, system-drive coupling, storage allowance and asynchronous completion. Off may destroy history; restoring configuration cannot restore deleted points",
+        "Recovery/volume investigation; D06"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 124,
+      "Cells": [
+        "R09",
+        "Storage Sense",
+        "Existing On/Off and guide preserve cleanup preferences. Verify actual switch, policy precedence, default/removal and cleanup-choice meanings using disposable test files. Never restore a deleted-file outcome by claiming registry recovery",
+        "GUI/content acceptance; D02"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 125,
+      "Cells": [
+        "R10",
+        "Windows-native F1 suppression",
+        "Test the accepted per-user TypeLib candidate against current Explorer/Desktop help and other apps. Preserve typed values and owned keys. Do not substitute IFEO, file ACL changes, AutoHotkey or a download",
+        "Experimental mapping; D05"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 126,
+      "Cells": [
+        "R11",
+        "Taskbar sizing and Terminal profile",
+        "Native taskbar choices and rollout must be observed; no TaskbarSmallIcons assumption or feature-enablement forcing. E03/E06 cover Terminal selection separately, preserving existing profiles and broader normal-launch effect",
+        "Taskbar GUI investigation; Terminal backend candidate"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 127,
+      "Cells": [
+        "R12",
+        "Shortcut arrow appearance",
+        "Verify the actual resource and rendering before Hide availability. Retain machine/admin scope, typed value 29 and unrelated overlays. No guessed resource index or forced Explorer restart",
+        "Cosmetic mapping investigation; D02"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 128,
+      "Cells": [
+        "R13",
+        "Sign-in and post-sign-in NumLock",
+        "Compare the two accepted registry preferences with the user's reliable combined legacy result on real boot/sign-in hardware. Preserve type/encoding and unrelated lock-key state. Do not silently reintroduce SendKeys",
+        "Hardware/session evidence; D05"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 129,
+      "Cells": [
+        "R14",
+        "Compressed/encrypted file-name colors",
+        "Observe the current GUI mapping before selecting ShowCompColor versus the legacy value. Test ordinary/compressed/EFS names and themes; preserve file attributes. Existing EFS capability is a prerequisite, not permission to acquire it",
+        "Read-only GUI mapping first; D02/D04"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 130,
+      "Cells": [
+        "R15",
+        "Explorer start location and experimental Home hiding",
+        "Preserve the existing start-location ID and states. Test HubMode independently of LaunchTo and user/machine precedence. No namespace reconstruction, pin/history reset or forced restart",
+        "Home-hiding mapping investigation; D02"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 131,
+      "Cells": [
+        "R16",
+        "Include in Library, Give access to and Share menus",
+        "Three accepted outcomes. Identify physical roots/views and all bindings before suppression. Prefer bounded reversible binding changes; if subtree deletion is unavoidable, typed content/subkeys/ACLs and conflict-safe recovery must be proved",
+        "Multi-binding ownership work; D07"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 132,
+      "Cells": [
+        "R17",
+        "Five desktop icons and ClassicStartMenu mirrors",
+        "Preserve the five published IDs. Compare independent/conflicting mirrors with the GUI and rendering before adding or retiring a mirror. A coordinated handler must read old scalar snapshots without inventing omitted history",
+        "Mapping/compatibility investigation; D02"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 133,
+      "Cells": [
+        "R18",
+        "Server Manager and Shutdown Event Tracker",
+        "Both pending candidates now have Server 2025 literal/fault-recovery evidence. Logon/console precedence and actual shutdown prompt remain open. Desktop Experience and Core are distinct applicability cases",
+        "Feature/session acceptance; D03/D04"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 134,
+      "Cells": [
+        "R19",
+        "Local complexity, maximum age and IE ESC",
+        "Maximum age has both-target native evidence; E04 adds bounded cases. E08 investigates complexity. IE ESC needs real Server component/class/profile-effect evidence and separate admin/user controls; no Edge/IE-mode equivalence",
+        "Complexity backend; conditional ESC evidence; D04"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 135,
+      "Cells": [
+        "R20",
+        "Audio service and selected playback endpoint mute",
+        "Audiosrv lifecycle/fault recovery passed both targets. More dependencies/triggers remain. E03 provides mute UI guidance; direct mute needs stable endpoint identity, saved boolean and session/device-loss recovery without volume/default-device changes",
+        "Endpoint/session backend; D04/D08"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 136,
+      "Cells": [
+        "R21",
+        "BitLocker encryption/decryption and TPM+PIN enrollment",
+        "Guided policy, protectors, secure input/redaction and staged nonsecret records first. Preserve current methods/protectors. Encryption progress and added PIN do not prove boot/unlock. No implicit hardware-test skip, reboot or protection suspension",
+        "Staged security workflow; D06"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 137,
+      "Cells": [
+        "R22",
+        "Recovery protector backup, creation and selected-key display",
+        "Existing guide separates backup, creation and display. Choose by protector type/ID, reuse existing keys for backup, and use an accessible off-device destination. Never put recovery secrets in routine state/logs",
+        "Secure presentation/retrieval work; D06"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 138,
+      "Cells": [
+        "R23",
+        "Failed-sign-in machine lockout",
+        "Confirm mapping and real counting/recovery behavior with protected OS volume and retrievable backup first. Separate Windows sign-ins from TPM PIN/Hello/account lockout; policy restore cannot undo enacted transitions",
+        "Recovery-dependent security experiment; D06"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 139,
+      "Cells": [
+        "R24",
+        "Photo Viewer Open with registration and default-app handoff",
+        "Verify an installed native consumer and exact quoting/extensions. Intended-user registration must preserve existing entries; default-app selection is a separate native UI step. No UserChoice hash bypass or component download",
+        "Component/registration ownership work; D04"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 140,
+      "Cells": [
+        "R25",
+        "Conditional radio and Windows Media DRM",
+        "Both typed policies and interruption/recovery passed where applicable. Player presence is not radio consumer behavior; WMDRM client/backend/license effects remain unresolved. No installation or license-store repair",
+        "Conditional consumer investigation; D04"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 141,
+      "Cells": [
+        "R26",
+        "Keyboard effective delay and packed visual effects",
+        "All stored delay positions and typed recovery passed. Compare native active delay with stored state before backend changes. For effects, reconcile each GUI feature independently and preserve custom masks; no fixed broad preset",
+        "Session/native comparison; D02"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 142,
+      "Cells": [
+        "R27",
+        "WAP Push/Search delayed and startup-only states",
+        "Implementation, stored/runtime lifecycle and controlled recovery passed. Test boot scheduling, workload, dormant flags and trigger/dependency effects. No reboot or fixed-delay guarantee is implicit",
+        "Boot/workload acceptance; D03"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 143,
+      "Cells": [
+        "R28",
+        "Windows Security startup icon",
+        "Guide and policy presentation exist. Verify intended-user startup entry, overflow and managed precedence. Native handoff remains pending user work; no historical Run-entry reconstruction",
+        "GUI/session acceptance; D02"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 144,
+      "Cells": [
+        "R29",
+        "User .NET assemblies",
+        "No identified source outcome. Keep the existing provenance issue separate from NumLock's Forms load, strong-crypto policy and wallpaper conversion. Finding a duplicate or bookkeeping error needs an explicit evidenced disposition",
+        "Source question D09"
+      ]
+    },
+    {
+      "Source": "docs/migrations/remaining-settings-plan.md",
+      "Line": 145,
+      "Cells": [
+        "R30",
+        "Reviewed Store app selection, policy and user uninstall",
+        "[Five optional uninstall/reinstall groups](../store-app-groups.md) accepted, with Media Player/Sound Recorder in multimedia and Xbox dependencies reviewed together. Device policy stays a separate linked workflow. Both references collected; reviewed protection/source rule retained. Solitaire basic native registration lifecycle accepted; policy schema, interruption, app/data recovery and sign-in acceptance remain open",
+        "All five groups implemented as guarded candidates; Clipchamp next when elevation available; GUI/full handoff/group/policy and other targets pending; components owner; D11"
+      ]
+    }
+  ],
+  "InventoryFamilies": [
+    {
+      "Family": "Power Scheme Settings (power-scheme-settings)",
+      "Selectors": [
+        "SetPowerSchemeBalanced",
+        "SetPowerSchemeHighPerf",
+        "SetPowerSchemeUltimate",
+        "SetPwrSchemeDesktopMenu",
+        "RemovePwrSchemeDesktopMenu",
+        "SetLidCloseActionBattSleep",
+        "SetLidCloseActionBattDoNothing",
+        "SetLidCloseActionPwrDoNothing",
+        "SetLidCloseActionPwrSleep"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "Privacy configurations (privacy-configurations)",
+      "Selectors": [
+        "DisableInkingAndTypingData"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "Defender configuration (defender-configuration)",
+      "Selectors": [
+        "ExcludeToolsDirDefender",
+        "ExcludeBootstrapDirDefender",
+        "RemoveToolsDirDefender",
+        "RemoveBootstrapDirDefender"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "Hardening Windows (hardening-windows)",
+      "Selectors": [
+        "DisableSSDPdiscovery",
+        "DisableUniversalPlugAndPlay",
+        "DisableWinHttpAutoProxySvc",
+        "EnableSSDPdiscovery",
+        "EnableUniversalPlugAndPlay",
+        "EnableWinHttpAutoProxySvc"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "Network Functions (network-functions)",
+      "Selectors": [
+        "DisableIEProxyAutoconfig",
+        "DisableAutoconfigURL",
+        "DisableMulticastDNS",
+        "EnableIEProxyAutoconfig",
+        "EnableAutoconfigURL",
+        "EnableMulticastDNS",
+        "GetNoTelemetryHostsFile",
+        "SetDefaultHostsfile"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "Privacy Tweaks (privacy-tweaks)",
+      "Selectors": [
+        "DisableTelemetry",
+        "DisableCortana",
+        "DisableWiFiSense",
+        "DisableAppSuggestions",
+        "DisableActivityHistory",
+        "DisableLocation",
+        "DisableMapUpdates",
+        "DisableFeedback",
+        "DisableTailoredExperiences",
+        "DisableAdvertisingID",
+        "DisableWebLangList",
+        "DisableErrorReporting",
+        "DisableDiagTrack",
+        "DisableWAPPush",
+        "EnableTelemetry",
+        "EnableCortana",
+        "EnableWiFiSense",
+        "DisableSmartScreen",
+        "EnableSmartScreen",
+        "DisableWebSearch",
+        "EnableWebSearch",
+        "EnableAppSuggestions",
+        "EnableActivityHistory",
+        "DisableSensors",
+        "EnableSensors",
+        "EnableLocation",
+        "EnableMapUpdates",
+        "EnableFeedback",
+        "EnableTailoredExperiences",
+        "EnableAdvertisingID",
+        "EnableWebLangList",
+        "DisableBiometrics",
+        "EnableBiometrics",
+        "DisableCamera",
+        "EnableCamera",
+        "DisableMicrophone",
+        "EnableMicrophone",
+        "EnableErrorReporting",
+        "SetP2PUpdateLocal",
+        "SetP2PUpdateInternet",
+        "SetP2PUpdateDisable",
+        "EnableDiagTrack",
+        "EnableWAPPush",
+        "EnableClearRecentFiles",
+        "DisableClearRecentFiles",
+        "DisableRecentFiles",
+        "EnableRecentFiles"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "UWP Privacy Tweaks (uwp-privacy-tweaks)",
+      "Selectors": [
+        "DisableUWPBackgroundApps",
+        "EnableUWPBackgroundApps",
+        "DisableUWPVoiceActivation",
+        "EnableUWPVoiceActivation",
+        "DisableUWPNotifications",
+        "EnableUWPNotifications",
+        "DisableUWPAccountInfo",
+        "EnableUWPAccountInfo",
+        "DisableUWPContacts",
+        "EnableUWPContacts",
+        "DisableUWPCalendar",
+        "EnableUWPCalendar",
+        "DisableUWPPhoneCalls",
+        "EnableUWPPhoneCalls",
+        "DisableUWPCallHistory",
+        "EnableUWPCallHistory",
+        "DisableUWPEmail",
+        "EnableUWPEmail",
+        "DisableUWPTasks",
+        "EnableUWPTasks",
+        "DisableUWPMessaging",
+        "EnableUWPMessaging",
+        "DisableUWPRadios",
+        "EnableUWPRadios",
+        "DisableUWPOtherDevices",
+        "EnableUWPOtherDevices",
+        "DisableUWPDiagInfo",
+        "EnableUWPDiagInfo",
+        "DisableUWPFileSystem",
+        "EnableUWPFileSystem",
+        "DisableUWPSwapFile",
+        "EnableUWPSwapFile"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "Security Tweaks (security-tweaks)",
+      "Selectors": [
+        "DisableAdminShares",
+        "HideAccountProtectionWarn",
+        "DisableScriptHost",
+        "EnableDotNetStrongCrypto",
+        "EnableF8BootMenu",
+        "SetDEPOptOut",
+        "SetUACLow",
+        "SetUACHigh",
+        "EnableSharingMappedDrives",
+        "DisableSharingMappedDrives",
+        "EnableAdminShares",
+        "EnableBrowserServiceView",
+        "DisableFirewall",
+        "EnableFirewall",
+        "HideDefenderTrayIcon",
+        "ShowDefenderTrayIcon",
+        "DisableDefender",
+        "EnableDefender",
+        "DisableDefenderCloud",
+        "EnableDefenderCloud",
+        "EnableCtrldFolderAccess",
+        "DisableCtrldFolderAccess",
+        "EnableCIMemoryIntegrity",
+        "DisableCIMemoryIntegrity",
+        "EnableDefenderAppGuard",
+        "DisableDefenderAppGuard",
+        "ShowAccountProtectionWarn",
+        "DisableDownloadBlocking",
+        "EnableDownloadBlocking",
+        "EnableScriptHost",
+        "DisableDotNetStrongCrypto",
+        "EnableMeltdownCompatFlag",
+        "DisableMeltdownCompatFlag",
+        "DisableF8BootMenu",
+        "DisableBootRecovery",
+        "EnableBootRecovery",
+        "DisableRecoveryAndReset",
+        "EnableRecoveryAndReset",
+        "SetDEPOptIn"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "Network Tweaks (network-tweaks)",
+      "Selectors": [
+        "SetCurrentNetworkPrivate",
+        "DisableRemoteAssistance",
+        "SetCurrentNetworkPublic",
+        "SetUnknownNetworksPrivate",
+        "SetUnknownNetworksPublic",
+        "DisableNetDevicesAutoInst",
+        "EnableNetDevicesAutoInst",
+        "DisableHomeGroups",
+        "EnableHomeGroups",
+        "DisableSMB1",
+        "EnableSMB1",
+        "DisableSMBServer",
+        "EnableSMBServer",
+        "DisableNetBIOS",
+        "EnableNetBIOS",
+        "DisableLLMNR",
+        "EnableLLMNR",
+        "DisableLLDP",
+        "EnableLLDP",
+        "DisableLLTD",
+        "EnableLLTD",
+        "DisableMSNetClient",
+        "EnableMSNetClient",
+        "DisableQoS",
+        "EnableQoS",
+        "DisableIPv4",
+        "EnableIPv4",
+        "DisableIPv6",
+        "EnableIPv6",
+        "DisableNCSIProbe",
+        "EnableNCSIProbe",
+        "DisableConnectionSharing",
+        "EnableConnectionSharing",
+        "EnableRemoteAssistance",
+        "EnableRemoteDesktop",
+        "DisableRemoteDesktop"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "Service Tweaks (service-tweaks)",
+      "Selectors": [
+        "EnableUpdateMSProducts",
+        "DisableUpdateRestart",
+        "DisableMaintenanceWakeUp",
+        "DisableSharedExperiences",
+        "DisableAutoplay",
+        "DisableAutorun",
+        "EnableNTFSLongPaths",
+        "DisableUpdateMSRT",
+        "EnableUpdateMSRT",
+        "DisableUpdateDriver",
+        "EnableUpdateDriver",
+        "DisableUpdateMSProducts",
+        "DisableUpdateAutoDownload",
+        "EnableUpdateAutoDownload",
+        "EnableUpdateRestart",
+        "EnableMaintenanceWakeUp",
+        "DisableAutoRestartSignOn",
+        "EnableAutoRestartSignOn",
+        "EnableSharedExperiences",
+        "EnableClipboardHistory",
+        "DisableClipboardHistory",
+        "EnableAutoplay",
+        "EnableAutorun",
+        "DisableRestorePoints",
+        "EnableRestorePoints",
+        "EnableStorageSense",
+        "DisableStorageSense",
+        "DisableDefragmentation",
+        "EnableDefragmentation",
+        "DisableSuperfetch",
+        "EnableSuperfetch",
+        "DisableIndexing",
+        "EnableIndexing",
+        "DisableRecycleBin",
+        "EnableRecycleBin",
+        "DisableNTFSLongPaths",
+        "DisableNTFSLastAccess",
+        "EnableNTFSLastAccess",
+        "SetBIOSTimeUTC",
+        "SetBIOSTimeLocal",
+        "EnableHibernation",
+        "DisableHibernation",
+        "DisableSleepButton",
+        "EnableSleepButton",
+        "DisableSleepTimeout",
+        "EnableSleepTimeout",
+        "DisableFastStartup",
+        "EnableFastStartup",
+        "DisableAutoRebootOnCrash",
+        "EnableAutoRebootOnCrash"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "UI Tweaks (ui-tweaks)",
+      "Selectors": [
+        "DisableActionCenter",
+        "DisableLockScreenBlur",
+        "DisableAccessibilityKeys",
+        "ShowTaskManagerDetails",
+        "ShowFileOperationsDetails",
+        "HideTaskbarSearch",
+        "HideTaskView",
+        "SetTaskbarCombineWhenFull",
+        "HideTaskbarPeopleIcon",
+        "ShowTrayIcons",
+        "DisableSearchAppInStore",
+        "DisableNewAppPrompt",
+        "DisableShortcutInName",
+        "SetVisualFXPerformance",
+        "SetSoundSchemeNone",
+        "DisableStartupSound",
+        "EnableVerboseStatus",
+        "DisableF1HelpKey",
+        "DisableTaskbarWidgets",
+        "DisableTaskbarChat",
+        "RemoveEdgeTabsFromAltTab",
+        "EnableActionCenter",
+        "DisableLockScreen",
+        "EnableLockScreen",
+        "DisableLockScreenRS1",
+        "EnableLockScreenRS1",
+        "HideNetworkFromLockScreen",
+        "ShowNetworkOnLockScreen",
+        "HideShutdownFromLockScreen",
+        "ShowShutdownOnLockScreen",
+        "EnableLockScreenBlur",
+        "DisableAeroShake",
+        "EnableAeroShake",
+        "EnableAccessibilityKeys",
+        "HideTaskManagerDetails",
+        "HideFileOperationsDetails",
+        "EnableFileDeleteConfirm",
+        "DisableFileDeleteConfirm",
+        "ShowTaskbarSearchIcon",
+        "ShowTaskbarSearchBox",
+        "ShowTaskView",
+        "ShowSmallTaskbarIcons",
+        "ShowLargeTaskbarIcons",
+        "SetTaskbarCombineNever",
+        "SetTaskbarCombineAlways",
+        "ShowTaskbarPeopleIcon",
+        "HideTrayIcons",
+        "ShowSecondsInTaskbar",
+        "HideSecondsFromTaskbar",
+        "EnableSearchAppInStore",
+        "EnableNewAppPrompt",
+        "HideRecentlyAddedApps",
+        "ShowRecentlyAddedApps",
+        "HideMostUsedApps",
+        "ShowMostUsedApps",
+        "SetWinXMenuPowerShell",
+        "SetWinXMenuCmd",
+        "SetControlPanelSmallIcons",
+        "SetControlPanelLargeIcons",
+        "SetControlPanelCategories",
+        "EnableShortcutInName",
+        "HideShortcutArrow",
+        "ShowShortcutArrow",
+        "SetVisualFXAppearance",
+        "EnableTitleBarColor",
+        "DisableTitleBarColor",
+        "SetAppsDarkMode",
+        "SetAppsLightMode",
+        "SetSystemDarkMode",
+        "SetSystemLightMode",
+        "AddENKeyboard",
+        "RemoveENKeyboard",
+        "EnableNumlock",
+        "DisableNumlock",
+        "DisableEnhPointerPrecision",
+        "EnableEnhPointerPrecision",
+        "SetSoundSchemeDefault",
+        "EnableStartupSound",
+        "DisableChangingSoundScheme",
+        "EnableChangingSoundScheme",
+        "DisableVerboseStatus",
+        "EnableF1HelpKey",
+        "DisableTaskbarDesktops",
+        "EnableTaskbarDesktops",
+        "EnableTaskbarWidgets",
+        "EnableTaskbarChat",
+        "SetTaskbarAlignmentLeft",
+        "SetTaskbarAlignmentMiddle",
+        "SetEdgeTabsWindowsAnd5tabs",
+        "SetEdgeTabsWindowsAnd3tabs",
+        "SetEdgeTabsWindowsAndAll"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "Explorer UI Tweaks (explorer-ui-tweaks)",
+      "Selectors": [
+        "ShowKnownExtensions",
+        "ShowHiddenFiles",
+        "EnableNavPaneExpand",
+        "HideSyncNotifications",
+        "HideRecentShortcuts",
+        "SetExplorerThisPC",
+        "HideMusicFromThisPC",
+        "HideVideosFromThisPC",
+        "Hide3DObjectsFromThisPC",
+        "DisableThumbnailCache",
+        "DisableThumbsDBOnNetwork",
+        "ShowExplorerTitleFullPath",
+        "HideExplorerTitleFullPath",
+        "HideKnownExtensions",
+        "HideHiddenFiles",
+        "ShowSuperHiddenFiles",
+        "HideSuperHiddenFiles",
+        "ShowEmptyDrives",
+        "HideEmptyDrives",
+        "ShowFolderMergeConflicts",
+        "HideFolderMergeConflicts",
+        "DisableNavPaneExpand",
+        "ShowNavPaneAllFolders",
+        "HideNavPaneAllFolders",
+        "ShowNavPaneLibraries",
+        "HideNavPaneLibraries",
+        "EnableFldrSeparateProcess",
+        "DisableFldrSeparateProcess",
+        "EnableRestoreFldrWindows",
+        "DisableRestoreFldrWindows",
+        "ShowEncCompFilesColor",
+        "HideEncCompFilesColor",
+        "DisableSharingWizard",
+        "EnableSharingWizard",
+        "HideSelectCheckboxes",
+        "ShowSelectCheckboxes",
+        "ShowSyncNotifications",
+        "ShowRecentShortcuts",
+        "SetExplorerQuickAccess",
+        "HideQuickAccess",
+        "ShowQuickAccess",
+        "HideRecycleBinFromDesktop",
+        "ShowRecycleBinOnDesktop",
+        "ShowThisPCOnDesktop",
+        "HideThisPCFromDesktop",
+        "ShowUserFolderOnDesktop",
+        "HideUserFolderFromDesktop",
+        "ShowControlPanelOnDesktop",
+        "HideControlPanelFromDesktop",
+        "ShowNetworkOnDesktop",
+        "HideNetworkFromDesktop",
+        "HideDesktopIcons",
+        "ShowDesktopIcons",
+        "ShowBuildNumberOnDesktop",
+        "HideBuildNumberFromDesktop",
+        "HideDesktopFromThisPC",
+        "ShowDesktopInThisPC",
+        "HideDesktopFromExplorer",
+        "ShowDesktopInExplorer",
+        "HideDocumentsFromThisPC",
+        "ShowDocumentsInThisPC",
+        "HideDocumentsFromExplorer",
+        "ShowDocumentsInExplorer",
+        "HideDownloadsFromThisPC",
+        "ShowDownloadsInThisPC",
+        "HideDownloadsFromExplorer",
+        "ShowDownloadsInExplorer",
+        "ShowMusicInThisPC",
+        "HideMusicFromExplorer",
+        "ShowMusicInExplorer",
+        "HidePicturesFromThisPC",
+        "ShowPicturesInThisPC",
+        "HidePicturesFromExplorer",
+        "ShowPicturesInExplorer",
+        "ShowVideosInThisPC",
+        "HideVideosFromExplorer",
+        "ShowVideosInExplorer",
+        "Show3DObjectsInThisPC",
+        "Hide3DObjectsFromExplorer",
+        "Show3DObjectsInExplorer",
+        "HideNetworkFromExplorer",
+        "ShowNetworkInExplorer",
+        "HideIncludeInLibraryMenu",
+        "ShowIncludeInLibraryMenu",
+        "HideGiveAccessToMenu",
+        "ShowGiveAccessToMenu",
+        "HideShareMenu",
+        "ShowShareMenu",
+        "DisableThumbnails",
+        "EnableThumbnails",
+        "EnableThumbnailCache",
+        "EnableThumbsDBOnNetwork"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "Server Specific Tweaks (server-specific-tweaks)",
+      "Selectors": [
+        "HideServerManagerOnLogin",
+        "ShowServerManagerOnLogin",
+        "DisableShutdownTracker",
+        "EnableShutdownTracker",
+        "DisablePasswordPolicy",
+        "EnablePasswordPolicy",
+        "DisableCtrlAltDelLogin",
+        "EnableCtrlAltDelLogin",
+        "DisableIEEnhancedSecurity",
+        "EnableIEEnhancedSecurity",
+        "EnableAudio",
+        "DisableAudio",
+        "AudioMute",
+        "AudioUnmute"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "Bitlocker (bitlocker)",
+      "Selectors": [
+        "SetDefaultBitLockerAES256",
+        "SetDefaultBitLockerAES128",
+        "PutBitlockerShortCutOnDesktop",
+        "EnableLockOutThreshold",
+        "DisableLockOutThreshold",
+        "EnableEnhancedPIN",
+        "DisableEnhancedPIN",
+        "EnableAdditionalAuthAtStart",
+        "EnableBitlockerTPMandPIN",
+        "EnableBitlocker",
+        "DisableBitlocker",
+        "AddBitlockerRecoveryPswd",
+        "DisplayBitlockerRecoveryPwd"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "Install programs (install-programs)",
+      "Selectors": [
+        "Install7Zip",
+        "InstallGit4Win",
+        "GetSysmonSwiftXML",
+        "InstallSysmon64",
+        "Remove7Zip",
+        "InstallGitLFS",
+        "RemoveGitLFS",
+        "RemoveGit4Win",
+        "InstallPSScriptTools",
+        "RemovePSScriptTools",
+        "InstallVSCode",
+        "RemoveVSCode",
+        "InstallGPGwin",
+        "InstallNotepadPlusPlus",
+        "RemoveNotepadPlusPlus",
+        "GetSysmonOlafXML",
+        "RemoveSysmon64",
+        "InstallVMwareWorkstation",
+        "RemoveVMwareWorkstation",
+        "SetVMDirUserhome",
+        "SetVMDirDocuments",
+        "InstallThunderbird",
+        "InstallJoplin",
+        "InstallImageMagick",
+        "InstallImageMagickPortable",
+        "RemoveImageMagickPortable",
+        "InstallSignal",
+        "InstallPython",
+        "InstallYara",
+        "RemoveYara",
+        "GetCyberChef",
+        "RemoveCyberChef",
+        "InstallCaffeine",
+        "RemoveCaffeine",
+        "InstallPutty",
+        "RemovePutty",
+        "InstallWinSCP",
+        "InstallKAPE",
+        "RemoveKAPE",
+        "InstallVeraCrypt",
+        "InstallVeraCryptPortable",
+        "InstallADReplStatus",
+        "RemoveADReplStatus",
+        "InstallFirewallNotifier",
+        "RemoveFirewallNotifier",
+        "InstallWinDirStat",
+        "RemoveWinDirStat",
+        "InstallShareX",
+        "RemoveShareX",
+        "InstallShareXportable",
+        "RemoveShareXportable",
+        "InstallPowerShell",
+        "InstallAutomatedLab"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "Office Apps (office-apps)",
+      "Selectors": [
+        "DisableOneDrive",
+        "UninstallOneDrive",
+        "InstallOffice365",
+        "DisableTeamsAutoStart",
+        "RemoveTeamsStoreApp",
+        "EnableOneDrive",
+        "InstallOneDrive",
+        "ResetTeamsAutoStart",
+        "RemoveTeamsWideInstaller",
+        "InstallVisioPro"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "System Tools (system-tools)",
+      "Selectors": [
+        "GetSysinternalsSuite",
+        "RemoveSysinternalsSuite",
+        "InstallJoeWare",
+        "RemoveJoeWare",
+        "InstallCCleaner",
+        "RemoveCCleaner",
+        "InstallMitec",
+        "RemoveMitec",
+        "InstallNtcore",
+        "RemoveNTCore",
+        "InstallTMOG",
+        "RemoveTMOG",
+        "InstallWireshark",
+        "RemoveWireshark",
+        "InstallZimmermanTools",
+        "RemoveZimmermanTools",
+        "InstallNirsoftLauncher",
+        "RemoveNirsoftLauncher",
+        "InstallNirsoftToolsX64",
+        "RemoveNirsoftToolsX64",
+        "InstallNirsoftPkgFiles",
+        "RemoveNirsoftPkgFiles",
+        "InstallArsenalRecon",
+        "InstallWinget",
+        "InstallWingetAutoUpdate"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "Active Directory Tools (active-directory-tools)",
+      "Selectors": [
+        "InstallRSAT",
+        "RemoveRSAT",
+        "InstallOpenJDK",
+        "InstallNeo4j",
+        "GetBloodhound",
+        "RemoveBloodhound",
+        "GetSharphound",
+        "RemoveSharphound",
+        "GetAzurehound",
+        "RemoveAzurehound",
+        "GetImproHound",
+        "RemoveImprohound",
+        "GetPingCastle",
+        "RemovePingCastle"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "For Linux VMs (for-linux-vms)",
+      "Selectors": [
+        "InstallVirtIOGuestTool",
+        "InstallSpiceGuestTool",
+        "InstallSpiceWebDAV"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "Browsers and Internet (browsers-and-internet)",
+      "Selectors": [
+        "DisableEdgePagePrediction",
+        "InstallFirefox",
+        "CreateFirefoxPreferenceFiles",
+        "InstallChrome",
+        "CreateChromePreferenceFile",
+        "RemoveFirefox",
+        "RemoveFirefoxPreferenceFiles",
+        "RemoveChrome",
+        "RemoveChromePreferenceFile"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "Forensic Tools (forensic-tools)",
+      "Selectors": [
+        "InstallAutopsy",
+        "InstallNetworkMiner",
+        "RemoveNetworkMiner",
+        "InstallAutorunner",
+        "RemoveAutorunner",
+        "InstallChainsaw",
+        "RemoveChainsaw",
+        "GetChromeParser",
+        "RemoveChromeParser",
+        "InstallCyLR",
+        "RemoveCyLR",
+        "InstallDejsonlz4",
+        "RemoveDejsonlz4",
+        "GetHex2text",
+        "RemoveHex2text",
+        "InstallHindsight",
+        "RemoveHindsight",
+        "InstallSqlitebrowser",
+        "GetShimCacheParser",
+        "RemoveShimCacheParser",
+        "GetPSTViewer",
+        "GetOSTViewer",
+        "InstallLoki",
+        "RemoveLoki",
+        "InstallSSView",
+        "RemoveSSView",
+        "InstallSrumMonkey",
+        "RemoveSrumMonkey",
+        "InstallSrumDump",
+        "RemoveSrumDump",
+        "InstallThumbcacheviewer",
+        "RemoveThumbcacheviewer",
+        "InstallSuperFetchTools2",
+        "RemoveSuperFetchTools2",
+        "InstallUserAssist",
+        "RemoveUserAssist",
+        "InstallThumbsviewer",
+        "RemoveThumbsviewer",
+        "InstallRegRipper",
+        "RemoveRegRipper",
+        "InstallWinhex",
+        "RemoveWinhex",
+        "InstallWinPmem",
+        "RemoveWinPmem",
+        "InstallVolatility2",
+        "RemoveVolatility2",
+        "InstallVolatility3",
+        "InstallPartDiagParser",
+        "RemovePartDiagParser",
+        "InstallGglCookieCruncher",
+        "RemoveGglCookieCruncher",
+        "InstallSigma",
+        "RemoveSigma"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "Offensive Tools (offensive-tools)",
+      "Selectors": [
+        "InstallHashcat",
+        "RemoveHashcat",
+        "InstallHashcatLauncher",
+        "RemoveHashcatLauncher"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "Windows Subsystem for Linux (windows-subsystem-for-linux)",
+      "Selectors": [
+        "EnableWSL",
+        "DisableWSL",
+        "InstallWSLubuntu",
+        "RemoveWSLubuntu",
+        "InstallWSLdebian",
+        "RemoveWSLdebian",
+        "InstallWSLkali",
+        "RemoveWSLkali",
+        "InstallWSLFedora"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "Application Tweaks (application-tweaks)",
+      "Selectors": [
+        "UninstallMsftBloat",
+        "UninstallThirdPartyBloat",
+        "DisableXboxFeatures",
+        "DisableAdobeFlash",
+        "DisableEdgePreload",
+        "DisableEdgeShortcutCreation",
+        "DisableIEFirstRun",
+        "DisableFirstLogonAnimation",
+        "DisableMediaSharing",
+        "UninstallInternetExplorer",
+        "SetPhotoViewerAssociation",
+        "AddPhotoViewerOpenWith",
+        "UninstallXPSPrinter",
+        "RemoveFaxPrinter",
+        "InstallMsftBloat",
+        "InstallThirdPartyBloat",
+        "UninstallWindowsStore",
+        "InstallWindowsStore",
+        "EnableXboxFeatures",
+        "DisableFullscreenOptims",
+        "EnableFullscreenOptims",
+        "EnableAdobeFlash",
+        "EnableEdgePreload",
+        "EnableEdgeShortcutCreation",
+        "EnableIEFirstRun",
+        "EnableFirstLogonAnimation",
+        "EnableMediaSharing",
+        "DisableMediaOnlineAccess",
+        "EnableMediaOnlineAccess",
+        "EnableDeveloperMode",
+        "DisableDeveloperMode",
+        "UninstallMediaPlayer",
+        "InstallMediaPlayer",
+        "InstallInternetExplorer",
+        "UninstallWorkFolders",
+        "InstallWorkFolders",
+        "UninstallHelloFace",
+        "InstallHelloFace",
+        "UninstallMathRecognizer",
+        "InstallMathRecognizer",
+        "UninstallPowerShellV2",
+        "InstallPowerShellV2",
+        "UninstallPowerShellISE",
+        "InstallPowerShellISE",
+        "InstallLinuxSubsystem",
+        "UninstallLinuxSubsystem",
+        "InstallHyperV",
+        "UninstallHyperV",
+        "UninstallSSHClient",
+        "InstallSSHClient",
+        "InstallSSHServer",
+        "UninstallSSHServer",
+        "InstallTelnetClient",
+        "UninstallTelnetClient",
+        "InstallNET23",
+        "UninstallNET23",
+        "UnsetPhotoViewerAssociation",
+        "RemovePhotoViewerOpenWith",
+        "UninstallPDFPrinter",
+        "InstallPDFPrinter",
+        "InstallXPSPrinter",
+        "AddFaxPrinter",
+        "UninstallFaxAndScan",
+        "InstallFaxAndScan",
+        "InstallSandbox",
+        "RemoveSandbox"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "Windows configuration (windows-configuration)",
+      "Selectors": [
+        "CreateNewLocalAdmin",
+        "DisableBuiltinAdministrator",
+        "DisableFriendlyURLFormat",
+        "EnableRunAsInStartMenu",
+        "InstallLanguagePackGB",
+        "SetRegionalSettings",
+        "CopyRegionSettingsToAll",
+        "AddUserBinToPath",
+        "ActivateWindows",
+        "ActivateWindowsOEM",
+        "MakeLoggedOnUserAdmin",
+        "MakeLoggedOnUserNoAdmin",
+        "AddWiFi",
+        "DisableWindowsStoreApp",
+        "EnableWindowsStoreApp",
+        "UnconfigureFriendlyURLFormat",
+        "DisableRunAsInStartMenu",
+        "EnableInternetPrinting",
+        "DisableInternetPrinting",
+        "EnableMemoryIntegrity",
+        "DisableMemoryIntegrity",
+        "InstallLanguagePackDK",
+        "InstallLanguagePackCustom",
+        "CopyRegionSettingsWelcome",
+        "CopyRegionSettingsNewUser"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "Customization (customization)",
+      "Selectors": [
+        "InstallFonts",
+        "ReplaceDefaultWallpapers",
+        "SetLockScreen",
+        "SetDefaultLockScreen",
+        "InstallLenovoVantage",
+        "RemoveLenovoVantage"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "PowerShell profile settings (requested v3 addition, 2026-10-12)",
+      "Selectors": [],
+      "RequestedAddition": true
+    },
+    {
+      "Family": "Unpinning (unpinning)",
+      "Selectors": [
+        "CleanPublicDesktop",
+        "UnpinStartMenuTiles",
+        "UnpinTaskbarIcons"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "Operational Tasks (operational-tasks)",
+      "Selectors": [
+        "GetWindowsUpdatesWithPwsh",
+        "CleanLocalWindowsUpdateCache",
+        "RunDiskCleanup",
+        "GetWindowsProductKey",
+        "RunSysprepGeneralizeOOBE"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "Other Functions (other-functions)",
+      "Selectors": [
+        "SetHostname"
+      ],
+      "RequestedAddition": false
+    },
+    {
+      "Family": "Auxiliary Functions (auxiliary-functions)",
+      "Selectors": [
+        "WaitForKey",
+        "Restart",
+        "StopComputer"
+      ],
+      "RequestedAddition": false
+    }
+  ],
+  "UniqueInventorySelectors": 731,
+  "AllInventorySelectorsFoundInCurrentPreset": true,
+  "SourceOnlyFunctions": [
+    "DisableAdditionaAuthAtStart",
+    "DisableBrowserSvcView",
+    "DisableFirewallDomain",
+    "DisableFirewallPrivate",
+    "DisableFirewallPublic",
+    "DisableWSUS",
+    "EnableFirewallDomain",
+    "EnableFirewallPrivate",
+    "EnableFirewallPublic",
+    "EnableWSUS",
+    "Export-FunctionFromFile",
+    "Get-PackageInfo",
+    "Get-RideBootstrapFolder",
+    "Get-RideSoftwareFolder",
+    "Get-RIDEvars",
+    "Install-RideDownloadedExe",
+    "Install-RideDownloadedMsi",
+    "InstallEntraConnect",
+    "InstallNucleusKernelFATNTFS",
+    "RemoveWinSCP",
+    "Save-RideDownload",
+    "Test-FunctionName",
+    "Test-RideDownloadOnly"
+  ],
+  "LegacyFunctionDefinitionNames": 754,
+  "DefinedPresetFunctionsOutsideInventory": [],
+  "SourceFunctionsOutsidePresetAndDocumentedExtras": [],
+  "PrerequisiteDirective": "RequireAdmin is not an operation; selector counts are not outcome counts.",
+  "MicrosoftReferences": [
+    "https://learn.microsoft.com/en-us/dotnet/framework/install/dotnet-35-windows-11",
+    "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-v2--capabilities?view=windows-11",
+    "https://learn.microsoft.com/en-us/windows/configuration/policy-based-inbox-app-removal/policy-based-inbox-app-removal"
+  ],
+  "CatalogKinds": [
+    {
+      "Kind": "AdapterBinding",
+      "Count": 7
+    },
+    {
+      "Kind": "Artifact",
+      "Count": 1
+    },
+    {
+      "Kind": "BackgroundAppOverrides",
+      "Count": 1
+    },
+    {
+      "Kind": "BootConfiguration",
+      "Count": 3
+    },
+    {
+      "Kind": "DefenderExclusion",
+      "Count": 2
+    },
+    {
+      "Kind": "DefenderPreference",
+      "Count": 1
+    },
+    {
+      "Kind": "FirewallProfile",
+      "Count": 4
+    },
+    {
+      "Kind": "LocalPasswordMaximumAge",
+      "Count": 1
+    },
+    {
+      "Kind": "NetBios",
+      "Count": 1
+    },
+    {
+      "Kind": "NetworkProfile",
+      "Count": 1
+    },
+    {
+      "Kind": "OwnedPowerPlan",
+      "Count": 3
+    },
+    {
+      "Kind": "Package",
+      "Count": 40
+    },
+    {
+      "Kind": "PowerScheme",
+      "Count": 1
+    },
+    {
+      "Kind": "PowerSetting",
+      "Count": 8
+    },
+    {
+      "Kind": "ProfileSetting",
+      "Count": 2
+    },
+    {
+      "Kind": "RegistryKeySet",
+      "Count": 7
+    },
+    {
+      "Kind": "RegistryValue",
+      "Count": 197
+    },
+    {
+      "Kind": "RegistryValueSet",
+      "Count": 13
+    },
+    {
+      "Kind": "RemoteDesktopFirewall",
+      "Count": 1
+    },
+    {
+      "Kind": "ScheduledTask",
+      "Count": 13
+    },
+    {
+      "Kind": "ShellFolder",
+      "Count": 1
+    },
+    {
+      "Kind": "SmbProtocol",
+      "Count": 2
+    },
+    {
+      "Kind": "SoundScheme",
+      "Count": 1
+    },
+    {
+      "Kind": "StoreApp",
+      "Count": 22
+    },
+    {
+      "Kind": "WindowsService",
+      "Count": 7
+    }
+  ],
+  "PackageInstallerTypes": [
+    {
+      "InstallerType": "Exe",
+      "Count": 9
+    },
+    {
+      "InstallerType": "Msi",
+      "Count": 19
+    },
+    {
+      "InstallerType": "Portable",
+      "Count": 11
+    },
+    {
+      "InstallerType": "SysmonZip",
+      "Count": 1
+    }
+  ],
+  "EstimateRanges": {
+    "Settings": "38-58",
+    "Packages": "58-73",
+    "Components": "20-25",
+    "AccountsConfigurationFiles": "25-35",
+    "Maintenance": "8-12",
+    "RoundedTotal": "150-205",
+    "PlanningTotal": "about 180"
+  },
+  "ClosedLegacyOutcomes": 0,
+  "PackagePause": true,
+  "ElevationPostponed": true,
+  "VmRunsSubmitted": 0
+}

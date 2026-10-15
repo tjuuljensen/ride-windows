@@ -199,7 +199,22 @@ Describe 'Guarded Store lifecycle' {
     Mock Get-RideStoreManifestProof -ModuleName RIDE.StoreApps {throw 'Missing'}
     $p=Get-RideStoreAppPlan app.news Reinstall $script:Sid -RemovalRunId $r.RunId
     $p.Refusals|Should -Contain 'Source unavailable or changed; acquisition remains paused'
+    $p.SourceError|Should -BeExactly 'Missing'
     (Invoke-RideStoreAppAction app.news Reinstall $script:Sid -RemovalRunId $r.RunId -Confirm:$false).Status|Should -Be Refused
+    Should -Invoke Invoke-RideStoreNativeRegister -ModuleName RIDE.StoreApps -Exactly 0
+  }
+  It 'keeps real dependency projection active during reinstall preview without extra records' {
+    Mock Get-RideStoreManifestProof -ModuleName RIDE.StoreApps {param($Package) [pscustomobject]@{Path=(Join-Path $Package.InstallLocation 'AppxManifest.xml');SHA256=('A'*64);Name=$Package.Name;Publisher=$Package.Publisher;Version=$Package.Version;Dependencies=@('Fixture.Dependency_1.0.0.0_x64__fixture')}}
+    Mock Get-RideStoreRegisteredPackages -ModuleName RIDE.StoreApps {@([pscustomobject]@{Name='Fixture.Dependency';PackageFullName='Fixture.Dependency_1.0.0.0_x64__fixture';Dependencies=@()})}
+    $removed=Invoke-RideStoreAppAction app.news Uninstall $script:Sid -Confirm:$false
+    $preview=Invoke-RideStoreAppAction app.news Reinstall $script:Sid -RemovalRunId $removed.RunId -WhatIf
+    $preview.Status|Should -BeExactly 'NotApplied'
+    $preview.RecordCreated|Should -BeFalse
+    @(Get-ChildItem $script:stateRoot -Directory).Count|Should -Be 1
+    Should -Invoke Invoke-RideStoreNativeRegister -ModuleName RIDE.StoreApps -Exactly 0
+    Mock Get-RideStoreRegisteredPackages -ModuleName RIDE.StoreApps {@()}
+    $refused=Invoke-RideStoreAppAction app.news Reinstall $script:Sid -RemovalRunId $removed.RunId -WhatIf
+    $refused.Status|Should -BeExactly 'Refused'
     Should -Invoke Invoke-RideStoreNativeRegister -ModuleName RIDE.StoreApps -Exactly 0
   }
   It 'refuses recovery records owned by another SID' {

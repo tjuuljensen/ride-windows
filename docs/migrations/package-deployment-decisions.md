@@ -3,6 +3,10 @@
 Approved by the user on 2026-10-14. Design approved; deployment coexistence and
 USB toolkit assembly remain unimplemented. Packages remain paused.
 
+The [full migration follow-up](remaining-migrations-follow-up.md#questions-for-the-users-return)
+collects proposed deployment/state/kit choices Q01-Q04 for the user's return.
+This document remains the authority for the approved coexistence model.
+
 ## Approved deployment model
 
 Analysts may need an application installed on their workstation and a portable
