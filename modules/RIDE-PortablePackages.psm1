@@ -9,8 +9,10 @@
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
   Prerequisites: Local filesystem, ZIP APIs, resolved package metadata.
   Recovery: Versioned file snapshots; missing backups stop restore before writes.
-  Owner: RIDE-Windows maintainers. Version: 0.2.0.
-  Changelog: 0.2.0: Inspect available signatures on portable COM executables.
+  Failed manifest commits retain staged evidence for review, never automatic adoption.
+  Owner: RIDE-Windows maintainers. Version: 0.3.0.
+  Changelog: 0.3.0: Bound unchanged-file replacement retries and retain failed manifest evidence.
+    0.2.0: Inspect available signatures on portable COM executables.
     0.1.0: Add bounded extraction, manifest ownership and file recovery.
 #>
 
@@ -48,17 +50,48 @@ function Get-RidePortableMemberPath {
   Assert-RidePortablePath $path
 }
 
+function Invoke-RidePortableManifestReplace {
+  param([string]$Temporary, [string]$Destination)
+  [IO.File]::Replace($Temporary, $Destination, [NullString]::Value)
+}
+
 function Write-RidePortableManifest {
   param([string] $Root, $Manifest)
   $path = Join-Path $Root '.ride-package.json'
   $temporary = Join-Path $Root ('.ride-package-' + [guid]::NewGuid().ToString('N') + '.tmp')
   $null = Assert-RidePortablePath $path
+  $created = $false
   try {
-    [IO.File]::WriteAllText($temporary, ($Manifest | ConvertTo-Json -Depth 8), (New-Object Text.UTF8Encoding($false)))
-    if (Test-Path -LiteralPath $path -PathType Leaf) { [IO.File]::Replace($temporary, $path, [NullString]::Value) }
+    $bytes = [Text.UTF8Encoding]::new($false).GetBytes(($Manifest | ConvertTo-Json -Depth 8))
+    $stream = [IO.File]::Open($temporary, [IO.FileMode]::CreateNew, [IO.FileAccess]::Write, [IO.FileShare]::None)
+    $created = $true
+    try { $stream.Write($bytes, 0, $bytes.Length) } finally { $stream.Dispose() }
+    if (Test-Path -LiteralPath $path -PathType Leaf) {
+      $beforeHash = (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash
+      $proposedHash = (Get-FileHash -LiteralPath $temporary -Algorithm SHA256).Hash
+      for ($attempt = 1; $attempt -le 3; $attempt++) {
+        try { Invoke-RidePortableManifestReplace -Temporary $temporary -Destination $path; break }
+        catch {
+          $failure = $_
+          $cause = $_.Exception.GetBaseException()
+          $code = $cause.HResult -band 65535
+          if ($attempt -eq 3 -or $cause -isnot [IO.IOException] -or $code -notin @(32,33,1175)) { throw }
+          # Never retry a partial replacement, external edit or redirected path.
+          Start-Sleep -Milliseconds (50 * $attempt)
+          $null = Assert-RidePortablePath $path
+          $null = Assert-RidePortablePath $temporary
+          if (-not [IO.File]::Exists($path) -or -not [IO.File]::Exists($temporary)) { throw $failure }
+          if ((Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash -cne $beforeHash -or
+              (Get-FileHash -LiteralPath $temporary -Algorithm SHA256).Hash -cne $proposedHash) { throw $failure }
+        }
+      }
+    }
     else { [IO.File]::Move($temporary, $path) }
-  } finally {
-    if (Test-Path -LiteralPath $temporary) { Remove-Item -LiteralPath $temporary -Force }
+  } catch {
+    if ($created -and [IO.File]::Exists($temporary)) {
+      Write-Warning "Portable manifest commit failed. Retained staged evidence at '$temporary'; preserve it and the saved run for recovery review." -WarningAction Continue
+    }
+    throw
   }
 }
 

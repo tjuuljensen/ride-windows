@@ -1,0 +1,1927 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "PublisherSourceReview",
+  "ObservedAtUtc": "2026-10-17T01:23:18.8891880Z",
+  "Product": "PSScriptTools",
+  "Version": "3.2.0",
+  "Revision": "549fa3e3d769532320054fc0b3c8f42df0452361",
+  "SourceUri": "https://github.com/jdhitsolutions/PSScriptTools/archive/549fa3e3d769532320054fc0b3c8f42df0452361.zip",
+  "Sha256": "05c86295a0846ae4f51ecfa6f38ef71ba8173be83eb0adc8627525a4c6ee72bd",
+  "ArchiveBytes": 25031482,
+  "EntryCount": 374,
+  "FileCount": 360,
+  "ExpandedBytes": 27486171,
+  "FunctionFiles": 75,
+  "ManifestReferenceCount": 36,
+  "MissingReferences": [],
+  "UnsafeMembers": [],
+  "BinaryMembers": [],
+  "ManifestRequirements": {
+    "PowerShell": "5.1",
+    "Editions": [
+      "Desktop",
+      "Core"
+    ],
+    "Modules": [
+      "Microsoft.PowerShell.Threadjob"
+    ],
+    "Assemblies": [
+      "System.Drawing"
+    ]
+  },
+  "License": "MIT",
+  "LicenseUri": "https://github.com/jdhitsolutions/PSScriptTools/blob/549fa3e3d769532320054fc0b3c8f42df0452361/license.txt",
+  "RootSyntaxChecks": [
+    {
+      "PowerShell": "5.1.26100.9711",
+      "Errors": 0
+    },
+    {
+      "PowerShell": "7.6.5",
+      "Errors": 0
+    }
+  ],
+  "Executed": false,
+  "Imported": false,
+  "DependencyInstalled": false,
+  "NativeAcceptance": false,
+  "DeploymentChoice": "Unresolved Q15; inert snapshot candidate only",
+  "ImportEffects": [
+    "Dot-sources function files",
+    "Loads type/format data",
+    "Defines global variables",
+    "May register VS Code or ISE integrations"
+  ],
+  "Members": [
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/",
+      "Length": 0,
+      "Attributes": 16
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/.github/",
+      "Length": 0,
+      "Attributes": 16
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/.github/FUNDING.yml",
+      "Length": 687,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/.github/ISSUE_TEMPLATE/",
+      "Length": 0,
+      "Attributes": 16
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/.github/ISSUE_TEMPLATE/bug-report.yml",
+      "Length": 2065,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/.github/ISSUE_TEMPLATE/config.yml",
+      "Length": 191,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/.github/ISSUE_TEMPLATE/feature-request.yml",
+      "Length": 1197,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/.github/ISSUE_TEMPLATE/other-request.yml",
+      "Length": 990,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/Archive-ChangeLog.md",
+      "Length": 35479,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/CODE_OF_CONDUCT.md",
+      "Length": 3357,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/CONTRIBUTING.md",
+      "Length": 1055,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/PSScriptToolData.json",
+      "Length": 29618,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/PSScriptTools.psd1",
+      "Length": 14538,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/PSScriptTools.psm1",
+      "Length": 7415,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/PSScriptToolsManual.pdf",
+      "Length": 12024498,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/README.md",
+      "Length": 117837,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/Tests/",
+      "Length": 0,
+      "Attributes": 16
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/Tests/Get-ParameterInfo.tests.ps1",
+      "Length": 733,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/Tests/Test-Expression.tests.ps1",
+      "Length": 1527,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/archive/",
+      "Length": 0,
+      "Attributes": 16
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/archive/ConvertTo-ASCIIArt.md",
+      "Length": 2511,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/archive/ConvertTo-ASCIIArt.ps1",
+      "Length": 1810,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/archive/Get-TZData.md",
+      "Length": 4060,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/archive/Get-TZList.md",
+      "Length": 2305,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/archive/Out-ConditionalColor.ps1",
+      "Length": 3969,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/archive/Out-conditionalColor.md",
+      "Length": 6007,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/archive/Set-ConsoleColor.md",
+      "Length": 3359,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/archive/Write-Detail.md",
+      "Length": 3335,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/archive/Write-Detail.ps1",
+      "Length": 1135,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/archive/readme.txt",
+      "Length": 95,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/archive/today.ps1",
+      "Length": 375,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/changelog.md",
+      "Length": 8990,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/",
+      "Length": 0,
+      "Attributes": 16
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Add-Border.md",
+      "Length": 6310,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Compare-Module.md",
+      "Length": 3545,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Compare-Script.md",
+      "Length": 2193,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Convert-CommandToHashtable.md",
+      "Length": 2378,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Convert-EventLogRecord.md",
+      "Length": 7584,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Convert-HashtableString.md",
+      "Length": 2072,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Convert-HashtableToCode.md",
+      "Length": 2693,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Convert-HtmlToAnsi.md",
+      "Length": 1689,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/ConvertFrom-LexicalTimespan.md",
+      "Length": 2354,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/ConvertFrom-Text.md",
+      "Length": 9618,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/ConvertFrom-UTCTime.md",
+      "Length": 1509,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/ConvertTo-Hashtable.md",
+      "Length": 3838,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/ConvertTo-LexicalTimespan.md",
+      "Length": 1416,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/ConvertTo-Markdown.md",
+      "Length": 6617,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/ConvertTo-TitleCase.md",
+      "Length": 1375,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/ConvertTo-UTCTime.md",
+      "Length": 1928,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/ConvertTo-WPFGrid.md",
+      "Length": 8514,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Convertto-LocalTime.md",
+      "Length": 3160,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Copy-Command.md",
+      "Length": 3708,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Copy-HelpExample.md",
+      "Length": 4488,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Copy-HistoryCommand.md",
+      "Length": 3537,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Copy-PSFunction.md",
+      "Length": 2465,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Export-PSAnsiFileMap.md",
+      "Length": 2726,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Find-CimClass.md",
+      "Length": 3827,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Format-BorderBox.md",
+      "Length": 4340,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Format-Percent.md",
+      "Length": 3438,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Format-String.md",
+      "Length": 3320,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Format-Value.md",
+      "Length": 4659,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-CimClassListing.md",
+      "Length": 2773,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-CimClassMethod.md",
+      "Length": 3141,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-CimClassProperty.md",
+      "Length": 4082,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-CimClassPropertyQualifier.md",
+      "Length": 2739,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-CimMember.md",
+      "Length": 3820,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-CimNamespace.md",
+      "Length": 2649,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-CommandSyntax.md",
+      "Length": 2858,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-DirectoryInfo.md",
+      "Length": 4749,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-FileExtensionInfo.md",
+      "Length": 4029,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-FileItem.md",
+      "Length": 4427,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-FolderSizeInfo.md",
+      "Length": 5320,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-FormatView.md",
+      "Length": 4529,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-GitSize.md",
+      "Length": 2945,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-LastModifiedFile.md",
+      "Length": 3624,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-ModuleCommand.md",
+      "Length": 6566,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-MyAlias.md",
+      "Length": 4000,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-MyCounter.md",
+      "Length": 9540,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-MyTimeInfo.md",
+      "Length": 6281,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-MyVariable.md",
+      "Length": 4940,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-PSAnsiFileMap.md",
+      "Length": 1483,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-PSLocation.md",
+      "Length": 1810,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-PSProfile.md",
+      "Length": 3480,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-PSScriptTools.md",
+      "Length": 7181,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-PSScriptToolsTypeExtension.md",
+      "Length": 2099,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-PSSessionInfo.md",
+      "Length": 1936,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-PSUnique.md",
+      "Length": 2031,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-PSWho.md",
+      "Length": 2494,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-ParameterInfo.md",
+      "Length": 8593,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-PathVariable.md",
+      "Length": 2446,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-PowerShellEngine.md",
+      "Length": 1999,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-ProcessTree.md",
+      "Length": 3326,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-TypeConstructor.md",
+      "Length": 2945,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-TypeMember.md",
+      "Length": 6510,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-WhoIs.md",
+      "Length": 2080,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-WindowsVersion.md",
+      "Length": 7479,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-WindowsVersionString.md",
+      "Length": 6722,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Import-PSScriptToolsTypeExtension.md",
+      "Length": 2253,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Invoke-InputBox.md",
+      "Length": 2865,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Join-Hashtable.md",
+      "Length": 3062,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/New-ANSIBar.md",
+      "Length": 3397,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/New-ANSIHyperlink.md",
+      "Length": 4265,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/New-CustomFileName.md",
+      "Length": 5265,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/New-FunctionItem.md",
+      "Length": 3104,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/New-PSDriveHere.md",
+      "Length": 4290,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/New-PSDynamicParameter.md",
+      "Length": 7864,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/New-PSDynamicParameterForm.md",
+      "Length": 1539,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/New-PSFormatXML.md",
+      "Length": 10976,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/New-RandomFileName.md",
+      "Length": 2796,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/New-RedGreenGradient.md",
+      "Length": 3106,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/New-WPFMessageBox.md",
+      "Length": 5516,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Open-PSScriptToolsHelp.md",
+      "Length": 1100,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Optimize-Text.md",
+      "Length": 6128,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Out-Copy.md",
+      "Length": 3733,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Out-More.md",
+      "Length": 3441,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Out-VerboseTee.md",
+      "Length": 3198,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Remove-MergedBranch.md",
+      "Length": 3164,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Remove-PSAnsiFileEntry.md",
+      "Length": 2336,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Remove-Runspace.md",
+      "Length": 2871,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Rename-Hashtable.md",
+      "Length": 4542,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Save-GitSetup.md",
+      "Length": 2730,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Select-After.md",
+      "Length": 3013,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Select-Before.md",
+      "Length": 3368,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Select-First.md",
+      "Length": 3054,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Select-Last.md",
+      "Length": 3373,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Select-Newest.md",
+      "Length": 3204,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Select-Oldest.md",
+      "Length": 3250,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Set-ConsoleTitle.md",
+      "Length": 2362,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Set-LocationToCurrent.md",
+      "Length": 1406,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Set-PSAnsiFileMap.md",
+      "Length": 3224,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Show-ANSISequence.md",
+      "Length": 5650,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Show-Enum.md",
+      "Length": 1913,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Show-FunctionItem.md",
+      "Length": 1790,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Show-HiddenMember.md",
+      "Length": 4425,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Show-ProcessTree.md",
+      "Length": 2634,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Show-Tree.md",
+      "Length": 6969,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Test-EmptyFolder.md",
+      "Length": 3199,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Test-Expression.md",
+      "Length": 7404,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Test-ExpressionForm.md",
+      "Length": 1636,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Test-IsElevated.md",
+      "Length": 1220,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Test-IsEnum.md",
+      "Length": 1786,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Test-IsPSWindows.md",
+      "Length": 1119,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Test-WithCulture.md",
+      "Length": 3329,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Trace-Message.md",
+      "Length": 3908,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Write-ANSIProgress.md",
+      "Length": 5281,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Write-PSHorizontalRule.md",
+      "Length": 4107,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/en-us/",
+      "Length": 0,
+      "Attributes": 16
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/en-us/PSScriptTools-help.xml",
+      "Length": 1087876,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/",
+      "Length": 0,
+      "Attributes": 16
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/FileExtensionInfo.format.ps1xml",
+      "Length": 8909,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/PSProcessTree.format.ps1xml",
+      "Length": 6698,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/PSScriptToolsTypeExtension.format.ps1xml",
+      "Length": 2208,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/alias.format.ps1xml",
+      "Length": 6327,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/cimclasslisting.format.ps1xml",
+      "Length": 1727,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/cimmember.format.ps1xml",
+      "Length": 6596,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/directorystat.format.ps1xml",
+      "Length": 4460,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/enumInfo.format.ps1xml",
+      "Length": 1433,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/envpath.format.ps1xml",
+      "Length": 2068,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/filesystem-ansi.format.ps1xml",
+      "Length": 5395,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/foldersizeinfo.format.ps1xml",
+      "Length": 9763,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/formatview.format.ps1xml",
+      "Length": 1722,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/gitsize.format.ps1xml",
+      "Length": 2735,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/modulecommand.format.ps1xml",
+      "Length": 7250,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/mycounter.format.ps1xml",
+      "Length": 4484,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/psHiddenMember.format.ps1xml",
+      "Length": 1714,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/psTypeMemberConstructor.format.ps1xml",
+      "Length": 2617,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/psansifileentry.format.ps1xml",
+      "Length": 2037,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/pslocation.format.ps1xml",
+      "Length": 1510,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/psparameterinfo.format.ps1xml",
+      "Length": 5437,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/psprofilepath.format.ps1xml",
+      "Length": 2881,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/psscripttool.format.ps1xml",
+      "Length": 4603,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/pssessioninfo.format.ps1xml",
+      "Length": 2369,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/pstypemember.format.ps1xml",
+      "Length": 7731,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/pswho.format.ps1xml",
+      "Length": 2759,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/serviceansi.format.ps1xml",
+      "Length": 3659,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/timezonedata.format.ps1xml",
+      "Length": 2074,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/whoisresult.format.ps1xml",
+      "Length": 2183,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/windowsversion.format.ps1xml",
+      "Length": 2246,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/",
+      "Length": 0,
+      "Attributes": 16
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/ANSIFileMap.ps1",
+      "Length": 7140,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Add-Border.ps1",
+      "Length": 7036,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/CimMember.ps1",
+      "Length": 22284,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Compare-Module.ps1",
+      "Length": 3661,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Compare-Script.ps1",
+      "Length": 3619,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Convert-EventLogRecord.ps1",
+      "Length": 4423,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Convert-HTMLtoANSI.ps1",
+      "Length": 1215,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/ConvertTo-Markdown.ps1",
+      "Length": 5510,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/ConvertTo-TitleCase2.ps1",
+      "Length": 925,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/ConvertTo-WPFGrid.ps1",
+      "Length": 18869,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Copy-Command.ps1",
+      "Length": 9322,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Copy-HelpExample.ps1",
+      "Length": 6814,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Copy-HistoryCommand.ps1",
+      "Length": 1599,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Copy-PSFunction.ps1",
+      "Length": 2175,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Download-Git.ps1",
+      "Length": 2501,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/FileNameTools.ps1",
+      "Length": 4894,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Format-BorderBox.ps1",
+      "Length": 2515,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/FormatFunctions.ps1",
+      "Length": 10014,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/FunctionItems.ps1",
+      "Length": 2797,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-CommandSyntax.ps1",
+      "Length": 2720,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-DirectoryInfo.ps1",
+      "Length": 3411,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-FileExtensionInfo.ps1",
+      "Length": 3511,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-FileItem.ps1",
+      "Length": 5291,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-FolderSizeInfo.ps1",
+      "Length": 8559,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-FormatView.ps1",
+      "Length": 2338,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-GitSize.ps1",
+      "Length": 1986,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-ModuleCommand.ps1",
+      "Length": 5980,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-MyAlias.ps1",
+      "Length": 2460,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-MyCounter.ps1",
+      "Length": 2937,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-MyVariable2.ps1",
+      "Length": 1984,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-PSProfile.ps1",
+      "Length": 5219,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-PSScriptTools.ps1",
+      "Length": 6050,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-PSSessionInfo.ps1",
+      "Length": 1918,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-PSUnique.ps1",
+      "Length": 2360,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-Parameter.ps1",
+      "Length": 5808,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-TypeMember.ps1",
+      "Length": 8052,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-WhoIs.ps1",
+      "Length": 2923,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-WindowsVersion.ps1",
+      "Length": 7142,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Import-PSScriptToolsTypeExtensions.ps1",
+      "Length": 2972,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/LexicalTime.ps1",
+      "Length": 3025,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Locations.ps1",
+      "Length": 1054,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/New-ANSIBar.ps1",
+      "Length": 2868,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/New-ANSIHyperlink.ps1",
+      "Length": 2841,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/New-DynamicParamCode.ps1",
+      "Length": 20434,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/New-PSDriveHere.ps1",
+      "Length": 2905,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/New-PSFormatXML.ps1",
+      "Length": 19682,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/New-RedGreenGradient.ps1",
+      "Length": 1618,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/New-WPFMessageBox.ps1",
+      "Length": 9296,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Optimize-Text.ps1",
+      "Length": 2820,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Out-Copy.ps1",
+      "Length": 3222,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Out-VerboseTee.ps1",
+      "Length": 1018,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/PSWho.ps1",
+      "Length": 2147,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/PathUtilities.ps1",
+      "Length": 2703,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Remove-MergedGitBranch.ps1",
+      "Length": 1916,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/SelectFunctions.ps1",
+      "Length": 10700,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Show-Enum.ps1",
+      "Length": 2444,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Show-HiddenMember.ps1",
+      "Length": 2353,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/ShowTree.ps1",
+      "Length": 14309,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Test-EmptyFolder.ps1",
+      "Length": 2950,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Test-Expression.ps1",
+      "Length": 10728,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Test-IsElevated.ps1",
+      "Length": 879,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Test-IsWindows.ps1",
+      "Length": 757,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Test-WithCulture.ps1",
+      "Length": 3817,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Trace.ps1",
+      "Length": 9887,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Utilities.ps1",
+      "Length": 12163,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Write-AnsiProgress.ps1",
+      "Length": 3486,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Write-PSHorizontalRule.ps1",
+      "Length": 3998,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/convertfrom-text.ps1",
+      "Length": 5699,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/find-cimclass.ps1",
+      "Length": 3611,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/form.xaml",
+      "Length": 7168,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/get-lastModified.ps1",
+      "Length": 2715,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/hashtableTools.ps1",
+      "Length": 19488,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/process-tree.ps1",
+      "Length": 4898,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/remove-runspace.ps1",
+      "Length": 2124,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/show-ansi.ps1",
+      "Length": 9286,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/timehelpers.ps1",
+      "Length": 6524,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/icons/",
+      "Length": 0,
+      "Attributes": 16
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/icons/application.png",
+      "Length": 1471,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/icons/error.png",
+      "Length": 4962,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/icons/information.png",
+      "Length": 5188,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/icons/question.png",
+      "Length": 5480,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/icons/shield.png",
+      "Length": 2229,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/icons/warning.png",
+      "Length": 3887,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/icons/windows.png",
+      "Length": 1471,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/",
+      "Length": 0,
+      "Attributes": 16
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/MsPowerShell.png",
+      "Length": 32742,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/MsPowershell-Transparent.png",
+      "Length": 23728,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/add-border-ansi.png",
+      "Length": 104572,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/add-border-ansi2.png",
+      "Length": 96053,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/add-border-ansi3.png",
+      "Length": 52786,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/alias-source.png",
+      "Length": 60559,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/ansi-file-format.png",
+      "Length": 166579,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/ansibar.png",
+      "Length": 26216,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/convert-htmltoansi.png",
+      "Length": 43034,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/convert-markdown-list.png",
+      "Length": 101000,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/convert-markdown-table.png",
+      "Length": 53482,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/copy-helpexample-1.png",
+      "Length": 201337,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/copy-helpexample-2.png",
+      "Length": 45339,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/dw-1.png",
+      "Length": 635219,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/dw-2.png",
+      "Length": 470788,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/dw-3.png",
+      "Length": 252068,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/find-cimclass.png",
+      "Length": 413815,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/format-borderbox-linux.png",
+      "Length": 94108,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/format-borderbox-trimmed.png",
+      "Length": 55509,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/format-borderbox.png",
+      "Length": 50441,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-alias-option.png",
+      "Length": 209522,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-commandsyntax.png",
+      "Length": 461197,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-formatview.png",
+      "Length": 27387,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-mycounter1.png",
+      "Length": 140874,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-mycounter2.png",
+      "Length": 154432,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-mycounter3.png",
+      "Length": 118161,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-parameterinfo-1.png",
+      "Length": 388498,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-parameterinfo-2.png",
+      "Length": 556313,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-powershellengine1.png",
+      "Length": 167621,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-powershellengine2.png",
+      "Length": 24079,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-powershellengine3.png",
+      "Length": 173623,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-psansifilemap.png",
+      "Length": 516352,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-psprofile-linux.png",
+      "Length": 284654,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-psprofile-windows.png",
+      "Length": 70737,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-psscripttools-verb.png",
+      "Length": 36883,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-psscripttools.png",
+      "Length": 38124,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-psscripttoolstypeextension.png",
+      "Length": 33080,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-typeconstructor.png",
+      "Length": 68422,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-windowsversion.png",
+      "Length": 64744,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/gfei.png",
+      "Length": 20842,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/gma-1.png",
+      "Length": 181738,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/gma-2.png",
+      "Length": 59897,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/hr-default.png",
+      "Length": 5580,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/hr-processes.png",
+      "Length": 41372,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/hr-title-styled.png",
+      "Length": 14210,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/ibx-1.png",
+      "Length": 13111,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/ibx-2.png",
+      "Length": 11724,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/module-info-with-links.png",
+      "Length": 77640,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/new-ansihyperlink-basic.png",
+      "Length": 20073,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/new-ansihyperlink-styled.png",
+      "Length": 24071,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/new-psdynamicparameter-form.png",
+      "Length": 13283,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/new-psdynamicparameter-ise.png",
+      "Length": 4303,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/new-psdynamicparameter-vscode.png",
+      "Length": 7076,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/occ-1.png",
+      "Length": 126072,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/occ-2.png",
+      "Length": 135772,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/out-more.png",
+      "Length": 131576,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/process-report.png",
+      "Length": 34763,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/processpercent.png",
+      "Length": 158519,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/pslocation-linux.png",
+      "Length": 289591,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/pslocation-win.png",
+      "Length": 30168,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/pssessioninfo-linux.png",
+      "Length": 201145,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/pssessioninfo-windows.png",
+      "Length": 71407,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/psspecialchar-border.png",
+      "Length": 55858,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/psspecialchar.png",
+      "Length": 152459,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/pstoolbox-256.jpeg",
+      "Length": 33910,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/pstoolbox-512.jpeg",
+      "Length": 117265,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/pstoolbox-icon.png",
+      "Length": 1067,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/pstoolbox.png",
+      "Length": 286164,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/redgreen.png",
+      "Length": 115877,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/serviceansi.png",
+      "Length": 159673,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/show-ansi-basic.png",
+      "Length": 16177,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/show-ansi-foreground.png",
+      "Length": 86214,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/show-ansi-paged.png",
+      "Length": 344817,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/show-ansi-rgb.png",
+      "Length": 8168,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/show-processtree-user.png",
+      "Length": 1519138,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/show-processtree.png",
+      "Length": 30906,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/show-tree1.png",
+      "Length": 68295,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/show-tree2.png",
+      "Length": 554056,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/testexpressionform.png",
+      "Length": 37250,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/todo-1.png",
+      "Length": 23665,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/todo-2.png",
+      "Length": 10714,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/toolbox-thumbnail.png",
+      "Length": 20222,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/trace.png",
+      "Length": 68113,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/typemember-enum.png",
+      "Length": 309217,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/typemember-static.png",
+      "Length": 366134,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/windowsversionstring-styled.png",
+      "Length": 16977,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/wpfbox-1.png",
+      "Length": 18186,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/wpfbox-2.png",
+      "Length": 18188,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/wpfgrid.png",
+      "Length": 164683,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/wpfgrid2.png",
+      "Length": 191537,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/write-ansprogress-1.png",
+      "Length": 33874,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/write-ansprogress-2.png",
+      "Length": 82385,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/write-ansprogress-3.png",
+      "Length": 7328,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/license.txt",
+      "Length": 1111,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/optional-typeextensions/",
+      "Length": 0,
+      "Attributes": 16
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/optional-typeextensions/fileinfo.types.ps1xml",
+      "Length": 1578,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/optional-typeextensions/measure.types.ps1xml",
+      "Length": 1189,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/optional-typeextensions/system.diagnostics.process.types.ps1xml",
+      "Length": 568,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/psansifilemap.json",
+      "Length": 1586,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/samples/",
+      "Length": 0,
+      "Attributes": 16
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/samples/CounterMarkdown.ps1",
+      "Length": 1902,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/samples/DiskData.ps1",
+      "Length": 1239,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/samples/FileUsageReport.ps1",
+      "Length": 1502,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/samples/Get-Status.ps1",
+      "Length": 8146,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/samples/Get-TopProcess.ps1",
+      "Length": 2620,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/samples/New-Password.ps1",
+      "Length": 1128,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/samples/ProcessPercent.ps1",
+      "Length": 900,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/types/",
+      "Length": 0,
+      "Attributes": 16
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/types/PSScriptTools.type.ps1xml",
+      "Length": 542,
+      "Attributes": 0
+    },
+    {
+      "Path": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/types/pstypemember.types.ps1xml",
+      "Length": 776,
+      "Attributes": 0
+    }
+  ]
+}

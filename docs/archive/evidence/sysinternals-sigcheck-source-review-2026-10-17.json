@@ -1,0 +1,115 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "ReviewedProductSourceInventory",
+  "ProductId": "sysinternals-sigcheck",
+  "PublisherVersion": "2.93",
+  "Acquisition": {
+    "SchemaVersion": 1,
+    "AcquiredAtUtc": "2026-10-17T05:44:05.6231924Z",
+    "Source": {
+      "Product": "Microsoft Sysinternals Sigcheck",
+      "PublisherPageDate": "2026-10-15",
+      "ProductUri": "https://learn.microsoft.com/en-us/sysinternals/downloads/sigcheck",
+      "DownloadUri": "https://download.sysinternals.com/files/Sigcheck.zip",
+      "License": "Proprietary - Microsoft Sysinternals Software License Terms",
+      "LicenseUri": "https://learn.microsoft.com/en-us/sysinternals/license-terms",
+      "Purpose": "Inert archive inventory and signature/version inspection only; no execution, service, driver or redistribution"
+    },
+    "FinalUri": "https://download.sysinternals.com/files/Sigcheck.zip",
+    "Length": 682449,
+    "Sha256": "8756099c1ce3d3f450245c0d4b39aeb5b29309f56bf77f8c18f1469c418abf12",
+    "PublisherDigest": null,
+    "Executed": false
+  },
+  "MemberCount": 4,
+  "ExpandedBytes": 1510098,
+  "NoticeMembers": [
+    "Eula.txt"
+  ],
+  "Members": [
+    {
+      "Name": "sigcheck.exe",
+      "Length": 447288,
+      "Sha256": "7cf481ae647639d03782c614e268894caf94811da300deef9c6a74fccc5f7804",
+      "ProductName": "Sysinternals Sigcheck",
+      "ProductVersion": "2.93",
+      "FileVersion": "2.93",
+      "OriginalFilename": "sigcheck.exe",
+      "PeMachine": "0x014c",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "SignerThumbprint": "AB172913A2960A224809EE8A0C371CD47A079B72",
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "sigcheck64.exe",
+      "Length": 528184,
+      "Sha256": "f3d671b4bab4714746d0034104363d4f6deef591e979e8e37170803e8960487d",
+      "ProductName": "Sysinternals Sigcheck",
+      "ProductVersion": "2.93",
+      "FileVersion": "2.93",
+      "OriginalFilename": "sigcheck.exe",
+      "PeMachine": "0x8664",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "SignerThumbprint": "AB172913A2960A224809EE8A0C371CD47A079B72",
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "sigcheck64a.exe",
+      "Length": 527136,
+      "Sha256": "c081f7ec670bd90c2209738801050683f1e5d908653636674f5b9f1280f7bf09",
+      "ProductName": "Sysinternals Sigcheck",
+      "ProductVersion": "2.93",
+      "FileVersion": "2.93",
+      "OriginalFilename": "sigcheck.exe",
+      "PeMachine": "0xaa64",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "SignerThumbprint": "AB172913A2960A224809EE8A0C371CD47A079B72",
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "Eula.txt",
+      "Length": 7490,
+      "Sha256": "8329bcbadc7f81539a4969ca13f0be5b8eb7652b912324a1926fc9bfb6ec005a",
+      "ProductName": null,
+      "ProductVersion": null,
+      "FileVersion": null,
+      "OriginalFilename": null,
+      "PeMachine": null,
+      "SignatureStatus": "NotApplicable",
+      "Signer": null,
+      "SignerThumbprint": null,
+      "ErrorType": null,
+      "Executed": false
+    }
+  ],
+  "SuiteComparison": [
+    {
+      "Name": "sigcheck.exe",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    },
+    {
+      "Name": "sigcheck64.exe",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    },
+    {
+      "Name": "sigcheck64a.exe",
+      "InReviewedSuite": false,
+      "SameSha256": null
+    },
+    {
+      "Name": "Eula.txt",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    }
+  ],
+  "RuntimeExecuted": false,
+  "SupportedTargetAcceptance": false
+}

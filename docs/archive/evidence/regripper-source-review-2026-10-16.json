@@ -1,0 +1,1457 @@
+{
+  "SchemaVersion": 1,
+  "Status": "SourceReviewOnly",
+  "Executed": false,
+  "Revision": "ec96dd4a6a5c3ea70d8fece9b47a374f83582335",
+  "SourceUri": "https://github.com/keydet89/RegRipper3.0/archive/ec96dd4a6a5c3ea70d8fece9b47a374f83582335.zip",
+  "ObservedAtUtc": "2026-10-16T20:07:50.41153Z",
+  "ArchiveSha256": "a1a13f6742990ca413e1763b90176d22ed4a9d663c4b37cb3f66e46f296acb43",
+  "FileCount": 282,
+  "BinaryObservations": [
+    {
+      "Path": "p2x5124.dll",
+      "Machine": "0x014C",
+      "Sha256": "0c42f8339fa426e285c150bb0330539efd3c7c15a6b85ce7a9bbc83e969ce97f",
+      "Signature": "NotSigned",
+      "FileVersion": "5,12,3,2011.06",
+      "ProductVersion": "Build 2011.06",
+      "CompanyName": "IndigoSTAR Software.",
+      "Description": "Perl Interpreter"
+    },
+    {
+      "Path": "rip.exe",
+      "Machine": "0x014C",
+      "Sha256": "f5324a5c194b8817e4823484a7cbf68abac64d2e8ce15b902ff210425c766212",
+      "Signature": "NotSigned",
+      "FileVersion": "1.0.0.0",
+      "ProductVersion": "",
+      "CompanyName": "",
+      "Description": ""
+    },
+    {
+      "Path": "rr.exe",
+      "Machine": "0x014C",
+      "Sha256": "bfa3414805b9b11dac7af8d7859ac7dacaa8aa69012f9d876654f33503924d36",
+      "Signature": "NotSigned",
+      "FileVersion": "1.0.0.0",
+      "ProductVersion": "",
+      "CompanyName": "",
+      "Description": ""
+    }
+  ],
+  "Files": [
+    {
+      "Path": ".gitattributes",
+      "Length": 66,
+      "Sha256": "1a1dbe176bc233b499d35a57db7513f2941c99ab9759f177830c9149be99005b"
+    },
+    {
+      "Path": "Base.pm",
+      "Length": 27535,
+      "Sha256": "31ca795b86e630b19da2bb8832897f12a11e82f4311665d2132c4c27d1a77293"
+    },
+    {
+      "Path": "File.pm",
+      "Length": 9040,
+      "Sha256": "79d0b1dca362587169eba5d7f6f27cb9ec6d352f977c4fcdded45056c80659de"
+    },
+    {
+      "Path": "Key.pm",
+      "Length": 13693,
+      "Sha256": "b06c6895a67de776b15c1bd37a687db7ae5eab97f1515383319904d6f2227ae6"
+    },
+    {
+      "Path": "README.md",
+      "Length": 1812,
+      "Sha256": "c202440ceddfc3ca9f4a4938af14660cd4478384fe370b2da87c11b8f4387fc4"
+    },
+    {
+      "Path": "helper-scripts/tln_to_csv.py",
+      "Length": 1778,
+      "Sha256": "ea3e691a29339b9cce3102a99c83c0a4f795d3a02ca8a4f5b6dc9808fd74ae66"
+    },
+    {
+      "Path": "license.md",
+      "Length": 1250,
+      "Sha256": "bae8a26dfa863b9f64bd948ae2949387ca2a3a64436930e72110ffdefda3c15a"
+    },
+    {
+      "Path": "license.txt",
+      "Length": 1250,
+      "Sha256": "bae8a26dfa863b9f64bd948ae2949387ca2a3a64436930e72110ffdefda3c15a"
+    },
+    {
+      "Path": "p2x5124.dll",
+      "Length": 427008,
+      "Sha256": "0c42f8339fa426e285c150bb0330539efd3c7c15a6b85ce7a9bbc83e969ce97f"
+    },
+    {
+      "Path": "plugins/ScanButton.pl",
+      "Length": 2703,
+      "Sha256": "fd179cc506363e5871dc6ac129720b09dd48deede9e17ec31078c27958478d6e"
+    },
+    {
+      "Path": "plugins/adobe.pl",
+      "Length": 3764,
+      "Sha256": "804b8f227afe31e7a90950ef3481ebd25df946620d9921e3efb1c3bb3bc37f54"
+    },
+    {
+      "Path": "plugins/advanced_ip_scanner.pl",
+      "Length": 13856,
+      "Sha256": "4e3260f58e15706ea02e2454132b6cc23aad5c888f00e39cd1aedaa1d68b9cf2"
+    },
+    {
+      "Path": "plugins/advanced_ip_scanner_tln.pl",
+      "Length": 3139,
+      "Sha256": "27f92f45ed7f2bf63b11848416f5ee4c2bfdcafcb2c37d7539da330c0677b873"
+    },
+    {
+      "Path": "plugins/all",
+      "Length": 57,
+      "Sha256": "67d780c70083480808e67b19f04e1d3e4adff91817b1d76ecb4c19c140e904e0"
+    },
+    {
+      "Path": "plugins/allowedenum.pl",
+      "Length": 2448,
+      "Sha256": "fb4fa187055ffb1271fd3fd0db18d2cbe1e313eae7fd4b33316051d857163b2e"
+    },
+    {
+      "Path": "plugins/amcache",
+      "Length": 8,
+      "Sha256": "dfc0edee85defa0094176990ce9073f33857016920ec0834d8d50a06e00a2c42"
+    },
+    {
+      "Path": "plugins/amcache.pl",
+      "Length": 5920,
+      "Sha256": "4d9cca314bc2723ed6b686ab3f614ebdf63242599f53fc774338ccf5e5d60d0d"
+    },
+    {
+      "Path": "plugins/amcache_tln.pl",
+      "Length": 5483,
+      "Sha256": "1eb9491609b703f08b62962fe61894af90c66bb187926459494f5e2dfc7c2c7a"
+    },
+    {
+      "Path": "plugins/appassoc.pl",
+      "Length": 1674,
+      "Sha256": "ecc09763fa34756fbdee9da5977b0ccce2ccd1400419fbeb6f7369435943d217"
+    },
+    {
+      "Path": "plugins/appcertdlls.pl",
+      "Length": 2138,
+      "Sha256": "2f5687f2b466ce26aa3f36cc7c5ab6325a574679955f11b23d6f10d08b6fca40"
+    },
+    {
+      "Path": "plugins/appcompatcache.pl",
+      "Length": 14404,
+      "Sha256": "29447ce6ae5b2333d228caf46a87bcc9002a22e4e785ba7c5038136a8cce2d31"
+    },
+    {
+      "Path": "plugins/appcompatcache_tln.pl",
+      "Length": 14218,
+      "Sha256": "853b6ddb5e97d0a48afed9c5be4ed7e4a7a1d4ecd2b117b3fef6e49ea7f25c4a"
+    },
+    {
+      "Path": "plugins/appcompatflags.pl",
+      "Length": 6873,
+      "Sha256": "68c0c01cc95f7b69ac3e12756dc5a2485ce5f3ce8ba0e9d289994a5fc692eea5"
+    },
+    {
+      "Path": "plugins/appinitdlls.pl",
+      "Length": 2723,
+      "Sha256": "c1213ca599a6ffd82b5b4efc35f5cc4934f646be42985cf9a08b68047cf0018f"
+    },
+    {
+      "Path": "plugins/appkeys.pl",
+      "Length": 2225,
+      "Sha256": "9bf45bc20b01c6cd61abededec37ac810ba09a1b07d8ab2115383d5b0d9c22bb"
+    },
+    {
+      "Path": "plugins/appkeys_tln.pl",
+      "Length": 2242,
+      "Sha256": "b1f2b86bf52e5e1384633124d328714e4442dcb4fcbf8397800956341ce4f62d"
+    },
+    {
+      "Path": "plugins/applets.pl",
+      "Length": 2975,
+      "Sha256": "7d8da6fc4ac4ea61528af84f499a52b03eab3ac630f07b350e5a39f1b2a66a3d"
+    },
+    {
+      "Path": "plugins/applets_tln.pl",
+      "Length": 2462,
+      "Sha256": "ba1627a2ecc95d6c9ca18e0fcc5a3994eca676bce3b851f17fcdd452433bc55a"
+    },
+    {
+      "Path": "plugins/apppaths.pl",
+      "Length": 2833,
+      "Sha256": "969b132019621ad92e2fac5ef8be049a9b269e1da855c3633147af731238a493"
+    },
+    {
+      "Path": "plugins/apppaths_tln.pl",
+      "Length": 2477,
+      "Sha256": "37edfd7530358c9b97c4856461c5faf99e6cc311587001ff3c09e9d1f268edf6"
+    },
+    {
+      "Path": "plugins/appspecific.pl",
+      "Length": 1727,
+      "Sha256": "ae740f84b466e1d6db4c729484f560ff4d4356848d0ccbdf4406504ae0a09f48"
+    },
+    {
+      "Path": "plugins/appx.pl",
+      "Length": 2823,
+      "Sha256": "404aa5061065655d8caa71fd06d7307dd4d4a961a3f37401d91178f1a24b5e1d"
+    },
+    {
+      "Path": "plugins/appx_tln.pl",
+      "Length": 2711,
+      "Sha256": "2ba3e5a9707ddd002f2b594a20ea4a3335ef7a5bb8b43737cdc52c68707c8d71"
+    },
+    {
+      "Path": "plugins/arpcache.pl",
+      "Length": 3580,
+      "Sha256": "cad40bbd786ad725b0db237e6acdc4d998ae99c7007edd21dc7ad98ea73d7179"
+    },
+    {
+      "Path": "plugins/at.pl",
+      "Length": 1666,
+      "Sha256": "399d8c42aa34b8b1666a64d9965b5dbf3325803b67180b54f2e0d2a993b22deb"
+    },
+    {
+      "Path": "plugins/at_tln.pl",
+      "Length": 1351,
+      "Sha256": "2b7e02c1b3a3d95029d98d6ab218600cc2b80ef1be992e624aff9b5426e671d7"
+    },
+    {
+      "Path": "plugins/attachmgr.pl",
+      "Length": 2346,
+      "Sha256": "58ff1f1ad390019758c87efa9afda52faf0c4a64c8bb2e78e5582e54d598450f"
+    },
+    {
+      "Path": "plugins/attachmgr_tln.pl",
+      "Length": 2683,
+      "Sha256": "2002e2ad05a9eb64acd69e61c83ebb8448b6bbbc190eee38dc01b81d1487a15b"
+    },
+    {
+      "Path": "plugins/audiodev.pl",
+      "Length": 2442,
+      "Sha256": "1a8426a917df3335256c09fbfac0cb6b553093a8b8b1b2fe6b02b8a8e73fbb94"
+    },
+    {
+      "Path": "plugins/auditpol.pl",
+      "Length": 29398,
+      "Sha256": "b48e7268f055050fa29f3c2820604555dc9b23184e1a690fa389a488b3778f09"
+    },
+    {
+      "Path": "plugins/backuprestore.pl",
+      "Length": 5230,
+      "Sha256": "1d225594229d5e105d0cf30e3cf40d324bb98b6ba175e27363953cb4b1d446c3"
+    },
+    {
+      "Path": "plugins/bam.pl",
+      "Length": 2658,
+      "Sha256": "fca6b71f2221b00e082800f846f8a388b465bd3fd5a15d2fd9a080afaba0d728"
+    },
+    {
+      "Path": "plugins/bam_tln.pl",
+      "Length": 2453,
+      "Sha256": "be561badf82a02160defe93738f3c0559187a86a0656d1c73e0fc48bb18fb688"
+    },
+    {
+      "Path": "plugins/base.pl",
+      "Length": 2029,
+      "Sha256": "4b93646ea2bd7c7459c72d9130d2b560a28c7c8bbb0745063a984838b2f6fe47"
+    },
+    {
+      "Path": "plugins/baseline.pl",
+      "Length": 2022,
+      "Sha256": "d08a4b106ee34cdf85b1b10ba86d75330be84e5e02d942b921454df424242787"
+    },
+    {
+      "Path": "plugins/btconfig.pl",
+      "Length": 2121,
+      "Sha256": "c8498886e608e359338ad5ced36c394de481db49da74cb774bf09f0bf9f2190f"
+    },
+    {
+      "Path": "plugins/bthenum.pl",
+      "Length": 4131,
+      "Sha256": "1a6e011350ee870c3a2438fbed70bcec829297d65e27dfdbae768fa774f63b84"
+    },
+    {
+      "Path": "plugins/bthport.pl",
+      "Length": 3436,
+      "Sha256": "524ee99feadbb22924aabd14904220a45918a6c4af9972c290ba1ecc9fe0f758"
+    },
+    {
+      "Path": "plugins/bthport_tln.pl",
+      "Length": 2668,
+      "Sha256": "4dd01d46d3551e4a76e556cbf66dbf49208d6d2d5a1e690a66fa6a5003a77a4a"
+    },
+    {
+      "Path": "plugins/cached.pl",
+      "Length": 3179,
+      "Sha256": "69cbc83c64fa34f2cc7f2d9f3c9d8847242d99393c45a8c80ff88c5f40b678b3"
+    },
+    {
+      "Path": "plugins/cached_tln.pl",
+      "Length": 1993,
+      "Sha256": "a9e3274b8da8e94556bd8ff031aa6dec134999311b56e030470bf411d792f702"
+    },
+    {
+      "Path": "plugins/calibrator.pl",
+      "Length": 1863,
+      "Sha256": "2c36e108021ade54a4b729769adaed493c43585e7541d550015672461dc4a5e9"
+    },
+    {
+      "Path": "plugins/clsid.pl",
+      "Length": 4057,
+      "Sha256": "d2fe75078ce8bab6c1a97143af3b141c210a6eeef0d2416754934befa13fd5b9"
+    },
+    {
+      "Path": "plugins/clsid_tln.pl",
+      "Length": 3942,
+      "Sha256": "299233ff9ca27fe3e4ee15f45a72c8904ca8af7bcb341e7e4d7cc279adfdde17"
+    },
+    {
+      "Path": "plugins/cmd_shell.pl",
+      "Length": 2751,
+      "Sha256": "326498ca67e42788e949c5af3d7c33c860e6d7450f1c242ea037cfe176c7379a"
+    },
+    {
+      "Path": "plugins/cmdproc.pl",
+      "Length": 1941,
+      "Sha256": "bb391b77d63578eb73f4d1f5a43b18f99109f3d1be3b91091cc585b6658f1f3c"
+    },
+    {
+      "Path": "plugins/cmdproc_tln.pl",
+      "Length": 1850,
+      "Sha256": "f8c0711375c324e6283292edec3f03a25397c7121867308cae60536f3cf2e33a"
+    },
+    {
+      "Path": "plugins/codepage.pl",
+      "Length": 1764,
+      "Sha256": "2817238bf737c4da8c2e9c11a03f1a0258745193eccbfbb6c8e5ef23a66c182b"
+    },
+    {
+      "Path": "plugins/comdlg32.pl",
+      "Length": 22725,
+      "Sha256": "96a3b34ebf7fcf60f3355539f8633eadb9d9306e691376610b50d0904b7dcf01"
+    },
+    {
+      "Path": "plugins/comdlg32_tln.pl",
+      "Length": 17566,
+      "Sha256": "92c6cbd69b8ef44fb1501cefb1df6a64b3ea43da0975fd180351c9df2b88bc27"
+    },
+    {
+      "Path": "plugins/compdesc.pl",
+      "Length": 1697,
+      "Sha256": "21efec795cb9ed5e7fdb8edaad0e2eef8be06ca766de68ae6329211022883f19"
+    },
+    {
+      "Path": "plugins/compname.pl",
+      "Length": 2041,
+      "Sha256": "361a48954260914eddd335ffb9901ff465346c14c1a5d94030d72b12afbc2e43"
+    },
+    {
+      "Path": "plugins/cred.pl",
+      "Length": 2015,
+      "Sha256": "8bf4f8d7449760acc8b9d9870c1ddb100b09e0e86731a39aae4dc59cb2887692"
+    },
+    {
+      "Path": "plugins/cred_tln.pl",
+      "Length": 2289,
+      "Sha256": "a9ef38bf2dc9b2ec2ebe0ad562a541fc83f9ec1c163f19738b066978dc8b03ab"
+    },
+    {
+      "Path": "plugins/dafupnp.pl",
+      "Length": 2718,
+      "Sha256": "0539577f62dd43b4759ffcc513a7c3cfe7dc6343937be41a1ef9ec5a98c8a191"
+    },
+    {
+      "Path": "plugins/dam.pl",
+      "Length": 2681,
+      "Sha256": "e73c44c96999d2392c2060b14eaf17377911b3e689947ee4c5c089e4d50ed346"
+    },
+    {
+      "Path": "plugins/dam_tln.pl",
+      "Length": 2517,
+      "Sha256": "b6522e6f6792aa24b956b9d38407a7a12052655ef4497afa1479e553ad4c8a2b"
+    },
+    {
+      "Path": "plugins/dcom.pl",
+      "Length": 2112,
+      "Sha256": "2787c440bfc1b54ef3e31b77374b90bdd969ec29837da2b1a1b0b448547bc0cc"
+    },
+    {
+      "Path": "plugins/ddo.pl",
+      "Length": 1866,
+      "Sha256": "bbd74623c800c7a0d6543a35cfe56c27a16d8e5df4ed258849bffaad447cecd6"
+    },
+    {
+      "Path": "plugins/ddpe.pl",
+      "Length": 2228,
+      "Sha256": "cb58cb9322ec3ad65478282116393f4d83f40b16e9dedd71d27ccd15be10c0dc"
+    },
+    {
+      "Path": "plugins/defender.pl",
+      "Length": 5782,
+      "Sha256": "1141b6e6c3a0da441d200811e00996bb94baa59f72c62d9fc0c23fec6d40bd38"
+    },
+    {
+      "Path": "plugins/del.pl",
+      "Length": 4430,
+      "Sha256": "25ba22bf6f796e5e7270058e9e16f572ff1cda54d9f703c85ca16d894587f933"
+    },
+    {
+      "Path": "plugins/del_tln.pl",
+      "Length": 2903,
+      "Sha256": "ccc28e0e9b776d7755e15a17f96d7b2eb3123408404a73be9a2f49a255e7655e"
+    },
+    {
+      "Path": "plugins/devclass.pl",
+      "Length": 4123,
+      "Sha256": "0212668e9e19f112d3633d90c9fc369753899acd2deb5c382b7dc8a437f197f7"
+    },
+    {
+      "Path": "plugins/direct.pl",
+      "Length": 2295,
+      "Sha256": "4d9efaf4273c2bb353fe32a1c06aa62bae43b3541d1ee2d979577b0b7fa7bbe1"
+    },
+    {
+      "Path": "plugins/direct_tln.pl",
+      "Length": 2366,
+      "Sha256": "7d89f5923c6417dcee05b345a4054665406d46e19be5995b2d02a2235af232ab"
+    },
+    {
+      "Path": "plugins/disableeventlog.pl",
+      "Length": 3517,
+      "Sha256": "b85421a71ccb9fe54932c8f152b6732c5dc45bcef114ac4751ce121189e52f41"
+    },
+    {
+      "Path": "plugins/disablelastaccess.pl",
+      "Length": 2979,
+      "Sha256": "cf35b10db891e5c564fbca7b8d4dbef054e6aac012a8cb5042288038cf70648b"
+    },
+    {
+      "Path": "plugins/disablemru.pl",
+      "Length": 3185,
+      "Sha256": "58220584a9ac87e999f61acb76345ffb96e43f35327ddfb6d09615b27c60eb95"
+    },
+    {
+      "Path": "plugins/disableremotescm.pl",
+      "Length": 2132,
+      "Sha256": "c7f73da4f28031e99e0d62382384da0f188364164e51c1635411a8ab4e711894"
+    },
+    {
+      "Path": "plugins/disablesr.pl",
+      "Length": 1850,
+      "Sha256": "1b1d00499ff1efab20cec4ee4c4336a0fbcad82008918f87f6a83d785586ac7d"
+    },
+    {
+      "Path": "plugins/disableuserassist.pl",
+      "Length": 2143,
+      "Sha256": "c6b091a3029fe78dc51655c05d4c651208011dae95bdbb40a171c1216e7c2151"
+    },
+    {
+      "Path": "plugins/drivers32.pl",
+      "Length": 2334,
+      "Sha256": "a55ca8d178cc4db441c8943965360929fc6e78c3e189c3a172c246c4c49306d2"
+    },
+    {
+      "Path": "plugins/emdmgmt.pl",
+      "Length": 3422,
+      "Sha256": "72a7bf80662dff5d5ab1150e1ac356a5e2a1635c5edea7da9979495ec6834a77"
+    },
+    {
+      "Path": "plugins/environment.pl",
+      "Length": 2853,
+      "Sha256": "035d81bf39f0fc003923af482ffbee1a119cc4c5ab51034aa4a9eb3568d54fd9"
+    },
+    {
+      "Path": "plugins/execpolicy.pl",
+      "Length": 1745,
+      "Sha256": "ff75394e32e93265bbaa8968d71fb2c0aae37219d980c9d871eb1f8dd2ab1b6e"
+    },
+    {
+      "Path": "plugins/exefile.pl",
+      "Length": 3915,
+      "Sha256": "0a07a6015a9c852b8d33634a672a051e6e6c9b082dabae37cbe3009c3209d382"
+    },
+    {
+      "Path": "plugins/featureusage.pl",
+      "Length": 2390,
+      "Sha256": "051eec14d8fb48ba897b8db6f8372a927d12df9d5c237a12d9f1517448d9b5d6"
+    },
+    {
+      "Path": "plugins/fileless.pl",
+      "Length": 2228,
+      "Sha256": "ef0ac913f10b328038116cef616c730a1d97cb3eeca84451a8e324127d3b3e53"
+    },
+    {
+      "Path": "plugins/findexes.pl",
+      "Length": 2684,
+      "Sha256": "33819afcc40b1535e3c9e57c620bafa460f5e4c110aeeb3c1596842c34b6aa19"
+    },
+    {
+      "Path": "plugins/gpohist.pl",
+      "Length": 2452,
+      "Sha256": "e8e39e72921f0592f0f14429dadca255349994998cb1dda310a2996ec1f45209"
+    },
+    {
+      "Path": "plugins/gpohist_tln.pl",
+      "Length": 2161,
+      "Sha256": "ed663c09a1c21c36a34e8f824e64cc8f27f24b4d734435e97dfbe7169d2517f1"
+    },
+    {
+      "Path": "plugins/heap.pl",
+      "Length": 1959,
+      "Sha256": "fb77086b467fda537fe86078913c1796b74f0226f47ef5c8ac710e1f56ea9880"
+    },
+    {
+      "Path": "plugins/heidisql.pl",
+      "Length": 3075,
+      "Sha256": "6c54a204d34a29d9ff39bc42767f3961b2dd8b5d7621c6da0b507f8270443e3f"
+    },
+    {
+      "Path": "plugins/ica_sessions.pl",
+      "Length": 2176,
+      "Sha256": "6350612aa3f805eb0a981c56c6faf43c03029ce874d84054b9b76a0402b08739"
+    },
+    {
+      "Path": "plugins/iconlayouts.pl",
+      "Length": 1891,
+      "Sha256": "26f719c9e6a5af5d7875277910c040edf01dfb809c7b3e3e6670df2ae344cd03"
+    },
+    {
+      "Path": "plugins/identities.pl",
+      "Length": 1709,
+      "Sha256": "68b300400c5b816e69c942b9f8a055d4c033309b70b63fb117dc529156248896"
+    },
+    {
+      "Path": "plugins/imagedev.pl",
+      "Length": 2118,
+      "Sha256": "fbcc03355590a456c1bdfd110ec3cbeb9cda6cc4a8b8cf455d5e60812d3bb197"
+    },
+    {
+      "Path": "plugins/imagefile.pl",
+      "Length": 4215,
+      "Sha256": "3bd3c9bb8053825a3f1b03af7677116869361334854d64cdfba5a2f59245d339"
+    },
+    {
+      "Path": "plugins/injectdll64.pl",
+      "Length": 2403,
+      "Sha256": "7b773764153d4988aa9b768cef8c1dea9a9820cecd341409f3e9d6180b1a674c"
+    },
+    {
+      "Path": "plugins/inprocserver.pl",
+      "Length": 3514,
+      "Sha256": "fc2e613f9e9df4d1c3e1b69fcd8dc7df382711a7e51129e6a8a381076bc6efad"
+    },
+    {
+      "Path": "plugins/installer.pl",
+      "Length": 2816,
+      "Sha256": "e8704ae2969253581dee0908b4a743ca27d94934ea68523e00eb0089857b7b24"
+    },
+    {
+      "Path": "plugins/ips.pl",
+      "Length": 2577,
+      "Sha256": "2a19fc8d909b45e5c4eea3e181e34ff05ece82331c2d168fa86ee7036ecbbd52"
+    },
+    {
+      "Path": "plugins/jumplistdata.pl",
+      "Length": 1704,
+      "Sha256": "658be59c3b10a9addcad38e44867a7887e356a97b8bc6abaf00acd417c17d209"
+    },
+    {
+      "Path": "plugins/killsuit.pl",
+      "Length": 1542,
+      "Sha256": "823b3498d06e51301ce015d1d24e3ae63bbeeeee2ae64b21bec0a530e5def646"
+    },
+    {
+      "Path": "plugins/killsuit_tln.pl",
+      "Length": 1602,
+      "Sha256": "5f0bfefeba54dbb3f32c8b6e1f82aafbc8f4ac83f44824fdbb3d2432bdeb7d01"
+    },
+    {
+      "Path": "plugins/knowndev.pl",
+      "Length": 2111,
+      "Sha256": "53beec5d860163bd3bce8a4a8d69dc3ca30c76afd88adb8dbfe1cfdd7187f11e"
+    },
+    {
+      "Path": "plugins/landesk.pl",
+      "Length": 4186,
+      "Sha256": "f23e6fc2d3379fa80623b07f894efed1ca308bab999c0d64d14ffebeb4e1ab33"
+    },
+    {
+      "Path": "plugins/landesk_tln.pl",
+      "Length": 3721,
+      "Sha256": "484bffe78fd27500ffb446900edbe8c4cd84c4c708a99a6a3f76a305ff60c9ae"
+    },
+    {
+      "Path": "plugins/lastloggedon.pl",
+      "Length": 1961,
+      "Sha256": "628cb184c17373f618cb0172a983e69ac42880f2c582380fc2f36c219fcfab6e"
+    },
+    {
+      "Path": "plugins/licenses.pl",
+      "Length": 1817,
+      "Sha256": "8a39376f6d2abb5739527ae0fbabd8fabbcd81fca7af45f17665845de0870dcc"
+    },
+    {
+      "Path": "plugins/listsoft.pl",
+      "Length": 1956,
+      "Sha256": "e83ecc1d8ee68e04c6aa963b0805155ad81ba3b63b9464126c8e4af5b6a75e92"
+    },
+    {
+      "Path": "plugins/load.pl",
+      "Length": 2114,
+      "Sha256": "f1bd2cbbb5eb67d4cb295ca2f10eb858b80ea7293b84fc64050728250bf90523"
+    },
+    {
+      "Path": "plugins/logonstats.pl",
+      "Length": 2418,
+      "Sha256": "d8eb502f6050452886ce7a4195cceb123a4a4844e603be1ebd88e364bba1486a"
+    },
+    {
+      "Path": "plugins/lsa.pl",
+      "Length": 3030,
+      "Sha256": "3bb6b86c145821323a5c98245202268460c85cbf6188e457a4e88687c9c4dacf"
+    },
+    {
+      "Path": "plugins/lxss.pl",
+      "Length": 2048,
+      "Sha256": "2307ca8af5db409aed57f652908b2993bcc0188dfbe08ab2e29075f98fcb1996"
+    },
+    {
+      "Path": "plugins/lxss_tln.pl",
+      "Length": 2065,
+      "Sha256": "3e9270b1607778a2013c48f21beec6573840e8608667ea91ac907e805d167184"
+    },
+    {
+      "Path": "plugins/macaddr.pl",
+      "Length": 4271,
+      "Sha256": "081dcad51c1ca6c88d8741a0b5afb86200ac0043fcb5fd4efac1269a927b59a9"
+    },
+    {
+      "Path": "plugins/mixer.pl",
+      "Length": 2057,
+      "Sha256": "bfd40b57102d445efe1fd5fd11c30a2d3ee8dee91bf3e443473e4b7617b91bd1"
+    },
+    {
+      "Path": "plugins/mixer_tln.pl",
+      "Length": 2092,
+      "Sha256": "c6a9160caaccdd82396cd7261b7ed8426809ff711e19b439271992a12f7f6bc7"
+    },
+    {
+      "Path": "plugins/mmc.pl",
+      "Length": 2111,
+      "Sha256": "6975bacb5bade1647de1666ce00c6664586c41b3c8e5057b89ff1848fdc59812"
+    },
+    {
+      "Path": "plugins/mmc_tln.pl",
+      "Length": 1788,
+      "Sha256": "ab80f240b7d075da0dd6253df83f65e55b719a7f278c2f8f64e7886c3e340cbf"
+    },
+    {
+      "Path": "plugins/mmo.pl",
+      "Length": 2910,
+      "Sha256": "143a396dc272e0af0372c9a508ad41fa688540ffd1c27bc031182a5dc12b15f4"
+    },
+    {
+      "Path": "plugins/mndmru.pl",
+      "Length": 1973,
+      "Sha256": "634a40b4c84cec5873dcd220c680557809609249da3945d9e7cfba6ebb7c9a05"
+    },
+    {
+      "Path": "plugins/mndmru_tln.pl",
+      "Length": 1766,
+      "Sha256": "d877cb63fe417c20b826bfc0efef115afbaf8ecba0d433fc86ed7d80d5da29c4"
+    },
+    {
+      "Path": "plugins/mountdev.pl",
+      "Length": 2744,
+      "Sha256": "5a30945278f22009be3c650f1a893b3dc1c606775eb96e760fc91d5e92e470a4"
+    },
+    {
+      "Path": "plugins/mountdev2.pl",
+      "Length": 5200,
+      "Sha256": "c72cc7ed1d5bff5b13a598883043f35c304f0acd7c7ba229e3e375d02f881fda"
+    },
+    {
+      "Path": "plugins/mp2.pl",
+      "Length": 3501,
+      "Sha256": "bdff5817399042af86dec625325003df1bf4a2fbc8b7d65a85382e914c9e0ec0"
+    },
+    {
+      "Path": "plugins/mp2_tln.pl",
+      "Length": 2919,
+      "Sha256": "6128137948dab2cda85b8711daa086fd4e98513cf2e7d43f1bf68a687993ef3f"
+    },
+    {
+      "Path": "plugins/mpmru.pl",
+      "Length": 2033,
+      "Sha256": "c574caa676b2b054350999fa83bcdb87cf0b121b2c1ddabb508ff9e0b2ab6bae"
+    },
+    {
+      "Path": "plugins/msis.pl",
+      "Length": 2352,
+      "Sha256": "1bfa4ea51c0949450253bc0735b835fd350df0f6b6348882ae36c48020d1088c"
+    },
+    {
+      "Path": "plugins/msoffice.pl",
+      "Length": 9983,
+      "Sha256": "49b85ac01f10c930cb6adc5fb3da420a3553c15390b9a356c1c3595b5ce048e4"
+    },
+    {
+      "Path": "plugins/msoffice_tln.pl",
+      "Length": 7057,
+      "Sha256": "f205e23565fb0bf8b59fcb74739ec296f33a7a39152240e5c0c15bb7b9c0474b"
+    },
+    {
+      "Path": "plugins/muicache.pl",
+      "Length": 2560,
+      "Sha256": "d2774c191a1251a9e881090e148a758be417c7f5d8dff2c0471202a4b7f470ce"
+    },
+    {
+      "Path": "plugins/muicache_tln.pl",
+      "Length": 2679,
+      "Sha256": "a6fd4203ea0972032ff3fc539917d0247cdfe8b319cee5040e78b02d28bc8861"
+    },
+    {
+      "Path": "plugins/nation.pl",
+      "Length": 20590,
+      "Sha256": "a7577a59760cdd46201d961400aab98546c8fb715bd71378609a87a8fcf5101d"
+    },
+    {
+      "Path": "plugins/netlogon.pl",
+      "Length": 2249,
+      "Sha256": "bf4fe935b0fa31fbb9db5e5ab8e97fdc2ca19dcdfbbdfc119e70e026abdaa5fa"
+    },
+    {
+      "Path": "plugins/netsh.pl",
+      "Length": 1720,
+      "Sha256": "e30bf2e60892d80bf86ddf1cd10fbc0a755623ff6f64d8f1eaa8cd7a117df891"
+    },
+    {
+      "Path": "plugins/networkcards.pl",
+      "Length": 1722,
+      "Sha256": "7960c660078ec4e5d1ccb87af74b8d65ffbdb310ea8cd929e9ab66be8991c3e5"
+    },
+    {
+      "Path": "plugins/networklist.pl",
+      "Length": 6231,
+      "Sha256": "8336aa5f19c51268f517fc4b19d1950f050c0241b59518481bf9e6df158e5bac"
+    },
+    {
+      "Path": "plugins/networklist_tln.pl",
+      "Length": 5571,
+      "Sha256": "adbdbb4dfcf2e4a30cf718f2ac565151079946cd540ccd3033a8c765e1eaca98"
+    },
+    {
+      "Path": "plugins/networksetup2.pl",
+      "Length": 3013,
+      "Sha256": "d40eac343906abd7bc3963b283edcf3ece331f59de699cb393882e75ae90490e"
+    },
+    {
+      "Path": "plugins/nic2.pl",
+      "Length": 3560,
+      "Sha256": "230cb04d1edeaec56ab931e1ef0ca8da5295c8676c51ff97c15ea1363ddeac2a"
+    },
+    {
+      "Path": "plugins/ntds.pl",
+      "Length": 2262,
+      "Sha256": "7f27279f7b2546ac1b6875c28d7f2dc64bf3469361650d2c46b5ec528be71758"
+    },
+    {
+      "Path": "plugins/ntuser",
+      "Length": 622,
+      "Sha256": "81b02b6d8c23fdc7510422a21a460ac6926437fa89d3b72494150a3b8631fb6b"
+    },
+    {
+      "Path": "plugins/null.pl",
+      "Length": 2253,
+      "Sha256": "e42ff12e37b61f94487d8ca55fcc6c0746b5f8ecd706c78dfcff5a7b88447900"
+    },
+    {
+      "Path": "plugins/oisc.pl",
+      "Length": 3262,
+      "Sha256": "f6bbcd285b0ea74d117ca97342172027fa7dd7effc45c386ec62c8e8946b16fa"
+    },
+    {
+      "Path": "plugins/onedrive.pl",
+      "Length": 2221,
+      "Sha256": "0816b8586e63d6b9b1abfaffef7dce07b93e095260444d0aedaa6328d7b35da5"
+    },
+    {
+      "Path": "plugins/onedrive_tln.pl",
+      "Length": 1983,
+      "Sha256": "bf6c016b98977dea68ae0efbb99dcfe6f7ceb4d25c108d43f0b574d5142b0ab3"
+    },
+    {
+      "Path": "plugins/osversion.pl",
+      "Length": 1766,
+      "Sha256": "f29f6124e2ac3c1fb02c263099b6811ef05d3726b3d02df139fab139a85a7ec0"
+    },
+    {
+      "Path": "plugins/osversion_tln.pl",
+      "Length": 1818,
+      "Sha256": "82acd67413cf0f0af1a5bd02951492e5f1d66ae1aac03cb53f4d77cdfa0a9587"
+    },
+    {
+      "Path": "plugins/outlook_homepage.pl",
+      "Length": 5263,
+      "Sha256": "1a970d3cabeed8953f0bf684118d7d22ffdeeae606187c9ea7bb35792ff1753d"
+    },
+    {
+      "Path": "plugins/pagefile.pl",
+      "Length": 2100,
+      "Sha256": "3810a8a3f40449344f8b00593e76d5fa2f6abd6053c3cc3ead22e504bbe71120"
+    },
+    {
+      "Path": "plugins/pending.pl",
+      "Length": 2030,
+      "Sha256": "4f2477f4f9725e6eb706702179fd8b455582f6a2355d9993bae0a4eb5ad03a01"
+    },
+    {
+      "Path": "plugins/pendinggpos.pl",
+      "Length": 1774,
+      "Sha256": "d9292c40c91f40b71400eef949deb039da068392da18291c716d2c7cfb9dfc84"
+    },
+    {
+      "Path": "plugins/photos.pl",
+      "Length": 2735,
+      "Sha256": "4f3e4cabdf1762c38183b906adb3e47c3b82f94e5cfb03b21049a6d97e1ead01"
+    },
+    {
+      "Path": "plugins/portdev.pl",
+      "Length": 2348,
+      "Sha256": "5ff3a8921e0fb9a617009abffe00a7f30dc4b4f8321ef1a3a9ddbc462ad07d59"
+    },
+    {
+      "Path": "plugins/portproxy.pl",
+      "Length": 1934,
+      "Sha256": "5fb7a7669ad22b94e9dd055a0cd805e67b34e9efdf96a8a621a3606568b6b6e6"
+    },
+    {
+      "Path": "plugins/powershellcore.pl",
+      "Length": 6276,
+      "Sha256": "3a7ce87290d3b9e00992e180e96ce684ea933d419af5c7da170947375e898afc"
+    },
+    {
+      "Path": "plugins/prefetch.pl",
+      "Length": 2226,
+      "Sha256": "3d696f43122fd231f6ba37431aadbd710f76811df29e94f575aadb19343c2406"
+    },
+    {
+      "Path": "plugins/printdemon.pl",
+      "Length": 2393,
+      "Sha256": "5e0b9894abb93ad362b5af0f42328a2504ae1973d0c711cb7e840832c766ee64"
+    },
+    {
+      "Path": "plugins/printmon.pl",
+      "Length": 2615,
+      "Sha256": "d7d5eadba27499dbfab85fd29bde21735c71dde779404f2940486fcbea7de1f7"
+    },
+    {
+      "Path": "plugins/printmon_tln.pl",
+      "Length": 2539,
+      "Sha256": "a307f39c6ab91910e8b83c92cc5e5dc1a8b59ec42df4edad3c0787a2c7fa7870"
+    },
+    {
+      "Path": "plugins/processor_architecture.pl",
+      "Length": 2068,
+      "Sha256": "30e25a431a9a909c110aac51e14c1c76dfbb1fbd65efd1b07674bc8ad97a3411"
+    },
+    {
+      "Path": "plugins/profilelist.pl",
+      "Length": 3132,
+      "Sha256": "54347d64740c935bc0fcf067dc820dc0e0688074ad877375b20fc9ee6d513aaa"
+    },
+    {
+      "Path": "plugins/profiler.pl",
+      "Length": 2983,
+      "Sha256": "f8b1e66f18860025c520e0cc2d6790bf5c57111cc2569d27a6aca97ed941d37a"
+    },
+    {
+      "Path": "plugins/pslogging.pl",
+      "Length": 3005,
+      "Sha256": "7fe2f5a885f58ece90b2f78c9dc0767f284a4e884c4a887420bfac98c4457653"
+    },
+    {
+      "Path": "plugins/psscript.pl",
+      "Length": 2530,
+      "Sha256": "47f57ef9bea7325256613d3c38b65693518018a86104dee87eba644ea0894d36"
+    },
+    {
+      "Path": "plugins/putty.pl",
+      "Length": 1736,
+      "Sha256": "961799fe9c35bd98bc8f6172e5605c6983f0c44629010be765bbeee79a2fe0f5"
+    },
+    {
+      "Path": "plugins/rdpport.pl",
+      "Length": 1630,
+      "Sha256": "305b8f54026bddbee280051183f7d13cc40fac464362cb037adc747814df8563"
+    },
+    {
+      "Path": "plugins/recentapps.pl",
+      "Length": 2490,
+      "Sha256": "11501673fd7db4bad92553a97f9836db6a5089e649d7311538e5ab0eb67a6af9"
+    },
+    {
+      "Path": "plugins/recentapps_tln.pl",
+      "Length": 2440,
+      "Sha256": "3334dd851020021339719413524e643db522c259057806eeceae1e7b27359b45"
+    },
+    {
+      "Path": "plugins/recentdocs.pl",
+      "Length": 3986,
+      "Sha256": "1d378959c59d249c290957c4aef8d0d5ac564983605e58aee28bbc314c3a37b3"
+    },
+    {
+      "Path": "plugins/recentdocs_tln.pl",
+      "Length": 3214,
+      "Sha256": "e9842b2978627d5f4795e2d456fda6777a8e5597f08c93aba4b56f8a3d20fe85"
+    },
+    {
+      "Path": "plugins/remoteaccess.pl",
+      "Length": 2316,
+      "Sha256": "6ff87fd6660ba81567497ee3471d20b9c6b311dc4ca03304f7b6eb7077e351d9"
+    },
+    {
+      "Path": "plugins/rlo.pl",
+      "Length": 3196,
+      "Sha256": "1a42267dff45c8e323e5fff594dcbf68ad689d74a1d224a657d8c425bd34ecb6"
+    },
+    {
+      "Path": "plugins/routes.pl",
+      "Length": 2303,
+      "Sha256": "87c1bc0f9afe399bf5162937a8b858f4364373b04aa7897b35084777065674da"
+    },
+    {
+      "Path": "plugins/run.pl",
+      "Length": 4919,
+      "Sha256": "d4741a436bfeb5ab2f34d2492b02b20b5e4558de05fa3262d365245d3e27f401"
+    },
+    {
+      "Path": "plugins/run_tln.pl",
+      "Length": 5211,
+      "Sha256": "334544b70c5759ded5d5b8e4be757c762abaf083d42e409b94d025dca2d15e25"
+    },
+    {
+      "Path": "plugins/runmru.pl",
+      "Length": 2001,
+      "Sha256": "db88a4e6ef8d6b855c986859982539b47fd403ccf95ff30c40e8254c935ca87e"
+    },
+    {
+      "Path": "plugins/runmru_tln.pl",
+      "Length": 1771,
+      "Sha256": "7ced38e551f87bf125032920450d3f1f6f7346a1d9c3082dd7008e3aea923e65"
+    },
+    {
+      "Path": "plugins/runonceex.pl",
+      "Length": 2178,
+      "Sha256": "51da53fa0919edb878dd3a222f493ee3dac143f0a505401d10591416da468306"
+    },
+    {
+      "Path": "plugins/runvirtual.pl",
+      "Length": 2166,
+      "Sha256": "1683015d066cfcaf13e5397565c06f9a09fbfdf4858cee47f1d4140fa5b2a37f"
+    },
+    {
+      "Path": "plugins/runvirtual_tln.pl",
+      "Length": 2134,
+      "Sha256": "469ef2a4004f0113fa73fb1781aed4e7b4737d6becc5398a810bd5d92c05b1fa"
+    },
+    {
+      "Path": "plugins/ryuk_gpo.pl",
+      "Length": 4150,
+      "Sha256": "84f7c46e97f0cacc2234750899a1287ab1e91e859e22e98e2e21a0938bc899cd"
+    },
+    {
+      "Path": "plugins/sam",
+      "Length": 9,
+      "Sha256": "a7b2a499a3b7e50f0067e130b4ee1a6dc033f4e456cb0d436e33505260208f00"
+    },
+    {
+      "Path": "plugins/samparse.pl",
+      "Length": 12523,
+      "Sha256": "82a0f068fc644b755fc4360c8441928027d7891be42b153f46fd4bd67ab57305"
+    },
+    {
+      "Path": "plugins/samparse_tln.pl",
+      "Length": 8822,
+      "Sha256": "646b02bdce7e043ca7964c3ea3edcbb4043ff4602c492e4cc46fbfdfd68ec8bd"
+    },
+    {
+      "Path": "plugins/schedagent.pl",
+      "Length": 2464,
+      "Sha256": "eadc6fde9d8e0723a0765fe598f54f3010fbe4c424eb916a4e5db9925fa56119"
+    },
+    {
+      "Path": "plugins/scriptleturl.pl",
+      "Length": 1721,
+      "Sha256": "43c590ce646e537f3f004c22de9be1168287ae066252cc16eb78aab28d887b14"
+    },
+    {
+      "Path": "plugins/searchscopes.pl",
+      "Length": 2073,
+      "Sha256": "c93db03fd25a1d787b653722b3cf48ccc9b90caed2ff43bf8087ea1ed2e2fe93"
+    },
+    {
+      "Path": "plugins/secctr.pl",
+      "Length": 1759,
+      "Sha256": "b88ed05c5564cd648c47516285845ae1849279ac787a1c41a576db5e464ff13e"
+    },
+    {
+      "Path": "plugins/secrets.pl",
+      "Length": 1821,
+      "Sha256": "6a78cd4372ff67b4666ef776087194bf51d63884e635c0650663e97205ec5cd4"
+    },
+    {
+      "Path": "plugins/secrets_tln.pl",
+      "Length": 1846,
+      "Sha256": "e6fe3757ef01b7d47b5dc0907e7b8246d77eb66e11ff49810b4fc45bdc8553e4"
+    },
+    {
+      "Path": "plugins/security",
+      "Length": 17,
+      "Sha256": "caa1785062ebf7a7a20353fe7fa41f5fa96befd6999e9404c0bb377f8d29bb69"
+    },
+    {
+      "Path": "plugins/securityproviders.pl",
+      "Length": 2072,
+      "Sha256": "637bf7a93f6f916ff76d4c728f5539ec5e39fa342061d0c26ef0e223295ecacb"
+    },
+    {
+      "Path": "plugins/services.pl",
+      "Length": 4281,
+      "Sha256": "bffcf7750a9c264fff3c4227a50ace7c824054566ae144543769f2ca8fe1d644"
+    },
+    {
+      "Path": "plugins/sevenzip.pl",
+      "Length": 3225,
+      "Sha256": "e8e10b27b20b68f0d6900b5974b643532c5c86d73bc88f37dc596eca7c47d0d4"
+    },
+    {
+      "Path": "plugins/sfc.pl",
+      "Length": 2960,
+      "Sha256": "373a10ed97d73881a85436d95508393026c9aa8eafb2741d65bc66e24c52d85c"
+    },
+    {
+      "Path": "plugins/shares.pl",
+      "Length": 3848,
+      "Sha256": "861fe955edd6c1439bbfb65f7812cd285984e2d761474b3856965ec24e5438f1"
+    },
+    {
+      "Path": "plugins/shc.pl",
+      "Length": 2116,
+      "Sha256": "115283940b6f2d8ac4a44b5238d8f82c5ef173fc89963a3c2c60570b3dc38890"
+    },
+    {
+      "Path": "plugins/shellbags.pl",
+      "Length": 34561,
+      "Sha256": "a628590ccb5615499d06f52bad389ea1314ad87f21db8b914b44782868439a0d"
+    },
+    {
+      "Path": "plugins/shellbags_tln.pl",
+      "Length": 27934,
+      "Sha256": "bb720e7e602b9bb5b1346288f2264e3328ea3de74747fd6cf745c6fec410fa16"
+    },
+    {
+      "Path": "plugins/shellfolders.pl",
+      "Length": 2355,
+      "Sha256": "06b5e2dc004f702d1ee96db418ed9b3efe249d630288791f03d792fbdb7e91bc"
+    },
+    {
+      "Path": "plugins/shelloverlay.pl",
+      "Length": 2357,
+      "Sha256": "cf406b453cee135e7b8e8c8015d38dc848691582abfa761f7ba9435f89fc7d18"
+    },
+    {
+      "Path": "plugins/shimcache.pl",
+      "Length": 13552,
+      "Sha256": "e0a9c7530b9953500867a0fa27c04ae3f7870b466e94ef64adcbbc922b2a666c"
+    },
+    {
+      "Path": "plugins/shimcache_tln.pl",
+      "Length": 12724,
+      "Sha256": "f85294250aa534f5ea5b5c39b3db5898630c48806d88d387ccf49b7edccdda0b"
+    },
+    {
+      "Path": "plugins/shutdown.pl",
+      "Length": 2230,
+      "Sha256": "9a73541c41a280e63c665d3bdff5ad9136342b9aa2932b3dea4824ac2a6cfd72"
+    },
+    {
+      "Path": "plugins/sizes.pl",
+      "Length": 4041,
+      "Sha256": "ce99670591d93991b9326eb9e7a1f15c87a143b6679cfd14b16f0458ccaf20a0"
+    },
+    {
+      "Path": "plugins/slack.pl",
+      "Length": 3506,
+      "Sha256": "813639e55b00cc6c6bcea89499c3a4bb0f6da83e751bd9e093c87a6503c6053d"
+    },
+    {
+      "Path": "plugins/slack_tln.pl",
+      "Length": 2901,
+      "Sha256": "b9c91e2668e394cd78d1d65921bb78d18933e03274fc86e39d5779ad31001916"
+    },
+    {
+      "Path": "plugins/software",
+      "Length": 697,
+      "Sha256": "9d5a380da0f132a1eba3514885cb1ccbd9619221f28824d221af131863eb6947"
+    },
+    {
+      "Path": "plugins/source_os.pl",
+      "Length": 2732,
+      "Sha256": "ac01f2532632239d52e0f0b54a6456cca44d66249b46ab7ca9f6f2a70147f9f3"
+    },
+    {
+      "Path": "plugins/speech.pl",
+      "Length": 2304,
+      "Sha256": "703716d16bdc130e708c8b7a65cf7fb0f3570a0ebd0305a4c63248f153e3e8a5"
+    },
+    {
+      "Path": "plugins/speech_tln.pl",
+      "Length": 2510,
+      "Sha256": "3c1ea5dc2310572fc62217c3a405c18265fc8a705a07e9dc8295b6a77fe170e7"
+    },
+    {
+      "Path": "plugins/spp_clients.pl",
+      "Length": 1583,
+      "Sha256": "7d846cc0384a3c31249e9a0b8ba38359027f70c68a834844cda0b8fbd06fa096"
+    },
+    {
+      "Path": "plugins/srum.pl",
+      "Length": 2487,
+      "Sha256": "a2c84d6f2878c54f4e12b6dcf74e431f805395d047c4af8a3e9e612061653af9"
+    },
+    {
+      "Path": "plugins/ssid.pl",
+      "Length": 5062,
+      "Sha256": "8fb4dbe38d01422c7c662a485dda77e41c467941315749de547f23e6d5c24767"
+    },
+    {
+      "Path": "plugins/susclient.pl",
+      "Length": 3931,
+      "Sha256": "ebb5c9d80bad5ff9d17720b50f0b23c1763296eb279b052b88f66192d92c7d6f"
+    },
+    {
+      "Path": "plugins/svc.pl",
+      "Length": 5353,
+      "Sha256": "b39257a802dff89ac7a9d13e52167cfb481e08c7a7c967b4a81ee89fafe29244"
+    },
+    {
+      "Path": "plugins/svc_tln.pl",
+      "Length": 6702,
+      "Sha256": "6dde6b3e35561e12f26160dfa30ca2f2b6445ffb51fbd80a3b6c0dbf8b93d33b"
+    },
+    {
+      "Path": "plugins/svcdll.pl",
+      "Length": 3465,
+      "Sha256": "e776115a9ee13cb6f46d3f04412acb53c95011c3cadf02f49d9fd063a7775ce0"
+    },
+    {
+      "Path": "plugins/syscache",
+      "Length": 22,
+      "Sha256": "de29b56f4a97f7dd9a612b1b961c9e094d95ef80d3f4753b90b4b3ccbede3149"
+    },
+    {
+      "Path": "plugins/syscache.pl",
+      "Length": 2932,
+      "Sha256": "9ae3eebaa626cdb80e8b691252f508dd77b61ff6b9220b8583b0a96249b89ef7"
+    },
+    {
+      "Path": "plugins/syscache_csv.pl",
+      "Length": 3087,
+      "Sha256": "9c0f56c8e0dd3abad4f75875512d059a946785ac8a5c88896173b145fd96c49e"
+    },
+    {
+      "Path": "plugins/syscache_tln.pl",
+      "Length": 3036,
+      "Sha256": "bae9ba9411e575dfa3f1994f3e4e0c648b22fb01c367779be9f6b6640eadbffd"
+    },
+    {
+      "Path": "plugins/sysinternals.pl",
+      "Length": 1799,
+      "Sha256": "de4e4988efa82271d60803245ad8f279c41fc7b2ff58f0e40b8e2d836f33b471"
+    },
+    {
+      "Path": "plugins/sysinternals_tln.pl",
+      "Length": 1796,
+      "Sha256": "33d221d278d3a75ccaf1815a9148aad37818b426f44c88bf2b683f4fad06fbc9"
+    },
+    {
+      "Path": "plugins/system",
+      "Length": 495,
+      "Sha256": "55204381a8a0e8b926b846ce8251188cdb8b65761bf60dd9668a7f1be947d2c6"
+    },
+    {
+      "Path": "plugins/systemindex.pl",
+      "Length": 1945,
+      "Sha256": "63376b11730f3a3f3607f6bcbeb406099a71a763d5a9fe653d55bfcc7a34ef0c"
+    },
+    {
+      "Path": "plugins/taskcache.pl",
+      "Length": 4175,
+      "Sha256": "5583513a8fb3e95969bcde52e5b41da164d06fd51c8360596690d3a413bbeb63"
+    },
+    {
+      "Path": "plugins/taskcache_tln.pl",
+      "Length": 4313,
+      "Sha256": "d101f4385b12ece47031966316ea7787a63c8f68ffcc5113d50ac5c37181e68a"
+    },
+    {
+      "Path": "plugins/tasks.pl",
+      "Length": 5114,
+      "Sha256": "1cb5f2c7b90f18c22879fb3b8ea4c8f86900e66409f6a0fe24901fa4d9065ade"
+    },
+    {
+      "Path": "plugins/tasks_tln.pl",
+      "Length": 3501,
+      "Sha256": "41b3cb36b02714edfc3592ebb17e05d1f6c3244b9d256f93678faf858c2fb9dd"
+    },
+    {
+      "Path": "plugins/termcert.pl",
+      "Length": 2457,
+      "Sha256": "3371cc502476c655b775954643783119786324d361c99b4e6723a0dbe33da098"
+    },
+    {
+      "Path": "plugins/termserv.pl",
+      "Length": 8265,
+      "Sha256": "9b981b43361c2c6b1c8d72d4525ff70e1d5d20c04973c9d9538645e230f0df02"
+    },
+    {
+      "Path": "plugins/thispcpolicy.pl",
+      "Length": 2492,
+      "Sha256": "9f44bec85e03aec3df157e254b57d07000244c1cb34ad7e070e6c845fd32d6ff"
+    },
+    {
+      "Path": "plugins/timezone.pl",
+      "Length": 2847,
+      "Sha256": "1f0c03dd74dc619914c26d3046b0103d6bfe92d0257684c4e54e176c86520453"
+    },
+    {
+      "Path": "plugins/tracing.pl",
+      "Length": 1924,
+      "Sha256": "a6c5d3f2e5507bd0b148f02cd2e95bf4a78d1bfabc51e3ab525227520e94fc85"
+    },
+    {
+      "Path": "plugins/tracing_tln.pl",
+      "Length": 1877,
+      "Sha256": "5958eb6609e41735adeae0d14dddcfaf69a57fe97c804ee6e298346556db65d2"
+    },
+    {
+      "Path": "plugins/tsclient.pl",
+      "Length": 2755,
+      "Sha256": "a4de5f99a8a15159abbf911d46a333410e6f7f321afe927dbacaca99518172de"
+    },
+    {
+      "Path": "plugins/tsclient_tln.pl",
+      "Length": 2498,
+      "Sha256": "41bb09a31e16d2626c5ad631f14e0a3ffb2a644ebfc4bdc17ef973a9401b09c6"
+    },
+    {
+      "Path": "plugins/typedpaths.pl",
+      "Length": 1888,
+      "Sha256": "1f4a766e2bcc7142abfd06f47e15ac996f2866d0a49f766e2ca021ca6f9433b1"
+    },
+    {
+      "Path": "plugins/typedpaths_tln.pl",
+      "Length": 1647,
+      "Sha256": "169cb24317c5ad74325a2118f3ba23643ad713d38e9487b058235e059ec0de00"
+    },
+    {
+      "Path": "plugins/typedurls.pl",
+      "Length": 2612,
+      "Sha256": "2f780ec5918ba010bf947eb313f8ab3ceb23402d204adfe865cb2c8c9852fc1c"
+    },
+    {
+      "Path": "plugins/typedurls_tln.pl",
+      "Length": 2169,
+      "Sha256": "653f0cf238a4d0b968de18d08b7d21d48b8e29d6dd17cc788d796194eee6751b"
+    },
+    {
+      "Path": "plugins/typedurlstime.pl",
+      "Length": 2607,
+      "Sha256": "e19dcd0b4bd40fc2c56ff35b68bee0e68190c0a1b35e0b13bc1158008a3c8eb9"
+    },
+    {
+      "Path": "plugins/typedurlstime_tln.pl",
+      "Length": 2558,
+      "Sha256": "3537dfecbe856f3a9ff0edabc983615050cd390af07ac606302f5f9b818e977e"
+    },
+    {
+      "Path": "plugins/uac.pl",
+      "Length": 5137,
+      "Sha256": "b8d93228e8407c80969c799a3ac7b69566168672837d2a9fe90477a22460659d"
+    },
+    {
+      "Path": "plugins/uacbypass.pl",
+      "Length": 3025,
+      "Sha256": "e53adae7d16835029bddb6c118cd560104a3cf42b5fb83e839f684f3cdf68128"
+    },
+    {
+      "Path": "plugins/uninstall.pl",
+      "Length": 3034,
+      "Sha256": "f4d1c6261129d874724fd542594e500d578c9e80b26ceae9d5cbe012d19e3456"
+    },
+    {
+      "Path": "plugins/uninstall_tln.pl",
+      "Length": 2730,
+      "Sha256": "d33e9239f593e360b7ab3b65758bc6bdb37f493314cb6714904954e65c8311cb"
+    },
+    {
+      "Path": "plugins/usb.pl",
+      "Length": 4225,
+      "Sha256": "3b0eb8de6592d0699c25406aca3d9f38614397e2d8932f32e8139345494f3415"
+    },
+    {
+      "Path": "plugins/usbdevices.pl",
+      "Length": 3539,
+      "Sha256": "3a1b7a45138da054858c624c4b6ebd21807e21da530253c7422ead721bdb095e"
+    },
+    {
+      "Path": "plugins/usbstor.pl",
+      "Length": 4857,
+      "Sha256": "2e8ba7653b7a29cea2462f751dd133a4d95e955204c84a428901583ea0751b58"
+    },
+    {
+      "Path": "plugins/userassist.pl",
+      "Length": 3906,
+      "Sha256": "8688bd84bb23315da36727178c2e57d4634b21dda6422599eb1df5f986c295b8"
+    },
+    {
+      "Path": "plugins/userassist_tln.pl",
+      "Length": 3251,
+      "Sha256": "d713fbc11c11c1d8952302e593024af0c119719a6916d4e9ad5632a85adc7d73"
+    },
+    {
+      "Path": "plugins/usrclass",
+      "Length": 68,
+      "Sha256": "99551a5724709fd9fd979989990411adcd15fa44f6e50fa64fc7747fe71df9b1"
+    },
+    {
+      "Path": "plugins/volinfocache.pl",
+      "Length": 2343,
+      "Sha256": "97b1b87fb7c426ae1e327b666c2c377b3cfdb6e5b4113dffc30a4fe5e2a6fd36"
+    },
+    {
+      "Path": "plugins/wab.pl",
+      "Length": 1577,
+      "Sha256": "adcff1e8ce9cb517064ff6ba0fd5aa74eae8ae049550f4267bf360a243057143"
+    },
+    {
+      "Path": "plugins/wab_tln.pl",
+      "Length": 1625,
+      "Sha256": "a1b3c85b0574cea97bfe167884cb65adb531004da8e24334775b1b3f3dac4ca1"
+    },
+    {
+      "Path": "plugins/watp.pl",
+      "Length": 1531,
+      "Sha256": "1f92a98cba60ed6673f32c377de6e9a1542453886352ebb0ecdf0ce369771fd2"
+    },
+    {
+      "Path": "plugins/wbem.pl",
+      "Length": 2471,
+      "Sha256": "607c187c8c92987af21a61ee70379ca09cc377f89d023153cee40969f373b7c1"
+    },
+    {
+      "Path": "plugins/wc_shares.pl",
+      "Length": 1966,
+      "Sha256": "40b3969fa2ddaa44aadd53c0a1fff1e9c163367f1091f91b00c2997f7636e069"
+    },
+    {
+      "Path": "plugins/winlogon_tln.pl",
+      "Length": 5597,
+      "Sha256": "bc77ef3d8d4c9c318a4a9f9a8d6b063e35ba5612040089a09891f83104311df8"
+    },
+    {
+      "Path": "plugins/winrar.pl",
+      "Length": 1704,
+      "Sha256": "64061c71a827f5259d0e9cb6fe6f9fca58b9d89e07e5f487abd267e56e7e3961"
+    },
+    {
+      "Path": "plugins/winrar_tln.pl",
+      "Length": 1579,
+      "Sha256": "3573a1446947cf3e5e1990e2601b38753e4bfb171980be065379d61b7e92f2f9"
+    },
+    {
+      "Path": "plugins/winscp.pl",
+      "Length": 4295,
+      "Sha256": "afaa0ece498a051c93977ac466b1be86456d24991a3545810df914cc4cede849"
+    },
+    {
+      "Path": "plugins/winver.pl",
+      "Length": 2254,
+      "Sha256": "9696d2e7855b41addaa69b86c037ebdef6ac02b1372c3f8f15af3e05548b138a"
+    },
+    {
+      "Path": "plugins/winzip.pl",
+      "Length": 3072,
+      "Sha256": "5e6f7e31988e87bde65a794a879869b033fdfeea0703a269b8e98a3599cd7268"
+    },
+    {
+      "Path": "plugins/wordwheelquery.pl",
+      "Length": 2320,
+      "Sha256": "1574ec0782f7ba425d39c543e21ac64748f5df920cf1df1ef26e67c7623d1581"
+    },
+    {
+      "Path": "plugins/wordwheelquery_tln.pl",
+      "Length": 2062,
+      "Sha256": "0c3b4381b1573854cddc3d2a267b9d191f0d15d8b4f64e06a280122c4250eb62"
+    },
+    {
+      "Path": "plugins/wow64.pl",
+      "Length": 1815,
+      "Sha256": "ad6715767ba29c7ae5785caf9ef451c8a75f3fa859b6cf6d1956a865415aa2dc"
+    },
+    {
+      "Path": "plugins/wpdbusenum.pl",
+      "Length": 4680,
+      "Sha256": "6130bf43931846feb1b9c7705f3ef6de5c4f6952b32369e7191100f6ae140450"
+    },
+    {
+      "Path": "plugins/wsh_settings.pl",
+      "Length": 1904,
+      "Sha256": "480d50b235fb472675ee2add4cc4920dc4e402b00f7ef668cf82a0b7db1817b3"
+    },
+    {
+      "Path": "q.ico",
+      "Length": 5430,
+      "Sha256": "33d90fd0cc6c480384a03cd9520295acaca8131e204f15a018441fc8c35e501d"
+    },
+    {
+      "Path": "regrip.bat",
+      "Length": 507,
+      "Sha256": "4bd01574f335c7e74e38f1a738c9b081bf795eab50964ee4bc93f1449d306d0d"
+    },
+    {
+      "Path": "rip.exe",
+      "Length": 1900829,
+      "Sha256": "f5324a5c194b8817e4823484a7cbf68abac64d2e8ce15b902ff210425c766212"
+    },
+    {
+      "Path": "rip.pl",
+      "Length": 16579,
+      "Sha256": "45d11680dc0d31135dfb14579d0cfa1882c1dd98ff9dd5a7bb26871820aa7e2e"
+    },
+    {
+      "Path": "rip_bulk.zip",
+      "Length": 1629073,
+      "Sha256": "225bb97e9d5eab4226347ceeea44696e47300dde52a340a4449d08df1892c76f"
+    },
+    {
+      "Path": "rr.exe",
+      "Length": 2550793,
+      "Sha256": "bfa3414805b9b11dac7af8d7859ac7dacaa8aa69012f9d876654f33503924d36"
+    },
+    {
+      "Path": "rr.pl",
+      "Length": 15419,
+      "Sha256": "12c2b288c4eeb5622e4d9a734c737663a7e945d74d2d6af50d3a5329ee3fb413"
+    }
+  ],
+  "ArchiveBytes": 5216266,
+  "PluginFileCount": 266,
+  "SupportedTargets": []
+}

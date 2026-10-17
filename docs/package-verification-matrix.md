@@ -1,5 +1,40 @@
 # Package verification matrix
 
+Sysinternals Suite source review, 2026-10-17: 374,742,194-byte official ZIP,
+SHA-256 `e1e75de5cdb12116b0a4eca83725dc7c7a1645266196025cbe5ca6c167161aed`.
+All 164 files were inventoried without execution; 151 PE executables had Valid
+Microsoft Authenticode, with 79 x86 and 72 x64 PE machine fields. No publisher
+archive digest is claimed. The [frozen inventory](archive/evidence/sysinternals-suite-source-review-2026-10-17.json)
+and [candidate boundaries](application-packages.md#sysinternals-reviewed-suite-candidate)
+retain notices and pending individual/native acceptance.
+
+Wireshark MSI source review, 2026-10-17: official 4.6.9 x64 payload, 80,433,152
+bytes, SHA-256 `1975dfc96581a9b674fda3f41ac1585963b4ba52ea9459f3b6d9cedfac3a7217`,
+matches the exact publisher checksum and has Valid Wireshark Foundation Authenticode.
+PGP verification was not performed. Read-only MSI tables bind the all-user and
+no-association candidate arguments; no installer ran. See [source evidence](archive/evidence/wireshark-msi-source-review-2026-10-17.json)
+and [pending acceptance](application-packages.md#wireshark-machine-msi-candidate).
+
+PSScriptTools source review, 2026-10-17: the official pinned 3.2.0 source archive
+contains 360 files and 75 function scripts, with MIT notices retained. All 36
+manifest/root reference paths were present; root manifest/module parsed on both
+PowerShell editions without import. The observed SHA-256 is pinned, not a publisher
+signature/checksum. No dependencies were installed. See the [source evidence](archive/evidence/psscripttools-source-review-2026-10-17.json)
+and [pending deployment contract](application-packages.md#psscripttools-source-candidate).
+
+Pinned Python source review, 2026-10-16: Hex2text and ChromeSyncParser complete archives match all three separately acquired commit-pinned raw files. Observed archive hashes are pinned, with upstream licenses retained; no publisher signature/checksum is claimed. Python 3.12.14 parsed both scripts without execution. ShimCacheParser retains a Python 2 blocker. See the [source evidence](archive/evidence/python-script-source-review-2026-10-16.json) and [candidate contract](application-packages.md#pinned-python-source-candidates).
+
+RegRipper 3.0 source review, 2026-10-16: the [pinned archive observation](archive/evidence/regripper-source-review-2026-10-16.json) records 282 files and the complete distribution hash. Both executables and the bundled x86 runtime are NotSigned. The observed pin is not a publisher signature/checksum. No parser was run; native and forensic acceptance remain pending. See the [candidate contract](application-packages.md#regripper-30-portable-candidate) and [batch evidence](migrations/application-migration-review.md#b08-regripper-30-distribution-candidate-2026-10-16).
+
+Rufus source review, 2026-10-16: official x64 portable 4.15 acquisition retained
+1,989,992 bytes, file/product version 4.15.2396, SHA-256
+`84c8a437f8af89257524478489e5c85f1edf25f761d299e2bcde46ac0afbe106`, and a Valid
+Akeo Consulting Authenticode signature. The catalog pins those observed bytes;
+no publisher checksum is claimed. The [sanitized observation](archive/evidence/rufus-portable-source-review-2026-10-16.json)
+retains source, certificate and acquisition time. File lifecycle and application/
+hardware acceptance remain pending; the payload was not executed. See the
+[candidate guide](application-packages.md#rufus-portable-candidate).
+
 GitHub release discovery now uses [bounded process-local metadata reuse and
 shared rate-limit backoff](github-release-discovery.md). Freshness and source
 observations accompany artifact evidence independently of payload cache use;
@@ -226,3 +261,19 @@ behavior-changing policy inputs. The Microsoft page currently identifies
 Sysmon v15.22 (published 2026-09-10), but its download path is mutable.
 [Microsoft's Sysmon documentation](https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon)
 also lists Windows 11 and Windows Server 2019+ as supported by Sysmon.
+
+### Independent Sysinternals products, 2026-10-17
+
+Process Explorer 17.2, Autoruns 14.3 and TCPView 4.19 have individually pinned official
+archives, complete member inventories and fifteen observed Valid Microsoft executable
+signatures. Twenty-four inert lifecycle/acquisition checks passed per PowerShell
+edition; native file/tool/driver/UI/architecture acceptance remains pending. See the
+[application record](migrations/application-migration-review.md#b11-independent-sysinternals-products-2026-10-17).
+
+### Sysinternals diagnostic/imaging candidates, 2026-10-17
+
+Process Monitor 4.12, RAMMap 1.63 and Disk2vhd 2.02 have pinned complete official archives and nine observed Valid Microsoft executable signatures. Another 24 inert tests passed per edition (48 distinct across all six products); native driver, tracing, memory and imaging behavior remains unaccepted. See the [record](migrations/application-migration-review.md#b11-sysinternals-diagnostic-and-imaging-candidates-2026-10-17).
+
+### Sysinternals command-line candidates, 2026-10-17
+
+Sigcheck 2.93, Strings 2.54 and Handle 5.0 have three complete pinned official archives, twelve files and nine observed Valid Microsoft signatures. Another 24 inert checks passed per edition, giving 72 distinct cases across nine individual products. Native tool/driver/use acceptance remains pending; see the [record](migrations/application-migration-review.md#b11-sysinternals-command-line-candidates-2026-10-17).

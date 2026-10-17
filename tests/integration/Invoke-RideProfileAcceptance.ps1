@@ -31,8 +31,9 @@
   Prerequisites: Elevated guest, RIDE_INTEGRATION_VM=1, signed-in unlocked desktop.
   Sources: Catalog Microsoft PowerShell publisher MSI; no host software/UAC changes.
   Recovery: Saved runs plus unconditional outer clean-checkpoint recovery.
-  Author: RIDE-Windows maintainers. Version: 0.1.0.
-  Changelog: 0.1.0: Add real profile and interactive color acceptance.
+  Author: RIDE-Windows maintainers. Version: 0.1.1.
+  Changelog: 0.1.1: Keep color acceptance scoped away from other profile renderers.
+    0.1.0: Add real profile and interactive color acceptance.
 #>
 
 
@@ -45,7 +46,7 @@ param(
   [switch]$DisposableVm,
   [switch]$Version
 )
-$script:ScriptVersion = '0.1.0'
+$script:ScriptVersion = '0.1.1'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 if (-not $DisposableVm -or $env:RIDE_INTEGRATION_VM -ne '1' -or -not $ExpectedComputerName -or
@@ -66,7 +67,7 @@ if ($Stage -eq 'Prepare') {
   $artifact = $null
   $missingRuntime = $null
   if (-not [IO.File]::Exists($powerShell)) {
-    $operation = (Get-RideCatalog).Operations | Where-Object { $_.Kind -eq 'ProfileSetting' -and $_.ProfileRuntime -eq 'PowerShell7' }
+    $operation = (Get-RideCatalog).Operations | Where-Object { $_.ProfileSetting -eq 'TerminalColors' -and $_.ProfileRuntime -eq 'PowerShell7' }
     $missingRuntime = Get-RideProfileSettingState $operation
     if ($missingRuntime.Available -or $missingRuntime.Path) { throw 'Absent PowerShell 7 was not reported as unavailable before prerequisite setup.' }
     if ($PrerequisiteEvidencePath) {
@@ -96,7 +97,7 @@ if ($Stage -eq 'Prepare') {
 
 $env:PATH = (Join-Path $env:ProgramFiles 'PowerShell/7') + ';' + $env:PATH
 $catalog = Get-RideCatalog
-$operations = @($catalog.Operations | Where-Object Kind -eq 'ProfileSetting')
+$operations = @($catalog.Operations | Where-Object ProfileSetting -eq 'TerminalColors')
 if ($operations.Count -ne 2) { throw 'Expected exactly the two color acceptance operations.' }
 foreach ($operation in $operations) {
   if ($target -notin $operation.CandidateTargets -and $target -notin $operation.SupportedTargets) { throw 'Guest is not a declared candidate or supported target.' }

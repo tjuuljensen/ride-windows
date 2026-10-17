@@ -1,8 +1,10 @@
 # Windows Terminal default profile
 
-Reviewed: **2026-10-14**. This is an intended-user native UI workflow for an
-already installed Terminal instance. RIDE's automatic profile-file editor and
-native GUI acceptance remain pending. Packages remain paused.
+This is an intended-user native UI workflow for an already installed Terminal
+instance. RIDE's automatic profile-file writer and native GUI acceptance remain
+pending. An [in-memory JSONC preparation module](terminal-jsonc-preparation.md)
+now proves narrow field preservation and conflict recovery with synthetic bytes;
+it does not discover or change your Terminal instance.
 
 The default profile chooses the shell for a new tab when no profile is specified.
 It is represented by the root `defaultProfile` property, which can identify a
@@ -38,9 +40,9 @@ the recorded prior profile, then verify a new tab again. If that profile has
 disappeared, retain the unresolved recovery instead of guessing another identity.
 This guide creates no RIDE saved run or captured file recovery.
 
-The later automatic editor must discover the applicable settings file and existing
-profile identities, preserve comments/unknown fields and unrelated edits, and
-capture the original `defaultProfile` value or absence. It must refuse disappeared
+The later automatic writer must discover and bind the applicable settings file,
+intended user and available profile identities to the prepared field edit. It must
+capture the original `defaultProfile` value or absence and refuse disappeared
 profiles and restore conflicts. File round trips and new-tab GUI behavior need
 separate disposable acceptance before a catalog operation or supported target
 can be published. No default profile, terminal-host choice or installation is

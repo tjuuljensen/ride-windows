@@ -27,14 +27,15 @@
   Prerequisites: Elevated coordinator, installed PowerShell 7, local task/account APIs.
   Recovery: Exact known-folder values/profile content, owned task/account removal,
   followed by the host runner's pinned clean checkpoint restore.
-  Author: RIDE-Windows maintainers. Version: 0.1.0.
-  Changelog: 0.1.0: Add real known-folder and alternate-account isolation checks.
+  Author: RIDE-Windows maintainers. Version: 0.1.1.
+  Changelog: 0.1.1: Keep color acceptance scoped away from other profile renderers.
+    0.1.0: Add real known-folder and alternate-account isolation checks.
 #>
 
 [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
 param([ValidateSet('Coordinator','AlternateAccount')][string]$Role = 'Coordinator',
   [string]$ExpectedComputerName, [string]$EvidencePath, [switch]$DisposableVm, [switch]$Version)
-$script:ScriptVersion = '0.1.0'
+$script:ScriptVersion = '0.1.1'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 if (-not $DisposableVm -or $env:RIDE_INTEGRATION_VM -ne '1' -or $env:COMPUTERNAME -ine $ExpectedComputerName -or
@@ -45,7 +46,7 @@ if (-not $PSCmdlet.ShouldProcess($ExpectedComputerName,"Run $Role profile identi
 $env:PATH = (Join-Path $env:ProgramFiles 'PowerShell/7') + ';' + $env:PATH
 Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE-ProfileSettings.psm1') -Force
 Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE.CatalogData.psm1') -Force
-$operations = @((Import-RideCatalogData (Join-Path $PSScriptRoot '../../catalog/operations.psd1')).Operations | Where-Object Kind -eq ProfileSetting)
+$operations = @((Import-RideCatalogData (Join-Path $PSScriptRoot '../../catalog/operations.psd1')).Operations | Where-Object ProfileSetting -eq TerminalColors)
 function Assert-IdentityAcceptance([bool]$Condition,[string]$Message) { if (-not $Condition) { throw $Message } }
 
 if ($Role -eq 'AlternateAccount') {

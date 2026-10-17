@@ -47,8 +47,9 @@
   generated.
   Recovery: Regenerate from the reviewed catalog. Check mode is read-only.
   Author: RIDE-Windows maintainers.
-  Version: 0.15.1
+  Version: 0.15.2
   Changelog:
+    0.15.2: Distinguish user-bin startup PATH from color-only metadata.
     0.15.1: Keep Store app registrations outside reversible setting presentation.
     0.15.0: Render bounded local maximum-age day choices and SAM authority.
     0.14.0: Render KeepCurrent registry components, firewall profiles and owned plan GUIDs.
@@ -82,7 +83,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.15.1'
+$script:ScriptVersion = '0.15.2'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 if ($Help) { Get-Help -Name $PSCommandPath -Full; return }
 $ErrorActionPreference = 'Stop'
@@ -199,13 +200,15 @@ foreach ($operation in ($catalog.Operations | Where-Object { $_.Kind -in @('Sche
 $lines.Add('')
 $lines.Add('## PowerShell profile settings')
 $lines.Add('')
-$lines.Add('Optional current-user ConsoleHost startup blocks; see [profile architecture and recovery](powershell-profiles.md). Default/unset remove only the managed block; Baseline resolves to Default. Saved-run restore recovers its captured predecessor. These are fixed reviewed RIDE presets, not edits to Terminal settings.json. show/status inspect configuration rather than observing another session. Pending entries cannot be applied until disposable target and visual acceptance is recorded.')
+$lines.Add('Optional current-user ConsoleHost startup blocks; see [profile architecture and recovery](powershell-profiles.md). Default/unset remove only the managed block; Baseline resolves to Default. Saved-run restore recovers its captured predecessor. These are fixed reviewed RIDE presets, not edits to Terminal settings.json. show/status inspect configuration rather than observing another session. UserBinPath appends an existing user bin directory only at selected-shell startup, without changing persistent PATH or provisioning files. Pending entries cannot be applied until applicable disposable target and runtime acceptance is recorded.')
 $lines.Add('')
 $lines.Add('| Operation | Runtime | Setting | States | Normal Recommended palette | Elevated palette |')
 $lines.Add('| --- | --- | --- | --- | --- | --- |')
 foreach ($operation in ($catalog.Operations | Where-Object Kind -eq 'ProfileSetting' | Sort-Object { $_.Id })) {
   $states = ($operation.States.Keys | Sort-Object) -join ', '
-  $lines.Add("| $($operation.Id) | $($operation.ProfileRuntime) | $($operation.ProfileSetting) | $states; Baseline alias | $($operation.NormalColorScheme) | $($operation.AdminColorScheme) |")
+  $normal = if ($operation.ProfileSetting -eq 'TerminalColors') { $operation.NormalColorScheme } else { 'Not applicable' }
+  $admin = if ($operation.ProfileSetting -eq 'TerminalColors') { $operation.AdminColorScheme } else { 'Not applicable' }
+  $lines.Add("| $($operation.Id) | $($operation.ProfileRuntime) | $($operation.ProfileSetting) | $states; Baseline alias | $normal | $admin |")
 }
 $lines.Add('')
 $lines.Add('## Publisher licenses')

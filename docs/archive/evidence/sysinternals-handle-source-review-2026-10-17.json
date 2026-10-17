@@ -1,0 +1,115 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "ReviewedProductSourceInventory",
+  "ProductId": "sysinternals-handle",
+  "PublisherVersion": "5.0",
+  "Acquisition": {
+    "SchemaVersion": 1,
+    "AcquiredAtUtc": "2026-10-17T05:44:06.7427449Z",
+    "Source": {
+      "Product": "Microsoft Sysinternals Handle",
+      "PublisherPageDate": "2022-10-26",
+      "ProductUri": "https://learn.microsoft.com/en-us/sysinternals/downloads/handle",
+      "DownloadUri": "https://download.sysinternals.com/files/Handle.zip",
+      "License": "Proprietary - Microsoft Sysinternals Software License Terms",
+      "LicenseUri": "https://learn.microsoft.com/en-us/sysinternals/license-terms",
+      "Purpose": "Inert archive inventory and signature/version inspection only; no execution, service, driver or redistribution"
+    },
+    "FinalUri": "https://download.sysinternals.com/files/Handle.zip",
+    "Length": 747331,
+    "Sha256": "279aaf8eccb6f79147f4dcc6ba091fb895c4cb8b199a0dd186a4c76bc519d2cd",
+    "PublisherDigest": null,
+    "Executed": false
+  },
+  "MemberCount": 4,
+  "ExpandedBytes": 1552386,
+  "NoticeMembers": [
+    "Eula.txt"
+  ],
+  "Members": [
+    {
+      "Name": "handle.exe",
+      "Length": 761240,
+      "Sha256": "84c22579ca09f4fd8a8d9f56a6348c4ad2a92d4722c9f1213dd73c2f68a381e3",
+      "ProductName": "Sysinternals Handle",
+      "ProductVersion": "5.0",
+      "FileVersion": "5.0",
+      "OriginalFilename": "Nthandle.exe",
+      "PeMachine": "0x014c",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "SignerThumbprint": "AFBF0B8B6A18F7E23CCA1DDCD0AC1A55B4035173",
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "handle64.exe",
+      "Length": 416144,
+      "Sha256": "24bafcc570cc9bbb6b6e6652a57a519e0464e3996891aaba6f55299cce20b04f",
+      "ProductName": "Sysinternals Handle",
+      "ProductVersion": "5.0",
+      "FileVersion": "5.0",
+      "OriginalFilename": "Nthandle.exe",
+      "PeMachine": "0x8664",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "SignerThumbprint": "AFBF0B8B6A18F7E23CCA1DDCD0AC1A55B4035173",
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "handle64a.exe",
+      "Length": 367512,
+      "Sha256": "21bd4ed38f08015f39f1653a1a4dccf19ce06cd44ee32720488a9096a306080d",
+      "ProductName": "Sysinternals Handle",
+      "ProductVersion": "5.0",
+      "FileVersion": "5.0",
+      "OriginalFilename": "Nthandle.exe",
+      "PeMachine": "0xaa64",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "SignerThumbprint": "AFBF0B8B6A18F7E23CCA1DDCD0AC1A55B4035173",
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "Eula.txt",
+      "Length": 7490,
+      "Sha256": "8329bcbadc7f81539a4969ca13f0be5b8eb7652b912324a1926fc9bfb6ec005a",
+      "ProductName": null,
+      "ProductVersion": null,
+      "FileVersion": null,
+      "OriginalFilename": null,
+      "PeMachine": null,
+      "SignatureStatus": "NotApplicable",
+      "Signer": null,
+      "SignerThumbprint": null,
+      "ErrorType": null,
+      "Executed": false
+    }
+  ],
+  "SuiteComparison": [
+    {
+      "Name": "handle.exe",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    },
+    {
+      "Name": "handle64.exe",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    },
+    {
+      "Name": "handle64a.exe",
+      "InReviewedSuite": false,
+      "SameSha256": null
+    },
+    {
+      "Name": "Eula.txt",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    }
+  ],
+  "RuntimeExecuted": false,
+  "SupportedTargetAcceptance": false
+}

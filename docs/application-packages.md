@@ -24,9 +24,11 @@ compares its requested edition.
 The [approved deployment decision](migrations/package-deployment-decisions.md)
 of 2026-10-14 allows future workstation installation, separate portable copies
 and acquisition USB/toolkit assembly to coexist under one product ID, with
-independent ownership and recovery. Deployment selection, state migration,
+independent ownership and recovery. Explicit named selection and adoption/replacement
+requirements were accepted on 2026-10-17; state migration, live lifecycle,
 product conflict checks and kit acceptance remain pending. The examples in
-this guide describe the current single-selection behavior. Packages remain paused.
+this guide describe the current single-selection behavior. See the migration
+ledger for current implementation authorization and pending acceptance.
 
 Profiles select a distribution on the package entry:
 
@@ -38,6 +40,281 @@ Profiles select a distribution on the package entry:
 
 Groups retain their catalog ordering and use package defaults. Select alternate
 variants on individual package entries. Group removal reverses dependency order.
+
+## Named deployment identity preparation
+
+The optional metadata API in `modules/RIDE.DeploymentIdentity.psm1` prepares and
+selects named identities without reading installed applications or state stores.
+It is not wired into the install/remove commands above. It cannot reserve a name,
+adopt files, create a kit or authorize a package change.
+
+From the repository root in Windows PowerShell 5.1 or PowerShell 7, no elevation
+is needed for this supplied-data example:
+
+```powershell
+Import-Module .\modules\RIDE.DeploymentIdentity.psm1
+$resolved = @{ Id='package.sharex'; PackageId='sharex'; Kind='Package'
+  SelectedVariant='portable'; Scope='Machine' }
+$identity = New-RidePackageDeploymentIdentity -Operation $resolved -DeploymentId sharex-field
+Get-RidePackageDeploymentIdentity -Records @($identity)
+Resolve-RidePackageDeploymentIdentity -Records @($identity) -DeploymentId sharex-field
+```
+
+Use explicit already-resolved metadata; the API does not resolve a catalog default,
+read preferences or verify that this example is deployable. User scope requires
+the intended canonical numeric `-UserSid`; machine scope carries no user SID.
+An optional library ID stays distinct from built-in identity. Names are lowercase
+letters/digits/hyphens, start with a letter and have at most 64 characters;
+reserved Windows device names are rejected. Names are identifiers, not paths.
+
+Inspection retains every supplied deployment. Selection accepts a deployment ID
+or an operation ID with exactly one match. Multiple copies, variants, scopes or
+owners require an explicit deployment ID; a default distribution never resolves
+that ambiguity. Both selectors together must agree. Unknown selections fail
+without fallback. Operation/deployment completion uses only the supplied validated
+collection, filters without case sensitivity and quietly returns nothing when
+optional data is unavailable. The complete collection is limited to 4096 records;
+duplicate names are rejected even across different products, owners or libraries.
+
+Schema-1 `PackageDeploymentIdentity` objects always have `ReadyForMutation=false`.
+They are preparation metadata, not ownership or recovery evidence. Existing
+PackageSelections schema 1 and saved operation schemas 1/2/3 remain unchanged;
+old records are refused by this new API rather than silently renamed. Future
+integration must preserve those original records through an explicit versioned
+mapping, collect all relevant stores, and refuse treating inaccessible stores as
+empty. No recovery action is necessary for this in-memory API. See the
+[implementation record](migrations/application-migration-review.md#b07-explicit-deployment-identity-preparation-2026-10-17)
+for validation and remaining integration steps.
+
+## Prepare a legacy selection mapping
+
+`RIDE.LegacyDeploymentMapping.psm1` provides a data-only compatibility step for
+an existing PackageSelections schema-1 record. Supply the parsed legacy record,
+an explicit new deployment name, trusted expected base operation and expected
+Machine/User store scope. User scope also requires its intended canonical SID.
+No elevation, registry lookup or package execution occurs:
+
+```powershell
+Import-Module .\modules\RIDE.LegacyDeploymentMapping.psm1
+$mapping = New-RideLegacyDeploymentMapping -Selection $oldSelection -DeploymentId example-workstation -ExpectedOperation $catalogPackage -ExpectedScope Machine
+$originalLogicalRecord = Get-RideLegacyDeploymentSelection -Mapping $mapping
+```
+
+The expected operation checks stable product/library identity only. Its current
+default variant, scope or destination does not replace the saved selection.
+Retired saved variant IDs, original paths and unknown literal fields remain in
+a deep copy. The reverse API checks identity consistency and returns a separate
+copy; it does not write a state file or invoke the engine. Schema-3 run snapshots
+are a separate format and are refused here.
+
+This is a version-1 logical mapping with ReadyForMigration=false and
+OriginalFileBytesPreserved=false. Keep the original file: this API does not read
+or archive its bytes, authenticate the store/owner, reserve a unique name or
+guarantee durable recovery. Parsed data must contain only bounded literal values;
+unsupported objects are refused without altering the source. Before any actual
+state migration, add strict byte-preserving input, complete store identity,
+exclusive name reservation, journaling and interrupted-commit recovery. Existing
+selection indexes and saved runs continue through the existing engine unchanged.
+See the [compatibility evidence](migrations/application-migration-review.md#b07-legacy-selection-mapping-preparation-2026-10-17).
+
+## Observe existing installation registrations
+
+Use `tools/Export-RideInstalledRegistrationInventory.ps1` to prepare adoption
+review data without running package detection handlers, installers or uninstallers.
+From the repository root in native Windows PowerShell 5.1 or PowerShell 7:
+
+```powershell
+.\tools\Export-RideInstalledRegistrationInventory.ps1 -Scope Machine,User -ExpectedComputerName '<target>' -ExpectedBuild '<build>' -ExpectedEditionId '<edition>' -ExpectedUserSid '<intended-account-SID>' -ExpectedSessionId 1 -OutputPath C:\Evidence\registrations.json -WhatIf
+```
+
+Supply independently checked target/account/session values and an existing output
+directory. Run as the intended interactive account with access to the selected
+roots; no automatic elevation occurs. WhatIf collects nothing and writes nothing.
+Remove WhatIf only for the intended read-only observation. Scope completes from
+Machine/User; the current user is the executing account, not another loaded profile.
+
+The JSON contains a separate source for each selected scope and native registry
+view: Registry64 and Registry32 on a 64-bit OS, Registry32 on a 32-bit OS. This
+view handling does not extend declared package target support. Each source is
+Captured or Unavailable; a missing root is Captured with RootExists=false and an
+empty Entries array. An inaccessible, malformed or interrupted source loses its
+partial rows and remains Unavailable, while independent sources can complete.
+Do not treat that source as evidence that a package is absent.
+
+Each registration retains its literal key name plus DisplayName, DisplayVersion,
+Publisher, InstallLocation, WindowsInstaller and SystemComponent, with explicit
+presence/type/data. ExpandString paths stay unexpanded; unknown DWord bits remain
+numeric. Up to 2048 entries per source and 4096 characters per string are retained.
+Identical names in different views remain separate observations because shared or
+reflected registrations need explicit reconciliation. No uninstall command is
+captured or executed; no Win32_Product query, executable scan or repair occurs.
+
+Check every source status and the complete machine/build/edition/user/session
+context before review. Registrations can be stale, ambiguous or forged; a name,
+publisher, version or path is not proof of product identity, installed health,
+architecture or file ownership. This first slice does not discover other users,
+portable trees, Store apps or service-only packages. Use the separate offline matching API below for catalog review; this inventory
+itself is not an adoption plan. A schema-1 InstalledRegistrationObservation
+always has ReadyForMutation=false and RecoverySupported=false.
+
+The output is created exclusively; an existing/racing file is retained. On a
+write failure preserve any partial output and choose a new name. Store the JSON
+appropriately because it can contain user paths and installed-product metadata.
+No Windows recovery is needed for observation. Before adoption, add complete
+catalog matching, per-match ambiguity resolution, ownership and exact live
+revalidation; replacement requires separate backups and recovery guarantees.
+See the [batch record](migrations/application-migration-review.md#b07-installed-registration-inventory-2026-10-17).
+
+## Review registrations against the catalog
+
+After collecting an observation on the intended target, review its saved data
+without querying Windows again. From the repository root, no elevation is needed:
+
+```powershell
+Import-Module .\modules\RIDE.CatalogData.psm1
+Import-Module .\modules\RIDE.PackageAdoptionReview.psm1
+$catalog = Import-RideCatalogData .\catalog\operations.psd1
+$observed = Get-Content -LiteralPath C:\Evidence\registrations.json -Raw | ConvertFrom-Json
+$review = Get-RidePackageAdoptionReview -Catalog $catalog -Inventory $observed -Target 'Windows 11'
+$review.Rows | Select-Object OperationId,Variant,Scope,Status,ReadyForAdoption
+```
+
+Use a validated catalog and the intended target label. Target completes from that
+catalog, including variant declarations. The explicit label is not proof that
+the supplied observation came from a supported Windows target. All rows retain
+ObservedTargetVerified=false and ReadyForAdoption=false.
+
+| Review status | Meaning and next step |
+| --- | --- |
+| SingleCandidate | One provisional name match in complete scope/view observations. Verify product, version, architecture/channel, location and ownership before adoption. |
+| Ambiguous | Multiple registrations match, or the registration also matches another distribution. Resolve this row individually; unrelated rows remain reviewable. |
+| NoMatch | No name match in the supplied complete source views. This does not prove software is absent from the machine. |
+| IncompleteSources | A required scope/view is missing or unavailable. Existing matches remain visible, but uniqueness and absence cannot be concluded. |
+| TargetNotDeclared | The distribution does not declare the requested target; a matching name does not expand support. |
+| NotCovered | Portable, service-only or other distributions need their own identity provider. |
+| ReviewFailed | Invalid metadata or bounded matching failure; inspect the distribution before retrying. Other distributions still report results. |
+
+The review uses the existing variant resolver's new `-MetadataOnly` switch to
+avoid local preferences, destination expansion and configuration reads. Direct
+resolver Variant completion uses the supplied operation. MetadataOnly results
+must not be passed to an installer: they are not operational selections. Normal
+resolver behavior and the main RIDE commands remain unchanged.
+
+Matching is case-insensitive and culture-invariant, with a 50 ms regex timeout
+and two-second scan budget per distribution. Saved observations are copied and
+validated before matching; unavailable sources cannot retain partial rows.
+Registry paths and values are never executed. Nothing is selected for adoption,
+replacement or upgrade merely by generating this report. An adoption plan still
+needs explicit operator selections, complete live revalidation and supported
+ownership/recovery guarantees. Review requires no rollback; original observations
+and existing RIDE state records are unchanged. See the
+[implementation evidence](migrations/application-migration-review.md#b07-offline-package-adoption-review-2026-10-17).
+
+## Prepare toolkit file-update decisions
+
+`RIDE.ToolkitUpdatePreparation.psm1` implements the accepted staged-update file
+rules in memory. It compares a prior ownership manifest, desired content and a
+complete observation; it does not collect files, publish a toolkit or delete data.
+From the repository root in native PowerShell, no elevation is needed:
+
+```powershell
+Import-Module .\modules\RIDE.ToolkitUpdatePreparation.psm1
+$preparation = New-RideToolkitUpdatePreparation -KitId field-kit -Root C:\Kits\Field -PreviousManifest $previous -DesiredManifest $desired -Observation $observed
+$preparation.Decisions | Select-Object RelativePath,Action,Reason,RequiresExplicitDecision
+```
+
+The two schema-1 ToolkitOwnedFiles inputs contain KitId and Files, with exact
+RelativePath, Sha256 and Length for every managed file. Pass explicit null for
+PreviousManifest only when preparing a first publication. These are owned-file
+records, not complete product/artifact/license manifests or proof of provenance.
+
+The schema-1 ToolkitFilesystemObservation must supply the same explicit Root,
+Complete=true, CaseSensitive=false, RootIsReparsePoint=false and Entries with
+RelativePath/Kind. File rows require Sha256/Length; Directory, ReparsePoint and
+Unavailable rows carry null digest/length. A future collector must establish those
+facts; setting the flags manually does not authenticate an observation. Both
+manifests and observations are bounded to 32768 entries each.
+
+| Action | Meaning |
+| --- | --- |
+| StageAdd | Desired path is unoccupied and unowned; stage and verify content before any commit. |
+| StageReplace | Existing owned content still matches its prior digest/length; stage the replacement first. |
+| Keep | Existing owned content already matches the desired content; no replacement. |
+| RemoveOwnedUnchanged | Obsolete owned file still matches its prior digest/length; removal can only follow verified staging and live commit guards. |
+| ForgetAbsent | Obsolete owned file is already absent; no filesystem deletion. |
+| PreserveUnmanaged | Unrelated file or directory remains outside ownership. |
+| Conflict | Requires a later explicit decision or corrected evidence; no implicit overwrite, deletion or adoption. |
+
+Modified managed files, modified obsolete files, missing desired managed files,
+unowned collisions and unsafe ancestors are conflicts. An unowned file with the
+same desired hash is still not automatically adopted. Unrelated files and generated
+data are retained. A file already at the desired content is kept, even if the old
+manifest expected another version. All comparisons include byte length and digest.
+Path checks reject traversal, absolute member paths, alternate streams, reserved
+names, ambiguous trailing dots/spaces and case-colliding members. Reparse/unavailable
+ancestors and observed descendants block replacement; no directory tree is owned
+merely because a child file appears in a manifest. Case-only spelling changes do
+not request a rename.
+
+Root is a selected host subdirectory, including an eligible UNC subdirectory,
+without USB enrollment or physical-volume tracking. ReadyForPublication and
+RecoverySupported remain false even when ConflictCount is zero. Before a writer
+uses these decisions it must authenticate ownership and exact artifact/source/
+license notices, collect fresh complete filesystem evidence, verify staging and
+implement journaled commit/interruption recovery. Modified-file answers cannot be
+inferred from silence. Keep original manifests/observations; this API needs no
+Windows rollback. See the [validation record](migrations/application-migration-review.md#b07-toolkit-owned-file-update-preparation-2026-10-17).
+
+## Wireshark machine MSI candidate
+
+`package.wireshark` offers the official pinned 4.6.9 x64 MSI as a pending installed
+distribution. It has no supported targets and appears in no selection profile.
+The user selected all-user installation while preserving capture-file associations;
+choosing Wireshark as the default capture-file application remains a separate
+explicit action. The candidate passes `/qn /norestart WIRESHARK_FILE_EXTENSIONS=0`
+to the existing MSI handler, with compensating package recovery rather than an
+exact backup of all application state.
+
+The acquired 80,433,152-byte MSI matches the publisher's SHA-256 and carries a
+Valid Wireshark Foundation Authenticode signature. Its read-only database declares
+ALLUSERS=1, x64 architecture and product version 4.6.9.0. The 116 class-registration
+rows belong to 29 components conditioned on WIRESHARK_FILE_EXTENSIONS being 1.
+Disabling that property is a source-verified candidate; actual existing default
+association preservation still requires native checks. The publisher's checksum
+file includes a PGP signature, which was not verified in this run. Source/reference
+and table evidence are [retained separately](archive/evidence/wireshark-msi-source-review-2026-10-17.json).
+
+The MSI includes application notices and Visual C++ runtime merge-module files.
+It contains no Npcap/USBPcap installer. Live capture remains the separately selected
+interactive Npcap workflow, retaining administrator-only access. Q16 now selects
+WinPcap compatibility off by default; enabling it needs explicit selection and
+preview of replacement of any existing WinPcap installation. The Wireshark candidate
+does not implement or execute that driver workflow.
+
+The publisher labels its WiX installer experimental and warns about transitions
+between NSIS and MSI installations. The inspected MSI launch conditions refuse
+detected NSIS installations. Do not remove or convert an existing installation to
+force eligibility. Existing MSI upgrades, global plugins/profiles, user settings,
+shared runtime ownership, reboot reporting and uninstall/recovery all need their
+own disposable evidence. Catalog discovery/download is preparation, not acceptance.
+
+For review, start in the repository root in native PowerShell:
+
+```powershell
+.\ride.ps1 show package.wireshark
+.\ride.ps1 download package.wireshark -WhatIf
+```
+
+Do not bypass the pending-target gate. Next acceptance must seed unrelated file
+associations and global/user content, install/repeat/remove, verify those values
+and files unchanged, retain MSI/recovery evidence and test partial failures. Test
+Npcap separately with explicit interactive choices and captured prior driver state.
+No installer or driver ran during this source batch. See the [dated record](migrations/application-migration-review.md#b08-wireshark-machine-msi-candidate-2026-10-17).
+
+Official references: [Windows installation](https://www.wireshark.org/docs/wsug_html_chunked/ChBuildInstallWinInstall.html),
+[WiX transition limitations](https://gitlab.com/wireshark/wireshark/-/blob/v4.6.9/packaging/wix/README.adoc),
+[association conditions](https://gitlab.com/wireshark/wireshark/-/blob/v4.6.9/packaging/wix/ComponentGroups.wxi)
+and [publisher checksums](https://www.wireshark.org/download/SIGNATURES-4.6.9.txt).
 
 ## Local configuration
 
@@ -113,7 +390,8 @@ the installation unhealthy. Upgrades reject modified owned files. Removal
 deletes matching owned bytes, preserves modified files, application data and
 unowned content, and leaves the tools root intact. Preserved modifications are
 reported; installing again over those files requires an individual decision.
-An interrupted write retains an `Installing` ownership journal and a saved run.
+An interrupted copy normally retains an `Installing` ownership journal and a saved
+run. Manifest commit failures require the separate review below.
 
 ## Saved state and recovery
 
@@ -131,9 +409,28 @@ that exact recovery. Restoring original absence removes matching owned bytes
 while preserving user files. Application data outside the ownership manifest
 is not a backup and is never removed by this handler.
 
-Ownership manifests are replaced atomically. Installation and restoration
+Ownership manifests use atomic replacement on success. Installation and restoration
 write an incomplete ownership journal before copying files, so a partial copy
 remains recognizable and can be retried from retained recovery bytes.
+
+### Manifest commit failure
+
+If committing `.ride-package.json` fails, stop further changes to that product.
+Preserve the saved run, current product directory and any
+`.ride-package-<id>.tmp` path reported in the warning. The staged file is evidence,
+not an automatically accepted ownership manifest. It can describe a proposed
+copy that never happened; Windows replacement failure can also leave the old
+manifest absent. Compare both journals with actual file hashes and saved backup
+bytes before choosing recovery. Do not rename a temporary journal into place,
+delete retained evidence or reinstall to clear the error without that review.
+
+The writer retries sharing/lock errors 32/33 and replacement error 1175 at most
+twice, after 50 and 100 milliseconds. Each retry requires both files to remain
+present, unchanged by SHA-256 and free of reparse-point paths. Other errors,
+including partial-replacement errors 1176/1177, stop immediately. Remaining staged
+bytes are retained on failure. This does not provide concurrent-writer isolation;
+serialize operations for a product. See Microsoft's
+[ReplaceFile failure states](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-replacefilew).
 
 Conventional EXE/MSI recovery remains compensating. Restoring original absence
 uninstalls the selected product; recovering a previously installed product may
@@ -188,6 +485,242 @@ connections or change configuration storage. Users may select an explicit writab
 INI path as described in the [portable guide](https://winscp.net/eng/docs/portable);
 machine deployment does not grant write access to the tools directory.
 
+## Pinned Python source candidates
+
+`package.hex2text` and `package.chromeparser` are optional pending source-only
+distributions. Each retains the complete three-file upstream archive: script,
+README and license, under its commit-named root. RIDE stages files with the existing
+portable handler; it does not execute Python, install an interpreter, add PATH or
+file associations, or scan browser/evidence data. Both have Windows 11 candidate
+targets only, empty supported targets and no recommended profile inclusion.
+
+| Candidate | Source and observed archive SHA-256 | Runtime/function boundary |
+| --- | --- | --- |
+| Hex2text | gh05t-4/hex2text revision `9715c6c26824ef05039228f16e0c47620c52fe79`; `aa0083da094a3320db9a97eb22c499a420187c208ed92376a662243678f083c3` | A prompted text converter with no imports. Source inspection shows four-hex-digit character groups, literal-space removal and ignored incomplete trailing groups; it is not a general UTF-8 byte decoder. Invalid-input and Unicode behavior require acceptance. Retain GNU GPL v3 license and source. |
+| ChromeSyncParser | marleyjaffe/ChromeSyncParser revision `0f59c5702ffd03102c550ecc373ab4fefa6f810c`; `8dff59a48d3d6ab41cf8d39154a0e05cfda5df36a1b76180a70692762854da46` | Historical Chrome SyncData/metas parser, using Python's standard library including sqlite3. Ordinary SQLite connections do not guarantee read-only forensic handling. Current Chrome schema, output correctness and input protection remain unverified. Retain MIT copyright/license. |
+
+The exact scripts parse under Python 3.12.14 without execution; this is syntax
+evidence only. Choose and validate an interpreter separately before use. RIDE
+does not point these scripts at live profiles or evidence. ChromeSyncParser can
+search historical user-profile paths and overwrite a requested output file;
+future runtime acceptance must use disposable synthetic/copied data. A successful
+file lifecycle cannot prove parser correctness or modern application support.
+
+All declared files are required before staging, so the legacy script-only payload
+is rejected. The handler preserves unowned reports and operator files, refuses
+replacement of modified owned scripts, and retains modified content during removal.
+Saved-run restore requires retained backups and recovers only owned files. It cannot
+undo code execution, data access or output changes. New revisions use a new nested
+root; review any custom data migration instead of assuming it follows automatically.
+
+See the [source observation](archive/evidence/python-script-source-review-2026-10-16.json)
+and [batch record](migrations/application-migration-review.md#b08-pinned-python-source-candidates-2026-10-16)
+for integrity, test and acceptance evidence. ShimCacheParser is still deferred:
+the inspected publisher script uses Python 2 syntax and cStringIO. No Python 2
+installation, unreviewed port, replacement parser or retirement is selected.
+
+## RegRipper 3.0 portable candidate
+
+`package.regripper` retains the legacy RegRipper **3.0** product line as a pending
+full-distribution candidate. It pins upstream revision
+`ec96dd4a6a5c3ea70d8fece9b47a374f83582335` and the inspected archive hash. There are
+no supported targets or profile entries; Windows 11 is the first disposable
+acceptance candidate. Inspect from the repository root without elevation:
+
+```powershell
+.\ride.ps1 show package.regripper
+.\ride.ps1 download package.regripper -WhatIf
+```
+
+The archive contains 282 files, including 266 plugin/profile files, x86 `rr.exe`
+and `rip.exe`, the supplied `p2x5124.dll`, source, README and both license files.
+RIDE retains the complete archive layout beneath
+`<ToolsDirectory>\regripper\RegRipper3.0-<full revision>`. It does not flatten paths,
+extract the nested `rip_bulk.zip`, or execute any included program, script or plugin.
+The three inspected PE binaries are unsigned; the pinned hash establishes reviewed
+byte identity, not cryptographic publisher authentication. The bundled interpreter
+reports a 2011 build. Its current-build/runtime compatibility remains unverified.
+
+The candidate uses manifest-owned file recovery. Unowned analyst reports and custom
+plugins are preserved; changed bundled plugins block upgrades and survive removal.
+Saved-run restore requires the retained files and refuses conflicting destinations.
+A new revision has a different archive-root folder, so custom plugins are not
+automatically copied into its folder. Review plugin compatibility explicitly before
+moving them; neither pinned source acquisition nor successful extraction proves
+forensic parsing quality or equivalence to an installed Perl environment.
+
+Running the GUI/CLI later is separate from deployment. Use copies of authorized
+input hives and an explicitly chosen output directory; RIDE does not acquire evidence,
+run the `-uP` profile updater, install Perl/Python/YARA or merge transaction logs.
+The publisher's [3.0 README](https://github.com/keydet89/RegRipper3.0#readme) describes
+compiled Windows tools and notes that transaction logs are not automatically processed.
+This observation is not a Windows 11 parser-support declaration.
+
+The candidate does **not** substitute RegRipper 4.0. That line has different
+[personal/academic and redistribution restrictions](package-licensing.md#important-to-review-licensing)
+and a separate YARA integration. Retain the 3.0 MIT and contributor notices; review
+bundled-runtime and distribution obligations independently. See the
+[source record](migrations/application-migration-review.md#b08-regripper-30-distribution-candidate-2026-10-16)
+for exact hashes, unresolved choices and native acceptance.
+
+## Rufus portable candidate
+
+`package.rufus` is a pending, optional x64 portable candidate pinned to official
+Rufus 4.15. No Windows target is supported yet; Windows 11 is the first candidate
+for disposable file-lifecycle acceptance. It is outside all profiles. From the
+repository root, inspect it without elevation:
+
+```powershell
+.\ride.ps1 show package.rufus
+.\ride.ps1 download package.rufus -WhatIf
+```
+
+Acquisition uses the official versioned `rufus-4.15p.exe` and the inspected SHA-256
+pin. The reviewed bytes had a Valid Akeo Consulting Authenticode signature and file
+version 4.15.2396. This is dated evidence, not a publisher-published checksum or
+automatic latest-version discovery. See the [source review](archive/evidence/rufus-portable-source-review-2026-10-16.json).
+The unmodified executable retains its embedded notices; publisher terms are linked
+in the catalog. No redistribution or local/company license approval is implied.
+
+After acceptance, the existing portable handler would own only `rufusp.exe` beneath
+`<ToolsDirectory>\rufus` plus its RIDE ownership manifest. The stable filename keeps
+the `p` that triggers Rufus portable mode. RIDE does not create or own `rufus.ini`,
+logs, downloaded images or other user files; removal and exact owned-file restore
+preserve them. Existing unowned executable collisions refuse adoption, and modified
+owned executables are preserved rather than overwritten. Machine tools deployment
+requires elevation and does not grant the user write access to that directory.
+
+Staging never launches Rufus, creates a task/shortcut, changes PATH or touches USB
+media. Running Rufus later is an explicit operator action: portable mode does not
+promise an untouched registry, and its own updates, downloads, configuration and
+media writes fall outside RIDE's file recovery. Saved-run restore cannot undo USB
+formatting or recover media contents. The publisher explains the filename trigger,
+INI behavior and registry effects in its
+[portable FAQ](https://github.com/pbatard/rufus/wiki/FAQ#what-is-the-difference-between-the-portable-and-the-regular-version).
+
+## PSScriptTools source candidate
+
+`package.psscripttools` is an inert 3.2.0 source candidate, pinned to upstream
+revision `549fa3e3d769532320054fc0b3c8f42df0452361`. It has no supported production
+target and no profile selection. Windows 11 is a candidate for disposable file
+lifecycle checks only. From the repository root, inspect and preview acquisition:
+
+```powershell
+.\ride.ps1 show package.psscripttools
+.\ride.ps1 download package.psscripttools -WhatIf
+```
+
+The complete publisher archive retains 360 files, including 75 function files,
+manifest, module, types/formats, samples, documentation and MIT notice. Its observed
+SHA-256 pin is not a publisher signature or separately published checksum. See
+[dated acquisition evidence](archive/evidence/psscripttools-source-review-2026-10-17.json).
+Payload inspection parsed only the root manifest/module in both PowerShell
+editions; no upstream code was imported or executed.
+
+After acceptance, source would be owned beneath
+`<ToolsDirectory>\psscripttools\PSScriptTools-<revision>` with the existing portable
+manifest. Machine-scoped staging requires elevation. Repeat staging refuses to
+overwrite modified owned files; removal preserves modified source and unowned
+analyst files. Saved recovery restores owned captured bytes, not session/editor
+state, external dependencies or an editable Git history. The archive has no Git
+workspace metadata and no implicit update command.
+
+This candidate does not resolve Q15's source snapshot versus editable checkout
+choice or select the publisher-recommended Gallery distribution. It does not
+register on PSModulePath, edit profiles, import/type-load anything, install
+Microsoft.PowerShell.Threadjob or load System.Drawing. Those are separate runtime
+requirements and ownership/compatibility work. A later upstream module import
+loads functions, types/formats, global customization variables and optional
+VS Code/ISE integrations; that is outside inert file deployment and recovery.
+Keep the original source/modified files until recovery succeeds. Native file
+lifecycle, runtime/function behavior, dependency ownership and deployment choice
+remain [acceptance gates](migrations/application-migration-review.md#b08-psscripttools-source-candidate-2026-10-17).
+
+## Office and Visio configuration review
+
+Office deployment remains pending. Microsoft 365 Apps for enterprise uses the
+selected Monthly Enterprise default, with Current Channel explicit. Fresh installs
+prefer 64-bit; adding products must match existing compatible Office architecture.
+32-bit is explicit, and migrating an existing installation needs a separate choice.
+Visio Professional 2016 Retail and Visio Plan 2 are separate choices, not proven
+coinstallable products. Preserve existing 2016 licences/installations. Visio uses
+the accepted en-US default or explicit da-DK; Office retains en-GB. Additional
+language packs, MatchOS and proofing remain product-specific review work.
+
+Standard subscription user sign-in is separate from unattended installation:
+report activation pending and continue when installation succeeds without verified
+activation. Keep specialized activation separate. Teams installation is optional;
+startup and old-version cleanup require separate selections and data preservation.
+OneDrive accounts, sync configuration and user files must be preserved; sync/folder
+backup restrictions are separate choices. See the [accepted Q21/Q22 decisions](migrations/decision-session-2026-10-17.md#q21-guided-officevisio-selection-and-separate-teams-actions).
+
+To inspect an operator-supplied ODT configuration, start at the repository root
+in Windows PowerShell 5.1 or PowerShell 7. No elevation is needed for this in-memory
+review; the caller needs read access to the explicitly selected local XML.
+
+```powershell
+Import-Module .\modules\RIDE.OfficeConfigurationReview.psm1
+$configurationBytes = [IO.File]::ReadAllBytes('<reviewed-local-configuration.xml>')
+$review = Get-RideOfficeConfigurationReview -Bytes $configurationBytes
+$review | ConvertTo-Json -Depth 12
+```
+
+The schema-1 review binds exact bytes by SHA-256. It reports declared products,
+languages, architecture/channel/version, removal selections/MSI exclusions, update
+configuration and sensitive action requests. Omitted choices stay omitted.
+Product keys, private property values, source paths and application-setting values
+are not included. Unknown syntax is flagged, not corrected. Parsing is bounded to
+1 MiB, 4096 nodes, depth 24 and 32 attributes; DTD/external resolution and processing
+instructions are prohibited. XML parser errors omit source text.
+
+This is neither an ODT schema validator nor installed-product, licence or
+compatibility verification. ReadyForMutation and RecoverySupported remain false.
+It does not write XML, fetch ODT, execute setup, activate Office, change Teams or
+remove software. Keep the original XML for recovery/review and do not share it if
+it contains secrets. The [dated evidence and next procedure](migrations/application-migration-review.md#b10-inert-office-configuration-review-2026-10-17)
+explain the legacy configuration's unresolved actions and product-specific gates.
+
+## Read-only Office metadata
+
+Click-to-Run observation is available as a separate preparation tool. From the
+repository root in native Windows PowerShell 5.1 or PowerShell 7, supply the
+independently established target machine/build/edition and interactive account
+SID/session. Registry read access and an existing writable output directory are
+required; the command does not request elevation.
+
+```powershell
+$officeObservation = @{
+    ExpectedComputerName = '<target>'
+    ExpectedBuild = '<build>'
+    ExpectedEditionId = '<edition>'
+    ExpectedUserSid = 'S-1-5-21-1-2-3-1001'
+    ExpectedSessionId = 1
+    OutputPath = 'C:\Evidence\office-observation.json'
+}
+.\tools\Export-RideOfficeInventory.ps1 @officeObservation -WhatIf
+.\tools\Export-RideOfficeInventory.ps1 @officeObservation
+```
+
+WhatIf performs no inventory or file creation. Execution creates one new JSON
+file, refusing existing or racing output. Preserve partial output after a write
+failure and use a new filename. No Office state needs restoration.
+
+The schema-1 observation keeps Registry64 and Registry32 separate on 64-bit
+Windows. It reads only eight machine Click-to-Run configuration fields; absent
+keys/values remain distinguishable from unavailable sources. Failed, malformed or
+partial source data is discarded. Context is checked before and after collection.
+Raw strings are not expanded. Channel URLs are redacted; only a recognized
+Microsoft CDN channel GUID is retained. No product key, account token, installation
+path, MSI inventory or executable is queried.
+
+Registration values may be shared, stale or incomplete. ProductReleaseIds and
+ClientCulture do not prove installed product editions or each product's languages;
+UpdateChannel and CDNBaseUrl do not alone establish the effective channel. The
+tool does not resolve policy precedence, entitlements, activation or compatibility.
+InstalledProductsVerified, EffectiveChannelVerified, ReadyForMutation and
+RecoverySupported remain false. Native registry-view acceptance is pending. See
+the [dated evidence and next procedure](migrations/application-migration-review.md#b10-click-to-run-observation-2026-10-17).
+
 ## Disposable-VM acceptance
 
 New products and distributions declare `PendingAcceptance = $true`, explicit
@@ -216,3 +749,72 @@ Desktop products declare `RequiresDesktopExperience`; planning/execution and
 saved-run preflight reject Server Core explicitly. The integration ledger reports
 that applicability separately from failures. Detection follows Microsoft's
 [InstallationType reference](https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/ee391629(v=vs.85)).
+
+## Sysinternals reviewed Suite candidate
+
+package.sysinternals-suite stages the full official portable snapshot captured on
+2026-10-17. Its RIDE snapshot label is not a publisher Suite release version.
+The source URL is mutable, so the expected SHA-256 must match exactly; a changed
+upstream archive requires a separately reviewed snapshot instead of silent update.
+All 164 names, including Eula.txt and help/readme material, are required. The
+[source inventory](archive/evidence/sysinternals-suite-source-review-2026-10-17.json)
+records file hashes, versions, PE machine fields and observed signatures.
+
+This candidate has no supported apply targets and is absent from recommended
+profiles. Whole-suite source staging is implemented; individual product selection,
+per-tool dependencies/applicability, native file lifecycle and application behavior
+remain pending. The existing portable handler owns only recorded unchanged files
+and preserves user-created/modified content. No tool is launched, EULA interaction
+answered, driver/service installed, Sysmon configuration applied, PATH changed or
+shortcut created. Mixed x86/x64 files do not imply support on every architecture.
+The separately managed Sysmon service package remains independent.
+
+Inspect the [batch procedure and recovery](migrations/application-migration-review.md#b11-sysinternals-reviewed-snapshot-candidate-2026-10-17)
+before disposable-target acceptance. Shared publication remains governed by the
+separate licensing/omission contract; a local cache is not redistribution approval.
+
+## Individual Sysinternals portable candidates
+
+Nine independently selectable candidates accompany the whole-Suite snapshot:
+
+| Catalog ID | Publisher version | Official archive inventory |
+| --- | --- | --- |
+| package.sysinternals-process-explorer | 17.2 | Four files; three signed executables and Eula.txt |
+| package.sysinternals-autoruns | 14.3 | Seven files; six signed executables and Eula.txt |
+| package.sysinternals-tcpview | 4.19 | Eight files; six signed executables, help and Eula.txt |
+| package.sysinternals-procmon | 4.12 | Four files; three signed executables and Eula.txt |
+| package.sysinternals-rammap | 1.63 | Four files; three signed executables and Eula.txt |
+| package.sysinternals-disk2vhd | 2.02 | Five files; three signed executables, help and Eula.txt |
+| package.sysinternals-sigcheck | 2.93 | Four files; three signed executables and Eula.txt |
+| package.sysinternals-strings | 2.54 | Four files; three signed executables and Eula.txt |
+| package.sysinternals-handle | 5.0 | Four files; three signed executables and Eula.txt |
+
+Each has its own official ZIP SHA-256 pin, version and independent owned folder.
+Selecting a product does not require Suite. Selecting both creates separate copies;
+removing one does not own the other folder. Native coexistence remains unaccepted.
+Product archives contain x86, x64 and ARM64 members; neutral means an archive of
+mixed files, not acceptance of every architecture or Windows release. Supported
+apply targets remain empty and the candidates are absent from recommended profiles.
+
+No process inspection/termination, autostart change, connection closure, driver
+activation, EULA interaction or VirusTotal upload is performed by file staging.
+Symbols, application preferences and tool execution are separate choices. Upstream
+help inventory differs from the Suite; retain each archive's actual complete set
+rather than silently borrowing files from another product. Exact saved file recovery
+and collision/modified-file refusal use the existing portable lifecycle. See the
+[source review](migrations/application-migration-review.md#b11-independent-sysinternals-products-2026-10-17) for pins and
+remaining native acceptance. Public redistribution review remains separate from
+local acquisition and internal license-review status.
+
+Process Monitor, RAMMap and Disk2vhd stage files only. Kernel-driver loading, boot
+logging, trace capture, memory-list changes, imaging, VSS, virtual-disk attachment
+and encrypted-volume handling require separate explicit workflows and acceptance.
+RIDE does not decrypt volumes or infer imaging rights from this package selection.
+The publisher's historical OS lists are not new RIDE support declarations. See the
+[diagnostic/imaging review](migrations/application-migration-review.md#b11-sysinternals-diagnostic-and-imaging-candidates-2026-10-17).
+
+Sigcheck, Strings and Handle also stage files only. File analysis, certificate-store
+inspection, remote reputation lookups/uploads, handle enumeration/closure and driver
+use require explicit tool execution. Optional external-service terms are considered
+when selecting that service; package staging does not accept them. See the
+[command-line product review](migrations/application-migration-review.md#b11-sysinternals-command-line-candidates-2026-10-17).

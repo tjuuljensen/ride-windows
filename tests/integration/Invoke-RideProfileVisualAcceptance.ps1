@@ -30,8 +30,9 @@
   Compatibility: Windows PowerShell 5.1 coordinator; PowerShell 5.1/7 probes.
   Prerequisites: Disposable Windows 11/Server 2025 desktop, UAC enabled, installed Terminal/PS7.
   Recovery: Finally blocks restore configuration; host restores the clean VM checkpoint.
-  Author: RIDE-Windows maintainers. Version: 0.1.0.
-  Changelog: 0.1.0: Add token-correlated interactive Terminal acceptance.
+  Author: RIDE-Windows maintainers. Version: 0.1.1.
+  Changelog: 0.1.1: Keep color acceptance scoped away from other profile renderers.
+    0.1.0: Add token-correlated interactive Terminal acceptance.
 #>
 
 
@@ -41,7 +42,7 @@ param(
   [string]$ExpectedComputerName, [string]$EvidencePath, [string]$CasePath,
   [switch]$DisposableVm, [switch]$Version
 )
-$script:ScriptVersion = '0.1.0'
+$script:ScriptVersion = '0.1.1'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 if (-not $DisposableVm -or $env:RIDE_INTEGRATION_VM -ne '1' -or $env:COMPUTERNAME -ine $ExpectedComputerName -or
@@ -161,7 +162,7 @@ if ($desktop -eq [IntPtr]::Zero) { throw 'Unlock the disposable guest desktop be
 $null = [RideProfileWindows]::CloseDesktop($desktop)
 Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE-ProfileSettings.psm1') -Force
 Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE.CatalogData.psm1') -Force
-$operations = @((Import-RideCatalogData (Join-Path $PSScriptRoot '../../catalog/operations.psd1')).Operations | Where-Object Kind -eq ProfileSetting)
+$operations = @((Import-RideCatalogData (Join-Path $PSScriptRoot '../../catalog/operations.psd1')).Operations | Where-Object ProfileSetting -eq TerminalColors)
 $workerCase = Get-Content -LiteralPath $CasePath -Raw | ConvertFrom-Json
 $admin = [Security.Principal.WindowsPrincipal]::new([Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 if ($admin -ne ($workerCase.Level -eq 'Highest')) { throw 'Interactive worker did not receive the requested token level.' }

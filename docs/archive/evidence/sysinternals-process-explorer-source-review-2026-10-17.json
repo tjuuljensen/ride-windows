@@ -1,0 +1,115 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "ReviewedProductSourceInventory",
+  "ProductId": "sysinternals-process-explorer",
+  "PublisherVersion": "17.2",
+  "Acquisition": {
+    "SchemaVersion": 1,
+    "AcquiredAtUtc": "2026-10-17T05:30:08.0882534Z",
+    "Source": {
+      "Product": "Microsoft Sysinternals Process Explorer",
+      "PublisherPageDate": "2026-10-15",
+      "ProductUri": "https://learn.microsoft.com/en-us/sysinternals/downloads/process-explorer",
+      "DownloadUri": "https://download.sysinternals.com/files/ProcessExplorer.zip",
+      "License": "Proprietary - Microsoft Sysinternals Software License Terms",
+      "LicenseUri": "https://learn.microsoft.com/en-us/sysinternals/license-terms",
+      "Purpose": "Inert archive inventory and signature/version inspection only; no execution, service, driver or redistribution"
+    },
+    "FinalUri": "https://download.sysinternals.com/files/ProcessExplorer.zip",
+    "Length": 3813190,
+    "Sha256": "dab147316264b89ae46ae2ad7d8a94116848ef0b703bcac8de9ff22689ce9d51",
+    "PublisherDigest": null,
+    "Executed": false
+  },
+  "MemberCount": 4,
+  "ExpandedBytes": 9859802,
+  "NoticeMembers": [
+    "Eula.txt"
+  ],
+  "Members": [
+    {
+      "Name": "procexp.exe",
+      "Length": 4776760,
+      "Sha256": "fd8bf40a4915df81e6ab7126361f0f98d027824c42cd85bd6ac311791840a448",
+      "ProductName": "Process Explorer",
+      "ProductVersion": "17.2",
+      "FileVersion": "17.2",
+      "OriginalFilename": "Procexp.exe",
+      "PeMachine": "0x014c",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "SignerThumbprint": "AB172913A2960A224809EE8A0C371CD47A079B72",
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "procexp64.exe",
+      "Length": 2503976,
+      "Sha256": "cdd3bf8fd68284480361c3673b9db7f48ff8a44317d28a243d26e12192050392",
+      "ProductName": "Process Explorer",
+      "ProductVersion": "17.2",
+      "FileVersion": "17.2",
+      "OriginalFilename": "Procexp.exe",
+      "PeMachine": "0x8664",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "SignerThumbprint": "1D77A9B9E8FE2075D9AD15123257FB90DB0DA4A1",
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "procexp64a.exe",
+      "Length": 2571576,
+      "Sha256": "48db5c371054e53eaefc97eed1e8e6debb57652b2ffbac233d1bb5791cb6da26",
+      "ProductName": "Process Explorer",
+      "ProductVersion": "17.2",
+      "FileVersion": "17.2",
+      "OriginalFilename": "Procexp.exe",
+      "PeMachine": "0xaa64",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "SignerThumbprint": "AB172913A2960A224809EE8A0C371CD47A079B72",
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "Eula.txt",
+      "Length": 7490,
+      "Sha256": "8329bcbadc7f81539a4969ca13f0be5b8eb7652b912324a1926fc9bfb6ec005a",
+      "ProductName": null,
+      "ProductVersion": null,
+      "FileVersion": null,
+      "OriginalFilename": null,
+      "PeMachine": null,
+      "SignatureStatus": "NotApplicable",
+      "Signer": null,
+      "SignerThumbprint": null,
+      "ErrorType": null,
+      "Executed": false
+    }
+  ],
+  "SuiteComparison": [
+    {
+      "Name": "procexp.exe",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    },
+    {
+      "Name": "procexp64.exe",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    },
+    {
+      "Name": "procexp64a.exe",
+      "InReviewedSuite": false,
+      "SameSha256": null
+    },
+    {
+      "Name": "Eula.txt",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    }
+  ],
+  "RuntimeExecuted": false,
+  "SupportedTargetAcceptance": false
+}

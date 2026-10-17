@@ -1,0 +1,195 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "ReviewedProductSourceInventory",
+  "ProductId": "sysinternals-tcpview",
+  "PublisherVersion": "4.19",
+  "Acquisition": {
+    "SchemaVersion": 1,
+    "AcquiredAtUtc": "2026-10-17T05:30:11.1771567Z",
+    "Source": {
+      "Product": "Microsoft Sysinternals TCPView",
+      "PublisherPageDate": "2023-04-11",
+      "ProductUri": "https://learn.microsoft.com/en-us/sysinternals/downloads/tcpview",
+      "DownloadUri": "https://download.sysinternals.com/files/TCPView.zip",
+      "License": "Proprietary - Microsoft Sysinternals Software License Terms",
+      "LicenseUri": "https://learn.microsoft.com/en-us/sysinternals/license-terms",
+      "Purpose": "Inert archive inventory and signature/version inspection only; no execution, service, driver or redistribution"
+    },
+    "FinalUri": "https://download.sysinternals.com/files/TCPView.zip",
+    "Length": 1604604,
+    "Sha256": "4fc5ceba3e1b27ad95a24df35d094b454ec5f9478e12a8ca2b1b222705b9683b",
+    "PublisherDigest": null,
+    "Executed": false
+  },
+  "MemberCount": 8,
+  "ExpandedBytes": 3789574,
+  "NoticeMembers": [
+    "Eula.txt"
+  ],
+  "Members": [
+    {
+      "Name": "tcpview.exe",
+      "Length": 944520,
+      "Sha256": "9775b4bbe23b8eb93727efe0a6d0b160ae5132a10b223f43200499cf0051a18f",
+      "ProductName": "TcpView",
+      "ProductVersion": "4.19",
+      "FileVersion": "4.19",
+      "OriginalFilename": "TcpView.exe",
+      "PeMachine": "0x014c",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "SignerThumbprint": "F372C27F6E052A6BE8BAB3112B465C692196CD6F",
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "tcpview64.exe",
+      "Length": 1087368,
+      "Sha256": "0cbcb7ec4a042622b0d9d91b18f908e4208e4725ee1fa74a3555c4dcb622cfc1",
+      "ProductName": "TcpView",
+      "ProductVersion": "4.19",
+      "FileVersion": "4.19",
+      "OriginalFilename": "TcpView.exe",
+      "PeMachine": "0x8664",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "SignerThumbprint": "F372C27F6E052A6BE8BAB3112B465C692196CD6F",
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "tcpview64a.exe",
+      "Length": 1043864,
+      "Sha256": "fca26bd5a35267a2ff19317c9e4f7642517d9d8795dcf50c65ff036298d6255b",
+      "ProductName": "TcpView",
+      "ProductVersion": "4.19",
+      "FileVersion": "4.19",
+      "OriginalFilename": "TcpView.exe",
+      "PeMachine": "0xaa64",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "SignerThumbprint": "97221B97098F37A135DCC212E2B41E452BCE51F2",
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "tcpvcon.exe",
+      "Length": 202632,
+      "Sha256": "37621bdac3ced1103278e8c0ef7b73dfa1cbe9becfbaff421a46fbc78d636b5f",
+      "ProductName": "TcpVcon",
+      "ProductVersion": "4.19",
+      "FileVersion": "4.19",
+      "OriginalFilename": "Tcpvcon.exe",
+      "PeMachine": "0x014c",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "SignerThumbprint": "F372C27F6E052A6BE8BAB3112B465C692196CD6F",
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "tcpvcon64.exe",
+      "Length": 250816,
+      "Sha256": "f9fdc027050d59608062a95c41e3965e3800fd5a91f35de080a432d62bd129c1",
+      "ProductName": "TcpVcon",
+      "ProductVersion": "4.19",
+      "FileVersion": "4.19",
+      "OriginalFilename": "Tcpvcon.exe",
+      "PeMachine": "0x8664",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "SignerThumbprint": "97221B97098F37A135DCC212E2B41E452BCE51F2",
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "tcpvcon64a.exe",
+      "Length": 236952,
+      "Sha256": "0e85278ca6617dcd61af1e84dea1e3049be0539ca492b5731ddf85545db00390",
+      "ProductName": "TcpVcon",
+      "ProductVersion": "4.19",
+      "FileVersion": "4.19",
+      "OriginalFilename": "Tcpvcon.exe",
+      "PeMachine": "0xaa64",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "SignerThumbprint": "97221B97098F37A135DCC212E2B41E452BCE51F2",
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "tcpview.chm",
+      "Length": 15932,
+      "Sha256": "37b11010a35761703e914dfd88fb26776dbfb29531934244a3bab7b6219a764f",
+      "ProductName": null,
+      "ProductVersion": null,
+      "FileVersion": null,
+      "OriginalFilename": null,
+      "PeMachine": null,
+      "SignatureStatus": "NotApplicable",
+      "Signer": null,
+      "SignerThumbprint": null,
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "Eula.txt",
+      "Length": 7490,
+      "Sha256": "8329bcbadc7f81539a4969ca13f0be5b8eb7652b912324a1926fc9bfb6ec005a",
+      "ProductName": null,
+      "ProductVersion": null,
+      "FileVersion": null,
+      "OriginalFilename": null,
+      "PeMachine": null,
+      "SignatureStatus": "NotApplicable",
+      "Signer": null,
+      "SignerThumbprint": null,
+      "ErrorType": null,
+      "Executed": false
+    }
+  ],
+  "SuiteComparison": [
+    {
+      "Name": "tcpview.exe",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    },
+    {
+      "Name": "tcpview64.exe",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    },
+    {
+      "Name": "tcpview64a.exe",
+      "InReviewedSuite": false,
+      "SameSha256": null
+    },
+    {
+      "Name": "tcpvcon.exe",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    },
+    {
+      "Name": "tcpvcon64.exe",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    },
+    {
+      "Name": "tcpvcon64a.exe",
+      "InReviewedSuite": false,
+      "SameSha256": null
+    },
+    {
+      "Name": "tcpview.chm",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    },
+    {
+      "Name": "Eula.txt",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    }
+  ],
+  "RuntimeExecuted": false,
+  "SupportedTargetAcceptance": false
+}

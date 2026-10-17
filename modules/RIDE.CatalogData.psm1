@@ -6,12 +6,13 @@
   whole-catalog AST complexity limit. Never executes a script or imports handlers.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7.
-  Owner: RIDE-Windows maintainers. Version: 0.2.0.
-  Changelog: 0.2.0: Expand bounded declarative password-age day states without handlers.
+  Owner: RIDE-Windows maintainers. Version: 0.3.0.
+  Changelog: 0.3.0: Accept bounded in-memory catalog text for byte-bound readers.
+    0.2.0: Expand bounded declarative password-age day states without handlers.
     0.1.0: Bounded, data-only catalog reader for larger migrations.
 #>
 
-$script:ModuleVersion = '0.2.0'
+$script:ModuleVersion = '0.3.0'
 
 function Import-RideCatalogData {
   <#
@@ -22,6 +23,9 @@ function Import-RideCatalogData {
     Each collection entry uses PowerShell's SafeGetValue data evaluator.
   .PARAMETER Path
     Literal catalog file path. Maximum size is 2 MiB and 2000 total entries.
+  .PARAMETER Content
+    Already decoded catalog text, bounded to 2 MiB in UTF-8. Mutually exclusive
+    with Path; permits a trusted caller to hash and parse the same captured bytes.
   .EXAMPLE
     Import-RideCatalogData -Path .\catalog\operations.psd1
   .INPUTS
@@ -31,13 +35,21 @@ function Import-RideCatalogData {
   .NOTES
     Read-only; does not import the operational engine or inspect Windows state.
   #>
-  [CmdletBinding()]
-  param([Parameter(Mandatory)][string] $Path)
-  $file = Get-Item -LiteralPath $Path -ErrorAction Stop
-  if ($file.Length -gt 2MB) { throw 'Operation catalog exceeds the 2 MiB size limit.' }
+  [CmdletBinding(DefaultParameterSetName='Path')]
+  param(
+    [Parameter(Mandatory,Position=0,ParameterSetName='Path')][string] $Path,
+    [Parameter(Mandatory,ParameterSetName='Content')][string] $Content
+  )
   $tokens = $null
   $errors = $null
-  $ast = [Management.Automation.Language.Parser]::ParseFile($file.FullName, [ref]$tokens, [ref]$errors)
+  if($PSCmdlet.ParameterSetName -eq 'Content'){
+    if($Content.Length -gt 2MB -or [Text.UTF8Encoding]::new($false,$true).GetByteCount($Content) -gt 2MB){throw 'Operation catalog exceeds the 2 MiB size limit.'}
+    $ast=[Management.Automation.Language.Parser]::ParseInput($Content,[ref]$tokens,[ref]$errors)
+  }else{
+    $file = Get-Item -LiteralPath $Path -ErrorAction Stop
+    if ($file.Length -gt 2MB) { throw 'Operation catalog exceeds the 2 MiB size limit.' }
+    $ast = [Management.Automation.Language.Parser]::ParseFile($file.FullName, [ref]$tokens, [ref]$errors)
+  }
   if ($errors.Count -gt 0 -or $ast.BeginBlock -or $ast.ProcessBlock -or $ast.ParamBlock -or $ast.EndBlock.Statements.Count -ne 1) { throw 'Invalid declarative catalog syntax.' }
   $statement = $ast.EndBlock.Statements[0]
   if ($statement -isnot [Management.Automation.Language.PipelineAst] -or $statement.PipelineElements.Count -ne 1) { throw 'Catalog must contain only a root hashtable.' }

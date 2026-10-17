@@ -18,9 +18,10 @@ BeforeAll {
 Describe 'Exact scheduled-task target' {
   BeforeEach {
     $script:TaskOperation=@{Kind='ScheduledTask';TaskPath='\Microsoft\Windows\Defrag\';TaskName='ScheduledDefrag'}
-    Mock Get-ScheduledTask -ModuleName RIDE-ScheduledTasks { [pscustomobject]@{TaskPath='\Microsoft\Windows\Defrag\';TaskName='ScheduledDefrag';Settings=@{Enabled=$true}} }
-    Mock Enable-ScheduledTask -ModuleName RIDE-ScheduledTasks {}
-    Mock Disable-ScheduledTask -ModuleName RIDE-ScheduledTasks {}
+    $script:managedFixtureTaskEnabled=$true
+    Mock Get-ScheduledTask -ModuleName RIDE-ScheduledTasks { [pscustomobject]@{TaskPath='\Microsoft\Windows\Defrag\';TaskName='ScheduledDefrag';Settings=@{Enabled=$script:managedFixtureTaskEnabled}} }
+    Mock Enable-ScheduledTask -ModuleName RIDE-ScheduledTasks {$script:managedFixtureTaskEnabled=$true}
+    Mock Disable-ScheduledTask -ModuleName RIDE-ScheduledTasks {$script:managedFixtureTaskEnabled=$false}
   }
   It 'reads without executing or rewriting a task and restores a serialized disabled flag' {
     (Get-RideScheduledTaskState $script:TaskOperation).Enabled | Should -BeTrue

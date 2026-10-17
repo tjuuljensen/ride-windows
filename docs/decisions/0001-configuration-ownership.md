@@ -1,7 +1,11 @@
 # ADR 0001: Ownership of Windows configuration and logging baselines
 
-- Status: Proposed
+- Status: Accepted 2026-10-17 (ownership boundary; implementation and consumer acceptance pending)
 - Date: 2026-10-07
+
+Accepted through [Q25](../migrations/decision-session-2026-10-17.md#q25-ride-owns-configuration-loggingbaseline-remains-read-only).
+Sysmon configuration download and live application remain independent selections.
+This decision selects no particular security values and changes no other repository.
 
 ## Context
 
@@ -24,7 +28,7 @@ already mutates other settings, including Defender exclusions, while
 LoggingBaseline can observe some of those same settings; observation plus
 mutation is intentional and is not duplicate ownership by itself.
 
-## Proposed decision
+## Decision
 
 Make RIDE-Windows the only tool that applies Windows configuration. Make
 LoggingBaseline a read-only collector, compliance evaluator, and storage/growth
@@ -83,9 +87,12 @@ LoggingBaseline.
 - Define a versioned RIDE-to-LoggingBaseline export contract with stable
   operation IDs, target OS/build/edition/role, desired state, applicability,
   and source profile. Preserve unknown and not-applicable states.
-- Keep the LoggingBaseline repository's current uncommitted changes untouched
-  until this boundary is accepted. This ADR documents a proposal; it does not
-  change that repository or its plan.
+  The [schema-1 read-only reference](../desired-configuration-reference.md) now
+  exports registry intent and retains other selections as ReportOnly. Consumer
+  integration, live mapping and comparison remain pending; it is not an apply plan.
+- Keep the LoggingBaseline repository's current uncommitted changes untouched.
+  The accepted boundary still requires a separately reviewed consumer contract;
+  this ADR does not change that repository or its plan.
 
 ## Proposed security controls for RIDE
 

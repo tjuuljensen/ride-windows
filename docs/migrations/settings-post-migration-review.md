@@ -7126,7 +7126,7 @@ Run b2615b9d390447dc906a3a50b490cf78 completed Failed at 2026-10-14T12:15:34Z. F
 
 ## Unelevated desktop resource prerequisite identified and deferred review, 2026-10-14
 
-Run d62ee7a8b55c4c2aa0b2352147901e87 finished Failed at 2026-10-14T12:27:12Z, fixture C56726427B33E35C007873A9DF83CE1F46F91DD0B3DB686EEFA72B345CBD3614, source manifest 0ED8737500063870F9AF6B44E5972CB2FE0AB0C10A47C4C43CE6DBEC9B48291C and console 484FEA918F831FB53A2B5B4748EFD79F1C5293C95F0ED07B999889A7A5867679. The identity predicate correctly refused an administrative token on the UAC-disabled guest despite a Limited task and correct session. This failure accepts no desktop/worker/full launcher/alternate-admin or app lifecycle. All source bytes/preflight, failure/console correlation, task cleanup and final checkpoint/idle/pins/installed hashes/CI verified at 12:29:53Z; only matching selection removed. No app queried/changed, no UAC or pin change. [Postponed resource decision](store-app-follow-up-decisions.md#desktop-resource-decision---postponed-while-afk) requires a genuine unelevated desktop on a separately reviewed fixture resource; honor the user instruction to postpone interactive elevation/credentials while AFK. No legacy outcome resolved/retired/excluded; all five ranges unchanged because this is failed resource acceptance. Preserve actual app source/recovery/GUI/managed and policy evidence as deferred/partial. Continue independent authorized machine-setting boundaries.
+Run d62ee7a8b55c4c2aa0b2352147901e87 finished Failed at 2026-10-14T12:27:12Z, fixture C56726427B33E35C007873A9DF83CE1F46F91DD0B3DB686EEFA72B345CBD3614, source manifest 0ED8737500063870F9AF6B44E5972CB2FE0AB0C10A47C4C43CE6DBEC9B48291C and console 484FEA918F831FB53A2B5B4748EFD79F1C5293C95F0ED07B999889A7A5867679. The identity predicate correctly refused an administrative token on the UAC-disabled guest despite a Limited task and correct session. This failure accepts no desktop/worker/full launcher/alternate-admin or app lifecycle. All source bytes/preflight, failure/console correlation, task cleanup and final checkpoint/idle/pins/installed hashes/CI verified at 12:29:53Z; only matching selection removed. No app queried/changed, no UAC or pin change. [Postponed resource decision](store-app-follow-up-decisions.md#desktop-resource-decision---separate-resource-authorized) requires a genuine unelevated desktop on a separately reviewed fixture resource; honor the user instruction to postpone interactive elevation/credentials while AFK. No legacy outcome resolved/retired/excluded; all five ranges unchanged because this is failed resource acceptance. Preserve actual app source/recovery/GUI/managed and policy evidence as deferred/partial. Continue independent authorized machine-setting boundaries.
 
 ## Local maximum-age 1/2/998-day boundaries Windows 11 lifecycle passed review, 2026-10-14
 
@@ -7138,7 +7138,7 @@ Request `8da4114c2f504c5d8adb4b7321482641` for `windows.local-password-maximum-a
 
 ## Maximum-age boundary follow-up and minimum-age guard implemented review, 2026-10-14
 
-The fixed schema-2 MinimumAgeConflict admits only windows.local-password-maximum-age/Days1 with explicit target approval. Test-only level 1003 sets captured-zero minimum to one day; production backend remains level-1002 maximum-only. SAM/unrelated context, preview and refusal state are checked, native maximum setter counted, failed intent restored without a maximum write, and the exact fixture minimum seed separately recovered. Drift refuses replay. LifecyclePassed/ExactRecovery remain false for this guard; ExactFixtureSeed is not successful primary apply. The existing local security/password scope is unchanged; no passwords, domain controllers, UAC, app/package or GitHub work. Current source includes uncommitted changes; request 660dac2bfa0d45f3ac8d6e1f46dcc7eb has 360 preflight files and fixture 9454FD88FDC370A36FCCC1691B124A1D42583F698D88BBC728CDC915C8C47CA6. Native and checkpoint acceptance pending. No legacy outcome resolved/retired/excluded; GUI, managed/default/complexity and unelevated desktop resources remain partial/deferred, all five ranges unchanged. [Fixture contract](../../tests/integration/settings-fixtures.md) documents the focused scope; [desktop prerequisite](store-app-follow-up-decisions.md#desktop-resource-decision---postponed-while-afk) remains held.
+The fixed schema-2 MinimumAgeConflict admits only windows.local-password-maximum-age/Days1 with explicit target approval. Test-only level 1003 sets captured-zero minimum to one day; production backend remains level-1002 maximum-only. SAM/unrelated context, preview and refusal state are checked, native maximum setter counted, failed intent restored without a maximum write, and the exact fixture minimum seed separately recovered. Drift refuses replay. LifecyclePassed/ExactRecovery remain false for this guard; ExactFixtureSeed is not successful primary apply. The existing local security/password scope is unchanged; no passwords, domain controllers, UAC, app/package or GitHub work. Current source includes uncommitted changes; request 660dac2bfa0d45f3ac8d6e1f46dcc7eb has 360 preflight files and fixture 9454FD88FDC370A36FCCC1691B124A1D42583F698D88BBC728CDC915C8C47CA6. Native and checkpoint acceptance pending. No legacy outcome resolved/retired/excluded; GUI, managed/default/complexity and unelevated desktop resources remain partial/deferred, all five ranges unchanged. [Fixture contract](../../tests/integration/settings-fixtures.md) documents the focused scope; [desktop prerequisite](store-app-follow-up-decisions.md#desktop-resource-decision---separate-resource-authorized) remains held.
 
 ## Local maximum-age conflicting minimum Windows 11 MinimumAgeConflict guard passed review, 2026-10-14
 
@@ -7150,7 +7150,7 @@ Request `9921cbfc65c44a718fb1f872213e82f0` for `windows.local-password-maximum-a
 
 ## Two-target password-age boundary and conflict follow-up accepted review, 2026-10-14
 
-Completed follow-up source snapshots include current uncommitted code. Boundary runs: d17b3ecf49084aac8fa0bf45ed8eaa0c (Win11, 358 files, manifest EFB957614927236F75FC3B9AB9C186F166EBB354EAA36E85EB1824CCC9AA3F81) and 8da4114c2f504c5d8adb4b7321482641 (Server, 359 files, CD8E07D1970415711BA38BA6EABA58F9C747BB5EE8A005707DD0DF7A4658B001). Refusal runs: 660dac2bfa0d45f3ac8d6e1f46dcc7eb (Win11, 360 files, BCA0DF413CDF2804F8C24A7DEBB43B7DBA4703E4F7559DCC753A1CC4113054EE) and 9921cbfc65c44a718fb1f872213e82f0 (Server, 361 files, 3C82509E36F2E0417CB6A2634E68AB6EF9A21B3428220EE30F9A610636470EA7). All hashes/preflight entries, correlated guest/XML evidence, native recovery and final both-idle/pins/installed hashes/CI validated. MinimumAgeConflict uses test-only local minimum level 1003, while production maximum setter remains 1002 only; no successful primary apply is inferred from zero-write refusal. Current fixture/data 0.12.0/0.10.0; 178 host mocked checks passed on each edition, one registry case excluded. [Validation handoff](settings-validation-resume.md#password-age-boundary-and-refusal-follow-up-2026-10-14) links exact scope; [desktop resource follow-up](store-app-follow-up-decisions.md#desktop-resource-decision---postponed-while-afk) remains postponed under the AFK elevation instruction. Published support, UAC, pins, profiles and package pause unchanged; no whole legacy outcome resolved/retired/excluded. GUI/default/managed, complexity/file-editor and app lifecycle remain partial/deferred, so all five ranges and rounded total stay unchanged.
+Completed follow-up source snapshots include current uncommitted code. Boundary runs: d17b3ecf49084aac8fa0bf45ed8eaa0c (Win11, 358 files, manifest EFB957614927236F75FC3B9AB9C186F166EBB354EAA36E85EB1824CCC9AA3F81) and 8da4114c2f504c5d8adb4b7321482641 (Server, 359 files, CD8E07D1970415711BA38BA6EABA58F9C747BB5EE8A005707DD0DF7A4658B001). Refusal runs: 660dac2bfa0d45f3ac8d6e1f46dcc7eb (Win11, 360 files, BCA0DF413CDF2804F8C24A7DEBB43B7DBA4703E4F7559DCC753A1CC4113054EE) and 9921cbfc65c44a718fb1f872213e82f0 (Server, 361 files, 3C82509E36F2E0417CB6A2634E68AB6EF9A21B3428220EE30F9A610636470EA7). All hashes/preflight entries, correlated guest/XML evidence, native recovery and final both-idle/pins/installed hashes/CI validated. MinimumAgeConflict uses test-only local minimum level 1003, while production maximum setter remains 1002 only; no successful primary apply is inferred from zero-write refusal. Current fixture/data 0.12.0/0.10.0; 178 host mocked checks passed on each edition, one registry case excluded. [Validation handoff](settings-validation-resume.md#password-age-boundary-and-refusal-follow-up-2026-10-14) links exact scope; [desktop resource follow-up](store-app-follow-up-decisions.md#desktop-resource-decision---separate-resource-authorized) remains postponed under the AFK elevation instruction. Published support, UAC, pins, profiles and package pause unchanged; no whole legacy outcome resolved/retired/excluded. GUI/default/managed, complexity/file-editor and app lifecycle remain partial/deferred, so all five ranges and rounded total stay unchanged.
 
 ## Separate Store desktop and read-only Plan accepted review, 2026-10-14
 
@@ -7179,3 +7179,1724 @@ Solitaire basic native registration lifecycle accepted in 3899597cd74e477195a35b
 ## Full remaining migration analysis and AFK handoff review, 2026-10-14
 
 The [full remaining migration follow-up](remaining-migrations-follow-up.md) collects all-five-group scope, matching batches and Q01-Q31 for the user's return. All 30 settings remainder rows and earlier accepted-control families were reviewed, preserving D01/D11 and the remaining D02-D10 decisions. Current R30/handoff pointers now reflect accepted Solitaire basic native registration lifecycle and the postponed Clipchamp elevation; GUI/data, interruption, policy/groups and full handoff remain pending. B01 presentation/native guidance is the first suggested implementation batch. Packages are still paused; current-source/pin/hash/recovery test boundaries remain unchanged. No state-changing validation occurred and no new disposition, target or legacy outcome was accepted. All five ranges reviewed and unchanged: 38-58 / 58-73 / 20-25 / 25-35 / 8-12; rounded 150-205/about 180, because source/question coverage does not establish completed feature acceptance.
+
+## B01 input and audio presentation review, 2026-10-16
+
+Status: **source-ready; runtime acceptance pending**. This is the user-authorized
+B01 batch from [the remaining migration handoff](remaining-migrations-follow-up.md#matching-batches).
+Source baseline: `f53ce6ab102a` plus this focused uncommitted patch. Existing unrelated
+AGENTS/README/TODO/documentation-model and Ninite comparison edits are preserved.
+
+### Scope, mapping and ownership
+
+The authoritative input is `catalog/operations.psd1`, compared with the existing
+RegistryValue/RegistryValueSet engine and `modules/RIDE-SoundSchemes.psm1`.
+RIDE maintainers own presentation and source acceptance; the operator supplies
+intended-user, GUI and hardware observations in an authorized disposable target.
+The existing review decisions remain authoritative; this batch adds no setter.
+
+| Legacy intent | Existing mapping | Reviewed distinction |
+| --- | --- | --- |
+| Keyboard portion of SetVisualFXPerformance / SetVisualFXAppearance | `windows.keyboard-repeat-delay` | Stored positions 0-3; baseline/unset remove the override; effective session delay remains separate. Other visual-effects bundle components are not closed. |
+| DisableEnhPointerPrecision / EnableEnhPointerPrecision | `windows.mouse-pointer-precision` | Three coordinated legacy acceleration values; explicit Enabled is not recovery of custom thresholds. |
+| SetSoundSchemeNone / SetSoundSchemeDefault | `windows.registered-sound-scheme` | Registered preset and current event mappings; customized .None may contain sound. No baseline/unset or factory reset is implied. |
+| DisableStartupSound / EnableStartupSound | `windows.startup-sound` | Machine preference; baseline Enabled differs from absent literal default; no unset is declared. |
+| Accepted selected playback-device Mute/Unmute replacement | [Manual native workflow](../audio-service.md#mute-a-selected-playback-device) | Intended desktop, identified device, unchanged volume/default roles and explicit prior-mute recovery; no automated endpoint operation or RIDE snapshot. |
+
+Consumers are discovery/search, show/group details, plan/status and generated
+`docs/OPERATIONS.md`; they already consume the additive SettingPresentation table.
+Coverage was re-counted at 28/277 before and 32/277 after. The remaining 245
+settings require their own metadata review. Microsoft references were opened and
+reviewed; feature-only references remain labelled, particularly the themes page,
+which documents neither DisableStartupSound nor the startup checkbox. No UI
+mapping is promoted from a registry or API description to verified behavior.
+
+### Procedure, validation and recovery
+
+On the Windows filesystem checkout, using native Windows PowerShell 5.1.26100.9711
+and PowerShell 7.6.5 without elevation:
+
+1. Capture the parsed catalog before editing; compare the complete before/after
+   data after removing only the four new presentation blocks. **Passed**: all
+   IDs, state values/types, scopes, target defaults, handlers, support declarations,
+   groups, baselines and recovery contracts are unchanged. An initial comparison
+   helper treated deserialized ArrayLists as scalars; correcting its recursive
+   canonicalization resolved ordering-only differences without a source change.
+2. Generate `docs/OPERATIONS.md` through `tools/Export-RideCatalog.ps1`.
+   Run `tools/validate.ps1` on both editions. **Passed** on each: 340 operations,
+   eight groups, five profiles and 146 maintained PowerShell files; generated
+   reference is current and both editions agree.
+3. Run `SettingPresentation.Tests.ps1`, `Catalog.Tests.ps1` and `Search.Tests.ps1`
+   with installed Pester 5.7.1, TestRegistry disabled, WindowsIntegration excluded
+   and separate workspace-local TEMP/TMP per child process. **122 passed, zero
+   failed, zero skipped per edition**; one integration test excluded. No test
+   dependencies or payloads were acquired. Supplementary results are in ignored
+   `.local/b01-presentation-5/result.json` and `.local/b01-presentation-7/result.json`.
+4. Focused source/generated/documentation diff review and `git diff --check`
+   passed. All 437 local links in the touched Markdown files passed after repairing
+   eight stale anchor/path references. LF and the command-launcher policy are
+   preserved. No persistent environment,
+   registry, service, audio device, VM/controller or package state is changed.
+
+No runtime activation is part of B01. Source recovery is to remove this batch's
+four metadata blocks and focused prose, then regenerate the catalog reference,
+while preserving unrelated edits. Existing saved runs keep their prior semantics.
+Manual mute recovery uses the same identified endpoint and recorded prior boolean;
+if it disappears or becomes ambiguous, leave recovery pending instead of choosing
+another output. Those manual actions cannot be undone by `restore -RunId`.
+
+### Remaining acceptance and next action
+
+GUI/managed-policy behavior, keyboard sign-in and actual delay, mouse/driver effects,
+customized sound-scheme playback, startup boot behavior and intended-user identity
+remain pending. Mute acceptance requires a usable endpoint, unchanged volume/app/
+microphone/default roles, repeat choice, prior-state recovery and disappearance
+refusal. A no-audio VM or indicator-only observation cannot prove playback.
+Automated endpoint identity/session/conflict handling remains deferred under D08/Q30.
+Support and recommended profiles are unchanged; packages remain paused.
+
+Next source batch: **B02**, beginning with a bounded read-only playback-endpoint
+identity and capture contract plus isolated fixtures. Document ambiguity, missing
+devices, session ownership and prior mute separately from any setter. Do not choose
+a device or settle D08/Q30 implicitly. Interactive acceptance is a separate authorized
+disposable-target step; Clipchamp remains the next Store candidate when elevation
+is available. Broader presentation review stays open.
+
+Resolved: four presentation gaps and selected-device manual guidance. No whole
+legacy outcome resolved, retired or excluded. Partial: existing setting outcomes
+still need user-visible acceptance. Deferred: endpoint backend, hardware/GUI/boot
+and managed checks, package work and elevation-dependent Store acceptance. All five
+ranges were reviewed and remain **38-58 / 58-73 / 20-25 / 25-35 / 8-12**; rounded
+**150-205, about 180**. Source readiness adds no completed feature/product outcome,
+so neither individual ranges nor the rounded estimate decrease.
+
+## B02 read-only playback endpoint contract, 2026-10-16
+
+Source: `f53ce6ab102a` plus the B01/B02 working patch. This implements the first
+resource slice of B02 for the R20 selected-playback mute investigation. It neither
+settles D08/Q30 nor adds an operation. RIDE maintainers own the observation schema
+and module; the intended desktop operator still supplies device and audible evidence.
+
+`modules/RIDE.AudioEndpointInventory.psm1` enumerates Core Audio render endpoints
+with opaque IDs, friendly-name availability, state and available mute/volume values.
+Default Console, Multimedia and Communications roles are observations, never
+fallback selections. Empty inventory, unavailable role, inactive endpoint and failed
+volume access remain distinct. A maximum of 256 endpoints bounds data processing;
+native COM/driver calls have no hard timeout. Collection is sequential, not atomic.
+
+Explicit SID/session checks precede and follow collection, refusing mismatches and
+noninteractive execution. They do not establish the intended desktop; the output
+reports `DesktopVerified=false`. Exact ordinal ID selection works on saved JSON and
+refuses missing or duplicate IDs. It always reports `ReadyForMutation=false` and
+`RecoverySupported=false`. Completion reads only the supplied inventory, handles
+quoting and prefix filtering, and never queries native devices. Import is inert.
+
+Microsoft's MMDevice enumeration, opaque ID, property-store and endpoint-volume
+references and the Windows SDK interface slots were checked. The
+[operator guide](../audio-service.md#read-only-endpoint-inventory) links the primary
+references and explains capture, explicit selection, limitations and file handling.
+`tools/Export-RideAudioEndpointInventory.ps1` previews without a query and uses
+exclusive CreateNew output, preserving both pre-existing and concurrent files.
+Exported SID/device names are local observations, not saved engine recovery records.
+
+### Procedure and acceptance
+
+From the Windows-hosted checkout, use native PowerShell 5.1 and 7. Run the focused
+`AudioEndpointInventory.Tests.ps1` with Pester 5.7.1, TestRegistry disabled,
+WindowsIntegration excluded and process-local workspace TEMP/TMP. **21 tests passed
+on each edition**. They cover identity-before-query and post-capture drift, native
+query failure, empty/unavailable/inactive observations, exact case-sensitive IDs,
+duplicate/missing IDs, invalid direction/counts/roles/booleans/volume, saved JSON,
+completion, preview and non-overwriting export. C# interop compiles in both editions
+without executing Core Audio. An initial collision test used a mock-invisible script
+variable; the corrected TestDrive fixture verifies the expected existing-file error
+and preserved concurrent bytes. This was a test-fixture correction, not live evidence.
+
+Repository validation passed both editions: 340 operations, eight groups, five
+profiles and 149 maintained PowerShell files. Generated catalog remains current.
+No live Core Audio query, playback, endpoint/service mutation, package acquisition
+or VM submission was performed. Existing settings and saved recovery are unchanged.
+
+Acceptance still requires the intended interactive desktop, real endpoints and
+driver combinations, default-role/device disappearance during observation, correct
+friendly names and mute/volume readings, and clear unavailable states. These are
+postponed while the user is away. No supported-target metadata or profile changes
+are justified by mocked/native-compilation evidence. Future mutation needs separate
+fresh identity/conflict checks and exact prior mute recovery; this file cannot serve
+as its recovery record.
+
+Recovery for this source-only slice is to remove the new standalone module/tool/test
+and focused guide links while retaining unrelated changes. Export has no audio undo;
+retain or explicitly delete its own JSON. A disk-write failure can leave incomplete
+JSON, which must not be treated as captured evidence; use a new output name after
+addressing the error. Do not replace the operator's files automatically.
+
+Resolved: endpoint observation, saved selection and safe export source contracts.
+Retired/excluded: none. Partial: R20 and other B02 resource families. Deferred:
+desktop/hardware acceptance, mute setter decisions and elevation-dependent Store
+work. Package implementation is resumed under the user's overnight authorization.
+All five ranges reviewed and unchanged: **38-58 / 58-73 / 20-25 / 25-35 / 8-12**;
+rounded **150-205/about 180**. No whole legacy feature/product outcome has completed
+acceptance. Next independent batches: B06 conditional-component inventory and B08
+individual portable review; retain unresolved ownership/product questions.
+
+## B03 existing user-bin startup candidate, 2026-10-16
+
+Source f53ce6ab102a plus the overnight patch. Two pending operations represent the
+Windows PowerShell 5.1 and PowerShell 7 forms of one partial legacy startup outcome:
+powershell.windows-powershell51-user-bin-path and powershell.powershell7-user-bin-path.
+The [profile contract](../powershell-profiles.md#existing-user-bin-startup-path-candidate)
+owns operator behavior, prerequisites, acceptance and recovery. This preparation
+does not answer Q08's persistent-PATH choice or admit a recommended selection.
+
+Reconciled both legacy writers: AddUserBinToPath combines a flawed directory check,
+immediate process PATH and unmarked profile append; Write-Profile-File.ps1 also
+appends WindowsApps. The candidate covers only selected-runtime startup for an
+existing UserProfile/bin. Applying the profile block does not change RIDE's PATH.
+Directory provisioning, persistent PATH, WindowsApps repair and Terminal default
+profile remain separate. No unmarked code is adopted or deleted; executable
+UserBinaries references cause enable/snapshot refusal, while comments/literal
+examples alone do not. Unknown custom PATH writers still need operator review.
+
+Enabled appends only when an existing directory has no normalized equivalent in
+process PATH. Case, trailing slash, quoted and environment-expanded forms are
+recognized while other bytes/order and pre-existing duplicates are preserved.
+Missing/unreadable directories and oversized results do nothing. Local matching
+ConsoleHost and runtime guards apply; no Terminal, network or tool installation
+dependency. Default/unset/Baseline remove only the RIDE block; saved-run restore
+uses unchanged snapshot version 1 and exact predecessor content. Existing or child
+process environments are outside file recovery. Review fresh parent inheritance
+explicitly during acceptance rather than assuming a new child shell is clean.
+
+Shared file mechanics retain bounded input, encoding, exclusive byte checks,
+ShouldProcess and conflict recovery. The original canonical color renderer is
+text-identical to HEAD; both marker and snapshot versions stay 1. Color acceptance
+runners now explicitly select TerminalColors, preventing accidental application
+of the new pending renderer. Catalog validation rejects arbitrary user-bin states
+or color metadata; engine/reference output distinguishes startup PATH from palettes.
+Completion remains catalog-driven and does not query a runtime or profile.
+
+Validation passed on native Windows PowerShell 5.1.26100.9711 and PowerShell 7.6.5:
+140 focused tests per edition, zero failures/skips, one WindowsIntegration excluded.
+The focused set covers new generated-code behavior in a restored test-process PATH,
+inert profile fixtures, existing color lifecycle, catalog and presentation. Real
+startup profiles and persistent environment data were not read or changed by the
+fixtures; runtime discovery and bin directory presence were mocked. Both editions
+passed repository validation: 344 operations, eight groups, five profiles and
+155 PowerShell files. Generated documentation is current. A scratch comparison
+initially used Import-PowerShellDataFile directly and hit its large-data restriction;
+it produced no comparison evidence. The successful source comparison used Git's
+original renderer text and the focused tests use the bounded catalog loader.
+
+SupportedTargets stays empty, CandidateTargets Windows 11, PendingAcceptance true.
+No startup, intended-desktop, execution-policy, Server or cloud-profile behavior
+is claimed accepted. Next procedure: in an explicitly scoped disposable Windows 11
+fixture, verify intended SID/runtime paths; snapshot profile bytes and parent PATH;
+preview/apply/repeat; launch matching fresh shells with existing and missing bin;
+check normalized entries, NoProfile, blocked startup and inherited PATH; retain
+unmarked-writer/conflict evidence; unset and restore exact profile content, then
+recover the VM checkpoint. Do not enable dependencies or modify the workstation.
+
+Source recovery removes only the two pending declarations, renderer-specific
+extensions/tests/docs and regenerated reference; preserve prior work and accepted
+color behavior. After eventual activation, saved-run recovery restores managed
+profile content with intact snapshot bytes and reports conflicts; do not execute
+captured text as a shortcut. Bin data and already running processes are not owned.
+
+Resolved: bounded source renderer and isolated lifecycle/duplicate evidence.
+Retired/excluded: none. Partial: one legacy user-bin outcome, not two completed
+features; directory and immediate-session scope remain separate. Deferred: native
+startup/identity/GUI acceptance, persistent PATH choice, provisioning and Terminal
+JSONC ownership. Catalog presentation now covers 34/279 settings; 245 still need
+individual review. All five legacy ranges remain 38-58 / 58-73 / 20-25 / 25-35 /
+8-12, rounded 150-205/about 180. New declarations do not reduce legacy acceptance
+counts; packages/components/maintenance gain no runtime evidence from this batch.
+Continue independent source work under the overnight authorization.
+
+## B03 Terminal JSONC preparation, 2026-10-16
+
+Source f53ce6ab102a plus the overnight patch. E06's first field-preservation proof
+is source-ready in modules/RIDE.TerminalJsonc.psm1, independently of Q09's actual
+profile choice. The [API contract](../terminal-jsonc-preparation.md) owns limits,
+examples, recovery and next integration; the [native operator workflow](../windows-terminal-profile.md)
+remains the available live path. No catalog operation, target support or real
+settings-file writer is introduced.
+
+Three exported commands inspect supplied bytes, prepare an explicit declared-GUID
+selection and reconstruct recovery bytes. All operate in memory and return
+MutationAuthorized false. The bounded UTF-8 JSONC parser retains spans, comments,
+unknown fields, number spelling, Unicode, BOM and line endings. It accepts trailing
+commas, rejects decoded duplicate keys/invalid syntax, and limits bytes, nesting,
+nodes and declared profiles. Existing root string replacement owns only the value;
+absent-property insertion owns its exact new fragment. Recovery validates snapshot
+version 1 against a reconstructed edit, preserves unrelated current edits and
+refuses changed owned text/BOM or missing/hidden/ambiguous prior identity.
+
+Declared GUIDs, exact names, hidden defaults/overrides and dynamic source labels
+are inspected without claiming installed or launchable profiles. Completion reads
+only supplied bytes. No path, process, instance, registry or desktop discovery;
+no live file reads/writes, package acquisition or profile launch. Microsoft's root
+defaultProfile reference accepts GUID/name; profile GUID/source metadata is under
+profile-advanced, not profile-general. The guide uses the verified heading link.
+
+Both native PowerShell 5.1.26100.9711 and 7.6.5 passed **41 focused tests**, zero
+failures/skips/exclusions. Coverage includes malformed/duplicate/escaped syntax,
+resource bounds, old/new profile arrays, hidden/incomplete identities, UTF-8/BOM/
+CRLF round trips, nested lookalike fields, unrelated prepended edits, tampered
+snapshots and completion. Initial runs passed 38/39: one test mistakenly replaced
+both the root GUID and its profile declaration in its expected string. The actual
+patch correctly changed only the root value. Correcting that fixture and adding
+two preservation cases produced clean final runs. Both editions passed repository
+validation: 346 operations/eight groups/five profiles/158 PowerShell files.
+
+Next procedure: bind one installed instance, intended desktop SID/session and
+exact file path; prove live profile availability; implement exclusive byte compare,
+ShouldProcess and saved-state persistence; then use a disposable target for preview,
+apply/repeat, concurrent editor changes, disappearance/conflict restore and new-tab
+behavior. Q09 selection and native GUI acceptance remain deferred. The in-memory
+snapshot alone has no trusted file/instance/user identity and must not be passed to
+an ad hoc live writer. Full bytes may contain private configuration; state-store
+ACL and retention remain part of integration.
+
+Recovery for this preparation removes only the new module/test/API guide and
+associated links/records, preserving other edits. There is no live state to undo.
+Future file recovery must retain the verified original bytes and refuse conflicts;
+neither a file round trip nor a declared profile proves native launch behavior.
+
+Resolved: E06 narrow JSONC byte-edit/recovery proof. Retired/excluded: none.
+Partial: Terminal default-profile outcome; no runtime activation. Deferred: file/
+instance/identity binding, actual availability, writer/GUI acceptance and Q09.
+Settings/accounts remain partial; packages/components/actions gain no acceptance.
+All five ranges remain 38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about
+180. Preparation closes no legacy outcome; presentation stays 34/279 with 245
+reviews remaining. Continue other independent batches under the overnight window.
+
+## B02 network adapter identity inventory, 2026-10-16
+
+Source f53ce6ab102a plus the overnight patch. The [adapter inventory contract](../network-adapter-inventory.md)
+implements explicit local machine/build/edition capture, normalized nonempty
+adapter GUIDs and saved-observation lookup. Names and interface indexes remain
+labels, never fallback identity. Missing GUIDs remain unselectable; invalid or
+duplicate identities, partial provider failure and the 512-row bound produce
+Unavailable with no partial rows. Captured-empty is distinct. Nullable Boolean
+metadata remains unknown when absent. Post-capture context includes update revision.
+
+The exporter supports query-free WhatIf and exclusive CreateNew JSON output.
+Completion reads only supplied saved GUIDs. No adapters are selected or changed;
+existing handlers retain their behavior. This is historical evidence, not an engine
+restore record, permanent hardware identity or permission to mutate. Import and
+completion perform no provider queries. No live NetAdapter query was performed.
+
+Both native PowerShell 5.1.26100.9711 and 7.6.5 passed **23 focused tests**, zero
+failures/skips/exclusions. Initial runs passed 22/23 because the output race fixture
+reused the preceding test's filename and never reached collection. A unique race
+path and explicit collector-call assertion corrected that fixture. Both editions
+also passed validation of 346 operations/eight groups/five profiles/161 PowerShell
+files. Tests mock context/providers and use isolated temporary files; they do not
+establish native target support or live networking behavior.
+
+Next procedure: collect an explicitly identified disposable Windows target; verify
+visible/hidden, virtual/disconnected and missing-ID coverage; compare GUID identity
+across rename/disappearance without a setting change. Later mutation must re-resolve
+the selected GUID, refuse context/dependency drift and capture narrowly owned state.
+D10/Q30's selection experience and actual binding/NetBIOS/category behavior remain
+deferred. No all-visible compatibility operation is silently narrowed.
+
+Recovery removes only this preparation's module/tool/tests/guide and links if
+required; preserve dated output and other work. No network-state recovery exists
+or is needed. Failed output writes may leave partial evidence; never overwrite it.
+
+Resolved: B02 adapter observation and saved-identity contract. Retired/excluded:
+none. Partial: adapter-related settings; no native or user-visible acceptance.
+Deferred: target provider acceptance, Q30/D10 and mutation/dependency recovery.
+Packages/components/accounts/actions gain no legacy acceptance. All five ranges
+remain 38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about 180: preparation
+closes no legacy outcome. Presentation remains 34/279 with 245 reviews open.
+
+## B04 default/LAN proxy observation, 2026-10-16
+
+Source f53ce6ab102a plus the overnight patch. E07's default/LAN capture prerequisite
+is source-ready in modules/RIDE.UserProxyInventory.psm1 and its exclusive JSON
+exporter. The [operator/API guide](../user-proxy-inventory.md) owns scope, usage,
+privacy, limitations and the next acceptance procedure. No catalog setting or
+supported target is added, and no existing proxy handler changes.
+
+Microsoft's current INTERNET_PER_CONN_OPTIONW, option-list, query and option-flags
+references and published WinSDK header were checked. The reader uses option 75,
+UI flags 10 with a recorded legacy-flags 1 fallback on native failure, and literal
+proxy/bypass/PAC options 2/3/4. A flags preflight precedes the complete query and
+refuses observed drift. This is sequential evidence, not an atomic snapshot.
+It keeps unknown uint32 bits and distinguishes null/empty Unicode strings. All
+returned string slots are released using GlobalFree, including partial failures;
+the option array has separate ownership. Each string is bounded at 32,768 chars.
+
+Explicit machine/SID/nonzero interactive session checks bracket collection.
+DefaultLan is an explicit null connection-name scope, not a selected NIC or every
+VPN. No RAS enumeration, registry blob decoding, PAC fetch, auto-discovery, network
+request, WinHTTP query, setter or refresh occurs. Desktop ownership, managed policy,
+connection identity and effective routing remain visibly unverified. Completion
+uses the one supported declared scope without inspecting Windows. Output may hold
+private hostnames/URL tokens and remains local evidence, not a recovery snapshot.
+
+Both native PowerShell 5.1.26100.9711 and 7.6.5 passed **31 focused tests**, with no
+skips/exclusions, and validation of 346 operations/eight groups/five profiles/164
+PowerShell files. Fake unmanaged allocations exercise native failure/fallback,
+drift, malformed buffers/IDs, cleanup continuation, duplicate pointers and bounds.
+No WinINet query was executed. Separate compile/layout probes verified x86 option/
+list sizes 12/20 under Windows PowerShell 5.1 and x64 sizes 16/32 under PowerShell 7.
+
+Initial runs passed 25/31. One fixture assigned PowerShell null to a typed C# string
+field, which coerced it to empty; an explicit C# null setter corrected the test.
+Five invalid-data fixtures called an out-of-scope factory from InModuleScope;
+passing prepared objects into that scope corrected them. These were fixture defects;
+the clean final runs retain distinct null/empty checks and malformed-data refusal.
+
+Next procedure: inspect an explicit disposable user's default/LAN UI and capture
+without mutation, including disabled retained values and managed/alternate-account
+limitations. Then prove owned flags/URL preservation, managed-source refusal,
+same-user/scope recovery, partial failures and documented refresh before a setter.
+PAC consumer tests need a controlled local fixture. Named RAS/phonebook identity and
+machine WinHTTP are separate work; current capture is not their acceptance.
+
+Recovery for this source preparation removes only the new module/tool/tests/guide
+and links, preserving other work and evidence. No live proxy state was changed.
+Resolved: E07 bounded default/LAN observation and native memory-ownership proof.
+Retired/excluded: none. Partial: user proxy migration. Deferred: native/UI/policy
+acceptance, named RAS, owned mutation/refresh/recovery and WinHTTP scope.
+No package/component/account/action outcome closes. All five ranges remain
+38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about 180, because backend
+preparation is not accepted legacy behavior. Presentation stays 34/279, 245 open.
+
+## B01 media and privacy presentation, 2026-10-16
+
+Source f53ce6ab102a plus the overnight patch. Added explicit presentation to six
+existing IDs: windows.autoplay-policy, windows.autorun-policy,
+windows.clipboard-history, windows.location-service-policy,
+windows.location-scripting-policy and windows.advertising-id-policy. See the
+[operator comparison](../setting-presentation.md#media-and-privacy-choices).
+Presentation coverage is now **40/279**, leaving **239** individual reviews.
+No IDs, names, states, handlers, scope, defaults, recovery, support or profiles change.
+
+AutoPlay is a user preference despite its published policy ID/name; its native UI
+reference does not document DisableAutoplay. Its Enabled and Baseline explicitly
+write zero and no unset exists. AutoRun's all-drive mask 255 is machine policy;
+Enabled removes it, allowing other restrictions/defaults, rather than enabling
+every drive or autorun command. Default autorun-command policy and per-media
+handlers remain separate. The local AutoPlay.admx has masks 181/255; only the
+published 255/removal states remain in RIDE. No Explorer restart or media insertion.
+
+Clipboard history separates explicit Disabled=0 from WindowsDefault/removal;
+legacy DisableClipboardHistory removed the value. Sync/account/content actions
+are separate and saved preference recovery does not restore clipboard entries.
+Machine AllowClipboardHistory may restrict the UI; it is not the user value.
+
+The complete legacy location pair writes both DisableLocation and
+DisableLocationScripting to one, then removes both on reverse. The accepted
+normal location/advanced scripting split remains. Current Sensors.admx confirms
+both machine mappings; the online device DisableLocation_2 mapping is under
+System/AllowLocation, while ADMX_Sensors/DisableLocation_1 is user-scoped.
+Focused reference links correct that ambiguity without substituting CSP input
+numbers for registry values. Scripting's current consumer remains unverified;
+the existing default profile still selects it, and recommendation review is
+explicitly retained rather than silently claiming it is excluded.
+
+Advertising-ID policy limits one Windows identifier; it is not all tracking or
+all advertising. Removing machine enforcement allows user choice and does not
+force enablement or recover a previous identifier. All six retain managed-source,
+GUI/session, edition/target and feature-specific acceptance limitations.
+
+Both native PowerShell 5.1.26100.9711 and 7.6.5 passed **122 existing presentation,
+catalog and search tests**, with one WindowsIntegration test excluded. Initial
+repository validation then caught four new Behavior values using the rendered
+label instead of the schema identifier. Corrected EnforcedPolicy, regenerated
+documentation and checked the six actual rendered classifications on both
+editions. Final validation passed 346 operations/eight groups/five profiles/164
+PowerShell files. Whole-catalog comparison permits only six new presentation
+blocks and their focused DocumentationUri updates relative to this batch's
+baseline; the cumulative check retains earlier additions unchanged.
+
+Next procedure: inspect an intended-user disposable target for AutoPlay media
+choices without auto-executing payloads; test both policy/preference scopes and
+shell refresh; compare local clipboard history with a managed block without
+syncing private contents; verify location/provider/app effects and scripting's
+actual consumer; verify advertising policy versus user choice. Recover captured
+configuration separately from any nonrecoverable content or identifier changes.
+Current target declarations are not widened by static references or templates.
+
+Recovery removes only these presentation/reference additions and regenerates
+OPERATIONS.md; no live state was changed. Resolved: six explicit presentation
+reviews and exact scope/reference clarification. Retired/excluded: none.
+Partial: affected legacy media/privacy outcomes, including the full location
+bundle. Deferred: GUI, managed, hardware/session and recommendation acceptance.
+All five ranges remain 38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about
+180. Presentation review reduces its separate backlog, not legacy outcome counts.
+The [static evidence](../archive/evidence/media-privacy-and-deferred-tool-review-2026-10-16.json)
+also records the intervening deferred package checks; no new package was admitted.
+
+## B04 proxy edit and recovery preparation, 2026-10-16
+
+Source f53ce6ab102a plus the overnight patch. The separate
+modules/RIDE.UserProxyPreparation.psm1 adds supplied-data detection/setup-script
+patch and recovery commands. See the [API procedure](../user-proxy-inventory.md#prepare-an-edit-and-recovery-in-memory).
+No catalog setting, native query/setter, registry write, output file, PAC fetch,
+refresh, routing request or state-store activation is introduced.
+
+Each explicit choice owns only its changed flag. Setup-script Off preserves the
+saved address; On validates a supplied or retained HTTP/HTTPS address without
+retrieving it. Whitespace, embedded credentials and unsupported schemes refuse
+enablement. Exact URL spelling is retained. A malformed historical address can
+still be retained while disabling. Manual server/bypass, direct and unknown flag
+bits are preserved. No implicit direct/discovery fallback is invented. Finite
+choice completion performs no discovery. FlagsFallback observations refuse this
+first preparation contract; FlagsUi still does not establish effective behavior.
+
+Schema-1 preparation snapshots retain the original typed observation, canonical
+request and expected changed fields. Recovery reconstructs the edit, checks same
+machine/SID/session/default-LAN context and refuses conflicting changed bits/URL.
+Unrelated current manual/bypass/flag/address edits remain. Already-matching fields
+are unowned, including a previously enabled script flag when only its URL changed.
+Null and empty URL recovery are distinct. Snapshot consistency is not authenticity;
+ReadyForMutation and MutationAuthorized are always false.
+
+Both native PowerShell 5.1.26100.9711 and 7.6.5 passed **39 focused tests**, zero
+failures/skips/exclusions. Cases exercise preservation, URL syntax, serialization,
+mixed-case choices, malformed/incomplete inputs, identity drift, no-op ownership,
+concurrent unrelated changes and tampered snapshots. Both editions passed repository
+validation: 346 operations/eight groups/five profiles/166 PowerShell files.
+These are in-memory fixtures, not connectivity or native setting acceptance.
+
+Next procedure: bind fresh same-user native observations to a durable engine
+manifest, inspect managed/per-machine source, implement previewed setters and
+documented refresh, retain partial-failure recovery and prove actual consumers in
+disposable targets with a controlled local PAC fixture. Track completed recovery;
+do not infer a second write when owned values no longer match the prepared edit.
+Cross-session recovery and named RAS/phonebook identity remain separate contracts.
+No operation should consume these preparation snapshots as live authorization.
+
+Recovery for this source batch removes only its module/tests and guide updates;
+no live proxy state changed. Resolved: E07 narrow in-memory ownership/conflict proof.
+Retired/excluded: none. Partial: user proxy outcome. Deferred: native/UI/policy,
+durable state/setter/refresh/partial-failure behavior, RAS and WinHTTP. All five
+ranges stay 38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about 180: no
+legacy behavior accepted. Presentation stays 40/279, 239 open. The concurrent
+YARA availability recheck adds no package, and other groups gain no acceptance.
+
+## B02 volume identity inventory, 2026-10-16
+
+Source f53ce6ab102a plus the overnight patch. New RIDE.VolumeInventory module and
+Export-RideVolumeInventory tool provide a local Win32_Volume observation contract.
+The [operator procedure](../volume-inventory.md) covers prerequisites, preview,
+explicit machine/build/edition, output, lookup, limitations and recovery.
+Pre/post context checks include update revision and native process architecture.
+At most 512 rows are retained; failed, malformed, duplicate or overflowing
+provider results discard partial rows. Missing GUIDs remain visible/unselectable.
+Captured-empty and Unavailable differ. No provider method or volume file is opened.
+
+DeviceID becomes a normalized trailing-backslash VolumeGuidPath. Drive letter,
+label, filesystem, literal drive type and serial are observations, not fallback
+identity. A GUID path is not permanent media identity: multiple paths may refer
+to one volume, and formatting/reinstall can change it. Saved-only lookup and
+completion perform no discovery. ReadyForMutation and RecoverySupported stay
+false. No boot-role, physical-disk, mount-folder, protection or BitLocker inspection
+is claimed. Q30 selection and D06 independent recovery requirements remain open.
+
+Native PowerShell 5.1.26100.9711 and 7.6.5 each passed **48 tests**: 25 volume and
+23 adapter tests, zero failures/skips/exclusions. All providers/context are mocked;
+no workstation volume query or state change occurred. Adapter malformed-input
+fixtures were corrected to pass prepared rows into module scope, removing a
+false-positive path where a missing test factory could itself cause Unavailable.
+Both editions passed validation of 346 operations/eight groups/five profiles/
+169 PowerShell files. No catalog or support declarations changed.
+
+Next acceptance: collect native disposable-target observations including missing
+letters, offline/removable media and changed letters; investigate multiple GUID
+paths before any multi-volume action. Fresh live resolution, boot/system roles,
+dependencies, protection/recovery state and mutation remain separate work.
+Recovery: retain collected evidence; source rollback removes this module/tool/test
+and its guide links. No storage state needs restoration. The active package design
+guide was reconciled with overnight authorization, without resolving Q01-Q04.
+
+Resolved: narrow volume observation contract and adapter fixture accuracy.
+Retired/excluded: none. Partial: resource identity preparation; no legacy outcome
+accepted. Deferred: native provider/selection/boot/protection and all storage
+mutations. All five ranges remain 38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded
+150-205/about 180. Presentation stays 40/279, 239 open. Other group outcomes and
+controller/VM pins remain unchanged; continue independent batches.
+
+## B01 power-control presentation, 2026-10-16
+
+Source f53ce6ab102a plus the overnight patch. Seven existing IDs now describe
+dedicated sleep-button AC/DC, display idle AC/DC, sleep idle AC/DC and advanced
+Sleep-menu visibility separately. See [operator semantics](../setting-presentation.md#screen-off-sleep-and-button-choices).
+The six PowerSetting entries are Configuration, not EnforcedPolicy; the menu is
+a machine-scoped preference. Values, states, defaults, scope, handlers, profiles
+and supported targets are unchanged. The menu reference/description now identify
+the distinct documented policy path instead of citing sleep-button behavior.
+
+The legacy button selectors combined menu plus two indexes; their reverse wrote
+explicit Shown/Sleep. Timeout selectors combined four indexes, with reverse
+10/5-minute display and 30/15-minute sleep presets. Index units are seconds while
+legacy powercfg /change used minutes. None is a universal Windows default.
+Never idle sleep does not prevent every sleep transition. The current handler
+commits apply by reactivating the same plan; recovery retains the captured scheme
+and does not switch away from a different currently selected plan. Screen saver,
+sign-in/lock, brightness, hibernation and power-mode choices are separate.
+
+Verified references: Microsoft [button indexes](https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/power-button-and-lid-settings-sleep-button-action),
+[display timer](https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/display-settings-display-idle-timeout),
+[sleep timer](https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/sleep-settings-sleep-idle-timeout),
+[Windows 11 UI](https://support.microsoft.com/en-us/windows/experience/power-battery/power-settings-in-windows-11),
+[idle-transition distinctions](https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/display--sleep--and-hibernate-idle-timers)
+and [ShowSleepOption policy](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-windowsexplorer#showsleepoption).
+The final page maps Software/Policies/Microsoft/Windows/Explorer, not the retained
+FlyoutMenuSettings value. No current checkbox mapping or effective policy claim.
+The menu ID remains outside the current profiles. No native power query or write.
+
+Both native PowerShell 5.1.26100.9711 and 7.6.5 passed 122 existing presentation,
+catalog and search tests; one WindowsIntegration case was excluded. Whole-catalog
+comparison permits only seven presentation blocks and the menu description/link.
+Generated operations are current; repository validation passed 346 operations,
+eight groups, five profiles and 169 PowerShell files in each edition.
+
+Next: implement the previously accepted additional button/duration choices with
+capability checks, validate active-plan ordering and exact custom-state recovery,
+then prove GUI/policy/physical transitions on suitable disposable targets. The
+existing parser also depends on English powercfg labels; localized output and
+unsigned index bounds need focused handler follow-up before broader claims.
+Missing button indexes and S3/Modern Standby differences stay explicit, not pass.
+Source recovery reverts only the seven presentation blocks/menu prose and
+regenerates documentation; no Windows-state recovery is required.
+
+Resolved: seven presentation reviews and whole-bundle reverse reconciliation.
+Retired/excluded: none. Partial: power controls' user-visible evaluation. Deferred:
+additional states, parser/index follow-up, GUI/policy/hardware/transition evidence.
+Presentation is now 47/279, with 232 remaining. All five legacy ranges stay
+38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about 180: no legacy outcome
+newly accepted, and packages/components/accounts/actions gain no runtime evidence.
+
+## Power index capture and recovery repair, 2026-10-17
+
+Source f53ce6ab102a plus the overnight patch. PowerSettings 0.2.0 replaces signed
+hexadecimal conversion with UInt32 capture. Engine 0.20.3 no longer narrows live
+indexes during named-state comparison or snapshot creation. New nested power
+snapshots are version 1 with UInt32 encoding and AC/DC identity; outer run schema
+stays unchanged. See [compatibility and recovery](../setting-presentation.md#power-index-record-compatibility).
+Microsoft's [AC index API](https://learn.microsoft.com/en-us/windows/win32/api/powrprof/nf-powrprof-powerreadacvalueindex)
+declares a DWORD output; a full index is not a signed Int32.
+
+The previous parser could encode high-bit hexadecimal values as negative values.
+Unmarked historical Int32-range negatives are explicitly reinterpreted to their
+original unsigned bits during recovery; original JSON remains untouched. New
+marked negative values, unknown encodings/versions, invalid GUIDs, AC/DC mismatch,
+strings, booleans, nulls, fractions and overflow refuse before native writes.
+Commands format invariant unsigned decimal. Existing choices, profile selections,
+support declarations, active-plan commit and saved-scheme recovery are unchanged.
+
+Both native PowerShell 5.1.26100.9711 and 7.6.5 passed **44 focused tests**: 30 power
+and 14 presentation cases, zero failures/skips/exclusions. Coverage includes
+0/Int32.MaxValue/high-bit/UInt32.MaxValue capture, marked/unmarked JSON recovery,
+different active-plan preservation, malformed-record rejection, Custom inspection
+and isolated on-disk engine snapshots. Powercfg was mocked throughout. Both
+editions passed repository validation: 346 operations/eight groups/five profiles/
+169 PowerShell files. No workstation power query, write or suspend occurred.
+
+Recovery: preserve original records and the corrected handler/engine until high
+unsigned snapshots are recovered. The old engine cannot safely recover these
+new high values; do not remove the corrected implementation as a substitute for
+state recovery. Native reversible boundary fixtures, English-output replacement,
+plan-switch races and physical transitions remain follow-up work. No arbitrary
+high index should be written merely to prove parser range. Additional requested
+button/duration choices remain separate from capturing custom values accurately.
+
+Resolved: signed-narrowing defect and explicit compatible recovery path. Retired/
+excluded: none. Partial: power lifecycle preparation. Deferred: native unsigned
+recovery, locale-independent reads, GUI/hardware and expanded choices. All five
+ranges remain 38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about 180;
+no legacy outcome closes. Presentation stays 47/279, 232 open. Other groups gain
+no new acceptance; controller and VM state remain untouched.
+
+## Typed power read backend, 2026-10-17
+
+Source f53ce6ab102a plus the overnight patch. PowerSettings 0.3.0 now uses the
+internal RIDE.PowerRead 0.1.0 bridge for explicit GUID/UInt32 reads. It removes
+English powercfg query-label parsing; powercfg remains only for existing writes
+and commits. See the [operator/recovery contract](../setting-presentation.md#power-index-record-compatibility).
+Production interop uses documented
+[PowerGetActiveScheme](https://learn.microsoft.com/en-us/windows/win32/api/powersetting/nf-powersetting-powergetactivescheme),
+[PowerReadACValueIndex](https://learn.microsoft.com/en-us/windows/win32/api/powrprof/nf-powrprof-powerreadacvalueindex)
+and [PowerReadDCValueIndex](https://learn.microsoft.com/en-us/windows/win32/api/powrprof/nf-powrprof-powerreaddcvalueindex).
+Active GUID memory is released with LocalFree; imports restrict DLL search to
+System32. Module import invokes no native query. No setter exists in the bridge.
+
+The handler compares active GUID before/after a current-plan read and refuses
+drift. Explicit saved-scheme inspection makes no current-plan query/selection.
+Missing configuration (numeric file-not-found) stays Unavailable with its error;
+it is not an inference about hardware. Access-denied/other failures throw numeric
+diagnostics. The earlier UInt32/signed-record compatibility remains. Read-time
+checks do not close later apply/commit races or establish effective managed policy.
+
+Both native PowerShell 5.1.26100.9711 and 7.6.5 passed **63 focused tests**: 16 native
+bridge, 33 power handler/engine and 14 presentation cases; zero failures/skips/
+exclusions. Production C# compiled with an injected fake API. Tests release
+allocated GUIDs on success/error/empty GUID, reject failed cleanup/null pointers,
+preserve uint32/zero, route AC/DC/identities, distinguish missing/denied/other errors,
+detect plan drift and retain existing snapshot recovery. No real PowrProf or
+powercfg call occurred. Both editions passed repository validation: 346 operations,
+eight groups, five profiles and 171 PowerShell files. Catalog/support unchanged.
+
+Next: disposable native read comparison on applicable Windows targets and display
+languages, missing-setting/error classification, same/different-plan recovery,
+managed policy and real hardware acceptance. Keep the backend change source-ready
+until those checks precede release activation. Do not run arbitrary high values
+or suspend the workstation. Recovery preserves original runs and a compatible
+UInt32 handler/engine; reverting the reader does not undo any setting or repair
+an old engine's signed narrowing. No Windows state changed in this batch.
+
+Resolved: language-dependent query parsing in source and active-read drift proof.
+Retired/excluded: none. Partial: power inspection/recovery. Deferred: native API,
+localized-target, hardware/GUI and write-race/extra-choice acceptance. Five ranges
+stay 38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about 180: no accepted
+legacy closure. Presentation remains 47/279, 232 open; other groups and controller
+pins are unchanged. Continue independent migration batches.
+
+## B01 Explorer folder options presentation, 2026-10-17
+
+Source f53ce6ab102a plus the overnight patch. Added preference presentation to
+eight existing IDs: folder-merge-conflicts, navigation-pane-all-folders,
+explorer-title-full-path, explorer-separate-process, restore-folder-windows,
+sharing-wizard, item-selection-checkboxes and thumbnail-display (windows prefix).
+No states, values, defaults, handlers, profiles or supported targets changed.
+The checkbox DocumentationUri now points to Microsoft's focused
+[File Explorer Classic reference](https://learn.microsoft.com/en-us/windows/apps/develop/settings/settings-common#file-explorer-classic).
+It describes the option, not AutoCheckSelect. The older protocol's UseCheckBoxes
+mapping was not substituted. FullPath, SeparateProcess and PersistBrowsers map
+in GlobalFolderOptions; SharingWizardOn and IconsOnly map in its Vista variant.
+These references do not establish current Windows 11 GUI or process semantics.
+
+Legacy reconciliation against lib-windows.psm1: reverse selectors for folder
+merge, all-folders, title path, restored windows and Sharing Wizard remove their
+override. The current explicit Hidden/Disabled/Enabled alternatives remain stable;
+WindowsDefault is the matching deletion path. Separate-process, checkboxes and
+thumbnail pairs write explicit opposing values. Baseline/unset remove each
+declared override; saved restore preserves captured data/type/absence. These are
+independent controls, not an implicit Explorer bundle. Navigation expansion,
+namespace icons, duplicate-file prompts, sharing permissions, thumbnail caching
+and preview handlers are separate. No omitted adjacent behavior is declared done.
+
+Windows PowerShell 5.1.26100.9711 and PowerShell 7.6.5 each passed 122 focused
+presentation/catalog/search tests, one WindowsIntegration case excluded. Whole-
+catalog comparison admits only eight presentation blocks and one checkbox reference
+since the prior batch. Repository validation passed on both editions: 347 operations,
+eight groups, five profiles and 173 PowerShell files. Generation is current.
+Tests use mocked/preview paths; no workstation registry, Explorer restart, file
+copy/merge, share, sign-out or package acquisition occurred.
+
+Next: in an intended-user disposable Windows 11 session, capture prior state,
+preview/apply one control, compare actual GUI and reopening behavior, then restore
+the exact run and verify both GUI and saved bytes. Use separate reversible fixtures
+for duplicate-file/folder prompts, touch selection, local/virtual-folder titles,
+multiwindow/tab process grouping, logon restoration, sharing UI and thumbnail
+providers. Do not perform file replacement, permission changes, process termination
+or sign-out without that scenario's authorization. Managed/default behavior remains
+separate; no new Server scope is inferred. Source rollback removes only these
+metadata blocks/reference edit and regenerates docs; it does not change Windows.
+
+Resolved: eight presentation reviews and legacy reverse distinctions. Retired/
+excluded: none. Partial: Explorer outcomes. Deferred: native GUI, managed, touch,
+sign-in, process and provider acceptance. Presentation is now 55/279, 224 open;
+this is separate from legacy closure. All five ranges stay 38-58 / 58-73 / 20-25 /
+25-35 / 8-12, rounded 150-205/about 180, because no legacy behavior was accepted.
+
+## B01 App Privacy policy presentation, 2026-10-17
+
+Source f53ce6ab102a plus the overnight patch. Reviewed 17 existing machine-scoped
+AppPrivacy controls: camera, microphone, background apps, voice activation and
+voice activation while locked, notifications, account info, contacts, calendar,
+phone calls, call history, email, tasks, messaging, radios, unpaired devices and
+other-app diagnostic information. Added EnforcedPolicy presentation, corrected
+15 descriptions that obscured policy/default coverage, clarified four display
+names and focused 13 broad DocumentationUri links. Stable IDs, states, defaults,
+handlers, profiles, targets and registry mappings are unchanged.
+
+Read the local Windows AppPrivacy ADMX/English ADML as static policy evidence;
+all 17 entries are Machine policies at the catalog key. Their enum data defines
+0/1/2; fifteen have separate per-app lists, while the two voice policies do not.
+Fetched the official [Privacy CSP reference](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy)
+once and verified each exact value-name fragment. Local source/reference hashes
+and mapping checks are retained in the [evidence](../archive/evidence/app-privacy-presentation-review-2026-10-17.json).
+This establishes reference/mapping context, not current native behavior.
+
+Legacy disable/enable pairs generally write 2/remove. Camera/microphone already
+offer explicit 0/1 alternatives; other IDs remain two-state, without silently
+adding choices. The voice selector wrote/removed both values. General and locked
+activation are useful separate controls, with the latter dependent on the former.
+The background selector's older-build branch changed HKCU per-app flags, and its
+enable path removed those flags even when deleting the device policy. Current
+operation owns only HKLM: historical user cleanup remains partial, not accepted.
+Per-app exceptions, other privacy layers and desktop-program coverage are not
+inferred from the stored default. No assistant installation, radio switching,
+message deletion, cloud synchronization or telemetry outcome is claimed.
+
+Both native Windows PowerShell 5.1.26100.9711 and PowerShell 7.6.5 passed 122
+focused presentation/catalog/search tests, one WindowsIntegration case excluded.
+Whole-catalog comparison allows only these 17 presentation blocks and declared
+reference/name/description changes. Both editions validated 347 operations/eight
+groups/five profiles/181 PowerShell files; generated documentation is current.
+No policy was applied, app restarted or native provider queried.
+
+Next: on a disposable supported-edition Windows 11 target, capture one policy's
+prior value and applicable exception lists without adopting those lists. Preview,
+apply and compare a known covered app plus a separately chosen desktop app; verify
+GUI editability, policy refresh and exact saved-run restore. Test per-app override
+precedence separately. Voice acceptance needs a compatible installed app and
+separate locked-session authorization. Background acceptance must distinguish
+device default from existing user flags. Do not clear user flags as implicit
+recovery. Baseline removal and exact captured restore are different scenarios.
+Source rollback reverts only this metadata and regenerates OPERATIONS; saved runs
+remain compatible. Windows recovery is unnecessary for this source-only batch.
+
+Resolved: 17 presentation reviews and bundle/reverse semantics. Retired/excluded:
+none. Partial: App Privacy/background outcomes. Deferred: covered-app, GUI,
+managed-precedence, locked-session and user-flag acceptance. Presentation is now
+72/279, 207 open. All five ranges remain 38-58 / 58-73 / 20-25 / 25-35 / 8-12,
+rounded 150-205/about 180; no accepted legacy closure or expanded target support.
+
+## B01 update and maintenance presentation, 2026-10-17
+
+Source f53ce6ab102a plus the overnight patch. Eight existing controls gained
+presentation: MSRT offering, driver quality-update exclusion, device metadata,
+automatic-update download mode, automatic restart sign-in, two historical
+maintenance-wake values and Microsoft-product updates. Four are EnforcedPolicy,
+one Preference and three Unverified. Two wake display names now say experimental;
+three descriptions and one reference were clarified. Stable IDs, registry paths,
+states, defaults, profiles, handlers and targets remain unchanged.
+
+The local WindowsUpdate ADMX maps AUPowerManagement to WindowsUpdate directly,
+while RIDE retains the historical WindowsUpdate/AU subkey. The template places
+that policy in PreSV with an older-release support declaration. The current
+[AutomaticMaintenanceWakeUp policy](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-update#automaticmaintenancewakeup)
+instead uses Policies/Microsoft/Windows/Task Scheduler/Maintenance/WakeUp. Neither
+is silently substituted. Microsoft's [maintenance guide](https://learn.microsoft.com/en-us/windows/win32/taskschd/task-maintenence)
+documents behavior and wake prerequisites, not the historical non-policy value.
+The MSRT reference describes the tool, without documenting DontOfferThroughWUAU.
+All three current-build effects remain unverified. Both wake IDs are still in
+profiles/default.psd1: preserve that unresolved recommendation/consumer gap.
+
+The legacy driver bundle also wrote DriverSearching/SearchOrderConfig=0 and
+removed it on reverse; device metadata and quality-update exclusion do not cover
+that missing component. Local DeviceSetup ADMX retains the separate 0/1/2 search
+choice. AUOptions=2/3 are only elements of Configure Automatic Updates; RIDE
+does not own NoAutoUpdate. Legacy enabling removed AUOptions, not explicit 3.
+MSRT Allowed=0 and restart-sign-in Enabled=0 likewise differ from reverse removal.
+The restart-sign-in policy does not restart or unlock a machine; join state,
+prior sign-out and separate mode/BitLocker conditions remain relevant.
+
+The documented [AllowMUUpdateService preference](https://learn.microsoft.com/en-us/windows/apps/develop/settings/settings-common)
+is not proof of the old Microsoft.Update.ServiceManager AddService2/RemoveService
+lifecycle. Legacy used service ID 7971f918-a847-4430-9279-4a52d1efe18d. The current
+registry setting remains partial for service enrollment and does not invoke COM.
+The wake bundle wrote both historical values to 0 and removed both on reverse;
+each current capture/recovery remains independently owned.
+
+Windows PowerShell 5.1.26100.9711 and PowerShell 7.6.5 each passed 122 focused
+presentation/catalog/search tests, with one WindowsIntegration exclusion. Both
+validated 347 operations/eight groups/five profiles/186 maintained PowerShell
+files. Whole-catalog comparison permits only eight presentation blocks and the
+declared metadata edits; generated operation documentation is current. No native
+update, wake, sign-in, service enrollment, VM or workstation change occurred.
+
+Next: use a disposable, explicitly selected supported-edition target to capture
+the prior values and relevant governing policy. Verify a known consumer and GUI
+effect, repeat application, baseline removal and exact saved restore separately.
+For wake, first resolve the key/consumer applicability and default-profile
+recommendation; physical wake requires hardware/power-source acceptance. For
+Microsoft Update, observe registration and checkbox correlation separately before
+designing a service owner. Do not install updates or restart as an implicit test.
+Source recovery reverts only this metadata and regenerates OPERATIONS; saved
+state remains compatible. There is no runtime cleanup for this source-only run.
+
+Resolved: eight presentation reviews and reverse/bundle/reference distinctions.
+Retired/excluded: none. Partial: driver bundle, maintenance wake and Microsoft
+Update enrollment. Deferred: MSRT/current-build consumer, GUI, managed, physical
+wake and default-profile acceptance. Presentation is 80/279, 199 open. All five
+ranges remain 38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about 180;
+no accepted legacy closure or supported-target expansion.
+
+## B01 security control presentation, 2026-10-17
+
+Source f53ce6ab102a plus overnight changes. Added presentation for eight existing
+controls: Shell SmartScreen, StandardProfile firewall, memory-integrity request,
+Defender sample submission, UAC consent pair, tools/bootstrap path exclusions and
+Controlled Folder Access. Corrected the UAC description and focused the firewall
+reference on Microsoft's exact [EnableFirewall mapping](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-gpfas/2100c552-7f37-4a7f-9fa0-2a864ab87212).
+IDs, states, handlers, defaults, target declarations and profiles are unchanged.
+
+Legacy review: SmartScreen enabling removed the Shell override; explicit 1 is an
+additional current choice. The historical EdgeHTML value remains excluded.
+Firewall enabling removed the StandardProfile override; its modern effective
+profile/merge outcome remains Unverified and separate from the modern profile
+handler. Memory-integrity disabling also removed Enabled rather than writing 0.
+The current request does not provision VBS or compatible drivers and does not own
+UEFI locks or WasEnabledBy; running protection and GUI editability need evidence.
+See Microsoft's [HVCI configuration](https://learn.microsoft.com/en-us/windows/security/hardware-security/enable-virtualization-based-protection-of-code-integrity#enable-memory-integrity-using-registry).
+
+The cloud legacy selector paired reporting=0 with sample Never=2 and removed
+both on reverse. The independently useful sample operation retains all four
+existing literal choices. It owns preference only, not previously transmitted
+files. The paired UAC low/high selectors match 0/0 and 5/1 exactly. The shared
+secure-desktop setting can affect standard users' prompt placement; their
+credential policy and EnableLUA are separate. SecureConsent is not maximum
+always-notify. These distinctions follow the [UAC reference](https://learn.microsoft.com/en-us/windows/security/application-security/application-control/user-account-control/settings-and-configuration).
+
+Legacy tools-exclusion removal hard-coded C:\Tools even when adding used a custom
+path. Current saved-path membership recovery avoids re-resolving that destination.
+Directory creation is separate from membership; recovery does not delete folders
+or tool-created content. Bootstrap resolves the executing account's Downloads,
+which needs intended-user acceptance under alternate-account elevation. Current
+default profile still requests both exclusions. Hidden/managed exclusion lists
+are a retained observability gap, not proof of absence or accepted broad scanning
+exemptions. Microsoft describes [exclusion visibility and management](https://learn.microsoft.com/en-us/defender-endpoint/microsoft-defender-antivirus-exclusions-configure).
+Controlled Folder Access keeps the legacy explicit 1/0 plus existing audit=2;
+allowed apps and protected folders remain independent, and it declares no baseline.
+
+Both native PowerShell editions passed 122 focused presentation/catalog/search
+tests (one WindowsIntegration exclusion) and validation of 347 operations/eight
+groups/five profiles/186 PowerShell files. Full catalog comparison permits eight
+presentation blocks, one description and one reference only. No protection,
+firewall, prompt, exclusion, upload, reboot or other Windows state changed.
+
+Next: disposable Windows 11 acceptance must inspect governing policy and intended
+identity before selecting one control. Capture prior state, preview, apply, verify
+the covered GUI/consumer, repeat, and restore the exact capture; test removal of
+registry overrides separately. HVCI needs compatible hardware/boot recovery and
+an explicitly authorized restart. Use harmless controlled test data for protection
+checks. Never submit personal data merely to prove sample behavior. Exclusion
+acceptance must establish visibility and preserve unrelated membership/content.
+Source recovery reverts only this metadata and regenerates OPERATIONS; existing
+saved-state formats remain unchanged.
+
+Resolved: eight presentation reviews and bundle/reverse semantics. Retired/excluded:
+no new outcome (existing EdgeHTML exclusion retained). Partial: legacy firewall,
+HVCI request and exclusion ownership/visibility. Deferred: native GUI, effective
+protection, hardware/boot, managed and default-profile acceptance. Presentation
+88/279, 191 open. All five ranges remain 38-58 / 58-73 / 20-25 / 25-35 / 8-12,
+rounded 150-205/about 180; no accepted legacy closure or target expansion.
+
+## B01 Defender exclusion capture and recovery, 2026-10-17
+
+Source f53ce6ab102a plus overnight changes. Review found that the engine captured
+one resolved path, while the handler independently resolved it later without
+comparing the capture. A changed tools/Downloads configuration could therefore
+write a different exclusion from the saved recovery path. RIDE-Defender 0.2.0 and
+engine 0.20.4 now compare captured path and Boolean membership before directory
+preparation. Add rechecks membership after preparation; add/remove and restore
+verify the provider's reported membership and propagate errors.
+
+New inner snapshots use SnapshotVersion=1, OperationId, PathResolver, Path,
+Present and ExpectedPresent; the outer run-record schema remains unchanged.
+Restore validates identity/version and uses the literal saved path without
+re-resolving current configuration. A no-change versioned capture owns no later
+membership. Valid older Boolean/path captures remain readable. Missing paths,
+non-Boolean flags, unknown versions and redirected identities refuse mutation.
+Fully qualified literal directory validation also rejects drive/share roots,
+device/relative/wildcard/alternate-stream paths and unresolved variables. Old
+unsupported broad/pathless records stay intact for separately evidenced manual
+recovery, rather than silently adopting today's resolved path.
+
+The provider wrapper distinguishes a missing object/property from a valid null
+visible list. Hidden/managed lists are still an observability gap; the change
+does not establish absence of managed membership, raw list-token ownership,
+effective scanning, reparse-target identity or an atomic provider transaction.
+No automatic policy changes are introduced to expose hidden data. Folder creation
+can precede an add failure and remains outside membership recovery; no content is
+deleted. Existing default-profile exclusions and target declarations are preserved.
+
+Both native Windows PowerShell 5.1.26100.9711 and PowerShell 7.6.5 passed 109
+focused recovery/catalog tests (one WindowsIntegration exclusion). Cases cover
+capture-to-write path/membership drift, directory-preparation drift, ignored
+writes, exact captured-path recovery, JSON round-trip, idempotent retry, unsafe
+paths, malformed versions/identities/provider shapes, engine snapshot fields and
+ShouldProcess forwarding. Older catalog mocks were adjusted to model successful
+membership changes so post-write checks test real state transitions. Validation
+passed for 347 operations/eight groups/five profiles/187 PowerShell files in both
+editions. No Defender provider or writer ran against the workstation.
+
+Next: use the [operator procedure](../setting-presentation.md#defender-exclusion-capture-and-recovery)
+on a disposable target with an independently verified visible local exclusion
+list. Select a harmless temporary subdirectory, capture, preview, apply, repeat,
+remove and restore; verify both native membership and preservation of unrelated
+entries/content. Exercise a configuration-path change between capture/write and
+an ignored/tamper-managed write without disabling protection. Keep alternate
+account, hidden-list and wildcard/alias semantics separate. Do not use a broad
+tools exclusion as an automatic prerequisite for package acceptance.
+
+Source recovery must revert module/engine together. Existing valid old records
+remain usable; retain new records and a compatible reader before any downgrade.
+Resolved: captured-target gap and reported-success verification in source.
+Retired/excluded: none. Partial: exclusion ownership and native observability.
+Deferred: native/managed/GUI/default-profile acceptance. Presentation remains
+88/279, 191 open. All five ranges remain 38-58 / 58-73 / 20-25 / 25-35 / 8-12,
+rounded 150-205/about 180; no accepted legacy closure or support expansion.
+
+## B01 desktop and Explorer visibility presentation, 2026-10-17
+
+Source f53ce6ab102a plus overnight changes. Fourteen existing operations gained
+presentation: five system desktop icons, PaintDesktopVersion, all desktop icons,
+empty drives, navigation auto-expansion/Libraries, sync-provider notifications,
+Explorer start location and two thumbnail-cache requests. Three names and three
+descriptions now identify uncertain behavior or reverse semantics; four reference
+URLs were focused. Registry paths, states, baselines, defaults, targets, profiles
+and saved-state contracts are unchanged. Presentation is 102/279, 177 open.
+
+Legacy comparison uses legacy/v2/lib-windows.psm1. Recycle Bin Shown removed the
+override; the other four icon Hidden selectors removed it. Current explicit 0/1
+choices differ, while WindowsDefault preserves removal. ClassicStartMenu remains
+excluded; NewStartPanel rendering is still subject to the separate all-icons
+switch. Its Visible=0/Hidden=1 pair matches the legacy, and baseline explicitly
+writes 0. The [Microsoft desktop guide](https://support.microsoft.com/en-us/windows/experience/personalization/customize-the-desktop-icons-in-windows)
+describes GUI choices rather than GUID registry mappings. PaintDesktopVersion
+1/0 matches the legacy, but the About reference does not establish label rendering;
+the control is now explicitly experimental/Unverified.
+
+Empty-drive Hidden and Libraries Hidden now write 1 and 0 respectively; legacy
+reverse removed each override. WindowsDefault remains the removal choice. Navigation
+auto-expansion retains 1/removal. These are independently useful views; none
+removes drives, library definitions or files. The [settings schema](https://learn.microsoft.com/en-us/windows/apps/develop/settings/settings-common#file-explorer-classic)
+documents the options, while the [namespace property reference](https://learn.microsoft.com/en-us/windows/win32/properties/props-system-ispinnedtonamespacetree)
+defines Boolean pinning, not the exact Libraries CLSID registration. Sync-provider
+Visible removes its override whereas legacy Show wrote 1; default-profile Hidden
+is retained. This does not stop provider sync or all Windows notifications.
+
+Explorer Home=2 is the current explicit baseline, unlike the legacy QuickAccess
+reverse removal. The [Explorer guide](https://support.microsoft.com/en-us/windows/experience/fileexplorer/file-explorer-in-windows)
+explains the Home rename and GUI landing-page choice, not numeric LaunchTo mapping.
+No additional location was assigned a guessed numeric state or added to a profile.
+
+Both cache selectors retain legacy 1/removal, but actual current cache behavior
+is Unverified. The [Group Policy Preferences specification](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-gppref/3c837e92-016e-4148-86e5-b4f0381a757f)
+names DisableThumbnailCache under Explorer/Advanced; its XML-attribute wording
+does not establish current consumer behavior or polarity. For network thumbnails,
+the [documented ADMX policy](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-thumbnails#disablethumbsdbonnetworkfolders)
+uses Software/Policies/Microsoft/Windows/Explorer, unlike the retained Advanced
+path. A read-only inspection of the workstation Thumbnails.admx agrees on that
+policy path; this is template evidence, not runtime acceptance. The same value
+name does not establish equivalent behavior. Stable IDs and captured paths cannot
+be silently reassigned. Both cache controls remain in the existing default profile;
+this is an explicit recommendation/behavior gap, not approval of effectiveness.
+Their TargetDefaults are retained historical declarations requiring later evidence.
+
+Native Windows PowerShell 5.1 and PowerShell 7 each passed 122 focused
+presentation/catalog/search tests (one integration exclusion) and validation of
+347 operations/eight groups/five profiles/190 PowerShell files. Whole-catalog
+comparison permits only these fourteen metadata blocks and the declared name,
+description and reference edits. No desktop, Explorer, cache, network share,
+profile, process, sign-in or Windows state was changed.
+
+Next procedure: on the intended disposable Windows 11 account, capture a single
+operation, preview/apply, inspect the matching GUI and actual view, repeat and
+restore the saved value/type/absence. Test explicit baseline versus override
+removal separately where declared. Check all-icons interaction with an individual
+system icon, removable media for empty drives and provider participation for
+notifications. Do not restart Explorer or sign out without separate acceptance.
+Cache investigations need disposable content and traceable reads/writes; literal
+registry round trips do not close the outcome. Decide a distinct documented
+network-cache policy migration/retirement with preserved legacy recovery before
+changing its mapping or profile recommendation. Source recovery reverts only this
+metadata and regenerates OPERATIONS; runtime recovery remains the existing capture.
+
+Resolved: fourteen presentation reviews and whole-selector reverse analysis.
+Retired/excluded: no new outcome; ClassicStartMenu exclusion retained. Partial:
+sync/start reverse differences, version labels and both cache consumers. Deferred:
+GUI/media/provider/native cache and default-profile acceptance. All five ranges
+remain 38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about 180 because
+no remaining legacy outcome received native acceptance or new target support.
+
+## B03 persistent user PATH observation and recovery, 2026-10-17
+
+Accepted Q08 distinguishes the existing runtime-specific startup renderer from
+persistent user PATH, with folder/content preservation on removal. Added
+RIDE.UserPathPreparation 0.1.0: explicit machine/SID/session observation of literal
+HKCU Environment/Path and in-memory append/recovery. No setter, process PATH
+mutation, machine environment access, broadcast, directory action or catalog ID.
+
+Capture keeps missing/empty/kind distinctions, reads without expansion, disposes
+handles on errors and rechecks identity/profile. Append preserves raw original
+text and owns only a newly appended absolute bin token. Equivalent pre-existing
+tokens remain unowned. Unknown expansions are review cases, never resolved using
+the developer process. Recovery reconstructs snapshot version 1, restores exact
+original value when unchanged, preserves unrelated token edits, and refuses
+modified/equivalent-duplicate ownership conflicts. It never deletes the Environment
+key, directory or contents. Native existence, effective PATH and durable mutation
+are not established; ReadyForMutation remains false.
+
+All 44 distinct focused tests passed on each native PowerShell edition. Initial
+runs discovered 41 tests because an InModuleScope block ran before module import;
+that container failure is retained and was not accepted as a clean run. Windows
+PowerShell also rejected one test's oversized single path during normalization
+before its intended total-PATH limit assertion. The fixture now uses many short
+entries and imports during discovery. The four affected/missing cases then passed
+on both editions; previously passed unrelated cases were not rerun. Static
+validation passed 347 operations/eight groups/five profiles/205 maintained files.
+No actual user PATH/registry observation or Windows mutation was performed; mocked
+handles and synthetic records supplied all runtime inputs.
+
+Next: bind authenticated durable state and live compare/write/post-state guards,
+verify existing bin and inherited/machine PATH coexistence, implement bounded
+environment refresh and partial-failure recovery, then disposable lifecycle and
+new-process acceptance. Keep startup-only migration independent. Current API
+recovery is preparation only; source rollback removes module/tests/guidance with
+no Windows rollback. Operator procedure is in [profile guidance](../powershell-profiles.md#persistent-user-path-preparation).
+
+Resolved: literal observation and entry ownership/recovery contract. Retired or
+excluded: none. Partial: persistent user PATH; deferred: durable native lifecycle,
+refresh, filesystem identity and acceptance. No legacy closure. All five ranges
+stay 38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about 180. Presentation
+remains 102/279, 177 open.
+
+## B01 visual effects and first sign-in presentation, 2026-10-17
+
+Source f53ce6ab102a plus overnight changes. Eight existing operations gained
+presentation: drag contents, menu delay, minimize/restore animation, selection
+rectangle, desktop-label shadows, Peek, taskbar animation and first-sign-in policy.
+One name, one description and two reference URLs changed. Registry paths, state
+values/types, baselines, target/default declarations, profiles and recovery remain
+unchanged. Presentation is 110/279, 169 open; eighty additions in this window.
+
+Compared both complete SetVisualFXPerformance/SetVisualFXAppearance selectors.
+Their seven visual values match the explicit current choices. Baseline/unset and
+WindowsDefault remove each override instead of selecting Appearance. Keyboard
+delay was reviewed separately; the packed UserPreferencesMask and common
+VisualFXSetting=3 remain outside these controls. No whole-bundle equivalence,
+performance benefit or accessibility recommendation follows from seven writes.
+Four values without current mapping evidence remain Unverified; Peek's name now
+also identifies the experimental legacy request.
+
+The [SystemParametersInfo reference](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-systemparametersinfow)
+and [ANIMATIONINFO](https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-animationinfo)
+describe drag, cascading-menu delay and minimize/restore behavior, not these
+direct registry writes. The [DWM overview](https://learn.microsoft.com/en-us/windows/win32/dwm/dwm-overview)
+does not document EnableAeroPeek. The current taskbar support page places the
+Peek workflow in its Windows 10 section; it supplies no Windows 11 acceptance.
+
+The exact [first-sign-in policy mapping](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowslogon#enablefirstlogonanimation)
+replaces a broad ADMX link. It covers animation and Microsoft-account service
+prompts; Server has no animation. Legacy Enable removed the value, whereas
+current Enabled writes 1. WindowsDefault preserves removal, whose behavior
+differs between initial setup and later added users. Existing generic defaults
+remain a separate evidence gap; the CSP default is not proof of literal registry
+presence on every supported image. No account or session was changed.
+
+Validation: both Windows PowerShell 5.1 and PowerShell 7 passed 122 focused
+presentation/catalog/search tests, with one WindowsIntegration exclusion. Both
+passed repository validation: 348 operations, eight groups, five profiles and
+206 PowerShell files. Whole-catalog comparison permits only the eight new
+presentation blocks and declared metadata changes. Cumulative comparison retains
+the eight pending additions and eighty reviewed presentation blocks; every other
+baseline catalog field/group is unchanged. Generated OPERATIONS was refreshed.
+
+Next procedure: in a disposable Windows 11 desktop, capture each original value
+and active visual behavior, preview/apply each explicit state, compare immediate
+and subsequent-session effects, and restore exact prior type/value/absence. Cover
+contrast/theme and independently rendered applications; do not restart the shell
+on the developer workstation. For first-sign-in, use disposable new local and
+Microsoft-account scenarios only when their account/credential use is authorized;
+verify managed precedence and initial-versus-later user behavior separately.
+Record unresolved mappings rather than closing them on registry round trips.
+Source recovery reverts only this metadata and regenerates OPERATIONS.
+
+Resolved: eight presentation reviews and whole-selector reverse analysis.
+Retired/excluded: none in this batch; Q17/Q20 product retirements remain counted.
+Partial: visual session effects, packed-bundle coverage and new-user behavior.
+Deferred: GUI, policy precedence, account and target acceptance. All five ranges
+remain 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175. No native
+legacy outcome or new supported target was accepted.
+
+## B01 read-only session visual observations, 2026-10-17
+
+Implemented RIDE.VisualEffectsInventory 0.1.0. Five explicit kinds cover
+DragFullWindows, MenuShowDelay, MinimizeAnimation, UiEffects and
+ClientAreaAnimation. The C# bridge accepts only reviewed GET actions, including
+at its native entry; System32 DLL search is fixed. Scalar calls use zero parameter
+and flags; ANIMATIONINFO initializes both its size and the corresponding native
+size argument. The eight-byte structure and four-byte second-field offset were
+verified with fake calls. No setter, registry fallback, refresh or shell launch.
+
+Schema-1 observations bind the expected native machine/build/edition/user/session
+before and after sequential collection. A changed context discards all output.
+Per-provider errors retain unavailable status and null value; native failure
+with error zero remains failure. Nonzero Win32 Boolean bits are preserved and
+interpreted as true; menu delay retains UInt32 through its maximum. Failed or
+malformed/partial output cannot become a successful zero. No GUI/effective-policy,
+recovery or mutation readiness claim is added; imports and completion make no
+native visual calls. Documentation includes explicit invocation and interpretation.
+
+Validation: 40 focused tests passed in each of Windows PowerShell 5.1 and
+PowerShell 7. These cover the real compiled interop with an injected fake API,
+fixed actions, layout, unsigned values, no-error failure, wrong context, drift,
+duplicate/selected providers, completion and malformed/partial failure isolation.
+No SystemParametersInfo request or live registry observation ran. Both editions
+passed repository validation for 348 operations/eight groups/five profiles/208
+PowerShell files. Existing presentation tests were not rerun without a relevant
+presentation change. Presentation remains 110/279, 169 open.
+
+Next: invoke selected GETs in the authorized disposable user's native desktop,
+compare with independent GUI behavior and separately captured registry values,
+repeat across the target's session lifecycle, and retain all unavailable or
+disagreeing observations. Actual API and Windows-build acceptance remain open.
+Do not turn a successful GET into acceptance of the corresponding registry
+setter or full visual-effects bundle. Source recovery removes this unused module
+and its fixture/documentation; it has changed no runtime state.
+
+Resolved: read-only session observation and failure contracts. Retired/excluded:
+none. Partial: visual-effects migration and whole-bundle review. Deferred: native,
+GUI, policy and refresh acceptance. All five ranges remain 38-58 / 56-71 / 20-25 /
+25-35 / 8-12, rounded 145-200/about 175, because no legacy outcome closed.
+
+## B01 network control presentation, 2026-10-17
+
+Thirteen existing controls gained presentation: unidentified-network category,
+private-network device setup, ICS, Explorer Network enumeration, both NCSI inputs,
+LLMNR, Server/workstation administrative shares, linked UAC drive mappings, WinHTTP
+WPAD, Remote Assistance and Remote Desktop. Two names, three descriptions and
+five reference URLs changed. Registry mappings, declared states, baselines,
+defaults, profiles, support and recovery are unchanged. Presentation is 123/279,
+156 open; ninety-three additions in this window.
+
+The [ICS policy reference](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-networkconnections#nc_showsharedaccessui)
+documents both configuration and service restrictions. This supersedes earlier
+UI-only descriptions. Read-only inspection of installed Microsoft
+NetworkConnections.admx (SHA-256
+31B755D0DEC40ACF3C9B7260A2087379E3C75AE5C0BDC965BF9973EE4B77E3FB)
+confirmed Machine scope, the existing key/value and policy-enabled=0/disabled=1.
+No live policy or service was queried. The stable Hidden/Available states remain,
+but their broader meaning is visible. Actual enforcement is still unaccepted.
+
+Legacy Public-network, Enable-device-setup, Show-Network, Enable-ICS,
+Enable-NCSI and Disable-linked-drive selectors removed their values. Current
+explicit states instead write 0/1; WindowsDefault preserves those old reverses.
+LLMNR, WPAD and administrative-share reverses already match removal. The fixed
+network signature, device AutoSetup and NonEnum mappings remain Unverified.
+The Network List Manager link redirects to archived Windows 10 guidance; no
+Windows 11 applicability is inferred from it.
+
+The [LLMNR mapping](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-dnsclient#turn_off_multicast)
+corrects the misleading legacy MulticastDNS selector name; mDNS is separate.
+The [WinHTTP reference](https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/disable-http-proxy-auth-features#how-to-disable-wpad)
+retains other-application and direct-DNS boundaries. The [NCSI reference](https://learn.microsoft.com/en-us/troubleshoot/windows-client/networking/internet-explorer-edge-open-connect-corporate-public-network)
+documents both values; legacy/v2 contains NoActiveProbe but no EnableActiveProbing
+write. Treat the pair as separate controls within an incomplete outcome, not two
+resolved legacy items. Passive probing is outside both controls.
+
+The [administrative-share troubleshooting reference](https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/problems-administrative-shares-missing)
+actually names AutoShareWks, correcting the prior claim that Microsoft only
+documents its Server analogue. Its Server scope still does not prove Windows 11
+behavior. Legacy paired both values; published target-specific IDs retain their
+split. Service interruption, actual shares and dependent administration remain
+acceptance work. The [server removal guide](https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/remove-administrative-shares)
+excludes IPC$ and manually created shares. The [linked-drive reference](https://learn.microsoft.com/en-us/troubleshoot/windows-client/networking/mapped-drives-not-available-from-elevated-command)
+does not cover unrelated credential sessions; no restart or drive mapping occurred.
+
+Remote Assistance's [unattended-setting reference](https://learn.microsoft.com/en-us/windows-hardware/customize/desktop/unattend/microsoft-windows-remoteassistance-exe-fallowtogethelp)
+describes behavior rather than the retained registry location. Its new name avoids
+claiming a managed policy. Legacy also added/removed Quick Assist capability;
+that behavior remains separate. Remote Desktop legacy toggled RemoteDesktop*
+firewall rules as well as fDenyTSConnections. The current setting implements only
+the latter; [host prerequisites](https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/remotepc/remote-desktop-allow-access)
+remain explicit, including edition, service, authentication and firewall.
+
+Validation: 122 presentation/catalog/search tests passed in each native PowerShell
+edition with one WindowsIntegration exclusion. Both repository validations passed:
+348 operations/eight groups/five profiles/208 PowerShell files. Whole-catalog
+comparison allows only these thirteen presentation blocks and declared metadata
+changes; cumulative comparison retains eight pending additions and ninety-three
+presentation blocks with all other baseline fields/groups unchanged. Generated
+OPERATIONS was refreshed. No native network, service, share, remote connection,
+credential, installer or VM action occurred.
+
+Next: use isolated disposable targets and an independent recovery path. Capture
+typed values and actual policy/service/UI/peer behavior; preview each explicit
+state and exact saved restore, including managed conflict. Keep credentials and
+remote enablement under explicit acceptance, test service restarts only where
+authorized, and do not disable the sole management connection. Record LLMNR versus
+mDNS and WinHTTP versus other proxy behavior independently. Source recovery reverts
+only metadata and regenerates OPERATIONS; runtime recovery retains existing captures.
+
+Resolved: thirteen presentation reviews, ICS description and documented reference
+gaps. Retired/excluded: none. Partial: bundled discovery/sharing/remote access and
+current mapping effects. Deferred: network/GUI/managed/service/peer acceptance.
+All five ranges remain 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about
+175, because no additional legacy outcome was completed.
+
+## Accepted remaining decisions and R29 bookkeeping closure, 2026-10-17
+
+Reconciled [Q25-Q31](decision-session-2026-10-17.md) into the active settings and
+remaining-migration plans. ADR 0001 now accepts RIDE as sole configuration writer
+and LoggingBaseline as read-only consumer; no other repository was changed.
+Reviewed Store groups stay first; dynamic lists are a deferred extension.
+Destructive maintenance is explicit and previewed with backup/checkpoint where
+required; only specifically defined disposable-cache cleanup may omit backup.
+Explorer/input, then Server sign-in/shutdown, then app/hardware acceptance is the
+selected order. Menu controls lacking reliable content/ACL recovery remain visible
+but unavailable with guidance. Audio/adapter/volume selection captures stable
+identity; explicit current-default audio resolves and retains its actual device.
+Missing resources never cause fallback during mutation or recovery.
+
+Q31/D09 closes R29 User .NET assemblies as unsubstantiated bookkeeping. The
+[bounded source audit](#unidentified-entry-source-audit-and-closure-path-2026-10-11)
+is retained without claiming all historical/custom sources were exhausted. Reopen
+on a source or defined use case. This is neither feature retirement nor successful
+migration. The audit explicitly prevented adding a numerical legacy outcome from
+the label, so no estimate subtraction is justified. No assembly/runtime/data was
+changed. Resolved: decision dispositions and this bookkeeping issue. Retired or
+excluded: none. Other settings remain partial/deferred pending implementation and
+native/GUI/resource recovery. Presentation stays 123/279, 156 open. All five ranges
+remain 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175.
+
+## B10 read-only desired-configuration reference, 2026-10-17
+
+Implemented RIDE.DesiredConfiguration 0.1.0 and Export-RideDesiredConfiguration
+0.1.0 for accepted Q25/ADR 0001. The schema-1 reference binds exact built-in catalog
+and explicit profile hashes, retains stable IDs/source order and declared target
+platform/build/edition/role/installation type, and marks the consumer read-only.
+RegistryValue/RegistryValueSet retain declared path/name/type and distinct
+SetValue/RemoveValue/KeepCurrent intent, with explicit baseline resolution and no
+environment expansion. Other handlers and groups remain ReportOnly; package
+variants/destinations/scope are not resolved. No raw handler/property/store data
+is copied. All live state/compliance is Unknown; target metadata comparisons are
+not native availability or policy precedence. Measurement thresholds remain separate.
+
+The standalone exporter validates source data, refuses source hash drift, bounds
+profile/output sizes and creates output exclusively. WhatIf reads no source or live
+state. Completions use repository profiles and the same catalog's target names;
+the API completes from its supplied catalog. Role/installation choices use their
+declared sets. No engine/handler, Windows query, network, installer, local preference
+or private review store is invoked. Existing state/recovery schemas are untouched.
+See the [operator procedure and schema](../desired-configuration-reference.md).
+
+Validation: 37 distinct tests passed per native PowerShell edition. Initial test
+fixture misuse of PowerShell's automatic args variable and script completion path
+resolution caused failures; the fixture was renamed and completers now resolve
+the observed command AST path. Three initial passing export cases were retained;
+31 corrected/affected cases, two new race/drift cases and one API completion case
+passed in focused follow-ups. No unrelated passed suite was rerun. Tests cover
+actual default-profile export, exact hashes, zero/empty/absence, array identity,
+KeepCurrent, unsupported/pending/Core/minimum-build status, invalid/duplicate
+selections, redaction-by-omission, no-query preview, exclusive output races, source
+drift and completion. Repository validation passed on both editions for 348
+operations/eight groups/five profiles/216 PowerShell files; final additive completion
+was parsed and tested in both editions. Local links/diff whitespace were checked.
+
+Next: review this versioned contract with the separately maintained read-only
+consumer, bind its intended target/user and registry views, and test observation/
+comparison in disposable Windows targets. Unknown mappings must remain visible
+and never execute reference contents. Actual security/logging operation selection
+and writers require their own lifecycle/recovery work. No other repository was
+edited. ReadyForMutation/RecoverySupported remain false; partial files are retained
+and a fresh output name is the recovery path. Unsupported future schema versions
+must be refused, with pinned source retained to reproduce old reference meaning.
+
+Resolved: source export/completion contract. Retired/excluded: none. Partial:
+configuration ownership integration. Deferred: consumer/native mapping, additional
+handlers and actual logging/security selection. Presentation stays 123/279, 156
+open. All five ranges remain 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded
+145-200/about 175; a read-only export closes no legacy outcome.
+
+## B01 logon and boot presentation, 2026-10-17
+
+Twelve existing controls gained presentation: boot-status recovery, lock screen,
+verbose status, attachment zones, sign-in network selection, shutdown before logon,
+Fast startup, crash restart, sign-in acrylic background, F8 boot menu, DEP and secure
+attention. Presentation is 135/279, 144 open; 105 additions in this window. Two names,
+four descriptions and four focused reference URLs changed. Stable IDs, states,
+baselines, defaults, target declarations, profiles and handlers remain unchanged.
+
+The published F8 Standard and DEP OptIn states remove their BCD overrides; neither
+explicitly writes its namesake. Legacy DisableF8BootMenu and SetDEPOptIn did write
+Standard/OptIn. Descriptions now expose this difference. The [BCD reference](https://learn.microsoft.com/en-us/windows-hardware/drivers/devtest/bcdedit--set)
+documents each explicit choice, but historical default tables do not prove all
+current image defaults. Existing target-default metadata is retained for separate
+native evaluation. IgnoreAllFailures also covers failed shutdown/checkpoints and
+does not disable Windows RE. Boot-status write/removal matches the legacy pair.
+
+The [acrylic policy](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-logon#disableacrylicbackgroundonlogon)
+has an exact current Microsoft mapping; the initial page lookup missed its section,
+and the focused recheck found it. Read-only Logon.admx inspection confirmed machine
+scope and key/value (SHA-256 C29C524C23659AB3D7F7CB46E23BB18657648D4B17E4239DE4EC78CF365E4827).
+The display name now says sign-in background. Published Enabled and its baseline
+remove the policy; effective blur is not guaranteed. No ADMX or live policy changed.
+
+Legacy verbose-status behavior branches on ProductType: client Enable writes 1,
+Disable removes; Server Enable removes, Disable writes 0. Current explicit 0/1
+states differ from those removal branches. WindowsDefault retains removal, and no
+Server support is added. The [verbose policy](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-logon#verbosestatus)
+can be suppressed by the separate remove-status-messages policy.
+
+Legacy Enable-lock-screen, Enable-download-blocking and Show-sign-in-network
+removed overrides; current explicit Enabled, Preserve and Shown write 0, 2 and 0.
+Their WindowsDefault states retain removal. The RS1 lock-screen task is not restored.
+Attachment-zone policy affects future metadata, not existing MOTW or SmartScreen.
+Shutdown, Fast startup, crash restart and Ctrl+Alt+Delete retain their legacy numeric
+pairs. The [secure-attention reference](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-localpoliciessecurityoptions#interactivelogon_donotrequirectrlaltdel)
+now points to the current policy and makes reversed label polarity visible.
+Hibernation/hardware/policy prerequisites, dump configuration and signed-in rights
+remain separate from these individual controls.
+
+Validation: 122 presentation/catalog/search tests passed in each native PowerShell
+edition, with one WindowsIntegration exclusion each. Both repository validations
+passed for 348 operations/eight groups/five profiles/219 PowerShell files. Focused
+whole-catalog comparison allows only the twelve presentation blocks and declared
+metadata changes; cumulative comparison retains eight pending additions and 105
+presentation blocks with every other baseline field/group unchanged. Generated
+OPERATIONS refreshed. No BCD, registry, sign-in, boot, crash or VM action occurred.
+
+Next: use separately authorized disposable Windows 11 targets with independent
+recovery media/access and encrypted-volume keys. Capture literal values and actual
+effective policy/UI; test repeat apply, baseline versus exact saved restore, absent
+overrides and managed conflicts. Schedule boot/sign-in/crash acceptance explicitly;
+never infer it from registry round trips or automatically disable security controls.
+Source recovery reverts only this metadata and regenerates OPERATIONS; runtime
+recovery retains existing versioned captures. Review native BCD defaults separately.
+
+Resolved: twelve presentation reviews and misleading state descriptions. Retired
+or excluded: none. Partial: legacy reverse equivalence and native user-visible
+outcomes. Deferred: boot/sign-in/managed-policy/hardware acceptance. All five ranges
+remain 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175; no additional
+legacy outcome is complete.
+
+## B01 suggestion and input presentation, 2026-10-17
+
+Nineteen existing controls gained explicit Unverified presentation: four broad
+ContentDeliveryManager preferences, nine numeric subscription channels, Settings
+pane and post-setup suggestions, three input-personalization preferences and the
+TIPC diagnostic-sample preference. Presentation is 154/279, 125 open; 124 additions
+this window. Only TIPC's name, description and reference changed beyond adding
+presentation. Stable IDs, states, baselines, defaults, targets, profiles and
+handlers remain unchanged. No numeric channel received an invented feature label.
+
+The [Spotlight reference](https://learn.microsoft.com/en-us/windows/configuration/windows-spotlight)
+describes the feature area, not these CDM mappings. The [recommendations reference](https://support.microsoft.com/en-us/windows/privacy/privacy-settings-for-recommendations-offers-in-windows-11)
+and [notification reference](https://support.microsoft.com/en-us/windows/experience/notifications-and-do-not-disturb-in-windows)
+likewise describe related UI without proving SystemPaneSuggestionsEnabled or
+ScoobeSystemSettingEnabled. Keep these experimental settings outside recommended
+profiles pending current-build comparisons and independently useful effects.
+
+The whole legacy DisableAppSuggestions/EnableAppSuggestions pair was reconciled.
+Five channels (310093, 314559, 338387, 338393, 353698) and Scoobe were removed by the
+legacy reverse; current Enabled=1 differs, while WindowsDefault retains removal.
+The other four channels and broad CDM preferences used explicit 0/1 pairs. Omitted
+PreInstalledAppsEverEnabled bookkeeping, machine Windows Ink Workspace suggestions,
+CloudStore binary trimming and ShellExperienceHost termination are not implicitly
+restored by these individual settings. Their combined historical outcome remains
+partial; nineteen presentation rows are not nineteen completed legacy outcomes.
+
+The Cortana bundle used RestrictImplicitTextCollection/RestrictImplicitInkCollection
+1/0, matching current numeric pairs. Its HarvestContacts reverse removed the value;
+current Enabled=1 differs, WindowsDefault matches removal. Cortana app registration,
+search UI, speech policies and other bundle actions remain separate. The
+[personalization reference](https://support.microsoft.com/en-us/windows/privacy/speech-voice-activation-inking-typing-and-privacy)
+documents learned-word behavior without verifying each mapping. Registry restoration
+cannot recover training data Windows may delete; acceptance must consider that effect.
+
+TIPC's previous description promised that all relevant data stopped being sent.
+It now describes the actual write and its uncertainty. Disabled writes Enabled=0;
+published Enabled and baseline remove the value, not write 1. Legacy
+DisableInkingAndTypingData supplied that write without a paired reverse. The
+[focused diagnostics reference](https://support.microsoft.com/en-us/windows/privacy/diagnostics-feedback-and-privacy-in-windows)
+documents the related Improve inking and typing UI, not the registry mapping.
+Personal dictionaries and diagnostic sampling remain distinct. Community answers
+were not treated as authoritative proof of the mapping.
+
+Validation: 122 presentation/catalog/search tests passed in each native PowerShell
+edition with one WindowsIntegration exclusion each; both repository validations
+passed for 349 operations/eight groups/five profiles/223 PowerShell files. Focused
+whole-catalog comparison permits only these nineteen blocks and the one operation's
+three metadata changes. Cumulative comparison retains nine pending additions and
+124 presentation blocks, with other baseline fields/groups unchanged. OPERATIONS
+was regenerated. No registry, cache, process, training data or machine state changed.
+
+Next: use an explicitly selected disposable Windows 11 account/build to compare
+literal values, related UI and observable outcomes, including absent overrides and
+managed conflicts. Evaluate whether split channels represent useful independent
+controls before recommendation. Preserve source/learned-data recovery boundaries;
+do not execute the legacy bundle. Source recovery reverts only this presentation
+and three TIPC metadata fields, then regenerates OPERATIONS; runtime recovery uses
+existing captured registry values and cannot restore deleted training data.
+
+Resolved: nineteen presentation reviews and overstated diagnostic wording. Retired
+or excluded: none newly. Partial: whole legacy bundles and numeric-channel meaning.
+Deferred: current UI, managed-policy and training-data acceptance. All five ranges
+remain 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175; no additional
+legacy outcome is complete.
+
+## B01 application feature presentation, 2026-10-17
+
+Nine controls gained presentation: OneDrive file-storage policy, three legacy Media
+Player policies, two local development preferences and three gaming controls.
+Presentation is 163/279, 116 open; 133 additions this window. Two development
+descriptions and reference URLs changed; stable IDs, states, baselines, defaults,
+target declarations, profiles and handlers remain unchanged.
+
+The [OneDrive policy](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-system#disableonedrivefilesync)
+documents the exact mapping and effects beyond sync, including app/Explorer access.
+Legacy EnableOneDrive removed the override; Allowed=0 is explicit, WindowsDefault
+matches removal. Existing client configuration, tenant controls and cloud/local data
+remain separate. No OneDrive client or content was changed.
+
+The [Media Player policy reference](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-windowsmediaplayer)
+documents sharing and the two metadata restrictions. UserChoice=0 permits user
+control rather than forcing sharing or retrieval. Legacy reverses removed these
+values; WindowsDefault retains that behavior. The whole online-access bundle also
+changed radio presets and WMDRM; their existing experimental candidates retain
+separate acceptance. Modern Media Player, component presence and upstream retrieval
+service availability are not established by these policy writes.
+
+A focused [Microsoft development-security reference](https://learn.microsoft.com/en-us/windows/apps/dev-tools/winapp-cli/security#what-enabling-it-changes)
+now directly documents AllowDevelopmentWithoutDevLicense and AllowAllTrustedApps.
+The former permits development package registration from folders; the latter permits
+trusted signed packages outside the Store. Their literal configuration is now
+distinguished from the full Developer Mode UI, companion values, certificate trust
+and OS component state. The [current Settings guide](https://learn.microsoft.com/en-us/windows/advanced-settings/developer-mode)
+places the controls under System > Advanced from Windows 11 25H2. Microsoft recommends
+the Settings workflow for disabling associated state; an isolated registry write
+must not claim equivalent cleanup. Legacy Enable wrote both values as 1; Disable
+removed both. Current Disabled=0 differs, WindowsDefault retains removal.
+
+The whole Xbox bundle removed/re-registered six Appx identities as well as changing
+Game Mode, the user recording value and machine recording policy. Game Mode's reverse
+removed its value; user recording used 0/1; machine policy reverse removed its value.
+Current explicit Enabled/Allowed therefore differ for two of the three controls.
+App registration remains separate. The [AllowGameDVR reference](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-applicationmanagement#allowgamedvr)
+still expressly limits enforcement to Windows 10 desktop despite its broader table.
+All three gaming mappings retain Unverified presentation on declared Windows 11;
+the user preference and Game Mode lack direct mapping references. Newer Xbox mode
+is not inferred to be the same feature.
+
+Validation: 122 presentation/catalog/search checks passed per native PowerShell
+edition, with one WindowsIntegration exclusion each. Both repository validations
+passed for 355 operations/eight groups/five profiles/224 PowerShell files. Focused
+catalog comparison allows only nine presentation blocks and the four development
+metadata fields. Cumulative comparison permits fifteen pending additions and 133
+presentation blocks, preserving every other baseline field/group. OPERATIONS updated.
+
+Next: compare app/UI behavior on explicitly selected disposable Windows 11 builds,
+with relevant components and managed conflicts. Capture original registry type/value/
+absence, distinguish override removal from explicit reverse and protect app/cloud
+data. Test development feature state/cleanup separately before recommending a full
+workflow. Source recovery reverts only this presentation/metadata and regenerates
+OPERATIONS; saved registry restore is not application-data or component-state recovery.
+
+Resolved: nine presentation reviews and development-reference ambiguity. Retired or
+excluded: none newly. Partial: whole bundle equivalence and native app behavior.
+Deferred: policy/GUI/component/cloud-data acceptance. All five ranges remain 38-58 /
+56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175; no new legacy outcome closed.
+
+## B01 Start, taskbar and notification presentation, 2026-10-17
+
+Sixteen existing controls gained presentation. Coverage is 179/279, 100 open;
+149 presentation additions this window. Three names, 9 descriptions and two
+reference URLs changed to expose legacy removal states and uncertain current UI.
+Stable IDs, state values, baselines, defaults, targets, profiles and handlers did
+not change. No Explorer restart, sign-out, application launch or pin change occurred.
+
+The [taskbar guide](https://support.microsoft.com/en-us/windows/experience/personalization/customize-the-taskbar-in-windows)
+describes visible alignment, search, Task View and combining choices, not the retained
+registry mappings. Current search has an icon-and-label choice absent from the three
+legacy values; Box=2 is not assumed to prove the current box label. Task View and
+Widgets visibility is separate from the feature's keyboard access/content. Primary
+and secondary combining remain separate operations, with multi-display prerequisites.
+
+Legacy center alignment removed TaskbarAl; current Centered=1 differs and
+WindowsDefault preserves removal. Legacy primary/secondary Always, Task View/People/
+Widgets/Chat Visible, tray Automatic and clock Hidden used removal, matching their
+current published states. Metadata now makes that literal effect visible instead of
+implying a forced positive/negative value. Both Task View selector pairs were aliases
+of one value; this does not represent two independent virtual-desktop features.
+
+PeopleBand, TaskbarMn and NoAutoTrayNotify are named as legacy experimental controls.
+The reviewed current references do not establish a present People/Chat feature or a
+supported Windows 11 show-all-tray mapping. The [People Bar policy](https://learn.microsoft.com/en-us/windows/configuration/taskbar/policy-settings)
+is distinct from PeopleBand. These retained IDs do not recreate old shell features,
+install Teams, change current app pins or redefine a contacts feature.
+
+Alt+Tab state names preserve the legacy 3/1/2/0 writes for none/five/three/all tabs.
+The [multitasking reference](https://support.microsoft.com/en-us/windows/how-to-multitask-in-windows-b4fa0333-98f8-ef43-e25c-06d4fb1d6960)
+does not verify each current numeric count. AllRecentTabs must not imply an unlimited
+current-build mode. Clock-seconds removal similarly does not force a literal zero.
+
+The [Start policy reference](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-start)
+documents recently-added/most-used mappings and applicable editions/refresh needs.
+Legacy Show removed each override; current UserChoice/Allowed=0 differs, while
+WindowsDefault matches. Other usage-tracking and policy choices can still suppress
+the most-used list. The [Run as policy](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-startmenu#showrunasdifferentuserinstart)
+confirms user scope. The current HKCU operation intentionally differs from legacy
+HKLM; it does not own or remove an old machine-hive write or launch another identity.
+
+The [Notification Center policy](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-taskbar#disablenotificationcenter)
+is separate from notification banners. Legacy DisableActionCenter wrote both it and
+ToastEnabled, and the reverse removed both. The individual operations preserve those
+literal choices, while ToastEnabled remains an unverified preference mapping. Do not
+equate hiding the center with stopping banners or every app's notifications.
+
+Validation: 122 presentation/catalog/search checks passed per native PowerShell
+edition with one WindowsIntegration exclusion each. Both repository validations
+passed for 355 operations/eight groups/five profiles/224 PowerShell files. Focused
+whole-catalog comparison permits only sixteen presentation blocks and the declared
+metadata fields; cumulative comparison permits fifteen pending additions and 150
+presentation blocks, preserving every other baseline field/group. OPERATIONS updated.
+
+Next: compare literal state and actual UI on selected disposable Windows 11 builds,
+including multi-display conditions, managed conflicts, absent overrides and current
+search/Alt+Tab choices. Keep shell refresh explicitly scheduled; do not infer feature
+presence from successful registry writes. Preserve published states until an explicit
+migration/recovery decision changes semantics. Source recovery reverts only this
+metadata and regenerates OPERATIONS; runtime recovery uses captured registry state.
+
+Resolved: sixteen presentation reviews and misleading positive-state wording.
+Retired/excluded: none newly. Partial: legacy bundle equivalence and current shell
+behavior. Deferred: UI/build/multi-display/managed acceptance. All five ranges remain
+38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175; no legacy closure.
+
+Final count reconciliation, 2026-10-17: direct catalog enumeration found sixteen, not seventeen, members in the last Start/taskbar batch. Presentation is 179/279, 100 open, with 149 additions this window. The earlier prose tally was corrected; no operation, state, test outcome, target or legacy estimate changed. All five ranges remain 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175.
+
+## Morning settings handoff, 2026-10-17
+
+The [consolidated handoff](remaining-migrations-follow-up.md#morning-handoff-2026-10-17) records the closed 08:00 window. Presentation is 179/279, 100 open, with 149 additions this window; latest 122 checks passed per edition and final repository validation covers 358 operations/eight groups/five profiles/224 PowerShell files. No new native/GUI/hardware acceptance or legacy closure is inferred. All five ranges remain 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175. Retain partial bundles, exact state recovery and the accepted next validation order.
+
+## B01 service startup and runtime presentation, 2026-10-17
+
+Six existing service controls gained presentation; coverage moves from 179 to
+185/279 (94 open). SysMain naming now identifies its historical Superfetch name.
+UPnP wording exposes a legacy reverse difference; SSDP/UPnP documentation links
+now point to focused startup-policy sections. No handler, state, default, target,
+scope or profile changed. A whole-catalog comparison permits only the six blocks
+and declared name/description/reference edits.
+
+Legacy DiagTrack, SysMain and SSDP reverse intent matches the explicit current
+automatic/start or manual/start choices. Legacy WAP Push and Search reverses
+also wrote DelayedAutoStart=1: AutomaticDelayedRunning represents that intent,
+whereas published AutomaticRunning preserves delay. Legacy UPnP enable selected
+Manual with Start-Service commented out; current Enabled starts now. That startup-
+only alternative remains unimplemented for this ID, without silently changing its
+published state. Explicit presets are not defaults or saved-state restoration.
+
+Microsoft's [delayed-start API](https://learn.microsoft.com/en-us/windows/win32/api/winsvc/ns-winsvc-service_delayed_auto_start_info)
+supports the scheduling distinction; its [service overview](https://learn.microsoft.com/en-us/windows-server/security/windows-services/security-guidelines-for-disabling-system-services-in-windows-server)
+is Server 2016 guidance, not proof of Windows 11 defaults or a performance/privacy
+recommendation. The [UPnP/SSDP policy reference](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-systemservices)
+documents startup controls, not live workloads. The [Intune sync issue](https://learn.microsoft.com/en-us/troubleshoot/mem/intune/device-management/cannot-sync-windows-10-devices)
+documents a Windows 10 WAP Push dependency; current managed-client acceptance
+remains separate. No service, task, policy or developer-machine configuration ran.
+
+Procedure: inspect show/plan and the generated operation details before selecting
+an explicit state. Use saved-run restore for captured state; no unset or factory-
+default claim is introduced. Recovery of this source-only batch is a focused
+metadata revert plus regenerated OPERATIONS; runtime recovery remains the existing
+versioned handler contract and does not undo unowned workload side effects.
+
+Both native PowerShell editions passed 122 focused presentation/catalog/search
+checks with one WindowsIntegration exclusion. Source comparison proves unrelated
+catalog behavior unchanged. No new native, GUI, boot, workload or policy acceptance.
+Resolved: six service presentations; total 185/279, 94 open.
+Retired/excluded: none. Partial: broader legacy bundles/current workload meaning.
+Deferred: actual target/GUI/dependency acceptance and outstanding product choices.
+Next: continue remaining presentation and independent source integration, preserving
+unresolved meanings and published lifecycle semantics. All five ranges were reviewed
+unchanged at 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175.
+Presentation review closes no additional whole legacy outcome.
+
+## B01 scheduled-task presentation, 2026-10-17
+
+Thirteen existing scheduled-task controls gained presentation identifying exact
+Task Scheduler locations, the enablement flag, missing-task behavior and recovery.
+Actions, triggers, definitions, task identities, state values, targets and profiles
+did not change. Existing semantic uncertainty remains explicit: task names and
+API success do not establish a complete current privacy or maintenance outcome.
+
+The nine task members of DisableTelemetry/EnableTelemetry are independent from
+their registry companions: AllowTelemetry in three paths, preview-build and
+licensing-ticket overrides, SQM/AppV CEIP, AIT/inventory and handwriting/linguistic
+policies. The reverse enabled all nine tasks; it removed most registry overrides
+but wrote 3 to two legacy AllowTelemetry paths. No full bundle equivalence is
+claimed. Office service monitoring remains maintenance, separately from both
+Office 2016 telemetry tasks and current Office policy/installation acceptance.
+Feedback's two tasks are separate from frequency and notification policy; error
+queue scheduling is separate from WER policy/service; ScheduledDefrag enablement
+does not select a disk or request optimization now. Those legacy task directions
+used enable/disable, not definition deletion or captured-state restoration.
+
+The [disable](https://learn.microsoft.com/en-us/powershell/module/scheduledtasks/disable-scheduledtask?view=windowsserver2025-ps),
+[enable](https://learn.microsoft.com/en-us/powershell/module/scheduledtasks/enable-scheduledtask?view=windowsserver2025-ps)
+and [Enabled property](https://learn.microsoft.com/en-us/windows/win32/taskschd/tasksettings-enabled)
+references establish the control API, not the current payload of each named task.
+Bare cmdlet pages were unavailable to the reader; the explicit documented view
+was available. Generated references use that verified view. Enabling permits
+existing triggers; it is not a no-execution guarantee. RIDE sends no Start/Stop
+request and captures only enablement, not definitions, history or workload output.
+
+Procedure: inspect show/plan and the generated operation details before selecting
+an explicit state. Use saved-run restore for captured state; no unset or factory-
+default claim is introduced. Recovery of this source-only batch is a focused
+metadata revert plus regenerated OPERATIONS; runtime recovery remains the existing
+versioned handler contract and does not undo unowned workload side effects.
+
+Both native PowerShell editions passed 122 focused presentation/catalog/search
+checks with one WindowsIntegration exclusion. Source comparison proves unrelated
+catalog behavior unchanged. No new native, GUI, boot, workload or policy acceptance.
+Resolved: thirteen task presentations; total 198/279, 81 open.
+Retired/excluded: none. Partial: broader legacy bundles/current workload meaning.
+Deferred: actual target/GUI/dependency acceptance and outstanding product choices.
+Next: continue remaining presentation and independent source integration, preserving
+unresolved meanings and published lifecycle semantics. All five ranges were reviewed
+unchanged at 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175.
+Presentation review closes no additional whole legacy outcome.
+
+## B01 scheduled-task observation and readback, 2026-10-17
+
+RIDE-ScheduledTasks 0.2.0 rejects missing/non-Boolean live enablement before capture
+or mutation, rejects non-Boolean availability in recovery snapshots, and re-reads
+the exact task identity after enable/disable and restore. Disappearance, denied
+inspection, unexpected identity or a mismatched flag cannot silently report success.
+Idempotent matching states make no write. No task creation, deletion, Start or Stop
+request is introduced. Existing snapshot structure remains unchanged; correctly
+typed serialized snapshots remain usable.
+
+Two regressions were reproduced against an isolated HEAD module copy with corrected
+inert fixtures: missing Enabled was coerced to false, and an ignored disable call
+returned success. The repaired source passes all 20 selected tests per native
+edition (16 new recovery checks plus four existing exact-task checks). Seven
+unrelated system-preference cases were not selected. Initial harness failures were
+corrected: Pester path-option concatenation failed before discovery; fixture state
+was initialized in a different script scope; one unfiltered PS7 run also could not
+resolve the unrelated Get-MpPreference mock target. No host Defender or task change
+was attempted. Final focused validation does not claim the unrelated suite passed.
+
+Both Windows PowerShell 5.1 and PowerShell 7 passed repository validation for
+358 operations/eight groups/five profiles/225 PowerShell files. The task handler
+has no new native acceptance: these are mocked source checks. A readback error can
+follow an actual write at deployment; inspect state and the engine's saved run
+before retrying or restoring. Readback is point-in-time and cannot undo workload
+effects or prevent later definition/enablement changes. Source recovery is a
+focused revert; retain versioned pre-change state for real target recovery.
+
+Latest decision reconciliation: CCleaner-family installed distributions are primary,
+reviewed official portable choices are separate, and unavailable variants have no
+substitution. The common shared-installer/licence-tier decision supersedes earlier
+edition wording: entitlement-only tiers do not require separate installation
+variants or mandatory tier selection; preserve activation unless an explicit
+supported change is requested. Apply this to TMOG, CCleaner-family and WinHex when
+publisher evidence establishes shared artifacts/behavior. TMOG startup/screensaver
+remain separate; Kernel PST/OST viewers remain separate with mailbox preservation;
+WinHex and historical tools retain their explicit scope and technical gates.
+BitLocker/recovery test setup and new deployment-profile selection are explicitly
+deferred. Preserve existing profiles and do not infer forensic-first defaults.
+The separate decision ledger remains authoritative for product-specific details.
+
+Resolved: malformed-state refusal and verification after task writes/restores.
+Retired/excluded: no additional whole legacy outcome in this run. Partial:
+task workload/policy meaning, full offline source/dependency/install integration
+and remaining collection migration. Deferred: native/GUI/driver tests and the
+explicit profile, recovery-resource and CE-backend decisions. Next: remaining
+81 setting presentations and reviewed collection/source integration; run native
+acceptance only with the required disposable-target resources and authority.
+All five ranges were reviewed unchanged: 38-58 / 56-71 / 20-25 / 25-35 / 8-12,
+rounded 145-200/about 175. Shared handler hardening closes no whole legacy outcome.

@@ -1,0 +1,50 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "PublisherArtifactPreparation",
+  "ObservedAtUtc": "2026-10-17T01:44:34.2436232Z",
+  "SourceUri": "https://github.com/SpecterOps/AzureHound/releases/download/v3.1.2/AzureHound_v3.1.2_windows_amd64.zip",
+  "ArchiveSha256": "64575a30873b9fcdcebeca988e1313e28da2dac00fc8a10a90ba67939552a26e",
+  "Bytes": 5363432,
+  "ChecksumUri": "https://github.com/SpecterOps/AzureHound/releases/download/v3.1.2/AzureHound_v3.1.2_windows_amd64.zip.sha256",
+  "ChecksumVerified": true,
+  "Members": [
+    {
+      "Path": "azurehound.exe",
+      "Bytes": 14900736,
+      "Sha256": "1322925cd0aaa61654a58f1bcf155f59ffb4d24c2b12d7ebd3a0135d4d0d65f7"
+    }
+  ],
+  "Binary": {
+    "Machine": "0x8664",
+    "FileVersion": "0.0.0.0",
+    "ProductVersion": "v3.1.2",
+    "SignatureStatus": "NotSigned",
+    "Signer": null
+  },
+  "Executed": false,
+  "BackendCompatibility": "Unverified; backend version not selected",
+  "CompanionNotices": [
+    {
+      "Name": "LICENSE.md",
+      "SourceUri": "https://raw.githubusercontent.com/SpecterOps/AzureHound/v3.1.2/LICENSE.md",
+      "Bytes": 34917,
+      "Sha256": "01e2419d68912b7888cc2fd3889aba27b5291b693db4a42a1795428c925aba40"
+    },
+    {
+      "Name": "NOTICE.md",
+      "SourceUri": "https://raw.githubusercontent.com/SpecterOps/AzureHound/v3.1.2/NOTICE.md",
+      "Bytes": 660,
+      "Sha256": "503ffd9f1761a2a39afea63a4067439360f2cec0efd33f0826f32b1597f1da7d"
+    },
+    {
+      "Name": "README.md",
+      "SourceUri": "https://raw.githubusercontent.com/SpecterOps/AzureHound/v3.1.2/README.md",
+      "Bytes": 4560,
+      "Sha256": "3d8e4489006823a8e6bef6ac0cf3ad5d9f51a4abfcfb0bcd7af65a3e56f954c4"
+    }
+  ],
+  "License": "GPL-3.0-or-later",
+  "LicenseUri": "https://github.com/SpecterOps/AzureHound/blob/v3.1.2/LICENSE.md",
+  "Admission": "Deferred: no backend version compatibility and release ZIP omits license/notice companions",
+  "NativeAcceptance": false
+}

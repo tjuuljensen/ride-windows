@@ -26,7 +26,7 @@ BeforeAll {
   Import-Module (Join-Path $script:RepositoryRoot 'modules/RIDE.Engine.psm1') -Force
   Import-Module (Join-Path $script:RepositoryRoot 'modules/RIDE-ProfileSettings.psm1') -Global
   Import-Module (Join-Path $script:RepositoryRoot 'modules/RIDE.CatalogValidation.psm1') -Force
-  $script:ColorOperations = @((Get-RideCatalog).Operations | Where-Object Kind -eq ProfileSetting)
+  $script:ColorOperations = @((Get-RideCatalog).Operations | Where-Object ProfileSetting -eq TerminalColors)
 }
 
 Describe 'PowerShell profile setting files' {
@@ -63,7 +63,7 @@ Describe 'PowerShell profile setting files' {
     }
     $default = Get-RideProfile -Path (Join-Path $script:RepositoryRoot 'profiles/default.psd1')
     $default.Operations.Id | Should -Not -Contain $script:Operation.Id
-    @(Show-RideCatalog -View 'profile-settings').Count | Should -Be 2
+    @(Show-RideCatalog -View 'profile-settings').Count | Should -Be @((Get-RideCatalog).Operations | Where-Object Kind -eq ProfileSetting).Count
   }
 
   It 'previews without creating the profile and applies only once' {

@@ -20,8 +20,11 @@
 
 ### Migration
 
-- [ ] Select the next matching batch from the [full remaining migration analysis](docs/migrations/remaining-migrations-follow-up.md#matching-batches) and answer its grouped follow-up questions. Start with existing setting presentation/native guidance; package deployment identity and state migration precede resumed product work. Keep packages paused and postpone elevation while the user is AFK. Existing subject ledgers retain decision/acceptance ownership.
-- [ ] Complete native acceptance of the [five implemented optional Store app groups](docs/store-app-groups.md). Solitaire basic registration lifecycle passed; Clipchamp is next when fresh elevation is available. GUI/data, interruption, groups and full intended-user handoff remain pending. The reviewed identity/removability rule is approved; News/Weather wait for usable local reinstall source. Track [remaining acceptance tasks](docs/migrations/store-app-follow-up-decisions.md). The [policy workflow](docs/migrations/store-app-removal-review.md) remains separate and linked. Keep current apps installed, packages paused and acquisition-dependent reinstall deferred. [V2 lists](docs/archive/migrations/store-app-v2-historical-coverage-2026-10-14.md) remain history; shared/protected dependencies, AllUsers and image deprovisioning are not automatic group actions.
+- [x] Reconcile accepted Q17/Q20 retirement of planned Volatility 2 and ImproHound deployment; preserve exact selector history and existing installations/data. Remaining package range is 56-71; see the [disposition/estimate record](docs/migrations/application-migration-review.md#accepted-volatility-2-and-improhound-retirements-2026-10-17). Standalone Neo4j/APOC and optional CE backend deployment remain deferred, not retired.
+
+- [x] Complete the authorized implementation window through 2026-10-17 08:00 Europe/Copenhagen and record the [morning handoff](docs/migrations/remaining-migrations-follow-up.md#morning-handoff-2026-10-17). Source-ready work and native acceptance remain distinct; this does not mark the migration complete.
+- [ ] Resume from the [morning handoff](docs/migrations/remaining-migrations-follow-up.md#morning-handoff-2026-10-17) (resumed by direct instruction on 2026-10-17; [five batches recorded](docs/migrations/remaining-migrations-follow-up.md#resumed-implementation-results-2026-10-17)): remaining collections/dependencies, 81 setting presentations, durable live ownership/offline integration and serialized native acceptance. Preserve the separate decision ledger, pending resources, existing B01 work and retained source/recovery evidence.
+- [ ] Complete native acceptance of the [five implemented optional Store app groups](docs/store-app-groups.md). Solitaire basic registration lifecycle passed; Clipchamp is next when fresh elevation is available. GUI/data, interruption, groups and full intended-user handoff remain pending. The reviewed identity/removability rule is approved; News/Weather wait for usable local reinstall source. Track [remaining acceptance tasks](docs/migrations/store-app-follow-up-decisions.md). The [policy workflow](docs/migrations/store-app-removal-review.md) remains separate and linked. Keep current apps installed and acquisition-dependent reinstall deferred until that app has a reviewed source. [V2 lists](docs/archive/migrations/store-app-v2-historical-coverage-2026-10-14.md) remain history; shared/protected dependencies, AllUsers and image deprovisioning are not automatic group actions.
 - [ ] Continue the accepted settings decisions from the [implementation handoff](docs/migrations/settings-implementation-handoff.md) and [remaining settings plan](docs/migrations/remaining-settings-plan.md#recommended-implementation-order). Six-control metadata and explicit user-only desktop handoff are implemented; complete native interactive acceptance and mixed-profile ordering/recovery, retain numbered questions and finish remaining handlers/acceptance before the final walkthrough.
 - [ ] Include **Rufus** as an optional v3 tool for bootable USB media creation; see the [requested additions](docs/candidate-tools.md#requested-v3-additions-2026-10-11) for portable acquisition, publisher/license references and acceptance work.
 - [ ] Include **HashCheck - idrassi fork** as an optional v3 app; see the [requested additions](docs/candidate-tools.md#requested-v3-additions-2026-10-11) for publisher, license and acceptance work.
@@ -42,16 +45,90 @@
 ## Down the road
 
 - [ ] Add explicit opt-in `search -Regex` with bounded, case-insensitive, culture-invariant matching; preserve literal search by default and reuse field/view filters. Validate invalid patterns and timeouts on Windows PowerShell 5.1 and 7.
-- [ ] Evaluate an optional offline bundle exporter with exact-version redistribution review and retained licenses/notices. Local download caches and a local `Reviewed` record do not establish redistribution approval; see [Package licensing](docs/package-licensing.md#optional-future-offline-bundles).
+- [ ] Implement the accepted [offline bundle workflow](docs/offline-bundles.md): profile-selected/full reviewed variants, pinned engine/profiles/payloads, version retention, explicit omissions and optional supplied servicing sources. Local manifest preflight is source-ready; next derive complete requirements from catalog/profiles, assemble versioned content and integrate a mandatory no-network preflight before any install/apply changes. Preserve Q14's separate installation/publication rules; see [licensing boundaries](docs/package-licensing.md#requested-offline-bundles).
 
 - [ ] Once the CLI commands and operation lifecycle have stabilized, evaluate exposing a public, importable RIDE PowerShell module for interactive use and integration from other scripts. Keep `ride.ps1` as the standalone entry point; define a stable module API only if there is a clear use case.
+
+### Offline profile builder for nontechnical users
+
+**Deferred until after v3.0; concept retained 2026-10-16.** This is a future
+development feature, outside v3.0 scope, migration estimates and release
+acceptance. Recording it does not start implementation or change package review
+priorities.
+
+Provide a Ninite-style web interface where users select packages and Windows
+settings, review their effects, and download a RIDE `.psd1` profile. Prefer a
+self-contained HTML file that opens locally without a web server, account or
+internet connection. Bundle its scripts, styles and catalog data; avoid external
+CDNs, fonts and required network requests. Offline profile creation does not
+provide offline package installation or an offline redistribution bundle.
+
+#### First version
+
+- Searchable package and setting categories with plain-language descriptions,
+  publisher/documentation links and relevant supported-target information.
+- Explicit target selection; filter or clearly mark incompatible operations.
+  Explain that this is the user's chosen target, not detected machine state.
+- Leave operations unselected by default. For settings, explain each declared
+  state and its effect; omission means leave it untouched. Distinguish baseline
+  application from restoring saved prior state. Offer only states and actions
+  supported by profiles, not every command or catalog entry.
+- Expose supported package variants and explain group/dependency effects.
+  Show scope, elevation, experimental status and material recovery limitations
+  before export. Respect existing profile and intended-user constraints.
+- Review the complete requested changes, then download a named profile with
+  compatible schema, stable IDs, correct PowerShell data-file escaping and
+  release/catalog provenance in comments or other already-supported metadata.
+- Provide a clear CLI handoff: from the matching RIDE checkout or release,
+  preview with `.\ride.ps1 plan -Profile .\my-profile.psd1`, review the result,
+  then use `.\ride.ps1 apply -Profile .\my-profile.psd1` in the appropriate
+  user/elevation context. Link to RIDE's existing state and recovery guidance.
+
+#### Development follow-up tasks
+
+- [ ] Define the builder's versioned data contract and generate it from
+  `catalog/operations.psd1`. Reuse authoritative IDs, states, variants, groups,
+  dependencies, support declarations and references. Keep any new explanatory
+  metadata with its authoritative source, not in a second hand-maintained web
+  catalog. Identify which operations the current profile schema can represent.
+- [ ] Design the selection and review flow with nontechnical users, including
+  keyboard navigation, accessible labels, understandable state choices,
+  incompatible selections and visible dependency effects. Prototype before
+  committing to a frontend framework or adding build dependencies.
+- [ ] Implement the local/offline interface and deterministic profile export.
+  Render catalog and user text safely, serialize only allowed data fields, and
+  validate names, IDs, states and variants without executing supplied content.
+- [ ] Integrate generation into the existing release workflow. Ship a builder
+  tied to that release's catalog, display its version, document compatibility
+  with the RIDE engine, and detect stale generated data during validation.
+- [ ] Validate exported profiles through the existing profile loader/validator
+  without applying operations. Cover apostrophes, Unicode, empty selections,
+  duplicate/group selections, dependency conflicts, variants and unsupported
+  target/state combinations; use isolated or mocked checks where needed.
+- [ ] Verify local-file browser behavior with networking disabled, accessible
+  interaction and downloaded file contents. Document the Windows browsers
+  actually tested and the preview/apply handoff, including mixed-scope limits.
+
+Acceptance: the release artifact works locally with no required network calls;
+every offered choice maps to supported profile metadata; representative exports
+load successfully in the matching RIDE engine and express exactly the reviewed
+selection; stale or incompatible choices receive clear feedback; and generating
+a profile invokes no handlers, installers or Windows configuration changes.
+CLI preview remains the final check against live machine state. This work alone
+does not expand operation support declarations or establish runtime acceptance.
+
+Later extensions may include importing and editing existing profiles using a
+bounded data parser without executing PowerShell, optional custom-library
+catalogs, machine detection or direct execution through a separately reviewed
+local integration. These are outside the first version. Start the future work
+with the generated-data contract and a small selection/review/export prototype.
 
 ### Optional reusable GitHub release-discovery module
 
 **Deferred; do not pursue now.** This is a separate downstream opportunity,
 outside current v3 migration estimates and release acceptance requirements.
 
-- [ ] Evaluate extracting [GitHub release discovery: cache and backoff](docs/github-release-discovery.md#cache-and-backoff-flow) into a reusable PowerShell module for other tools and users.
+- [ ] Evaluate extracting [GitHub release discovery: cache and backoff](docs/github-release-discovery.md#anonymous-cache-and-backoff-flow) into a reusable PowerShell module for other tools and users.
 
 If explicitly prioritized later, start with public latest-release metadata:
 HTTP requests, bounded configurable caching/freshness, rate-limit recognition,

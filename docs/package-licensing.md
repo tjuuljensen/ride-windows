@@ -20,6 +20,7 @@ install them. Publisher references checked **2026-10-13**.
 | Product or component | Free-use context | Corporate or professional review trigger | Official references |
 | --- | --- | --- | --- |
 | Npcap, including the separate Wireshark capture driver | The standard license generally limits use to five copies/computers/users. It has exceptions for use solely with the official Nmap, Wireshark or Microsoft Defender for Identity distributions. | Check the exact exception and all consumers of a shared driver. Broader deployment, silent installation and redistribution need separate review; OEM internal-use and redistribution rights differ. Wireshark's license does not grant general Npcap rights. | [Npcap license](https://github.com/nmap/npcap/blob/master/LICENSE), [OEM options](https://npcap.com/oem/) |
+| RegRipper 4.0, separate from the pending 3.0 candidate | Publisher README checked 2026-10-16 limits the free-use grant to personal and academic college/university use. | Publisher prohibits inclusion in vendor products, vendor training or distributions. Company/paid use and redistribution require an applicable grant; do not carry the 3.0 MIT metadata over to 4.0 or bundle it in a kit. The pinned 3.0 candidate retains its own license and bundled-runtime notices. | [RegRipper 4.0 terms](https://github.com/keydet89/RegRipper4.0#license), [RegRipper 3.0 license](https://github.com/keydet89/RegRipper3.0/blob/master/license.txt) |
 | KAPE | Kroll lists government, education/research and internal company use as free. The EULA limits the grant to owned/controlled systems and internal business use; assess the intended individual use against those terms. | Kroll now says KAPE is no longer available for commercial use on third-party networks or paid engagements. Do not repeat the older assumption that buying an enterprise license automatically resolves this. Check any existing agreement directly with the publisher. Modules, targets and third-party tools can have separate terms. | [Current usage clarification](https://www.kroll.com/en/services/cyber/reactive-services/kroll-artifact-parser-and-extractor-kape), [EULA](https://www.kroll.com/en/end-user-license-agreement) |
 | Docker Desktop, if selected for a container-based solution | Free for personal use, education, non-commercial open-source projects and eligible small businesses with fewer than 250 employees **and** less than USD 10 million annual revenue. | Larger-company professional use and government use require a paid subscription. Review the organization and selected subscription. Docker Desktop terms are separate from Docker Engine and the applications/images it runs. RIDE does not select or provision Desktop automatically. | [Desktop license](https://docs.docker.com/subscription-billing/desktop-license/), [Subscription FAQ](https://www.docker.com/pricing/faq/) |
 
@@ -150,6 +151,23 @@ completion. `-Id` completes package/artifact IDs from the same bounded catalog
 reader used for execution, filters case-insensitively, and fails quietly when
 optional data is unavailable. `-Help`, `-Version`, and Get perform no writes.
 
+## Explicit unattended installation and shared-kit behavior
+
+Accepted Q14 keeps review information visible while supporting an explicitly
+selected unattended installation workflow. RIDE's pending internal review status
+must not prompt, pause or by itself block that mode. Report unresolved reviews
+and publisher notices without changing their recorded status. The existing store
+is already informational; the complete unattended preflight/continuation workflow
+still needs implementation and per-product evidence.
+
+This does not supply missing credentials, entitlements, publisher agreement answers
+or required interactive installer responses. Interactive account/Npcap and other
+technical prerequisites remain distinct. Installation is separate from publication:
+shared kits default to omitting unreviewed restricted members and reporting those
+omissions. No override of that publication default was selected. See the accepted
+[Q14 record](migrations/decision-session-2026-10-17.md#q14-visible-local-licensing-review-and-fast-unattended-deployment)
+for scope; neither mode records a licensing assessment on the user's behalf.
+
 ## License acceptance and record compatibility
 
 Adding reference metadata does not accept a license on anyone's behalf. Current
@@ -166,12 +184,21 @@ saved run snapshots, or package restore semantics change. The local review store
 has its own independent schema version; unsupported versions are rejected without
 rewriting the file. Exports provide a recovery copy for future schema migrations.
 
-## Optional future offline bundles
+## Requested offline bundles
 
-Offline bundle creation and a redistribution review gate are deferred optional
-development. A future exporter should check each selected payload's distribution
-rights, consult the operator's local review records for the exact version and
-intended audience, and include required licenses, attribution, notices, and
-source/source offers where applicable. It should retain the applicable terms
-and review evidence with the bundle and refuse unresolved distribution rights.
-The present download command does not implement this exporter or its gate.
+The [accepted offline preparation workflow](offline-bundles.md) includes
+profile-selected and full external-package sets, reviewed installed/portable
+variants for selected targets, pinned RIDE/profiles/payloads, and optional supplied
+servicing sources. A local integrity preflight is source-ready; automatic assembly,
+publication and offline installation are not yet implemented.
+
+Keep distribution review separate from local download or installation. Retain
+publisher licences, attribution, notices and applicable source/source offers.
+Consult exact-version/owner local records when preparing shared content, without
+copying private assessments or credentials into the manifest. Under Q14, shared
+bundles default to omitting unreviewed restricted payloads and reporting omissions.
+An incomplete bundle may serve a profile whose actual dependencies are complete;
+missing selected content must stop deployment before changes with no network fallback.
+Pending internal licence review alone is not an installation gate. Actual publisher
+terms, entitlements and required responses remain separate. A hash match or local
+Reviewed record does not establish redistribution rights.

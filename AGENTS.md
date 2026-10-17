@@ -40,8 +40,10 @@ changes over broad rewrites.
   `LicenseReviewedAt` belong in the local exportable license review store,
   never catalog defaults or shared acquisition evidence. See
   `docs/package-licensing.md` for version/owner keys and the independent schema.
-- Offline bundle creation and its redistribution review step are optional
-  future development; a local download cache is not distribution approval.
+- Offline bundle preparation is requested under the 2026-10-17 decisions:
+  profile-selected/full sets, pinned versions, explicit omissions and no network
+  fallback. Assembly and installation acceptance remain separate; a local cache
+  is not distribution approval. See `docs/offline-bundles.md`.
 - Use stable HTTPS URLs from Microsoft Learn or Microsoft Support for Windows
   settings, and from the software publisher or project for package information.
   Do not invent links; flag an undocumented setting for review and use the
@@ -71,6 +73,14 @@ changes over broad rewrites.
 
 ## Migration progress tracking
 
+- For phased work, follow the [shared migration delivery contract](https://github.com/tjuuljensen/network-devices/blob/master/docs/repository-portfolio/repository-documentation-model.md#multi-step-migration-delivery)
+  and its [RIDE application](docs/models/documentation-model.md#phased-migration-delivery).
+  Provide an actionable batch procedure, explicit acceptance and recovery, and
+  concrete next instructions. Keep mappings, status and dated evidence in the
+  existing migration plan and linked ledgers; chat history is not the record.
+- Distinguish source-ready work, activation and verified Windows behavior.
+  Complete authorized preparation without redundant approval pauses; design
+  approval alone does not authorize future runtime changes or deletion.
 - Keep "Estimated remaining migration work" and its overview table immediately
   below the title in `docs/MIGRATION-PLAN.md`.
 - After every migration run, including follow-up implementation, review and
@@ -142,7 +152,34 @@ distinct in metadata, plans, reporting, and handlers.
 - Declare literal and effective defaults per supported target in the catalog;
   do not substitute RIDE's BaselineState for a Windows default.
 
-## Repository language and text
+## Documentation
+
+Follow the [shared documentation model](https://github.com/tjuuljensen/network-devices/blob/master/docs/repository-portfolio/repository-documentation-model.md)
+and the [RIDE documentation model](docs/models/documentation-model.md).
+Shared policy stays in network-devices; local models add RIDE requirements in
+`docs/models/`, without a second portfolio policy or duplicate procedure.
+
+- Write READMEs, installation guides, examples and reusable script/configuration
+  headers for the person installing or operating the component. Explain its
+  requirements, configuration, supported behavior, limitations and effects.
+- Put editing ownership, publication/synchronization workflows, development
+  commentary and migration history in maintainer guidance, architecture,
+  registers, runbooks or migration ledgers. Replacing a repository name with
+  "the source repository" does not make irrelevant maintenance prose useful.
+- Preserve necessary operational constraints, project identity, working public
+  download/import URLs, dependency links, known authors and upstream notices.
+  Link to maintainer detail when useful and accessible to the reader.
+- Keep one authoritative document per subject and link to it. Update affected
+  documentation in the same change as interfaces, paths, flags or behavior.
+- Use forward slashes and exact casing for repository-relative prose and links.
+  Commands use the named shell's native paths and quoting. State the starting
+  directory, inputs, prerequisites, elevation, side effects, verification and
+  recovery; use placeholders instead of personal checkout paths or secrets.
+- State supported Windows and PowerShell versions from evidence. Separate
+  static checks from disposable-VM acceptance; do not imply Linux/WSL support.
+- Review documentation and embedded headers across every selected release or
+  publication entry, including standalone utilities. Update authoritative
+  sources and use the existing generation or release workflow.
 
 Documentation filenames follow [the documentation model](docs/models/documentation-model.md):
 use lowercase kebab-case for topic guides and directories. Reserve uppercase
@@ -152,8 +189,12 @@ generated OPERATIONS.md path exceptions until their consumers are migrated.
 Keep current guidance separate from dated evidence; archive completed run
 reports with working links and retain unresolved decisions in active ledgers.
 
+## Repository language and text
+
 English is the canonical language for implementation, technical documentation,
-operation metadata, profiles, identifiers, logs, help text, and tests.
+operation metadata, profiles, identifiers, logs, help text, tests, commits,
+pull requests and release notes. Follow the [shared language model](https://github.com/tjuuljensen/network-devices/blob/master/docs/repository-portfolio/repository-language-model.md);
+the conversation language does not change the repository language.
 
 - Write script headers and embedded comments in English.
 - Use English for new repository-owned operation IDs, profile names, functions,
@@ -163,7 +204,9 @@ operation metadata, profiles, identifiers, logs, help text, and tests.
 - Preserve meaningful localized user-facing content when it is intentional;
   do not make active technical documents partially bilingual.
 - Prefer readable ASCII punctuation in Markdown and scripts. Preserve
-  meaningful Unicode.
+  meaningful Unicode; repair corrupted text without transliterating valid
+  localized content. Use UTF-8 unless a consuming tool requires a documented
+  encoding exception; encoding and line endings are separate concerns.
 - Follow .gitattributes and inspect git ls-files --eol before editing tracked
   text. The command launcher default.cmd uses CRLF; other repository text uses
   the applicable repository attributes. Do not change global Git EOL settings
@@ -175,7 +218,8 @@ operation metadata, profiles, identifiers, logs, help text, and tests.
 Use the PowerShell conventions already established in the repository and
 declare compatibility in user-facing documentation.
 
-- Follow [the RIDE-Windows script model](docs/models/script-repository-model.md)
+- Follow the [shared script model](https://github.com/tjuuljensen/network-devices/blob/master/docs/repository-portfolio/script-repository-model.md)
+  and [RIDE-Windows script model](docs/models/script-repository-model.md)
   for maintained script headers, versioning, safety, and validation.
 - Store repository-specific models in `docs/models/`. The
   `docs/repository-portfolio/` name is reserved for network-devices governance.
@@ -184,6 +228,10 @@ declare compatibility in user-facing documentation.
   `.EXAMPLE`, `.INPUTS`, `.OUTPUTS`, and `.NOTES` as applicable; put compatibility,
   prerequisites, attribution, version, and changelog in `.NOTES`. Generic
   shell-style section labels alone do not satisfy the header contract.
+- Apply the [header audience rule](docs/models/script-repository-model.md#header-contract):
+  retain known authors and necessary provenance, but do not fill headers with
+  generic ownership or publication boilerplate. Link to operator-relevant
+  help; keep editing and synchronization procedures in maintainer documents.
 
 - Use CmdletBinding for reusable command-line scripts and
   $ErrorActionPreference = 'Stop' for operational paths unless a deliberate
@@ -220,6 +268,10 @@ verified in the available environment.
 The supported bootstrapper installs a tagged release or explicitly selected
 source version for a standalone Windows setup. Keep source, download,
 validation, execution, and recovery boundaries clear.
+Apply the [shared deployment model](https://github.com/tjuuljensen/network-devices/blob/master/docs/repository-portfolio/deployment-model.md)
+to those boundaries using RIDE's existing bootstrap and release workflow.
+Identify activation, trigger, health checks and recovery separately; downloading
+or publishing an artifact does not establish successful runtime activation.
 
 - A local Git checkout is the development source; a tagged release is the
   normal distribution unit for fresh-machine installation.

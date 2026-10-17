@@ -14,7 +14,7 @@ latter appends user-bin and WindowsApps snippets. Neither provides v3 recovery.
 | Behavior | v3 disposition |
 | --- | --- |
 | Create a missing startup profile | Internal behavior when a selected setting needs a file; resolve each runtime's intended-user ConsoleHost profile. |
-| Add user-bin to PowerShell PATH | Future optional `UserBinPath` renderer: existing directories, normalized case-insensitive matching, no duplicates. Process/startup PATH is distinct from persistent user-environment PATH. Existing unmarked snippets require explicit review. |
+| Add user-bin to PowerShell PATH | Pending optional `UserBinPath` renderer, separately selectable per runtime: existing directories, normalized case-insensitive matching, no duplicate append. Startup process PATH is distinct from persistent user-environment PATH. Known unmarked legacy snippets block enablement until reviewed. Native startup acceptance remains pending. |
 | Create the bin directory | Separate provisioning operation and dependency with its own recovery. Legacy `$FolderInPath` is undefined. `GetFolderPath("USERPROFILE")` does resolve the current user's profile directory; the missing directory variable, unconditional appends and absent recovery are the reasons to replace the writer. |
 | Append WindowsApps | Optional future repair only when missing from applicable PATH. Preserve entries and app-alias choices; do not append unconditionally or select by default. |
 | Edition colors and administrator blue | Two optional ProfileSetting operations, accepted on Windows 11 and Server 2025 Desktop Experience. |
@@ -28,8 +28,8 @@ This increment closes no user-bin, directory, WindowsApps or Terminal-shell outc
 ## Handler architecture
 
 `modules/RIDE-ProfileSettings.psm1` owns file mechanics and dispatches an allowlisted
-`ProfileSetting` renderer. `TerminalColors` is implemented first; another setting
-adds a renderer and schema checks, not another whole-profile writer. External
+`ProfileSetting` renderer. `TerminalColors` and the pending `UserBinPath` share
+the same file lifecycle with separate renderer/schema checks. External
 library API 1 remains unchanged and does not accept this operation kind yet.
 
 Each catalog operation declares ProfileRuntime, ProfileSetting, named States,
@@ -102,9 +102,135 @@ or replace the colors. Changes affect new shells; existing tabs are not restarte
 Apply in the intended user's context: alternate administrator credentials select
 that administrator's own profile and RIDE state store.
 
-## Usage and acceptance
+## Existing user-bin startup PATH candidate
 
-Both catalog operations are accepted on Windows 11 and Windows Server 2025 Desktop
+The optional `powershell.windows-powershell51-user-bin-path` and
+`powershell.powershell7-user-bin-path` candidates manage the selected runtime's
+current-user ConsoleHost profile. They have no supported targets and are excluded
+from selection profiles until disposable Windows 11 startup acceptance. Inspect
+their catalog metadata with `list profile-settings` or `show <id>`; normal apply
+remains blocked. No runtime or bin directory is installed by either candidate.
+
+`Enabled` writes a fixed startup block. When that profile runs in a matching
+local ConsoleHost, it resolves the current user's profile directory with
+`Environment.GetFolderPath(UserProfile)` and checks its `bin` child. If the
+directory exists, the block appends it to process PATH only when no equivalent
+entry exists. Comparison ignores case, normalizes full paths and trailing
+separators, and recognizes quoted entries and expanded environment variables.
+Existing PATH bytes and ordering stay intact, including pre-existing duplicates;
+RIDE does not deduplicate unrelated entries. Appending preserves earlier command
+search precedence. Review the contents of your bin directory before enabling it.
+
+Missing/inaccessible directories, invalid profile-directory text or an overlong
+result leave PATH unchanged. Remote/mismatched runtimes return without inspection.
+The block does not require Windows Terminal or emit colors. It uses a local script
+scope, creates no profile variables outside that scope, and does not provision
+directories, repair WindowsApps or write persistent user/machine environment data.
+Applying the setting edits only the profile file; it does not change the running
+RIDE process's PATH. NoProfile and blocked profile execution bypass startup code.
+
+`Default`, unset and Baseline remove only this managed block. Saved-run restore
+recovers the previous managed profile content using snapshot version 1. Neither
+workflow removes entries already inherited by running shells or child processes.
+For a clean startup comparison, launch from a parent whose PATH was not modified
+by the prior block; opening a child from an affected shell can retain the entry.
+Inspection reports configured startup state, not another process's effective PATH
+or whether the bin directory currently contains usable commands.
+
+Both legacy writers use the variable `UserBinaries`. Enablement and snapshot
+preparation reject executable references to that variable outside the selected
+managed block. Comments and literal examples alone do not trigger this check.
+RIDE does not execute, adopt or delete unmarked profile code. Back up and review
+that code manually, including custom PATH writers which this narrow detector
+cannot identify. Default/unset preserve it. Later profile statements can still
+replace or append PATH after the RIDE block; arbitrary startup scripts are outside
+its ownership. Bin provisioning and persistent PATH selection remain separate
+open decisions, as does legacy WindowsApps repair.
+
+Source checks use isolated profile files and restored test-process PATH only.
+`tests/UserBinProfile.Tests.ps1` covers normalized duplicates, missing directories,
+runtime/remote guards, read-only completion, legacy conflicts, color coexistence,
+repeat apply and exact recovery. Existing color acceptance runners explicitly
+select TerminalColors so they cannot silently admit this new renderer. Next
+acceptance requires intended-user/runtime discovery and new-shell behavior on a
+disposable target, including missing/existing bin, inheritance, NoProfile, blocked
+startup, unmarked writers and exact recovery. Q08 now accepts persistent user PATH as a separate explicit setting. Its
+implementation and recovery remain open; removing either setting must preserve
+the bin directory and contents. See the [decision record](migrations/decision-session-2026-10-17.md#q08-separate-powershell-startup-and-persistent-user-path-choices).
+
+Microsoft documents [startup profiles](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_profiles)
+and [process environment behavior](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_environment_variables).
+The user-bin selection, duplicate handling and managed-block recovery are RIDE's
+implementation, not a Microsoft-documented Windows default.
+
+## Persistent user PATH preparation
+
+Q08 accepts persistent user PATH as a separate explicit setting. The startup
+renderer above remains independent. RIDE.UserPathPreparation 0.1.0 provides a
+literal read-only observation and in-memory append/recovery contract; no registry
+setter, environment refresh or catalog operation is enabled yet.
+
+From the repository root in native PowerShell 5.1 or 7, on the explicitly intended
+interactive user's target, no elevation is required. Replace the identity values
+with independently verified values; do not substitute another user's hive:
+
+```powershell
+Import-Module .\modules\RIDE.UserPathPreparation.psm1
+$observed = Get-RideUserBinPathObservation -ExpectedComputerName '<computer>' -ExpectedUserSid '<intended SID>' -ExpectedSessionId 1
+$patch = New-RideUserBinPathPatch -Observation $observed
+$patch | Select-Object Entry,ChangeRequired,ReadyForMutation
+```
+
+Observation reads only HKCU Environment/Path through a read-only handle and
+DoNotExpandEnvironmentNames. Missing key, missing value, empty data and String
+versus ExpandString remain distinct. Machine, user SID, interactive session and
+known profile directory are checked before and after reading. Read errors fail;
+they are never interpreted as absent configuration. This is sequential evidence,
+not an atomic snapshot or proof of the effective process PATH.
+
+Preparation proposes the absolute bin directory beneath that observed profile.
+It preserves all original text, ordering, empty entries and value kind, appending
+one owned token only when an equivalent token is absent. Existing equivalent
+entries, including pre-existing duplicates, remain unowned no-ops. Comparisons
+recognize case, slash/trailing-separator, surrounding quote/space and the supplied
+profile's USERPROFILE reference. They never use the calling process environment
+for expansion. Unknown variable references, malformed quoting and ambiguous
+local-path syntax require review. Relative/UNC entries are preserved literally;
+physical identity through shares, junctions or aliases is not established. The
+32766-character limit is conservative and does not prove merged environment size.
+
+The version-1 snapshot reconstructs the append and binds recovery to the same
+computer, SID, session and profile. To prepare recovery against a later observation:
+
+```powershell
+$recovery = Restore-RideUserBinPathPatch -Observation $current -Snapshot $patch.Snapshot
+$recovery.DesiredValue
+```
+
+Exact expected data restores original absence, kind and text. If unrelated tokens
+changed, recovery removes only one exact owned token and its adjacent separator.
+Changed spelling, equivalent duplicates or value-kind changes conflict; an already
+removed/restored token is a no-op. A pre-existing unowned entry is never removed.
+An Environment key or bin directory is never owned or deleted. New unrelated
+content keeps the value present even when it was originally absent. Matching text
+cannot prove that another actor did not remove and recreate the same token.
+
+ReadyForMutation, MutationAuthorized and EffectivePathVerified remain false.
+Snapshot schema checks do not authenticate operator-supplied records or prove
+that a proposed append occurred. Durable private state, actual bin availability,
+fresh identity/registry guards, write/post-state verification, interruption
+recovery, inherited/machine PATH coexistence and refresh behavior still need
+implementation and disposable acceptance. No running process environment changes
+automatically from this API. Preserve the folder and contents for both choices.
+
+Microsoft describes [process environment inheritance](https://learn.microsoft.com/en-us/windows/win32/procthread/environment-variables)
+and [literal registry retrieval](https://learn.microsoft.com/en-us/dotnet/api/microsoft.win32.registrykey.getvalue).
+RIDE's append/ownership rules are implementation constraints. See the
+[dated validation](migrations/settings-post-migration-review.md#b03-persistent-user-path-observation-and-recovery-2026-10-17).
+
+## Color usage and acceptance
+
+Both color operations are accepted on Windows 11 and Windows Server 2025 Desktop
 Experience with Windows Terminal and the selected runtime installed. The declared
 literal default is Default (no RIDE-managed block); the effective default is the
 configured Terminal appearance. The optional selection profile requires both
@@ -129,7 +255,7 @@ versions, retained runs, recovery and remaining cloud/alternate-launch scenarios
 .\ride.ps1 apply -Profile .\profiles\powershell-colors.psd1
 ```
 
-Tab completes IDs, profile paths and all four states from catalog metadata, without
+Tab completes IDs, profile paths and each operation's states from catalog metadata, without
 runtime/profile inspection. show/status report startup configuration, not another
 tab's token or observed colors. Missing runtimes are reported as unavailable.
 

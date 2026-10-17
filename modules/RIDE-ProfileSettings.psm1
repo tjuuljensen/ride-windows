@@ -21,8 +21,9 @@
   Recovery: ride.ps1 restore; conflicts retain the full original bytes in the saved record.
   Parent directories created for a profile are retained. File ACLs remain in place.
   Author: RIDE-Windows maintainers.
-  Version: 0.1.2
-  Changelog: 0.1.2: Recover original absence after a RIDE-created profile is unset.
+  Version: 0.2.0
+  Changelog: 0.2.0: Add optional existing user-bin startup PATH renderer and legacy conflict checks.
+    0.1.2: Recover original absence after a RIDE-created profile is unset.
     0.1.1: Allow thirty seconds for cold runtime discovery in disposable guests.
     0.1.0: Add bounded managed-block lifecycle and Terminal color rendering.
 .LINK
@@ -32,7 +33,7 @@
 #>
 
 
-$script:ModuleVersion = '0.1.2'
+$script:ModuleVersion = '0.2.0'
 $ErrorActionPreference = 'Stop'
 $script:ProfileLimit = 1MB
 
@@ -59,7 +60,7 @@ function Resolve-RideProfileSettingTarget {
   if ($Operation.Kind -ne 'ProfileSetting' -or $Operation.Handler -ne 'ProfileSetting' -or
       $Operation.Scope -ne 'User' -or $Operation.RequiresAdmin -ne $false -or
       $Operation.ProfileRuntime -notin @('WindowsPowerShell51', 'PowerShell7') -or
-      $Operation.ProfileSetting -ne 'TerminalColors' -or $Operation.Id -notmatch '^[a-z][a-z0-9.-]+$') {
+      $Operation.ProfileSetting -notin @('TerminalColors', 'UserBinPath') -or $Operation.Id -notmatch '^[a-z][a-z0-9.-]+$') {
     throw 'Unsupported PowerShell profile setting metadata.'
   }
   $executable = Get-RideProfileRuntimeExecutable $Operation.ProfileRuntime
@@ -180,6 +181,40 @@ function Get-RideProfileSettingBlock {
   param([hashtable] $Operation, [string] $State, [string] $NewLine = "`n")
   if (-not $Operation.States.ContainsKey($State)) { throw "State '$State' is not supported by '$($Operation.Id)'." }
   if ($null -eq $Operation.States[$State]) { return '' }
+  if ($Operation.ProfileSetting -eq 'UserBinPath') {
+    if ($State -cne 'Enabled' -or $Operation.States[$State] -cne 'Enabled') { throw 'Unsupported user-bin startup state.' }
+    # Fixed source, not catalog-supplied code. Invoke in a child scope so profile variables do not leak.
+    $body = @'
+& {
+  if ($Host.Name -ne 'ConsoleHost' -or (Get-Variable -Name PSSenderInfo -ValueOnly -ErrorAction SilentlyContinue)) { return }
+  if ($PSVersionTable.PSVersion.Major -ne __RIDE_RUNTIME_MAJOR__) { return }
+  try {
+    $userRoot = [Environment]::GetFolderPath([Environment+SpecialFolder]::UserProfile)
+    if (-not $userRoot -or $userRoot -match '[;"\x00-\x1f]') { return }
+    $userBin = [IO.Path]::Combine($userRoot, 'bin')
+    if (-not (Test-Path -LiteralPath $userBin -PathType Container -ErrorAction Stop)) { return }
+    $normalizedBin = [IO.Path]::GetFullPath($userBin).TrimEnd('\', '/')
+    $originalPath = [string]$env:Path
+    foreach ($entry in ($originalPath -split ';')) {
+      $candidate = [Environment]::ExpandEnvironmentVariables($entry.Trim().Trim('"'))
+      if ($candidate -notmatch '^(?:[A-Za-z]:[\\/]|\\\\)') { continue }
+      try { $normalized = [IO.Path]::GetFullPath($candidate).TrimEnd('\', '/') } catch { continue }
+      if ([string]::Equals($normalized, $normalizedBin, [StringComparison]::OrdinalIgnoreCase)) { return }
+    }
+    $separator = if (-not $originalPath -or $originalPath.EndsWith(';')) { '' } else { ';' }
+    $updatedPath = $originalPath + $separator + $userBin
+    if ($updatedPath.Length -gt 32766) { return }
+    $env:Path = $updatedPath
+  } catch { return }
+}
+'@
+    $major = if ($Operation.ProfileRuntime -eq 'WindowsPowerShell51') { 5 } else { 7 }
+    $body = ($body.Replace('__RIDE_RUNTIME_MAJOR__', [string]$major) -split '\r?\n') -join $NewLine
+    return $NewLine + "# >>> RIDE ProfileSetting v1 $($Operation.Id) $State" + $NewLine +
+      '# Add the existing user bin directory to this process PATH only; preserve other entries.' + $NewLine +
+      $body + $NewLine + "# <<< RIDE ProfileSetting v1 $($Operation.Id)" + $NewLine
+  }
+  if ($Operation.ProfileSetting -ne 'TerminalColors') { throw 'Unsupported PowerShell profile renderer.' }
   $schemes = Import-PowerShellDataFile -LiteralPath (Join-Path $PSScriptRoot '../components/profiles/terminal-color-schemes.psd1')
   $normal = $schemes[$Operation.NormalColorScheme]
   $admin = $schemes[$Operation.AdminColorScheme]
@@ -290,6 +325,21 @@ function Merge-RideProfileBlockBytes {
   ,$result
 }
 
+function Assert-RideUserBinProfileCompatibility {
+  param([hashtable] $Operation, $Current, [string] $State)
+  if ($Operation.ProfileSetting -ne 'UserBinPath' -or $State -ne 'Enabled') { return }
+  $bytes = Merge-RideProfileBlockBytes $Current ''
+  $text = (Get-RideProfileEncoding $bytes).Text
+  $tokens = $null; $errors = $null
+  $ast = [Management.Automation.Language.Parser]::ParseInput($text, [ref]$tokens, [ref]$errors)
+  # Both legacy writers use this variable. Never adopt, execute or delete an unmarked writer.
+  $legacy = $ast.FindAll({ param($node)
+    $node -is [Management.Automation.Language.VariableExpressionAst] -and
+      $node.VariablePath.UserPath -match '(?i)(^|:)UserBinaries$'
+  }, $true)
+  if (@($legacy).Count) { throw 'Unmanaged UserBinaries profile code requires review before enabling the user-bin block; existing bytes are preserved.' }
+}
+
 function Write-RideProfileSettingFile {
   param($Current, [byte[]] $Bytes, [switch] $Delete)
   Assert-RideProfilePath $Current.Path
@@ -371,6 +421,7 @@ function Get-RideProfileSettingSnapshot {
   #>
   param([hashtable] $Operation, $CurrentState, [string] $State)
   if (-not $CurrentState.Available) { throw 'The selected PowerShell runtime is unavailable.' }
+  Assert-RideUserBinProfileCompatibility $Operation $CurrentState $State
   $block = Get-RideProfileSettingBlock $Operation $State $CurrentState.NewLine
   $bytes = Merge-RideProfileBlockBytes $CurrentState $block
   [pscustomobject]@{
@@ -391,7 +442,7 @@ function Set-RideProfileSettingState {
   .PARAMETER Operation
     ProfileSetting catalog entry.
   .PARAMETER State
-    Declared Recommended, AdminBlue or Default state.
+    A state declared by the selected operation: colors or Enabled startup PATH, and Default removal.
   .PARAMETER ExpectedState
     Optional engine pre-change state; rejects changes made since snapshot capture.
   .EXAMPLE
@@ -407,6 +458,7 @@ function Set-RideProfileSettingState {
   param([Parameter(Mandatory = $true)][hashtable] $Operation, [Parameter(Mandatory = $true)][string] $State, $ExpectedState)
   $current = Get-RideProfileSettingState $Operation
   if (-not $current.Available) { throw 'The selected PowerShell runtime is unavailable.' }
+  Assert-RideUserBinProfileCompatibility $Operation $current $State
   if ($ExpectedState -and ($current.OwnerSid -cne $ExpectedState.OwnerSid -or $current.Runtime -cne $ExpectedState.Runtime -or
       $current.FileExists -ne $ExpectedState.FileExists -or $current.FileBase64 -cne $ExpectedState.FileBase64 -or
       $current.Path -ine $ExpectedState.Path)) { throw 'Profile identity or content changed after snapshot capture; no contents were overwritten.' }

@@ -1,10 +1,12 @@
 # Package deployment and acquisition toolkit decisions
 
 Approved by the user on 2026-10-14. Design approved; deployment coexistence and
-USB toolkit assembly remain unimplemented. Packages remain paused.
+host-folder toolkit publication remain unimplemented. The user resumed package implementation
+for the [2026-10-16 overnight migration window](remaining-migrations-follow-up.md#matching-batches);
+unresolved product, schema and acceptance choices remain deferred.
 
 The [full migration follow-up](remaining-migrations-follow-up.md#questions-for-the-users-return)
-collects proposed deployment/state/kit choices Q01-Q04 for the user's return.
+records accepted Q01-Q04 deployment, adoption and host-folder publication choices.
 This document remains the authority for the approved coexistence model.
 
 ## Approved deployment model
@@ -37,6 +39,77 @@ existing saved selection. The [application guide](../application-packages.md)
 describes that behavior; this decision adds no command, catalog entry, target
 support or automatic selection.
 
+## Explicit identity and adoption decisions, 2026-10-17
+
+The [decision session](decision-session-2026-10-17.md) records the user's acceptance:
+each deployment has an explicit stable name/ID, and ambiguous product-only changes
+must require that selection. Inspection shows separate copies. Names discussed
+were examples; final main-command/profile spelling and kit-member schema remain
+implementation work. The in-memory [identity API](../application-packages.md#named-deployment-identity-preparation)
+now prepares/inspects/selects those identities; it has no live state-store integration.
+
+Existing installations must be adoptable for supported future management without
+requiring removal or replacement first. Also offer explicit replacement of selected
+existing content/installations. First-run discovery should present supported
+existing installations for bulk adoption selection; ambiguous matches are resolved
+individually without blocking unrelated identified selections. Adoption preserves
+the installation and does not implicitly update or replace it. Blanket collision
+refusal without a future adoption/replacement route does not meet this requirement.
+
+Detailed ownership, inventory presentation, backup/recovery guarantees and product
+exceptions require implementation/validation. Recognizing one executable cannot
+establish ownership of an entire shared folder. Adoption cannot reconstruct
+pre-installation state or undo historical installation changes. Current collision
+refusal stays in effect until the separate workflows are delivered. These are
+capability/design decisions, not authorization to adopt, replace or uninstall
+anything on the developer workstation. Q03-Q04 are now accepted below.
+
+The [registration inventory](../application-packages.md#observe-existing-installation-registrations)
+is now source-ready for Q02: separate machine/current-user registry views, literal
+metadata and unavailable-source reporting. The [offline matching report](../application-packages.md#review-registrations-against-the-catalog)
+now compares declared distributions and exposes per-row ambiguity. It does not
+resolve those copies, prove ownership or perform adoption/replacement.
+
+## Host-folder toolkit publication decision, 2026-10-17
+
+Q03 accepts a standard per-product/distribution layout beneath an operator-chosen
+root and kit name, with content selected by a profile. Publish into a host folder
+and retain managed files, exact versions/hashes and required licenses/notices.
+The user transfers that folder manually to portable storage or other computers.
+The kit identifies named published content, not a tracked USB stick. Do not require
+physical-media enrollment or persistent volume-ID binding for this workflow.
+Explicit destination/path ownership checks remain necessary. Transferred copies
+are not automatically enrolled as managed deployments. No formatting or tool
+execution is implied. This supersedes the earlier physical-volume proposal for Q03.
+
+The related air-gap installation workflow remains separate from publishing deployed
+portable tools. Its [later accepted scope](#offline-installation-bundles-2026-10-17)
+now includes profile-selected/full reviewed variants, RIDE/profiles, explicit
+omissions, retained versions and optional supplied servicing sources. Dependency
+coverage, installer offline capability and native acceptance still need evidence.
+Neither workflow approves all products, redistribution or runtime installation.
+
+## Staged publication update decision, 2026-10-17
+
+Q04 accepts building and verifying replacement content before updating the host
+publication, retaining the existing folder during preparation. Replace managed
+files and remove unchanged managed files that the profile no longer selects.
+Preserve unrelated files and tool-generated data. Ask before replacing locally
+modified managed files; modified obsolete files are not silently deleted either.
+Noninteractive processing must report those conflicts for a later answer, never
+treat silence as approval. The user accepts staging's temporary disk-space cost.
+
+This governs the Q03 host publication, not automatic synchronization of transferred
+copies. Concrete commit/journal/recovery, hash/member checks and conflict presentation
+still require implementation and validation; design approval does not prove atomic
+replacement or authorize changing actual content. See the [accepted decision](decision-session-2026-10-17.md#q04-staged-toolkit-updates-with-explicit-modified-file-decisions).
+
+The [owned-file update preparation API](../application-packages.md#prepare-toolkit-file-update-decisions)
+now implements these comparison rules against supplied data. It produces explicit
+staging/removal/keep/conflict decisions while retaining ReadyForPublication=false.
+Live collection, full artifact/notices manifest, staging, durable commit/recovery
+and actual publication remain unimplemented.
+
 ## Acquisition kit requirements
 
 Build kits from reviewed portable distributions. Retain a manifest with product
@@ -55,16 +128,18 @@ store described in [package licensing](../package-licensing.md).
 
 | Work item | Decision or acceptance still required |
 | --- | --- |
-| Deployment identity and selection | Define how commands and profiles identify a particular deployment and how inspection handles multiple deployments. CLI/schema names remain undecided; add read-only completion for enumerable choices. |
-| State compatibility | Extend selection indexes, manifests and saved runs for separate deployments; preserve existing product IDs, profiles and schema-versioned recovery records through an explicit migration. |
-| Independent lifecycle | Define update, removal and recovery selection, including ambiguous product-only requests, partial failures, modified files and shared dependencies. Preserve unrelated deployments and user data. |
+| Deployment identity and selection | Q01 accepted explicit names and ambiguity refusal. Schema-1 in-memory identity API and supplied-record completion implemented; main commands/profiles and durable selection remain pending. |
+| State compatibility | Version-1 logical legacy selection mapping is source-ready, preserving retired variants/original paths/unknown fields. Original-byte archive, authenticated store identity, unique-name reservation, durable index/run migration and interrupted recovery remain required. |
+| Independent lifecycle | Q02 accepts existing-installation adoption, explicit replacement and bulk review with per-match ambiguity resolution. Implement inventory, ownership, backup/recovery and partial-failure boundaries separately; preserve unrelated deployments and data. |
 | Product coexistence | Review each installed/portable pairing for path, registration, service, driver and configuration conflicts; do not enable coexistence for every product automatically. |
-| Kit layout and ownership | Define destination/media identity, file ownership, offline use, update/rebuild and removal behavior, and whether assembly copies retained verified artifacts. |
+| Kit layout and ownership | Q03 accepts named profile-driven publication to a chosen host root with product/distribution directories and manifest/notices. No physical-media tracking. Implement exact path/file ownership; Q04 accepts verified staging, unchanged-owned-file cleanup and explicit modified-file decisions. |
 | Kit licensing | Review applicable redistribution terms and retain notices before distributing kits; a retained download is not distribution approval. |
 | Acquisition suitability | Validate supported target environments, elevation, dependencies and source-system effects per tool. File lifecycle acceptance alone is insufficient. |
 | Validation | Add focused mocked checks and disposable-VM lifecycle acceptance for applicable products/targets before normal use; include coexistence, independent recovery and partial failures. |
 
-These are follow-up requirements, not authorization to resume package work.
+Q01-Q04 capability choices are resolved; detailed identity, ownership, staging,
+durable state and recovery work remain. The overnight authorization
+permits independent package batches while those workflow decisions remain open.
 Implementation estimates need a separate review once the workflow and schema
 are specified; this design records no completed legacy product outcome.
 
@@ -84,3 +159,30 @@ design was found in the maintained implementation/guidance. This discussion
 approved deployment coexistence, not implementation of either provider or a
 GitHub-to-WinGet-to-PSGallery fallback chain. Provider, distribution, artifact
 format and scope remain separate dimensions for every deployment.
+
+## Offline installation bundles, 2026-10-17
+
+The [offline decision follow-ups](decision-session-2026-10-17.md#offline-installation-follow-up-profile-selected-and-full-package-bundles)
+accept both profile-selected downloads and a full external-package set. Include
+reviewed available installed and portable variants for explicitly selected Windows
+targets; keep RIDE, effective profiles and exact payload versions/hashes/notices
+pinned together. The folder is transferable without original-host or USB identity.
+Full preparation does not select all packages for installation. Optional matching
+operator-supplied servicing sources may accompany packages; component selection
+and native media compatibility are independent.
+
+Keep partial bundles with clear missing/restricted/technical omissions. Before
+any deployment changes, check the entire selected profile and dependency/source
+requirements. Unrelated omissions do not block complete profiles; missing selected
+content stops the deployment, with no network fallback. Internal pending licence
+review alone is not an install gate; Q14 publication omissions remain applicable.
+No private assessments or credentials are copied into shared metadata.
+
+Refresh creates a new version and reuses only verified matching downloads. Retain
+previous versions until explicit removal; shared storage must not invalidate them.
+This does not alter Q04's owned-file toolkit update policy. Current [offline
+preparation](../offline-bundles.md) includes local integrity preflight, optional
+byte-bound profile/catalog package coverage and explicit-source local assembly
+with a final staged-file integrity pass. Mandatory install/apply integration,
+complete dependency discovery, engine provenance, offline installer behavior and
+servicing compatibility remain pending. Source readiness is not air-gap readiness.

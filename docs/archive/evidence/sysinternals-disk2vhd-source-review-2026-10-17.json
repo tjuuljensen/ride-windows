@@ -1,0 +1,135 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "ReviewedProductSourceInventory",
+  "ProductId": "sysinternals-disk2vhd",
+  "PublisherVersion": "2.02",
+  "Acquisition": {
+    "SchemaVersion": 1,
+    "AcquiredAtUtc": "2026-10-17T05:34:15.4558569Z",
+    "Source": {
+      "Product": "Microsoft Sysinternals Disk2vhd",
+      "PublisherPageDate": "2021-10-12",
+      "ProductUri": "https://learn.microsoft.com/en-us/sysinternals/downloads/disk2vhd",
+      "DownloadUri": "https://download.sysinternals.com/files/Disk2vhd.zip",
+      "License": "Proprietary - Microsoft Sysinternals Software License Terms",
+      "LicenseUri": "https://learn.microsoft.com/en-us/sysinternals/license-terms",
+      "Purpose": "Inert archive inventory and signature/version inspection only; no execution, service, driver or redistribution"
+    },
+    "FinalUri": "https://download.sysinternals.com/files/Disk2vhd.zip",
+    "Length": 578504,
+    "Sha256": "c294d279bf98645f84452989f320b561bf58609e35d85de47ea19ef583880821",
+    "PublisherDigest": null,
+    "Executed": false
+  },
+  "MemberCount": 5,
+  "ExpandedBytes": 4338911,
+  "NoticeMembers": [
+    "Eula.txt"
+  ],
+  "Members": [
+    {
+      "Name": "disk2vhd.exe",
+      "Length": 1399184,
+      "Sha256": "7c2ca32561cc5d41606b86ebadd0a6a526f669a818fa40ea2023eaed02efc4f7",
+      "ProductName": "Disk2vhd",
+      "ProductVersion": "2.02",
+      "FileVersion": "2.02",
+      "OriginalFilename": "Disk2vhd",
+      "PeMachine": "0x014c",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "SignerThumbprint": "ABDCA79AF9DD48A0EA702AD45260B3C03093FB4B",
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "Disk2vhd.chm",
+      "Length": 40717,
+      "Sha256": "56b375c7db8525c93a308bb095343b74ce85a01355ff486afa6ffbdf1471a7a9",
+      "ProductName": null,
+      "ProductVersion": null,
+      "FileVersion": null,
+      "OriginalFilename": null,
+      "PeMachine": null,
+      "SignatureStatus": "NotApplicable",
+      "Signer": null,
+      "SignerThumbprint": null,
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "disk2vhd64.exe",
+      "Length": 1442184,
+      "Sha256": "029a261ae3aeab1f8e8eadaa8d2109ee38729936ad44b03eff8f16f075a3d97a",
+      "ProductName": "Disk2vhd",
+      "ProductVersion": "2.02",
+      "FileVersion": "2.02",
+      "OriginalFilename": "Disk2vhd",
+      "PeMachine": "0x8664",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "SignerThumbprint": "ABDCA79AF9DD48A0EA702AD45260B3C03093FB4B",
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "disk2vhd64a.exe",
+      "Length": 1449336,
+      "Sha256": "416d300b4445b7715cf5aeebea128e80a46097443e3122745ad17c3d611c3b6a",
+      "ProductName": "Disk2vhd",
+      "ProductVersion": "2.02",
+      "FileVersion": "2.02",
+      "OriginalFilename": "Disk2vhd",
+      "PeMachine": "0xaa64",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "SignerThumbprint": "ABDCA79AF9DD48A0EA702AD45260B3C03093FB4B",
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "Eula.txt",
+      "Length": 7490,
+      "Sha256": "8329bcbadc7f81539a4969ca13f0be5b8eb7652b912324a1926fc9bfb6ec005a",
+      "ProductName": null,
+      "ProductVersion": null,
+      "FileVersion": null,
+      "OriginalFilename": null,
+      "PeMachine": null,
+      "SignatureStatus": "NotApplicable",
+      "Signer": null,
+      "SignerThumbprint": null,
+      "ErrorType": null,
+      "Executed": false
+    }
+  ],
+  "SuiteComparison": [
+    {
+      "Name": "disk2vhd.exe",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    },
+    {
+      "Name": "Disk2vhd.chm",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    },
+    {
+      "Name": "disk2vhd64.exe",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    },
+    {
+      "Name": "disk2vhd64a.exe",
+      "InReviewedSuite": false,
+      "SameSha256": null
+    },
+    {
+      "Name": "Eula.txt",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    }
+  ],
+  "RuntimeExecuted": false,
+  "SupportedTargetAcceptance": false
+}

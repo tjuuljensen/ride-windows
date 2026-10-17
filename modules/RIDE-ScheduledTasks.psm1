@@ -3,13 +3,15 @@
   Inspect and restore enablement of one declared existing Windows task.
 .DESCRIPTION
   Never creates, deletes, starts or stops tasks. Missing tasks are unavailable.
-  The engine owns preview, snapshots and partial-failure reporting.
+  Requires Boolean enablement observations and verifies the same identity after
+  writes. The engine owns preview, snapshots and partial-failure reporting.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
   Prerequisites: ScheduledTasks module; administrator rights for machine tasks.
   Recovery: Restore the captured enablement flag; task definitions and history remain independent.
-  Owner: RIDE-Windows maintainers. Version: 0.1.0.
-  Changelog: 0.1.0: Add bounded existing-task enablement lifecycle.
+  Owner: RIDE-Windows maintainers. Version: 0.2.0.
+  Changelog: 0.2.0: Reject malformed state and verify enablement after writes/restores.
+    0.1.0: Add bounded existing-task enablement lifecycle.
 #>
 function Get-RideScheduledTaskState {
   <#
@@ -29,7 +31,8 @@ function Get-RideScheduledTaskState {
   }
   if (@($task).Count -eq 0) { return [pscustomobject]@{ Available = $false; TaskPath = $Operation.TaskPath; TaskName = $Operation.TaskName; Enabled = $null } }
   if (@($task).Count -ne 1 -or $task.TaskPath -ne $Operation.TaskPath -or $task.TaskName -ne $Operation.TaskName) { throw 'Expected exactly one declared scheduled task.' }
-  [pscustomobject]@{ Available = $true; TaskPath = $task.TaskPath; TaskName = $task.TaskName; Enabled = [bool]$task.Settings.Enabled }
+  if ($task.Settings.Enabled -isnot [bool]) { throw 'Scheduled task must expose a Boolean enabled flag.' }
+  [pscustomobject]@{ Available = $true; TaskPath = $task.TaskPath; TaskName = $task.TaskName; Enabled = $task.Settings.Enabled }
 }
 function Set-RideScheduledTaskEnabled {
   <#
@@ -40,7 +43,9 @@ function Set-RideScheduledTaskEnabled {
   .PARAMETER Enabled
     Desired enablement flag.
   .OUTPUTS
-    None; missing tasks or system failures throw.
+    None; missing tasks, malformed observations, system failures or mismatched
+    readback throw. A failed verification can follow a successful write; inspect
+    the task and use the engine's saved run for recovery before retrying.
   #>
   param([hashtable] $Operation, [bool] $Enabled)
   $current = Get-RideScheduledTaskState $Operation
@@ -48,6 +53,10 @@ function Set-RideScheduledTaskEnabled {
   if ($current.Enabled -eq $Enabled) { return }
   if ($Enabled) { Enable-ScheduledTask -TaskPath $Operation.TaskPath -TaskName $Operation.TaskName -ErrorAction Stop | Out-Null }
   else { Disable-ScheduledTask -TaskPath $Operation.TaskPath -TaskName $Operation.TaskName -ErrorAction Stop | Out-Null }
+  $after = Get-RideScheduledTaskState $Operation
+  if (-not $after.Available -or $after.Enabled -ne $Enabled) {
+    throw 'Scheduled-task enablement verification failed; inspect the task state before retrying.'
+  }
 }
 function Restore-RideScheduledTaskState {
   <#
@@ -61,7 +70,7 @@ function Restore-RideScheduledTaskState {
     None; invalid or unavailable snapshots throw before writes.
   #>
   param([hashtable] $Operation, $Snapshot)
-  if (-not $Snapshot.Available -or $Snapshot.Enabled -isnot [bool] -or $Snapshot.TaskPath -ne $Operation.TaskPath -or $Snapshot.TaskName -ne $Operation.TaskName) { throw 'Invalid scheduled-task snapshot.' }
+  if ($Snapshot.Available -isnot [bool] -or -not $Snapshot.Available -or $Snapshot.Enabled -isnot [bool] -or $Snapshot.TaskPath -ne $Operation.TaskPath -or $Snapshot.TaskName -ne $Operation.TaskName) { throw 'Invalid scheduled-task snapshot.' }
   Set-RideScheduledTaskEnabled $Operation $Snapshot.Enabled
 }
 Export-ModuleMember -Function Get-RideScheduledTaskState, Set-RideScheduledTaskEnabled, Restore-RideScheduledTaskState

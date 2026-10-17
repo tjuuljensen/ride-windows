@@ -15,6 +15,12 @@ RIDE-specific requirements. Repository models belong in `docs/models/`.
 `docs/repository-portfolio/` is reserved for portfolio governance in
 network-devices.
 
+Apply the [local documentation model](documentation-model.md) for audience,
+paths, procedures and evidence. The shared script model's October 15 audience
+refinements were reviewed at network-devices
+[`f0e118b`](https://github.com/tjuuljensen/network-devices/commit/f0e118bf3b33df5ef474c608a2490af8f843481b)
+on 2026-10-15; the shared policy link remains canonical.
+
 Generated files identify their generator, and vendor or legacy scripts retain
 their applicable upstream metadata and license notices. Scratch files are not
 maintained scripts and should remain outside the repository or clearly marked
@@ -29,6 +35,9 @@ as temporary.
   boundary in the header or a linked runbook.
 - Do not edit generated or copied release outputs directly when a source and
   generation or publication workflow exists.
+- Keep editing ownership and publication/synchronization procedures in the
+  owning maintainer document or runbook. A header identifies operational
+  dependencies and necessary provenance without reproducing that workflow.
 
 ## Header contract
 
@@ -36,6 +45,13 @@ Each maintained `.ps1` script begins with English PowerShell comment-based
 help in a `<# ... #>` block. Use recognized help keywords so `Get-Help` can
 discover the content. A generic `Purpose:`, `Usage:`, or shell-style banner
 does not satisfy this contract.
+
+Apply the shared [audience rule](https://github.com/tjuuljensen/network-devices/blob/master/docs/repository-portfolio/repository-documentation-model.md#separate-user-guidance-from-maintainer-guidance):
+headers explain how to operate the script, not where maintainers should edit or
+publish it. Include maintenance constraints only when they affect the operator's
+task. Do not add generic ownership/publication boilerplate or disguise it with
+neutral repository wording. Preserve known authors, necessary provenance,
+license notices, project identity and working public dependency/download links.
 
 Map the required information to native help sections:
 
@@ -45,8 +61,9 @@ Map the required information to native help sections:
 - `.EXAMPLE`: actual supported commands and important options.
 - `.INPUTS` and `.OUTPUTS`: pipeline input and returned object types; these
   sections do not describe arbitrary files or environment variables.
-- `.NOTES`: compatibility, prerequisites, file/environment inputs, ownership,
-  upstream attribution and license where applicable, version, and changelog.
+- `.NOTES`: compatibility, prerequisites, file/environment inputs, recovery,
+  known author or necessary provenance, upstream attribution and license where
+  applicable, version, and changelog.
 - `.LINK`: related authoritative documentation or runbooks where useful.
 
 The following is an illustrative header template. Replace the explanatory
@@ -78,12 +95,12 @@ text with verified behavior and parameter names before using it in a script.
   Prerequisites: Required tools, permissions, and host assumptions.
   File/environment inputs: Required files, variables, and credential sources.
   Recovery: Relevant state restore or disposable VM checkpoint boundary.
-  Author: Known first-party author or RIDE-Windows maintainers.
+  Author: Known author or owning repository; retain required attribution.
   Version: Current semantic version from the script's version constant.
   Changelog: Concise entries for established versions and contract changes.
 
 .LINK
-  docs/models/script-repository-model.md
+  Related operator documentation or runbook accessible to the intended reader.
 #>
 ```
 
@@ -95,7 +112,8 @@ lines after the script help to avoid associating it with that function.
 
 Modules (`.psm1`) have a top-level overview and native comment-based help on
 exported commands. Data files (`.psd1`) retain valid data-file syntax and a
-concise ownership/purpose comment; do not invent a CLI or script help for them.
+concise purpose and necessary provenance comment; do not invent a CLI or script
+help for them. Apply the same audience boundary to reusable configuration headers.
 Generated, vendored, and historical files retain applicable source notices and
 have explicit exceptions recorded during review.
 
@@ -107,6 +125,9 @@ decorative banners or stale dates.
 Headers must describe the current implementation. Update them when parameters,
 compatibility, prerequisites, output, or side effects change. Put detailed
 procedures in a runbook and link to it.
+Meaningful changelog entries describe user-relevant changes; development-session
+history belongs in maintainer records. Review embedded headers for every selected
+release entry, including standalone utilities, at the authoritative source.
 
 ## Versioning
 
@@ -173,11 +194,12 @@ or Windows state behavior. State those limits clearly.
 
 ## Exceptions and review
 
-An exception must state its reason and intended replacement or review point
+An exception must state its reason, scope, owner and replacement or review point
 when it is temporary. Generated files identify their generator; upstream files
 retain their source attribution and license. Legacy scripts may be addressed
 as focused maintenance work rather than receiving unrelated changes.
 
 For each new or materially changed script, review whether its purpose, usage,
 compatibility, inputs, effects, prerequisites, ownership, version, and
-validation are clear and current.
+validation are clear and current. Check that headers serve their intended
+operators and that maintainer procedures remain in their owning documents.

@@ -1,0 +1,250 @@
+{
+  "ReviewedAtUtc": "2026-10-17T02:06:02.1875618Z",
+  "Source": "f53ce6ab102a plus overnight patch",
+  "Type": "Static policy mapping and reference review only",
+  "NativeAcceptance": false,
+  "AdmxSha256": "b12c54de3044cd45f0d6b82efa0d7ef86a059120032acb3f9fbfc25af747b2ed",
+  "AdmlSha256": "f9b71583d73d5921e43c9204c5e527bdc240651c8a0e389e09bb573a4810b8b5",
+  "ReferenceUri": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy",
+  "ReferenceHtmlSha256": "2204111c3b4087a16a0a833467d796e570e149c740e18cc45d7b62c0279f102e",
+  "Entries": [
+    {
+      "Id": "windows.app-camera-policy",
+      "ValueName": "LetAppsAccessCamera",
+      "PolicyClass": "Machine",
+      "RegistryKey": "Software\\Policies\\Microsoft\\Windows\\AppPrivacy",
+      "ReferenceFragment": "letappsaccesscamera",
+      "FragmentPresent": true,
+      "HasPerAppLists": true,
+      "EnumValues": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "Id": "windows.app-microphone-policy",
+      "ValueName": "LetAppsAccessMicrophone",
+      "PolicyClass": "Machine",
+      "RegistryKey": "Software\\Policies\\Microsoft\\Windows\\AppPrivacy",
+      "ReferenceFragment": "letappsaccessmicrophone",
+      "FragmentPresent": true,
+      "HasPerAppLists": true,
+      "EnumValues": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "Id": "windows.background-apps-policy",
+      "ValueName": "LetAppsRunInBackground",
+      "PolicyClass": "Machine",
+      "RegistryKey": "Software\\Policies\\Microsoft\\Windows\\AppPrivacy",
+      "ReferenceFragment": "letappsruninbackground",
+      "FragmentPresent": true,
+      "HasPerAppLists": true,
+      "EnumValues": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "Id": "windows.uwp-voice-activation",
+      "ValueName": "LetAppsActivateWithVoice",
+      "PolicyClass": "Machine",
+      "RegistryKey": "Software\\Policies\\Microsoft\\Windows\\AppPrivacy",
+      "ReferenceFragment": "letappsactivatewithvoice",
+      "FragmentPresent": true,
+      "HasPerAppLists": false,
+      "EnumValues": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "Id": "windows.uwp-voice-activation-above-lock",
+      "ValueName": "LetAppsActivateWithVoiceAboveLock",
+      "PolicyClass": "Machine",
+      "RegistryKey": "Software\\Policies\\Microsoft\\Windows\\AppPrivacy",
+      "ReferenceFragment": "letappsactivatewithvoiceabovelock",
+      "FragmentPresent": true,
+      "HasPerAppLists": false,
+      "EnumValues": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "Id": "windows.uwp-notifications-access",
+      "ValueName": "LetAppsAccessNotifications",
+      "PolicyClass": "Machine",
+      "RegistryKey": "Software\\Policies\\Microsoft\\Windows\\AppPrivacy",
+      "ReferenceFragment": "letappsaccessnotifications",
+      "FragmentPresent": true,
+      "HasPerAppLists": true,
+      "EnumValues": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "Id": "windows.uwp-account-info-access",
+      "ValueName": "LetAppsAccessAccountInfo",
+      "PolicyClass": "Machine",
+      "RegistryKey": "Software\\Policies\\Microsoft\\Windows\\AppPrivacy",
+      "ReferenceFragment": "letappsaccessaccountinfo",
+      "FragmentPresent": true,
+      "HasPerAppLists": true,
+      "EnumValues": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "Id": "windows.uwp-contacts-access",
+      "ValueName": "LetAppsAccessContacts",
+      "PolicyClass": "Machine",
+      "RegistryKey": "Software\\Policies\\Microsoft\\Windows\\AppPrivacy",
+      "ReferenceFragment": "letappsaccesscontacts",
+      "FragmentPresent": true,
+      "HasPerAppLists": true,
+      "EnumValues": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "Id": "windows.uwp-calendar-access",
+      "ValueName": "LetAppsAccessCalendar",
+      "PolicyClass": "Machine",
+      "RegistryKey": "Software\\Policies\\Microsoft\\Windows\\AppPrivacy",
+      "ReferenceFragment": "letappsaccesscalendar",
+      "FragmentPresent": true,
+      "HasPerAppLists": true,
+      "EnumValues": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "Id": "windows.uwp-phone-access",
+      "ValueName": "LetAppsAccessPhone",
+      "PolicyClass": "Machine",
+      "RegistryKey": "Software\\Policies\\Microsoft\\Windows\\AppPrivacy",
+      "ReferenceFragment": "letappsaccessphone",
+      "FragmentPresent": true,
+      "HasPerAppLists": true,
+      "EnumValues": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "Id": "windows.uwp-call-history-access",
+      "ValueName": "LetAppsAccessCallHistory",
+      "PolicyClass": "Machine",
+      "RegistryKey": "Software\\Policies\\Microsoft\\Windows\\AppPrivacy",
+      "ReferenceFragment": "letappsaccesscallhistory",
+      "FragmentPresent": true,
+      "HasPerAppLists": true,
+      "EnumValues": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "Id": "windows.uwp-email-access",
+      "ValueName": "LetAppsAccessEmail",
+      "PolicyClass": "Machine",
+      "RegistryKey": "Software\\Policies\\Microsoft\\Windows\\AppPrivacy",
+      "ReferenceFragment": "letappsaccessemail",
+      "FragmentPresent": true,
+      "HasPerAppLists": true,
+      "EnumValues": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "Id": "windows.uwp-tasks-access",
+      "ValueName": "LetAppsAccessTasks",
+      "PolicyClass": "Machine",
+      "RegistryKey": "Software\\Policies\\Microsoft\\Windows\\AppPrivacy",
+      "ReferenceFragment": "letappsaccesstasks",
+      "FragmentPresent": true,
+      "HasPerAppLists": true,
+      "EnumValues": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "Id": "windows.uwp-messaging-access",
+      "ValueName": "LetAppsAccessMessaging",
+      "PolicyClass": "Machine",
+      "RegistryKey": "Software\\Policies\\Microsoft\\Windows\\AppPrivacy",
+      "ReferenceFragment": "letappsaccessmessaging",
+      "FragmentPresent": true,
+      "HasPerAppLists": true,
+      "EnumValues": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "Id": "windows.uwp-radios-access",
+      "ValueName": "LetAppsAccessRadios",
+      "PolicyClass": "Machine",
+      "RegistryKey": "Software\\Policies\\Microsoft\\Windows\\AppPrivacy",
+      "ReferenceFragment": "letappsaccessradios",
+      "FragmentPresent": true,
+      "HasPerAppLists": true,
+      "EnumValues": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "Id": "windows.uwp-device-sync-access",
+      "ValueName": "LetAppsSyncWithDevices",
+      "PolicyClass": "Machine",
+      "RegistryKey": "Software\\Policies\\Microsoft\\Windows\\AppPrivacy",
+      "ReferenceFragment": "letappssyncwithdevices",
+      "FragmentPresent": true,
+      "HasPerAppLists": true,
+      "EnumValues": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "Id": "windows.uwp-diagnostic-info-access",
+      "ValueName": "LetAppsGetDiagnosticInfo",
+      "PolicyClass": "Machine",
+      "RegistryKey": "Software\\Policies\\Microsoft\\Windows\\AppPrivacy",
+      "ReferenceFragment": "letappsgetdiagnosticinfo",
+      "FragmentPresent": true,
+      "HasPerAppLists": true,
+      "EnumValues": [
+        0,
+        1,
+        2
+      ]
+    }
+  ]
+}

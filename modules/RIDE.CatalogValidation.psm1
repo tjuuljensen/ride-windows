@@ -6,8 +6,9 @@
   Returns diagnostic strings without importing handlers or inspecting Windows.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Owner: RIDE-Windows maintainers. Version: 0.21.0.
-  Changelog: 0.21.0: Require explicit reviewed Store identity/removability metadata.
+  Owner: RIDE-Windows maintainers. Version: 0.22.0.
+  Changelog: 0.22.0: Validate the fixed user-bin startup PATH profile renderer.
+    0.21.0: Require explicit reviewed Store identity/removability metadata.
     0.20.0: Validate separate pending Store app actions and refuse profile routing.
     0.19.0: Validate pending local password-age range and focused lifecycle.
     0.18.0: Validate pending service candidates and dependency refusal metadata.
@@ -527,11 +528,17 @@ function Get-RideCatalogValidationErrors {
     }
     elseif ($operation.Kind -eq 'ProfileSetting') {
       if ($operation.Handler -ne 'ProfileSetting' -or $operation.Scope -ne 'User' -or $operation.RequiresAdmin -ne $false) { Add-Error "Profile setting requires its user-scoped handler: $($operation.Id)" }
-      if ($operation.ProfileRuntime -notin @('WindowsPowerShell51', 'PowerShell7') -or $operation.ProfileSetting -ne 'TerminalColors') { Add-Error "Unsupported profile runtime or setting: $($operation.Id)" }
-      if ($operation.States -isnot [hashtable] -or $operation.States.Count -ne 3 -or $operation.States.Recommended -cne 'Recommended' -or $operation.States.AdminBlue -cne 'AdminBlue' -or -not $operation.States.ContainsKey('Default') -or $null -ne $operation.States.Default -or $operation.BaselineState -cne 'Default' -or $operation.UnsetState -cne 'Default') { Add-Error "Profile setting requires Recommended/AdminBlue/Default with explicit removal and baseline: $($operation.Id)" }
-      $palettes = Import-PowerShellDataFile -LiteralPath (Join-Path $PSScriptRoot '../components/profiles/terminal-color-schemes.psd1')
-      if (-not $palettes.ContainsKey([string]$operation.NormalColorScheme) -or -not $palettes.ContainsKey([string]$operation.AdminColorScheme)) { Add-Error "Profile setting requires reviewed color schemes: $($operation.Id)" }
-      foreach ($palette in $palettes.Values) { if ($palette.Count -ne 19 -or @($palette.Values | Where-Object { $_ -cnotmatch '^#[0-9A-Fa-f]{6}$' }).Count) { Add-Error 'Invalid profile color palette data.' } }
+      if ($operation.ProfileRuntime -notin @('WindowsPowerShell51', 'PowerShell7') -or $operation.ProfileSetting -notin @('TerminalColors', 'UserBinPath')) { Add-Error "Unsupported profile runtime or setting: $($operation.Id)" }
+      if ($operation.ProfileSetting -eq 'TerminalColors') {
+        if ($operation.States -isnot [hashtable] -or $operation.States.Count -ne 3 -or $operation.States.Recommended -cne 'Recommended' -or $operation.States.AdminBlue -cne 'AdminBlue' -or -not $operation.States.ContainsKey('Default') -or $null -ne $operation.States.Default -or $operation.BaselineState -cne 'Default' -or $operation.UnsetState -cne 'Default') { Add-Error "Profile setting requires Recommended/AdminBlue/Default with explicit removal and baseline: $($operation.Id)" }
+        $palettes = Import-PowerShellDataFile -LiteralPath (Join-Path $PSScriptRoot '../components/profiles/terminal-color-schemes.psd1')
+        if (-not $palettes.ContainsKey([string]$operation.NormalColorScheme) -or -not $palettes.ContainsKey([string]$operation.AdminColorScheme)) { Add-Error "Profile setting requires reviewed color schemes: $($operation.Id)" }
+        foreach ($palette in $palettes.Values) { if ($palette.Count -ne 19 -or @($palette.Values | Where-Object { $_ -cnotmatch '^#[0-9A-Fa-f]{6}$' }).Count) { Add-Error 'Invalid profile color palette data.' } }
+      }
+      elseif ($operation.ProfileSetting -eq 'UserBinPath') {
+        if ($operation.States -isnot [hashtable] -or $operation.States.Count -ne 2 -or $operation.States.Enabled -cne 'Enabled' -or -not $operation.States.ContainsKey('Default') -or $null -ne $operation.States.Default -or $operation.BaselineState -cne 'Default' -or $operation.UnsetState -cne 'Default') { Add-Error "User-bin profile setting requires Enabled/Default with explicit removal and baseline: $($operation.Id)" }
+        if ($operation.ContainsKey('NormalColorScheme') -or $operation.ContainsKey('AdminColorScheme')) { Add-Error "User-bin profile setting cannot declare color palettes: $($operation.Id)" }
+      }
       if (-not [Uri]::IsWellFormedUriString([string]$operation.DocumentationUri, [UriKind]::Absolute) -or ([Uri]$operation.DocumentationUri).Scheme -ne 'https' -or ([Uri]$operation.DocumentationUri).Host -ne 'learn.microsoft.com') { Add-Error "Profile setting requires Microsoft documentation: $($operation.Id)" }
       foreach ($action in @('Get', 'Test', 'Set', 'Restore')) { if ($action -notin $operation.Actions) { Add-Error "Profile setting lifecycle is missing '$action': $($operation.Id)" } }
       if ($operation.Rollback -ne 'Exact') { Add-Error "Profile setting requires exact managed-content restore: $($operation.Id)" }

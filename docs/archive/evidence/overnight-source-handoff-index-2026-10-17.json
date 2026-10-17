@@ -1,0 +1,1165 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "LocalSourceHandoffIndex",
+  "RecordedAtUtc": "2026-10-17T05:51:06.034Z",
+  "BaseCommit": "f53ce6ab102a5d8558fa5833e752c0dd6fd883f5",
+  "IncludesUncommittedFiles": true,
+  "OwnershipNotInferred": true,
+  "Purpose": "Read-only identification of local catalog, modules, profiles, tools and tests for handoff; not a VM pin, release or complete engine provenance proof.",
+  "AggregateSha256": "9a6cb16bdd0dda64ad12b3a33a0ee9ea71458913ef56ae89678692e35deb6d8a",
+  "FileCount": 230,
+  "NativeAcceptanceEstablished": false,
+  "ReleasePublished": false,
+  "Files": [
+    {
+      "Path": "catalog/artifact-observations.json",
+      "Length": 452069,
+      "Sha256": "07853e4446756ed31062e8ee5901d623883fdc0fe56f20f157d7cc169a8771f1"
+    },
+    {
+      "Path": "catalog/operations.psd1",
+      "Length": 765024,
+      "Sha256": "eb0b3bc775f80de055a47220a01bccf7ada97278f892494da932a5b0c0267fc4"
+    },
+    {
+      "Path": "catalog/store-app-review.psd1",
+      "Length": 6637,
+      "Sha256": "b0a66984aa14999010c5eaa7fae0c71df9c4f93e6989498d49d72fe90d61119c"
+    },
+    {
+      "Path": "default.cmd",
+      "Length": 173,
+      "Sha256": "621987a75057663e5aecaa537cf6ce15529c5a138f47485b6216d18e96c9cc39"
+    },
+    {
+      "Path": "modules/RIDE-AdapterBindings.psm1",
+      "Length": 6351,
+      "Sha256": "913cbe26b6ac42db78484b2ee2f1f9ab8b535e177e826a27b5cada43d9d06271"
+    },
+    {
+      "Path": "modules/RIDE-BackgroundApps.psm1",
+      "Length": 5832,
+      "Sha256": "f1471fe68702da7a981b13583d4132d9da7abed46f856ab58014849c0cffe8ea"
+    },
+    {
+      "Path": "modules/RIDE-BootConfiguration.psm1",
+      "Length": 6161,
+      "Sha256": "0efcdf55c23345023eaa29e6fffde78ec774abeba3cae07d50e1fb2bbebaf559"
+    },
+    {
+      "Path": "modules/RIDE-Defender.psm1",
+      "Length": 12787,
+      "Sha256": "86b075f350c70ae12402215483d8c776011c63911bcdc544ac3d3169deed9402"
+    },
+    {
+      "Path": "modules/RIDE-FirewallProfiles.psm1",
+      "Length": 9629,
+      "Sha256": "c0ac8d5d7dc6c770b8207a59167dbacb04c678b659489339ff07816bf58ea9d7"
+    },
+    {
+      "Path": "modules/RIDE-LocalPasswordAge.psm1",
+      "Length": 12629,
+      "Sha256": "164d12e5a2000d65156037332efa8a2ee80ccf1d5d49eef8fb0785aaea22e9a5"
+    },
+    {
+      "Path": "modules/RIDE-ManagedSettings.psm1",
+      "Length": 8732,
+      "Sha256": "d47ef176cc8ca9dbcea4a1f4b760c866ef08d6b9d91479eb1fea62f1685d7b70"
+    },
+    {
+      "Path": "modules/RIDE-NetworkControls.psm1",
+      "Length": 7637,
+      "Sha256": "a2e0f67bd18e25b3bf02e00791d5b1c435580d5515ba9b94e0fb8ac4b74e1144"
+    },
+    {
+      "Path": "modules/RIDE-NetworkProfiles.psm1",
+      "Length": 6583,
+      "Sha256": "4c41c61e36dfad66c6e215fda865ac4902d64816932d9abca614212d0ed9b0c1"
+    },
+    {
+      "Path": "modules/RIDE-OwnedPowerPlans.psm1",
+      "Length": 15954,
+      "Sha256": "c80e8b5a8abb1a422fae17082dffee2ceaf8b8668572b1f8555317413e90a009"
+    },
+    {
+      "Path": "modules/RIDE-Packages.psm1",
+      "Length": 57721,
+      "Sha256": "785fb32c805c23ee89d393f4991ee44bb3fc689af6bf0bbec2b226bde9d0fc72"
+    },
+    {
+      "Path": "modules/RIDE-PortablePackages.psm1",
+      "Length": 19225,
+      "Sha256": "02b0937f6f61a3071690b6a81007cf4643a862f6b604f8aaea29dd747c2cd77c"
+    },
+    {
+      "Path": "modules/RIDE-PowerSettings.psm1",
+      "Length": 10958,
+      "Sha256": "318a9dd8ad4ae0ddf185ac8e914fbdf2a2a235c33755b59cccf4e17ecf96e66a"
+    },
+    {
+      "Path": "modules/RIDE-ProfileSettings.psm1",
+      "Length": 32509,
+      "Sha256": "00ad8ed157fdfc591fd5b055695cc79da3077b181c35a1c80337882f81f7ea3c"
+    },
+    {
+      "Path": "modules/RIDE-RegistryKeySet.psm1",
+      "Length": 12078,
+      "Sha256": "508d36e682bc4e04f4987a623aadec8a43eb3a711402b0ff9ec4e0d6f7b579e3"
+    },
+    {
+      "Path": "modules/RIDE-RegistryValueSet.psm1",
+      "Length": 6973,
+      "Sha256": "eb4ebf2696eb1f891e08f46f31cfd60b400f14c1a4798cd27acccef4d1d62374"
+    },
+    {
+      "Path": "modules/RIDE-ScheduledTasks.psm1",
+      "Length": 3483,
+      "Sha256": "97422b140ff52945811389de7b7ed64d30d34738eca6e34c12c4df3dc8291c92"
+    },
+    {
+      "Path": "modules/RIDE-Services.psm1",
+      "Length": 20941,
+      "Sha256": "cb708c4bfd49f1ba527a59672a585cf2e0deeae008710538dfda189e9246a8ec"
+    },
+    {
+      "Path": "modules/RIDE-Settings.psm1",
+      "Length": 8516,
+      "Sha256": "8127e9356e25e68682170f612b4b91bf646e271d69f720e480ba6d7f27bb0d80"
+    },
+    {
+      "Path": "modules/RIDE-ShellFolders.psm1",
+      "Length": 8165,
+      "Sha256": "3469b0394be12d60f79195eb87b4c01d708d8b4a7937828d78d2630198a5bf75"
+    },
+    {
+      "Path": "modules/RIDE-SoundSchemes.psm1",
+      "Length": 7546,
+      "Sha256": "0a052ae183aa89f161bbe1db88fe7e15f597a2c2967685bffdc5f82c79ba3830"
+    },
+    {
+      "Path": "modules/RIDE-SystemPreferences.psm1",
+      "Length": 3585,
+      "Sha256": "a30f8c50e21f4b6a0ac2c8a63a7b0384c3e09b7461bb14739fa62b1cf95ca787"
+    },
+    {
+      "Path": "modules/RIDE.AdapterInventory.psm1",
+      "Length": 9472,
+      "Sha256": "ae5751ef9040b318ee38f37f969aa4546700a2060a7c17d8983dc7eb3539c7ca"
+    },
+    {
+      "Path": "modules/RIDE.AudioEndpointInventory.psm1",
+      "Length": 16377,
+      "Sha256": "bf431d04cef7893fc441f391152f6ccc37df9ef7884f270b7ba8d4fe6a04ec67"
+    },
+    {
+      "Path": "modules/RIDE.CatalogData.psm1",
+      "Length": 5201,
+      "Sha256": "836234ffe3082033cb9d4fa9470da610048dba720d848e52d0d769395e898954"
+    },
+    {
+      "Path": "modules/RIDE.CatalogValidation.psm1",
+      "Length": 67319,
+      "Sha256": "e93b6809c7bc7ce7401e86efc1774ba985712c335bba7f67c9fdbdf6844f05eb"
+    },
+    {
+      "Path": "modules/RIDE.ClientComponentPreparation.psm1",
+      "Length": 10813,
+      "Sha256": "8afc33d8be28e544306cf8d7b03fad288e1c5684280be360ea5239064629c84f"
+    },
+    {
+      "Path": "modules/RIDE.ComponentInventory.psm1",
+      "Length": 12763,
+      "Sha256": "4a1611fbd7ef197930f404763bd6eccaf8717d3dbf33b4a7c67af4ae0b827d47"
+    },
+    {
+      "Path": "modules/RIDE.DeploymentIdentity.psm1",
+      "Length": 11157,
+      "Sha256": "b264dc197f260e3487692c7ef507b9a434625dcf74bc8cb6d79cac92a41f56a6"
+    },
+    {
+      "Path": "modules/RIDE.DesiredConfiguration.psm1",
+      "Length": 11928,
+      "Sha256": "1bf737ecb5841b857ba2b3be3b7e6e61ae760fa7add85197126cbb1fdc2accea"
+    },
+    {
+      "Path": "modules/RIDE.Discovery.psm1",
+      "Length": 14329,
+      "Sha256": "3c68b50d4b61851521a97ef55cd2e444300a95bec014bf0b8a00e4e6eac5e612"
+    },
+    {
+      "Path": "modules/RIDE.Engine.psm1",
+      "Length": 106737,
+      "Sha256": "aeb070c523567cdb4f9da86855422379453568b0a125e536cae6b134e98369ad"
+    },
+    {
+      "Path": "modules/RIDE.GitHubAuthentication.psm1",
+      "Length": 31043,
+      "Sha256": "69d03da0e6c6a1c6b2108a9fcb722529648fd2b2e7950b67fadc6ed204ffac1c"
+    },
+    {
+      "Path": "modules/RIDE.InstalledRegistrationInventory.psm1",
+      "Length": 16681,
+      "Sha256": "998819278a4c0bb0c2168974bb2abaa2217c71e2067a9a6713927a19cbad88b2"
+    },
+    {
+      "Path": "modules/RIDE.InstallerInspection.psm1",
+      "Length": 12980,
+      "Sha256": "6ebabe0f7eb40e984c761389923fc3cef932f03bd20d712c670f6637fd683e92"
+    },
+    {
+      "Path": "modules/RIDE.LegacyDeploymentMapping.psm1",
+      "Length": 8442,
+      "Sha256": "5bfe5e5ec8174e6a6592344109efdc332b853d1a6a57094e673a8ccf54bb2aa7"
+    },
+    {
+      "Path": "modules/RIDE.Libraries.psm1",
+      "Length": 12957,
+      "Sha256": "55650a29fd0fe66ed33a4b84a9b4fe49ec7fed7bccfbf95af83bea9796446b07"
+    },
+    {
+      "Path": "modules/RIDE.LibraryAuthoring.psm1",
+      "Length": 23700,
+      "Sha256": "59c3780b3b8cf86a9d6199f13c9e51a78356af823f1058fb6a367a818978d056"
+    },
+    {
+      "Path": "modules/RIDE.LibrarySchema.psm1",
+      "Length": 3665,
+      "Sha256": "5aba191758278b2a2d0881cbe96dec30f162a2d977fdfbedb9911541a0c0c29b"
+    },
+    {
+      "Path": "modules/RIDE.LocalUserInventory.psm1",
+      "Length": 8974,
+      "Sha256": "627825e703a104cb384b0019f6e83ba1f6a8d9cc08f96dccc0e1c81c4d49bc53"
+    },
+    {
+      "Path": "modules/RIDE.OfficeConfigurationReview.psm1",
+      "Length": 13564,
+      "Sha256": "a6e871b8f55f355d4ef6d7d2b86b09fd9e7a7979034520cf99d1fcf8cf3c372d"
+    },
+    {
+      "Path": "modules/RIDE.OfficeInventory.psm1",
+      "Length": 9055,
+      "Sha256": "139557cd2e0108bcfed0f34724a1b9de9d8ee4a9f04eeeb0791bcb63a28dfea2"
+    },
+    {
+      "Path": "modules/RIDE.OfflineBundle.psm1",
+      "Length": 46925,
+      "Sha256": "8f5022dc50d9bf8d31cff18008d408bbbc6a57fd6e0e7b9427beac28183c94e4"
+    },
+    {
+      "Path": "modules/RIDE.PackageAdoptionReview.psm1",
+      "Length": 9056,
+      "Sha256": "99f166799ac4427bd9e660434d583908a79690371695a2c0a2d8602678e6dccf"
+    },
+    {
+      "Path": "modules/RIDE.PackageSelection.psm1",
+      "Length": 7343,
+      "Sha256": "2d7ba8e005ac0649f65bd3ebec410fe3485558fc1ecf8cedd34c0e89a40c9109"
+    },
+    {
+      "Path": "modules/RIDE.PowerPlanExportData.psm1",
+      "Length": 6850,
+      "Sha256": "805145feb70f0fc3741d20ae0c297e030319e93c084a40d200c3f4bf710ef51a"
+    },
+    {
+      "Path": "modules/RIDE.PowerRead.psm1",
+      "Length": 6069,
+      "Sha256": "e14878c5031129c1ad662551146b4bdeb75bdae4cbfe1eafebd7697b42bacaee"
+    },
+    {
+      "Path": "modules/RIDE.PublisherSources.psm1",
+      "Length": 12457,
+      "Sha256": "ada0196afb935bb3052a96a0a8332cb90d71817d47bd8d2c3b687af8dd56ffad"
+    },
+    {
+      "Path": "modules/RIDE.RegionalInventory.psm1",
+      "Length": 9723,
+      "Sha256": "6ee1ce36ebcceb330c9fb7e54c4bbe949e05277c4d1b3986b50bf8f7de0da056"
+    },
+    {
+      "Path": "modules/RIDE.SettingPresentation.psm1",
+      "Length": 5574,
+      "Sha256": "f0a0f2657b3f75760ad9d676d77bdcfa3e1bd61a15c7f5cfd47150d54787fd59"
+    },
+    {
+      "Path": "modules/RIDE.SettingsFixtureData.psm1",
+      "Length": 8350,
+      "Sha256": "2f2659cb87f8986a18e82e7a5ef20c8c2252e5348739f40eef17cc942d90af12"
+    },
+    {
+      "Path": "modules/RIDE.StoreAppReview.psm1",
+      "Length": 15803,
+      "Sha256": "ffc5f11724bb7993cae488e1400a4a60f6ae19635f04dc89b19b7392a94ed797"
+    },
+    {
+      "Path": "modules/RIDE.StoreApps.psm1",
+      "Length": 33518,
+      "Sha256": "1bdc1d55229909f6a0ee672a8363485668f43f7fa613ff92ad31714bb75f27a7"
+    },
+    {
+      "Path": "modules/RIDE.TerminalJsonc.psm1",
+      "Length": 20670,
+      "Sha256": "2559bf9287f126d289db95b56453f3c3a4e37904412555af2322cf23fb7b91b9"
+    },
+    {
+      "Path": "modules/RIDE.ToolkitUpdatePreparation.psm1",
+      "Length": 12057,
+      "Sha256": "90f97183686e3ccaf2bf437bb0212fd8c41c11ce5b65dc9d226c442ffec868ac"
+    },
+    {
+      "Path": "modules/RIDE.UserHandoff.psm1",
+      "Length": 19129,
+      "Sha256": "091b424b07f6e9f52f8c9fa58a96d2901526dc674b3aca35e17e649a93db07ea"
+    },
+    {
+      "Path": "modules/RIDE.UserLanguageInventory.psm1",
+      "Length": 16414,
+      "Sha256": "c6a30256f09edca409570e5b256a49fc5a2e3e77ce881da7d4fdf9d7c6638e03"
+    },
+    {
+      "Path": "modules/RIDE.UserLanguagePreparation.psm1",
+      "Length": 9387,
+      "Sha256": "5ffc494c86a78ff3de1e0043f6d1e219fedfa0027fb9db8de692ff77674b7ba5"
+    },
+    {
+      "Path": "modules/RIDE.UserPathPreparation.psm1",
+      "Length": 14300,
+      "Sha256": "c701df140af3fd2d1fe09e13825d2e7c5c308d4e97d1a57e1d060c98d59d7221"
+    },
+    {
+      "Path": "modules/RIDE.UserProxyInventory.psm1",
+      "Length": 11740,
+      "Sha256": "ec9a01617cbd28f5c914ed808a5f93db22cc07d68afa0a00c8a86e80f9ff95c8"
+    },
+    {
+      "Path": "modules/RIDE.UserProxyPreparation.psm1",
+      "Length": 11742,
+      "Sha256": "3c12bb7ebc5d405478c7c928e5c6a66dc81b590d3a651af822f342f3a2771ff8"
+    },
+    {
+      "Path": "modules/RIDE.VisualEffectsInventory.psm1",
+      "Length": 10782,
+      "Sha256": "c22fee4255555537ee031f4d7c7a23c10341ee30ed31de1893d8b717c7b95dce"
+    },
+    {
+      "Path": "modules/RIDE.VolumeInventory.psm1",
+      "Length": 9509,
+      "Sha256": "c8d12b541a12ba56d2a1df94072470716422f144627d9c6688976fb4526d1643"
+    },
+    {
+      "Path": "modules/RIDE.WirelessInventory.psm1",
+      "Length": 19071,
+      "Sha256": "edcb44b25151df7881f2ec6dfbdd89d42d544c9b35cc60a12941c9e05de046d3"
+    },
+    {
+      "Path": "profiles/analyst-basics.psd1",
+      "Length": 499,
+      "Sha256": "2159c727a54ca999d86a8f442e8d69887cf067022912f97608958c04263989c9"
+    },
+    {
+      "Path": "profiles/baseline.psd1",
+      "Length": 554,
+      "Sha256": "03a59250712e5a42bf8a670af68cbddd52da76523ce530ceab95a9e3a989a826"
+    },
+    {
+      "Path": "profiles/default.psd1",
+      "Length": 5077,
+      "Sha256": "640452a213d774aa963e8670c5cfb3d51583d1124af22d71525452842b107b3d"
+    },
+    {
+      "Path": "profiles/git-development.psd1",
+      "Length": 399,
+      "Sha256": "6dea940367e1f45819bd13865140542529b9cbf9240d8d4eea1a49c0a1e66000"
+    },
+    {
+      "Path": "profiles/powershell-colors.psd1",
+      "Length": 551,
+      "Sha256": "045459091f956aecaccc13f1cb216a24283e08524f0fd2d4afc3dbf441db1288"
+    },
+    {
+      "Path": "ride.ps1",
+      "Length": 34532,
+      "Sha256": "9c5c683b86769df186ece879cd618d3a48c109b21c360e215c982f8920c33a13"
+    },
+    {
+      "Path": "tests/AdapterInventory.Tests.ps1",
+      "Length": 10824,
+      "Sha256": "bcf8f848e0d5562421201ba2f6738ca4ae962689966a46bb1d56340f63d52e0a"
+    },
+    {
+      "Path": "tests/ApplicationPackages.Tests.ps1",
+      "Length": 43620,
+      "Sha256": "38790e3af7027846df2d82198863d4724af1a1521e3e2f33a44186c2b51f720e"
+    },
+    {
+      "Path": "tests/ArtcraftPackages.Tests.ps1",
+      "Length": 3878,
+      "Sha256": "e3db8dbd41fb44014dd2c29d1f01274defe4a8a0cedef854f8e5c093d86788f7"
+    },
+    {
+      "Path": "tests/AudioEndpointInventory.Tests.ps1",
+      "Length": 11096,
+      "Sha256": "79c9a2477a21cd84cec5302e30c6257faa9b52da57d832f18f0943da7be870db"
+    },
+    {
+      "Path": "tests/AudioService.Tests.ps1",
+      "Length": 9965,
+      "Sha256": "f23220262710551a77de2ab889f8cfbc8fb9c3a3e13d0195dae11d1806c1502d"
+    },
+    {
+      "Path": "tests/Caffeine.Tests.ps1",
+      "Length": 9027,
+      "Sha256": "9b85a22aca92ad9124f640b5fb61d893d058994fdb14c1ea36c79c2b7a74e2e6"
+    },
+    {
+      "Path": "tests/CaffeineLight.Tests.ps1",
+      "Length": 4079,
+      "Sha256": "22697b55f38268faa5a55049a296ad859cdd37547fd52d30d4cb4b958d5e7432"
+    },
+    {
+      "Path": "tests/Catalog.Tests.ps1",
+      "Length": 64836,
+      "Sha256": "c612377014a4f8b8bf896323efdf108be8d03a88155bbc248af2d0bed3b34bc2"
+    },
+    {
+      "Path": "tests/CeipPolicy.Tests.ps1",
+      "Length": 4471,
+      "Sha256": "517f703de86f21919c516b34dd73eca2959d88ddaf43bfc75d99fc0a036c33bd"
+    },
+    {
+      "Path": "tests/ClientComponentPreparation.Tests.ps1",
+      "Length": 12401,
+      "Sha256": "53ff4ac8887afb0dbcd1ad6a12980805abfb60e5df45fcae417d7658ef58f911"
+    },
+    {
+      "Path": "tests/CliShouldProcess.Tests.ps1",
+      "Length": 7820,
+      "Sha256": "367a4fd18d0ada586ce4c2c7d64cea415e0cdb63004d72dcd3e4405ca5ea6f57"
+    },
+    {
+      "Path": "tests/ComponentInventory.Tests.ps1",
+      "Length": 12466,
+      "Sha256": "afe2e7e4474dca90705a3bcb3a3205fee95a07f6ffbed94a89b85a03bdea650c"
+    },
+    {
+      "Path": "tests/CustomRegistryAuthoring.Tests.ps1",
+      "Length": 16047,
+      "Sha256": "860111a8ede2f910fa723faa28c7d681de42104b046d766ff0b34862000105d1"
+    },
+    {
+      "Path": "tests/DefenderExclusionRecovery.Tests.ps1",
+      "Length": 10496,
+      "Sha256": "a91ce7b9ad2afee2fa7faacf2b5bb1fb7e15e82d4f1660bebf13dc024f46f607"
+    },
+    {
+      "Path": "tests/DeploymentIdentity.Tests.ps1",
+      "Length": 11032,
+      "Sha256": "03ddf02fb0d3c78c8c4e6e1b1d0e631ba557ff4ceca6068582e81a47c74201b2"
+    },
+    {
+      "Path": "tests/DesiredConfiguration.Tests.ps1",
+      "Length": 14631,
+      "Sha256": "c6355d5cda459810ad95d18bd8199c1a3fec64f30634903338d885dd4130fb5c"
+    },
+    {
+      "Path": "tests/ExampleLibrary.Tests.ps1",
+      "Length": 10517,
+      "Sha256": "cf5b9896a1d9f3044986e9a275ba0f59615a5f8020290b6ca9af697926c13170"
+    },
+    {
+      "Path": "tests/ExplorerSettings.Tests.ps1",
+      "Length": 11009,
+      "Sha256": "88e10998c849383f3b84116719a416e7f58f3e55e529041a33f873539e9fca18"
+    },
+    {
+      "Path": "tests/FirewallProfiles.Tests.ps1",
+      "Length": 15051,
+      "Sha256": "654cc6069d915dbaac5e904209f1341d3dbb8b8f95add874b0472ecba1c8b0a8"
+    },
+    {
+      "Path": "tests/GitHubAuthentication.Tests.ps1",
+      "Length": 27212,
+      "Sha256": "9b1db2f72bf1fcb71cf636eb519257404537c4ee517c3310c6a5e4b04e3e25b1"
+    },
+    {
+      "Path": "tests/GitHubReleaseDiscovery.Tests.ps1",
+      "Length": 17844,
+      "Sha256": "c16866782759ef01d016f7e55bfb3b5dc4428eccbc805b6612bb4b88c07baff7"
+    },
+    {
+      "Path": "tests/GitHubVmAuthentication.Tests.ps1",
+      "Length": 10875,
+      "Sha256": "9f16968f4e60e93e2df95bc2d28a3bbcde75ae3657a825cb3e5ad92925f4694e"
+    },
+    {
+      "Path": "tests/InstalledRegistrationInventory.Tests.ps1",
+      "Length": 14647,
+      "Sha256": "20f3f86f7209242af05c3dfb791233016b480f30098e8322e4d3c278561ee33a"
+    },
+    {
+      "Path": "tests/InstallerInspection.Tests.ps1",
+      "Length": 13890,
+      "Sha256": "88848e8f01626638c081b6722a83da37c892909f8b8ebcf3bad48a97f5ef673f"
+    },
+    {
+      "Path": "tests/integration/automatedlab-tasks.md",
+      "Length": 82175,
+      "Sha256": "feb06f01aee1d56b6ae82c1da309d3fc67009ba5d32fa1eb46bf6842c8e0d748"
+    },
+    {
+      "Path": "tests/integration/automatedlab.md",
+      "Length": 18898,
+      "Sha256": "480be077599a5d2f66f451e8fb88fb6a8ac5633a0e8d297552728ded46def20f"
+    },
+    {
+      "Path": "tests/integration/automation.example.psd1",
+      "Length": 978,
+      "Sha256": "5d78241651675deef4ddee6a411b7ed5358803ba54882b2844dc9206b0ffa0cb"
+    },
+    {
+      "Path": "tests/integration/Export-RideScreenLockSnapshot.ps1",
+      "Length": 6144,
+      "Sha256": "e895100d45790e56c076895f70a6dfddf2eb373a916bb6a9c2375bfe4c32c063"
+    },
+    {
+      "Path": "tests/integration/Export-RideVmTestEvidence.ps1",
+      "Length": 8859,
+      "Sha256": "2e7c2e50106a4a877ab8591c603ef32fe7136f7bbd05709da78dbf17fbd7a1e4"
+    },
+    {
+      "Path": "tests/integration/Get-RideScreenLockSummary.ps1",
+      "Length": 6370,
+      "Sha256": "51896a3b882108609b91c69427111f50ed04cdec5f11d8ebaa3b81d31564b9c5"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideApplicationBatch.ps1",
+      "Length": 26567,
+      "Sha256": "c6131b71ef8f665b6e15ec5a05a254ecf58d7967f6c81d5da1cf92560f004f95"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideGitHubAuthentication.ps1",
+      "Length": 4692,
+      "Sha256": "12b4b5d4a42549c5adde17a801c4a4bb3f6f7b08bb4e74a9d2b63720567c567f"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideGuestTests.ps1",
+      "Length": 14633,
+      "Sha256": "029efa7e15bf2b2b8da3b930eb8af468f7863188e2a3f676c0b5d927decaadb2"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideIdleHost.ps1",
+      "Length": 880,
+      "Sha256": "27f95ffc3f3128ae43d6c4d4e369d841176f23e06eb860529c33bc3b55a8316b"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideProfileAcceptance.ps1",
+      "Length": 12843,
+      "Sha256": "ae30ad2a2f4f444ea22e9d687dd755c83728e41c1f6f6e390f1900a9c646caaf"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideProfileIdentityAcceptance.ps1",
+      "Length": 9944,
+      "Sha256": "17c54a1eee5d7828a91528144ac37ac37c9cc988d1943bdd31aaf6ac7e063e94"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideProfileVisualAcceptance.ps1",
+      "Length": 21900,
+      "Sha256": "931ba7e3145a747a4ba85110dfa450fa50f1766dc5f4bbcb65cb79ae72f51f6a"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideProfileVmAcceptance.ps1",
+      "Length": 10264,
+      "Sha256": "cf64dc1360ff2f2bd51e4e9795636329ef95c4571323154b5e0bd5a2b3f437e8"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideRemainingSettings.ps1",
+      "Length": 6060,
+      "Sha256": "cac4de1f728cdb6de270d429067d2e8e614e9e909b7d770fb74dcee8cb73830d"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideScreenLockCapture.ps1",
+      "Length": 19634,
+      "Sha256": "8c4c0e12383dc45b4a142c0c2783cb8bca4fa2fdb0d80e40361e1a742f50da92"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideSettingsBatch.ps1",
+      "Length": 5955,
+      "Sha256": "3c3bf2a74345d370ef52f12b879fc7c9fd5ba27f565dbb9b2d5f66f64da322f5"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideSettingsBatch60.ps1",
+      "Length": 5979,
+      "Sha256": "9e27073dd0b178f1ce989138c3265a39d0f466cef0856e0820133be469c6c83d"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideSettingsFixture.ps1",
+      "Length": 81034,
+      "Sha256": "92e64cb7b2361560da9baecf78b8694421a33523b550c72ee1a08552fde53eaf"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideStoreDesktopPlanActor.ps1",
+      "Length": 7590,
+      "Sha256": "fda77845740789704373ff29412d595130d65588ce78834129e37e3906f5dd98"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideStoreSolitaireActor.ps1",
+      "Length": 12832,
+      "Sha256": "1981bc0cae0e25f27e61bf776dfbbce6074c190ef98e372e2b295fd269776582"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideStoreSolitaireFixture.ps1",
+      "Length": 13473,
+      "Sha256": "32c2c8a25e6d284e80db37d1d0d574b0e81064c184b39bda9747defcf8630bfb"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideVmSuite.ps1",
+      "Length": 32108,
+      "Sha256": "03717f97c7f3bf97ddd37882a3624b6b3fb078135d685c1a346eae7052c3478d"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideVmTest.ps1",
+      "Length": 17898,
+      "Sha256": "01c1903fa41d699e0bfdfe0fd89b77389d04747eb46fca7896c1f8f0d89d55b4"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideVmTestTask.ps1",
+      "Length": 7852,
+      "Sha256": "2d6c709f8ccaf6f17016a019c4f839ef266b9dfaf7bb79c8c7e326f66bfb2a21"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideVmTestTaskWorker.ps1",
+      "Length": 2807,
+      "Sha256": "36a81a1392d5beaefd8ce85f8d90de95f76e14479475e56872550a79870c9c6a"
+    },
+    {
+      "Path": "tests/integration/New-RideAutomatedLabVm.ps1",
+      "Length": 27943,
+      "Sha256": "242fc11f18093ba09ad5d3c8e7e391cba93e13ae96ce83979c8707e2d2a83f2c"
+    },
+    {
+      "Path": "tests/integration/New-RideScreenLockInputs.ps1",
+      "Length": 8123,
+      "Sha256": "d984a9db5aa40659906d40021e03863d084be4c4de602a08bcaa29200555a7ee"
+    },
+    {
+      "Path": "tests/integration/provisioning.server2025.example.psd1",
+      "Length": 783,
+      "Sha256": "65eafe12617c5c9cd474a485758dfa94033ae1db98e43ba684b62d781942d661"
+    },
+    {
+      "Path": "tests/integration/provisioning.server2025.shared-network.example.psd1",
+      "Length": 1074,
+      "Sha256": "1588d2f01059b230d8c9d65197aa282164f9591baf0a849934e37b7e58e6fc0f"
+    },
+    {
+      "Path": "tests/integration/provisioning.win11.example.psd1",
+      "Length": 893,
+      "Sha256": "413ff99eeb1807d4757cd1e44178af973d1facf886dc9eed88b4789100772374"
+    },
+    {
+      "Path": "tests/integration/README.md",
+      "Length": 22951,
+      "Sha256": "478386b27e6fdade6732a58a9af546f8fd8005c863b11d13d5e5097d954c849e"
+    },
+    {
+      "Path": "tests/integration/Register-RideVmTestTask.ps1",
+      "Length": 10183,
+      "Sha256": "5112f4573ecffdfcfccba709010dc06a1c9ae18283a1f7fb2fe1908df366735f"
+    },
+    {
+      "Path": "tests/integration/RIDE.GitHubVmAuthentication.psm1",
+      "Length": 11166,
+      "Sha256": "dc5de222a37df07e6c6272f6f4c570ec3f83acd8c16642d3e97231addce6e659"
+    },
+    {
+      "Path": "tests/integration/RIDE.LabProvisioning.psm1",
+      "Length": 13493,
+      "Sha256": "5eb17f7ba90bc756679943886887a675c8fd2e9e48fcc615a0606ecaa8d17ad4"
+    },
+    {
+      "Path": "tests/integration/RIDE.StoreSolitaireFixtureData.psm1",
+      "Length": 4259,
+      "Sha256": "0f1a5209f14c7160cbcee54e9bf64f9578700741646a23136be32ecdcb23a279"
+    },
+    {
+      "Path": "tests/integration/RIDE.TestAutomation.psm1",
+      "Length": 41957,
+      "Sha256": "3f434adf70ce103e88e3a476f2423e8c6a96788f432cc7e9b4d7e5d337db7e39"
+    },
+    {
+      "Path": "tests/integration/screen-lock-conditions.example.json",
+      "Length": 1506,
+      "Sha256": "cafdba12238650008fbb2ba0a22b535deb527761d90bbc6387aaeb3abd621670"
+    },
+    {
+      "Path": "tests/integration/settings-fixtures.md",
+      "Length": 14800,
+      "Sha256": "1cf37cfe9a19a78daaa73a9a2df0762f89b989fd0ed34cad8151751709293382"
+    },
+    {
+      "Path": "tests/integration/testResults.xml",
+      "Length": 2605,
+      "Sha256": "3f3ab79c99cdbcc13238c223a4bd97882b50d6e320db1991abc3a1c5c070a18e"
+    },
+    {
+      "Path": "tests/integration/Watch-RideVmTests.ps1",
+      "Length": 3510,
+      "Sha256": "4f68ad88b0bcb2d87b6086caf7a4a3f188f2760031f329a4164eece0f7bf0c7e"
+    },
+    {
+      "Path": "tests/KeyboardSettings.Tests.ps1",
+      "Length": 7600,
+      "Sha256": "ce4721f8278cc3c62ece37d743e6dd53bf38b8009337e966a214df011af3b3e6"
+    },
+    {
+      "Path": "tests/LabProvisioning.Tests.ps1",
+      "Length": 21639,
+      "Sha256": "d950733489e995511c841530698fc27aa4017d64d545e88c0cbc5ec09df367ed"
+    },
+    {
+      "Path": "tests/LegacyDeploymentMapping.Tests.ps1",
+      "Length": 8898,
+      "Sha256": "a8c089801658c0828d428cd0637ff92f5ef96053dd42f397ea5025bc4189fceb"
+    },
+    {
+      "Path": "tests/Libraries.Tests.ps1",
+      "Length": 25150,
+      "Sha256": "dea23ba515daf6ba069805ca785f2b89cee59c07138cc2aa4232a74b1dbe6c15"
+    },
+    {
+      "Path": "tests/LibraryAuthoring.Tests.ps1",
+      "Length": 33155,
+      "Sha256": "aece8c4362248cf6ed29942ee136b0482d80bbb0ec1c931a6a3af6946774b79a"
+    },
+    {
+      "Path": "tests/LicenseReviews.Tests.ps1",
+      "Length": 7881,
+      "Sha256": "7d75543c6351d11e3f7f1f64030462f1e7fbd7109fe041510ad3c132d129bc85"
+    },
+    {
+      "Path": "tests/LocalPasswordAge.Tests.ps1",
+      "Length": 14668,
+      "Sha256": "89b0388d819e991cf83da91b647f8436bf77128204574d6b29f15bfdd08c71e2"
+    },
+    {
+      "Path": "tests/LocalUserInventory.Tests.ps1",
+      "Length": 10868,
+      "Sha256": "a38d5d9a53b171dfb7af1e1c79a735eb3379d0c9dbd25fedf1b89ad35d7b4240"
+    },
+    {
+      "Path": "tests/ManagedSettings.Tests.ps1",
+      "Length": 8943,
+      "Sha256": "27eac82ec19c9b448b0d7b54f53c3c8bd730835338c4d29e5a392ccbdd185775"
+    },
+    {
+      "Path": "tests/MediaPolicies.Tests.ps1",
+      "Length": 5434,
+      "Sha256": "53c24916381c8f63b82fc7fd524c994d355f1750b797ff50307c77d760ed4b26"
+    },
+    {
+      "Path": "tests/NetworkAndSoundControls.Tests.ps1",
+      "Length": 9858,
+      "Sha256": "4ab62c97033f3b6848b36f4c7c8fddcf7bd448037e00015e9a5cfb1b14f97980"
+    },
+    {
+      "Path": "tests/ObservationImport.Tests.ps1",
+      "Length": 3611,
+      "Sha256": "8e98c8ab23d716aba5761f3156883db704fad2b73414647688045e159b5e76d5"
+    },
+    {
+      "Path": "tests/OfficeConfigurationReview.Tests.ps1",
+      "Length": 16361,
+      "Sha256": "b3f828eadca2d3a12708b84055e4a98b01c254f9b170d56eb6c6232bb515f4a8"
+    },
+    {
+      "Path": "tests/OfficeInventory.Tests.ps1",
+      "Length": 13597,
+      "Sha256": "dab108be0e8d40e98cac1e5b535e470a62cb1f98cc8a3929e5e85a43f0e5d53a"
+    },
+    {
+      "Path": "tests/OfflineBundle.Tests.ps1",
+      "Length": 14754,
+      "Sha256": "74ec728fb08aa6800028ebc43dffd000276095546ed87f1276d753dba7b9af5f"
+    },
+    {
+      "Path": "tests/OfflineBundleAssembly.Tests.ps1",
+      "Length": 12689,
+      "Sha256": "0f26f0a79a3e80f41ce28a3846cfe6b5a4888c4fc179c5496240982d1fcc37a4"
+    },
+    {
+      "Path": "tests/OfflineProfileCoverage.Tests.ps1",
+      "Length": 20969,
+      "Sha256": "46938a9defe8c915648e73328e38bf8ba92fa25c8a8161eeff3c71fe89bf22d0"
+    },
+    {
+      "Path": "tests/OptionalWindowsSettings.Tests.ps1",
+      "Length": 30052,
+      "Sha256": "f686411ba2a65fcfe310be0de42159315034ef0cc84ef353543a0ad3d3250bbf"
+    },
+    {
+      "Path": "tests/OwnedPowerPlans.Tests.ps1",
+      "Length": 21525,
+      "Sha256": "145e33ab5e1799b074d100bb7cc7961aac72f1390670fbfc09426cc75635da3a"
+    },
+    {
+      "Path": "tests/PackageAdoptionReview.Tests.ps1",
+      "Length": 14057,
+      "Sha256": "7b561ed4d97ee302f2d6d18c676058e0f22b3b264c358862cef6110f46e62c4e"
+    },
+    {
+      "Path": "tests/PackageEvidence.Tests.ps1",
+      "Length": 22497,
+      "Sha256": "e7e825a6face4eb79dc0f6fb273dd47a719fdd8ad70292575e0bbb7d140679bd"
+    },
+    {
+      "Path": "tests/PortableManifest.Tests.ps1",
+      "Length": 7147,
+      "Sha256": "b86f43d957d4c9501cbb060b6b640bde47fb4cd27517e6d809eb048a5fad6ee5"
+    },
+    {
+      "Path": "tests/PowerRead.Tests.ps1",
+      "Length": 5324,
+      "Sha256": "457d2f6a3b267a5b7b458b6b5bb288a68a83d17c1f3f9971922f381521633252"
+    },
+    {
+      "Path": "tests/PowerSettings.Tests.ps1",
+      "Length": 12320,
+      "Sha256": "e66cf5f5ce0b1a64a9ffb740fe859075c0f7fa13b5cb98282b744a491adc7da2"
+    },
+    {
+      "Path": "tests/ProfileAcceptanceAutomation.Tests.ps1",
+      "Length": 2443,
+      "Sha256": "3b7461437e521eefb44ac69349feaf09e2866eed9200ce2b635217b0d7ae84c7"
+    },
+    {
+      "Path": "tests/ProfileSettings.Tests.ps1",
+      "Length": 26985,
+      "Sha256": "4abaefd7db391850879b2e80704aebb52854cdfb1cde8cf0fa5f17546d35da80"
+    },
+    {
+      "Path": "tests/PSScriptToolsPackage.Tests.ps1",
+      "Length": 4554,
+      "Sha256": "bbc04161b121833dd11429d5dec906670cd5e9f596aee3602131ebff7a6616e1"
+    },
+    {
+      "Path": "tests/RegionalInventory.Tests.ps1",
+      "Length": 12267,
+      "Sha256": "f52d8b874f337d891daaf510a0bf9ac7d2e5cd02320e96e52b0027602f85d1ba"
+    },
+    {
+      "Path": "tests/RegistryFailures.Tests.ps1",
+      "Length": 4969,
+      "Sha256": "f463dfb5e5db375dc92c99bda42ed48d3ed5c4d57e294b63271da7d9aa16784f"
+    },
+    {
+      "Path": "tests/RegRipperPackage.Tests.ps1",
+      "Length": 4730,
+      "Sha256": "dbd96f41677c08a8eea852b4c0b1ca82f723efc8178dbac65cbbe2452821ee2f"
+    },
+    {
+      "Path": "tests/RemainingSettings.Tests.ps1",
+      "Length": 13302,
+      "Sha256": "ab778979f389fb2e3efe59cae5ce0cad7859067bd1f47866d1683e5cac1d183b"
+    },
+    {
+      "Path": "tests/RufusPackage.Tests.ps1",
+      "Length": 4459,
+      "Sha256": "97232ee2220fde85e1970512738d6e22c381ecddfea7bb6dc5bc1a32841cb01e"
+    },
+    {
+      "Path": "tests/ScreenLockMeasurement.Tests.ps1",
+      "Length": 9237,
+      "Sha256": "52b2293bf7e3eb7f94e45b88b206fa8fc31c5a5e828e1c0934a78e7877d9aa81"
+    },
+    {
+      "Path": "tests/Search.Tests.ps1",
+      "Length": 16468,
+      "Sha256": "1f30743b7acf6f6f4c87252a60b368506217b5c5752e1ee1704a6aad946ac320"
+    },
+    {
+      "Path": "tests/ServerPolicies.Tests.ps1",
+      "Length": 10731,
+      "Sha256": "70f5da320fbe17fd3376496c20bbf1c55573f8452a09b9259ab503afb04b2302"
+    },
+    {
+      "Path": "tests/ServiceSettings.Tests.ps1",
+      "Length": 22664,
+      "Sha256": "3a7c2979633fd16f5cc3b7b8849f25cfbc409ca038395bf973f70772213cb8d0"
+    },
+    {
+      "Path": "tests/SettingPresentation.Tests.ps1",
+      "Length": 10321,
+      "Sha256": "81b43bcce87185aae2da91616236a153d851e70870a2a3dbd1e4cfef88036bd5"
+    },
+    {
+      "Path": "tests/SettingsFixtureData.Tests.ps1",
+      "Length": 14285,
+      "Sha256": "0df8eea3795979fe6feabb73efc8bee7da7ed9a9bfe411ca19ae40be9d4c08c3"
+    },
+    {
+      "Path": "tests/ShellFolders.Tests.ps1",
+      "Length": 19323,
+      "Sha256": "7f54951cf1200e3617bb9d115db761c76f7c7d3d8662e704896f43fb1ede21f0"
+    },
+    {
+      "Path": "tests/SixtySettings.Tests.ps1",
+      "Length": 17392,
+      "Sha256": "8f01c8406d396b9d53fd4b7d3683aeb0d01f5ecd1f606b70d4498b2a07df1b2a"
+    },
+    {
+      "Path": "tests/SourceScriptPackages.Tests.ps1",
+      "Length": 4522,
+      "Sha256": "374b03937ee48418af4575a8b6169587505064274e98ab5ca9b19b3e42a9e6ab"
+    },
+    {
+      "Path": "tests/StoreAppReview.Tests.ps1",
+      "Length": 14705,
+      "Sha256": "2f450394d396aaff119745dd357b3607304a102c44385195b598aac9dbca6258"
+    },
+    {
+      "Path": "tests/StoreApps.Tests.ps1",
+      "Length": 23449,
+      "Sha256": "bdcaac5a584094c3e6bae6a994c003ff69ca58f697411dc2455f9640d2842de2"
+    },
+    {
+      "Path": "tests/StoreSolitaireFixtureData.Tests.ps1",
+      "Length": 3043,
+      "Sha256": "da77a7967847cc4d6036ff40f60e5f677e14bda4a80c1751eb664cb51ec6037e"
+    },
+    {
+      "Path": "tests/SysinternalsProductPackages.Tests.ps1",
+      "Length": 8412,
+      "Sha256": "cf6681547c03f44e136d9ac5cfc0e208665adc0303e1cc6db68ca45bf3cce185"
+    },
+    {
+      "Path": "tests/SysinternalsSuitePackage.Tests.ps1",
+      "Length": 7500,
+      "Sha256": "4fc775dfa3dbb72a480e2554f3f71105539f3f74dc3dee81e222a318ac08c06e"
+    },
+    {
+      "Path": "tests/TerminalJsonc.Tests.ps1",
+      "Length": 14221,
+      "Sha256": "a1387dc4b7833cfeb88e96dc95f9bdd9aa2dd47635e067873c2da33ff2b70175"
+    },
+    {
+      "Path": "tests/TestAutomation.Tests.ps1",
+      "Length": 44303,
+      "Sha256": "5c78025c4c4e07c34c176cdfc343fc1bb242d01a71043d70dcc4234d9f71d98a"
+    },
+    {
+      "Path": "tests/ToolkitUpdatePreparation.Tests.ps1",
+      "Length": 11308,
+      "Sha256": "66715f85d12afa94eebc01fc4131928caffc3704433e9a730f990df8d3982bf7"
+    },
+    {
+      "Path": "tests/UpdateNotificationPolicy.Tests.ps1",
+      "Length": 10692,
+      "Sha256": "34039c216ef09672243839513bb8c52762c2cc78d09cbbf4c19ca09a84bd34ce"
+    },
+    {
+      "Path": "tests/UserBinProfile.Tests.ps1",
+      "Length": 11551,
+      "Sha256": "8d3b8e35c42928e9d3c72aef5433f719f8ea6604d3e2fa2b9ff674765da9b08b"
+    },
+    {
+      "Path": "tests/UserHandoff.Tests.ps1",
+      "Length": 14995,
+      "Sha256": "ed31e9709f9566e2e0c70a2b1b3ce3838aa01adac3569921107370fb5588135a"
+    },
+    {
+      "Path": "tests/UserLanguageInventory.Tests.ps1",
+      "Length": 11551,
+      "Sha256": "689d09b87f363dae8a1142424a426eb4cad386cf4ea6a59edfb9c1cb6ac9266e"
+    },
+    {
+      "Path": "tests/UserLanguageOverrides.Tests.ps1",
+      "Length": 11698,
+      "Sha256": "07a20b1b924b80783f495958b0d01e281799903eb4da239551557459278fb4d4"
+    },
+    {
+      "Path": "tests/UserLanguagePreparation.Tests.ps1",
+      "Length": 7686,
+      "Sha256": "a7ddf17fc01dfbad95aa33b6d2028db5ba90060086390c7d1f855a3d063b7165"
+    },
+    {
+      "Path": "tests/UserPathPreparation.Tests.ps1",
+      "Length": 13376,
+      "Sha256": "ffaf9fe3e9df1ad2d83d9885a555f660bef367a0fae47749ef1f385d23344fdc"
+    },
+    {
+      "Path": "tests/UserProxyInventory.Tests.ps1",
+      "Length": 13972,
+      "Sha256": "616551154772e6477cef914fd3c9100d0d0003a40ffef3fa0d6bdb960ad18de9"
+    },
+    {
+      "Path": "tests/UserProxyPreparation.Tests.ps1",
+      "Length": 11392,
+      "Sha256": "ee30a00d9ea2d062da5d81979e5c890adad07172d193e0b1236d463c9ed3ffb0"
+    },
+    {
+      "Path": "tests/VisualEffectsInventory.Tests.ps1",
+      "Length": 11730,
+      "Sha256": "53b00fb89cb98bd6ff4a06ee4dcef43ef4484e1fc4fbab6dbb721b11341bc281"
+    },
+    {
+      "Path": "tests/VolumeInventory.Tests.ps1",
+      "Length": 10679,
+      "Sha256": "19913dcd0bd78d3ef5aa02f3a86fe2b7f0b727d13b344074f7c4315482a67365"
+    },
+    {
+      "Path": "tests/WirelessInventory.Tests.ps1",
+      "Length": 17783,
+      "Sha256": "3e17c7c4eae07d8e5ab7a8dda7294abf2ac2dc195ca536a39b00e8846d4dbcf4"
+    },
+    {
+      "Path": "tests/WiresharkPackage.Tests.ps1",
+      "Length": 6854,
+      "Sha256": "0f55647a2c56b76c60e1eb1fb36d50e8ee643d4e06c93637714e81e3ef11ddf4"
+    },
+    {
+      "Path": "tools/Compare-RideStoreAppInventory.ps1",
+      "Length": 1849,
+      "Sha256": "d8fe2d3f43c3a08b84959f34e622db82595fa067915fe8aadb92c5061f768b73"
+    },
+    {
+      "Path": "tools/Deploy-SSHCopyId.ps1",
+      "Length": 3118,
+      "Sha256": "fda6b34c4b228e9339256075fcdb8bca3dccbd790e054bbef2a8cb4ef05e7bd6"
+    },
+    {
+      "Path": "tools/development/openssh-preview/Install-OpenSSH.ps1",
+      "Length": 18926,
+      "Sha256": "85dbdd04991425f28baec94580b10e2b82b6570da9ae2f09dc927e74c0bfc15e"
+    },
+    {
+      "Path": "tools/development/README.md",
+      "Length": 813,
+      "Sha256": "78119b4fe453d6fcdcc7c6bcbd9bf6ab92ee6104e90d5d1a3ca63bc8465d4cf3"
+    },
+    {
+      "Path": "tools/Export-RideAdapterInventory.ps1",
+      "Length": 2967,
+      "Sha256": "af554b1574484ef5aaa56fefe5de22ab96734d32c7e53d1c102e2366d64162b8"
+    },
+    {
+      "Path": "tools/Export-RideAudioEndpointInventory.ps1",
+      "Length": 2676,
+      "Sha256": "0378a92dde6672c4d35095be888c20af5b0e48b749dbb0d1cb4c5d805f4d2a56"
+    },
+    {
+      "Path": "tools/Export-RideCatalog.ps1",
+      "Length": 19818,
+      "Sha256": "c3dad13d72a3ebf635a28c8bcfd47cdf1caa811a6039ca1a03b1905c6b37a865"
+    },
+    {
+      "Path": "tools/Export-RideComponentInventory.ps1",
+      "Length": 3606,
+      "Sha256": "2f71440cf0218b7df9e27451d1b479fc233ad7ae034086f0d19bca393323fc67"
+    },
+    {
+      "Path": "tools/Export-RideDesiredConfiguration.ps1",
+      "Length": 6862,
+      "Sha256": "60dc6960c40aecd0e3b17d9ab794821453536a0e32d51285677254166f6d3233"
+    },
+    {
+      "Path": "tools/Export-RideInstalledRegistrationInventory.ps1",
+      "Length": 3435,
+      "Sha256": "d45f408a3e6c093dac19315038643fd96c16585ae361afbd8c5e2bc40d2bf4c5"
+    },
+    {
+      "Path": "tools/Export-RideLocalUserInventory.ps1",
+      "Length": 2892,
+      "Sha256": "1d3f4ba24f5697e42a487adb18379131fca376b70c93fae7e22629d61ec58d57"
+    },
+    {
+      "Path": "tools/Export-RideOfficeInventory.ps1",
+      "Length": 3208,
+      "Sha256": "72a32c67d0d4a302f7727cc2afff57ce6e53a57f7822e1164383cc26147352f2"
+    },
+    {
+      "Path": "tools/Export-RideRegionalInventory.ps1",
+      "Length": 3477,
+      "Sha256": "7202765fba7fc2ab56e67c9af14c0c65af4ceee4d89a4119d13a87b8667b1523"
+    },
+    {
+      "Path": "tools/Export-RideStoreAppInventory.ps1",
+      "Length": 2155,
+      "Sha256": "6116982320c5444a06a1aabad8acc041a0c70d6531d3c508d2761c1690a43fa9"
+    },
+    {
+      "Path": "tools/Export-RideStoreProvisionedInventory.ps1",
+      "Length": 1862,
+      "Sha256": "6d54a290356d6b51b82a0a6144094dd44118dc61d1913ab4dd32a38befd4bf08"
+    },
+    {
+      "Path": "tools/Export-RideUserLanguageInventory.ps1",
+      "Length": 3381,
+      "Sha256": "9a01d6d5a5b080a4782e637119ff7a8b1389ca61b58eaea94cf2ef9df0f42e9b"
+    },
+    {
+      "Path": "tools/Export-RideUserLanguageOverrides.ps1",
+      "Length": 3512,
+      "Sha256": "b80021d191736baebcb944d25a38d073cb168c993a664d9b98e3d934c8bfb051"
+    },
+    {
+      "Path": "tools/Export-RideUserProxyObservation.ps1",
+      "Length": 3017,
+      "Sha256": "7bc9d9ad6774bda786def5730d33bbba15cf5500d37c8f0246d5496dbd89d04c"
+    },
+    {
+      "Path": "tools/Export-RideVolumeInventory.ps1",
+      "Length": 2924,
+      "Sha256": "afb42c226a97cbceee2e455d93e42a1079cdbf1115a27b4cc92a857ece2dbd36"
+    },
+    {
+      "Path": "tools/Export-RideWirelessProfileInventory.ps1",
+      "Length": 3321,
+      "Sha256": "049b5a8f36f6a3381e3428b0f16301d73d81aad697ac3311ffc84c886f9195c6"
+    },
+    {
+      "Path": "tools/Import-RideArtifactObservations.ps1",
+      "Length": 5006,
+      "Sha256": "60caf0e40bf7c715faf7e880a80888552e471e275b4cc487ddfe37f347287d8f"
+    },
+    {
+      "Path": "tools/Inspect-RideInstaller.ps1",
+      "Length": 2225,
+      "Sha256": "2c2d88e9f7b2041e6786a31e3b7151ba0bc4619795c3d74b465ece72e50b3169"
+    },
+    {
+      "Path": "tools/Invoke-RideStoreApps.ps1",
+      "Length": 7039,
+      "Sha256": "41dea107ccdca2c6488d9c25dadcfa4bb11c7132f2b77b5206e8696f75472528"
+    },
+    {
+      "Path": "tools/Manage-RideGitHubCredential.ps1",
+      "Length": 3447,
+      "Sha256": "95d92b8fc24903b42f31024acf55adccfee2662d0eb35ca50300ab5852b6872f"
+    },
+    {
+      "Path": "tools/Manage-RideLicenseReviews.ps1",
+      "Length": 14097,
+      "Sha256": "8d203dbb0975167a212a6ba2973ab1812b093a87e132fc11780b4d7e00d39224"
+    },
+    {
+      "Path": "tools/New-RideLibrary.ps1",
+      "Length": 25969,
+      "Sha256": "7bfb6d281de6024ab0caf42de9b8a613e1426c68726b1ec4f4a0649fb160c5a2"
+    },
+    {
+      "Path": "tools/New-RideOfflineBundle.ps1",
+      "Length": 4264,
+      "Sha256": "68cbaca429d4b3c148ab8cf02af96faf19b8f06799c61cef7678d48252caa36c"
+    },
+    {
+      "Path": "tools/Test-RideOfflineBundle.ps1",
+      "Length": 6024,
+      "Sha256": "33d561f79581026557abb77c5d154da9aff4ea993cb2bccaf4398a89dcf027a8"
+    },
+    {
+      "Path": "tools/validate.ps1",
+      "Length": 6275,
+      "Sha256": "5705457b2196751fd169b405593b282f2e6a4122a65ddcbc29220aec45655625"
+    }
+  ]
+}

@@ -822,9 +822,10 @@ Describe 'RIDE Defender exclusion handler' {
   It 'adds the exclusion after preparing its managed directory' {
     InModuleScope RIDE-Defender {
       Mock Resolve-RideDefenderExclusionPath { 'C:\Tools' }
-      Mock Get-RideDefenderExclusionPaths { @() }
+      $script:ExclusionFixture = @()
+      Mock Get-RideDefenderExclusionPaths { $script:ExclusionFixture }
       Mock Test-Path { $true }
-      Mock Add-RideDefenderExclusion {}
+      Mock Add-RideDefenderExclusion { param($Path) $script:ExclusionFixture = @($Path) }
       Set-RideDefenderExclusionState -Operation @{ Id = 'test.tools'; PathResolver = 'ToolsDirectory' } -State Present
       Should -Invoke Add-RideDefenderExclusion -Exactly 1 -ParameterFilter { $Path -eq 'C:\Tools' }
     }
@@ -833,13 +834,13 @@ Describe 'RIDE Defender exclusion handler' {
   It 'removes an existing exclusion and restores captured membership' {
     InModuleScope RIDE-Defender {
       Mock Resolve-RideDefenderExclusionPath { 'C:\Tools' }
-      Mock Get-RideDefenderExclusionPaths { @('C:\Tools') }
-      Mock Remove-RideDefenderExclusion {}
-      Mock Add-RideDefenderExclusion {}
+      $script:ExclusionFixture = @('C:\Tools')
+      Mock Get-RideDefenderExclusionPaths { $script:ExclusionFixture }
+      Mock Remove-RideDefenderExclusion { $script:ExclusionFixture = @() }
+      Mock Add-RideDefenderExclusion { param($Path) $script:ExclusionFixture = @($Path) }
       Set-RideDefenderExclusionState -Operation @{ Id = 'test.tools'; PathResolver = 'ToolsDirectory' } -State Absent
       Should -Invoke Remove-RideDefenderExclusion -Exactly 1 -ParameterFilter { $Path -eq 'C:\Tools' }
 
-      Mock Get-RideDefenderExclusionPaths { @() }
       Restore-RideDefenderExclusionState -Operation @{ Id = 'test.tools'; PathResolver = 'ToolsDirectory' } -Snapshot ([pscustomobject]@{ Present = $true; Path = 'C:\CapturedTools' })
       Should -Invoke Add-RideDefenderExclusion -Exactly 1 -ParameterFilter { $Path -eq 'C:\CapturedTools' }
     }
@@ -895,7 +896,7 @@ Describe 'RIDE Defender exclusion planning and apply' {
       Should -Invoke Set-RideDefenderExclusionState -Exactly 0
 
       Invoke-RidePlan -Plan $plan -Confirm:$false | Out-Null
-      Should -Invoke Set-RideDefenderExclusionState -Exactly 1 -ParameterFilter { $Operation.Id -eq 'windows.defender-tools-exclusion' -and $State -eq 'Present' }
+      Should -Invoke Set-RideDefenderExclusionState -Exactly 1 -ParameterFilter { $Operation.Id -eq 'windows.defender-tools-exclusion' -and $State -eq 'Present' -and $ExpectedState.Path -eq 'C:\Tools' -and $ExpectedState.Present -eq $false }
     }
   }
 

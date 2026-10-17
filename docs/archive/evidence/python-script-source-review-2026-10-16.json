@@ -1,0 +1,199 @@
+{
+  "SchemaVersion": 1,
+  "Status": "SourceReviewOnly",
+  "ExecutionPerformed": false,
+  "Archives": [
+    {
+      "SchemaVersion": 1,
+      "Status": "SourceReviewOnly",
+      "Repository": "gh05t-4/hex2text",
+      "Revision": "9715c6c26824ef05039228f16e0c47620c52fe79",
+      "ObservedAtUtc": "2026-10-16T20:24:24.5430089Z",
+      "SourceUri": "https://github.com/gh05t-4/hex2text/archive/9715c6c26824ef05039228f16e0c47620c52fe79.zip",
+      "Sha256": "aa0083da094a3320db9a97eb22c499a420187c208ed92376a662243678f083c3",
+      "Bytes": 13331,
+      "Files": [
+        {
+          "Path": "hex2text-9715c6c26824ef05039228f16e0c47620c52fe79/LICENSE",
+          "Bytes": 35149,
+          "Sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+        },
+        {
+          "Path": "hex2text-9715c6c26824ef05039228f16e0c47620c52fe79/README.md",
+          "Bytes": 201,
+          "Sha256": "34fbd315fc2b425fc1a5cb174e12db490fdb7ba82f5bc7c103deda19baaa2df3"
+        },
+        {
+          "Path": "hex2text-9715c6c26824ef05039228f16e0c47620c52fe79/hex2text.py",
+          "Bytes": 287,
+          "Sha256": "016ac1ca471de179aa908eb71eb7ea068a53f0d04e6761a5f0e27ca95e682047"
+        }
+      ],
+      "ExecutionPerformed": false,
+      "PublisherChecksumAvailable": false
+    },
+    {
+      "SchemaVersion": 1,
+      "Status": "SourceReviewOnly",
+      "Repository": "marleyjaffe/ChromeSyncParser",
+      "Revision": "0f59c5702ffd03102c550ecc373ab4fefa6f810c",
+      "ObservedAtUtc": "2026-10-16T20:24:25.1611933Z",
+      "SourceUri": "https://github.com/marleyjaffe/ChromeSyncParser/archive/0f59c5702ffd03102c550ecc373ab4fefa6f810c.zip",
+      "Sha256": "8dff59a48d3d6ab41cf8d39154a0e05cfda5df36a1b76180a70692762854da46",
+      "Bytes": 9305,
+      "Files": [
+        {
+          "Path": "ChromeSyncParser-0f59c5702ffd03102c550ecc373ab4fefa6f810c/ChromeParser.py",
+          "Bytes": 31480,
+          "Sha256": "7f8f8d7f4c29c9bd66f1645da47d2a449381896f48c3629a8c71e79e8b705384"
+        },
+        {
+          "Path": "ChromeSyncParser-0f59c5702ffd03102c550ecc373ab4fefa6f810c/LICENSE",
+          "Bytes": 1079,
+          "Sha256": "692424ae865888b37c70d8263238af49cfce718dab54ede8ee066032bc79f360"
+        },
+        {
+          "Path": "ChromeSyncParser-0f59c5702ffd03102c550ecc373ab4fefa6f810c/README.md",
+          "Bytes": 1127,
+          "Sha256": "0c92a09c9cfe7e39990d0dcfac60085a28716bbbffd6d2f27de843bdd3725477"
+        }
+      ],
+      "ExecutionPerformed": false,
+      "PublisherChecksumAvailable": false
+    }
+  ],
+  "SyntaxInspection": [
+    {
+      "Repository": "gh05t-4/hex2text",
+      "Revision": "9715c6c26824ef05039228f16e0c47620c52fe79",
+      "File": "hex2text.py",
+      "Sha256": "016ac1ca471de179aa908eb71eb7ea068a53f0d04e6761a5f0e27ca95e682047",
+      "PythonVersion": "3.12.14",
+      "SourceExecuted": false,
+      "SyntaxAccepted": true,
+      "Imports": []
+    },
+    {
+      "Repository": "marleyjaffe/ChromeSyncParser",
+      "Revision": "0f59c5702ffd03102c550ecc373ab4fefa6f810c",
+      "File": "ChromeParser.py",
+      "Sha256": "7f8f8d7f4c29c9bd66f1645da47d2a449381896f48c3629a8c71e79e8b705384",
+      "PythonVersion": "3.12.14",
+      "SourceExecuted": false,
+      "SyntaxAccepted": true,
+      "Imports": [
+        "argparse",
+        "glob",
+        "os",
+        "platform",
+        "sqlite3",
+        "time"
+      ]
+    },
+    {
+      "Repository": "mandiant/ShimCacheParser",
+      "Revision": "c4772b9dc72fd50ba210b7b0636c2d20bea68bc5",
+      "File": "ShimCacheParser.py",
+      "Sha256": "5b83df334d8549b8f41f0e29fa885c8cfed5b1638f1db6d82e884ec0a0b7e542",
+      "PythonVersion": "3.12.14",
+      "SourceExecuted": false,
+      "SyntaxAccepted": false,
+      "ErrorLine": 148,
+      "Error": "multiple exception types must be parenthesized"
+    }
+  ],
+  "RawSourceObservations": [
+    {
+      "Repository": "gh05t-4/hex2text",
+      "Revision": "9715c6c26824ef05039228f16e0c47620c52fe79",
+      "ObservedAtUtc": "2026-10-16T20:23:30.3589308Z",
+      "Members": [
+        {
+          "Name": "hex2text.py",
+          "SourceUri": "https://raw.githubusercontent.com/gh05t-4/hex2text/9715c6c26824ef05039228f16e0c47620c52fe79/hex2text.py",
+          "Sha256": "016ac1ca471de179aa908eb71eb7ea068a53f0d04e6761a5f0e27ca95e682047",
+          "Bytes": 287,
+          "Status": "Downloaded"
+        },
+        {
+          "Name": "LICENSE",
+          "SourceUri": "https://raw.githubusercontent.com/gh05t-4/hex2text/9715c6c26824ef05039228f16e0c47620c52fe79/LICENSE",
+          "Sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+          "Bytes": 35149,
+          "Status": "Downloaded"
+        },
+        {
+          "Name": "README.md",
+          "SourceUri": "https://raw.githubusercontent.com/gh05t-4/hex2text/9715c6c26824ef05039228f16e0c47620c52fe79/README.md",
+          "Sha256": "34fbd315fc2b425fc1a5cb174e12db490fdb7ba82f5bc7c103deda19baaa2df3",
+          "Bytes": 201,
+          "Status": "Downloaded"
+        }
+      ],
+      "ExecutionPerformed": false
+    },
+    {
+      "Repository": "marleyjaffe/ChromeSyncParser",
+      "Revision": "0f59c5702ffd03102c550ecc373ab4fefa6f810c",
+      "ObservedAtUtc": "2026-10-16T20:23:31.9055983Z",
+      "Members": [
+        {
+          "Name": "ChromeParser.py",
+          "SourceUri": "https://raw.githubusercontent.com/marleyjaffe/ChromeSyncParser/0f59c5702ffd03102c550ecc373ab4fefa6f810c/ChromeParser.py",
+          "Sha256": "7f8f8d7f4c29c9bd66f1645da47d2a449381896f48c3629a8c71e79e8b705384",
+          "Bytes": 31480,
+          "Status": "Downloaded"
+        },
+        {
+          "Name": "LICENSE",
+          "SourceUri": "https://raw.githubusercontent.com/marleyjaffe/ChromeSyncParser/0f59c5702ffd03102c550ecc373ab4fefa6f810c/LICENSE",
+          "Sha256": "692424ae865888b37c70d8263238af49cfce718dab54ede8ee066032bc79f360",
+          "Bytes": 1079,
+          "Status": "Downloaded"
+        },
+        {
+          "Name": "README.md",
+          "SourceUri": "https://raw.githubusercontent.com/marleyjaffe/ChromeSyncParser/0f59c5702ffd03102c550ecc373ab4fefa6f810c/README.md",
+          "Sha256": "0c92a09c9cfe7e39990d0dcfac60085a28716bbbffd6d2f27de843bdd3725477",
+          "Bytes": 1127,
+          "Status": "Downloaded"
+        }
+      ],
+      "ExecutionPerformed": false
+    },
+    {
+      "Repository": "mandiant/ShimCacheParser",
+      "Revision": "c4772b9dc72fd50ba210b7b0636c2d20bea68bc5",
+      "ObservedAtUtc": "2026-10-16T20:23:33.5529159Z",
+      "Members": [
+        {
+          "Name": "ShimCacheParser.py",
+          "SourceUri": "https://raw.githubusercontent.com/mandiant/ShimCacheParser/c4772b9dc72fd50ba210b7b0636c2d20bea68bc5/ShimCacheParser.py",
+          "Sha256": "5b83df334d8549b8f41f0e29fa885c8cfed5b1638f1db6d82e884ec0a0b7e542",
+          "Bytes": 36866,
+          "Status": "Downloaded"
+        },
+        {
+          "Name": "LICENSE",
+          "SourceUri": "https://raw.githubusercontent.com/mandiant/ShimCacheParser/c4772b9dc72fd50ba210b7b0636c2d20bea68bc5/LICENSE",
+          "Sha256": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
+          "Bytes": 11357,
+          "Status": "Downloaded"
+        },
+        {
+          "Name": "README.md",
+          "SourceUri": "https://raw.githubusercontent.com/mandiant/ShimCacheParser/c4772b9dc72fd50ba210b7b0636c2d20bea68bc5/README.md",
+          "Status": "Unavailable",
+          "Error": "Response status code does not indicate success: 404 (Not Found)."
+        }
+      ],
+      "ExecutionPerformed": false
+    }
+  ],
+  "Limitations": [
+    "Syntax parsing is not execution or interpreter compatibility acceptance.",
+    "ChromeSyncParser uses ordinary SQLite connection mode and historical schema assumptions.",
+    "ShimCacheParser remains deferred; its Python 2 constructs do not parse under Python 3.12.14.",
+    "No publisher-published checksum or signature was identified; archive hashes are locally observed pins."
+  ]
+}

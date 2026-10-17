@@ -1,0 +1,115 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "ReviewedProductSourceInventory",
+  "ProductId": "sysinternals-strings",
+  "PublisherVersion": "2.54",
+  "Acquisition": {
+    "SchemaVersion": 1,
+    "AcquiredAtUtc": "2026-10-17T05:44:05.9783798Z",
+    "Source": {
+      "Product": "Microsoft Sysinternals Strings",
+      "PublisherPageDate": "2021-06-22",
+      "ProductUri": "https://learn.microsoft.com/en-us/sysinternals/downloads/strings",
+      "DownloadUri": "https://download.sysinternals.com/files/Strings.zip",
+      "License": "Proprietary - Microsoft Sysinternals Software License Terms",
+      "LicenseUri": "https://learn.microsoft.com/en-us/sysinternals/license-terms",
+      "Purpose": "Inert archive inventory and signature/version inspection only; no execution, service, driver or redistribution"
+    },
+    "FinalUri": "https://download.sysinternals.com/files/Strings.zip",
+    "Length": 547485,
+    "Sha256": "b1a0a3dc5f639af1c98ae5832676727646eb3d543640e65e310dff747e733a25",
+    "PublisherDigest": null,
+    "Executed": false
+  },
+  "MemberCount": 4,
+  "ExpandedBytes": 1381338,
+  "NoticeMembers": [
+    "Eula.txt"
+  ],
+  "Members": [
+    {
+      "Name": "strings.exe",
+      "Length": 370056,
+      "Sha256": "a7553d77edca85bec980e38e69bf0e9f36962f20be0ee759e9a96030d519c5a0",
+      "ProductName": "Sysinternals Strings",
+      "ProductVersion": "2.54",
+      "FileVersion": "2.54",
+      "OriginalFilename": "strings.exe",
+      "PeMachine": "0x014c",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "SignerThumbprint": "ABDCA79AF9DD48A0EA702AD45260B3C03093FB4B",
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "strings64.exe",
+      "Length": 478088,
+      "Sha256": "05dbb43499bcff44424c7ac2d987ea9e9742cd90afe360e84ba0bccade17f71b",
+      "ProductName": "Sysinternals Strings",
+      "ProductVersion": "2.54",
+      "FileVersion": "2.54",
+      "OriginalFilename": "strings.exe",
+      "PeMachine": "0x8664",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "SignerThumbprint": "3D7E1E393BF85A02007094B249E1EBA19D945D32",
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "strings64a.exe",
+      "Length": 525704,
+      "Sha256": "128ddf146edb4c72b48588a57f5fdc4528b870ba0fb2b99bce500452ae436912",
+      "ProductName": "Sysinternals Strings",
+      "ProductVersion": "2.54",
+      "FileVersion": "2.54",
+      "OriginalFilename": "strings.exe",
+      "PeMachine": "0xaa64",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "SignerThumbprint": "3D7E1E393BF85A02007094B249E1EBA19D945D32",
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "Eula.txt",
+      "Length": 7490,
+      "Sha256": "8329bcbadc7f81539a4969ca13f0be5b8eb7652b912324a1926fc9bfb6ec005a",
+      "ProductName": null,
+      "ProductVersion": null,
+      "FileVersion": null,
+      "OriginalFilename": null,
+      "PeMachine": null,
+      "SignatureStatus": "NotApplicable",
+      "Signer": null,
+      "SignerThumbprint": null,
+      "ErrorType": null,
+      "Executed": false
+    }
+  ],
+  "SuiteComparison": [
+    {
+      "Name": "strings.exe",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    },
+    {
+      "Name": "strings64.exe",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    },
+    {
+      "Name": "strings64a.exe",
+      "InReviewedSuite": false,
+      "SameSha256": null
+    },
+    {
+      "Name": "Eula.txt",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    }
+  ],
+  "RuntimeExecuted": false,
+  "SupportedTargetAcceptance": false
+}

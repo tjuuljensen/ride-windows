@@ -1,0 +1,1295 @@
+{
+  "SchemaVersion": 1,
+  "Status": "SourceReviewOnly",
+  "Executed": false,
+  "SupportedTargets": [],
+  "Observation": {
+    "ObservationId": "5bb88300512443b193c1e65b5c24dcea",
+    "RunId": null,
+    "PackageId": "wireshark",
+    "ArtifactId": null,
+    "Version": "4.6.9",
+    "Architecture": "x64",
+    "FileName": "Wireshark-4.6.9-x64.msi",
+    "OriginUri": "https://www.wireshark.org/",
+    "SourceUri": "https://www.wireshark.org/download/win64/all-versions/Wireshark-4.6.9-x64.msi",
+    "ReleaseUri": "https://www.wireshark.org/download/win64/all-versions/Wireshark-4.6.9-x64.msi",
+    "ReleaseMetadata": null,
+    "Variant": "installed",
+    "Provider": "DirectHttps",
+    "License": "GNU General Public License version 2; bundled component licenses and notices",
+    "LicenseUri": "https://gitlab.com/wireshark/wireshark/-/blob/v4.6.9/COPYING",
+    "TermsUri": null,
+    "ObservedAtUtc": "2026-10-17T03:42:58.5854498Z",
+    "Route": "overnight-source-review",
+    "AcquisitionKind": "Download",
+    "Sha256": "1975dfc96581a9b674fda3f41ac1585963b4ba52ea9459f3b6d9cedfac3a7217",
+    "ProviderDigest": "sha256:1975dfc96581a9b674fda3f41ac1585963b4ba52ea9459f3b6d9cedfac3a7217",
+    "PublisherSha256": null,
+    "PublisherChecksumUri": null,
+    "PublisherChecksumResult": "Unavailable",
+    "ChecksumUris": [],
+    "SignatureUris": [],
+    "AuthenticodeStatus": "Valid",
+    "AuthenticodeSigner": "CN=Wireshark Foundation, O=Wireshark Foundation, L=Davis, S=California, C=US",
+    "AuthenticodeIssuer": "CN=Microsoft ID Verified CS EOC CA 04, O=Microsoft Corporation, C=US",
+    "AuthenticodeThumbprint": "2A47694B41567B4D0D58DCA5289393C0A84F0EA4",
+    "TimestampSigner": "CN=Microsoft Public RSA Time Stamping Authority, OU=nShield TSS ESN:7D00-05E0-D947, OU=Microsoft America Operations, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "TimestampThumbprint": "1D3B54018265BFB6E0595791068E17EC57870DEA",
+    "FileSize": 80433152,
+    "FileVersion": null,
+    "ProductVersion": null,
+    "Contents": []
+  },
+  "PublisherHash": {
+    "Uri": "https://www.wireshark.org/download/SIGNATURES-4.6.9.txt",
+    "Sha256": "1975dfc96581a9b674fda3f41ac1585963b4ba52ea9459f3b6d9cedfac3a7217",
+    "Bytes": 80433152,
+    "Match": true,
+    "PgpSignatureVerified": false
+  },
+  "Msi": {
+    "Mode": "ReadOnlyDatabase",
+    "ProductVersion": "4.6.9.0",
+    "ProductCode": "{B9717009-0193-4E75-A6F4-A4B95F2856A9}",
+    "Template": "x64;1033",
+    "PackageCode": "{0C1F407D-1709-4FCC-9E86-13A4DAE68357}",
+    "AllUsers": "1",
+    "FileCount": 981,
+    "ComponentCount": 1013,
+    "RegistryRowCount": 148,
+    "AssociationComponentCount": 29,
+    "ConditionedClassRegistryRows": 116,
+    "AssociationCondition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+    "CaptureDriverFileCount": 0,
+    "AssociationComponents": [
+      {
+        "Component": "cmpFA5vw",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "reg3442B2E8E2F8484ADA1BDEB50DA0075A"
+      },
+      {
+        "Component": "cmpFAacp",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "reg42D64B5006573991928D8C0C43677A36"
+      },
+      {
+        "Component": "cmpFAapc",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "reg00727CD43DF0A3372705B6E34C212B8B"
+      },
+      {
+        "Component": "cmpFAatc",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "reg448C49E8F7983F1BE6C107EDBE0F31AC"
+      },
+      {
+        "Component": "cmpFAbfr",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "reg3EBB54E1CC873CB1402FC211DFDAB15B"
+      },
+      {
+        "Component": "cmpFAcap",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "reg69288B01AD5D22C46E51D1D4824929E4"
+      },
+      {
+        "Component": "cmpFAems",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "regAF8788197994E70A6E9DFB74E6284E85"
+      },
+      {
+        "Component": "cmpFAenc",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "reg1F17615B92345F9055E395DC73953E6C"
+      },
+      {
+        "Component": "cmpFAerf",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "regBE4D13596F15B4AB4EF7CAA7BEAE3597"
+      },
+      {
+        "Component": "cmpFAfdc",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "regC7E4057F2C94D8A18A3261CBFD80FF83"
+      },
+      {
+        "Component": "cmpFAipfix",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "reg86022D9A196BFE2412F81FCE94C50D66"
+      },
+      {
+        "Component": "cmpFAlcap",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "regF2DD79B06628838D2AA33BF782A086C2"
+      },
+      {
+        "Component": "cmpFAmplog",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "reg148D7685B471C49AF191C2DD0212E67E"
+      },
+      {
+        "Component": "cmpFAntar",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "reg9B5109A358D5866B76762EA199DD0B8D"
+      },
+      {
+        "Component": "cmpFAout",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "regB33750D8413A0F5703984838AA51E6FD"
+      },
+      {
+        "Component": "cmpFApcap",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "regDC8EDBD6A19CE1B51A27AC74B1041FC0"
+      },
+      {
+        "Component": "cmpFApcapng",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "reg46ECD523DF14A15610E256CEFB79FCF8"
+      },
+      {
+        "Component": "cmpFApklg",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "reg098A7182AAB4D65809760CAE98531292"
+      },
+      {
+        "Component": "cmpFApkt",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "reg6BDFBF57C5A0BE90547F911EC0680D07"
+      },
+      {
+        "Component": "cmpFArf5",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "reg780E82653DC4C1E43BB92893A2DA6586"
+      },
+      {
+        "Component": "cmpFAsnoop",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "reg4E3C2C1C91754C7D59093EAD0E77D08E"
+      },
+      {
+        "Component": "cmpFAsyc",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "reg74FB301501BEBD4F575421BF0681261B"
+      },
+      {
+        "Component": "cmpFAtpc",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "reg2EF3BD3CED66845F52FFD4445B3393D7"
+      },
+      {
+        "Component": "cmpFAtr1",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "reg7F42752B8780DD337C644E37B4B36D6A"
+      },
+      {
+        "Component": "cmpFAtrace",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "reg7643D6E6AE2B989DA7B7D9A4D20DA619"
+      },
+      {
+        "Component": "cmpFAtrc",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "reg7DAE41BE5EE61CB05704921412CBD574"
+      },
+      {
+        "Component": "cmpFAvwr",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "reg978BAADF1B1C0F127150D749FF79C60D"
+      },
+      {
+        "Component": "cmpFAwpc",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "reg51EEB1C548C1049CB9A7A8D5D15235C9"
+      },
+      {
+        "Component": "cmpFAwpz",
+        "Attributes": "260",
+        "Condition": "WIRESHARK_FILE_EXTENSIONS = \"1\"",
+        "KeyPath": "reg6B326AB10DCCE53AE70114144D4A8D89"
+      }
+    ],
+    "AssociationRegistryRows": [
+      {
+        "Registry": "reg4C2ADA19C5D03320D794565799EC2129",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFA5vw"
+      },
+      {
+        "Registry": "reg3792557C7FEA4821B89E19C11C68D20D",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFA5vw"
+      },
+      {
+        "Registry": "reg816780C72B0B6262B5D5313845162868",
+        "Root": "0",
+        "Key": ".5vw",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFA5vw"
+      },
+      {
+        "Registry": "reg793375D3AE686B9EEA09C9515DF7D544",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "5vw",
+        "Component": "cmpFA5vw"
+      },
+      {
+        "Registry": "regD9C91255F89D6EDD0177125D84BB1B2B",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFAacp"
+      },
+      {
+        "Registry": "regB6F3786B29913327381BF9E2FD428DD0",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFAacp"
+      },
+      {
+        "Registry": "reg38D7B8BE8E478B98FECDD8D8C5EC93EA",
+        "Root": "0",
+        "Key": ".acp",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFAacp"
+      },
+      {
+        "Registry": "regC37352856653CCDBF56C6768FD5C6F16",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "acp",
+        "Component": "cmpFAacp"
+      },
+      {
+        "Registry": "reg17F43809E8BD7C169EF0AC637DA68F72",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFAapc"
+      },
+      {
+        "Registry": "reg3F1ECCFAEB6CD92D98E1E1CA407CFF2E",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFAapc"
+      },
+      {
+        "Registry": "reg93B81D75500B5F51F80F2472C161915E",
+        "Root": "0",
+        "Key": ".apc",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFAapc"
+      },
+      {
+        "Registry": "regF61100252F9693FD8658001436F41841",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "apc",
+        "Component": "cmpFAapc"
+      },
+      {
+        "Registry": "reg01B3079867ACFE0BB38F371939906A5E",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFAatc"
+      },
+      {
+        "Registry": "regD3EC58955F0C52190B21822AB3C57991",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFAatc"
+      },
+      {
+        "Registry": "reg57D7D61442298A1528E42BF02B4513BF",
+        "Root": "0",
+        "Key": ".atc",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFAatc"
+      },
+      {
+        "Registry": "reg7DDE013BCB8865710599D625113D954E",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "atc",
+        "Component": "cmpFAatc"
+      },
+      {
+        "Registry": "regA9FCF215E1F70D16D400B1DAE07FD187",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFAbfr"
+      },
+      {
+        "Registry": "regBEAE430A467C2B5786796DA5FBCFBFB5",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFAbfr"
+      },
+      {
+        "Registry": "regE1DC306CF64D147B0EDE6FBEF8FCDED6",
+        "Root": "0",
+        "Key": ".bfr",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFAbfr"
+      },
+      {
+        "Registry": "reg6211495BA4BC03F5DBD03067A67335C5",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "bfr",
+        "Component": "cmpFAbfr"
+      },
+      {
+        "Registry": "regB88DDB577659C261C37AF1CFB0FAE628",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFAcap"
+      },
+      {
+        "Registry": "reg49B850C4D13A3D61B5B9E7AF9AE31A24",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFAcap"
+      },
+      {
+        "Registry": "reg21FAEE1F280A787C1CAB6C6FA36F4A1E",
+        "Root": "0",
+        "Key": ".cap",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFAcap"
+      },
+      {
+        "Registry": "regE36A33380DF777328B7C16C050968D92",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "cap",
+        "Component": "cmpFAcap"
+      },
+      {
+        "Registry": "regFE8B6E0E8D8C6D250FD23A5E162BADCE",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFAems"
+      },
+      {
+        "Registry": "reg94CDA8EFAD6E2218AE6DB2F558A0774F",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFAems"
+      },
+      {
+        "Registry": "reg73DA75B62E7C2646641580D9EF4FD44B",
+        "Root": "0",
+        "Key": ".ems",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFAems"
+      },
+      {
+        "Registry": "reg1D9594D67148C70C0A1FD70C46370AB7",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "ems",
+        "Component": "cmpFAems"
+      },
+      {
+        "Registry": "reg8322F398875490FBE49F75F24E42B591",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFAenc"
+      },
+      {
+        "Registry": "reg1EC8F69A7277FEB2EE60213A29D5DE28",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFAenc"
+      },
+      {
+        "Registry": "regC610DF5493BC2C00AF87D836BDCCF595",
+        "Root": "0",
+        "Key": ".enc",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFAenc"
+      },
+      {
+        "Registry": "reg9C0C2930E7D342796F0E24B3369CE7A0",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "enc",
+        "Component": "cmpFAenc"
+      },
+      {
+        "Registry": "regA1900329DE39997535CF9C2BA7930757",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFAerf"
+      },
+      {
+        "Registry": "reg3380DF5AB9D1D904DB7E56116EE45C26",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFAerf"
+      },
+      {
+        "Registry": "reg61CFCFE53B70D3C99D430F8D93107371",
+        "Root": "0",
+        "Key": ".erf",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFAerf"
+      },
+      {
+        "Registry": "reg995491A2F5168C441D78D17983D850EA",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "erf",
+        "Component": "cmpFAerf"
+      },
+      {
+        "Registry": "regBB84F96333CA92501EFA7357C6786719",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFAfdc"
+      },
+      {
+        "Registry": "reg5B7CB5EB2C73064BB9D827818001EE20",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFAfdc"
+      },
+      {
+        "Registry": "reg72D82AD5A71753DA38C3D7851DA92239",
+        "Root": "0",
+        "Key": ".fdc",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFAfdc"
+      },
+      {
+        "Registry": "reg00E3C2C67BB24D303D391021BA7BEF9A",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "fdc",
+        "Component": "cmpFAfdc"
+      },
+      {
+        "Registry": "reg23B47F8E69F658071EF4063A79CB8CE5",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFAipfix"
+      },
+      {
+        "Registry": "reg640B8F8142145F4EC8A3FB697D1F2291",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFAipfix"
+      },
+      {
+        "Registry": "reg3A5CA08E03782DFA0B0C3604128C944D",
+        "Root": "0",
+        "Key": ".ipfix",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFAipfix"
+      },
+      {
+        "Registry": "reg95282EF74F9BEFE3BBDDC616CFA8A5F7",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "ipfix",
+        "Component": "cmpFAipfix"
+      },
+      {
+        "Registry": "regF96508DBB188D07410106D1D8887EA33",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFAlcap"
+      },
+      {
+        "Registry": "reg8C873AACD358818EB2F0297E8F763C76",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFAlcap"
+      },
+      {
+        "Registry": "reg7AC1FA420C845883ACA7EBDF2B13AA53",
+        "Root": "0",
+        "Key": ".lcap",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFAlcap"
+      },
+      {
+        "Registry": "reg1B622F799A97CBEFA64125460F3734CB",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "lcap",
+        "Component": "cmpFAlcap"
+      },
+      {
+        "Registry": "reg3F32579A1BE5F254B5C613AAF83A7FD5",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFAmplog"
+      },
+      {
+        "Registry": "regF77B1010C664FDAE28D115E5D43DE311",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFAmplog"
+      },
+      {
+        "Registry": "reg61055E09A97FA53247DA8C0142A8867B",
+        "Root": "0",
+        "Key": ".mplog",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFAmplog"
+      },
+      {
+        "Registry": "regE161016DDED14349315DCEE5C9CACE34",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "mplog",
+        "Component": "cmpFAmplog"
+      },
+      {
+        "Registry": "reg74824147BB63C09774DA6D1FD400D494",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFAntar"
+      },
+      {
+        "Registry": "reg50D012D14EF219BA5F041B9B45CD3665",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFAntar"
+      },
+      {
+        "Registry": "reg28326676B6A4883F720F5C8D3C6E9E5B",
+        "Root": "0",
+        "Key": ".ntar",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFAntar"
+      },
+      {
+        "Registry": "regD9DBB3D97B743A7DA84E336B3C5543E1",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "ntar",
+        "Component": "cmpFAntar"
+      },
+      {
+        "Registry": "regB4AD539992779A588C2FF7EC3481EFE8",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFAout"
+      },
+      {
+        "Registry": "reg02F97AA16A7A035D0F37C53C35B5A6A6",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFAout"
+      },
+      {
+        "Registry": "regF0BCCC803FE00226CBD62CFDC7BF37F8",
+        "Root": "0",
+        "Key": ".out",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFAout"
+      },
+      {
+        "Registry": "reg99269BBAA08EC44AC07E3AF4AA29BA72",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "out",
+        "Component": "cmpFAout"
+      },
+      {
+        "Registry": "regA9818A244D31E76CED6DA7CC83E3AA9B",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFApcap"
+      },
+      {
+        "Registry": "reg716C6C020F4F46572949610744006FE6",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFApcap"
+      },
+      {
+        "Registry": "reg40204A072441DB4D1F9ED27B75776B4E",
+        "Root": "0",
+        "Key": ".pcap",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFApcap"
+      },
+      {
+        "Registry": "regCEBAD4391807AB9A6B1FFA25D8117193",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "pcap",
+        "Component": "cmpFApcap"
+      },
+      {
+        "Registry": "regAA8A1A38600E91A1B2EE49B33AA057F9",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFApcapng"
+      },
+      {
+        "Registry": "reg3B4F889916E7F4FD1ECFDF170D58C1E7",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFApcapng"
+      },
+      {
+        "Registry": "regDE983290E094EE579B52D263C4D1316C",
+        "Root": "0",
+        "Key": ".pcapng",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFApcapng"
+      },
+      {
+        "Registry": "reg69E0B61908D7523540724F4C2C8BD771",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "pcapng",
+        "Component": "cmpFApcapng"
+      },
+      {
+        "Registry": "regFC5F81F27065B593EDF4E298E5BA53D4",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFApklg"
+      },
+      {
+        "Registry": "reg25782747EDC0D1E3ECEAA9A690C6886C",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFApklg"
+      },
+      {
+        "Registry": "regA259E4FDD683013E938228BB34ED67F6",
+        "Root": "0",
+        "Key": ".pklg",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFApklg"
+      },
+      {
+        "Registry": "regE374236FF1C30F54292D1274FA383A6E",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "pklg",
+        "Component": "cmpFApklg"
+      },
+      {
+        "Registry": "reg978F09D07E9A9C47783BFC55A0A62F64",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFApkt"
+      },
+      {
+        "Registry": "reg4DC5C64C5DE1ED525E1274369E82400B",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFApkt"
+      },
+      {
+        "Registry": "reg56662AD2F867CA44902944D6BE98870A",
+        "Root": "0",
+        "Key": ".pkt",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFApkt"
+      },
+      {
+        "Registry": "reg3885D4A8137ABA8CE44780D0719748A1",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "pkt",
+        "Component": "cmpFApkt"
+      },
+      {
+        "Registry": "reg698EEC701A321ABD8F822AF2C6DD18F4",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFArf5"
+      },
+      {
+        "Registry": "reg0041B8FFBFDE7E14F1BD732EE9BCDDF9",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFArf5"
+      },
+      {
+        "Registry": "regBD82381EBE19B88F6E0887159F648C95",
+        "Root": "0",
+        "Key": ".rf5",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFArf5"
+      },
+      {
+        "Registry": "reg11358AC8ECC96FB7AF4C5D130F415853",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "rf5",
+        "Component": "cmpFArf5"
+      },
+      {
+        "Registry": "regCCD5B18A1998C5FBD3918B24DEFF9B32",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFAsnoop"
+      },
+      {
+        "Registry": "reg1F45BFE1DA5A2C0C8A5F04A43F249DAA",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFAsnoop"
+      },
+      {
+        "Registry": "reg10669E30C6E84674538A77BEDA1928E5",
+        "Root": "0",
+        "Key": ".snoop",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFAsnoop"
+      },
+      {
+        "Registry": "reg38D59D217F021F25432D496FD8FE4A3E",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "snoop",
+        "Component": "cmpFAsnoop"
+      },
+      {
+        "Registry": "reg1E370AAA4DAE75DD5427EB8B49E4E1B5",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFAsyc"
+      },
+      {
+        "Registry": "reg1411B247539BE39BC8FC0A3293BA0A6C",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFAsyc"
+      },
+      {
+        "Registry": "reg1EEE6C0B17B33E7A0C45AD3A44D21C1D",
+        "Root": "0",
+        "Key": ".syc",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFAsyc"
+      },
+      {
+        "Registry": "reg5EDCD089B56A9E455ACD51450F867CD2",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "syc",
+        "Component": "cmpFAsyc"
+      },
+      {
+        "Registry": "regD61BD6B4293DDE448F0A8C1ACD647ECD",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFAtpc"
+      },
+      {
+        "Registry": "regDD846ED5FC50E3759081DB5C2E4C6397",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFAtpc"
+      },
+      {
+        "Registry": "regB9B1430C3FB785CBA2620EC7200248E8",
+        "Root": "0",
+        "Key": ".tpc",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFAtpc"
+      },
+      {
+        "Registry": "regEE356322D97EF6BDB491746FE1F0A7D4",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "tpc",
+        "Component": "cmpFAtpc"
+      },
+      {
+        "Registry": "regED70080E03AF0676CC4B4E2A288ABC59",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFAtr1"
+      },
+      {
+        "Registry": "reg6348E46902C179D6BC595B2BE293E5E3",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFAtr1"
+      },
+      {
+        "Registry": "regB8DF3FB27CD6AB5EE58BEFFB115E7A17",
+        "Root": "0",
+        "Key": ".tr1",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFAtr1"
+      },
+      {
+        "Registry": "reg010FFE186365F03F5C7631ADA1CA303A",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "tr1",
+        "Component": "cmpFAtr1"
+      },
+      {
+        "Registry": "reg4D1B9194C98BD7F6632329873A6FD7FA",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFAtrace"
+      },
+      {
+        "Registry": "regAF9253877C8CFC2732838B063FEAFF65",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFAtrace"
+      },
+      {
+        "Registry": "reg8C0685C27FA6B9DB6032904927D93744",
+        "Root": "0",
+        "Key": ".trace",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFAtrace"
+      },
+      {
+        "Registry": "regEE44AC0B0CAF9EC38DE64FA388107B47",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "trace",
+        "Component": "cmpFAtrace"
+      },
+      {
+        "Registry": "regC57B7EDF226C7B0E6613666690BA942D",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFAtrc"
+      },
+      {
+        "Registry": "regC9DE0CD67F4E41EFD32E6AE807319E60",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFAtrc"
+      },
+      {
+        "Registry": "reg398C4D296B744889E8729F6A36433909",
+        "Root": "0",
+        "Key": ".trc",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFAtrc"
+      },
+      {
+        "Registry": "reg1F022F498A594BBE9CB239884BE55404",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "trc",
+        "Component": "cmpFAtrc"
+      },
+      {
+        "Registry": "reg78A1696BC68B3E5F5A929658FBD18604",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFAvwr"
+      },
+      {
+        "Registry": "regEA24A94356A56AA0A20DEE01BA3BA635",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFAvwr"
+      },
+      {
+        "Registry": "reg498C3B8E94C491FF1098EA6378D616D7",
+        "Root": "0",
+        "Key": ".vwr",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFAvwr"
+      },
+      {
+        "Registry": "regE82EB699637B04B0C20B124FCEA56D29",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "vwr",
+        "Component": "cmpFAvwr"
+      },
+      {
+        "Registry": "reg7FCF42D2D3EB740BF08F962194FAFE13",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFAwpc"
+      },
+      {
+        "Registry": "reg1484AB8610ADDFD61D611122FC43076F",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFAwpc"
+      },
+      {
+        "Registry": "reg0A3E2CC7AE9E198B86178080C5A4F0FD",
+        "Root": "0",
+        "Key": ".wpc",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFAwpc"
+      },
+      {
+        "Registry": "reg2EA1C15A63B59C7BB2988CF111B7C250",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "wpc",
+        "Component": "cmpFAwpc"
+      },
+      {
+        "Registry": "reg69A2FBA75093DB327C08A94E58ABCB27",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open",
+        "Name": "",
+        "Value": "open",
+        "Component": "cmpFAwpz"
+      },
+      {
+        "Registry": "reg7E02F90EFCC560B557982E7E095AC365",
+        "Root": "0",
+        "Key": "wireshark-capture-file\\shell\\open\\command",
+        "Name": "",
+        "Value": "\"[#filWireshark_exe]\" \"%1\"",
+        "Component": "cmpFAwpz"
+      },
+      {
+        "Registry": "reg171D9289F72186A4013AE50656D458F8",
+        "Root": "0",
+        "Key": ".wpz",
+        "Name": "",
+        "Value": "wireshark-capture-file",
+        "Component": "cmpFAwpz"
+      },
+      {
+        "Registry": "regC34BED1560470B4B4C3BC62FEED575F1",
+        "Root": "0",
+        "Key": "wireshark-capture-file",
+        "Name": "",
+        "Value": "wpz",
+        "Component": "cmpFAwpz"
+      }
+    ],
+    "CustomActions": [
+      {
+        "Action": "WixUIValidatePath",
+        "Type": "65",
+        "Source": "WixUIWixca",
+        "Target": "ValidatePath"
+      },
+      {
+        "Action": "WixUIPrintEula",
+        "Type": "65",
+        "Source": "WixUIWixca",
+        "Target": "PrintEula"
+      },
+      {
+        "Action": "System64Folder.DFEFC2FE_EEE6_424C_841B_D4E66F0C84A3",
+        "Type": "51",
+        "Source": "System64Folder.DFEFC2FE_EEE6_424C_841B_D4E66F0C84A3",
+        "Target": "[System64Folder]"
+      }
+    ],
+    "LaunchConditions": [
+      {
+        "Condition": "NOT WIX_DOWNGRADE_DETECTED",
+        "Description": "A newer version of Wireshark is already installed."
+      },
+      {
+        "Condition": "Installed OR (VersionNT < 500) OR (VersionNT > 500)",
+        "Description": "Windows 2000 is no longer supported. Please install Wireshark 1.2 or 1.0 instead."
+      },
+      {
+        "Condition": "Installed OR (VersionNT < 501) OR (VersionNT > 501)",
+        "Description": "WindowsXP is no longer supported. Please install Wireshark 1.12 or 1.10 instead."
+      },
+      {
+        "Condition": "Installed OR (VersionNT < 502) OR (VersionNT > 502)",
+        "Description": "Windows Server 2003 is no longer supported. Please install Wireshark 1.12 or 1.10 instead."
+      },
+      {
+        "Condition": "Installed OR (VersionNT < 600) OR (VersionNT > 600)",
+        "Description": "Windows Vista and Server 2008 are no longer supported. Please install Wireshark 2.2 instead."
+      },
+      {
+        "Condition": "Installed OR (VersionNT < 601) OR (WINDOWSBUILDNUMBER >= 14393)",
+        "Description": "Windows 7, 8, 8.1, 10 version 1511, Server 2008R2, and Server 2012 are no longer supported. Please install Wireshark 4.0 instead."
+      },
+      {
+        "Condition": "Installed OR (WINDOWSBUILDNUMBER < 14393) OR (WINDOWSBUILDNUMBER >= 17763)",
+        "Description": "Windows 10 versions before 1809 and Server 2016 are no longer supported. Please install Wireshark 4.4 instead."
+      },
+      {
+        "Condition": "Installed OR (WINDOWSBUILDNUMBER >= 17763)",
+        "Description": "Wireshark4.6.9.0 is only supported on Windows 10, version 1809 or Windows Server 2019, or higher."
+      },
+      {
+        "Condition": "Installed OR NOT NSIS_INSTALL_LOCATION_32",
+        "Description": "[NSIS_DISPLAY_NAME_32] was installed in [NSIS_INSTALL_LOCATION_32] using the .exe installer. Please uninstall it using Programs and Features."
+      },
+      {
+        "Condition": "Installed OR NOT NSIS_INSTALL_LOCATION_64",
+        "Description": "[NSIS_DISPLAY_NAME_64] was installed in [NSIS_INSTALL_LOCATION_64] using the .exe installer. Please uninstall it using Programs and Features."
+      }
+    ],
+    "NoticeFiles": [
+      {
+        "Id": "filCOPYING_txt",
+        "Name": "COPYING.txt",
+        "Size": "18322",
+        "Version": ""
+      },
+      {
+        "Id": "filREADME_txt",
+        "Name": "README.txt",
+        "Size": "10687",
+        "Version": ""
+      },
+      {
+        "Id": "fil1015346D145D3ECE4D7A18987DC04673",
+        "Name": "hs8ivhad.rad|README.radius_dictionary",
+        "Size": "3734",
+        "Version": ""
+      }
+    ],
+    "NativeAssociationPreservationVerified": false,
+    "NativeLifecycleVerified": false
+  },
+  "Sources": [
+    {
+      "Name": "ComponentGroups.wxi",
+      "Sha256": "4b8ac2a15540b21ebfd8629cbbdc691b963e0da589e0ea2e2848983af5d7ef6f",
+      "Uri": "https://gitlab.com/wireshark/wireshark/-/raw/v4.6.9/packaging/wix/ComponentGroups.wxi"
+    },
+    {
+      "Name": "Wireshark.wxs",
+      "Sha256": "b3b339ee27a9b5ee71d595981a0cb5cdc93a85c4db584422aee262b5c583b898",
+      "Uri": "https://gitlab.com/wireshark/wireshark/-/raw/v4.6.9/packaging/wix/Wireshark.wxs"
+    },
+    {
+      "Name": "README.adoc",
+      "Sha256": "f7086af392ebf7b5fb0c93f920f80aa52f87012085a4d3ca42c6f36eb12558c3",
+      "Uri": "https://gitlab.com/wireshark/wireshark/-/raw/v4.6.9/packaging/wix/README.adoc"
+    },
+    {
+      "Name": "WiresharkOptionsDlg.wxs",
+      "Sha256": "eac31d006d7ca9298f220a4878b488a196c8435b656da68a4f02a06214fd4613",
+      "Uri": "https://gitlab.com/wireshark/wireshark/-/raw/v4.6.9/packaging/wix/WiresharkOptionsDlg.wxs"
+    },
+    {
+      "Name": "COPYING",
+      "Sha256": "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6",
+      "Uri": "https://gitlab.com/wireshark/wireshark/-/raw/v4.6.9/COPYING"
+    },
+    {
+      "Name": "SIGNATURES-4.6.9.txt",
+      "Sha256": "bfb295581bb1d8da8fe1406f138d1f12bb9174558824ee7ecfa823bf9e594fb5",
+      "Uri": "https://www.wireshark.org/download/SIGNATURES-4.6.9.txt"
+    }
+  ],
+  "Limitations": [
+    "Official WiX README labels MSI experimental; native acceptance required",
+    "Existing NSIS/MSI transitions and modified global/user content require ownership and recovery review",
+    "Merged Visual C++ runtime ownership and reboot reporting require acceptance",
+    "Npcap/admin-only capture and explicit compatibility selection remain a separate interactive workflow",
+    "Initial inspection helper failures retained in the migration ledger; corrected table joins establish static evidence only"
+  ]
+}

@@ -36,8 +36,11 @@
   Recovery: Restore-RideRun recovers captured settings/presence. Read catalog rollback limits before
   applying packages or grouped changes.
   Author: RIDE-Windows maintainers.
-  Version: 0.20.1
+  Version: 0.20.4
   Changelog:
+    0.20.4: Bind Defender exclusion writes and versioned recovery to captured paths.
+    0.20.3: Preserve unsigned power indexes in inspection and marked recovery snapshots.
+    0.20.2: Describe user-bin startup PATH separately from profile colors.
     0.20.1: Inspect Store app registrations and refuse implicit profile/package routing.
     0.20.0: Add explicit GitHub PAT selection and credential-safe acceptance boundaries.
     - 0.19.0: Add local SAM maximum-age capture, day states and focused recovery.
@@ -74,7 +77,7 @@
 #>
 
 
-$script:ModuleVersion = '0.20.1'
+$script:ModuleVersion = '0.20.4'
 
 $script:RideRoot = Split-Path -Parent $PSScriptRoot
 $script:RideCatalogPath = Join-Path $script:RideRoot 'catalog/operations.psd1'
@@ -422,6 +425,10 @@ function ConvertTo-RideDisplayValue {
 
 function Get-RideProfileSettingValueText {
   param([hashtable] $Operation, [string] $State)
+  if ($Operation.ProfileSetting -eq 'UserBinPath') {
+    if ($State -eq $Operation.UnsetState) { return 'No RIDE user-bin startup PATH block; existing process and persistent PATH preserved' }
+    return 'Append existing UserProfile/bin at matching shell startup when absent; process PATH only'
+  }
   if ($State -eq $Operation.UnsetState) { return 'No RIDE color override; use configured Terminal appearance' }
   if ($State -eq 'AdminBlue') { return 'Elevated: ' + $Operation.AdminColorScheme + '; normal: configured appearance' }
   'Normal: ' + $Operation.NormalColorScheme + '; elevated: ' + $Operation.AdminColorScheme
@@ -458,7 +465,7 @@ function Get-RideCurrentValueText {
   }
   if ($Operation.Kind -eq 'ProfileSetting') {
     if (-not $CurrentState.Available) { return 'Unavailable: ' + $CurrentState.Reason }
-    return '{0}: {1} (startup configuration; session appearance not observed)' -f $CurrentState.State, $CurrentState.Path
+    return '{0}: {1} (startup configuration; session effect not observed)' -f $CurrentState.State, $CurrentState.Path
   }
   if ($Operation.Kind -eq 'RegistryValue') {
     if (-not $CurrentState.Exists) { return '<unset>' }
@@ -568,7 +575,7 @@ function Test-RideCurrentStateMatch {
     return ($CurrentState.Value -eq $desired)
   }
   if ($Operation.Kind -eq 'RegistryValueSet') { return Test-RideRegistryValueSetMatch -Operation $Operation -State $State -CurrentState $CurrentState }
-  if ($Operation.Kind -eq 'PowerSetting') { return ([bool]$CurrentState.Available -and [int]$CurrentState.Index -eq [int](Get-RideOperationValue -Operation $Operation -State $State)) }
+  if ($Operation.Kind -eq 'PowerSetting') { return ([bool]$CurrentState.Available -and [uint32]$CurrentState.Index -eq [uint32](Get-RideOperationValue -Operation $Operation -State $State)) }
   if ($Operation.Kind -eq 'WindowsService') {
     $desired = Get-RideOperationValue -Operation $Operation -State $State
     return ($CurrentState.StartupType -eq $desired.StartupType -and
@@ -636,7 +643,7 @@ function Get-RideCurrentStateName {
   if ($Operation.Kind -eq 'PowerSetting') {
     if (-not $CurrentState.Available) { return 'Unavailable' }
     foreach ($stateName in $Operation.States.Keys) {
-      if ([int]$CurrentState.Index -eq [int]$Operation.States[$stateName]) { return $stateName }
+      if ([uint32]$CurrentState.Index -eq [uint32]$Operation.States[$stateName]) { return $stateName }
     }
     return 'Custom'
   }
@@ -833,7 +840,8 @@ function Save-RideOperationSnapshot {
     $CurrentState
   }
   elseif ($Operation.Kind -eq 'DefenderExclusion') {
-    [ordered]@{ Present = [bool]$CurrentState.Present; Path = $CurrentState.Path }
+    [ordered]@{ SnapshotVersion = 1; OperationId = $Operation.Id; PathResolver = $Operation.PathResolver
+      Present = [bool]$CurrentState.Present; Path = $CurrentState.Path; ExpectedPresent = ($DesiredState -eq 'Present') }
   }
   elseif ($Operation.Kind -eq 'WindowsService') {
     $serviceSnapshot = [ordered]@{ StartupType = $CurrentState.StartupType; Status = $CurrentState.Status }
@@ -860,7 +868,7 @@ function Save-RideOperationSnapshot {
     [ordered]@{ Trees = @($CurrentState.Trees) }
   }
   elseif ($Operation.Kind -eq 'PowerSetting') {
-    [ordered]@{ SchemeGuid = [string]$CurrentState.SchemeGuid; Index = [int]$CurrentState.Index }
+    [ordered]@{ SnapshotVersion = 1; SchemeGuid = [string]$CurrentState.SchemeGuid; Index = [uint32]$CurrentState.Index; IndexEncoding = 'UInt32'; PowerIndex = [string]$Operation.PowerIndex }
   }
   elseif ($Operation.Kind -eq 'ProfileSetting') {
     Get-RideProfileSettingSnapshot -Operation $Operation -CurrentState $CurrentState -State $DesiredState
@@ -1230,7 +1238,7 @@ function Invoke-RidePlan {
           }
         }
         elseif ($operation.Kind -eq 'DefenderExclusion') {
-          Set-RideDefenderExclusionState -Operation $operation -State $item.State
+          Set-RideDefenderExclusionState -Operation $operation -State $item.State -ExpectedState $before
         }
         elseif ($operation.Kind -eq 'WindowsService') {
           Set-RideWindowsServiceState -Operation $operation -State $item.State

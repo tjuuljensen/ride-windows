@@ -6,8 +6,9 @@
   is data-only; explicit selections never fall back to another distribution.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Owner: RIDE-Windows maintainers. Version: 0.2.0.
-  Changelog: 0.2.0: Resolve and retain explicit current-user EXE destinations.
+  Owner: RIDE-Windows maintainers. Version: 0.3.0.
+  Changelog: 0.3.0: Add data-only variant inspection without preferences or destination resolution.
+    0.2.0: Resolve and retain explicit current-user EXE destinations.
     0.1.0: Add package variant and scoped configuration resolution.
 #>
 
@@ -62,6 +63,10 @@ function Resolve-RidePackageSelection {
     Optional explicit variant key. Unsupported explicit choices fail.
   .PARAMETER IgnorePreferences
     Resolve the catalog default without reading local variant preferences.
+  .PARAMETER MetadataOnly
+    Inspect supplied variant metadata only, ignoring preferences and destination
+    resolution. Does not read local configuration or environment paths. The result
+    is not an operational selection and must not be passed to an installer.
   .EXAMPLE
     Resolve-RidePackageSelection -Operation $package -Variant portable
   .INPUTS
@@ -72,7 +77,19 @@ function Resolve-RidePackageSelection {
     Read-only. Existing flat package records retain their default behavior.
   #>
   [CmdletBinding()]
-  param([Parameter(Mandatory)][hashtable] $Operation, [string] $Variant, [switch] $IgnorePreferences)
+  param([Parameter(Mandatory)][hashtable] $Operation,
+    [ArgumentCompleter({
+      param($commandName,$parameterName,$wordToComplete,$commandAst,$fakeBoundParameters)
+      try{
+        $op=$fakeBoundParameters.Operation
+        if($op.Kind -ne 'Package'){return}
+        $choices=if($op.SelectedVariant){@($op.SelectedVariant)}elseif($op.Variants){@($op.Variants.Keys)}else{@('installed')}
+        if($choices.Count -gt 128){return}
+        $seen=[Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
+        $prefix=([string]$wordToComplete).Trim("'",'"')
+        foreach($choice in $choices){if($choice -is [string] -and $choice.Length -le 128 -and $choice -cmatch '^[a-z][a-z0-9-]*$' -and $choice.StartsWith($prefix,[StringComparison]::OrdinalIgnoreCase) -and $seen.Add($choice)){[Management.Automation.CompletionResult]::new($choice,$choice,'ParameterValue',$choice)}}
+      }catch{return}
+    })][string] $Variant, [switch] $IgnorePreferences, [switch] $MetadataOnly)
   if ($Operation.Kind -ne 'Package') { if ($Variant) { throw 'Variant requires a package ID.' }; return $Operation }
   if ($Operation.SelectedVariant) {
     if ($Variant -and $Variant -ne $Operation.SelectedVariant) { throw 'A resolved package selection cannot be changed.' }
@@ -81,7 +98,7 @@ function Resolve-RidePackageSelection {
   $result = $Operation.Clone()
   $default = if ($Operation.DefaultVariant) { [string]$Operation.DefaultVariant } else { 'installed' }
   $chosen = if ($Variant) { $Variant } else { $default }
-  if (-not $Variant -and -not $IgnorePreferences) {
+  if (-not $Variant -and -not $IgnorePreferences -and -not $MetadataOnly) {
     $preferenceScope = if ($Operation.Scope) { $Operation.Scope } else { 'Machine' }
     $preference = (Get-RidePackageConfiguration -Scope $preferenceScope).PackageVariantPreference
     if ($preference) {
@@ -95,6 +112,7 @@ function Resolve-RidePackageSelection {
   } elseif ($chosen -ne 'installed') { throw "Unsupported variant '$chosen' for '$($Operation.Id)'." }
   $result.SelectedVariant = $chosen
   $result.Remove('Variants')
+  if ($MetadataOnly) { return $result }
   if ($result.InstallerType -eq 'Portable') {
     $result.ResolvedToolsDirectory = (Get-RidePackageConfiguration -Scope Machine).ToolsDirectory
     $result.InstallDirectory = Join-Path $result.ResolvedToolsDirectory $result.PackageId

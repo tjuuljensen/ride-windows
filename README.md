@@ -27,6 +27,28 @@ tracks edition- and build-specific setup behavior.
 
 Run `.\ride.ps1 -Help` for command usage, options, and examples.
 When using PowerShell interactively, press Tab to complete commands, operation and group IDs, profile paths, saved run IDs, declared setting states, package variants, and search fields/views.
+
+For read-only audio review, the [endpoint inventory tool](docs/audio-service.md#read-only-endpoint-inventory)
+captures explicit user/session observations. Its saved-data selector completes
+endpoint IDs from the supplied inventory without querying or changing audio.
+The [component inventory tool](docs/windows-component-inventory.md) keeps feature,
+capability and Server role observations separate; names complete from saved data.
+The [adapter inventory](docs/network-adapter-inventory.md) completes saved GUIDs
+without selecting or changing a network device.
+The [volume inventory](docs/volume-inventory.md) completes saved volume GUID paths
+without using drive letters or labels as selection keys.
+The [user proxy observation](docs/user-proxy-inventory.md) completes its explicit
+default/LAN scope without querying Windows; capture performs no connectivity request.
+Its in-memory edit preparation completes detection/setup choices and preserves
+manual proxy settings; it cannot apply live changes.
+Optional [PowerShell startup settings](docs/powershell-profiles.md) distinguish accepted
+color presets from pending user-bin PATH candidates; declared states complete from
+the catalog without inspecting or running profiles.
+The [Terminal JSONC preparation API](docs/terminal-jsonc-preparation.md) completes
+declared profile GUIDs from supplied bytes; it does not access live Terminal settings.
+The [desired-configuration export](docs/desired-configuration-reference.md) creates
+a read-only profile reference, with profile/target completion and no live-state query.
+
 State-changing commands honor `-WhatIf` and the caller's `$WhatIfPreference`.
 Optional Store registrations use the separate
 [Store app/group tool](docs/store-app-groups.md#batch-1-commands); `list store-apps`
@@ -61,9 +83,17 @@ Packages may declare alternate distributions. Use `install`, `remove`,
 `download` or `show` with `-Variant <name>`; profiles use a package-entry
 `Variant`. See [application packages](docs/application-packages.md) for local
 ToolsDirectory configuration, portable ownership and saved-selection recovery. Check the catalog for each distribution's supported targets.
+The [offline adoption review](docs/application-packages.md#review-registrations-against-the-catalog)
+compares supplied registrations with catalog variants and completes target labels
+from that catalog; it does not adopt or replace installations.
 
 See [Artcraft packages](docs/artcraft-packages.md) for the twelve standalone
 creative apps, optional launcher and verified full MSI downloads.
+The [offline bundle guide](docs/offline-bundles.md) describes local manifest
+preflight, byte-bound package coverage and explicit local assembly. Assembly's
+optional `-CatalogFileId` and `-CoverageProfileId` check selected package content
+before completion; both parameters complete IDs from the manifest.
+Automatic acquisition planning and offline install integration remain pending.
 
 For explicit user-only settings, `-UserContext Desktop` starts a separate process
 for the signed-in user in the current desktop session. See the
@@ -97,7 +127,8 @@ Export and Import; Tab completes commands, review statuses and catalog IDs.
 See [Important to review licensing](docs/package-licensing.md#important-to-review-licensing)
 for Npcap, KAPE and other products whose free-use terms need assessment in
 corporate or professional environments. The same guide explains local review records.
-Offline bundle creation and its redistribution review step are optional future work.
+Offline bundle preparation is requested; shared publication retains the separate
+redistribution review and omission contract.
 
 ## Profiles
 
@@ -199,6 +230,14 @@ For contributor work, see the [task list](TODO.md) and [migration plan](docs/MIG
 The [documentation index](docs/README.md) separates current guides, active
 acceptance work and archived evidence. Follow the
 [documentation naming and retention model](docs/models/documentation-model.md).
+
+## Other reference sites
+
+- [Ninite](https://ninite.com/) installs and updates a selection of Windows
+  applications while declining optional bundled offers. See the
+  [Ninite package comparison](docs/ninite-package-comparison.md) for its app list,
+  overlap with RIDE's catalog and planned reviews, and the scope of its
+  toolbar-avoidance claim.
 
 ## License
 

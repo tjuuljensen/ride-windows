@@ -1,5 +1,12 @@
 # Application review rounds, 2026-10-12
 
+Current disposition update, 2026-10-17: Q17 and Q20 explicitly retire planned
+Volatility 2 and ImproHound deployment, leaving existing installations/data alone.
+This dated map retains all 79 original outcomes for traceability; 77 remain pending
+or partial. See the [current ledger and estimate reconciliation](application-migration-review.md#accepted-volatility-2-and-improhound-retirements-2026-10-17).
+Earlier unanswered/retirement-review wording below is historical, not a request
+to reconsider these accepted dispositions.
+
 This is a decision map for the 79 unresolved outcomes in the
 [application review ledger](application-migration-review.md), not an approved
 installation batch. The 29 accepted outcomes (ten earlier, nineteen newly

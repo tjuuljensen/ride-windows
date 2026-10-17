@@ -1,0 +1,115 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "ReviewedProductSourceInventory",
+  "ProductId": "sysinternals-rammap",
+  "PublisherVersion": "1.63",
+  "Acquisition": {
+    "SchemaVersion": 1,
+    "AcquiredAtUtc": "2026-10-17T05:34:13.3005630Z",
+    "Source": {
+      "Product": "Microsoft Sysinternals RAMMap",
+      "PublisherPageDate": "2026-03-26",
+      "ProductUri": "https://learn.microsoft.com/en-us/sysinternals/downloads/rammap",
+      "DownloadUri": "https://download.sysinternals.com/files/RAMMap.zip",
+      "License": "Proprietary - Microsoft Sysinternals Software License Terms",
+      "LicenseUri": "https://learn.microsoft.com/en-us/sysinternals/license-terms",
+      "Purpose": "Inert archive inventory and signature/version inspection only; no execution, service, driver or redistribution"
+    },
+    "FinalUri": "https://download.sysinternals.com/files/RAMMap.zip",
+    "Length": 737190,
+    "Sha256": "6536a8107a3fb391e4443f2742366067341a7da50de89f99ca0b2390120dd0cc",
+    "PublisherDigest": null,
+    "Executed": false
+  },
+  "MemberCount": 4,
+  "ExpandedBytes": 1563618,
+  "NoticeMembers": [
+    "Eula.txt"
+  ],
+  "Members": [
+    {
+      "Name": "RAMMap.exe",
+      "Length": 743488,
+      "Sha256": "29c9675e41224bedf1501f4bc84de6ae5107f49e8ad46707ea6bed5c61deceef",
+      "ProductName": "RamMap",
+      "ProductVersion": "1.63",
+      "FileVersion": "1.63",
+      "OriginalFilename": "RamMap",
+      "PeMachine": "0x014c",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "SignerThumbprint": "F5877012FBD62FABCBDC8D8CEE9C9585BA30DF79",
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "RAMMap64.exe",
+      "Length": 397848,
+      "Sha256": "e970913798481432cd590991577089e68510b861dc669dcab24feb06aae0df52",
+      "ProductName": "RamMap",
+      "ProductVersion": "1.63",
+      "FileVersion": "1.63",
+      "OriginalFilename": "RamMap",
+      "PeMachine": "0x8664",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "SignerThumbprint": "3F56A45111684D454E231CFDC4DA5C8D370F9816",
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "RAMMap64a.exe",
+      "Length": 414792,
+      "Sha256": "5847b681b59b91ee35e7d7ad9ab4c116e4d234b8e2a6cc772b4b2ce204c7672e",
+      "ProductName": "RamMap",
+      "ProductVersion": "1.63",
+      "FileVersion": "1.63",
+      "OriginalFilename": "RamMap",
+      "PeMachine": "0xaa64",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "SignerThumbprint": "F5877012FBD62FABCBDC8D8CEE9C9585BA30DF79",
+      "ErrorType": null,
+      "Executed": false
+    },
+    {
+      "Name": "Eula.txt",
+      "Length": 7490,
+      "Sha256": "8329bcbadc7f81539a4969ca13f0be5b8eb7652b912324a1926fc9bfb6ec005a",
+      "ProductName": null,
+      "ProductVersion": null,
+      "FileVersion": null,
+      "OriginalFilename": null,
+      "PeMachine": null,
+      "SignatureStatus": "NotApplicable",
+      "Signer": null,
+      "SignerThumbprint": null,
+      "ErrorType": null,
+      "Executed": false
+    }
+  ],
+  "SuiteComparison": [
+    {
+      "Name": "RAMMap.exe",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    },
+    {
+      "Name": "RAMMap64.exe",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    },
+    {
+      "Name": "RAMMap64a.exe",
+      "InReviewedSuite": false,
+      "SameSha256": null
+    },
+    {
+      "Name": "Eula.txt",
+      "InReviewedSuite": true,
+      "SameSha256": true
+    }
+  ],
+  "RuntimeExecuted": false,
+  "SupportedTargetAcceptance": false
+}

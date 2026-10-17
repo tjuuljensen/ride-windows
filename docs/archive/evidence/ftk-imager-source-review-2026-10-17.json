@@ -1,0 +1,88 @@
+{
+  "SchemaVersion": 1,
+  "AcquiredAtUtc": "2026-10-17T04:24:58.7418953Z",
+  "Source": {
+    "Product": "Exterro FTK Imager",
+    "Version": "8.3.0.27",
+    "Architecture": "x64",
+    "ProductUri": "https://www.exterro.com/digital-forensics-software/ftk-imager",
+    "ReleaseUri": "https://www.exterro.com/ftk-downloads/ftk-imager-8-3",
+    "DownloadUri": "https://d1kpmuwb7gvu1i.cloudfront.net/8.3/Imager/FTK%20Imager%208.3.0.27.zip",
+    "License": "Proprietary Exterro software; free FTK Imager edition; bundled agreement and third-party terms require review",
+    "LicenseUri": "https://store.exterro.com/policies/terms-of-service",
+    "TermsUri": "https://www.exterro.com/website-terms-of-use",
+    "ReleaseNotesUri": "https://d1kpmuwb7gvu1i.cloudfront.net/8.x/8.3.0/Exterro%20FTK%20Imager%208.3%20-%20Release%20Notes.pdf",
+    "AcquisitionPurpose": "Inert archive and installer inspection only; no installation, image collection or redistribution"
+  },
+  "Length": 405808295,
+  "Sha256": "0f717d0d91c94af94107775ae37c2e330cc2a2312a8eecc91a344c8010e82afe",
+  "PublisherDigest": null,
+  "Executed": false,
+  "ArchiveEntries": [
+    {
+      "FullName": "Exterro_FTK_Imager_(x64).exe",
+      "Length": 229763592,
+      "CompressedLength": 229061056
+    },
+    {
+      "FullName": "ISSetupPrerequisites/",
+      "Length": 0,
+      "CompressedLength": 0
+    },
+    {
+      "FullName": "ISSetupPrerequisites/{AE165B54-673F-42A5-9D1E-6F1046A8395D}/",
+      "Length": 0,
+      "CompressedLength": 0
+    },
+    {
+      "FullName": "ISSetupPrerequisites/{AE165B54-673F-42A5-9D1E-6F1046A8395D}/CodeMeterRuntime.exe",
+      "Length": 177961016,
+      "CompressedLength": 176746391
+    }
+  ],
+  "Members": [
+    {
+      "Entry": "Exterro_FTK_Imager_(x64).exe",
+      "Length": 229763592,
+      "Sha256": "1ec9500126b9b33e79e8178ffa12104377f2b77ddc8fca69d8fa1068d8e360d8",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=\"ACCESSDATA GROUP, INC.\", O=\"ACCESSDATA GROUP, INC.\", L=Orem, S=Utah, C=US",
+      "Thumbprint": "9AF60429533652EE23D1FAE209CD89F9B7C84B31",
+      "ProductName": "Exterro FTK Imager",
+      "ProductVersion": "8.3.0.27",
+      "FileVersion": "8.3.0.27",
+      "OriginalFilename": "Exterro_FTK_Imager_(x64).exe",
+      "Executed": false
+    },
+    {
+      "Entry": "ISSetupPrerequisites/{AE165B54-673F-42A5-9D1E-6F1046A8395D}/CodeMeterRuntime.exe",
+      "Length": 177961016,
+      "Sha256": "5f9fea5ea9a82465a8a9a6bc78be2e778582802806309b8a79680695a1e10803",
+      "SignatureStatus": "Valid",
+      "Signer": "CN=WIBU-SYSTEMS AG, O=WIBU-SYSTEMS AG, L=Karlsruhe, S=Baden-Württemberg, C=DE",
+      "Thumbprint": "5BF62A4388DF2276C83EC8FE0BA6EA72CC5AA8FD",
+      "ProductName": "CodeMeter Installer",
+      "ProductVersion": "8.20.6539.500",
+      "FileVersion": "8.20.6539.500",
+      "OriginalFilename": "",
+      "Executed": false
+    }
+  ],
+  "Inspection": {
+    "Method": "ZIP metadata and exact-member extraction; Authenticode/version resources; 7-Zip PE listing only",
+    "SetupLauncherArchitecture": "x86",
+    "ProductArchitecture": "Publisher x64 distribution; installed runtime not verified",
+    "InstallerExecuted": false,
+    "PrerequisiteBehaviorVerified": false,
+    "SupportedTargetsAdded": [],
+    "NativeAcceptance": false,
+    "PublisherChecksumVerified": false,
+    "Remaining": [
+      "External CodeMeter prerequisite and associated terms/service/driver ownership",
+      "Preservation of prerequisite directory layout in acquisition/install staging",
+      "Exact unattended install/removal arguments and product detection",
+      "Driver replacement, reboot, coexistence, user-data preservation and recovery",
+      "Bundled release-specific agreement and dependencies"
+    ]
+  }
+}

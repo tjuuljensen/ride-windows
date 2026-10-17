@@ -4,17 +4,17 @@
 
 | Group | Approximate remaining items | Examples |
 | --- | ---: | --- |
-| Windows and application settings | 38-58 | Deferred UI/Explorer, network, Server and BitLocker work; modern firewall, update-notification, Windows CEIP and separately owned power-plan creation plus conditional radio/WMDRM, Server Manager startup and paired Shutdown Event Tracker policies and guarded Windows Audio service implemented as pending candidates; Security icon startup guidance and registry failure/capture repair implemented; keyboard stored positions 0-3 implemented with Windows 11 literal lifecycle evidence; GUI/native-failure acceptance remains open; WAP Push/Search startup choices implemented with Windows 11 literal lifecycle evidence and corrected key-state recovery; verified bridge backoff and idle-controller evidence lifted the VM hold; focused candidate validation is ongoing; Task Manager and Computer Browser selectors retired; optional PowerShell appearance accepted outside the legacy count; browser/Sysmon configuration remains under review; traditional Python association preservation awaits implementation/acceptance; Windows Update interruption guide implemented; manual GUI/target acceptance remains open; local SAM maximum-age candidate implemented with finite explicit day states and bounded two-target native apply/reverse/fault recovery evidence; GUI/managed/additional-boundary acceptance remains open; native BitLocker recovery backup/retrieval guide implemented; secure custom actions and recovery acceptance remain open; Windows recovery readiness/native entry guide implemented; registration lifecycle and boot evidence remain open; modern Network discovery handoff implemented; profile/peer/target acceptance remains open; Storage Sense native cleanup-choice guidance implemented; GUI/content acceptance remains open; System protection native guidance implemented; volume coupling/history acceptance remains open; Feedback frequency native guidance implemented; paired type/unit/GUI evidence remains open; Latest focused validation: all 30 remainder rows and earlier implemented families triaged; Solitaire basic acceptance retained; presentation/native guidance next; elevation-dependent acceptance postponed while AFK |
-| Packages, portable tools and downloadable artifacts | 58-73 | Remaining forensic tools, system-tool entries, general software/artifacts, AD tools, browsers and other products; 19 newly accepted distributions (7 installed, 12 portable), 10 earlier outcomes and Opera excluded; R01/R02 preparation remains partial; current BloodHound CE and both collectors selected, container deployment separate; Volatility 2 and ImproHound retirement reviews remain unresolved; corporate licensing watchlist added, with approvals kept local; independent installed/portable deployments and acquisition kits approved as design, product coexistence and kit acceptance pending; packages paused; Latest planning review: 79 individual-review outcomes crosswalked across 13 groups; Q01-Q04 deployment/state/kit decisions collected before resumed product work |
-| Windows components and optional features | 20-25 | WSL, Hyper-V, Sandbox, OpenSSH, printing features and built-in app management with reviewed live identities and separate policy/user uninstall; v2 bulk lists archived as historical coverage, both user/provisioning references collected; five optional uninstall/reinstall groups covering 22 apps accepted with device policy separate; all five group handlers implemented as guarded candidates; separate offline UAC desktop prepared and source-bound unelevated read-only Plan accepted; Solitaire basic uninstall/reinstall accepted on isolated Windows 11 reference; GUI/fault/full-launcher/other-app/policy acceptance pending; RSAT remains a component/applicability decision; BloodHound CE selects no automatic Docker/WSL provisioning or Server Docker Desktop support; no new component acceptance; Latest planning review: full component/resource triage recorded; exact build/edition, matching source and .NET 3.5 route gates retained; fresh Store elevation postponed |
-| Accounts, configuration and deployed files/assets | 25-35 | Users and administrator membership, Wi-Fi, regional settings, language packs, browser preferences, fonts and wallpapers; user-bin PATH, bin provisioning and WindowsApps repair remain deferred; VMware directory/profile-file and Python environment/symbol/plugin ownership remain under review; separate deployment ownership/state migration and USB-kit layout remain design follow-ups, with no completed legacy outcome; Latest planning review: account SID/credentials, approved mixed locale, owned files/assets, Wi-Fi and startup PATH questions collected; no automatic adoption/overwrite |
-| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; quota/cache/backoff bridge passed Windows 11 Full with 1,280 tests, eight network and three real cache observations with matching publisher digests; consecutive acceptance Windows 11 2/2, Server 2025 2/2 on the current controller baseline; collector 0.4.1 bounded failure collection accepted, ArtCraft Launcher remains closed and must not be restarted; controller certification and default-branch cutover remain open; no automatic Python installation-time pip upgrade selected; runtime/rule updates and explicit maintenance remain separate review items; optional GitHub PAT infrastructure implemented in source; dedicated enrollment, controller refresh, hosted CI and live acceptance pending; controller 0.4.6 scoped runtime/records accepted; hosted candidate f5e3218 validation passed both PowerShell editions; delivery/default-branch certification deferred until v3 release candidate; Latest planning review: all legacy action families triaged; preview, compensating recovery and explicit reboot/update-source choices retained |
-| **Total, rounded** | **150-205** | **About 180 for planning** |
+| Windows and application settings | 38-58 | Deferred UI/Explorer, network, Server and BitLocker work; modern firewall, update-notification, Windows CEIP and separately owned power-plan creation plus conditional radio/WMDRM, Server Manager startup and paired Shutdown Event Tracker policies and guarded Windows Audio service implemented as pending candidates; Security icon startup guidance and registry failure/capture repair implemented; keyboard stored positions 0-3 implemented with Windows 11 literal lifecycle evidence; GUI/native-failure acceptance remains open; WAP Push/Search startup choices implemented with Windows 11 literal lifecycle evidence and corrected key-state recovery; verified bridge backoff and idle-controller evidence lifted the VM hold; focused candidate validation is ongoing; Task Manager and Computer Browser selectors retired; optional PowerShell appearance accepted outside the legacy count; browser/Sysmon configuration remains under review; traditional Python association preservation awaits implementation/acceptance; Windows Update interruption guide implemented; manual GUI/target acceptance remains open; local SAM maximum-age candidate implemented with finite explicit day states and bounded two-target native apply/reverse/fault recovery evidence; GUI/managed/additional-boundary acceptance remains open; native BitLocker recovery backup/retrieval guide implemented; secure custom actions and recovery acceptance remain open; Windows recovery readiness/native entry guide implemented; registration lifecycle and boot evidence remain open; modern Network discovery handoff implemented; profile/peer/target acceptance remains open; Storage Sense native cleanup-choice guidance implemented; GUI/content acceptance remains open; System protection native guidance implemented; volume coupling/history acceptance remains open; Feedback frequency native guidance implemented; paired type/unit/GUI evidence remains open; Latest Presentation 198/279; 81 open; task observation/readback repaired |
+| Packages, portable tools and downloadable artifacts | 56-71 | Remaining forensic tools, system-tool entries, general software/artifacts, AD tools, browsers and other products; 19 newly accepted distributions (7 installed, 12 portable), 10 earlier outcomes and Opera excluded; R01/R02 preparation remains partial; current BloodHound CE and both collectors selected, container deployment separate; Volatility 2 and ImproHound planned deployment explicitly retired on 2026-10-17, with historical mapping and existing installations retained; corporate licensing watchlist added, with approvals kept local; independent installed/portable deployments and acquisition kits approved as design, product coexistence and kit acceptance pending; package implementation resumed for the authorized overnight window; Latest Offline declared-source comparison and selected-profile assembly gate ready |
+| Windows components and optional features | 20-25 | WSL, Hyper-V, Sandbox, OpenSSH, printing features and built-in app management with reviewed live identities and separate policy/user uninstall; v2 bulk lists archived as historical coverage, both user/provisioning references collected; five optional uninstall/reinstall groups covering 22 apps accepted with device policy separate; all five group handlers implemented as guarded candidates; separate offline UAC desktop prepared and source-bound unelevated read-only Plan accepted; Solitaire basic uninstall/reinstall accepted on isolated Windows 11 reference; GUI/fault/full-launcher/other-app/policy acceptance pending; RSAT remains a component/applicability decision; BloodHound CE selects no automatic Docker/WSL provisioning or Server Docker Desktop support; no new component acceptance; Latest No native component/driver or target expansion |
+| Accounts, configuration and deployed files/assets | 25-35 | Users and administrator membership, Wi-Fi, regional settings, language packs, browser preferences, fonts and wallpapers; startup user-bin candidates and persistent PATH observation/recovery preparation are source-ready; native PATH acceptance, bin provisioning and WindowsApps repair remain open; VMware directory/profile-file and Python environment/symbol/plugin ownership remain under review; named deployments, legacy selection mapping and owned-file toolkit update preparation are source-ready; durable state integration and named host-folder toolkit publication remain open, with no completed legacy outcome; Latest Profiles and recovery-resource setup explicitly deferred; source preparation continues |
+| Maintenance and operational actions | 8-12 | Cleanup, updates, Sysprep, hostname and execution helpers; quota/cache/backoff bridge passed Windows 11 Full with 1,280 tests, eight network and three real cache observations with matching publisher digests; consecutive acceptance Windows 11 2/2, Server 2025 2/2 on the current controller baseline; collector 0.4.1 bounded failure collection accepted, ArtCraft Launcher remains closed and must not be restarted; controller certification and default-branch cutover remain open; no automatic Python installation-time pip upgrade selected; runtime/rule updates and explicit maintenance remain separate review items; optional GitHub PAT infrastructure implemented in source; dedicated enrollment, controller refresh, hosted CI and live acceptance pending; controller 0.4.6 scoped runtime/records accepted; hosted candidate f5e3218 validation passed both PowerShell editions; delivery/default-branch certification deferred until v3 release candidate; Latest 20 focused task checks per edition; final validation 225 PowerShell files |
+| **Total, rounded** | **145-200** | **About 175 for planning** |
 
-Last reviewed: **2026-10-14**. Latest run: [Full remaining migration analysis and AFK handoff](#full-remaining-migration-analysis-and-afk-handoff-2026-10-14).
-Completed source triage across all five migration groups and collected 31 follow-up questions with matching implementation batches. The source audit joins all 79 unresolved application outcomes to 13 review groups, preserves all 30 settings rows and 731 inventory selector references, and includes the 23 source-only functions. Corrected stale Store acceptance pointers and EXE-only candidate guidance. The first suggested batch is existing setting presentation/native guidance; deployment/state decisions precede resumed package work. No legacy outcome closed, payload acquired, VM submitted or Windows state changed. Packages remain paused and fresh elevation is postponed while AFK. All five ranges reviewed and unchanged: 38-58 / 58-73 / 20-25 / 25-35 / 8-12; rounded 150-205/about 180.
+Last reviewed: **2026-10-17**. Latest run: [B01 scheduled-task observation and readback](#b01-scheduled-task-observation-and-readback-2026-10-17).
+Five resumed batches delivered offline source/assembly checks, 19 presentations and task recovery hardening. Presentation is 198/279, 81 open. Both native editions passed 20 selected task checks and final validation of 358 operations/eight groups/five profiles/225 PowerShell files. Profile selection and BitLocker/recovery setup are explicitly deferred; source work continues under the direct instruction. All five ranges stay 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175. No whole legacy closure or new native acceptance. See the [resumed results and next instructions](migrations/remaining-migrations-follow-up.md#resumed-implementation-results-2026-10-17).
 
-Latest scope review: **2026-10-14**. [Package deployment coexistence design recorded](#package-deployment-coexistence-design-recorded-2026-10-14): workstation installation, portable copies and acquisition USB/toolkit assembly approved as independent deployments. Identity/state migration, product conflicts and kit acceptance remain deferred. All five ranges reviewed and unchanged: settings 38-58, packages 58-73, components 20-25, accounts/configuration/files 25-35, maintenance 8-12; rounded 150-205/about 180. Package outcomes, current runtime and target support are unchanged; packages remain paused. [Optional GitHub authentication](#optional-github-authentication-v3-scope) retains its earlier source implementation with live acceptance pending; reusable-module extraction stays deferred.
+Latest scope review: **2026-10-17**. The [Q17/Q20 retirement reconciliation](#accepted-volatility-2-and-improhound-retirements-2026-10-17) supersedes earlier unresolved retirement wording and estimates; Q18/Q19 retain implementation gates. Q21 Office/Visio/channel/architecture/activation/language and Teams choices are now recorded in the later B10 review; native compatibility, extra-language and recovery gates remain. [Deployment decisions](migrations/package-deployment-decisions.md) now include accepted Q01 explicit deployment names, Q02 adoption/replacement with bulk review and individual ambiguity resolution, and Q03 profile-driven toolkit publication to a named host folder. Toolkit transfer needs no physical-media tracking; the separate offline installation scope now includes selected/full variants, RIDE/profiles, optional supplied servicing sources, partial omissions and retained pinned versions, with local preflight, byte-bound package coverage and explicit-source assembly ready; mandatory install integration and native offline acceptance remain pending. Q04 now accepts verified staging, unchanged-owned-file cleanup and explicit modified-file decisions; concrete ownership/commit/recovery remain open. The earlier [coexistence design](#package-deployment-coexistence-design-recorded-2026-10-14) is retained. Design acceptance does not establish runtime, release or legacy closure. All five ranges are 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175. Package implementation resumed by direct user instruction after the overnight window; normal acquisition backoff and native acceptance boundaries remain.
 
 Latest infrastructure implementation: [GitHub PAT source implementation](#github-pat-source-implementation-2026-10-13).
 Host enrollment/acquisition and explicitly selected focused guest delivery are implemented. The isolated candidate excludes the active settings fixture; the original fixture and concurrent guest-runner work are preserved. The user confirmed no VmTest enrollment exists and requested leaving live PAT acceptance pending. Existing installed controllers, VM pins and package pauses are unchanged by this work. All five legacy ranges and the rounded total remain unchanged.
@@ -216,8 +216,9 @@ both compatible optional collectors and ImproHound retirement review. Corrected
 the Neo4j legacy contract: separate database/APOC artifacts plus configuration
 and service changes. Standalone Java/Neo4j and remaining AD tools stay unresolved.
 
-Approximately **150-205 distinct legacy work items**
-remain; use **about 180** for planning. These are candidates for migration,
+Approximately **145-200 distinct legacy work items**
+remain; use **about 175** for planning after the two explicit retirements recorded
+on 2026-10-17. Earlier numerical reviews below retain their original dates. These are candidates for migration,
 retirement, combination or replacement, not a commitment to implement all of them.
 
 
@@ -4748,7 +4749,7 @@ Run b2615b9d390447dc906a3a50b490cf78 completed Failed at 2026-10-14T12:15:34Z. F
 
 ## Unelevated desktop resource prerequisite identified and deferred, 2026-10-14
 
-Run d62ee7a8b55c4c2aa0b2352147901e87 finished Failed at 2026-10-14T12:27:12Z, fixture C56726427B33E35C007873A9DF83CE1F46F91DD0B3DB686EEFA72B345CBD3614, source manifest 0ED8737500063870F9AF6B44E5972CB2FE0AB0C10A47C4C43CE6DBEC9B48291C and console 484FEA918F831FB53A2B5B4748EFD79F1C5293C95F0ED07B999889A7A5867679. The identity predicate correctly refused an administrative token on the UAC-disabled guest despite a Limited task and correct session. This failure accepts no desktop/worker/full launcher/alternate-admin or app lifecycle. All source bytes/preflight, failure/console correlation, task cleanup and final checkpoint/idle/pins/installed hashes/CI verified at 12:29:53Z; only matching selection removed. No app queried/changed, no UAC or pin change. [Postponed resource decision](migrations/store-app-follow-up-decisions.md#desktop-resource-decision---postponed-while-afk) requires a genuine unelevated desktop on a separately reviewed fixture resource; honor the user instruction to postpone interactive elevation/credentials while AFK. No legacy outcome resolved/retired/excluded; all five ranges unchanged because this is failed resource acceptance. Preserve actual app source/recovery/GUI/managed and policy evidence as deferred/partial. Continue independent authorized machine-setting boundaries.
+Run d62ee7a8b55c4c2aa0b2352147901e87 finished Failed at 2026-10-14T12:27:12Z, fixture C56726427B33E35C007873A9DF83CE1F46F91DD0B3DB686EEFA72B345CBD3614, source manifest 0ED8737500063870F9AF6B44E5972CB2FE0AB0C10A47C4C43CE6DBEC9B48291C and console 484FEA918F831FB53A2B5B4748EFD79F1C5293C95F0ED07B999889A7A5867679. The identity predicate correctly refused an administrative token on the UAC-disabled guest despite a Limited task and correct session. This failure accepts no desktop/worker/full launcher/alternate-admin or app lifecycle. All source bytes/preflight, failure/console correlation, task cleanup and final checkpoint/idle/pins/installed hashes/CI verified at 12:29:53Z; only matching selection removed. No app queried/changed, no UAC or pin change. [Postponed resource decision](migrations/store-app-follow-up-decisions.md#desktop-resource-decision---separate-resource-authorized) requires a genuine unelevated desktop on a separately reviewed fixture resource; honor the user instruction to postpone interactive elevation/credentials while AFK. No legacy outcome resolved/retired/excluded; all five ranges unchanged because this is failed resource acceptance. Preserve actual app source/recovery/GUI/managed and policy evidence as deferred/partial. Continue independent authorized machine-setting boundaries.
 
 ## Local maximum-age 1/2/998-day boundaries Windows 11 lifecycle passed, 2026-10-14
 
@@ -4760,7 +4761,7 @@ Request `8da4114c2f504c5d8adb4b7321482641`: passed. [Evidence](archive/evidence/
 
 ## Maximum-age boundary follow-up and minimum-age guard implemented, 2026-10-14
 
-The fixed schema-2 MinimumAgeConflict admits only windows.local-password-maximum-age/Days1 with explicit target approval. Test-only level 1003 sets captured-zero minimum to one day; production backend remains level-1002 maximum-only. SAM/unrelated context, preview and refusal state are checked, native maximum setter counted, failed intent restored without a maximum write, and the exact fixture minimum seed separately recovered. Drift refuses replay. LifecyclePassed/ExactRecovery remain false for this guard; ExactFixtureSeed is not successful primary apply. The existing local security/password scope is unchanged; no passwords, domain controllers, UAC, app/package or GitHub work. Current source includes uncommitted changes; request 660dac2bfa0d45f3ac8d6e1f46dcc7eb has 360 preflight files and fixture 9454FD88FDC370A36FCCC1691B124A1D42583F698D88BBC728CDC915C8C47CA6. Native and checkpoint acceptance pending. No legacy outcome resolved/retired/excluded; GUI, managed/default/complexity and unelevated desktop resources remain partial/deferred, all five ranges unchanged. [Fixture contract](../tests/integration/settings-fixtures.md) documents the focused scope; [desktop prerequisite](migrations/store-app-follow-up-decisions.md#desktop-resource-decision---postponed-while-afk) remains held.
+The fixed schema-2 MinimumAgeConflict admits only windows.local-password-maximum-age/Days1 with explicit target approval. Test-only level 1003 sets captured-zero minimum to one day; production backend remains level-1002 maximum-only. SAM/unrelated context, preview and refusal state are checked, native maximum setter counted, failed intent restored without a maximum write, and the exact fixture minimum seed separately recovered. Drift refuses replay. LifecyclePassed/ExactRecovery remain false for this guard; ExactFixtureSeed is not successful primary apply. The existing local security/password scope is unchanged; no passwords, domain controllers, UAC, app/package or GitHub work. Current source includes uncommitted changes; request 660dac2bfa0d45f3ac8d6e1f46dcc7eb has 360 preflight files and fixture 9454FD88FDC370A36FCCC1691B124A1D42583F698D88BBC728CDC915C8C47CA6. Native and checkpoint acceptance pending. No legacy outcome resolved/retired/excluded; GUI, managed/default/complexity and unelevated desktop resources remain partial/deferred, all five ranges unchanged. [Fixture contract](../tests/integration/settings-fixtures.md) documents the focused scope; [desktop prerequisite](migrations/store-app-follow-up-decisions.md#desktop-resource-decision---separate-resource-authorized) remains held.
 
 ## Local maximum-age conflicting minimum Windows 11 MinimumAgeConflict guard passed, 2026-10-14
 
@@ -4772,7 +4773,7 @@ Request `9921cbfc65c44a718fb1f872213e82f0`: passed. [Evidence](archive/evidence/
 
 ## Two-target password-age boundary and conflict follow-up accepted, 2026-10-14
 
-Completed follow-up source snapshots include current uncommitted code. Boundary runs: d17b3ecf49084aac8fa0bf45ed8eaa0c (Win11, 358 files, manifest EFB957614927236F75FC3B9AB9C186F166EBB354EAA36E85EB1824CCC9AA3F81) and 8da4114c2f504c5d8adb4b7321482641 (Server, 359 files, CD8E07D1970415711BA38BA6EABA58F9C747BB5EE8A005707DD0DF7A4658B001). Refusal runs: 660dac2bfa0d45f3ac8d6e1f46dcc7eb (Win11, 360 files, BCA0DF413CDF2804F8C24A7DEBB43B7DBA4703E4F7559DCC753A1CC4113054EE) and 9921cbfc65c44a718fb1f872213e82f0 (Server, 361 files, 3C82509E36F2E0417CB6A2634E68AB6EF9A21B3428220EE30F9A610636470EA7). All hashes/preflight entries, correlated guest/XML evidence, native recovery and final both-idle/pins/installed hashes/CI validated. MinimumAgeConflict uses test-only local minimum level 1003, while production maximum setter remains 1002 only; no successful primary apply is inferred from zero-write refusal. Current fixture/data 0.12.0/0.10.0; 178 host mocked checks passed on each edition, one registry case excluded. [Validation handoff](migrations/settings-validation-resume.md#password-age-boundary-and-refusal-follow-up-2026-10-14) links exact scope; [desktop resource follow-up](migrations/store-app-follow-up-decisions.md#desktop-resource-decision---postponed-while-afk) remains postponed under the AFK elevation instruction. Published support, UAC, pins, profiles and package pause unchanged; no whole legacy outcome resolved/retired/excluded. GUI/default/managed, complexity/file-editor and app lifecycle remain partial/deferred, so all five ranges and rounded total stay unchanged.
+Completed follow-up source snapshots include current uncommitted code. Boundary runs: d17b3ecf49084aac8fa0bf45ed8eaa0c (Win11, 358 files, manifest EFB957614927236F75FC3B9AB9C186F166EBB354EAA36E85EB1824CCC9AA3F81) and 8da4114c2f504c5d8adb4b7321482641 (Server, 359 files, CD8E07D1970415711BA38BA6EABA58F9C747BB5EE8A005707DD0DF7A4658B001). Refusal runs: 660dac2bfa0d45f3ac8d6e1f46dcc7eb (Win11, 360 files, BCA0DF413CDF2804F8C24A7DEBB43B7DBA4703E4F7559DCC753A1CC4113054EE) and 9921cbfc65c44a718fb1f872213e82f0 (Server, 361 files, 3C82509E36F2E0417CB6A2634E68AB6EF9A21B3428220EE30F9A610636470EA7). All hashes/preflight entries, correlated guest/XML evidence, native recovery and final both-idle/pins/installed hashes/CI validated. MinimumAgeConflict uses test-only local minimum level 1003, while production maximum setter remains 1002 only; no successful primary apply is inferred from zero-write refusal. Current fixture/data 0.12.0/0.10.0; 178 host mocked checks passed on each edition, one registry case excluded. [Validation handoff](migrations/settings-validation-resume.md#password-age-boundary-and-refusal-follow-up-2026-10-14) links exact scope; [desktop resource follow-up](migrations/store-app-follow-up-decisions.md#desktop-resource-decision---separate-resource-authorized) remains postponed under the AFK elevation instruction. Published support, UAC, pins, profiles and package pause unchanged; no whole legacy outcome resolved/retired/excluded. GUI/default/managed, complexity/file-editor and app lifecycle remain partial/deferred, so all five ranges and rounded total stay unchanged.
 
 ## Separate Store desktop and read-only Plan accepted, 2026-10-14
 
@@ -4807,3 +4808,733 @@ Fresh Microsoft documentation identifies build-specific .NET 3.5 feature/install
 Resolved in this run: planning coverage, question consolidation and stale current pointers. Retired/excluded: no new dispositions; earlier Browser/MusNotification/Opera/ISL and external-owner decisions retained. Deferred: package acquisition/implementation, fresh elevation, Clipchamp VM submission, servicing/media and hardware/security/boot evidence. Partial: existing implementation/lifecycle acceptance remains distinct from GUI/consumer/default/managed and exact or compensating recovery. No new target metadata, packages or Windows state changed. No completed fixture rerun.
 
 All five estimate ranges remain settings 38-58, packages/portable/artifacts 58-73, components 20-25, accounts/configuration/files/assets 25-35 and maintenance 8-12; rounded 150-205/about 180. The 79 application and 30 setting rows overlap groups and accepted controls. Selector references, questions, source-only helpers and supplemental additions are not new completed legacy outcomes. Analysis closes zero legacy outcomes, so no rounded adjustment is warranted.
+
+## B01 input and audio presentation, 2026-10-16
+
+The [B01 batch record](migrations/settings-post-migration-review.md#b01-input-and-audio-presentation-review-2026-10-16)
+records source `f53ce6ab102a` plus the focused patch, legacy mappings, consumers,
+acceptance, recovery and next instructions. Four existing settings now have
+explicit presentation: keyboard delay, pointer precision, registered sound scheme
+and startup sound. Added selected-device native mute guidance in the existing
+audio guide. Coverage is 32/277, with 245 presentation reviews remaining; these
+are metadata counts, not legacy outcomes.
+
+Complete catalog comparison passed after excluding only the four new metadata
+blocks. Both native PowerShell editions passed 122 mocked tests (zero failures,
+one WindowsIntegration test excluded) and validation of 340 operations, eight
+groups, five profiles and 146 maintained PowerShell files. Generated reference
+is current. No setter, support declaration, saved-state schema or default changed.
+
+Resolved: selected presentation gaps and manual mute guidance. No whole legacy
+outcome resolved, retired or excluded. Partial: existing settings retain GUI,
+boot/session, managed-policy and hardware acceptance. Deferred: automated endpoint
+identity/session/recovery, package work, component/Store elevation and remaining
+accounts/assets/maintenance work. No Windows or VM state changed. All five
+ranges were reviewed and remain settings 38-58, packages/artifacts 58-73,
+components 20-25, accounts/configuration/files 25-35 and maintenance 8-12; rounded
+150-205/about 180. Source readiness is not complete feature acceptance, so no
+estimate reduction is justified. Next: B02 read-only endpoint identity/capture
+contracts and isolated fixtures; preserve D08/Q30 for the future setter decision.
+
+## B02 playback endpoint inventory, 2026-10-16
+
+The [B02 record](migrations/settings-post-migration-review.md#b02-read-only-playback-endpoint-contract-2026-10-16)
+documents the new standalone inventory module, export tool and 21 isolated tests.
+Opaque render IDs and exact selection replace friendly-name/default guesses;
+missing, inactive and unreadable states stay explicit. Expected execution SID and
+session are checked before and after capture. Desktop identity remains unverified,
+observations are sequential, and no mutation/recovery readiness is claimed.
+
+Both native PowerShell editions passed 21 tests and validation of 340 operations,
+eight groups, five profiles and 149 PowerShell files. An initial collision fixture
+used a mock-invisible variable; corrected fixture now proves exclusive creation
+preserves concurrent output. Interop compiled without live Core Audio calls.
+
+Resolved: source-level endpoint observation/selection/export contract. Retired or
+excluded: none. Partial: R20 audio outcome and broader B02 resource coverage.
+Deferred: desktop/device/driver acceptance, D08/Q30 setter choice, other resource
+identities, interactive Store work and unresolved deployment choices. Packages are
+resumed under the overnight authorization; no acquisition in this batch. No Windows
+state, support metadata or existing saved recovery changed. All five ranges remain
+38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about 180; no whole legacy
+outcome closed, so no estimate reduction. Next: B06 read-only component inventory
+and B08 individual portable review while acceptance-dependent work is postponed.
+
+## B06 component inventory, 2026-10-16
+
+The [B06 record](migrations/remaining-migrations-follow-up.md#b06-component-inventory-implementation-2026-10-16)
+retains the target/provider contract, validation, postponed acceptance and recovery.
+Three distinct namespaces preserve raw state; completed-empty, failed and unselected
+providers are different. Explicit native machine/build/edition checks precede capture
+and include update-revision drift afterward. Saved completion and lookup stay read-only.
+
+Twenty isolated Pester tests and repository validation passed on both native
+PowerShell editions: 340 operations, eight groups, five profiles, 152 PowerShell files.
+An initial test used PowerShell's automatic args variable inside the assertion block;
+a dedicated target-splat variable corrected the fixture. No live query or servicing.
+
+Resolved: component observation/export/lookup source slice. Retired/excluded: none.
+Partial: B06 and broader B02 resource contracts. Deferred: native Windows 11/Server
+collection, Q05/Q06 selections/media, dependencies, policy/reboot/data and servicing
+recovery. Package implementation continues under the overnight authorization; user
+choices are not inferred. All five ranges reviewed and unchanged: 38-58 / 58-73 /
+20-25 / 25-35 / 8-12, rounded 150-205/about 180. No whole legacy feature or product
+completed acceptance. Next: B08 portable review without activating any candidate.
+
+## B08 Rufus portable source candidate, 2026-10-16
+
+See the [application batch record](migrations/application-migration-review.md#b08-rufus-portable-source-candidate-2026-10-16)
+for official source/signature/hash, selected file ownership, validation and recovery.
+Pending package.rufus uses existing File staging with preserved portable-mode filename,
+no supported targets and Windows 11 candidate acceptance. The four product tests plus
+existing package/catalog tests passed 153 per edition after correcting omitted
+CandidateTargets metadata. Validation passed 341 operations/eight groups/five profiles/
+153 PowerShell files on both editions; generated reference and preview are current.
+
+Resolved: requested Rufus source preparation. Retired/excluded: none. Partial: package
+candidate with native lifecycle/GUI acceptance deferred; no legacy outcome closed.
+Settings/components/accounts/actions gain no acceptance; source discovery/acquisition
+is separate from activation. No USB, app, VM or controller change. All five ranges
+remain 38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about 180. The addition
+does not reduce legacy estimates. Continue RegRipper and independent source batches;
+postpone unresolved prerelease/runtime or user-selection gates until input is available.
+
+## B08 RegRipper 3.0 distribution candidate, 2026-10-16
+
+See the [application batch record](migrations/application-migration-review.md#b08-regripper-30-distribution-candidate-2026-10-16)
+for exact source, unsigned binary/runtime evidence, all member hashes, validation,
+acceptance and recovery. Complete pinned archive ownership replaces the incomplete
+legacy executable-only boundary while preserving custom plugins/reports. Pending
+Windows 11 candidate only; no supported targets or profile selection. RegRipper4.0
+terms and WFN prerelease/runtime selection remain independent deferred decisions.
+
+Resolved: source candidate and inert lifecycle/recovery tests. Retired/excluded:
+none. Partial: one legacy outcome; no native/parser/runtime acceptance. Both
+editions passed repository validation (342 operations/eight groups/five profiles/
+154 PowerShell files). 5.1 passed 74 focused tests; 7 passed 70 catalog tests and
+four product tests on sequential rerun after a fixture replacement IOException.
+No handler change hid that failure. No workstation, VM, controller or data change.
+All five ranges remain 38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about
+180: source readiness leaves acceptance outstanding. Continue independent batches
+and retain unresolved ownership/runtime/interactive decisions for the user's return.
+
+## B03 existing user-bin startup candidate, 2026-10-16
+
+See the [setting batch record](migrations/settings-post-migration-review.md#b03-existing-user-bin-startup-candidate-2026-10-16)
+for both legacy writers, implementation, acceptance procedure and recovery.
+Two pending runtime operations share the existing profile lifecycle and fixed
+UserBinPath renderer; normalized equivalent entries are preserved and known
+unmarked legacy writers block enablement. No immediate/persistent PATH mutation
+or bin provisioning. Existing color renderer and snapshot version 1 are preserved;
+color acceptance scripts remain explicitly scoped to their original renderer.
+
+Both native editions passed 140 focused tests, zero failures/skips and one
+integration exclusion, plus validation of 344 operations/eight groups/five
+profiles/155 PowerShell files. Runtime discovery and directory presence were
+mocked; generated blocks ran only in restored test-process environment fixtures.
+No real profile, persistent environment, VM, controller or component changed.
+
+Resolved: source renderer and isolated duplicate/ownership/recovery evidence.
+Retired/excluded: none. Partial: one user-bin legacy outcome, not two features.
+Deferred: native startup/identity acceptance, Q08 persistent PATH/provisioning,
+WindowsApps and Terminal JSONC ownership. All five ranges remain 38-58 / 58-73 /
+20-25 / 25-35 / 8-12, rounded 150-205/about 180; source-ready code does not close
+legacy acceptance. Presentation is 34/279 with 245 unreviewed declarations.
+Continue independent source batches without waiting for per-batch approval.
+
+## B08 pinned Python source candidates, 2026-10-16
+
+The [application batch record](migrations/application-migration-review.md#b08-pinned-python-source-candidates-2026-10-16)
+retains exact sources, source/raw-file agreement, licenses, syntax checks, tests,
+acceptance and recovery. Complete Hex2text/ChromeSyncParser archives are pending
+Windows 11 candidates; no profiles or supported target. ShimCacheParser's Python 2
+syntax/runtime gap remains deferred. Nothing downloaded was executed; no database,
+profile, interpreter, VM or controller was changed.
+
+Both native editions passed 78 focused tests (one integration excluded) and
+validation of 346 operations/eight groups/five profiles/156 PowerShell files.
+Initial scratch insertion syntax was repaired before checks; whole-catalog
+comparison preserves all original fields/groups apart from B01 presentation.
+Resolved: complete source packaging/inert ownership for two partial products.
+Retired/excluded: none. Deferred: native/interpreter/functional acceptance and the
+third product's runtime choice. All five ranges remain 38-58 / 58-73 / 20-25 /
+25-35 / 8-12, rounded 150-205/about 180; no legacy outcome closed. Continue
+independent source work without waiting for per-batch approval.
+
+## B03 Terminal JSONC preparation, 2026-10-16
+
+See the [setting batch record](migrations/settings-post-migration-review.md#b03-terminal-jsonc-preparation-2026-10-16)
+and [API contract](terminal-jsonc-preparation.md) for bounded parsing, exact field
+ownership, recovery, source limits and the next integration procedure. Three pure
+commands operate on supplied UTF-8 bytes and do not read/write a live settings file.
+No selected instance/profile, package, component or catalog operation. Both native
+editions passed 41 tests after correcting an overbroad expected-string fixture;
+validation passed 346 operations/eight groups/five profiles/158 PowerShell files.
+
+Resolved: E06 in-memory preservation/recovery proof. Retired/excluded: none.
+Partial: Terminal outcome; no native or live-file acceptance. Deferred: intended
+instance/SID/path, actual profile availability, exclusive writer, Q09 and GUI.
+All five ranges remain 38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about
+180; source preparation does not close legacy behavior. Continue independent work.
+
+## B02 network adapter identity inventory, 2026-10-16
+
+See the [setting batch record](migrations/settings-post-migration-review.md#b02-network-adapter-identity-inventory-2026-10-16)
+and [operator/API contract](network-adapter-inventory.md). Explicit target checks,
+bounded visible/hidden GUID observations, saved-only lookup/completion and exclusive
+JSON export are source-ready. Both editions passed 23 tests after correcting a
+reused race-test filename, and validation of 346 operations/eight groups/five
+profiles/161 PowerShell files. No live provider query or network state change.
+
+Resolved: B02 adapter identity observation contract. Retired/excluded: none.
+Partial: adapter settings; native provider and behavior acceptance remain open.
+Deferred: Q30/D10 selection, dependency checks and narrowly owned mutation/recovery.
+All five ranges remain 38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about
+180; no legacy outcome closed. Continue independent implementation.
+
+## B04 default/LAN proxy observation, 2026-10-16
+
+See the [setting batch record](migrations/settings-post-migration-review.md#b04-defaultlan-proxy-observation-2026-10-16)
+and [operator/API guide](user-proxy-inventory.md). Explicit machine/SID/session,
+literal options, UI fallback, native memory ownership and exclusive output are
+source-ready. Both editions passed 31 focused tests after two fixture corrections;
+separate x86/x64 ABI probes passed. Validation covers 346 operations/eight groups/
+five profiles/164 PowerShell files. No native WinINet query or proxy change.
+
+Resolved: E07 default/LAN observation and memory proof. Retired/excluded: none.
+Partial: user proxy outcome. Deferred: native/UI/policy, named RAS, owned mutation,
+refresh/recovery and WinHTTP. All five ranges remain 38-58 / 58-73 / 20-25 / 25-35 /
+8-12, rounded 150-205/about 180; no legacy behavior accepted. Continue independent work.
+
+## B01 media and privacy presentation, 2026-10-16
+
+See the [setting batch record](migrations/settings-post-migration-review.md#b01-media-and-privacy-presentation-2026-10-16)
+and [operator comparison](setting-presentation.md#media-and-privacy-choices).
+Six existing AutoPlay/AutoRun, clipboard, location/scripting and advertising-ID
+controls now distinguish policy/preference, complete legacy bundles and reverse
+semantics. Presentation is 40/279 with 239 reviews open. All behavioral catalog
+fields and profiles remain unchanged; exact references and local template facts
+do not establish current GUI/managed/consumer acceptance.
+
+Both editions passed 122 focused tests, one integration case excluded; final
+validation and actual classification checks passed after four schema-label fixes.
+Validation covers 346 operations/eight groups/five profiles/164 PowerShell files.
+The [intervening package review](migrations/application-migration-review.md#b08-deferred-tool-source-checks-2026-10-16)
+records SuperFetch's official HTTP 404 and R06's remaining distribution/dependency
+inspection. No package added, no runtime/state changes.
+
+Resolved: six presentation reviews and narrower source gates. Retired/excluded:
+none. Partial: media/privacy outcomes. Deferred: GUI/managed/consumer/recommendation
+acceptance and the three product source/runtime outcomes. All five ranges remain
+38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about 180. Independent work continues.
+
+## B04 proxy edit and recovery preparation, 2026-10-16
+
+See the [setting batch record](migrations/settings-post-migration-review.md#b04-proxy-edit-and-recovery-preparation-2026-10-16)
+and [API procedure](user-proxy-inventory.md#prepare-an-edit-and-recovery-in-memory).
+Changed-bit/URL ownership and conflict recovery are source-ready; supplied-data
+snapshots are neither engine manifests nor authorization for live writes.
+Both editions passed 39 tests and validation of 346 operations/eight groups/five
+profiles/166 PowerShell files. No native query/setter or network request.
+The [YARA recheck](migrations/application-migration-review.md#b08-yara-availability-recheck-2026-10-16)
+confirms v4.5.8 source-only assets; no older binary or replacement selected.
+
+Resolved: E07 in-memory ownership/recovery proof and current YARA source-only
+availability. Retired/excluded: none. Partial: user proxy outcome. Deferred:
+live policy/identity/state binding, setter/refresh/native acceptance, RAS/WinHTTP
+and YARA binary/build. All five ranges stay 38-58 / 58-73 / 20-25 / 25-35 / 8-12,
+rounded 150-205/about 180; no accepted legacy closure. Independent work continues.
+
+## B02 volume identity inventory, 2026-10-16
+
+See the [setting record](migrations/settings-post-migration-review.md#b02-volume-identity-inventory-2026-10-16)
+and [volume procedure](volume-inventory.md). GUID-path capture/lookup/completion
+is source-ready, with machine/build/edition guards, 512-row bound, missing versus
+failed observation and no label/letter fallback. Multiple paths may identify one
+volume; no permanent hardware, boot-role or protection identity is inferred.
+Both editions passed 25 volume and 23 adapter tests plus validation of 346
+operations/eight groups/five profiles/169 PowerShell files. Adapter invalid-input
+fixtures now pass prepared rows across module scope. No native volume query.
+
+Resolved: volume observation contract and adapter test accuracy. Retired/excluded:
+none. Partial: resource identity preparation. Deferred: native collection,
+selection, boot/protection/recovery state and storage mutations. All five ranges
+stay 38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about 180. No accepted
+legacy closure; independent work continues under the existing overnight scope.
+
+## B01 power-control presentation, 2026-10-16
+
+See the [setting record](migrations/settings-post-migration-review.md#b01-power-control-presentation-2026-10-16).
+Seven existing controls now distinguish dedicated button, menu, screen-off and
+idle-sleep effects, AC/DC sources, exact recovery and explicit legacy reverse.
+Both editions passed 122 focused tests, one integration exclusion, whole-catalog
+comparison and validation of 346 operations/eight groups/five profiles/169
+PowerShell files. No power query/state change. Presentation is 47/279, 232 open.
+
+Resolved: seven presentation reviews. Retired/excluded: none. Partial: power
+user-visible evaluation. Deferred: added choices, localized parser/index bounds,
+GUI/policy/hardware transitions. All five ranges stay 38-58 / 58-73 / 20-25 /
+25-35 / 8-12, rounded 150-205/about 180; no legacy outcome closes. Continue the
+independent handler preparation and remaining batches without a new approval.
+
+## Power index capture and recovery repair, 2026-10-17
+
+See the [setting record](migrations/settings-post-migration-review.md#power-index-capture-and-recovery-repair-2026-10-17)
+and [recovery compatibility](setting-presentation.md#power-index-record-compatibility).
+PowerSettings 0.2.0/Engine 0.20.3 preserve UInt32 indexes and adapt unmarked older
+signed captures without editing records. Versioned new snapshots validate source,
+scheme and encoding. Both editions passed 44 tests and validation of 346 operations/
+eight groups/five profiles/169 PowerShell files. No native power call or VM run.
+
+Resolved: signed-narrowing defect and compatible recovery. Retired/excluded: none.
+Partial: power lifecycle. Deferred: native unsigned recovery, localized reads,
+expanded choices and physical/GUI behavior. Ranges stay 38-58 / 58-73 / 20-25 /
+25-35 / 8-12, rounded 150-205/about 180; no legacy outcome closes. Retain the
+corrected handler for high-value recovery and continue independent source work.
+
+## Typed power read backend, 2026-10-17
+
+See the [setting record](migrations/settings-post-migration-review.md#typed-power-read-backend-2026-10-17).
+PowerSettings 0.3.0/RIDE.PowerRead 0.1.0 remove English query-label parsing,
+preserve UInt32 identity/value reads and reject active-plan drift. Existing writes
+and compatible saved recovery remain. Both editions passed 63 tests and validation
+of 346 operations/eight groups/five profiles/171 PowerShell files; no native call.
+
+Resolved: source reader localization defect and read-drift proof. Retired/excluded:
+none. Partial: power inspection/recovery. Deferred: native API/locale, hardware/GUI,
+write races and additional choices. All five ranges remain 38-58 / 58-73 / 20-25 /
+25-35 / 8-12, rounded 150-205/about 180. No legacy closure; independent work continues.
+
+## B08 PSScriptTools source candidate, 2026-10-17
+
+See the [package record](migrations/application-migration-review.md#b08-psscripttools-source-candidate-2026-10-17).
+Complete pinned source/notices are prepared as an inert candidate, with Q15,
+native lifecycle and runtime/import acceptance open. PS5 passed 74 tests; PS7
+passed 73/74, then four package cases passed sequentially. The initial manifest
+File.Replace failure remains evidence for a focused writer review. Both editions
+passed validation of 347 operations/eight groups/five profiles/172 PowerShell files.
+
+Resolved: pinned source candidate. Retired/excluded: none. Partial: PSScriptTools.
+Deferred: deployment choice, native/dependency/runtime acceptance and writer review.
+Five ranges remain 38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about 180;
+no accepted legacy closure. No upstream code or Windows configuration was executed.
+
+## Portable manifest failure recovery, 2026-10-17
+
+See the [package recovery record](migrations/application-migration-review.md#portable-manifest-failure-recovery-2026-10-17).
+The shared writer retains failed staged journals and narrowly retries unchanged
+files; 100 focused tests passed per edition, with 347 operations/eight groups/
+five profiles/173 PowerShell files validated. Original failure cause and native
+acceptance remain open. Resolved: source recovery gap. Retired/excluded: none.
+Partial: portable outcomes. Deferred: runtime acceptance and deployment choices.
+All five ranges remain 38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about
+180, because this repair closes no legacy outcome. No VM or workstation integration.
+
+## B01 Explorer folder options presentation, 2026-10-17
+
+See the [settings record](migrations/settings-post-migration-review.md#b01-explorer-folder-options-presentation-2026-10-17).
+Eight existing controls gained presentation; operational mappings remain unchanged.
+Both editions passed 122 focused tests (one integration exclusion), complete
+catalog comparison and validation of 347 operations/eight groups/five profiles/173
+PowerShell files. Resolved: presentation/reverse semantics. Retired/excluded: none.
+Partial: Explorer outcomes. Deferred: GUI/managed/touch/logon/process/provider
+acceptance. Presentation 55/279, 224 open; no legacy closure. Five ranges unchanged
+at 38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about 180. No Windows state,
+VM, controller or package was changed.
+
+## B02 local user identity inventory, 2026-10-17
+
+See the [identity preparation record](migrations/remaining-migrations-follow-up.md#b02-local-user-identity-inventory-2026-10-17).
+Bounded SID capture, saved lookup/completion and exclusive export are source-ready.
+Both editions passed 26 tests and validation of 347 operations/eight groups/five
+profiles/176 PowerShell files; the initial 25/26 numeric-boundary failure remains
+recorded. Resolved: local identity contract. Retired/excluded: none. Partial: account
+preparation. Deferred: native provider, ownership, credentials, membership and viable
+access acceptance. All five ranges remain 38-58 / 58-73 / 20-25 / 25-35 / 8-12,
+rounded 150-205/about 180; no legacy closure. No account, VM or controller changed.
+
+## B08 AzureHound stable artifact preparation, 2026-10-17
+
+See the [artifact record](migrations/application-migration-review.md#b08-azurehound-stable-artifact-preparation-2026-10-17).
+Official v3.1.2 x64 ZIP matches publisher/GitHub digests; executable metadata and
+separate tag notices are retained without execution. Resolved: artifact/integrity/
+license observations. Retired/excluded: none. Partial: collector preparation.
+Deferred: backend match, companion-notice ownership and native/functional acceptance.
+Catalog unchanged; no tests repeated. Five ranges remain 38-58 / 58-73 / 20-25 /
+25-35 / 8-12, rounded 150-205/about 180, because no legacy outcome closed. No VM,
+credentials, collection, service or protected controller changes occurred.
+
+## B09 user language list inventory, 2026-10-17
+
+See the [regional preparation record](migrations/remaining-migrations-follow-up.md#b09-user-language-list-inventory-2026-10-17).
+Ordered language/input capture, saved lookup/completion and exclusive JSON export
+are source-ready with 28 tests per edition and validation of 347 operations/eight
+groups/five profiles/179 PowerShell files. Resolved: observation and legacy bundle
+boundary. Retired/excluded: none. Partial: regional configuration. Deferred: native
+provider, GUI, capability and writer/recovery acceptance. All five ranges remain
+38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about 180; no legacy closure.
+No settings, language pack, welcome/default-user profile, VM or controller changed.
+
+## B09 existing language priority preparation, 2026-10-17
+
+See the [regional preparation record](migrations/remaining-migrations-follow-up.md#b09-existing-language-priority-preparation-2026-10-17).
+Existing-tag order preparation and conflict-aware order recovery are source-ready;
+53 tests passed per edition and 347 operations/eight groups/five profiles/181
+PowerShell files validated. Resolved: order ownership/no-op recovery. Retired/
+excluded: none. Partial: regional configuration. Deferred: native state store,
+setter and GUI/side-effect acceptance. All ranges remain 38-58 / 58-73 / 20-25 /
+25-35 / 8-12, rounded 150-205/about 180; no legacy closure or Windows state change.
+
+## B01 App Privacy policy presentation, 2026-10-17
+
+See the [settings record](migrations/settings-post-migration-review.md#b01-app-privacy-policy-presentation-2026-10-17).
+Seventeen presentation reviews distinguish default policy, per-app exceptions,
+Enabled removal, voice dependency and omitted historical background-user cleanup.
+Both editions passed 122 tests (one integration exclusion), whole-catalog comparison
+and validation of 347 operations/eight groups/five profiles/181 PowerShell files.
+Resolved: presentation/reference semantics. Retired/excluded: none. Partial: App
+Privacy/background outcomes. Deferred: native app, GUI, managed and locked-session
+acceptance. Presentation 72/279, 207 open. No legacy closure; ranges stay 38-58 /
+58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about 180. No Windows state changed.
+
+## B08 Cookie Cruncher source backoff, 2026-10-17
+
+See the [application record](migrations/application-migration-review.md#b08-cookie-cruncher-source-backoff-2026-10-17).
+GitHub API rate limit prevented revision/payload inspection; no fallback request
+or artifact execution. Resolved/retired/excluded: none. Partial: applications.
+Deferred: acquisition, licensing/runtime and native acceptance. Existing source
+validation remains current. All ranges stay 38-58 / 58-73 / 20-25 / 25-35 / 8-12,
+rounded 150-205/about 180; no legacy closure. Continue independent local batches.
+
+## B09 user language override inventory, 2026-10-17
+
+See the [regional override record](migrations/remaining-migrations-follow-up.md#b09-user-language-override-inventory-2026-10-17).
+Explicit display/input capture is separate from ordered language inventory. Each
+edition passed 28 new/28 existing tests and 347-operation/eight-group/five-profile/
+183-file validation. Resolved: observation/absence contracts. Retired/excluded: none.
+Partial: regional configuration. Deferred: native provider semantics, GUI and
+durable mutation/recovery. All five ranges remain 38-58 / 58-73 / 20-25 / 25-35 /
+8-12, rounded 150-205/about 180; no legacy closure or native state change.
+
+## B02 wireless profile identity inventory, 2026-10-17
+
+See the [wireless identity record](migrations/remaining-migrations-follow-up.md#b02-wireless-profile-identity-inventory-2026-10-17).
+Basic interface/profile capture and saved lookup are source-ready; 35 distinct
+mocked tests passed per edition, with 347 operations/eight groups/five profiles/
+186 PowerShell files validated. Resolved: discovery/lookup contract. Retired/
+excluded: none. Partial: Wi-Fi/resource configuration. Deferred: native hardware/
+service/user visibility, Q12/Q30, content ownership and exact recovery. Five ranges
+stay 38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about 180; no closure.
+
+## B01 update and maintenance presentation, 2026-10-17
+
+See the [settings record](migrations/settings-post-migration-review.md#b01-update-and-maintenance-presentation-2026-10-17).
+Eight controls now distinguish device policy, preference and unverified legacy
+behavior. Wake-key mismatch, driver-search omission and Microsoft Update service
+enrollment remain explicit partial outcomes. Both editions passed 122 focused
+tests (one integration exclusion) and validation of 347 operations/eight groups/
+five profiles/186 files. Presentation 80/279, 199 open. Resolved: presentation
+and reverse/reference distinctions. Retired/excluded: none. Deferred: native,
+GUI, managed, wake and default-profile acceptance. All five ranges stay 38-58 /
+58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about 180, with no legacy closure.
+The user extended the autonomous window to 08:00 Copenhagen (06:00 UTC); the
+existing follow-up was updated, and a separate decision chat was created.
+
+## B01 security control presentation, 2026-10-17
+
+See the [settings record](migrations/settings-post-migration-review.md#b01-security-control-presentation-2026-10-17).
+Resolved eight presentation reviews plus UAC/legacy/recovery distinctions; no new
+retirement/exclusion. Legacy firewall, HVCI request and exclusion visibility remain
+partial. Native GUI, protection, hardware/boot and management acceptance remain.
+Each edition passed 122 tests (one integration exclusion) and validation of 347
+operations/eight groups/five profiles/186 files. Presentation 88/279, 191 open;
+no accepted legacy closure. All ranges unchanged: 38-58 / 58-73 / 20-25 / 25-35 /
+8-12, rounded 150-205/about 180. No Windows state or supported target changed.
+
+## B01 Defender exclusion capture and recovery, 2026-10-17
+
+See the [settings record](migrations/settings-post-migration-review.md#b01-defender-exclusion-capture-and-recovery-2026-10-17).
+Resolved captured-path drift and ignored-write reporting in source, with inner
+snapshot version 1 and old Boolean/path record compatibility. Both editions
+passed 109 focused tests (one integration exclusion) and validation of 347
+operations/eight groups/five profiles/187 files. Retired/excluded: none. Partial:
+exclusion ownership/observability. Deferred: native, managed, GUI and default
+profile acceptance. Presentation remains 88/279, 191 open. No legacy closure;
+all five ranges unchanged: 38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded
+150-205/about 180. No protection, directory or workstation state changed.
+
+## B09 regional provider inventory, 2026-10-17
+
+See the [subject record](migrations/remaining-migrations-follow-up.md#b09-regional-provider-inventory-2026-10-17).
+Resolved four separate read-only provider contracts and export; 35 tests per
+edition and validation of 347 operations/eight groups/five profiles/190 files.
+Retired/excluded: none. Regional preparation remains partial; full recovery,
+native/GUI and setter acceptance remain deferred. No catalog/Windows state change
+or accepted legacy closure. Presentation 88/279, 191 open; all ranges unchanged:
+38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about 180.
+
+## B01 desktop and Explorer visibility presentation, 2026-10-17
+
+See the [settings record](migrations/settings-post-migration-review.md#b01-desktop-and-explorer-visibility-presentation-2026-10-17).
+Fourteen presentation reviews resolved; 102/279 now explicit, 177 open. No new
+retirement/exclusion. Legacy reverse differences, version label and cache behavior
+remain partial; GUI/media/provider/cache and profile recommendation acceptance
+remain deferred. Both editions passed 122 tests (one integration exclusion) and
+validation of 347 operations/eight groups/five profiles/190 files. No runtime
+change or new target. All five ranges stay 38-58 / 58-73 / 20-25 / 25-35 / 8-12,
+rounded 150-205/about 180: metadata analysis is not native legacy closure.
+
+## B07 explicit deployment identity preparation, 2026-10-17
+
+See the [application record](migrations/application-migration-review.md#b07-explicit-deployment-identity-preparation-2026-10-17).
+Q01/Q02 intent resolved; pure named identity/inspection/selection implemented.
+Each edition passed 37 distinct tests after two completion failures were fixed;
+validation passed 347 operations/eight groups/five profiles/192 files. Existing
+records and commands remain unchanged. No retirement/exclusion or native legacy
+closure. Durable compatibility, adoption/replacement ownership, coexistence and
+kit acceptance remain partial/deferred. All five ranges unchanged: 38-58 / 58-73 /
+20-25 / 25-35 / 8-12, rounded 150-205/about 180. Presentation 102/279, 177 open.
+
+## B07 installed registration inventory, 2026-10-17
+
+See the [application record](migrations/application-migration-review.md#b07-installed-registration-inventory-2026-10-17).
+Bounded per-view observation/export source-ready; 36 distinct tests passed per
+edition after fixture isolation repair. Validation passed 347 operations/eight
+groups/five profiles/195 files. No new retirement/exclusion or native acceptance.
+Catalog matching, product/ownership validation, adoption/replacement and durable
+compatibility remain partial/deferred. All five ranges remain 38-58 / 58-73 /
+20-25 / 25-35 / 8-12, rounded 150-205/about 180. Presentation 102/279, 177 open.
+
+## B07 offline package adoption review, 2026-10-17
+
+See the [application record](migrations/application-migration-review.md#b07-offline-package-adoption-review-2026-10-17).
+Offline matching/source validation and opt-in metadata-only variant resolution
+implemented; Q03 host-folder publication intent reconciled. Both editions passed
+104 distinct checks and validation of 347 operations/eight groups/five profiles/197
+files. No new retirement/exclusion or native legacy closure. Adoption/state/ownership,
+Q04 and kit/offline publication acceptance remain partial/deferred. All five ranges
+unchanged: 38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about 180.
+Presentation remains 102/279, 177 open. No workstation or VM runtime changes.
+
+## B07 legacy selection mapping preparation, 2026-10-17
+
+See the [application record](migrations/application-migration-review.md#b07-legacy-selection-mapping-preparation-2026-10-17).
+Logical compatibility/recovery API implemented and Q04 intent reconciled. Both
+editions passed 20 tests and validation of 347 operations/eight groups/five profiles/
+199 files. Original-byte/store/journal migration and actual toolkit commit/recovery
+remain partial/deferred. No retirement/exclusion or native legacy closure. All five
+ranges remain 38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about 180.
+Presentation 102/279, 177 open. No existing engine state or runtime changed.
+
+## B07 toolkit owned-file update preparation, 2026-10-17
+
+See the [application record](migrations/application-migration-review.md#b07-toolkit-owned-file-update-preparation-2026-10-17).
+Stage/keep/remove/preserve/conflict comparison implemented; 37 distinct tests passed
+per edition after a UNC-path fix. Validation passed 347 operations/eight groups/
+five profiles/201 files. No publication or native legacy closure. No new retirement/
+exclusion. Full artifact/ownership manifest, collection, staging, commit/recovery
+and native acceptance remain partial/deferred. All five ranges remain 38-58 /
+58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about 180. Presentation 102/279, 177 open.
+
+## B06 client-component source preparation, 2026-10-17
+
+See the [component/decision record](migrations/remaining-migrations-follow-up.md#b06-client-component-source-preparation-2026-10-17).
+Both editions passed 29 preparation tests and validation of 347 operations/eight
+groups/five profiles/203 files. Accepted Q05-Q12 and partial Q13 reconciled; no
+component was serviced. Source, policy, dependencies, durable recovery and native
+acceptance remain partial/deferred. No retirement/exclusion or legacy closure.
+All five ranges stay 38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about
+180. Presentation remains 102/279, 177 open.
+
+## B03 persistent user PATH observation and recovery, 2026-10-17
+
+See the [setting record](migrations/settings-post-migration-review.md#b03-persistent-user-path-observation-and-recovery-2026-10-17).
+Literal observation and pure owned-entry append/recovery implemented; 44 distinct
+tests passed per edition after two fixture corrections. Validation passed 347
+operations/eight groups/five profiles/205 files. Q14/Q15 and partial Q16 decisions
+reconciled. Native writes, durable state, environment refresh and acceptance remain
+partial/deferred. No retirement/exclusion or legacy closure. All five ranges stay
+38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded 150-205/about 180. Presentation
+remains 102/279, 177 open.
+
+## B08 Wireshark machine MSI candidate, 2026-10-17
+
+See the [package record](migrations/application-migration-review.md#b08-wireshark-machine-msi-candidate-2026-10-17).
+Official MSI/hash/signature and read-only association-table evidence retained;
+18 focused tests per edition and validation of 348 operations/eight groups/five
+profiles/206 files passed. No native install or retirement/exclusion in this batch.
+Wireshark lifecycle, associations, data/runtime ownership and separate interactive
+Npcap remain partial/deferred. All five ranges stay 38-58 / 58-73 / 20-25 /
+25-35 / 8-12, rounded 150-205/about 180. Presentation remains 102/279, 177 open.
+
+## Accepted Volatility 2 and ImproHound retirements, 2026-10-17
+
+See the [authoritative application dispositions](migrations/application-migration-review.md#accepted-volatility-2-and-improhound-retirements-2026-10-17).
+Two explicit user retirements remove two planned package outcomes. Exact selector
+rows remain, no active catalog IDs existed, and no existing installation/data was
+changed. Other accepted decisions are partial workflow/product direction; deferred
+Neo4j/APOC, optional backend deployment and unfinished native acceptance stay counted.
+
+Arithmetic: packages 58-73 minus two = 56-71. Other ranges remain settings 38-58,
+components 20-25, accounts/assets 25-35 and maintenance 8-12. Summed endpoints
+149-203 minus two = 147-201; nearest-five rounded range 145-200, midpoint about
+175. This changes disposition counts, not the catalog's 348 declarations or native
+acceptance. Two retired, no newly excluded, no newly runtime-accepted outcome.
+Presentation remains 102/279, 177 open. Mapping/links/whitespace verified; no
+passed runtime suite rerun for documentation. Continue remaining authorized batches.
+
+## B01 visual effects and first-sign-in presentation, 2026-10-17
+
+See the [settings record](migrations/settings-post-migration-review.md#b01-visual-effects-and-first-sign-in-presentation-2026-10-17).
+Eight presentation reviews resolved; 110/279 explicit, 169 open. No retirement or
+exclusion in this batch. Whole visual-bundle coverage and session effects remain
+partial; GUI, policy precedence and first-sign-in acceptance are deferred. Both
+editions passed 122 tests (one integration exclusion) and validation of 348
+operations/eight groups/five profiles/206 files. All five ranges remain
+38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175: source presentation
+does not establish native outcome completion. Q17/Q20 retirements stay counted.
+
+## B01 read-only session visual observations, 2026-10-17
+
+See the [settings record](migrations/settings-post-migration-review.md#b01-read-only-session-visual-observations-2026-10-17).
+Five bounded GET contracts and identity/failure handling are source-ready; 40
+tests passed in each edition, using fakes/mocks only. Validation passed for
+348 operations/eight groups/five profiles/208 files. No retirement or exclusion;
+visual-effects migration remains partial, native/GUI acceptance deferred. All
+five ranges stay 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175.
+No legacy outcome closed and no live Windows configuration was changed.
+
+## B01 network control presentation, 2026-10-17
+
+See the [settings record](migrations/settings-post-migration-review.md#b01-network-control-presentation-2026-10-17).
+Thirteen presentation reviews resolved, including corrected ICS service scope and
+exact administrative-share reference. Presentation is 123/279, 156 open. No new
+retirement/exclusion; network/remote-access bundles remain partial and native,
+GUI, service, peer and managed-policy acceptance deferred. Both editions passed
+122 tests (one integration exclusion) and validation of 348 operations/eight
+groups/five profiles/208 files. All five ranges stay 38-58 / 56-71 / 20-25 /
+25-35 / 8-12, rounded 145-200/about 175; source review closes no legacy outcome.
+
+## B10 inert Office configuration review, 2026-10-17
+
+See the [application record](migrations/application-migration-review.md#b10-inert-office-configuration-review-2026-10-17).
+Q21 and OneDrive Q22 design decisions reconciled; bounded redacted XML review is
+source-ready. Forty distinct cases passed per edition; repository validation
+passed for 348 operations/eight groups/five profiles/210 files. No new retirement
+or exclusion. Office/Visio/Teams/OneDrive remain partial; native compatibility,
+extra-language, deployment, activation and data-preservation acceptance deferred.
+All five ranges remain 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about
+175. No legacy outcome closed and no installer, account or setting changed.
+
+## B10 Click-to-Run observation, 2026-10-17
+
+See the [application evidence](migrations/application-migration-review.md#b10-click-to-run-observation-2026-10-17).
+The read-only collector/export passed 36 mocked cases per edition and validation
+of 213 PowerShell files. Native product/technology/language/channel and deployment
+acceptance remain deferred; no retirement, exclusion or legacy outcome closure.
+All five ranges remain 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about
+175. No Office registry, MSI provider, installer, account or setting was changed.
+
+## B10 FTK source and decision reconciliation, 2026-10-17
+
+See [application source evidence](migrations/application-migration-review.md#b10-ftk-source-and-decision-reconciliation-2026-10-17)
+and [settings decision closure](migrations/settings-post-migration-review.md#accepted-remaining-decisions-and-r29-bookkeeping-closure-2026-10-17).
+Q22-Q31 reconciled; ADR ownership accepted. R29 bookkeeping closed with audit and
+reopen condition, not counted as migration/retirement. Official FTK ZIP and two
+Valid signatures inspected; CodeMeter/layout/driver/native lifecycle remain open.
+No installer/VM/workstation change, publication or target expansion. No new
+retired/excluded outcomes. All five ranges remain 38-58 / 56-71 / 20-25 / 25-35 /
+8-12, rounded 145-200/about 175: prior audit prevented a numeric outcome for R29,
+and no actual product/setting acceptance was completed here.
+
+## B10 read-only desired-configuration reference, 2026-10-17
+
+See the [settings evidence](migrations/settings-post-migration-review.md#b10-read-only-desired-configuration-reference-2026-10-17).
+Schema-1 export binds source hashes, retains typed registry intent and explicit
+ReportOnly/Unknown boundaries, and provides read-only completion. Thirty-seven
+distinct cases passed per edition; repository validation passed for 216 files.
+No other repository, Windows state, package, profile selection or VM changed.
+No retirement/exclusion or legacy closure; consumer/native mapping remains deferred.
+All five ranges stay 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175.
+
+## B10 local offline bundle preflight, 2026-10-17
+
+See the [application record](migrations/application-migration-review.md#b10-local-offline-bundle-preflight-2026-10-17).
+Accepted offline scope reconciled; local manifest preflight passed 41 distinct
+cases per edition and validation of 219 files. Selected declared dependency/file
+completeness is separate from actual profile/source coverage and native offline
+readiness. KAPE publisher form/agreement input deferred; no installation, assembly
+or target change. No retired/excluded outcome or legacy closure. All five ranges
+remain 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175.
+
+## B01 logon and boot presentation, 2026-10-17
+
+See the [settings record](migrations/settings-post-migration-review.md#b01-logon-and-boot-presentation-2026-10-17). Twelve reviews resolved; no new retirement/exclusion or legacy closure. Presentation is 135/279, 144 open. Boot/logon, managed policy and hardware outcomes remain partial/deferred. Both editions passed 122 tests (one integration exclusion) and validation of 348 operations/eight groups/five profiles/219 files. All five ranges stay 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175.
+
+## B10 offline profile package coverage, 2026-10-17
+
+See the [application record](migrations/application-migration-review.md#b10-offline-profile-package-coverage-2026-10-17). Thirty-six tests passed in each native edition. Package-declaration gaps and design decisions are resolved; offline assembly/integration remains partial, native/hardware/driver/workload acceptance deferred. No new retirement/exclusion or legacy closure. All five ranges remain 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175.
+
+## B10 byte-bound offline profile preflight, 2026-10-17
+
+See the [application record](migrations/application-migration-review.md#b10-byte-bound-offline-profile-preflight-2026-10-17). Parsed-source binding and runtime decisions resolved; no retirement/exclusion or legacy closure. Offline assembly/integration remains partial and native acceptance deferred. Both editions passed 22 new tests plus affected completion, and validation of 348 operations/eight groups/five profiles/220 files. All five ranges remain 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175.
+
+## B10 explicit local offline bundle assembly, 2026-10-17
+
+See the [application record](migrations/application-migration-review.md#b10-explicit-local-offline-bundle-assembly-2026-10-17). Local copy/verification/recovery implemented; planning/integration remains partial and native acceptance deferred. Twenty-seven tests and validation of 348 operations/eight groups/five profiles/222 files passed per edition. No new retirement/exclusion or legacy closure. All five ranges remain 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175.
+
+## B11 Sysinternals reviewed snapshot candidate, 2026-10-17
+
+See the [application record](migrations/application-migration-review.md#b11-sysinternals-reviewed-snapshot-candidate-2026-10-17). Frozen inventory and whole-Suite candidate resolved; no retirement/exclusion. Individual/native collection scope stays partial/deferred. Seven tests and validation of 349 operations/eight groups/five profiles/223 files passed per edition. All five ranges remain 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175; no legacy outcome closed.
+
+## B01 suggestion and input presentation, 2026-10-17
+
+See the [settings record](migrations/settings-post-migration-review.md#b01-suggestion-and-input-presentation-2026-10-17). Nineteen presentation reviews resolved; no new retirement/exclusion or legacy closure. Presentation is 154/279, 125 open. Whole bundles, numeric-channel meaning, GUI and learned-data recovery outcomes remain partial/deferred. Both editions passed 122 tests (one integration exclusion) and validation of 349 operations/eight groups/five profiles/223 files. All five ranges stay 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175.
+
+## B11 independent Sysinternals products, 2026-10-17
+
+See the [application record](migrations/application-migration-review.md#b11-independent-sysinternals-products-2026-10-17). Three individual source candidates resolved; none retired/excluded. Remaining Suite members and native outcomes stay partial/deferred. Twenty-four tests and validation of 352 operations/eight groups/five profiles/224 files passed per edition. All five ranges remain 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175; no legacy outcome closed.
+
+## B11 Sysinternals diagnostic and imaging candidates, 2026-10-17
+
+See the [application record](migrations/application-migration-review.md#b11-sysinternals-diagnostic-and-imaging-candidates-2026-10-17). Three further source candidates resolved; none retired/excluded. Collection/native scope remains partial/deferred. Another 24 tests passed per edition; validations cover 355 operations/eight groups/five profiles/224 files. All five ranges remain 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175, without a newly completed legacy outcome.
+
+## B01 application feature presentation, 2026-10-17
+
+See the [settings record](migrations/settings-post-migration-review.md#b01-application-feature-presentation-2026-10-17). Nine presentation reviews resolved; no new retirement/exclusion or legacy closure. Presentation is 163/279, 116 open. Whole bundles, native app/UI, component and cloud-data outcomes remain partial/deferred. Both editions passed 122 tests (one integration exclusion) and validation of 355 operations/eight groups/five profiles/224 files. All five ranges stay 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175.
+
+## B01 Start, taskbar and notification presentation, 2026-10-17
+
+See the [settings record](migrations/settings-post-migration-review.md#b01-start-taskbar-and-notification-presentation-2026-10-17). Sixteen reviews resolved; no new retirement/exclusion or legacy closure. Presentation is 179/279, 100 open. Native shell, managed and multi-display behavior remain partial/deferred. Both editions passed 122 tests (one integration exclusion) and validation of 355 operations/eight groups/five profiles/224 files. All five ranges stay 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175.
+
+## B11 Sysinternals command-line candidates, 2026-10-17
+
+See the [application record](migrations/application-migration-review.md#b11-sysinternals-command-line-candidates-2026-10-17). Three further source candidates resolved; none retired/excluded. Nine individual products now have source coverage, with remaining collection/native outcomes partial/deferred. Another 24 tests and validation of 358 operations/eight groups/five profiles/224 files passed per edition. All five ranges remain 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175; no newly completed legacy outcome.
+
+## B10 final staged bundle integrity check, 2026-10-17
+
+See the [application record](migrations/application-migration-review.md#b10-final-staged-bundle-integrity-check-2026-10-17). Reproduced stale-integrity success repaired; no new retirement/exclusion. Offline integration/native outcomes remain partial/deferred. Both editions passed 28 checks and validation of 358 operations/eight groups/five profiles/224 files. All five ranges remain 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175; no legacy outcome closed.
+
+## Morning handoff, 2026-10-17
+
+The [consolidated handoff](migrations/remaining-migrations-follow-up.md#morning-handoff-2026-10-17) records source-ready work, actual static/mocked and publisher evidence, deferred native/resources/decisions, source hashes and concrete next instructions. Work stopped under the expired 08:00 window; safe handoff only followed. All five ranges were reviewed unchanged at 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175. No further retirement/exclusion or whole legacy outcome closure; partial/deferred acceptance remains counted.
+
+## B10 offline declared source comparison, 2026-10-17
+
+See the [application record](migrations/application-migration-review.md#b10-offline-declared-source-comparison-2026-10-17). Resolved explicit-source mismatch detection; no retirement/exclusion or whole legacy closure. Offline integration and native acceptance remain partial/deferred. All five ranges were refreshed unchanged at 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175.
+
+## B10 assembly selected-profile gate, 2026-10-17
+
+See the [application record](migrations/application-migration-review.md#b10-assembly-selected-profile-gate-2026-10-17). Resolved optional selected-package coverage during local assembly; no retirement/exclusion or whole legacy closure. Native/dependency/engine integration remains partial/deferred. All five ranges were reviewed unchanged at 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175.
+
+## B01 service startup and runtime presentation, 2026-10-17
+
+See the [settings review](migrations/settings-post-migration-review.md#b01-service-startup-and-runtime-presentation-2026-10-17). Presentation 185/279, 94 open. Resolved source presentation only; no new retirement/exclusion or whole-outcome closure. Native/whole-bundle outcomes remain partial/deferred. All five ranges refreshed unchanged at 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175.
+
+## B01 scheduled-task presentation, 2026-10-17
+
+See the [settings review](migrations/settings-post-migration-review.md#b01-scheduled-task-presentation-2026-10-17). Presentation 198/279, 81 open. Resolved source presentation only; no new retirement/exclusion or whole-outcome closure. Native/whole-bundle outcomes remain partial/deferred. All five ranges refreshed unchanged at 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175.
+
+## B01 scheduled-task observation and readback, 2026-10-17
+
+See the [repair evidence](migrations/settings-post-migration-review.md#b01-scheduled-task-observation-and-readback-2026-10-17). Two isolated baseline regressions reproduced; 20 focused task checks pass per edition. Resolved source verification/typed-state gaps; no retirement/exclusion or whole legacy closure. Native acceptance remains partial/deferred. All five ranges reviewed unchanged at 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175.

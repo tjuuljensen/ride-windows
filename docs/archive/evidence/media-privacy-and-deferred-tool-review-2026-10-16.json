@@ -1,0 +1,57 @@
+{
+  "SchemaVersion": 1,
+  "ReviewDate": "2026-10-16",
+  "Status": "StaticReferenceReview",
+  "RuntimeAcceptance": false,
+  "RegistryWrites": false,
+  "TemplateObservations": [
+    {
+      "Name": "Sensors.admx",
+      "Sha256": "02cd51b7d4d58426f44941e7567932f6897536ca5dd5aa6626b6f1e130e82516",
+      "Policies": [
+        "DisableLocation_2",
+        "DisableLocationScripting_2"
+      ],
+      "Class": "Machine",
+      "EnabledDword": 1,
+      "DisabledDword": 0,
+      "Note": "Existing RIDE Enabled states remove overrides instead of writing the ADMX disabled value."
+    },
+    {
+      "Name": "AutoPlay.admx",
+      "Sha256": "dadcf29ec6bec77a29a5b7836228f91bd5faef58d54aeef851b524593b1cd1c6",
+      "Policy": "Autorun",
+      "Class": "Both",
+      "ValueName": "NoDriveTypeAutoRun",
+      "EnumeratedValues": [
+        181,
+        255
+      ],
+      "Note": "RIDE retains machine Disabled=255 and override-removal Enabled."
+    }
+  ],
+  "DeferredPackageChecks": [
+    {
+      "Product": "SuperFetch Tools",
+      "ProductUri": "https://www.tmurgent.com/appv/en/resources/tools-downloads/tools-downloads-perf/87-tools/performance-tools/141-superfetch-tools",
+      "DownloadUri": "https://www.tmurgent.com/download/SuperFetch_Tools2.zip",
+      "ObservedHttpStatus": 404,
+      "ArtifactAcquired": false,
+      "VersionAdvertised": "2.2.0.0",
+      "PublisherDate": "2016-04-08",
+      "Gate": "Official artifact unavailable at the linked route; native current-build compatibility and dependency/notices inspection still pending. No mirror or retirement selected."
+    },
+    {
+      "Product": "Partition-4DiagnosticParser",
+      "ProductUri": "https://github.com/theAtropos4n6/Partition-4DiagnosticParser",
+      "ReviewDepth": "Publisher repository/README only; no pinned acquisition",
+      "Gate": "README lists standalone EXE and Python >=3.6 with evtx and PySimpleGUI; distribution, exact dependencies/notices, evidence-input protection and current-build acceptance remain open."
+    },
+    {
+      "Product": "Google Analytic Cookie Cruncher",
+      "ProductUri": "https://github.com/mdegrazia/Google-Analytic-Cookie-Cruncher",
+      "ReviewDepth": "Publisher repository listing only; no payload inspection",
+      "Gate": "No releases; versioned ZIP is stored in repository. Inspect pinned archive, bundled license and runtime rather than treating latest-release 404 as retirement."
+    }
+  ]
+}
