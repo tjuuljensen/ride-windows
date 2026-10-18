@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "Batch": "B08 PSScriptTools retained source lifecycle",
+  "RecordedDate": "2026-10-17",
+  "ArtifactSha256": "05c86295a0846ae4f51ecfa6f38ef71ba8173be83eb0adc8627525a4c6ee72bd",
+  "FileCount": 360,
+  "SourceFiles": [
+    {
+      "Path": "tests/PSScriptToolsPackage.Tests.ps1",
+      "Sha256": "5ff7ee51b6311cde00ebd8faa57a285d52992d094560199a1f74f206e4405dae"
+    },
+    {
+      "Path": "modules/RIDE-PortablePackages.psm1",
+      "Sha256": "02b0937f6f61a3071690b6a81007cf4643a862f6b604f8aaea29dd747c2cd77c"
+    },
+    {
+      "Path": "catalog/operations.psd1",
+      "Sha256": "6ce97447555d9711a1538148761147df9dbb1b990bd5ea100949b80fb7efd0a9"
+    },
+    {
+      "Path": "docs/archive/evidence/psscripttools-source-review-2026-10-17.json",
+      "Sha256": "c6770d2b65efef91647827ee55de68a21e80591cd562f66996b2b6ae066245cf"
+    }
+  ],
+  "Checks": [
+    {
+      "PowerShell": "5.1.26100.9711",
+      "Tests": [
+        "PSScriptToolsPackage"
+      ],
+      "Passed": 7,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 7
+    },
+    {
+      "PowerShell": "7.6.5",
+      "Tests": [
+        "PSScriptToolsPackage"
+      ],
+      "Passed": 7,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 7
+    }
+  ],
+  "LocalValidationStatus": "Passed",
+  "NativeAcceptance": false,
+  "Imported": false,
+  "DependenciesInstalled": false,
+  "LegacyOutcomesClosed": 0,
+  "PortableHandlerVersion": "0.3.0",
+  "BaselineNote": "Source hashes retain the pre-B10 handler/catalog baseline loaded by these runs. B10 separately verifies the later offline branch; B01 later changes presentation only."
+}

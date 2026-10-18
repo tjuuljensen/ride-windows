@@ -59,6 +59,17 @@
 .PARAMETER Destination
   Directory for download artifacts; defaults to the user state root Artifacts directory.
 
+.PARAMETER OfflineBundle
+  Local bundle manifest for install/apply. Requires OfflineProfileId and
+  OfflineCatalogFileId; verifies the whole plan before any mutation. Initially
+  supports only accepted inert portable packages without dependency actions.
+
+.PARAMETER OfflineProfileId
+  Selected manifest profile ID; press Tab to discover IDs from OfflineBundle.
+
+.PARAMETER OfflineCatalogFileId
+  Manifest Engine file ID for the running catalog; press Tab for declared file IDs.
+
 .PARAMETER Help
   Display help and return before operational work.
 
@@ -112,8 +123,9 @@
   machine/user RIDE state stores. Package observations use catalog/artifact-observations.json.
   Recovery: Use restore -RunId for captured state. Package recovery has the catalog-declared limits.
   Author: RIDE-Windows maintainers.
-  Version: 0.12.1
+  Version: 0.13.0
   Changelog:
+    0.13.0: Enforce explicit offline portable bundle gates before install/apply.
     0.12.1: Document discovery of the separate guarded Store app workflow.
     0.12.0: Add explicit same-session desktop-user handoff for user-only settings.
     0.11.0: Add explicit GitHub PAT selection and credential-safe acceptance boundaries.
@@ -375,6 +387,27 @@ param(
   [ValidateSet('Current','Desktop')][string] $UserContext = 'Current',
   [string[]] $Library = @(),
   [string] $Destination = '',
+  [string] $OfflineBundle,
+  [ArgumentCompleter({
+    param($commandName,$parameterName,$wordToComplete,$commandAst,$fakeBoundParameters)
+    try {
+      $path=$commandAst.CommandElements[0].Value
+      if(-not (Test-Path -LiteralPath $path -PathType Leaf)){$path=(Get-Command $commandName -CommandType ExternalScript -ErrorAction Stop).Source}
+      $tool=Get-Command (Join-Path (Split-Path -Parent $path) 'tools/Test-RideOfflineBundle.ps1') -ErrorAction Stop
+      $completion=$tool.Parameters['ProfileId'].Attributes | Where-Object {$_ -is [Management.Automation.ArgumentCompleterAttribute]}
+      & $completion.ScriptBlock $commandName 'ProfileId' $wordToComplete $commandAst @{ManifestPath=$fakeBoundParameters.OfflineBundle}
+    } catch { }
+  })][string] $OfflineProfileId,
+  [ArgumentCompleter({
+    param($commandName,$parameterName,$wordToComplete,$commandAst,$fakeBoundParameters)
+    try {
+      $path=$commandAst.CommandElements[0].Value
+      if(-not (Test-Path -LiteralPath $path -PathType Leaf)){$path=(Get-Command $commandName -CommandType ExternalScript -ErrorAction Stop).Source}
+      $tool=Get-Command (Join-Path (Split-Path -Parent $path) 'tools/Test-RideOfflineBundle.ps1') -ErrorAction Stop
+      $completion=$tool.Parameters['CatalogFileId'].Attributes | Where-Object {$_ -is [Management.Automation.ArgumentCompleterAttribute]}
+      & $completion.ScriptBlock $commandName 'CatalogFileId' $wordToComplete $commandAst @{ManifestPath=$fakeBoundParameters.OfflineBundle}
+    } catch { }
+  })][string] $OfflineCatalogFileId,
   [switch] $Help,
   [ValidateSet('Anonymous','PAT')][string] $GitHubAuthentication = 'Anonymous',
   [ArgumentCompleter({
@@ -389,7 +422,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.12.1'
+$script:ScriptVersion = '0.13.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 
 if ($Help) {
@@ -440,6 +473,11 @@ Options:
   -Variant <name>      Select a declared package edition; Tab completes its variants.
   -Version             Print the script version without loading the engine.
   -GitHubAuthentication Anonymous (default) or PAT; download/install/apply/restore only.
+  -OfflineBundle      Local manifest for install/apply; no network fallback.
+  -OfflineProfileId   Manifest profile that exactly covers the ordered plan (Tab).
+  -OfflineCatalogFileId Manifest Engine file for the running catalog (Tab).
+                      All three are required together. Only accepted inert portable
+                      deployment is implemented; other requirements fail before mutation.
   -GitHubCredentialReference Enrolled nonsecret PAT name; Tab reads local metadata only.
                        Enroll using tools/Manage-RideGitHubCredential.ps1; no ambient tokens.
 
@@ -507,6 +545,13 @@ Examples:
 }
 
 $ErrorActionPreference = 'Stop'
+$offlineParameters = @{}
+if (@('OfflineBundle','OfflineProfileId','OfflineCatalogFileId' | Where-Object {$PSBoundParameters.ContainsKey($_)}).Count) {
+  if ($Command -notin @('install','apply')) { throw 'Offline bundle options are supported by install and apply only.' }
+  if (-not $OfflineBundle -or -not $OfflineProfileId -or -not $OfflineCatalogFileId) { throw 'OfflineBundle, OfflineProfileId and OfflineCatalogFileId are required together.' }
+  if ($Library.Count -or $UserContext -ne 'Current' -or $PSBoundParameters.ContainsKey('GitHubAuthentication') -or $PSBoundParameters.ContainsKey('GitHubCredentialReference')) { throw 'Offline execution does not support libraries, desktop handoff or network authentication.' }
+  $offlineParameters = @{OfflineBundle=$OfflineBundle;OfflineProfileId=$OfflineProfileId;OfflineCatalogFileId=$OfflineCatalogFileId}
+}
 $githubParameters = @{}
 if ($PSBoundParameters.ContainsKey('GitHubAuthentication') -or $PSBoundParameters.ContainsKey('GitHubCredentialReference')) {
   if ($Command -notin @('download','install','apply','restore')) { throw 'GitHub authentication options are supported by download, install, apply and restore only.' }
@@ -574,7 +619,7 @@ switch ($Command) {
     $loadedProfile = Get-RideProfile -Path $Profile
     $plan = @(Get-RidePlan -Profile $loadedProfile)
     if ($shouldProcessParameters.WhatIf) { Show-RidePlan -Plan $plan }
-    Invoke-RidePlan -Plan $plan @shouldProcessParameters @githubParameters
+    Invoke-RidePlan -Plan $plan @shouldProcessParameters @githubParameters @offlineParameters
   }
   'download' {
     if (-not $Id) { throw 'The download command requires a package or artifact ID.' }
@@ -588,7 +633,7 @@ switch ($Command) {
     if ($PSBoundParameters.ContainsKey('Profile')) { throw 'The install command accepts one package ID and does not use -Profile.' }
     $plan = @(Get-RideSingleOperationPlan -Id $Id -Action Install -Variant $Variant)
     if ($shouldProcessParameters.WhatIf) { Show-RidePlan -Plan $plan }
-    Invoke-RidePlan -Plan $plan @shouldProcessParameters @githubParameters
+    Invoke-RidePlan -Plan $plan @shouldProcessParameters @githubParameters @offlineParameters
   }
   'set' {
     if (-not $Id) { throw 'The set command requires a setting ID.' }

@@ -1,0 +1,184 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-17",
+  "Scope": "Focused MiTeC/NTCore portable lifecycle acceptance",
+  "Disposition": "Prepared; VM acceptance blocked before mutation",
+  "Run": {
+    "RunId": "361729f7f6434c299eddcc40bc84069f",
+    "Batch": "AllReviewed",
+    "VM": "RIDE-Win11-Test",
+    "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "CheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+    "ExpectedCases": 6,
+    "Status": "Failed",
+    "Error": "WinRM must already be running. Prepare the host in an elevated session; no services were started.",
+    "Cleanup": "NotStarted",
+    "EvidenceCollected": false,
+    "ToolExecuted": false
+  },
+  "PostAttempt": {
+    "VM": {
+      "Name": "RIDE-Win11-Test",
+      "Id": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+      "State": "Off"
+    },
+    "Checkpoint": {
+      "Name": "RIDE-clean-test-base",
+      "Id": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9"
+    },
+    "Services": [
+      {
+        "Name": "vmms",
+        "Status": "Running",
+        "StartType": "Automatic"
+      },
+      {
+        "Name": "WinRM",
+        "Status": "Stopped",
+        "StartType": "Manual"
+      }
+    ],
+    "Controller": {
+      "TaskName": "RIDEWin11Test",
+      "State": "Ready"
+    }
+  },
+  "Cases": [
+    {
+      "Id": "package.mitec-json-viewer",
+      "Variant": "portable",
+      "Version": "3.2.2.0",
+      "Archive": "JSONView.zip",
+      "ExpectedSha256": "9c6d38bc040bae98e9847539220611e4dea915d27314463e602b880c3f845b21",
+      "GuestStatus": "NotRun",
+      "FunctionalAcceptance": "Pending",
+      "ActivationAcceptance": "Pending"
+    },
+    {
+      "Id": "package.mitec-json-viewer",
+      "Variant": "portable-x86",
+      "Version": "3.2.2.0",
+      "Archive": "JSONView.zip",
+      "ExpectedSha256": "9c6d38bc040bae98e9847539220611e4dea915d27314463e602b880c3f845b21",
+      "GuestStatus": "NotRun",
+      "FunctionalAcceptance": "Pending",
+      "ActivationAcceptance": "Pending"
+    },
+    {
+      "Id": "package.mitec-xml-viewer",
+      "Variant": "portable",
+      "Version": "6.5.0.0",
+      "Archive": "XMLView.zip",
+      "ExpectedSha256": "c64a87ee9d26096d3a2efc63d2c1b38fb5440a825fa5b1bdc0d50cbb2d6b7960",
+      "GuestStatus": "NotRun",
+      "FunctionalAcceptance": "Pending",
+      "ActivationAcceptance": "Pending"
+    },
+    {
+      "Id": "package.mitec-xml-viewer",
+      "Variant": "portable-x86",
+      "Version": "6.5.0.0",
+      "Archive": "XMLView.zip",
+      "ExpectedSha256": "c64a87ee9d26096d3a2efc63d2c1b38fb5440a825fa5b1bdc0d50cbb2d6b7960",
+      "GuestStatus": "NotRun",
+      "FunctionalAcceptance": "Pending",
+      "ActivationAcceptance": "Pending"
+    },
+    {
+      "Id": "package.ntcore-pe-detective",
+      "Variant": "portable",
+      "Version": "1.2.1.1",
+      "Archive": "PE_Detective.zip",
+      "ExpectedSha256": "821f4fa1df9d3a39e32f15183126e56af8dacf4690a8fd01bfac6d850ea36263",
+      "GuestStatus": "NotRun",
+      "FunctionalAcceptance": "Pending",
+      "ActivationAcceptance": "Pending"
+    },
+    {
+      "Id": "package.ntcore-cff-explorer",
+      "Variant": "portable",
+      "Version": "8.0.0.0",
+      "Archive": "CFF_Explorer.zip",
+      "ExpectedSha256": "8e72bcb9c6e83f188f4a259ad039ed3cc37cdf2c3ea12b00f0df8d8b67e96d96",
+      "GuestStatus": "NotRun",
+      "FunctionalAcceptance": "Pending",
+      "ActivationAcceptance": "Pending"
+    }
+  ],
+  "ArchivePreview": "Passed: exact four retained archives matched catalog pins",
+  "VMChanged": false,
+  "CheckpointRecoveryTested": false,
+  "DefenderBlockedToolsExcluded": true,
+  "ProtectionSettingsChanged": false,
+  "CatalogSupportChanged": false,
+  "GuestCasesCompleted": 0,
+  "LocalTests": [
+    {
+      "PowerShell": "5.1.26100.9711",
+      "Tests": [
+        "PortableAcceptanceAutomation",
+        "MitecViewerPackages",
+        "NtcorePackages"
+      ],
+      "Passed": 37,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 37
+    },
+    {
+      "PowerShell": "7.6.5",
+      "Tests": [
+        "PortableAcceptanceAutomation",
+        "MitecViewerPackages",
+        "NtcorePackages"
+      ],
+      "Passed": 37,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 37
+    }
+  ],
+  "LocalTestPayloads": "Inert TestDrive fixtures; no utility execution",
+  "Validation": {
+    "GeneratedDocumentation": "Current",
+    "PowerShellFiles": 234,
+    "Profiles": 5,
+    "Operations": 362,
+    "Groups": 8,
+    "Editions": [
+      "5.1.26100.9711",
+      "7.6.5"
+    ]
+  },
+  "CorrectionsBeforeFinalChecks": [
+    "Use repository catalog data loader",
+    "Normalize PowerShell 5.1 JSON array enumeration"
+  ],
+  "Blockers": [
+    "Host WinRM stopped; later host preflight gates not reached",
+    "Six native lifecycle cases unrun",
+    "GUI/parser functionality and real activation unverified",
+    "NirSoft remains Defender-blocked and excluded"
+  ],
+  "Next": "Restore the existing host WinRM prerequisite through normal administration, then rerun the documented focused batch with unchanged registered VM/checkpoint pins.",
+  "RawEvidence": [
+    ".local/portable-vm-acceptance-20261017/361729f7f6434c299eddcc40bc84069f/result.json",
+    ".local/portable-vm-launch.log",
+    ".local/portable-vm-postcheck.json",
+    ".local/portable-runner-tests-5.log",
+    ".local/portable-runner-tests-7.log",
+    ".local/portable-validation-5.log",
+    ".local/portable-validation-7.log"
+  ],
+  "Estimates": {
+    "Components": "20-25",
+    "Planning": 175,
+    "Settings": "38-58",
+    "WholeLegacyOutcomesClosed": 0,
+    "Reason": "Runner preparation and blocked preflight do not close legacy outcomes.",
+    "Packages": "56-71",
+    "Maintenance": "8-12",
+    "AccountsAssets": "25-35",
+    "Rounded": "145-200"
+  }
+}

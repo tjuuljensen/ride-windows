@@ -1,0 +1,893 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "Batch": "NTCore managed utilities",
+  "VirtualRegManager": {
+    "Artifact": {
+      "Product": "VirtualReg Manager",
+      "Archive": "VirtualRegManager.zip",
+      "DownloadUri": "https://ntcore.com/files/VirtualRegManager.zip",
+      "Length": 32709,
+      "Sha256": "7e807d1106e91c898733a00da01dfa860e468fb14bbe3852fea9892a377d5fa6",
+      "Members": [
+        {
+          "Path": "VirtualReg Manager.exe",
+          "Length": 94208,
+          "Sha256": "6ef5dab0991dbb739424d11154bd16ca61830d50c5e09005c62c7861f8724c85",
+          "PeMachine": "014c",
+          "FileVersion": "1.0.0.1",
+          "ProductVersion": "1.0.0.1",
+          "CompanyName": "Daniel Pistelli",
+          "LegalCopyright": "© 2008 Daniel Pistelli.  All rights reserved."
+        }
+      ],
+      "NativeAcceptance": false,
+      "PayloadExecuted": false,
+      "PublisherDigestVerified": false,
+      "LicenseFilePresent": false
+    },
+    "ProductUri": "https://ntcore.com/virtualreg-manager/",
+    "ProductPageSha256": "faebf2a9fdd7de0eafcad334e645b735d6d327e1656581e7eb8132cc3db11394",
+    "PageVersion": "1.0.0.1",
+    "LicenseObservation": "Publisher expressly permits including the application in freeware; no blanket commercial/shared-kit redistribution determination",
+    "CatalogAdmission": false,
+    "Blockers": [
+      "Review grant against intended distribution and retain publisher attribution",
+      "Resolve actual CLR/framework prerequisite and Windows target compatibility",
+      "Own virtual-registry outputs/configuration separately from installed executable"
+    ],
+    "PreparedAcceptance": [
+      "Synthetic virtual-registry files and isolated guest test keys only",
+      "Verify GUI/CLI round trips, no changes outside fixture and preservation of unowned XML/configuration",
+      "Exact file lifecycle and intended-user context"
+    ]
+  },
+  "ScreenWriter": {
+    "MsiInspection": {
+      "SchemaVersion": 1,
+      "RecordedDate": "2026-10-17",
+      "Product": "ScreenWriter",
+      "DownloadUri": "https://ntcore.com/files/ScreenWriter.msi",
+      "Sha256": "e1bae80b9f7934c14d498a827bb15f8fb963a6fe9de9d7d18223049fb62563ab",
+      "Length": 435200,
+      "Mode": "WindowsInstaller database opened read-only (0); no install/session/administrative install",
+      "NativeAcceptance": false,
+      "PayloadExecuted": false,
+      "Tables": {
+        "Property": [
+          {
+            "Property": "UpgradeCode",
+            "Value": "{93B8CC78-8F88-4E83-9470-3B62225D1291}"
+          },
+          {
+            "Property": "VSDFrameworkVersion",
+            "Value": "2.0.50727"
+          },
+          {
+            "Property": "VSDAllowLaterFrameworkVersions",
+            "Value": "False"
+          },
+          {
+            "Property": "ProductName",
+            "Value": "ScreenWriter"
+          },
+          {
+            "Property": "ProductCode",
+            "Value": "{0D75586D-610A-41E3-9278-9D4860DFA99F}"
+          },
+          {
+            "Property": "ProductVersion",
+            "Value": "1.0.0"
+          },
+          {
+            "Property": "Manufacturer",
+            "Value": "NTCore"
+          },
+          {
+            "Property": "ARPCONTACT",
+            "Value": "Daniel Pistelli"
+          },
+          {
+            "Property": "ProductLanguage",
+            "Value": "1033"
+          },
+          {
+            "Property": "SecureCustomProperties",
+            "Value": "PREVIOUSVERSIONSINSTALLED;NEWERPRODUCTFOUND"
+          },
+          {
+            "Property": "VSDNETURLMSG",
+            "Value": "This setup requires the .NET Framework version [1].  Please install the .NET Framework and run this setup again.  The .NET Framework can be obtained from the web.  Would you like to do this now?"
+          },
+          {
+            "Property": "VSDIISMSG",
+            "Value": "This setup requires Internet Information Server 4.0 or higher and Windows NT 4.0, Windows 2000 or higher.  This setup cannot be installed on Windows 95, Windows 98, or Windows Me.  Please install Internet Information Server and run this setup again."
+          },
+          {
+            "Property": "VSDUIANDADVERTISED",
+            "Value": "This advertised application will not be installed because it might be unsafe. Contact your administrator to change the installation user interface option of the package to basic."
+          },
+          {
+            "Property": "VSDNETMSG",
+            "Value": "This setup requires the .NET Framework version [1].  Please install the .NET Framework and run this setup again."
+          },
+          {
+            "Property": "VSDINVALIDURLMSG",
+            "Value": "The specified path '[2]' is unavailable. The Internet Information Server might not be running or the path exists and is redirected to another machine. Please check the status of this virtual directory in the Internet Services Manager."
+          },
+          {
+            "Property": "VSDVERSIONMSG",
+            "Value": "Unable to install because a newer version of this product is already installed."
+          },
+          {
+            "Property": "FolderForm_AllUsers",
+            "Value": "ME"
+          },
+          {
+            "Property": "FolderForm_AllUsersVisible",
+            "Value": "1"
+          },
+          {
+            "Property": "DefaultUIFont",
+            "Value": "VsdDefaultUIFont.524F4245_5254_5341_4C45_534153783400"
+          },
+          {
+            "Property": "AdminMaintenanceForm_Action",
+            "Value": "Repair"
+          },
+          {
+            "Property": "ErrorDialog",
+            "Value": "ErrorDialog"
+          },
+          {
+            "Property": "SFF_UpFldrBtn",
+            "Value": "UpFldrBtn"
+          },
+          {
+            "Property": "SFF_NewFldrBtn",
+            "Value": "NewFldrBtn"
+          },
+          {
+            "Property": "MaintenanceForm_Action",
+            "Value": "Repair"
+          },
+          {
+            "Property": "WelcomeForm_NextArgs",
+            "Value": "FolderForm"
+          },
+          {
+            "Property": "FolderForm_PrevArgs",
+            "Value": "WelcomeForm"
+          },
+          {
+            "Property": "FolderForm_NextArgs",
+            "Value": "ConfirmInstallForm"
+          },
+          {
+            "Property": "ConfirmInstallForm_PrevArgs",
+            "Value": "FolderForm"
+          },
+          {
+            "Property": "AdminWelcomeForm_NextArgs",
+            "Value": "AdminFolderForm"
+          },
+          {
+            "Property": "AdminFolderForm_PrevArgs",
+            "Value": "AdminWelcomeForm"
+          },
+          {
+            "Property": "AdminFolderForm_NextArgs",
+            "Value": "AdminConfirmInstallForm"
+          },
+          {
+            "Property": "AdminConfirmInstallForm_PrevArgs",
+            "Value": "AdminFolderForm"
+          }
+        ],
+        "File": [
+          {
+            "File": "_1A35FA510BDF4BAFABD2665324F6DA80",
+            "Component_": "C__1A35FA510BDF4BAFABD2665324F6DA80",
+            "FileName": "SCREEN~1.EXE|ScreenWriter.exe",
+            "FileSize": "161792",
+            "Version": "1.1.0.1",
+            "Language": "0",
+            "Attributes": "512",
+            "Sequence": "1"
+          },
+          {
+            "File": "_2060F1D6A0EF4960AD851E0E9D6C2ED4",
+            "Component_": "C__2060F1D6A0EF4960AD851E0E9D6C2ED4",
+            "FileName": "ROMEO.SWE|romeo.swe",
+            "FileSize": "4908",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "2"
+          },
+          {
+            "File": "_6CE738C726804B1399A7F24F054BEB5B",
+            "Component_": "C__6CE738C726804B1399A7F24F054BEB5B",
+            "FileName": "GODOT.SWE|godot.swe",
+            "FileSize": "5206",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "3"
+          },
+          {
+            "File": "_8250E244AC8B4801974CD060819B855B",
+            "Component_": "C__8250E244AC8B4801974CD060819B855B",
+            "FileName": "APPICO.ICO|appico.ico",
+            "FileSize": "17542",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "4"
+          },
+          {
+            "File": "_98DBEE51D5CD4A678F7C27C60F99D241",
+            "Component_": "C__98DBEE51D5CD4A678F7C27C60F99D241",
+            "FileName": "README.TXT|Readme.txt",
+            "FileSize": "338",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "5"
+          }
+        ],
+        "Media": [
+          {
+            "DiskId": "1",
+            "LastSequence": "5",
+            "DiskPrompt": "",
+            "Cabinet": "#_A6ECA827238A6BBFEC14FFFE5E0CFBC8",
+            "VolumeLabel": "",
+            "Source": ""
+          }
+        ],
+        "Directory": [
+          {
+            "Directory": "TARGETDIR",
+            "Directory_Parent": "",
+            "DefaultDir": "SourceDir"
+          },
+          {
+            "Directory": "_31BD8FD3FF234F3F93049C2C5AB0CEC5",
+            "Directory_Parent": "TARGETDIR",
+            "DefaultDir": "TESTSC~1|Test Scripts"
+          },
+          {
+            "Directory": "DesktopFolder",
+            "Directory_Parent": "TARGETDIR",
+            "DefaultDir": ".:USER'S~1|User's Desktop"
+          },
+          {
+            "Directory": "ProgramMenuFolder",
+            "Directory_Parent": "TARGETDIR",
+            "DefaultDir": ".:USER'S~2|User's Programs Menu"
+          },
+          {
+            "Directory": "_242CA3A0394E4DCB95649B702B80E3C8",
+            "Directory_Parent": "ProgramMenuFolder",
+            "DefaultDir": "SCREEN~1|ScreenWriter"
+          }
+        ],
+        "Component": [
+          {
+            "Component": "C__1A35FA510BDF4BAFABD2665324F6DA80",
+            "ComponentId": "{5703ECCA-9E9E-B931-40B0-67318DAB55E0}",
+            "Directory_": "TARGETDIR",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_1A35FA510BDF4BAFABD2665324F6DA80"
+          },
+          {
+            "Component": "C__2060F1D6A0EF4960AD851E0E9D6C2ED4",
+            "ComponentId": "{E816FC00-2267-24D0-16E9-6AC41D595020}",
+            "Directory_": "_31BD8FD3FF234F3F93049C2C5AB0CEC5",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_2060F1D6A0EF4960AD851E0E9D6C2ED4"
+          },
+          {
+            "Component": "C__6CE738C726804B1399A7F24F054BEB5B",
+            "ComponentId": "{3968F1AC-60FA-692F-0CE3-C59E5DFD35EB}",
+            "Directory_": "_31BD8FD3FF234F3F93049C2C5AB0CEC5",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_6CE738C726804B1399A7F24F054BEB5B"
+          },
+          {
+            "Component": "C__8250E244AC8B4801974CD060819B855B",
+            "ComponentId": "{A781B154-158F-392D-CE3A-77D357DDC188}",
+            "Directory_": "TARGETDIR",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_8250E244AC8B4801974CD060819B855B"
+          },
+          {
+            "Component": "C__98DBEE51D5CD4A678F7C27C60F99D241",
+            "ComponentId": "{9667A6E1-AA21-2D3A-4A58-FBDCCD15EFE1}",
+            "Directory_": "TARGETDIR",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_98DBEE51D5CD4A678F7C27C60F99D241"
+          },
+          {
+            "Component": "C__746C69616E6711D38E0D00C04F6837D0",
+            "ComponentId": "{0D75586D-610A-41E3-9278-9D4860DFA99F}",
+            "Directory_": "TARGETDIR",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": ""
+          }
+        ],
+        "Feature": [
+          {
+            "Feature": "DefaultFeature",
+            "Feature_Parent": "",
+            "Title": "",
+            "Description": "",
+            "Display": "2",
+            "Level": "1",
+            "Directory_": "TARGETDIR",
+            "Attributes": "0"
+          }
+        ],
+        "FeatureComponents": [
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__1A35FA510BDF4BAFABD2665324F6DA80"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__2060F1D6A0EF4960AD851E0E9D6C2ED4"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__6CE738C726804B1399A7F24F054BEB5B"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__8250E244AC8B4801974CD060819B855B"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__98DBEE51D5CD4A678F7C27C60F99D241"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__746C69616E6711D38E0D00C04F6837D0"
+          }
+        ],
+        "CustomAction": [
+          {
+            "Action": "DIRCA_TARGETDIR",
+            "Type": "307",
+            "Source": "TARGETDIR",
+            "Target": "[ProgramFilesFolder][Manufacturer]\\[ProductName]"
+          },
+          {
+            "Action": "DIRCA_CheckFX",
+            "Type": "1",
+            "Source": "MSVBDPCADLL",
+            "Target": "CheckFX"
+          },
+          {
+            "Action": "VSDCA_VsdLaunchConditions",
+            "Type": "1",
+            "Source": "MSVBDPCADLL",
+            "Target": "VsdLaunchConditions"
+          },
+          {
+            "Action": "ERRCA_CANCELNEWERVERSION",
+            "Type": "19",
+            "Source": "",
+            "Target": "[VSDVERSIONMSG]"
+          },
+          {
+            "Action": "ERRCA_UIANDADVERTISED",
+            "Type": "19",
+            "Source": "",
+            "Target": "[VSDUIANDADVERTISED]"
+          },
+          {
+            "Action": "VSDCA_FolderForm_AllUsers",
+            "Type": "51",
+            "Source": "FolderForm_AllUsers",
+            "Target": "ALL"
+          }
+        ],
+        "LaunchCondition": [],
+        "InstallExecuteSequence": [
+          {
+            "Action": "AppSearch",
+            "Condition": "",
+            "Sequence": "100"
+          },
+          {
+            "Action": "BindImage",
+            "Condition": "",
+            "Sequence": "4300"
+          },
+          {
+            "Action": "CCPSearch",
+            "Condition": "NOT Installed",
+            "Sequence": "500"
+          },
+          {
+            "Action": "DIRCA_TARGETDIR",
+            "Condition": "TARGETDIR=\"\"",
+            "Sequence": "750"
+          },
+          {
+            "Action": "DIRCA_CheckFX",
+            "Condition": "",
+            "Sequence": "1"
+          },
+          {
+            "Action": "VSDCA_VsdLaunchConditions",
+            "Condition": "NOT Installed",
+            "Sequence": "399"
+          },
+          {
+            "Action": "ERRCA_CANCELNEWERVERSION",
+            "Condition": "NEWERPRODUCTFOUND AND NOT Installed",
+            "Sequence": "201"
+          },
+          {
+            "Action": "FindRelatedProducts",
+            "Condition": "",
+            "Sequence": "200"
+          },
+          {
+            "Action": "LaunchConditions",
+            "Condition": "NOT Installed",
+            "Sequence": "400"
+          },
+          {
+            "Action": "RMCCPSearch",
+            "Condition": "NOT Installed",
+            "Sequence": "600"
+          },
+          {
+            "Action": "ValidateProductID",
+            "Condition": "",
+            "Sequence": "700"
+          },
+          {
+            "Action": "CostInitialize",
+            "Condition": "",
+            "Sequence": "800"
+          },
+          {
+            "Action": "FileCost",
+            "Condition": "",
+            "Sequence": "900"
+          },
+          {
+            "Action": "IsolateComponents",
+            "Condition": "RedirectedDllSupport",
+            "Sequence": "950"
+          },
+          {
+            "Action": "CostFinalize",
+            "Condition": "",
+            "Sequence": "1000"
+          },
+          {
+            "Action": "SetODBCFolders",
+            "Condition": "NOT Installed",
+            "Sequence": "1100"
+          },
+          {
+            "Action": "InstallValidate",
+            "Condition": "",
+            "Sequence": "1400"
+          },
+          {
+            "Action": "InstallInitialize",
+            "Condition": "",
+            "Sequence": "1500"
+          },
+          {
+            "Action": "AllocateRegistrySpace",
+            "Condition": "NOT Installed",
+            "Sequence": "1550"
+          },
+          {
+            "Action": "ProcessComponents",
+            "Condition": "",
+            "Sequence": "1600"
+          },
+          {
+            "Action": "MsiPublishAssemblies",
+            "Condition": "",
+            "Sequence": "6250"
+          },
+          {
+            "Action": "MsiUnpublishAssemblies",
+            "Condition": "",
+            "Sequence": "1650"
+          },
+          {
+            "Action": "UnpublishComponents",
+            "Condition": "",
+            "Sequence": "1700"
+          },
+          {
+            "Action": "UnpublishFeatures",
+            "Condition": "",
+            "Sequence": "1800"
+          },
+          {
+            "Action": "StopServices",
+            "Condition": "VersionNT",
+            "Sequence": "1900"
+          },
+          {
+            "Action": "DeleteServices",
+            "Condition": "VersionNT",
+            "Sequence": "2000"
+          },
+          {
+            "Action": "UnregisterComPlus",
+            "Condition": "",
+            "Sequence": "2100"
+          },
+          {
+            "Action": "SelfUnregModules",
+            "Condition": "",
+            "Sequence": "2200"
+          },
+          {
+            "Action": "UnregisterTypeLibraries",
+            "Condition": "",
+            "Sequence": "2300"
+          },
+          {
+            "Action": "RemoveODBC",
+            "Condition": "",
+            "Sequence": "2400"
+          },
+          {
+            "Action": "UnregisterFonts",
+            "Condition": "",
+            "Sequence": "2500"
+          },
+          {
+            "Action": "RemoveRegistryValues",
+            "Condition": "",
+            "Sequence": "2600"
+          },
+          {
+            "Action": "UnregisterClassInfo",
+            "Condition": "",
+            "Sequence": "2700"
+          },
+          {
+            "Action": "UnregisterExtensionInfo",
+            "Condition": "",
+            "Sequence": "2800"
+          },
+          {
+            "Action": "UnregisterProgIdInfo",
+            "Condition": "",
+            "Sequence": "2900"
+          },
+          {
+            "Action": "UnregisterMIMEInfo",
+            "Condition": "",
+            "Sequence": "3000"
+          },
+          {
+            "Action": "RemoveIniValues",
+            "Condition": "",
+            "Sequence": "3100"
+          },
+          {
+            "Action": "RemoveShortcuts",
+            "Condition": "",
+            "Sequence": "3200"
+          },
+          {
+            "Action": "RemoveEnvironmentStrings",
+            "Condition": "",
+            "Sequence": "3300"
+          },
+          {
+            "Action": "RemoveDuplicateFiles",
+            "Condition": "",
+            "Sequence": "3400"
+          },
+          {
+            "Action": "RemoveFiles",
+            "Condition": "",
+            "Sequence": "3500"
+          },
+          {
+            "Action": "RemoveFolders",
+            "Condition": "",
+            "Sequence": "3600"
+          },
+          {
+            "Action": "CreateFolders",
+            "Condition": "",
+            "Sequence": "3700"
+          },
+          {
+            "Action": "MoveFiles",
+            "Condition": "",
+            "Sequence": "3800"
+          },
+          {
+            "Action": "InstallFiles",
+            "Condition": "",
+            "Sequence": "4000"
+          },
+          {
+            "Action": "PatchFiles",
+            "Condition": "",
+            "Sequence": "4090"
+          },
+          {
+            "Action": "DuplicateFiles",
+            "Condition": "",
+            "Sequence": "4210"
+          },
+          {
+            "Action": "CreateShortcuts",
+            "Condition": "",
+            "Sequence": "4500"
+          },
+          {
+            "Action": "RegisterClassInfo",
+            "Condition": "",
+            "Sequence": "4600"
+          },
+          {
+            "Action": "RegisterExtensionInfo",
+            "Condition": "",
+            "Sequence": "4700"
+          },
+          {
+            "Action": "RegisterProgIdInfo",
+            "Condition": "",
+            "Sequence": "4800"
+          },
+          {
+            "Action": "RegisterMIMEInfo",
+            "Condition": "",
+            "Sequence": "4900"
+          },
+          {
+            "Action": "WriteRegistryValues",
+            "Condition": "",
+            "Sequence": "5000"
+          },
+          {
+            "Action": "WriteIniValues",
+            "Condition": "",
+            "Sequence": "5100"
+          },
+          {
+            "Action": "WriteEnvironmentStrings",
+            "Condition": "",
+            "Sequence": "5200"
+          },
+          {
+            "Action": "RegisterFonts",
+            "Condition": "",
+            "Sequence": "5300"
+          },
+          {
+            "Action": "InstallODBC",
+            "Condition": "",
+            "Sequence": "5400"
+          },
+          {
+            "Action": "RegisterTypeLibraries",
+            "Condition": "",
+            "Sequence": "5500"
+          },
+          {
+            "Action": "SelfRegModules",
+            "Condition": "",
+            "Sequence": "5600"
+          },
+          {
+            "Action": "RegisterComPlus",
+            "Condition": "",
+            "Sequence": "5700"
+          },
+          {
+            "Action": "InstallServices",
+            "Condition": "VersionNT",
+            "Sequence": "5800"
+          },
+          {
+            "Action": "StartServices",
+            "Condition": "VersionNT",
+            "Sequence": "5900"
+          },
+          {
+            "Action": "RegisterUser",
+            "Condition": "",
+            "Sequence": "6000"
+          },
+          {
+            "Action": "RegisterProduct",
+            "Condition": "",
+            "Sequence": "6100"
+          },
+          {
+            "Action": "PublishComponents",
+            "Condition": "",
+            "Sequence": "6200"
+          },
+          {
+            "Action": "PublishFeatures",
+            "Condition": "",
+            "Sequence": "6300"
+          },
+          {
+            "Action": "PublishProduct",
+            "Condition": "",
+            "Sequence": "6400"
+          },
+          {
+            "Action": "InstallFinalize",
+            "Condition": "",
+            "Sequence": "6600"
+          },
+          {
+            "Action": "RemoveExistingProducts",
+            "Condition": "",
+            "Sequence": "1525"
+          }
+        ],
+        "Registry": [],
+        "Shortcut": [
+          {
+            "Shortcut": "_34BCC37BBDE44F5FB400FEE520CBEA14",
+            "Directory_": "_242CA3A0394E4DCB95649B702B80E3C8",
+            "Name": "SCREEN~2|ScreenWriter",
+            "Component_": "C__1A35FA510BDF4BAFABD2665324F6DA80",
+            "Target": "DefaultFeature",
+            "Arguments": "",
+            "Description": "",
+            "Hotkey": "",
+            "Icon_": "_EFAE08C44E8B753CC45FBA.exe",
+            "IconIndex": "0",
+            "ShowCmd": "1",
+            "WkDir": "TARGETDIR"
+          },
+          {
+            "Shortcut": "_C72B2940E9B344BE9949F8BD25E653AD",
+            "Directory_": "DesktopFolder",
+            "Name": "SCREEN~3|ScreenWriter",
+            "Component_": "C__1A35FA510BDF4BAFABD2665324F6DA80",
+            "Target": "DefaultFeature",
+            "Arguments": "",
+            "Description": "",
+            "Hotkey": "",
+            "Icon_": "_6039405C180C19CBDF466E.exe",
+            "IconIndex": "0",
+            "ShowCmd": "1",
+            "WkDir": "TARGETDIR"
+          }
+        ],
+        "RemoveFile": [
+          {
+            "FileKey": "_0B3F08547C0A4EDDA936A9943DB07300",
+            "Component_": "C__746C69616E6711D38E0D00C04F6837D0",
+            "FileName": "",
+            "DirProperty": "_242CA3A0394E4DCB95649B702B80E3C8",
+            "InstallMode": "2"
+          }
+        ],
+        "MsiAssembly": [
+          {
+            "Component_": "C__1A35FA510BDF4BAFABD2665324F6DA80",
+            "Feature_": "DefaultFeature",
+            "File_Manifest": "_1A35FA510BDF4BAFABD2665324F6DA80",
+            "File_Application": "_1A35FA510BDF4BAFABD2665324F6DA80",
+            "Attributes": "0"
+          }
+        ],
+        "MsiAssemblyName": [
+          {
+            "Component_": "C__1A35FA510BDF4BAFABD2665324F6DA80",
+            "Name": "Name",
+            "Value": "ScreenWriter"
+          },
+          {
+            "Component_": "C__1A35FA510BDF4BAFABD2665324F6DA80",
+            "Name": "Version",
+            "Value": "1.1.0.1"
+          },
+          {
+            "Component_": "C__1A35FA510BDF4BAFABD2665324F6DA80",
+            "Name": "Culture",
+            "Value": "neutral"
+          },
+          {
+            "Component_": "C__1A35FA510BDF4BAFABD2665324F6DA80",
+            "Name": "ProcessorArchitecture",
+            "Value": "MSIL"
+          }
+        ]
+      }
+    },
+    "ProductUri": "https://ntcore.com/screenwriter/",
+    "ProductPageSha256": "0c6faf6eae3db4937d89841f04e9fb8067af7fbcc08d75736feb94a1214837b4",
+    "PageVersion": "1.1.0.1",
+    "InstallerProductVersion": "1.0.0",
+    "InstallerProductCode": "{0D75586D-610A-41E3-9278-9D4860DFA99F}",
+    "ExecutableVersion": "1.1.0.1",
+    "FrameworkVersion": "2.0.50727",
+    "AllowLaterFrameworkVersions": "False",
+    "CabinetSha256": "1d0b16bcec31442012c7fa5c65ecae70c2551a46ea0585a7d816d8e84baf4360",
+    "CabinetMembers": [
+      {
+        "MsiFileId": "_1A35FA510BDF4BAFABD2665324F6DA80",
+        "FileName": "ScreenWriter.exe",
+        "Length": 161792,
+        "Sha256": "a0fda544e6ddfcd364b0ba34620f14b75ec13106d568d3e14ccd85b8423a9cc1",
+        "FileVersion": "1.1.0.1"
+      },
+      {
+        "MsiFileId": "_2060F1D6A0EF4960AD851E0E9D6C2ED4",
+        "FileName": "romeo.swe",
+        "Length": 4908,
+        "Sha256": "968ac2361467a8dd354f201f49ce26c812d8028fe5c24fedc19761abde8a71ef",
+        "FileVersion": null
+      },
+      {
+        "MsiFileId": "_6CE738C726804B1399A7F24F054BEB5B",
+        "FileName": "godot.swe",
+        "Length": 5206,
+        "Sha256": "ac6f20d33b0996d4d5ba7cb4cfa8c13aac32f33d7eba8dcf28e721419b50a52b",
+        "FileVersion": null
+      },
+      {
+        "MsiFileId": "_8250E244AC8B4801974CD060819B855B",
+        "FileName": "appico.ico",
+        "Length": 17542,
+        "Sha256": "ed9e74386a92fd45bd88217004f497f91aaf88b6189a073d00bb445124f27b29",
+        "FileVersion": null
+      },
+      {
+        "MsiFileId": "_98DBEE51D5CD4A678F7C27C60F99D241",
+        "FileName": "Readme.txt",
+        "Length": 338,
+        "Sha256": "575efff622914898cc6d6db2ead6c1c9eadba7692313031c0057378d2a73d91b",
+        "FileVersion": null
+      }
+    ],
+    "ReadmeObservation": "Bundled readme identifies free software, disclaims warranty and credits Daniel Pistelli; no explicit redistribution grant located",
+    "LicenseDialogObserved": false,
+    "CatalogAdmission": false,
+    "Blockers": [
+      "Do not conflate MSI ProductVersion 1.0.0 with executable/page 1.1.0.1",
+      "Review .NET Framework 2.0.50727 prerequisite and six MSI custom actions before installation; no silent host prerequisite enablement",
+      "Installer scope, shortcuts, file association, uninstall and rollback remain unverified",
+      "Preserve bundled sample attribution; review applicable sample and redistribution terms"
+    ],
+    "PreparedAcceptance": [
+      "Prepare a disposable-guest prerequisite and exact MSI lifecycle scenario for later authorized registration",
+      "Use synthetic scripts; preserve user projects and settings through uninstall/restore",
+      "Capture custom-action failure, repeated install, product-code detection and exact uninstall/rollback behavior"
+    ]
+  },
+  "PayloadExecuted": false,
+  "MsiInstalled": false,
+  "NativeAcceptance": false,
+  "FreshUacLaunches": 0,
+  "InspectionNotes": [
+    "WindowsInstaller OpenDatabase mode 0 reads tables without starting an install session",
+    "First COM property-access attempt returned empty metadata; corrected explicit property access and required File/Property tables before accepting evidence",
+    "7-Zip extracted only the named embedded cabinet and five bounded MSI File identifiers; no custom-action binary was extracted or invoked"
+  ]
+}

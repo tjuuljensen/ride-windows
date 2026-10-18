@@ -1,0 +1,206 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "Scope": "Read-only static MSI table review for Phoenix Protector and Explorer Suite Extension Wizard; no installer session or payload execution",
+  "Artifacts": [
+    {
+      "Product": "Phoenix Protector",
+      "MsiSha256": "15a7dbbf90ce66fb302a322c6809fafd897808096069dfecededf78e51b16369",
+      "MsiLength": 1357312,
+      "SourceEvidence": "ntcore-remaining-source-review-2026-10-17.json",
+      "ObservedFrameworkProperties": {
+        "VSDFrameworkVersion": "2.0.50727",
+        "VSDAllowLaterFrameworkVersions": "False"
+      },
+      "CustomActions": [
+        {
+          "Action": "DIRCA_TARGETDIR",
+          "Type": 307,
+          "Source": "TARGETDIR",
+          "Target": "[ProgramFilesFolder][Manufacturer]\\[ProductName]",
+          "Condition": "TARGETDIR=\"\"",
+          "Sequence": 750
+        },
+        {
+          "Action": "DIRCA_CheckFX",
+          "Type": 1,
+          "Source": "MSVBDPCADLL",
+          "Target": "CheckFX",
+          "Condition": "",
+          "Sequence": 1
+        },
+        {
+          "Action": "VSDCA_VsdLaunchConditions",
+          "Type": 1,
+          "Source": "MSVBDPCADLL",
+          "Target": "VsdLaunchConditions",
+          "Condition": "NOT Installed",
+          "Sequence": 399
+        },
+        {
+          "Action": "ERRCA_CANCELNEWERVERSION",
+          "Type": 19,
+          "Source": "",
+          "Target": "[VSDVERSIONMSG]",
+          "Condition": "NEWERPRODUCTFOUND AND NOT Installed",
+          "Sequence": 201
+        },
+        {
+          "Action": "ERRCA_UIANDADVERTISED",
+          "Type": 19,
+          "Source": "",
+          "Target": "[VSDUIANDADVERTISED]",
+          "Condition": "",
+          "Sequence": null
+        },
+        {
+          "Action": "VSDCA_FolderForm_AllUsers",
+          "Type": 51,
+          "Source": "FolderForm_AllUsers",
+          "Target": "ALL",
+          "Condition": "",
+          "Sequence": null
+        }
+      ],
+      "Tables": {
+        "LaunchConditionRows": 0,
+        "RegistryRows": 0,
+        "ServiceInstallRows": 0,
+        "ServiceControlRows": 0,
+        "ShortcutRows": 3,
+        "RemoveFileRows": 1
+      },
+      "Interpretation": "The MSI calls DLL-backed CheckFX and VsdLaunchConditions actions through MSVBDPCADLL. Framework properties request 2.0.50727 and disallow later versions. The exact DLL predicate/effects are not established by action names alone; keep framework/custom-action behavior as a native test gate. The directory action defaults to Program Files plus the MSI Manufacturer/ProductName properties.",
+      "Remaining": [
+        "Identify and review the exact custom-action DLL bytes/source and notices",
+        "Confirm framework behavior in an isolated disposable guest, including presence, absence and later-version cases",
+        "Review shortcuts, temporary-file removal and exact MSI-owned recovery against observed records",
+        "Retain the separate Phoenix page/MSI/executable version discrepancy and bundled EULA gate"
+      ]
+    },
+    {
+      "Product": "Explorer Suite Extension Wizard",
+      "MsiSha256": "0ea5e25b12ab314bc9a0569c3ca756f205f40b792119f8e0fc62c874628dfea0",
+      "MsiLength": 224256,
+      "ProductCode": "{D35C17BC-044C-4A61-98DD-9ED1D05CE565}",
+      "ProductVersion": "1.0.0",
+      "SourceEvidence": "installer-static-extraction-2026-10-17.json Nested.ExtensionWizardMsi",
+      "CustomActions": [
+        {
+          "Action": "DIRCA_TARGETDIR",
+          "Type": 307,
+          "Source": "TARGETDIR",
+          "Target": "[ProgramFilesFolder]Microsoft Visual Studio 8\\VC",
+          "Condition": "TARGETDIR=\"\"",
+          "Sequence": 750
+        },
+        {
+          "Action": "ERRCA_CANCELNEWERVERSION",
+          "Type": 19,
+          "Source": "",
+          "Target": "[VSDVERSIONMSG]",
+          "Condition": "NEWERPRODUCTFOUND AND NOT Installed",
+          "Sequence": 201
+        },
+        {
+          "Action": "ERRCA_UIANDADVERTISED",
+          "Type": 19,
+          "Source": "",
+          "Target": "[VSDUIANDADVERTISED]",
+          "Condition": "",
+          "Sequence": null
+        },
+        {
+          "Action": "VSDCA_FolderForm_AllUsers",
+          "Type": 51,
+          "Source": "FolderForm_AllUsers",
+          "Target": "ALL",
+          "Condition": "",
+          "Sequence": null
+        }
+      ],
+      "Tables": {
+        "LaunchConditionRows": 0,
+        "RegistryRows": 0,
+        "ServiceInstallRows": 0,
+        "ServiceControlRows": 0,
+        "ShortcutRows": 0,
+        "RemoveFileRows": 0,
+        "DirectoryRows": 17,
+        "FileRows": 20
+      },
+      "ObservedTargetDirectories": [
+        "[ProgramFilesFolder]Microsoft Visual Studio 8\\VC\\vcprojects",
+        "[ProgramFilesFolder]Microsoft Visual Studio 8\\VC\\VCWizards\\AppWiz\\Generic\\Explorer Suite Extension",
+        "[ProgramFilesFolder]Microsoft Visual Studio 8\\VC\\VCWizards\\AppWiz\\Generic\\Explorer Suite Extension\\Templates",
+        "[ProgramFilesFolder]Microsoft Visual Studio 8\\VC\\VCWizards\\AppWiz\\Generic\\Explorer Suite Extension\\Scripts"
+      ],
+      "TemplateFilesReviewed": [
+        {
+          "Name": "default.js",
+          "Length": 5511,
+          "Sha256": "59f51fef252817b54f6406d86cd40e652ad54779538a4d2bbe3e0b74d14cb244",
+          "StaticObservation": "Uses Visual Studio wizard automation to create a project from PROJECT_PATH/PROJECT_NAME, optionally creates a solution, renders the listed template files into the selected project folder, and adds them to the project. The project settings create a Unicode DLL project. Creates a temporary rendered Templates.inf via Scripting.FileSystemObject and deletes that temporary file on the normal path. No shell/process, registry, or network invocation was found in this script."
+        },
+        {
+          "Name": "Templates.inf",
+          "Length": 84,
+          "Sha256": "117c272b73a2635d5ee9585f267f9d37c20e07417843a4c3e65079fa955f64fd",
+          "StaticObservation": "Lists seven project files: stdafx.cpp, stdafx.h, Main.cpp, CFFExplorerSDK.h, Extension.h, resource.h, and Main.rc."
+        },
+        {
+          "Name": "Explorer Suite Extension.vsz",
+          "Length": 179,
+          "Sha256": "3e2a71c854604389f18005bd56833bdf7020278eccc038782b082c55f2a36d68",
+          "StaticObservation": "Declares VsWizard.VsWizardEngine.8.0 and relative VCWizards\\AppWiz\\Generic path."
+        },
+        {
+          "Name": "Explorer Suite Extension.vsdir",
+          "Length": 119,
+          "Sha256": "d1a724d1f92d3f74897a579fd5ef953a9dccec500a723c859cbb9a979de5eae3",
+          "StaticObservation": "Registers the .vsz template in the project wizard directory; the visible description remains a TODO placeholder."
+        },
+        {
+          "Name": "default.htm",
+          "Length": 8070,
+          "Sha256": "8eb6f6d18729dd17d38a53c0f9e343795f81390f380d5533474dcf673a5102f2",
+          "StaticObservation": "Wizard UI text and script includes reviewed. The only HTTP URI found is the Microsoft Visual Studio target-schema declaration; no network or process-launch call was found."
+        }
+      ],
+      "Interpretation": "The custom-action table has no DLL-backed action; its default target is the Visual Studio 8 VC tree. The 20 installed files include extension wizard templates, scripts, headers and project assets. The MSI has no LaunchCondition rows to establish that the target Visual Studio tree exists or that the expected IDE build is installed. Generic .NET/IIS dialog strings are not proof of actual conditions. When used by Visual Studio, the wizard writes generated project/source files under a user-selected project path and creates/deletes a temporary rendered INF file; this side effect is separate from the MSI's installation of the wizard. Static review found no external process or network invocation in the reviewed wizard scripts, but does not establish benign or correct runtime behavior.",
+      "Remaining": [
+        "Do not install into the host; prepare an isolated VM with the exact supported Visual Studio fixture or leave the extension deferred",
+        "Capture pre-existing VCWizards/vcprojects content and test MSI install, repeat, removal and exact owned-file recovery",
+        "Use a disposable project path for any future generated-project check; preserve any existing project/solution data and inspect generated output",
+        "Preserve separate SDK/extension rights and notices",
+        "The Extension Wizard MSI is a separate product from Explorer Suite and its standalone utilities"
+      ]
+    }
+  ],
+  "Outcome": {
+    "StaticTableReview": "Complete for the retained serialized MSI table observations",
+    "PayloadOrInstallerExecuted": false,
+    "FreshUacPrompts": 0,
+    "VmRuns": 0,
+    "HostOrControllerChanges": 0,
+    "DefenderChanges": 0,
+    "DefenderBlockedToolsTouched": false,
+    "WholeLegacyOutcomesClosed": 0,
+    "RetiredOutcomes": 0,
+    "NewExclusions": 0,
+    "DeferredAcceptance": [
+      "Phoenix framework/custom-action runtime checks and exact install/repeat/remove/recovery behavior",
+      "Explorer Extension Wizard Visual Studio prerequisite, destination ownership and install/recovery behavior"
+    ],
+    "EstimateRanges": [
+      "38-58",
+      "56-71",
+      "20-25",
+      "25-35",
+      "8-12"
+    ],
+    "ExactEstimateTotal": "147-201",
+    "RoundedEstimateTotal": "145-200/about 175",
+    "EstimateReason": "Static installer semantics are clearer, but no complete user-visible outcome, rights decision or native acceptance closed; no estimate deduction is justified."
+  }
+}

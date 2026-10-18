@@ -40,8 +40,9 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.2.0
+  Version: 0.3.0
   Changelog:
+    0.3.0: Install fixed focused-acceptance runner and capability for queued batches.
     0.2.0: Add explicit GitHub PAT selection and credential-safe acceptance boundaries.
     - 0.1.3: Remove UAC observations from registration evidence; keep administrator elevation required.
     - 0.1.2: Accept the existing host UAC configuration while retaining elevation and baseline capture.
@@ -63,7 +64,7 @@ param(
   [ValidateSet('Register', 'Remove')][string] $Action = 'Register',
   [switch] $Version
 )
-$script:ScriptVersion = '0.2.0'
+$script:ScriptVersion = '0.3.0'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -Force
@@ -99,7 +100,7 @@ $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
 $guestGitHubReference = $config.GuestGitHubCredentialReference
 $config = [ordered]@{
   SchemaVersion = 2; Name = $config.Name; IsDisposable = $true
-  Capabilities = @('GitHubPatGuestV1')
+  Capabilities = @('GitHubPatGuestV1','FocusedPortableV1')
   LabName = $config.LabName; VMName = $config.VMName; VMId = $target.VM.Id.ToString()
   CheckpointName = $config.CheckpointName; CheckpointId = $target.Snapshot.Id.ToString()
   GuestRepositoryPath = $config.GuestRepositoryPath
@@ -140,10 +141,11 @@ foreach ($folder in @('bin', 'runtime', 'queue', 'queue\pending', 'queue\running
   New-Item -ItemType Directory -Path $path -Force | Out-Null
   Set-ControllerDirectoryAccess $path -Writable:($folder -ne 'bin')
 }
-foreach ($file in @('RIDE.TestAutomation.psm1', 'RIDE.GitHubVmAuthentication.psm1', 'Invoke-RideVmTestTaskWorker.ps1', 'Invoke-RideVmTest.ps1', 'Invoke-RideVmTestTask.ps1', 'Export-RideVmTestEvidence.ps1')) {
+foreach ($file in @('RIDE.TestAutomation.psm1', 'RIDE.GitHubVmAuthentication.psm1', 'Invoke-RideVmTestTaskWorker.ps1', 'Invoke-RideVmTest.ps1', 'Invoke-RideVmTestTask.ps1', 'Export-RideVmTestEvidence.ps1', 'Invoke-RidePortableVmAcceptance.ps1', 'RIDE.PortableAcceptance.psm1')) {
   Copy-Item -LiteralPath (Join-Path $PSScriptRoot $file) -Destination (Join-Path $root "bin\$file") -Force
 }
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot '../../modules/RIDE.GitHubAuthentication.psm1') -Destination (Join-Path $root 'bin\RIDE.GitHubAuthentication.psm1') -Force
+Copy-Item -LiteralPath (Join-Path $PSScriptRoot '../../modules/RIDE.CatalogData.psm1') -Destination (Join-Path $root 'bin\RIDE.CatalogData.psm1') -Force
 Write-RideAutomationJson -Path $installedConfiguration -Value $config
 $vm = $target.VM
 $evidence = @{

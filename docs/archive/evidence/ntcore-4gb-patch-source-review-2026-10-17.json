@@ -1,0 +1,32 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "Archive": "4gb_patch.zip",
+  "Length": 21464,
+  "Sha256": "1e13c263dc55e85cf62e3e30c6b2ce936d4c7e16e3bba3e311a5a8bed4be16ca",
+  "MemberCount": 1,
+  "ExpandedBytes": 45056,
+  "Members": [
+    {
+      "Path": "4gb_patch.exe",
+      "Length": 45056,
+      "CompressedLength": 21304,
+      "Sha256": "980bf5eb62d30c749e5fbf7593e9d25094a4d849a959aa2b7b3fc979b1c93b5a",
+      "PeMachine": "014c",
+      "FileVersion": "1, 0, 0, 1",
+      "ProductVersion": "1, 0, 0, 1",
+      "LegalCopyright": "© 2007 Daniel Pistelli.  All rights reserved."
+    }
+  ],
+  "PayloadExecuted": false,
+  "NativeAcceptance": false,
+  "InventoryOnly": false,
+  "ProductUri": "https://ntcore.com/4gb-patch/",
+  "DownloadUri": "https://ntcore.com/files/4gb_patch.zip",
+  "CatalogAdmission": false,
+  "Remaining": [
+    "No explicit license grant found in reviewed page or single-file archive; establish publisher terms before admission",
+    "Exact source pinned by observed hash, no independent publisher digest",
+    "Native compatibility and file-backup/recovery behavior; no executable patched"
+  ]
+}

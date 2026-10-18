@@ -86,6 +86,16 @@ Describe 'Selected offline bundle integrity' {
     $r.OfflineGates[0].Reason|Should -BeExactly NetworkRequired
     @($r.Files|Where-Object Status -ne Verified).Count|Should -Be 0
   }
+  It 'accepts catalog-neutral archive content for <Architecture> while retaining target and native gates' -ForEach @(@{Architecture='x64'},@{Architecture='x86'}) {
+    $manifest.Artifacts[0].Architecture='neutral'
+    $manifest.Profiles[0].Architecture=$Architecture
+    $r=Test-RideOfflineBundle -Manifest $manifest -Root $bundleRoot -ProfileId workstation
+    $r.SelectedDeclaredContentComplete|Should -BeTrue
+    $r.ActualTargetVerified|Should -BeFalse
+    $r.ReadyForMutation|Should -BeFalse
+    $manifest.Artifacts[0].Targets=@('Windows Server 2025')
+    (Test-RideOfflineBundle -Manifest $manifest -Root $bundleRoot -ProfileId workstation).RequirementIssues.Reason|Should -Contain DeclaredTargetOrArchitectureMismatch
+  }
   It 'retains native servicing uncertainty even when all declared media metadata matches' {
     $manifest.Files+=New-BundleTestFile $bundleRoot media 'sources/fixture.cab' ServicingSource 'inert media'
     $manifest.ServicingSources=@([pscustomobject]@{Id='fod';Status='Included';OmissionCode=$null;FileIds=@('media');Target='Windows 11';Build=26100;EditionId='Professional';Architecture='x64';Compatibility='Unverified'})

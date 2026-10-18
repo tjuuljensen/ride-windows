@@ -10,11 +10,77 @@ optional operator-supplied Windows servicing sources.
 
 Currently available: local manifest integrity/dependency preflight and optional
 byte-bound catalog/profile package coverage, plus explicit local-source assembly
-with an optional selected-profile package-content gate.
-Automatic acquisition planning, dependency discovery, engine packaging and integration with
-install/apply are pending. **Normal RIDE install/apply commands do not yet enforce
-this offline contract.** A cache or successful preflight must not be described as
-an installable air-gapped bundle.
+with an optional selected-profile package-content gate. Explicit offline
+`install`/`apply` now enforce that gate for accepted inert portable packages,
+subject to the constraints below. Normal commands without offline options retain
+their online acquisition behavior. Automatic acquisition planning, broader
+dependency/installer support and engine packaging remain pending. The focused
+Caffeine portable scenario passed disconnected Windows 11 build 26300 acceptance;
+broader native coverage remains pending. Assembly or preflight alone does not establish an
+installable air-gapped bundle.
+
+## Execute an explicitly selected portable bundle
+
+Use a fresh native Windows PowerShell 5.1 or PowerShell 7 process from the bundled
+RIDE directory. The manifest must include `ride.ps1`, `catalog/operations.psd1`
+and every file beneath `modules/`, with the same relative layout and bytes as the
+running checkout. The engine file paths share the root before
+`catalog/operations.psd1`; for example `ride/`. Keep all prepared bundles and
+saved runs. The engine checks source bytes, not the authenticity of the declared
+Git commit or publisher provenance; those remain assembly review obligations.
+
+Supply all three offline options, including during preview. For a reviewed
+portable-only profile already included in the manifest:
+
+```powershell
+# Starting directory: C:\Offline\bundle-v1\ride
+.\ride.ps1 apply -Profile .\profiles\portable-tools.psd1 -OfflineBundle ..\manifest.json -OfflineProfileId portable-tools -OfflineCatalogFileId catalog -WhatIf
+# After reviewing the preview, repeat without -WhatIf to apply.
+```
+
+`install <package-id>` accepts the same options; the manifest profile must then
+select exactly that package and variant. Use explicit `-Variant` when applicable.
+`OfflineProfileId` and `OfflineCatalogFileId` complete from the supplied bounded
+manifest, without loading the engine or inspecting machine state. An empty or
+incomplete offline selection is an error, never an online fallback.
+
+Before any state manifest, snapshot, selection index or handler write, the engine
+verifies the selected profile/catalog bytes, selected payloads/notices, running
+source, exact ordered package/variant plan and actual target/build/edition/
+architecture. Missing, changed, omitted, wrong-source or unsupported requirements
+fail the entire plan. Unrelated omitted artifacts remain permitted. Read leases
+keep the manifest, selected bundle files and running source from being replaced
+until execution completes or fails; failed preflight releases its leases.
+
+Preflight recognizes catalog `neutral` archives as well as manifest `any`
+content; explicitly architecture-specific payloads must still match the selected
+profile. Catalog/manifest architecture declarations must agree. A neutral archive
+does not establish that every included executable runs on every processor or
+Windows release; native behavior and supported-target checks remain separate.
+
+The first execution path has these explicit limits:
+
+- Every selection must be an already accepted `Portable` package in `Present`
+  state, with one payload and `DeclaredNoNetwork` capability. Catalog and artifact
+  dependency actions are refused. The bound profile must use explicit variants
+  where the catalog offers them; local preferences cannot silently change it.
+- EXE/MSI installers, services/drivers, package removal, settings, servicing
+  sources, library overlays and desktop-user handoff are not implemented for
+  offline execution. Mixed plans fail before their first setting is changed.
+- Network authentication options cannot accompany the CLI offline selection.
+  No provider/discovery/download fallback is called. Portable extraction skips
+  Authenticode provider inspection, which can contact certificate services, and
+  records `NotInspectedOffline`. Exact SHA-256 checks and owned-file protections
+  remain active. This is not a signature-verification claim.
+
+Machine-scoped packages still require elevation. Use the normal saved Run ID for
+portable exact-file recovery; unowned and modified files retain existing conflict
+protections. A handler failure retains the saved-run error/reporting contract,
+and all bundle read leases close in `finally`. There is no automatic resume,
+bundle pruning, replacement of missing bytes or implicit profile composition.
+Native no-network deployment and interruption/recovery acceptance remain pending;
+the [implementation ledger](migrations/remaining-migrations-follow-up.md) records
+the actual tested source and outstanding VM gate.
 
 ## Assemble prepared local files
 
@@ -123,8 +189,9 @@ integrity-only assembly remain supported; no retained bundle is rewritten.
 This gate checks declared package content. Hidden installer dependencies,
 non-package resources, engine provenance, target applicability and actual offline
 behavior remain separate. OfflineGates and ReadyForMutation=false remain visible
-in the reports. Normal install/apply still needs mandatory integration and native
-acceptance; recheck files after transfer and immediately before future installation.
+in preparation reports. Explicit offline install/apply adds the portable execution
+gate above and rechecks files under read leases. Native disconnected acceptance
+and broader installer/dependency execution remain pending.
 
 ## Schema-1 manifest contract
 
@@ -192,11 +259,12 @@ selected artifact). Matching metadata does not authenticate a download or its
 redirect chain; DownloadSourceVerified stays false. Provider-resolved sources
 still need separate pinned acquisition evidence.
 
-The eventual installation path must preflight the complete selected deployment
+The explicit offline installation path preflights the complete selected deployment
 before **any** target change, verify its source coverage and native eligibility,
 then resolve locally without network fallback or version advancement. A partial
 bundle may serve complete profiles; missing content unrelated to that profile
-must not block it. Current preflight is a foundation for that integration.
+does not block it. The execution gate currently accepts only the portable subset
+described above; unsupported requirements fail before mutation.
 
 ## Comparing profile package declarations
 
@@ -230,7 +298,8 @@ sets that field true after captured-byte parsing. ProfileCoverageStatus is Compa
 SourceUnavailable or NotRequested. SelectedPackageContentComplete combines file
 integrity and package declarations, and is null without requested coverage. Hidden
 installer dependencies and non-package resources remain unverified. ReadyForMutation
-is false; ordinary install/apply still does not enforce preflight. Conditional hardware profile
+is false for the standalone preparation report; install/apply with explicit offline
+options adds the whole-plan execution gate described above. Conditional hardware profile
 fields are currently refused, not ignored. The accepted Lenovo conditional scope
 must include payloads regardless of the preparation computer's manufacturer once
 its profile representation is implemented.
@@ -251,4 +320,10 @@ omission evidence; acquire or correct content in a new preparation version rathe
 than silently replacing a retained version. Do not delete user data or caches on
 a failed check. See [dated implementation evidence](migrations/application-migration-review.md#b10-local-offline-bundle-preflight-2026-10-17)
 for initial preflight boundaries, and [assembly evidence](migrations/application-migration-review.md#b10-explicit-local-offline-bundle-assembly-2026-10-17)
-for local copy/recovery checks. Native installation acceptance remains open.
+for local copy/recovery checks. The focused `OfflineCaffeine` disposable runner
+passed 16 disconnected portable CLI install/apply, repeat, fail-closed preflight
+and saved recovery checks on Windows 11 build 26300 through the registered task.
+Broader installer/dependency/servicing, interruption and other-target acceptance
+remain open. See the
+[current acceptance record](migrations/application-migration-review.md#preregistered-acceptance-and-deferred-elevation-2026-10-17)
+and [checkpoint-backed procedure](../tests/integration/README.md#focused-reviewed-portable-packages).

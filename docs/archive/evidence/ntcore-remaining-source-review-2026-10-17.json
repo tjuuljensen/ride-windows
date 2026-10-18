@@ -1,0 +1,1559 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "Products": [
+    {
+      "Artifact": {
+        "Product": ".NET Generic Unpacker",
+        "Archive": "NETUnpack.zip",
+        "DownloadUri": "https://ntcore.com/files/NETUnpack.zip",
+        "PageUri": "https://ntcore.com/net-generic-unpacker/",
+        "PageSha256": "472cb1c8ae77dab8a1995600077afb58b482aa0306a8cf289fb485100a00721e",
+        "Scope": "NTCore",
+        "Sha256": "e46bd2ecdd1cc72c011406fa07d239f1ad8d8cd5e6c5e9945d186078c3e24278",
+        "Length": 174544,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "NETUnpack.exe",
+            "Length": 360448,
+            "Sha256": "2a7e811614b0b567c13958304b48da15c04d20670b624015e1244f965c7d012e",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "1.0.0.1",
+              "ProductVersion": "1.0.0.1",
+              "CompanyName": "NTCore",
+              "LegalCopyright": "© Daniel Pistelli.  All rights reserved.",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "Review": "x86 1.0.0.1; target-process architecture selects variant, not simply host architecture. No process dumping or external target used.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": ".NET Generic Unpacker",
+        "Archive": "NETUnpack_x64.zip",
+        "DownloadUri": "https://ntcore.com/files/NETUnpack_x64.zip",
+        "PageUri": "https://ntcore.com/net-generic-unpacker/",
+        "PageSha256": "472cb1c8ae77dab8a1995600077afb58b482aa0306a8cf289fb485100a00721e",
+        "Scope": "NTCore",
+        "Sha256": "af7f2ca052855d6c1613eb6901897ab9c1ffa4eda17b115e71651fbdcec13852",
+        "Length": 228567,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "NETUnpack.exe",
+            "Length": 527360,
+            "Sha256": "cefdb1101ebbb565c7912406faf303da14c8ac7bc4b79152529aea79125714f7",
+            "Pe": {
+              "Machine": "8664",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "1.0.0.1",
+              "ProductVersion": "1.0.0.1",
+              "CompanyName": "NTCore",
+              "LegalCopyright": "© Daniel Pistelli.  All rights reserved.",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "Review": "x64 1.0.0.1; synthetic owned process only for later functional checks; no source/license grant found on reviewed page.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "DynLogger",
+        "Archive": "DynLogger_x86.zip",
+        "DownloadUri": "https://ntcore.com/files/DynLogger_x86.zip",
+        "PageUri": "https://ntcore.com/dynlogger/",
+        "PageSha256": "a66658cbfd8296ed25e9a44253c2e49e9837b11fafc38a9c96fad7b5aa085b2f",
+        "Scope": "NTCore",
+        "Sha256": "416e92b91b05ecbcf622476da538785ecfa30910cd42ee1a508361f22a1ccaa5",
+        "Length": 232517,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "DynLogger.exe",
+            "Length": 315392,
+            "Sha256": "6721bdee0a1a3168abebd7154682fbc7da721c146b641e9b68a86fcae56dc921",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "1.1.0.1",
+              "ProductVersion": "1.1.0.1",
+              "CompanyName": "Daniel Pistelli",
+              "LegalCopyright": "© 2008 Daniel Pistelli.  All rights reserved.",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "DynLoggerDll.dll",
+            "Length": 61440,
+            "Sha256": "7fb66bc36d6423ba67b916438009b5e39842e9873babc6718eb2c8c3952280f5",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": null,
+              "ProductVersion": null,
+              "CompanyName": null,
+              "LegalCopyright": null,
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "NtHookEngine.dll",
+            "Length": 122880,
+            "Sha256": "e7fc4856daba4f31a894896f96726cf6b2e5fcb52c3e2690b94fe572a5783220",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "1, 0, 0, 1",
+              "ProductVersion": "1, 0, 0, 1",
+              "CompanyName": "Daniel Pistelli",
+              "LegalCopyright": "© 2007 Daniel Pistelli.  All rights reserved.",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "Review": "x86 executable plus DynLoggerDll.dll and NtHookEngine.dll; keep matched files together. Function hooks/logging require a synthetic target and current-build review.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "DynLogger",
+        "Archive": "DynLogger_x64.zip",
+        "DownloadUri": "https://ntcore.com/files/DynLogger_x64.zip",
+        "PageUri": "https://ntcore.com/dynlogger/",
+        "PageSha256": "a66658cbfd8296ed25e9a44253c2e49e9837b11fafc38a9c96fad7b5aa085b2f",
+        "Scope": "NTCore",
+        "Sha256": "a5e17491696d36f5c9b17f0e73ed33cfb9bf0f14fb035bb40c868ab5b6c0be3c",
+        "Length": 278172,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "DynLogger.exe",
+            "Length": 457216,
+            "Sha256": "01cd66c08e9841a793c23945dc458341f54b88811ac916b772c8c0cd7e690005",
+            "Pe": {
+              "Machine": "8664",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "1.1.0.1",
+              "ProductVersion": "1.1.0.1",
+              "CompanyName": "Daniel Pistelli",
+              "LegalCopyright": "© 2008 Daniel Pistelli.  All rights reserved.",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "DynLoggerDll.dll",
+            "Length": 55296,
+            "Sha256": "414f72e976db4320117523c6c8e5c2b692afc538341386792662a180e93840a6",
+            "Pe": {
+              "Machine": "8664",
+              "ClrDirectoryPresent": false,
+              "FileVersion": null,
+              "ProductVersion": null,
+              "CompanyName": null,
+              "LegalCopyright": null,
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "NtHookEngine.dll",
+            "Length": 125952,
+            "Sha256": "0d82afedb70ea0d75b5d419abe154f32357a81b7461c5c58cfd7f844b68a850b",
+            "Pe": {
+              "Machine": "8664",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "1, 0, 0, 1",
+              "ProductVersion": "1, 0, 0, 1",
+              "CompanyName": "Daniel Pistelli",
+              "LegalCopyright": "© 2007 Daniel Pistelli.  All rights reserved.",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "Review": "x64 matched three-file set; historical XP/Vista testing does not establish Windows 11 support; no hooking performed.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "Explorer Suite",
+        "Archive": "ExplorerSuite.exe",
+        "DownloadUri": "https://ntcore.com/files/ExplorerSuite.exe",
+        "PageUri": "https://ntcore.com/explorer-suite/",
+        "PageSha256": "40f00e00dddd4bfd97b47d2aa2c28224d4a37f5eb3058394a354d6e96a25af08",
+        "Scope": "NTCore",
+        "Sha256": "94f4348ec573b05990b1e19542986e46dc30a87870739f5d5430b60072d5144d",
+        "Length": 3613174,
+        "Status": "InstallerOuterMetadataOnly",
+        "Members": [],
+        "OuterPe": {
+          "Machine": "014c",
+          "ClrDirectoryPresent": false,
+          "FileVersion": "                    ",
+          "ProductVersion": "                    ",
+          "CompanyName": "                                                            ",
+          "LegalCopyright": "                                                                                                    ",
+          "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+        },
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": true
+      },
+      "Review": "Publisher SHA256 matches. Full installer payload remains opaque; standalone CFF acceptance does not cover the installed suite, integrations or uninstall.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": {
+        "Artifact": "ExplorerSuite.exe",
+        "ExitCode": 2,
+        "Formats": [],
+        "EntryCount": -1
+      },
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "Phoenix Protector",
+        "Archive": "Phoenix_Protector.msi",
+        "DownloadUri": "https://ntcore.com/files/Phoenix_Protector.msi",
+        "PageUri": "https://ntcore.com/phoenix-protector/",
+        "PageSha256": "08b06fa2c7fad281d9e8680b68f80d9bd88381f79c899561d58a8f137147c12d",
+        "Scope": "NTCore",
+        "Sha256": "15a7dbbf90ce66fb302a322c6809fafd897808096069dfecededf78e51b16369",
+        "Length": 1357312,
+        "Status": "ReadOnlyMsiAndCabinetInventory",
+        "Members": [],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "Review": "Page 1.8.0.1, MSI ProductVersion 1.7.1, contained executable 1.9.0.1. Bundled EULA has single-user/development, no-transfer and no-component-separation restrictions; do not substitute the page freeware label.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "NoDel",
+        "Archive": "NoDel.zip",
+        "DownloadUri": "https://ntcore.com/files/NoDel.zip",
+        "PageUri": "https://ntcore.com/download/",
+        "PageSha256": "2c79cdbb640c5b6343d6af74af7de6b26fd01b6db98da7b76608680299e1a4be",
+        "Scope": "NTCore",
+        "Sha256": "b71b763dd54c5b6d67238d6f118c4ec3bfc531f14663ba59fc72655444ffd386",
+        "Length": 34624,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "NoDel/Drivers.cpp",
+            "Length": 4053,
+            "Sha256": "045bb028a7f50db5cc6a3a6b03b3b1b068893ad037f2618f2a6acc2cdc03fd9c",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "NoDel/nodel.cpp",
+            "Length": 6884,
+            "Sha256": "aca2fcc0090e1d279458b0baee491e09b4fe831db232add1771abf1bfb6d5fc7",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "NoDel/nodel.exe.manifest",
+            "Length": 512,
+            "Sha256": "22e26761d113bd5626444fba7139ed49d738d4c308b52a72b8363466207fbc69",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "NoDel/NoDel.rc",
+            "Length": 2821,
+            "Sha256": "1bd052a4ca3c5269cf3d56971ff4be143381ceb85c36e1ce9c15d207c04f0cb7",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "NoDel/NoDel.vcproj",
+            "Length": 3600,
+            "Sha256": "28cab294502e51160bee11d04b4eea47cff1b48d53c5e9919a1e6ee0c13767fb",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "NoDel/Release/NoDel.exe",
+            "Length": 40960,
+            "Sha256": "3031bb86cde7eb3ca8d997c69d83881e5bed7aab84bb42d7e7a626bbe4981530",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": null,
+              "ProductVersion": null,
+              "CompanyName": null,
+              "LegalCopyright": null,
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "NoDel/Release/nodel.sys",
+            "Length": 5632,
+            "Sha256": "ce75ef9f71611df2409f469eaa07c12cef599f9771995316bf32e6993c7a57b1",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": null,
+              "ProductVersion": null,
+              "CompanyName": null,
+              "LegalCopyright": null,
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "NoDel/resource.h",
+            "Length": 538,
+            "Sha256": "c209b3a81e96d34a063e71adb9f816363971d0c528442b0bdae933e573dbf6ed",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "nodel_drv/common.h",
+            "Length": 1827,
+            "Sha256": "49243e2195e98e578c70f706e1435883b0c54a9a50c16df48f79d9477142ee28",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "nodel_drv/makefile",
+            "Length": 34,
+            "Sha256": "869dd9573a7d93376b748da47e86a83a94db55bcd10741539ae0b38a84c14728",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "nodel_drv/nodel.c",
+            "Length": 10760,
+            "Sha256": "44bed66b0bf140618d61db3b67e2f02718ec5e364500926866d0c19c96440f52",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "nodel_drv/sources",
+            "Length": 109,
+            "Sha256": "ca66121fcfb1ee2da6f3b5e8fff0844a5af682bb3c1d7319a0613b75f8e14fcd",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "nodel_drv/wr_private.c",
+            "Length": 3158,
+            "Sha256": "bb7af103fb5e6aabc26e2d00af89d9a49799a10d9842adb5ad7231c9974d8797",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "nodel_drv/wr_private.h",
+            "Length": 809,
+            "Sha256": "2fe388a5707ba2c07621109e92417ecd37c38d6c4ea117f0264959845bc9ecf9",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "NoDel.ncb",
+            "Length": 35840,
+            "Sha256": "af85245eb5008a3c35ed92abf5aa7c5f108b3ffd8f1c8643097dee6f96dcb4bb",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "NoDel.sln",
+            "Length": 905,
+            "Sha256": "b6f9368c8d4d5d303e1dbfc7a3e7c2697dd6e6777ddc3b758f507c8d5b5da6d5",
+            "Pe": null,
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "Review": "Sixteen-file mixed source/project/binary bundle includes x86 nodel.sys. Reviewed source creates a kernel-driver service. Driver signing/current-build behavior and license grant unresolved; no loading or compilation.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "SNSRemover",
+        "Archive": "SNSRemover.zip",
+        "DownloadUri": "https://ntcore.com/files/SNSRemover.zip",
+        "PageUri": "https://ntcore.com/download/",
+        "PageSha256": "2c79cdbb640c5b6343d6af74af7de6b26fd01b6db98da7b76608680299e1a4be",
+        "Scope": "NTCore",
+        "Sha256": "c6405c5ec5ec8646a02a46bcfdf74e05457addabdc58fe78da84ea28d69ca7cd",
+        "Length": 618266,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "SNSRemover.exe",
+            "Length": 114688,
+            "Sha256": "1f7e2065f063d35cc8547e9366051cd03d016f64e8d8782aac55288944210424",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": null,
+              "ProductVersion": null,
+              "CompanyName": null,
+              "LegalCopyright": null,
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "PE_Detective.zip",
+            "Length": 584923,
+            "Sha256": "4d986fa7c106b885074e7cc533e2e771389891ccba157d33e96110b05d9bc887",
+            "Pe": null,
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "Review": "Contains SNSRemover.exe plus nested PE_Detective.zip with a different hash and older tools than the reviewed standalone candidate. Do not silently deploy or replace that candidate.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "WIM Installer",
+        "Archive": "WIM_Installer.zip",
+        "DownloadUri": "https://ntcore.com/files/WIM_Installer.zip",
+        "PageUri": "https://ntcore.com/download/",
+        "PageSha256": "2c79cdbb640c5b6343d6af74af7de6b26fd01b6db98da7b76608680299e1a4be",
+        "Scope": "NTCore",
+        "Sha256": "071e2aa6c57478b53e99d45ca588f8b36f9fc673907b3769884112078f357264",
+        "Length": 134174,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "WIM Installer.exe",
+            "Length": 278528,
+            "Sha256": "3b932d91a2189e10c0423db00759e31eda24c8c7f38e9d16268f54f8be6e2d23",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "1.0.0.1",
+              "ProductVersion": "1.0.0.1",
+              "CompanyName": "Daniel Pistelli",
+              "LegalCopyright": "Daniel Pistelli © 2007.  All rights reserved.",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "Review": "Single x86 1.0.0.1 executable; concrete WIM/imaging dependency and image/disk destination/recovery requirements unresolved; no image opened or applied.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    }
+  ],
+  "PublisherPages": [
+    {
+      "Product": ".NET Generic Unpacker",
+      "Uri": "https://ntcore.com/net-generic-unpacker/",
+      "Name": "net-generic-unpacker.html",
+      "Kind": "Page",
+      "Scope": "NTCore",
+      "Status": "200",
+      "Length": 39929,
+      "Sha256": "472cb1c8ae77dab8a1995600077afb58b482aa0306a8cf289fb485100a00721e",
+      "Error": null
+    },
+    {
+      "Product": "DynLogger",
+      "Uri": "https://ntcore.com/dynlogger/",
+      "Name": "dynlogger.html",
+      "Kind": "Page",
+      "Scope": "NTCore",
+      "Status": "200",
+      "Length": 38995,
+      "Sha256": "a66658cbfd8296ed25e9a44253c2e49e9837b11fafc38a9c96fad7b5aa085b2f",
+      "Error": null
+    },
+    {
+      "Product": "Explorer Suite",
+      "Uri": "https://ntcore.com/explorer-suite/",
+      "Name": "explorer-suite.html",
+      "Kind": "Page",
+      "Scope": "NTCore",
+      "Status": "200",
+      "Length": 42640,
+      "Sha256": "40f00e00dddd4bfd97b47d2aa2c28224d4a37f5eb3058394a354d6e96a25af08",
+      "Error": null
+    },
+    {
+      "Product": "Filter Monitor",
+      "Uri": "https://ntcore.com/filter-monitor/",
+      "Name": "filter-monitor.html",
+      "Kind": "Page",
+      "Scope": "NTCore",
+      "Status": "200",
+      "Length": 39353,
+      "Sha256": "2c8d87e694bf6f1f7982ab246de273ff1d2569d1191e7da67c566d970a310a64",
+      "Error": null
+    },
+    {
+      "Product": "Phoenix Protector",
+      "Uri": "https://ntcore.com/phoenix-protector/",
+      "Name": "phoenix-protector.html",
+      "Kind": "Page",
+      "Scope": "NTCore",
+      "Status": "200",
+      "Length": 42003,
+      "Sha256": "08b06fa2c7fad281d9e8680b68f80d9bd88381f79c899561d58a8f137147c12d",
+      "Error": null
+    },
+    {
+      "Product": "Vista4Experts",
+      "Uri": "https://ntcore.com/vista4experts/",
+      "Name": "vista4experts.html",
+      "Kind": "Page",
+      "Scope": "NTCore",
+      "Status": "200",
+      "Length": 40662,
+      "Sha256": "c899ffe03f6e67700edf08f250995f995bc7f7929e58be223559781b215db79e",
+      "Error": null
+    }
+  ],
+  "Phoenix": {
+    "Msi": {
+      "SchemaVersion": 1,
+      "RecordedDate": "2026-10-17",
+      "Product": "Phoenix_Protector",
+      "DownloadUri": "https://ntcore.com/files/Phoenix_Protector.msi",
+      "Sha256": "15a7dbbf90ce66fb302a322c6809fafd897808096069dfecededf78e51b16369",
+      "Length": 1357312,
+      "Mode": "WindowsInstaller database opened read-only (0); no install/session/administrative install",
+      "NativeAcceptance": false,
+      "PayloadExecuted": false,
+      "Tables": {
+        "Property": [
+          {
+            "Property": "UpgradeCode",
+            "Value": "{E81A3A03-083D-418F-BD99-415CBB7D1564}"
+          },
+          {
+            "Property": "VSDFrameworkVersion",
+            "Value": "2.0.50727"
+          },
+          {
+            "Property": "VSDAllowLaterFrameworkVersions",
+            "Value": "False"
+          },
+          {
+            "Property": "ProductName",
+            "Value": "Phoenix Protector"
+          },
+          {
+            "Property": "ProductCode",
+            "Value": "{32A1C684-C199-4DD2-9F89-8F44C655D4EC}"
+          },
+          {
+            "Property": "ProductVersion",
+            "Value": "1.7.1"
+          },
+          {
+            "Property": "Manufacturer",
+            "Value": "NTCore"
+          },
+          {
+            "Property": "ARPCONTACT",
+            "Value": "Daniel Pistelli"
+          },
+          {
+            "Property": "ARPURLINFOABOUT",
+            "Value": "www.ntcore.com"
+          },
+          {
+            "Property": "ProductLanguage",
+            "Value": "1033"
+          },
+          {
+            "Property": "ARPPRODUCTICON",
+            "Value": "_6FEFF9B68218417F98F549.exe"
+          },
+          {
+            "Property": "SecureCustomProperties",
+            "Value": "PREVIOUSVERSIONSINSTALLED;NEWERPRODUCTFOUND"
+          },
+          {
+            "Property": "VSDNETURLMSG",
+            "Value": "This setup requires the .NET Framework version [1].  Please install the .NET Framework and run this setup again.  The .NET Framework can be obtained from the web.  Would you like to do this now?"
+          },
+          {
+            "Property": "VSDIISMSG",
+            "Value": "This setup requires Internet Information Server 4.0 or higher and Windows NT 4.0, Windows 2000 or higher.  This setup cannot be installed on Windows 95, Windows 98, or Windows Me.  Please install Internet Information Server and run this setup again."
+          },
+          {
+            "Property": "VSDUIANDADVERTISED",
+            "Value": "This advertised application will not be installed because it might be unsafe. Contact your administrator to change the installation user interface option of the package to basic."
+          },
+          {
+            "Property": "VSDNETMSG",
+            "Value": "This setup requires the .NET Framework version [1].  Please install the .NET Framework and run this setup again."
+          },
+          {
+            "Property": "VSDINVALIDURLMSG",
+            "Value": "The specified path '[2]' is unavailable. The Internet Information Server might not be running or the path exists and is redirected to another machine. Please check the status of this virtual directory in the Internet Services Manager."
+          },
+          {
+            "Property": "VSDVERSIONMSG",
+            "Value": "Unable to install because a newer version of this product is already installed."
+          },
+          {
+            "Property": "MaintenanceForm_Action",
+            "Value": "Repair"
+          },
+          {
+            "Property": "AdminMaintenanceForm_Action",
+            "Value": "Repair"
+          },
+          {
+            "Property": "FolderForm_AllUsers",
+            "Value": "ME"
+          },
+          {
+            "Property": "FolderForm_AllUsersVisible",
+            "Value": "1"
+          },
+          {
+            "Property": "EulaForm_Property",
+            "Value": "No"
+          },
+          {
+            "Property": "ErrorDialog",
+            "Value": "ErrorDialog"
+          },
+          {
+            "Property": "SFF_UpFldrBtn",
+            "Value": "UpFldrBtn"
+          },
+          {
+            "Property": "SFF_NewFldrBtn",
+            "Value": "NewFldrBtn"
+          },
+          {
+            "Property": "DefaultUIFont",
+            "Value": "VsdDefaultUIFont.524F4245_5254_5341_4C45_534153783400"
+          },
+          {
+            "Property": "AdminWelcomeForm_NextArgs",
+            "Value": "AdminFolderForm"
+          },
+          {
+            "Property": "AdminFolderForm_PrevArgs",
+            "Value": "AdminWelcomeForm"
+          },
+          {
+            "Property": "AdminFolderForm_NextArgs",
+            "Value": "AdminConfirmInstallForm"
+          },
+          {
+            "Property": "AdminConfirmInstallForm_PrevArgs",
+            "Value": "AdminFolderForm"
+          },
+          {
+            "Property": "WelcomeForm_NextArgs",
+            "Value": "EulaForm"
+          },
+          {
+            "Property": "EulaForm_PrevArgs",
+            "Value": "WelcomeForm"
+          },
+          {
+            "Property": "EulaForm_NextArgs",
+            "Value": "FolderForm"
+          },
+          {
+            "Property": "FolderForm_PrevArgs",
+            "Value": "EulaForm"
+          },
+          {
+            "Property": "FolderForm_NextArgs",
+            "Value": "ConfirmInstallForm"
+          },
+          {
+            "Property": "ConfirmInstallForm_PrevArgs",
+            "Value": "FolderForm"
+          }
+        ],
+        "File": [
+          {
+            "File": "_400FC4EDCFD64FB1ABD8BB1D97BD1472",
+            "Component_": "C__400FC4EDCFD64FB1ABD8BB1D97BD1472",
+            "FileName": "PHOENI~1.RTF|Phoenix License.rtf",
+            "FileSize": "21821",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "1"
+          },
+          {
+            "File": "_8880C97851A046D0B5FCE97D5ABBB5ED",
+            "Component_": "C__8880C97851A046D0B5FCE97D5ABBB5ED",
+            "FileName": "PHOENI~1.CHM|Phoenix Protector Help.chm",
+            "FileSize": "409399",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "2"
+          },
+          {
+            "File": "_B670DC8E531C4458B0E4CF65C60D4610",
+            "Component_": "C__B670DC8E531C4458B0E4CF65C60D4610",
+            "FileName": "PHOENI~1.EXE|Phoenix Merger.exe",
+            "FileSize": "32768",
+            "Version": "1.0.0.0",
+            "Language": "0",
+            "Attributes": "512",
+            "Sequence": "3"
+          },
+          {
+            "File": "_D89B37A4C93A4B4CAD215E8BEEC4BDFD",
+            "Component_": "C__D89B37A4C93A4B4CAD215E8BEEC4BDFD",
+            "FileName": "PHOENI~1.BMP|Phoenix Top.bmp",
+            "FileSize": "103556",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "4"
+          },
+          {
+            "File": "_E394619DCEF84BBA8E440BED18DC50FE",
+            "Component_": "C__E394619DCEF84BBA8E440BED18DC50FE",
+            "FileName": "PHOENI~2.EXE|Phoenix Protector.exe",
+            "FileSize": "1254912",
+            "Version": "1.9.0.1",
+            "Language": "1033",
+            "Attributes": "512",
+            "Sequence": "5"
+          }
+        ],
+        "Media": [
+          {
+            "DiskId": "1",
+            "LastSequence": "5",
+            "DiskPrompt": "",
+            "Cabinet": "#_2BB626F9A4ED322F3C95EC55786CCE94",
+            "VolumeLabel": "",
+            "Source": ""
+          }
+        ],
+        "Directory": [
+          {
+            "Directory": "TARGETDIR",
+            "Directory_Parent": "",
+            "DefaultDir": "SourceDir"
+          },
+          {
+            "Directory": "_ADEFCCDF4EAD4D429EA85AFC8F00D89A",
+            "Directory_Parent": "TARGETDIR",
+            "DefaultDir": "IMAGES|Images"
+          },
+          {
+            "Directory": "DesktopFolder",
+            "Directory_Parent": "TARGETDIR",
+            "DefaultDir": ".:USER'S~1|User's Desktop"
+          },
+          {
+            "Directory": "ProgramMenuFolder",
+            "Directory_Parent": "TARGETDIR",
+            "DefaultDir": ".:USER'S~2|User's Programs Menu"
+          },
+          {
+            "Directory": "_2D16859A3AA74721A283BC26801B9CBF",
+            "Directory_Parent": "ProgramMenuFolder",
+            "DefaultDir": "PHOENI~1|Phoenix Protector"
+          }
+        ],
+        "Component": [
+          {
+            "Component": "C__400FC4EDCFD64FB1ABD8BB1D97BD1472",
+            "ComponentId": "{67E71477-251F-4306-EBED-3FD7CAABF3E9}",
+            "Directory_": "TARGETDIR",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_400FC4EDCFD64FB1ABD8BB1D97BD1472"
+          },
+          {
+            "Component": "C__8880C97851A046D0B5FCE97D5ABBB5ED",
+            "ComponentId": "{31BF8545-38E4-8F48-AC85-58E62D716387}",
+            "Directory_": "TARGETDIR",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_8880C97851A046D0B5FCE97D5ABBB5ED"
+          },
+          {
+            "Component": "C__B670DC8E531C4458B0E4CF65C60D4610",
+            "ComponentId": "{66143726-6F41-6846-35CE-310B8745F1B4}",
+            "Directory_": "TARGETDIR",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_B670DC8E531C4458B0E4CF65C60D4610"
+          },
+          {
+            "Component": "C__D89B37A4C93A4B4CAD215E8BEEC4BDFD",
+            "ComponentId": "{25936E99-864D-B67C-4FB8-8BFEAAA4A197}",
+            "Directory_": "_ADEFCCDF4EAD4D429EA85AFC8F00D89A",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_D89B37A4C93A4B4CAD215E8BEEC4BDFD"
+          },
+          {
+            "Component": "C__E394619DCEF84BBA8E440BED18DC50FE",
+            "ComponentId": "{F9C00AAD-B96B-0FF3-41F7-B3EA3CF2192A}",
+            "Directory_": "TARGETDIR",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_E394619DCEF84BBA8E440BED18DC50FE"
+          },
+          {
+            "Component": "C__746C69616E6711D38E0D00C04F6837D0",
+            "ComponentId": "{32A1C684-C199-4DD2-9F89-8F44C655D4EC}",
+            "Directory_": "TARGETDIR",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": ""
+          }
+        ],
+        "Feature": [
+          {
+            "Feature": "DefaultFeature",
+            "Feature_Parent": "",
+            "Title": "",
+            "Description": "",
+            "Display": "2",
+            "Level": "1",
+            "Directory_": "TARGETDIR",
+            "Attributes": "0"
+          }
+        ],
+        "FeatureComponents": [
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__400FC4EDCFD64FB1ABD8BB1D97BD1472"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__8880C97851A046D0B5FCE97D5ABBB5ED"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__B670DC8E531C4458B0E4CF65C60D4610"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__D89B37A4C93A4B4CAD215E8BEEC4BDFD"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__E394619DCEF84BBA8E440BED18DC50FE"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__746C69616E6711D38E0D00C04F6837D0"
+          }
+        ],
+        "CustomAction": [
+          {
+            "Action": "DIRCA_TARGETDIR",
+            "Type": "307",
+            "Source": "TARGETDIR",
+            "Target": "[ProgramFilesFolder][Manufacturer]\\[ProductName]"
+          },
+          {
+            "Action": "DIRCA_CheckFX",
+            "Type": "1",
+            "Source": "MSVBDPCADLL",
+            "Target": "CheckFX"
+          },
+          {
+            "Action": "VSDCA_VsdLaunchConditions",
+            "Type": "1",
+            "Source": "MSVBDPCADLL",
+            "Target": "VsdLaunchConditions"
+          },
+          {
+            "Action": "ERRCA_CANCELNEWERVERSION",
+            "Type": "19",
+            "Source": "",
+            "Target": "[VSDVERSIONMSG]"
+          },
+          {
+            "Action": "ERRCA_UIANDADVERTISED",
+            "Type": "19",
+            "Source": "",
+            "Target": "[VSDUIANDADVERTISED]"
+          },
+          {
+            "Action": "VSDCA_FolderForm_AllUsers",
+            "Type": "51",
+            "Source": "FolderForm_AllUsers",
+            "Target": "ALL"
+          }
+        ],
+        "LaunchCondition": [],
+        "InstallExecuteSequence": [
+          {
+            "Action": "AppSearch",
+            "Condition": "",
+            "Sequence": "100"
+          },
+          {
+            "Action": "BindImage",
+            "Condition": "",
+            "Sequence": "4300"
+          },
+          {
+            "Action": "CCPSearch",
+            "Condition": "NOT Installed",
+            "Sequence": "500"
+          },
+          {
+            "Action": "DIRCA_TARGETDIR",
+            "Condition": "TARGETDIR=\"\"",
+            "Sequence": "750"
+          },
+          {
+            "Action": "DIRCA_CheckFX",
+            "Condition": "",
+            "Sequence": "1"
+          },
+          {
+            "Action": "VSDCA_VsdLaunchConditions",
+            "Condition": "NOT Installed",
+            "Sequence": "399"
+          },
+          {
+            "Action": "ERRCA_CANCELNEWERVERSION",
+            "Condition": "NEWERPRODUCTFOUND AND NOT Installed",
+            "Sequence": "201"
+          },
+          {
+            "Action": "FindRelatedProducts",
+            "Condition": "",
+            "Sequence": "200"
+          },
+          {
+            "Action": "LaunchConditions",
+            "Condition": "NOT Installed",
+            "Sequence": "400"
+          },
+          {
+            "Action": "RMCCPSearch",
+            "Condition": "NOT Installed",
+            "Sequence": "600"
+          },
+          {
+            "Action": "ValidateProductID",
+            "Condition": "",
+            "Sequence": "700"
+          },
+          {
+            "Action": "CostInitialize",
+            "Condition": "",
+            "Sequence": "800"
+          },
+          {
+            "Action": "FileCost",
+            "Condition": "",
+            "Sequence": "900"
+          },
+          {
+            "Action": "IsolateComponents",
+            "Condition": "RedirectedDllSupport",
+            "Sequence": "950"
+          },
+          {
+            "Action": "CostFinalize",
+            "Condition": "",
+            "Sequence": "1000"
+          },
+          {
+            "Action": "SetODBCFolders",
+            "Condition": "NOT Installed",
+            "Sequence": "1100"
+          },
+          {
+            "Action": "InstallValidate",
+            "Condition": "",
+            "Sequence": "1400"
+          },
+          {
+            "Action": "InstallInitialize",
+            "Condition": "",
+            "Sequence": "1500"
+          },
+          {
+            "Action": "AllocateRegistrySpace",
+            "Condition": "NOT Installed",
+            "Sequence": "1550"
+          },
+          {
+            "Action": "ProcessComponents",
+            "Condition": "",
+            "Sequence": "1600"
+          },
+          {
+            "Action": "MsiPublishAssemblies",
+            "Condition": "",
+            "Sequence": "6250"
+          },
+          {
+            "Action": "MsiUnpublishAssemblies",
+            "Condition": "",
+            "Sequence": "1650"
+          },
+          {
+            "Action": "UnpublishComponents",
+            "Condition": "",
+            "Sequence": "1700"
+          },
+          {
+            "Action": "UnpublishFeatures",
+            "Condition": "",
+            "Sequence": "1800"
+          },
+          {
+            "Action": "StopServices",
+            "Condition": "VersionNT",
+            "Sequence": "1900"
+          },
+          {
+            "Action": "DeleteServices",
+            "Condition": "VersionNT",
+            "Sequence": "2000"
+          },
+          {
+            "Action": "UnregisterComPlus",
+            "Condition": "",
+            "Sequence": "2100"
+          },
+          {
+            "Action": "SelfUnregModules",
+            "Condition": "",
+            "Sequence": "2200"
+          },
+          {
+            "Action": "UnregisterTypeLibraries",
+            "Condition": "",
+            "Sequence": "2300"
+          },
+          {
+            "Action": "RemoveODBC",
+            "Condition": "",
+            "Sequence": "2400"
+          },
+          {
+            "Action": "UnregisterFonts",
+            "Condition": "",
+            "Sequence": "2500"
+          },
+          {
+            "Action": "RemoveRegistryValues",
+            "Condition": "",
+            "Sequence": "2600"
+          },
+          {
+            "Action": "UnregisterClassInfo",
+            "Condition": "",
+            "Sequence": "2700"
+          },
+          {
+            "Action": "UnregisterExtensionInfo",
+            "Condition": "",
+            "Sequence": "2800"
+          },
+          {
+            "Action": "UnregisterProgIdInfo",
+            "Condition": "",
+            "Sequence": "2900"
+          },
+          {
+            "Action": "UnregisterMIMEInfo",
+            "Condition": "",
+            "Sequence": "3000"
+          },
+          {
+            "Action": "RemoveIniValues",
+            "Condition": "",
+            "Sequence": "3100"
+          },
+          {
+            "Action": "RemoveShortcuts",
+            "Condition": "",
+            "Sequence": "3200"
+          },
+          {
+            "Action": "RemoveEnvironmentStrings",
+            "Condition": "",
+            "Sequence": "3300"
+          },
+          {
+            "Action": "RemoveDuplicateFiles",
+            "Condition": "",
+            "Sequence": "3400"
+          },
+          {
+            "Action": "RemoveFiles",
+            "Condition": "",
+            "Sequence": "3500"
+          },
+          {
+            "Action": "RemoveFolders",
+            "Condition": "",
+            "Sequence": "3600"
+          },
+          {
+            "Action": "CreateFolders",
+            "Condition": "",
+            "Sequence": "3700"
+          },
+          {
+            "Action": "MoveFiles",
+            "Condition": "",
+            "Sequence": "3800"
+          },
+          {
+            "Action": "InstallFiles",
+            "Condition": "",
+            "Sequence": "4000"
+          },
+          {
+            "Action": "PatchFiles",
+            "Condition": "",
+            "Sequence": "4090"
+          },
+          {
+            "Action": "DuplicateFiles",
+            "Condition": "",
+            "Sequence": "4210"
+          },
+          {
+            "Action": "CreateShortcuts",
+            "Condition": "",
+            "Sequence": "4500"
+          },
+          {
+            "Action": "RegisterClassInfo",
+            "Condition": "",
+            "Sequence": "4600"
+          },
+          {
+            "Action": "RegisterExtensionInfo",
+            "Condition": "",
+            "Sequence": "4700"
+          },
+          {
+            "Action": "RegisterProgIdInfo",
+            "Condition": "",
+            "Sequence": "4800"
+          },
+          {
+            "Action": "RegisterMIMEInfo",
+            "Condition": "",
+            "Sequence": "4900"
+          },
+          {
+            "Action": "WriteRegistryValues",
+            "Condition": "",
+            "Sequence": "5000"
+          },
+          {
+            "Action": "WriteIniValues",
+            "Condition": "",
+            "Sequence": "5100"
+          },
+          {
+            "Action": "WriteEnvironmentStrings",
+            "Condition": "",
+            "Sequence": "5200"
+          },
+          {
+            "Action": "RegisterFonts",
+            "Condition": "",
+            "Sequence": "5300"
+          },
+          {
+            "Action": "InstallODBC",
+            "Condition": "",
+            "Sequence": "5400"
+          },
+          {
+            "Action": "RegisterTypeLibraries",
+            "Condition": "",
+            "Sequence": "5500"
+          },
+          {
+            "Action": "SelfRegModules",
+            "Condition": "",
+            "Sequence": "5600"
+          },
+          {
+            "Action": "RegisterComPlus",
+            "Condition": "",
+            "Sequence": "5700"
+          },
+          {
+            "Action": "InstallServices",
+            "Condition": "VersionNT",
+            "Sequence": "5800"
+          },
+          {
+            "Action": "StartServices",
+            "Condition": "VersionNT",
+            "Sequence": "5900"
+          },
+          {
+            "Action": "RegisterUser",
+            "Condition": "",
+            "Sequence": "6000"
+          },
+          {
+            "Action": "RegisterProduct",
+            "Condition": "",
+            "Sequence": "6100"
+          },
+          {
+            "Action": "PublishComponents",
+            "Condition": "",
+            "Sequence": "6200"
+          },
+          {
+            "Action": "PublishFeatures",
+            "Condition": "",
+            "Sequence": "6300"
+          },
+          {
+            "Action": "PublishProduct",
+            "Condition": "",
+            "Sequence": "6400"
+          },
+          {
+            "Action": "InstallExecute",
+            "Condition": "",
+            "Sequence": "6500"
+          },
+          {
+            "Action": "RemoveExistingProducts",
+            "Condition": "",
+            "Sequence": "6550"
+          },
+          {
+            "Action": "InstallFinalize",
+            "Condition": "",
+            "Sequence": "6600"
+          }
+        ],
+        "Registry": [],
+        "Shortcut": [
+          {
+            "Shortcut": "_1D324604A7C84EDD8309766D6B24B86E",
+            "Directory_": "DesktopFolder",
+            "Name": "PHOENI~2|Phoenix Protector",
+            "Component_": "C__E394619DCEF84BBA8E440BED18DC50FE",
+            "Target": "DefaultFeature",
+            "Arguments": "",
+            "Description": "",
+            "Hotkey": "",
+            "Icon_": "_6B696F9CB5E6ADAD215EF2.exe",
+            "IconIndex": "0",
+            "ShowCmd": "1",
+            "WkDir": "TARGETDIR"
+          },
+          {
+            "Shortcut": "_2651978791134CE2BD06D9FD0242E718",
+            "Directory_": "_2D16859A3AA74721A283BC26801B9CBF",
+            "Name": "PHOENI~3|Phoenix Protector",
+            "Component_": "C__E394619DCEF84BBA8E440BED18DC50FE",
+            "Target": "DefaultFeature",
+            "Arguments": "",
+            "Description": "",
+            "Hotkey": "",
+            "Icon_": "_033A9877A68739471D5CAA.exe",
+            "IconIndex": "0",
+            "ShowCmd": "1",
+            "WkDir": "TARGETDIR"
+          },
+          {
+            "Shortcut": "_FCFB248060234F85A24722BB413D08B0",
+            "Directory_": "_2D16859A3AA74721A283BC26801B9CBF",
+            "Name": "PHOENI~4|Phoenix Protector Help",
+            "Component_": "C__8880C97851A046D0B5FCE97D5ABBB5ED",
+            "Target": "DefaultFeature",
+            "Arguments": "",
+            "Description": "",
+            "Hotkey": "",
+            "Icon_": "_CFC4A65EF0BC57E057AE0C.exe",
+            "IconIndex": "0",
+            "ShowCmd": "1",
+            "WkDir": "TARGETDIR"
+          }
+        ],
+        "RemoveFile": [
+          {
+            "FileKey": "_74B84076A49540E4969C6DCF813B17BA",
+            "Component_": "C__746C69616E6711D38E0D00C04F6837D0",
+            "FileName": "",
+            "DirProperty": "_2D16859A3AA74721A283BC26801B9CBF",
+            "InstallMode": "2"
+          }
+        ],
+        "MsiAssembly": [
+          {
+            "Component_": "C__B670DC8E531C4458B0E4CF65C60D4610",
+            "Feature_": "DefaultFeature",
+            "File_Manifest": "_B670DC8E531C4458B0E4CF65C60D4610",
+            "File_Application": "_B670DC8E531C4458B0E4CF65C60D4610",
+            "Attributes": "0"
+          }
+        ],
+        "MsiAssemblyName": [
+          {
+            "Component_": "C__B670DC8E531C4458B0E4CF65C60D4610",
+            "Name": "Name",
+            "Value": "Phoenix Merger"
+          },
+          {
+            "Component_": "C__B670DC8E531C4458B0E4CF65C60D4610",
+            "Name": "Version",
+            "Value": "1.0.0.0"
+          },
+          {
+            "Component_": "C__B670DC8E531C4458B0E4CF65C60D4610",
+            "Name": "Culture",
+            "Value": "neutral"
+          },
+          {
+            "Component_": "C__B670DC8E531C4458B0E4CF65C60D4610",
+            "Name": "ProcessorArchitecture",
+            "Value": "MSIL"
+          }
+        ]
+      }
+    },
+    "Members": [
+      {
+        "MsiFileId": "_400FC4EDCFD64FB1ABD8BB1D97BD1472",
+        "FileName": "Phoenix License.rtf",
+        "Length": 21821,
+        "Sha256": "19359dcf7a10c7a0d2be9d02e2ccdf10c09e276ba2fe7b8b2db24511cc46c525",
+        "FileVersion": null
+      },
+      {
+        "MsiFileId": "_8880C97851A046D0B5FCE97D5ABBB5ED",
+        "FileName": "Phoenix Protector Help.chm",
+        "Length": 409399,
+        "Sha256": "a6ff35f9a5561d323856902f3fa37613b0d72307287290d9fcaf3c9db04a79e6",
+        "FileVersion": null
+      },
+      {
+        "MsiFileId": "_B670DC8E531C4458B0E4CF65C60D4610",
+        "FileName": "Phoenix Merger.exe",
+        "Length": 32768,
+        "Sha256": "cf43d76de9e3dee0768fe81ad51d1f01ad96965a5f9c181a9fbdce7d7de23253",
+        "FileVersion": "1.0.0.0"
+      },
+      {
+        "MsiFileId": "_D89B37A4C93A4B4CAD215E8BEEC4BDFD",
+        "FileName": "Phoenix Top.bmp",
+        "Length": 103556,
+        "Sha256": "af0ec85361c1b552bc89bcad25d0363642c54ecdcb50c6fbda76dab6fe912dc5",
+        "FileVersion": null
+      },
+      {
+        "MsiFileId": "_E394619DCEF84BBA8E440BED18DC50FE",
+        "FileName": "Phoenix Protector.exe",
+        "Length": 1254912,
+        "Sha256": "6334f57ef59101dcb833c78149df697612bd589b75dc23a670ac8cfe0bc9d436",
+        "FileVersion": "1.9.0.1"
+      }
+    ],
+    "PageVersion": "1.8.0.1",
+    "MsiVersion": "1.7.1",
+    "ExecutableVersion": "1.9.0.1",
+    "Framework": "2.0.50727",
+    "EulaMember": "Phoenix License.rtf",
+    "EulaSha256": "19359dcf7a10c7a0d2be9d02e2ccdf10c09e276ba2fe7b8b2db24511cc46c525",
+    "TermsObservation": "Personal, limited, nontransferable single-user development/testing grant; component separation, transfer and commercial hosting restricted. Review exact intended use and publisher clarification before admission/distribution.",
+    "FullEulaPublished": false,
+    "Installed": false
+  },
+  "SnsNested": {
+    "Members": [
+      {
+        "Path": "Signatures/IMAGE_FILE_MACHINE_AMD64.xml",
+        "Length": 1595,
+        "Sha256": "dc6b4a0d62ea5bc2633a06b172a5d30a0ae2887ae7dbeda474de2ed07d8ec745",
+        "FileVersion": null
+      },
+      {
+        "Path": "Signatures/IMAGE_FILE_MACHINE_ARM.xml",
+        "Length": 54,
+        "Sha256": "cb5d1a3d6d93258cc87e732a7d7f8951ac5759a9323c6a16089e47a7a596212d",
+        "FileVersion": null
+      },
+      {
+        "Path": "Signatures/IMAGE_FILE_MACHINE_I386.xml",
+        "Length": 753759,
+        "Sha256": "f5f50b1df78ec040fa6b159fe9753ee4c2705214585dba981e8fd68398c65a19",
+        "FileVersion": null
+      },
+      {
+        "Path": "Signatures/IMAGE_FILE_MACHINE_IA64.xml",
+        "Length": 1070,
+        "Sha256": "9cbb58cfcda628b8a6b57cdd6d7381d215cb300580ad15df642450e53b8aa422",
+        "FileVersion": null
+      },
+      {
+        "Path": "Signatures/PLATFORM_INDEPENDENT.xml",
+        "Length": 434,
+        "Sha256": "f9c3dea809c8aa1f1f2887dba627ca2197647159b6bcc3c30886f3dbbe2f7a0f",
+        "FileVersion": null
+      },
+      {
+        "Path": "PE Detective.exe",
+        "Length": 507904,
+        "Sha256": "9b212d2cb51fa6d085b448b814217e0d626c9ca2da7d32beeecadafa5cc04b6b",
+        "FileVersion": "1.0.0.1"
+      },
+      {
+        "Path": "Signature Explorer.exe",
+        "Length": 425984,
+        "Sha256": "b32e7be2dc3c646608d684001590271177001b95892494f4b23492d10c09bfa5",
+        "FileVersion": "1.0.0.0"
+      }
+    ],
+    "NestedArchiveSha256": "4d986fa7c106b885074e7cc533e2e771389891ccba157d33e96110b05d9bc887",
+    "StandaloneArchiveSha256": "821f4fa1df9d3a39e32f15183126e56af8dacf4690a8fd01bfac6d850ea36263",
+    "IndependentIdentityRequired": true,
+    "InitialProbe": "Root-only guard rejected signature subdirectory; explicit eight-entry set reviewed before bounded seven-file inspection"
+  },
+  "BlockedOrExcluded": [
+    {
+      "Reason": "Publisher states unsigned driver and disabled signature enforcement; only Vista/Windows 7 support described. No protection weakening or runtime acceptance authorized.",
+      "Product": "Filter Monitor",
+      "Disposition": "Page-only; payload not acquired",
+      "PageUri": "https://ntcore.com/filter-monitor/"
+    },
+    {
+      "Reason": "Publisher describes changes to UAC, Defender, updates and other protections; effects are not adopted into migration or executed.",
+      "Product": "Vista4Experts",
+      "Disposition": "Page-only; payload not acquired",
+      "PageUri": "https://ntcore.com/vista4experts/"
+    },
+    {
+      "Reason": "Frozen inventory already excludes this mixed project from standalone admission; no scope expansion or retirement inferred.",
+      "Product": "AntiMida 1.0",
+      "Disposition": "Existing mixed research/source exclusion retained; payload not acquired",
+      "PageUri": "https://ntcore.com/download/"
+    }
+  ],
+  "NativeAcceptance": false,
+  "FreshUacLaunches": 0,
+  "DefenderDetectionClaimed": false
+}

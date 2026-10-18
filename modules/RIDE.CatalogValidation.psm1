@@ -6,8 +6,9 @@
   Returns diagnostic strings without importing handlers or inspecting Windows.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Owner: RIDE-Windows maintainers. Version: 0.22.0.
-  Changelog: 0.22.0: Validate the fixed user-bin startup PATH profile renderer.
+  Owner: RIDE-Windows maintainers. Version: 0.23.0.
+  Changelog: 0.23.0: Validate pinned exact portable ZIP member selections.
+    0.22.0: Validate the fixed user-bin startup PATH profile renderer.
     0.21.0: Require explicit reviewed Store identity/removability metadata.
     0.20.0: Validate separate pending Store app actions and refuse profile routing.
     0.19.0: Validate pending local password-age range and focused lifecycle.
@@ -265,6 +266,25 @@ function Get-RideCatalogValidationErrors {
           if ($member -match '[\\\x00-\x1f:"*?<>|]|^/|(^|/)\.{1,2}(/|$)|[. ](/|$)|//|/$' -or $member -eq '.ride-package.json') { Add-Error "Unsafe portable member: $($operation.Id)" }
         }
         if ($operation.PortableFormat -eq 'File' -and -not $operation.PortableFileName) { Add-Error "Standalone portable requires PortableFileName: $($operation.Id)" }
+      }
+      if ($operation.ContainsKey('PortableMembers')) {
+        if ($operation.InstallerType -ne 'Portable' -or $operation.PortableFormat -ne 'Zip' -or
+            $operation.PortableMembers -isnot [array] -or $operation.PortableMembers.Count -lt 1 -or
+            $operation.PortableMembers.Count -gt 10000 -or $operation.ExpectedSha256 -notmatch '^[a-fA-F0-9]{64}$') {
+          Add-Error "PortableMembers requires a nonempty exact member array and pinned portable ZIP: $($operation.Id)"
+        }
+        $selectedMembers = @{}
+        foreach ($member in @($operation.PortableMembers)) {
+          if ($member -isnot [string] -or [string]::IsNullOrWhiteSpace($member) -or $member.Length -gt 240 -or
+              $member -match '[\\\x00-\x1f:"*?<>|]|^/|(^|/)\.{1,2}(/|$)|[. ](/|$)|//|/$|(^|/)(?i:con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|/|$)' -or $member -ieq '.ride-package.json') {
+            Add-Error "Unsafe PortableMembers file: $($operation.Id)"; continue
+          }
+          if ($selectedMembers.ContainsKey($member)) { Add-Error "Duplicate PortableMembers file: $($operation.Id)" }
+          $selectedMembers[$member] = $true
+        }
+        foreach ($required in @($operation.RequiredFiles)) {
+          if (-not $selectedMembers.ContainsKey([string]$required)) { Add-Error "RequiredFiles must be included in PortableMembers: $($operation.Id)" }
+        }
       }
       if ($operation.InstallerType -eq 'Msi' -and ($operation.InstallerArguments -notmatch '/qn' -or $operation.InstallerArguments -notmatch '/norestart')) { Add-Error "MSI packages require quiet, no-restart arguments: $($operation.Id)" }
       if ($operation.PrerequisitePackageId) {

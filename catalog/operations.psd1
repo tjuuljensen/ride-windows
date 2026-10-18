@@ -1192,7 +1192,16 @@
       Kind = 'RegistryValue'
       Category = 'Windows settings / Privacy'
       Description = 'Set the documented web-search policy. Enforcement is edition and build dependent; it is not a guaranteed universal Start/Bing switch. CortanaConsent and obsolete BingSearchEnabled preferences are excluded. WindowsDefault removes this override; saved-run restore recovers the prior value and type. No restart or application refresh is performed.'
-      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-search#disablewebsearch'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services'
+      SettingPresentation = @{
+        AppliesTo = 'Machine: Windows Search web-search policy'
+        Behavior = 'EnforcedPolicy'
+        GuiPath = 'Group Policy > Windows Components > Search > Do not allow web search'
+        GuiEffect = 'Blocked writes DisableWebSearch=1; Allowed writes 0. WindowsDefault removes this policy value. Effective Start/web behavior remains edition and build dependent.'
+        Requirements = @('Microsoft documents this exact value in its Enterprise/Server connection-management guidance; the previous Search CSP fragment no longer identifies this policy.', 'Verify the actual target search experience and managed precedence. No indexing rebuild, browser change or session refresh is requested.')
+        OtherSupportedChoices = @('ConnectedSearchUseWeb, cloud search and search highlights are separate policies; this is not a universal Bing or network-traffic block.', 'Legacy CortanaConsent and BingSearchEnabled preferences are excluded. Saved restore recovers only the captured value/type/absence.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -1463,6 +1472,15 @@
       Category = 'Windows settings / Services'
       Description = 'Select the legacy local/UTC hardware-clock preference. Does not set the current time, time zone or Windows Time service. Microsoft reference explains system time, not this registry mapping; dual-boot and restart behavior remain unverified. WindowsDefault removes this override; saved-run restore recovers the prior value and type. No restart or application refresh is performed.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/sysinfo/system-time'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: legacy hardware-clock interpretation preference'
+        Behavior = 'Unverified'
+        GuiPath = 'Firmware clock and Windows time behavior; no matching verified Settings toggle'
+        GuiEffect = 'UTC writes RealTimeIsUniversal=1; Local writes 0; WindowsDefault removes the override. This does not set time, time zone or Windows Time service configuration.'
+        Requirements = @('Microsoft explains system time, not this registry mapping. Firmware, dual-boot OS behavior, restart and drift require hardware-specific acceptance.', 'No clock, firmware, service or reboot action occurs.')
+        OtherSupportedChoices = @('Legacy SetBIOSTimeLocal removed the override; WindowsDefault matches it. Local=0 is explicit.', 'Saved restore recovers the registry value/type/absence, not timestamps already produced or elapsed clock drift.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/sysinfo/system-time')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -1770,6 +1788,15 @@
       Category = 'Windows settings / BitLocker'
       Description = 'Allow enhanced PIN characters by policy. Does not create a PIN, enroll encryption or escrow recovery data. Preboot keyboard layout and hardware must support the chosen characters; the legacy interactive keyboard warning is replaced by this documented prerequisite. WindowsDefault removes this override; saved-run restore recovers the prior value and type. No restart or application refresh is performed.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: BitLocker enhanced startup PIN permission'
+        Behavior = 'EnforcedPolicy'
+        GuiPath = 'Local Group Policy > BitLocker Drive Encryption > Operating System Drives > Allow enhanced PINs for startup'
+        GuiEffect = 'Enabled writes UseEnhancedPin=1; Disabled writes 0. This permits/restricts character choices; it creates no PIN and changes no existing protector.'
+        Requirements = @('A BitLocker-capable edition/component and a separately configured PIN unlock method are required. Preboot keyboard layout/firmware must support chosen characters.', 'Encryption enrollment, recovery-key escrow and resource preparation remain separate and explicitly deferred.')
+        OtherSupportedChoices = @('Legacy enable/disable writes the same values. WindowsDefault removes the policy; it is not enrollment or a protector reset.', 'Saved restore recovers policy bytes, not PINs, protectors, encrypted data or recovery material.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure#allow-enhanced-pins-for-startup')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -1792,6 +1819,15 @@
       Category = 'Windows settings / BitLocker'
       Description = 'Enable the additional-authentication policy gate. Related TPM/PIN/key policy values remain independent; this gate does not require or enroll TPM+PIN by itself, or alter existing protectors. WindowsDefault removes this override; saved-run restore recovers the prior value and type. No restart or application refresh is performed.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: BitLocker additional startup authentication policy gate'
+        Behavior = 'EnforcedPolicy'
+        GuiPath = 'Local Group Policy > BitLocker Drive Encryption > Operating System Drives > Require additional authentication at startup'
+        GuiEffect = 'Enabled writes UseAdvancedStartup=1; Disabled writes 0. This changes the policy gate only; related TPM/PIN/key fields are not configured and TPM+PIN is not required by this value alone.'
+        Requirements = @('BitLocker-capable edition/component and compatible startup hardware required. Companion policies and effective managed precedence need separate inspection.', 'No encryption, protector creation/removal, recovery enrollment or reboot occurs; recovery-resource setup remains deferred.')
+        OtherSupportedChoices = @('Legacy EnableAdditionalAuthAtStart used the same gate. Independent TPM/PIN choices are not silently composed.', 'WindowsDefault removes the gate; exact saved restore recovers its prior value/type/absence, not changed encryption/protectors.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure#require-additional-authentication-at-startup')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -2155,6 +2191,15 @@
       Category = 'Windows settings / UI'
       Description = 'Write four zero bytes to suppress the legacy suffix preference for newly created shortcuts. Enabled removes the override as the legacy reverse selector did; it does not rename existing shortcuts. Microsoft documents shell links, not this binary value. Saved-run restore recovers the original bytes and registry type; current naming behavior remains unverified.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/shell/links'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: names of newly created shell shortcuts'
+        Behavior = 'Unverified'
+        GuiPath = 'File Explorer > create shortcut (no verified native preference toggle)'
+        GuiEffect = 'Disabled writes four zero bytes to Explorer link; Enabled removes that binary override. Existing shortcut names and targets are unchanged.'
+        Requirements = @('Microsoft documents shell links, not this binary naming preference. Current-build naming behavior and shell refresh requirements remain unverified.', 'No Explorer restart or existing-file rename occurs.')
+        OtherSupportedChoices = @('The retained legacy disable/enable pair uses the same zero-byte/removal behavior. Enabled is not an explicit naming template.', 'Saved-run restore recovers original bytes, registry type and absence; names created while the preference was set are not undone.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/shell/links')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'User'
       RequiresAdmin = $false
@@ -2177,6 +2222,15 @@
       Category = 'Windows settings / Explorer'
       Description = 'Hide or register only the Desktop shell namespace keys in This PC. Folder contents are preserved. Visible creates missing empty registration roots; baseline Visible is a RIDE choice, not the image default. Exact restore reconstructs captured subtrees, typed values and security. Current Explorer presentation requires acceptance; no shell restart is performed.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: Desktop namespace registration in This PC'
+        Behavior = 'Configuration'
+        GuiPath = 'File Explorer > This PC > Desktop (build-dependent)'
+        GuiEffect = 'Hidden deletes the declared Desktop namespace registry subtrees; Visible creates missing empty registration roots. Neither changes folder contents or pins in Home. Current Windows 11 rendering remains unverified.'
+        Requirements = @('Microsoft documents namespace registration mechanics, not guaranteed display of these legacy CLSIDs on every current build. Inspect the target shell and both Explorer views before relying on visibility.', 'No Explorer restart or folder relocation occurs. The RIDE Visible baseline does not establish a Windows default.')
+        OtherSupportedChoices = @('Legacy hide/show removed/created the same registration roots; Visible cannot reconstruct previously deleted registry values.', 'Exact saved restore recovers captured subtrees, typed values and security. Shell-folder ThisPCPolicy preferences remain separate.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -2197,6 +2251,15 @@
       Category = 'Windows settings / Explorer'
       Description = 'Hide or register only the Documents shell namespace keys in This PC. Folder contents are preserved. Visible creates missing empty registration roots; baseline Visible is a RIDE choice, not the image default. Exact restore reconstructs captured subtrees, typed values and security. Current Explorer presentation requires acceptance; no shell restart is performed.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: Documents namespace registration in This PC'
+        Behavior = 'Configuration'
+        GuiPath = 'File Explorer > This PC > Documents (build-dependent)'
+        GuiEffect = 'Hidden deletes the declared Documents namespace registry subtrees; Visible creates missing empty registration roots. Neither changes folder contents or pins in Home. Current Windows 11 rendering remains unverified.'
+        Requirements = @('Microsoft documents namespace registration mechanics, not guaranteed display of these legacy CLSIDs on every current build. Inspect the target shell and both Explorer views before relying on visibility.', 'No Explorer restart or folder relocation occurs. The RIDE Visible baseline does not establish a Windows default.')
+        OtherSupportedChoices = @('Legacy hide/show removed/created the same registration roots; Visible cannot reconstruct previously deleted registry values.', 'Exact saved restore recovers captured subtrees, typed values and security. Shell-folder ThisPCPolicy preferences remain separate.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -2217,6 +2280,15 @@
       Category = 'Windows settings / Explorer'
       Description = 'Hide or register only the Downloads shell namespace keys in This PC. Folder contents are preserved. Visible creates missing empty registration roots; baseline Visible is a RIDE choice, not the image default. Exact restore reconstructs captured subtrees, typed values and security. Current Explorer presentation requires acceptance; no shell restart is performed.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: Downloads namespace registration in This PC'
+        Behavior = 'Configuration'
+        GuiPath = 'File Explorer > This PC > Downloads (build-dependent)'
+        GuiEffect = 'Hidden deletes the declared Downloads namespace registry subtrees; Visible creates missing empty registration roots. Neither changes folder contents or pins in Home. Current Windows 11 rendering remains unverified.'
+        Requirements = @('Microsoft documents namespace registration mechanics, not guaranteed display of these legacy CLSIDs on every current build. Inspect the target shell and both Explorer views before relying on visibility.', 'No Explorer restart or folder relocation occurs. The RIDE Visible baseline does not establish a Windows default.')
+        OtherSupportedChoices = @('Legacy hide/show removed/created the same registration roots; Visible cannot reconstruct previously deleted registry values.', 'Exact saved restore recovers captured subtrees, typed values and security. Shell-folder ThisPCPolicy preferences remain separate.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -2237,6 +2309,15 @@
       Category = 'Windows settings / Explorer'
       Description = 'Hide or register only the Pictures shell namespace keys in This PC. Folder contents are preserved. Visible creates missing empty registration roots; baseline Visible is a RIDE choice, not the image default. Exact restore reconstructs captured subtrees, typed values and security. Current Explorer presentation requires acceptance; no shell restart is performed.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: Pictures namespace registration in This PC'
+        Behavior = 'Configuration'
+        GuiPath = 'File Explorer > This PC > Pictures (build-dependent)'
+        GuiEffect = 'Hidden deletes the declared Pictures namespace registry subtrees; Visible creates missing empty registration roots. Neither changes folder contents or pins in Home. Current Windows 11 rendering remains unverified.'
+        Requirements = @('Microsoft documents namespace registration mechanics, not guaranteed display of these legacy CLSIDs on every current build. Inspect the target shell and both Explorer views before relying on visibility.', 'No Explorer restart or folder relocation occurs. The RIDE Visible baseline does not establish a Windows default.')
+        OtherSupportedChoices = @('Legacy hide/show removed/created the same registration roots; Visible cannot reconstruct previously deleted registry values.', 'Exact saved restore recovers captured subtrees, typed values and security. Shell-folder ThisPCPolicy preferences remain separate.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -2603,6 +2684,15 @@
       Category = 'Windows settings / Explorer'
       Description = 'Set both native and 32-bit shell-folder visibility preferences for Desktop. Keeps the architecture mirrors inside one feature, distinct from This PC namespace-key registration. Does not move/delete folders or control pinned Home shortcuts. Microsoft documents known-folder behavior, not this ThisPCPolicy mapping; current Explorer presentation is unverified. One state changes all declared values together; partial failures retain the complete pre-change record. WindowsDefault removes all overrides. Saved-run restore preserves individual prior values/types and unrelated data. No UI refresh or restart occurs.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/shell/known-folders'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: Desktop shell-folder visibility preferences in both registry views'
+        Behavior = 'Unverified'
+        GuiPath = 'File Explorer and file dialogs: Desktop visibility (unverified current-build mapping)'
+        GuiEffect = 'Hidden writes ThisPCPolicy=Hide and Visible writes Show in the native and 32-bit Desktop property bags together. The name does not establish an enforced policy; actual shell visibility is unverified.'
+        Requirements = @('Microsoft describes known folders, not these ThisPCPolicy values. Validate both registry views, current Explorer/dialog behavior and conflicting namespace registrations.', 'No folder content, location, permissions or Home pins are changed; no shell refresh occurs. Keep experimental mappings outside recommended profiles until acceptance.')
+        OtherSupportedChoices = @('Legacy show/hide wrote Show/Hide in both views; WindowsDefault instead removes both overrides.', 'Exact saved restore recovers each prior value/type/absence, including partial states; it is not the same as the separate namespace registration operation.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/shell/known-folders')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -2623,6 +2713,15 @@
       Category = 'Windows settings / Explorer'
       Description = 'Set both native and 32-bit shell-folder visibility preferences for Documents. Keeps the architecture mirrors inside one feature, distinct from This PC namespace-key registration. Does not move/delete folders or control pinned Home shortcuts. Microsoft documents known-folder behavior, not this ThisPCPolicy mapping; current Explorer presentation is unverified. One state changes all declared values together; partial failures retain the complete pre-change record. WindowsDefault removes all overrides. Saved-run restore preserves individual prior values/types and unrelated data. No UI refresh or restart occurs.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/shell/known-folders'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: Documents shell-folder visibility preferences in both registry views'
+        Behavior = 'Unverified'
+        GuiPath = 'File Explorer and file dialogs: Documents visibility (unverified current-build mapping)'
+        GuiEffect = 'Hidden writes ThisPCPolicy=Hide and Visible writes Show in the native and 32-bit Documents property bags together. The name does not establish an enforced policy; actual shell visibility is unverified.'
+        Requirements = @('Microsoft describes known folders, not these ThisPCPolicy values. Validate both registry views, current Explorer/dialog behavior and conflicting namespace registrations.', 'No folder content, location, permissions or Home pins are changed; no shell refresh occurs. Keep experimental mappings outside recommended profiles until acceptance.')
+        OtherSupportedChoices = @('Legacy show/hide wrote Show/Hide in both views; WindowsDefault instead removes both overrides.', 'Exact saved restore recovers each prior value/type/absence, including partial states; it is not the same as the separate namespace registration operation.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/shell/known-folders')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -2643,6 +2742,15 @@
       Category = 'Windows settings / Explorer'
       Description = 'Set both native and 32-bit shell-folder visibility preferences for Downloads. Keeps the architecture mirrors inside one feature, distinct from This PC namespace-key registration. Does not move/delete folders or control pinned Home shortcuts. Microsoft documents known-folder behavior, not this ThisPCPolicy mapping; current Explorer presentation is unverified. One state changes all declared values together; partial failures retain the complete pre-change record. WindowsDefault removes all overrides. Saved-run restore preserves individual prior values/types and unrelated data. No UI refresh or restart occurs.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/shell/known-folders'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: Downloads shell-folder visibility preferences in both registry views'
+        Behavior = 'Unverified'
+        GuiPath = 'File Explorer and file dialogs: Downloads visibility (unverified current-build mapping)'
+        GuiEffect = 'Hidden writes ThisPCPolicy=Hide and Visible writes Show in the native and 32-bit Downloads property bags together. The name does not establish an enforced policy; actual shell visibility is unverified.'
+        Requirements = @('Microsoft describes known folders, not these ThisPCPolicy values. Validate both registry views, current Explorer/dialog behavior and conflicting namespace registrations.', 'No folder content, location, permissions or Home pins are changed; no shell refresh occurs. Keep experimental mappings outside recommended profiles until acceptance.')
+        OtherSupportedChoices = @('Legacy show/hide wrote Show/Hide in both views; WindowsDefault instead removes both overrides.', 'Exact saved restore recovers each prior value/type/absence, including partial states; it is not the same as the separate namespace registration operation.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/shell/known-folders')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -2663,6 +2771,15 @@
       Category = 'Windows settings / Explorer'
       Description = 'Set both native and 32-bit shell-folder visibility preferences for Music. Keeps the architecture mirrors inside one feature, distinct from This PC namespace-key registration. Does not move/delete folders or control pinned Home shortcuts. Microsoft documents known-folder behavior, not this ThisPCPolicy mapping; current Explorer presentation is unverified. One state changes all declared values together; partial failures retain the complete pre-change record. WindowsDefault removes all overrides. Saved-run restore preserves individual prior values/types and unrelated data. No UI refresh or restart occurs.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/shell/known-folders'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: Music shell-folder visibility preferences in both registry views'
+        Behavior = 'Unverified'
+        GuiPath = 'File Explorer and file dialogs: Music visibility (unverified current-build mapping)'
+        GuiEffect = 'Hidden writes ThisPCPolicy=Hide and Visible writes Show in the native and 32-bit Music property bags together. The name does not establish an enforced policy; actual shell visibility is unverified.'
+        Requirements = @('Microsoft describes known folders, not these ThisPCPolicy values. Validate both registry views, current Explorer/dialog behavior and conflicting namespace registrations.', 'No folder content, location, permissions or Home pins are changed; no shell refresh occurs. Keep experimental mappings outside recommended profiles until acceptance.')
+        OtherSupportedChoices = @('Legacy show/hide wrote Show/Hide in both views; WindowsDefault instead removes both overrides.', 'Exact saved restore recovers each prior value/type/absence, including partial states; it is not the same as the separate namespace registration operation.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/shell/known-folders')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -2683,6 +2800,15 @@
       Category = 'Windows settings / Explorer'
       Description = 'Set both native and 32-bit shell-folder visibility preferences for Pictures. Keeps the architecture mirrors inside one feature, distinct from This PC namespace-key registration. Does not move/delete folders or control pinned Home shortcuts. Microsoft documents known-folder behavior, not this ThisPCPolicy mapping; current Explorer presentation is unverified. One state changes all declared values together; partial failures retain the complete pre-change record. WindowsDefault removes all overrides. Saved-run restore preserves individual prior values/types and unrelated data. No UI refresh or restart occurs.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/shell/known-folders'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: Pictures shell-folder visibility preferences in both registry views'
+        Behavior = 'Unverified'
+        GuiPath = 'File Explorer and file dialogs: Pictures visibility (unverified current-build mapping)'
+        GuiEffect = 'Hidden writes ThisPCPolicy=Hide and Visible writes Show in the native and 32-bit Pictures property bags together. The name does not establish an enforced policy; actual shell visibility is unverified.'
+        Requirements = @('Microsoft describes known folders, not these ThisPCPolicy values. Validate both registry views, current Explorer/dialog behavior and conflicting namespace registrations.', 'No folder content, location, permissions or Home pins are changed; no shell refresh occurs. Keep experimental mappings outside recommended profiles until acceptance.')
+        OtherSupportedChoices = @('Legacy show/hide wrote Show/Hide in both views; WindowsDefault instead removes both overrides.', 'Exact saved restore recovers each prior value/type/absence, including partial states; it is not the same as the separate namespace registration operation.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/shell/known-folders')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -2703,6 +2829,15 @@
       Category = 'Windows settings / Explorer'
       Description = 'Set both native and 32-bit shell-folder visibility preferences for Videos. Keeps the architecture mirrors inside one feature, distinct from This PC namespace-key registration. Does not move/delete folders or control pinned Home shortcuts. Microsoft documents known-folder behavior, not this ThisPCPolicy mapping; current Explorer presentation is unverified. One state changes all declared values together; partial failures retain the complete pre-change record. WindowsDefault removes all overrides. Saved-run restore preserves individual prior values/types and unrelated data. No UI refresh or restart occurs.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/shell/known-folders'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: Videos shell-folder visibility preferences in both registry views'
+        Behavior = 'Unverified'
+        GuiPath = 'File Explorer and file dialogs: Videos visibility (unverified current-build mapping)'
+        GuiEffect = 'Hidden writes ThisPCPolicy=Hide and Visible writes Show in the native and 32-bit Videos property bags together. The name does not establish an enforced policy; actual shell visibility is unverified.'
+        Requirements = @('Microsoft describes known folders, not these ThisPCPolicy values. Validate both registry views, current Explorer/dialog behavior and conflicting namespace registrations.', 'No folder content, location, permissions or Home pins are changed; no shell refresh occurs. Keep experimental mappings outside recommended profiles until acceptance.')
+        OtherSupportedChoices = @('Legacy show/hide wrote Show/Hide in both views; WindowsDefault instead removes both overrides.', 'Exact saved restore recovers each prior value/type/absence, including partial states; it is not the same as the separate namespace registration operation.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/shell/known-folders')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -2723,6 +2858,15 @@
       Category = 'Windows settings / Explorer'
       Description = 'Set both native and 32-bit shell-folder visibility preferences for 3D Objects. Keeps the architecture mirrors inside one feature, distinct from This PC namespace-key registration. Does not move/delete folders or control pinned Home shortcuts. Microsoft documents known-folder behavior, not this ThisPCPolicy mapping; current Explorer presentation is unverified. One state changes all declared values together; partial failures retain the complete pre-change record. WindowsDefault removes all overrides. Saved-run restore preserves individual prior values/types and unrelated data. No UI refresh or restart occurs.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/shell/known-folders'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: 3D Objects shell-folder visibility preferences in both registry views'
+        Behavior = 'Unverified'
+        GuiPath = 'File Explorer and file dialogs: 3D Objects visibility (unverified current-build mapping)'
+        GuiEffect = 'Hidden writes ThisPCPolicy=Hide and Visible writes Show in the native and 32-bit 3D Objects property bags together. The name does not establish an enforced policy; actual shell visibility is unverified.'
+        Requirements = @('Microsoft describes known folders, not these ThisPCPolicy values. Validate both registry views, current Explorer/dialog behavior and conflicting namespace registrations.', 'No folder content, location, permissions or Home pins are changed; no shell refresh occurs. Keep experimental mappings outside recommended profiles until acceptance.')
+        OtherSupportedChoices = @('Legacy Show3DObjectsInExplorer removed both overrides; WindowsDefault matches that action. Visible writes explicit Show.', 'Exact saved restore recovers each prior value/type/absence, including partial states; it is not the same as the separate namespace registration operation.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/shell/known-folders')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -2807,6 +2951,15 @@
       Category = 'Windows settings / Applications'
       Description = 'Keep the four GameConfigStore preferences from the legacy fullscreen-optimizations selector together. The reference explains related windowed-game optimizations, not these values or an equivalent switch. Exact effects can depend on game and Windows build; exclude from recommended profiles until tested with a representative game. One state changes all declared values together; partial failures retain the complete pre-change record. WindowsDefault removes all overrides. Saved-run restore preserves individual prior values/types and unrelated data. No UI refresh or restart occurs.'
       DocumentationUri = 'https://support.microsoft.com/en-us/windows/hardware/display-graphics/optimizations-for-windowed-games-in-windows-11'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: four retained GameConfigStore preferences'
+        Behavior = 'Unverified'
+        GuiPath = 'Game executable compatibility options and Settings > System > Display > Graphics are related, not equivalent controls'
+        GuiEffect = 'Disabled writes HonorDXGI/HonorUser=1 and Behavior/Mode=2; Enabled writes the two Honor fields and Mode=0 and removes Behavior. No verified universal fullscreen-optimization switch is asserted.'
+        Requirements = @('Microsoft documents windowed-game optimizations, not these four registry channels. Test a representative game, graphics stack and Windows build before recommending.', 'No app launch/restart, compatibility-database edit or graphics-driver configuration occurs.')
+        OtherSupportedChoices = @('The four-value legacy selector remains one operation; WindowsDefault removes all four, unlike the mixed Enabled state.', 'Saved restore recovers each captured value/type/absence and reports partial changes; it cannot restore a game session or prove performance.')
+        ReferenceUris = @('https://support.microsoft.com/en-us/windows/hardware/display-graphics/optimizations-for-windowed-games-in-windows-11')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'User'
       RequiresAdmin = $false
@@ -3378,6 +3531,15 @@
       Category = 'Windows settings / Privacy'
       Description = 'Select diagnostic data policy level. Off is honored only on supported Enterprise, Education and IoT editions; other editions collect at least required data. Optional enables optional diagnostics. No scheduled tasks, services, Office policies or non-policy mirror values are changed.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-system#allowtelemetry'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: Windows diagnostic data ceiling'
+        Behavior = 'EnforcedPolicy'
+        GuiPath = 'Settings > Privacy & security > Diagnostics & feedback'
+        GuiEffect = 'Off=0, Required=1 and Optional=3 write AllowTelemetry. Policy limits the user''s diagnostic choice; Off does not stop required collection on editions that do not support that level.'
+        Requirements = @('Declared Windows 11 policy editions are Pro, Enterprise, Education and IoT Enterprise unless a narrower level is specified. Effective managed precedence and actual UI need native acceptance.', 'Off requires an applicable Enterprise/Education/IoT edition. This is Windows diagnostics, not a universal network or third-party telemetry switch.')
+        OtherSupportedChoices = @('Legacy telemetry bundled non-policy mirrors, tasks, services and Office/AppCompat controls; this operation changes only the documented policy. Legacy reverse removed this policy.', 'WindowsDefault removes this override; saved-run restore recovers its captured value/type/absence, not previously transmitted or deleted data.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-system#allowtelemetry')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -3398,6 +3560,15 @@
       Category = 'Windows settings / Privacy'
       Description = 'Control sending inking and typing recognition data to Microsoft. Supported policy editions are Pro, Enterprise, Education and IoT Enterprise. Separate from local input personalization and the existing inking-typing-data operation.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-textinput#allowlinguisticdatacollection'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: sending inking/typing recognition data'
+        Behavior = 'EnforcedPolicy'
+        GuiPath = 'Settings > Privacy & security > Diagnostics & feedback; related Text Input policy'
+        GuiEffect = 'Disabled writes AllowLinguisticDataCollection=0; Enabled writes 1. This controls sending recognition data, not all local typing personalization.'
+        Requirements = @('Declared Windows 11 policy editions are Pro, Enterprise, Education and IoT Enterprise unless a narrower level is specified. Effective managed precedence and actual UI need native acceptance.', 'Local dictionaries, input suggestions and the separate inking-typing-data preference are independent.')
+        OtherSupportedChoices = @('Legacy telemetry reverse removed this override; WindowsDefault matches that action. Enabled is explicit permission.', 'WindowsDefault removes this override; saved-run restore recovers its captured value/type/absence, not previously transmitted or deleted data.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-textinput#allowlinguisticdatacollection')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -3418,6 +3589,15 @@
       Category = 'Windows settings / Privacy'
       Description = 'Suppress feedback notifications or allow Windows to request feedback. Policy support requires Pro, Enterprise, Education or IoT Enterprise. No SIUF frequency overrides or scheduled-task changes.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-experience#donotshowfeedbacknotifications'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: Windows feedback questions'
+        Behavior = 'EnforcedPolicy'
+        GuiPath = 'Settings > Privacy & security > Diagnostics & feedback > Feedback frequency'
+        GuiEffect = 'Disabled writes DoNotShowFeedbackNotifications=1; Allowed writes 0. Allowed permits questions subject to user/policy settings; it does not force a notification.'
+        Requirements = @('Declared Windows 11 policy editions are Pro, Enterprise, Education and IoT Enterprise unless a narrower level is specified. Effective managed precedence and actual UI need native acceptance.', 'SIUF frequency overrides and feedback tasks remain separate.')
+        OtherSupportedChoices = @('Legacy reverse removed this override; WindowsDefault matches it, while Allowed is explicit zero.', 'WindowsDefault removes this override; saved-run restore recovers its captured value/type/absence, not previously transmitted or deleted data.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-experience#donotshowfeedbacknotifications')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -3438,6 +3618,15 @@
       Category = 'Windows settings / Privacy'
       Description = 'Control the documented machine Windows Error Reporting preference. Policy may take precedence. No queue deletion or scheduled-task changes; restoring the preference does not recover reports discarded by Windows.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/wer/wer-settings'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: Windows Error Reporting preference'
+        Behavior = 'Preference'
+        GuiPath = 'Windows Error Reporting configuration; no universal current Settings toggle asserted'
+        GuiEffect = 'Disabled writes Disabled=1; Enabled writes 0 in the non-policy WER key. Managed WER policy can take precedence.'
+        Requirements = @('Microsoft documents the WER preference values; current report generation/consent and effective policy require isolated acceptance.', 'No queues, dump configuration, service or scheduled-task state are changed.')
+        OtherSupportedChoices = @('Legacy error-reporting bundle also changed QueueReporting; this operation controls only the preference.', 'WindowsDefault removes this override; saved-run restore recovers its captured value/type/absence, not previously transmitted or deleted data.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/wer/wer-settings')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -3632,6 +3821,15 @@
       Category = 'Windows settings / System behavior'
       Description = 'Control only the legacy Storage Sense enablement preference. Microsoft documents cleanup behavior, not this registry value; target review is required. Enabling may allow Windows to delete eligible content later. No cleanup runs, StoragePoliciesNotified writes or recursive deletion of other preferences. Restoring the value cannot recover deleted files.'
       DocumentationUri = 'https://support.microsoft.com/en-us/windows/experience/storage-filemanagement/manage-drive-space-with-storage-sense'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: legacy Storage Sense enablement preference'
+        Behavior = 'Unverified'
+        GuiPath = 'Settings > System > Storage > Storage Sense'
+        GuiEffect = 'Enabled writes StoragePolicy 01=1; Disabled writes 0. Windows may later delete eligible content when enabled; RIDE runs no cleanup.'
+        Requirements = @('Microsoft documents Storage Sense behavior, not this registry mapping. Review cleanup rules, cloud-file behavior, managed policy and current-build UI before activation.', 'No notification flag or other cleanup preferences are changed. Restoring a registry value cannot recover deleted files.')
+        OtherSupportedChoices = @('Legacy disable recursively removed StoragePolicy and enable also wrote StoragePoliciesNotified; this focused operation deliberately does neither.', 'WindowsDefault removes only 01; exact restore recovers its prior value/type/absence, not the whole policy tree.')
+        ReferenceUris = @('https://support.microsoft.com/en-us/windows/experience/storage-filemanagement/manage-drive-space-with-storage-sense')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'User'
       RequiresAdmin = $false
@@ -3652,6 +3850,15 @@
       Category = 'Windows settings / System behavior'
       Description = 'Choose whether Explorer permanently deletes files instead of moving them to the Recycle Bin. Requires a supported policy edition. RIDE does not delete files; restoring the policy cannot recover files later deleted by Windows.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-windowsexplorer#norecyclefiles'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: Explorer Recycle Bin handling'
+        Behavior = 'EnforcedPolicy'
+        GuiPath = 'Recycle Bin Properties; related File Explorer policy Do not move deleted files to the Recycle Bin'
+        GuiEffect = 'Bypass writes NoRecycleFiles=1; UseRecycleBin writes 0. Bypass permits Explorer to delete permanently; this command itself deletes no files.'
+        Requirements = @('Policy editions Pro, Enterprise, Education and IoT Enterprise require target verification. Applications, network locations and Shift+Delete can have independent deletion behavior.', 'Do not treat policy reversal as file recovery. Verify actual shell behavior only with disposable test files.')
+        OtherSupportedChoices = @('Legacy enable-Recycle-Bin reverse removed the override; WindowsDefault matches it. UseRecycleBin=0 is explicit.', 'Saved restore recovers the policy value/type/absence; deleted content remains outside recovery.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-windowsexplorer#norecyclefiles')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'User'
       RequiresAdmin = $false
@@ -4020,6 +4227,15 @@
       Category = 'Windows settings / User interface'
       Description = 'Control the title bar shake preference for minimizing other windows. Microsoft documents the visible option; the DisallowShaking mapping comes from the legacy selectors and requires visible-behavior review after sign-in. RIDE does not restart Explorer.'
       DocumentationUri = 'https://support.microsoft.com/en-gb/accessibility/windows/make-it-easier-to-focus-on-tasks'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: minimizing other windows with title bar shake'
+        Behavior = 'Preference'
+        GuiPath = 'Settings > System > Multitasking > Title bar window shake'
+        GuiEffect = 'Disabled writes DisallowShaking=1; Enabled writes 0. The related user option is not locked by this preference; current-build registry-to-UI behavior remains unverified.'
+        Requirements = @('Windows 11 desktop shell. Microsoft documents the visible option, not this retained registry mapping. Verify actual window behavior and managed precedence separately.', 'No Explorer restart, sign-out or window manipulation occurs. The declared target and unknown image-dependent default remain unchanged.')
+        OtherSupportedChoices = @('Legacy EnableAeroShake removed the override; WindowsDefault matches that reverse action. Enabled=0 is an explicit preference.', 'Saved-run restore recovers captured type/value/absence; it does not restore window positions or a factory default.')
+        ReferenceUris = @('https://support.microsoft.com/en-gb/accessibility/windows/make-it-easier-to-focus-on-tasks')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'User'
       RequiresAdmin = $false
@@ -4068,7 +4284,16 @@
       Kind = 'RegistryValue'
       Category = 'Windows settings / User interface'
       Description = 'Control accent color on title bars and window borders for the current user. Application theme support and high-contrast settings can affect rendering; reopening applications or signing in again may be needed.'
-      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/apps/develop/settings/settings-common#personalization---colors'
+      DocumentationUri = 'https://support.microsoft.com/en-us/windows/experience/personalization/personalize-your-colors-in-windows'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: accent color on supported title bars and window borders'
+        Behavior = 'Preference'
+        GuiPath = 'Settings > Personalization > Colors > Show accent color on title bars and window borders'
+        GuiEffect = 'Enabled writes DWM ColorPrevalence=1; Disabled writes 0. This requests the existing accent color, not a new color or a locked policy. Application rendering can differ.'
+        Requirements = @('Microsoft documents the user-visible color option, not this retained registry mapping. Verify current-build rendering, application theme support, contrast themes and managed precedence.', 'No app or Explorer restart, theme replacement or sign-out occurs. GUI activation restrictions are not bypassed or inferred from a successful registry write.')
+        OtherSupportedChoices = @('Legacy title-bar selectors wrote the same 1/0 values. Start/taskbar accent coloring and selection of the accent color are separate and are not changed.', 'WindowsDefault removes the override. Exact saved restore recovers the captured type/value/absence, not the complete theme or application state.')
+        ReferenceUris = @('https://support.microsoft.com/en-us/windows/experience/personalization/personalize-your-colors-in-windows')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'User'
       RequiresAdmin = $false
@@ -4088,7 +4313,16 @@
       Kind = 'RegistryValue'
       Category = 'Windows settings / User interface'
       Description = 'Select the current-user light or dark preference for applications that honor Windows theme settings. Individual app preferences and high-contrast themes can take precedence; RIDE does not restart apps.'
-      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/apps/develop/settings/settings-common#personalization---colors'
+      DocumentationUri = 'https://support.microsoft.com/en-us/windows/experience/personalization/personalize-your-colors-in-windows'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: applications that follow the Windows app color preference'
+        Behavior = 'Preference'
+        GuiPath = 'Settings > Personalization > Colors > Choose your mode > Custom > Choose your default app mode'
+        GuiEffect = 'Light writes AppsUseLightTheme=1; Dark writes 0. Apps may use their own choice or lack dark-mode support; this does not enforce their appearance.'
+        Requirements = @('Microsoft documents color modes and application exceptions, not this retained registry mapping. Verify current-build UI readback, application support, contrast themes and managed precedence.', 'No app restart, sign-out or theme replacement occurs. GUI activation restrictions are not bypassed or inferred from a successful registry write.')
+        OtherSupportedChoices = @('Legacy app-mode selectors wrote the same 1/0 values. Windows surface mode is the separate windows.system-color-mode operation.', 'WindowsDefault removes the override. Saved-run restore recovers captured type/value/absence; it does not restore the complete theme or individual app preferences.')
+        ReferenceUris = @('https://support.microsoft.com/en-us/windows/experience/personalization/personalize-your-colors-in-windows')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'User'
       RequiresAdmin = $false
@@ -4108,7 +4342,16 @@
       Kind = 'RegistryValue'
       Category = 'Windows settings / User interface'
       Description = 'Select the current-user light or dark preference for Windows surfaces. This is separate from application color mode; Windows may require a new sign-in to refresh the shell.'
-      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/apps/develop/settings/settings-common#personalization---colors'
+      DocumentationUri = 'https://support.microsoft.com/en-us/windows/experience/personalization/personalize-your-colors-in-windows'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: Windows shell surface color mode'
+        Behavior = 'Preference'
+        GuiPath = 'Settings > Personalization > Colors > Choose your mode > Custom > Choose your default Windows mode'
+        GuiEffect = 'Light writes SystemUsesLightTheme=1; Dark writes 0. This requests a Windows surface preference without locking the related user choice or changing app mode.'
+        Requirements = @('Microsoft documents Windows color modes, not this retained registry mapping. Verify current-build shell readback, contrast themes, managed precedence and any sign-in refresh requirement.', 'No Explorer restart, sign-out or theme replacement occurs. GUI activation restrictions are not bypassed or inferred from a successful registry write.')
+        OtherSupportedChoices = @('Legacy Windows-mode selectors wrote the same 1/0 values. App mode is separate; this does not enable Start/taskbar accent coloring.', 'WindowsDefault removes the override. Saved-run restore recovers captured type/value/absence, not the complete theme or shell session.')
+        ReferenceUris = @('https://support.microsoft.com/en-us/windows/experience/personalization/personalize-your-colors-in-windows')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'User'
       RequiresAdmin = $false
@@ -4187,6 +4430,15 @@
       Category = 'Windows settings / Privacy'
       Description = 'Allow or block use of the Windows sensor feature by programs. Policy support requires Pro, Enterprise, Education or IoT Enterprise; this does not uninstall sensor devices.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-sensors#disablesensors_2'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: Windows sensor framework use by programs'
+        Behavior = 'EnforcedPolicy'
+        GuiPath = 'Local Group Policy > Windows Components > Location and Sensors > Turn off sensors'
+        GuiEffect = 'Disabled writes DisableSensors=1; Allowed writes 0. This blocks/allows the sensor feature without uninstalling devices.'
+        Requirements = @('Declared Windows 11 policy editions are Pro, Enterprise, Education and IoT Enterprise unless a narrower level is specified. Effective managed precedence and actual UI need native acceptance.', 'Working sensors/drivers and applications are needed for behavioral acceptance; location, camera and microphone permissions remain separate.')
+        OtherSupportedChoices = @('An allowed framework does not guarantee device availability. Legacy reverse removes the override; WindowsDefault retains that distinction.', 'WindowsDefault removes this override; saved-run restore recovers its captured value/type/absence, not previously transmitted or deleted data.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-sensors#disablesensors_2')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -4207,6 +4459,15 @@
       Category = 'Windows settings / Privacy'
       Description = 'Allow or block the Windows Biometric Framework. Microsoft documents policy-controlled enablement; the registry mapping is confirmed by Windows Biometrics.admx, not this API reference. This does not enroll biometrics, remove templates or change separate domain sign-in policies. Hardware behavior needs separate verification.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/api/winbio/nf-winbio-winbiogetenabledsetting'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: Windows Biometric Framework'
+        Behavior = 'EnforcedPolicy'
+        GuiPath = 'Local Group Policy > Windows Components > Biometrics > Allow the use of biometrics'
+        GuiEffect = 'Disabled writes Enabled=0; Allowed writes 1. Framework permission is separate from Windows Hello enrollment and domain/sign-in policy.'
+        Requirements = @('Microsoft documents policy-controlled framework availability; the exact registry mapping is confirmed by local Biometrics.admx.', 'Compatible sensor/driver, sign-in configuration and managed precedence require native acceptance. No biometric template is created or removed.')
+        OtherSupportedChoices = @('Separate credential-provider and domain biometric policies are unchanged. Allowed is not a promise that biometric sign-in works.', 'WindowsDefault removes this override; saved-run restore recovers its captured value/type/absence, not previously transmitted or deleted data.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/api/winbio/nf-winbio-winbiogetenabledsetting')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -4285,6 +4546,15 @@
       Category = 'Windows settings / Privacy'
       Description = 'Choose HTTP-only downloads without peering, LAN peers, or internet peers for Delivery Optimization. Windows Update continues to function. HttpOnly=0 replaces the legacy Bypass=100 mode, deprecated on Windows 11; LocalNetwork=1 is now explicit rather than removing policy. No updates are triggered.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/deployment/do/waas-delivery-optimization-reference'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: Delivery Optimization download-source policy'
+        Behavior = 'EnforcedPolicy'
+        GuiPath = 'Settings > Windows Update > Advanced options > Delivery Optimization'
+        GuiEffect = 'HttpOnly=0 disables peering; LocalNetwork=1 allows LAN peers; Internet=3 permits wider peers. It does not disable Windows Update or trigger a download.'
+        Requirements = @('Delivery Optimization component, supported edition/build and effective policy must be checked. HTTP-only can still use cloud metadata and Connected Cache; it is not offline mode.', 'Peer traffic, metered networks and organizational restrictions require native acceptance.')
+        OtherSupportedChoices = @('Legacy Bypass=100 is deprecated on Windows 11; the existing HttpOnly=0 replacement is retained. LocalNetwork is explicit instead of removing policy.', 'WindowsDefault removes the policy; exact restore recovers value/type/absence, not downloaded content or prior network traffic.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/deployment/do/waas-delivery-optimization-reference#download-mode')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -4305,6 +4575,15 @@
       Category = 'Windows settings / Privacy'
       Description = 'Control clearing of recent document shortcuts and unpinned Jump List history at sign-out. This corrects the legacy HKLM write to the documented user policy. Other history policies can take precedence. Exact restore covers the policy value, not history Windows later deletes. RIDE does not sign out or clear files.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-startmenu#clearrecentdocsonexit'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: recent-document history at sign-out'
+        Behavior = 'EnforcedPolicy'
+        GuiPath = 'Local Group Policy > User Configuration > Start Menu and Taskbar > Clear history of recently opened documents on exit'
+        GuiEffect = 'Enabled writes ClearRecentDocsOnExit=1; Disabled writes 0. Windows may clear recent shortcuts and unpinned Jump List history at sign-out; RIDE does not sign out.'
+        Requirements = @('Declared Windows 11 policy editions are Pro, Enterprise, Education and IoT Enterprise unless a narrower level is specified. Effective managed precedence and actual UI need native acceptance.', 'Other history policies may override this behavior. Original document contents are not the target; deleted history cannot be reconstructed by registry restore.')
+        OtherSupportedChoices = @('Legacy wrote HKLM and reversed by removal; the maintained operation uses the documented user policy. WindowsDefault removes its HKCU override.', 'WindowsDefault removes this override; saved-run restore recovers its captured value/type/absence, not previously transmitted or deleted data.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-startmenu#clearrecentdocsonexit')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'User'
       RequiresAdmin = $false
@@ -4325,6 +4604,15 @@
       Category = 'Windows settings / Privacy'
       Description = 'Allow or prevent Windows recent-document history. The linked history reference describes related behavior; the machine NoRecentDocsHistory mapping is confirmed by Windows StartMenu.admx and retained for behavior review. This is separate from Explorer recent shortcuts and application-owned history. Restore recovers the policy, not missed or cleared history.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-startmenu#clearrecentdocsonexit'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: Windows recent-document history'
+        Behavior = 'EnforcedPolicy'
+        GuiPath = 'Local Group Policy > Start Menu and Taskbar > Do not keep history of recently opened documents'
+        GuiEffect = 'Disabled writes NoRecentDocsHistory=1; Allowed writes 0. This is separate from Explorer display preferences and app-owned history.'
+        Requirements = @('Local StartMenu.admx confirms machine/user policy mapping; the linked Microsoft page documents related history behavior, not this exact value.', 'Effective precedence, current Jump Lists and app exceptions require native acceptance; changing this policy cannot recover missed history.')
+        OtherSupportedChoices = @('Legacy reverse removed the machine override; WindowsDefault matches it. Allowed is explicit zero.', 'WindowsDefault removes this override; saved-run restore recovers its captured value/type/absence, not previously transmitted or deleted data.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-startmenu#clearrecentdocsonexit')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -4461,6 +4749,15 @@
       Category = 'Windows settings / Explorer'
       Description = 'Create or remove the current-user God Mode desktop folder shortcut to the All Tasks Control Panel view. This only adds convenient access to existing settings. Removal refuses nonempty folders, files and reparse points. Shell rendering remains subject to Windows build behavior.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: resolved desktop directory'
+        Behavior = 'Configuration'
+        GuiPath = 'Desktop > GodMode All Tasks shell folder'
+        GuiEffect = 'Present creates the named empty CLSID folder; Absent removes it only while empty. It exposes existing settings without granting privileges or enabling hidden capabilities.'
+        Requirements = @('Microsoft documents the folder-name CLSID mechanism, not a current-build support guarantee for this All Tasks CLSID. Validate shell rendering separately.', 'Files, reparse points, nonempty folders and desktop redirection conflicts are refused; current-user desktop access is required.')
+        OtherSupportedChoices = @('This is an owned shell folder, not an ordinary .lnk or a system policy. No settings app is launched.', 'Exact restore recovers captured empty-folder presence, ACL, attributes and timestamps; it cannot restore deleted user content and refuses nonempty directories.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction')
+      }
       ReferenceUri = 'https://www.tomshardware.com/how-to/enable-god-mode-windows-11'
       SupportedTargets = @('Windows 11')
       Scope = 'User'
@@ -4770,7 +5067,16 @@
       Kind = 'RegistryValue'
       Category = 'Windows settings / Windows Configuration'
       Description = 'Choose plain-text or titled hyperlink copying in Edge for the current user, or remove the policy override. Edge may require restart to reflect the policy.'
-      DocumentationUri = 'https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/configurefriendlyurlformat'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/deployedge/microsoft-edge-browser-policies/configurefriendlyurlformat'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: supported Edge profiles'
+        Behavior = 'EnforcedPolicy'
+        GuiPath = 'edge://settings/shareCopyPaste and edge://policy'
+        GuiEffect = 'PlainText=1 allows plain URL paste; TitledHyperlink=3 uses a titled link in rich-text destinations and plain text elsewhere. Configuring the mandatory policy disables the format picker and Paste As choices.'
+        Requirements = @('Requires Edge 87 or later on Windows; Microsoft excludes profiles signed in with a Microsoft account.', 'Policy supports dynamic refresh; inspect edge://policy and actual paste destinations. RIDE does not refresh or restart Edge.')
+        OtherSupportedChoices = @('WindowsDefault removes the mandatory override and permits normal user choice subject to other policy. The separate Recommended path is not owned.', 'Saved restore recovers this user policy value/type/absence, not clipboard contents or pasted documents.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/deployedge/microsoft-edge-browser-policies/configurefriendlyurlformat')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'User'
       RequiresAdmin = $false
@@ -5284,7 +5590,16 @@
       Kind = 'RegistryValue'
       Category = 'Windows settings / Privacy'
       Description = 'Set the machine capability consent value for documentsLibrary access to Deny, Allow, or user controlled. Microsoft documents app capability behavior, not this specific legacy registry mapping.'
-      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/apps/develop/security/app-capability-declarations'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/apps/package-and-deploy/app-capability-declarations'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: documentsLibrary consent-store preference'
+        Behavior = 'Unverified'
+        GuiPath = 'Settings > Privacy & security > Documents (related capability UI)'
+        GuiEffect = 'Denied writes Value=Deny; Allowed writes Allow; UserControlled removes the machine documentsLibrary override. No guaranteed locked or forced UI state is inferred.'
+        Requirements = @('Microsoft documents capability semantics, not these legacy ConsentStore writes. App identity, capability declarations, per-user consent and policy must be checked on the current build.', 'This is not a file ACL or a universal block on desktop apps. Native access tests must distinguish library APIs, file pickers and full-trust applications.')
+        OtherSupportedChoices = @('Legacy deny/reverse uses Deny/removal; Allowed is an explicit additional choice. No app capability is added by this setting.', 'Saved restore recovers the registry value/type/absence, not files an application accessed or copied.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/apps/package-and-deploy/app-capability-declarations')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -5306,7 +5621,16 @@
       Kind = 'RegistryValue'
       Category = 'Windows settings / Privacy'
       Description = 'Set the machine capability consent value for picturesLibrary access to Deny, Allow, or user controlled. Microsoft documents app capability behavior, not this specific legacy registry mapping.'
-      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/apps/develop/security/app-capability-declarations'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/apps/package-and-deploy/app-capability-declarations'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: picturesLibrary consent-store preference'
+        Behavior = 'Unverified'
+        GuiPath = 'Settings > Privacy & security > Pictures (related capability UI)'
+        GuiEffect = 'Denied writes Value=Deny; Allowed writes Allow; UserControlled removes the machine picturesLibrary override. No guaranteed locked or forced UI state is inferred.'
+        Requirements = @('Microsoft documents capability semantics, not these legacy ConsentStore writes. App identity, capability declarations, per-user consent and policy must be checked on the current build.', 'This is not a file ACL or a universal block on desktop apps. Native access tests must distinguish library APIs, file pickers and full-trust applications.')
+        OtherSupportedChoices = @('Legacy deny/reverse uses Deny/removal; Allowed is an explicit additional choice. No app capability is added by this setting.', 'Saved restore recovers the registry value/type/absence, not files an application accessed or copied.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/apps/package-and-deploy/app-capability-declarations')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -5328,7 +5652,16 @@
       Kind = 'RegistryValue'
       Category = 'Windows settings / Privacy'
       Description = 'Set the machine capability consent value for videosLibrary access to Deny, Allow, or user controlled. Microsoft documents app capability behavior, not this specific legacy registry mapping.'
-      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/apps/develop/security/app-capability-declarations'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/apps/package-and-deploy/app-capability-declarations'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: videosLibrary consent-store preference'
+        Behavior = 'Unverified'
+        GuiPath = 'Settings > Privacy & security > Videos (related capability UI)'
+        GuiEffect = 'Denied writes Value=Deny; Allowed writes Allow; UserControlled removes the machine videosLibrary override. No guaranteed locked or forced UI state is inferred.'
+        Requirements = @('Microsoft documents capability semantics, not these legacy ConsentStore writes. App identity, capability declarations, per-user consent and policy must be checked on the current build.', 'This is not a file ACL or a universal block on desktop apps. Native access tests must distinguish library APIs, file pickers and full-trust applications.')
+        OtherSupportedChoices = @('Legacy deny/reverse uses Deny/removal; Allowed is an explicit additional choice. No app capability is added by this setting.', 'Saved restore recovers the registry value/type/absence, not files an application accessed or copied.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/apps/package-and-deploy/app-capability-declarations')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -5350,7 +5683,16 @@
       Kind = 'RegistryValue'
       Category = 'Windows settings / Privacy'
       Description = 'Set the machine capability consent value for broadFileSystemAccess to Deny, Allow, or user controlled. Microsoft documents app capability behavior, not this specific legacy registry mapping.'
-      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/apps/develop/security/app-capability-declarations'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/apps/package-and-deploy/app-capability-declarations'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: broadFileSystemAccess consent-store preference'
+        Behavior = 'Unverified'
+        GuiPath = 'Settings > Privacy & security > File system (related capability UI)'
+        GuiEffect = 'Denied writes Value=Deny; Allowed writes Allow; UserControlled removes the machine broadFileSystemAccess override. No guaranteed locked or forced UI state is inferred.'
+        Requirements = @('Microsoft documents capability semantics, not these legacy ConsentStore writes. App identity, capability declarations, per-user consent and policy must be checked on the current build.', 'This is not a file ACL or a universal block on desktop apps. Native access tests must distinguish library APIs, file pickers and full-trust applications.')
+        OtherSupportedChoices = @('Legacy deny/reverse uses Deny/removal; Allowed is an explicit additional choice. No app capability is added by this setting.', 'Saved restore recovers the registry value/type/absence, not files an application accessed or copied.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/apps/package-and-deploy/app-capability-declarations')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -5372,7 +5714,16 @@
       Kind = 'RegistryValue'
       Category = 'Windows settings / System'
       Description = 'Set the legacy SwapfileControl registry value to disable or re-enable the UWP swap file. A Windows restart is required. Microsoft documents UWP app lifecycle behavior but does not document this specific registry mapping.'
-      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/uwp/launch-resume/optimize-suspend-resume'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/uwp/debug-test-perf/optimize-suspend-resume'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: retained UWP swap-file preference'
+        Behavior = 'Unverified'
+        GuiPath = 'No supported native toggle established; related UWP app suspension behavior'
+        GuiEffect = 'Disabled writes SwapfileControl=0; Enabled removes the override. This is not a supported general pagefile configuration API or proof of reduced memory use.'
+        Requirements = @('Microsoft lifecycle documentation does not document this value. Restart and current-build memory/suspend behavior remain unverified; no reboot is initiated.', 'Keep outside recommended profiles until compatibility and recovery are demonstrated; low-memory and app lifecycle effects need isolated testing.')
+        OtherSupportedChoices = @('Legacy reverse also removes the override; Enabled is not an explicit one.', 'Saved restore recovers the registry value/type/absence, not suspended app state or changed paging contents.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/uwp/debug-test-perf/optimize-suspend-resume')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -5395,6 +5746,15 @@
       Category = 'Windows settings / Privacy'
       Description = 'Remove Disabled and DisabledByUser values from current-user background app entries. Applying captures existing values so a run can restore them exactly.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: existing per-app background override values'
+        Behavior = 'Unverified'
+        GuiPath = 'Settings > Apps > Installed apps > app advanced options > background permissions (where available)'
+        GuiEffect = 'Reset removes only Disabled and DisabledByUser below existing BackgroundAccessApplications entries. Removal is not a guarantee that an app runs in the background.'
+        Requirements = @('The Privacy CSP documents the separate app-background policy, not this legacy user registry mechanism. Current app/build behavior remains unverified.', 'No app key, package, service or machine LetAppsRunInBackground policy is removed.')
+        OtherSupportedChoices = @('Legacy EnableUWPBackgroundApps combined this reset with removal of machine policy. RIDE keeps them independent.', 'Saved restore recreates captured named values and types, including missing subkeys; unrelated values are retained. It does not restore completed background activity.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy#letappsruninbackground')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'User'
       RequiresAdmin = $false
@@ -5511,6 +5871,15 @@
       Category = 'Windows settings / Security'
       Description = 'Set the Windows Script Host policy or restore its default value.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/wscript'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: Windows Script Host Enabled preference'
+        Behavior = 'Unverified'
+        GuiPath = 'wscript.exe/cscript.exe launch behavior; no verified Settings toggle'
+        GuiEffect = 'Disabled writes Enabled=0; Enabled removes the override. The retained mapping concerns WSH, not PowerShell execution policy or a universal script-execution block.'
+        Requirements = @('Microsoft documents the script hosts, not this registry control on all current targets. Host architecture, script engine availability and managed enforcement require acceptance.', 'No script is executed or file association changed; use harmless local fixtures for native validation.')
+        OtherSupportedChoices = @('Legacy reverse also removed the override. Other script hosts and application-control policy remain independent.', 'Saved restore recovers the value/type/absence, not work performed by scripts.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/wscript')
+      }
       SupportedTargets = @('Windows 11', 'Windows Server 2025')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -5619,6 +5988,15 @@
       Category = 'Windows settings / Network'
       Description = 'Clear the current user''s automatic proxy configuration URL override.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/configure-proxy-server-settings'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: Internet Settings automatic proxy URL value'
+        Behavior = 'Preference'
+        GuiPath = 'Settings > Network & internet > Proxy > Use setup script; Internet Options > LAN settings'
+        GuiEffect = 'Disabled writes an empty AutoconfigURL string; Enabled removes the value. Neither restores a previous PAC URL nor guarantees that all proxy use is disabled.'
+        Requirements = @('Microsoft documents proxy configuration and application-specific behavior; effective connection flags, PAC evaluation, policy and process refresh require native acceptance.', 'WinHTTP, manual proxy, auto-detection and RAS profiles are separate. No PAC download/evaluation or network refresh is performed.')
+        OtherSupportedChoices = @('Legacy reverse removed the value. To recover the original URL, restore the captured run instead of selecting Enabled.', 'Saved restore recovers value/type/absence only; owned full proxy configuration and native refresh are separate B04 work.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/configure-proxy-server-settings')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'User'
       RequiresAdmin = $false
@@ -5671,7 +6049,16 @@
       Kind = 'RegistryValue'
       Category = 'Windows settings / Privacy'
       Description = 'Disable tailored experiences based on diagnostic data for the current user.'
-      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-experience'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-experience#allowtailoredexperienceswithdiagnosticdata'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: use of diagnostics for personalized offers'
+        Behavior = 'EnforcedPolicy'
+        GuiPath = 'Settings > Privacy & security > Diagnostics & feedback > Tailored experiences (label varies by build)'
+        GuiEffect = 'Disabled writes DisableTailoredExperiencesWithDiagnosticData=1; Enabled removes the override. This restricts diagnostic-data personalization, not all recommendations or diagnostic collection.'
+        Requirements = @('Declared Windows 11 policy editions are Pro, Enterprise, Education and IoT Enterprise unless a narrower level is specified. Effective managed precedence and actual UI need native acceptance.', 'Current-build labels and effective user policy require verification; generic recommendations may remain.')
+        OtherSupportedChoices = @('Legacy reverse also removed this policy; Enabled is not an explicit force-on value.', 'Saved restore recovers the policy value/type/absence, not recommendations already shown or collected data.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-experience#allowtailoredexperienceswithdiagnosticdata')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'User'
       RequiresAdmin = $false
@@ -5693,7 +6080,16 @@
       Kind = 'RegistryValue'
       Category = 'Windows settings / Privacy'
       Description = 'Disable the activity feed through the machine policy value used by the legacy activity-history selector.'
-      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy#enableactivityfeed'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: activity feed'
+        Behavior = 'EnforcedPolicy'
+        GuiPath = 'Local Group Policy > System > OS Policies; related Activity history UI'
+        GuiEffect = 'Disabled writes EnableActivityFeed=0; Enabled removes this override. The retained name does not force the feature on or restore an obsolete cloud experience.'
+        Requirements = @('Declared Windows 11 policy editions are Pro, Enterprise, Education and IoT Enterprise unless a narrower level is specified. Effective managed precedence and actual UI need native acceptance.', 'Microsoft deprecated the send-history UI on updated Windows 11 22H2/23H2 in January 2024. Current feature availability and actual policy consumers need acceptance.')
+        OtherSupportedChoices = @('Legacy activity-history selector combined all three policies; each may be selected separately. This does not clear local/cloud history.', 'Saved restore recovers the captured policy value/type/absence, not missing activities or a removed Windows feature.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy#enableactivityfeed', 'https://support.microsoft.com/en-us/windows/privacy/windows-activity-history-and-your-privacy')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -5715,7 +6111,16 @@
       Kind = 'RegistryValue'
       Category = 'Windows settings / Privacy'
       Description = 'Disable publishing user activities through machine policy.'
-      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy#publishuseractivities'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: publication of user activities'
+        Behavior = 'EnforcedPolicy'
+        GuiPath = 'Local Group Policy > System > OS Policies; related Activity history UI'
+        GuiEffect = 'Disabled writes PublishUserActivities=0; Enabled removes this override. The retained name does not force the feature on or restore an obsolete cloud experience.'
+        Requirements = @('Declared Windows 11 policy editions are Pro, Enterprise, Education and IoT Enterprise unless a narrower level is specified. Effective managed precedence and actual UI need native acceptance.', 'Microsoft deprecated the send-history UI on updated Windows 11 22H2/23H2 in January 2024. Current feature availability and actual policy consumers need acceptance.')
+        OtherSupportedChoices = @('Legacy activity-history selector combined all three policies; each may be selected separately. This does not clear local/cloud history.', 'Saved restore recovers the captured policy value/type/absence, not missing activities or a removed Windows feature.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy#publishuseractivities', 'https://support.microsoft.com/en-us/windows/privacy/windows-activity-history-and-your-privacy')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -5737,7 +6142,16 @@
       Kind = 'RegistryValue'
       Category = 'Windows settings / Privacy'
       Description = 'Disable uploading user activities through machine policy.'
-      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy#uploaduseractivities'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: upload of published user activities'
+        Behavior = 'EnforcedPolicy'
+        GuiPath = 'Local Group Policy > System > OS Policies; related Activity history UI'
+        GuiEffect = 'Disabled writes UploadUserActivities=0; Enabled removes this override. The retained name does not force the feature on or restore an obsolete cloud experience.'
+        Requirements = @('Declared Windows 11 policy editions are Pro, Enterprise, Education and IoT Enterprise unless a narrower level is specified. Effective managed precedence and actual UI need native acceptance.', 'Microsoft deprecated the send-history UI on updated Windows 11 22H2/23H2 in January 2024. Current feature availability and actual policy consumers need acceptance.')
+        OtherSupportedChoices = @('Legacy activity-history selector combined all three policies; each may be selected separately. This does not clear local/cloud history.', 'Saved restore recovers the captured policy value/type/absence, not missing activities or a removed Windows feature.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy#uploaduseractivities', 'https://support.microsoft.com/en-us/windows/privacy/windows-activity-history-and-your-privacy')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -5853,6 +6267,15 @@
       Category = 'Windows settings / Privacy'
       Description = 'Opt out of sharing the current user''s language list with websites.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/privacy/windows-10-and-privacy-compliance'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: website language-list preference'
+        Behavior = 'Unverified'
+        GuiPath = 'Settings > Privacy & security > General > website language-list preference (build-dependent)'
+        GuiEffect = 'Disabled writes HttpAcceptLanguageOptOut=1; Enabled removes the override. It does not remove installed languages or guarantee that every browser suppresses language headers.'
+        Requirements = @('The Microsoft privacy guide is background evidence, not a specification of this retained registry value. Current Windows/browser behavior remains unverified.', 'Browser-specific language preferences, website accounts and locale inference remain independent.')
+        OtherSupportedChoices = @('Legacy reverse removes this override; Enabled does not write an explicit allow value.', 'Saved restore recovers registry type/value/absence, not website content or browser state.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/privacy/windows-privacy-compliance-guide')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'User'
       RequiresAdmin = $false
@@ -5937,6 +6360,15 @@
       Category = 'Windows settings / System'
       Description = 'Set whether the current user allows shared experiences across devices.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/privacy/windows-10-and-privacy-compliance'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: legacy cross-device shared-experience preference'
+        Behavior = 'Unverified'
+        GuiPath = 'Settings > Apps > advanced app settings > Share across devices (related, build-dependent)'
+        GuiEffect = 'Disabled writes RomeSdkChannelUserAuthzPolicy=0; Enabled writes 1. The name alone does not establish managed policy enforcement or support for every cross-device feature.'
+        Requirements = @('Microsoft privacy guidance does not establish this CDP value mapping. Current component, account and peer-device behavior require acceptance.', 'This does not enroll accounts or independently configure Nearby sharing, Phone Link or clipboard synchronization.')
+        OtherSupportedChoices = @('Legacy reverse writes the same explicit 1; there is no declared override-removal state.', 'Saved restore recovers the prior value/type/absence, not shared data or paired-device state.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/privacy/windows-privacy-compliance-guide')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'User'
       RequiresAdmin = $false
@@ -5959,6 +6391,15 @@
       Category = 'Windows settings / System'
       Description = 'Set whether Win32 long-path support is enabled for applications that opt in.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: opt-in Win32 long-path behavior'
+        Behavior = 'Configuration'
+        GuiPath = 'Local Group Policy > System > Filesystem > Enable Win32 long paths'
+        GuiEffect = 'Enabled writes LongPathsEnabled=1; Disabled writes 0. Only compatible APIs in longPathAware applications benefit; Explorer or legacy tools may retain limits.'
+        Requirements = @('Microsoft requires both registry enablement and application opt-in. Processes can cache this value, so new processes or reboot may be needed; RIDE starts neither.', 'File-system component limits and third-party application behavior remain independent. Test exact consumers on declared targets.')
+        OtherSupportedChoices = @('Legacy enable/disable writes the same 1/0. No declared override-removal state is added.', 'Exact saved restore can recover prior absence/type/value; it does not shorten existing paths or repair applications that created long names.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -6072,8 +6513,17 @@
       Name = 'Sticky Keys prompts'
       Kind = 'RegistryValue'
       Category = 'Windows settings / User interface'
-      Description = 'Disable the Sticky Keys accessibility prompt for the current user.'
+      Description = 'Apply retained whole-value Sticky Keys accessibility Flags presets for the current user. Disabled writes 506; Enabled writes 510. These are not verified prompt-only controls and can replace other accessibility choices. Saved-run restore recovers the captured value and type; no live-session refresh is performed.'
       DocumentationUri = 'https://support.microsoft.com/en-us/accessibility/windows/make-your-mouse-keyboard-and-other-input-devices-easier-to-use'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: legacy Sticky Keys Flags preset'
+        Behavior = 'Unverified'
+        GuiPath = 'Settings > Accessibility > Keyboard > Sticky Keys'
+        GuiEffect = 'Disabled replaces the complete Flags string with 506; Enabled replaces it with 510. These retained presets are not a verified prompt-only toggle.'
+        Requirements = @('Microsoft documents accessibility UI and API flag meanings, not this registry-string contract. The presets differ by bit 0x4 (API hotkey activation), while both retain 0x8 and omit feature-on bit 0x1.', 'Whole-value replacement can overwrite custom accessibility choices. No SystemParametersInfo refresh occurs; current-session keyboard and GUI acceptance is required.')
+        OtherSupportedChoices = @('Legacy selectors also replaced the whole string. Published IDs and states remain stable pending a separately reviewed narrower mapping.', 'Use native accessibility controls for individual options. Saved restore recovers the original stored string/type/absence, not active keyboard state.')
+        ReferenceUris = @('https://support.microsoft.com/en-us/accessibility/windows/make-your-mouse-keyboard-and-other-input-devices-easier-to-use', 'https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-stickykeys')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'User'
       RequiresAdmin = $false
@@ -6094,8 +6544,17 @@
       Name = 'Toggle Keys prompts'
       Kind = 'RegistryValue'
       Category = 'Windows settings / User interface'
-      Description = 'Disable the Toggle Keys accessibility prompt for the current user.'
+      Description = 'Apply retained whole-value Toggle Keys accessibility Flags presets for the current user. Disabled writes 58; Enabled writes 62. These are not verified prompt-only controls and can replace other accessibility choices. Saved-run restore recovers the captured value and type; no live-session refresh is performed.'
       DocumentationUri = 'https://support.microsoft.com/en-us/accessibility/windows/make-your-mouse-keyboard-and-other-input-devices-easier-to-use'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: legacy Toggle Keys Flags preset'
+        Behavior = 'Unverified'
+        GuiPath = 'Settings > Accessibility > Keyboard > Toggle Keys'
+        GuiEffect = 'Disabled replaces the complete Flags string with 58; Enabled replaces it with 62. These retained presets are not a verified prompt-only toggle.'
+        Requirements = @('Microsoft documents accessibility UI and API flag meanings, not this registry-string contract. The presets differ by bit 0x4 (API hotkey activation), while both retain 0x8 and omit feature-on bit 0x1.', 'Whole-value replacement can overwrite custom accessibility choices. No SystemParametersInfo refresh occurs; current-session keyboard and GUI acceptance is required.')
+        OtherSupportedChoices = @('Legacy selectors also replaced the whole string. Published IDs and states remain stable pending a separately reviewed narrower mapping.', 'Use native accessibility controls for individual options. Saved restore recovers the original stored string/type/absence, not active keyboard state.')
+        ReferenceUris = @('https://support.microsoft.com/en-us/accessibility/windows/make-your-mouse-keyboard-and-other-input-devices-easier-to-use', 'https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-togglekeys')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'User'
       RequiresAdmin = $false
@@ -6116,8 +6575,17 @@
       Name = 'Filter Keys prompts'
       Kind = 'RegistryValue'
       Category = 'Windows settings / User interface'
-      Description = 'Disable the Filter Keys accessibility prompt for the current user.'
+      Description = 'Apply retained whole-value Filter Keys accessibility Flags presets for the current user. Disabled writes 122; Enabled writes 126. These are not verified prompt-only controls and can replace other accessibility choices. Saved-run restore recovers the captured value and type; no live-session refresh is performed.'
       DocumentationUri = 'https://support.microsoft.com/en-us/accessibility/windows/make-your-mouse-keyboard-and-other-input-devices-easier-to-use'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: legacy Filter Keys Flags preset'
+        Behavior = 'Unverified'
+        GuiPath = 'Settings > Accessibility > Keyboard > Filter Keys'
+        GuiEffect = 'Disabled replaces the complete Flags string with 122; Enabled replaces it with 126. These retained presets are not a verified prompt-only toggle.'
+        Requirements = @('Microsoft documents accessibility UI and API flag meanings, not this registry-string contract. The presets differ by bit 0x4 (API hotkey activation), while both retain 0x8 and omit feature-on bit 0x1.', 'Whole-value replacement can overwrite custom accessibility choices. No SystemParametersInfo refresh occurs; current-session keyboard and GUI acceptance is required.')
+        OtherSupportedChoices = @('Legacy selectors also replaced the whole string. Published IDs and states remain stable pending a separately reviewed narrower mapping.', 'Use native accessibility controls for individual options. Saved restore recovers the original stored string/type/absence, not active keyboard state.')
+        ReferenceUris = @('https://support.microsoft.com/en-us/accessibility/windows/make-your-mouse-keyboard-and-other-input-devices-easier-to-use', 'https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-filterkeys')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'User'
       RequiresAdmin = $false
@@ -6140,6 +6608,15 @@
       Category = 'Windows settings / User interface'
       Description = 'Show detailed progress information for File Explorer operations.'
       DocumentationUri = 'https://support.microsoft.com/en-us/windows/experience/fileexplorer/file-explorer-in-windows'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: Explorer operation-progress preference'
+        Behavior = 'Unverified'
+        GuiPath = 'File Explorer copy/move progress > More details'
+        GuiEffect = 'Enabled writes EnthusiastMode=1; Disabled removes the preference. Its effect on the current build''s progress display needs native verification.'
+        Requirements = @('Microsoft documents File Explorer behavior, not this registry value. Test disposable copy/move content and actual dialog state.', 'RIDE performs no file operation, restart or progress-dialog refresh; the preference does not promise transfer speed or change copy conflict rules.')
+        OtherSupportedChoices = @('Legacy disable also removed the value; it did not explicitly write zero.', 'Saved restore recovers the preference only and cannot undo copy/move/delete operations.')
+        ReferenceUris = @('https://support.microsoft.com/en-us/windows/experience/fileexplorer/file-explorer-in-windows')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'User'
       RequiresAdmin = $false
@@ -6347,7 +6824,16 @@
       Kind = 'RegistryValue'
       Category = 'Windows settings / User interface'
       Description = 'Disable searching the Microsoft Store for an app to open an unknown file type.'
-      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-icm'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-icm#shellnousestoreopenwith_2'
+      SettingPresentation = @{
+        AppliesTo = 'Machine: Store lookup from Open With'
+        Behavior = 'EnforcedPolicy'
+        GuiPath = 'Group Policy > System > Internet Communication Management > Internet Communication settings > Turn off access to the Store'
+        GuiEffect = 'Disabled writes NoUseStoreOpenWith=1 to remove the Store lookup choice for unhandled file/protocol associations; Enabled removes that override.'
+        Requirements = @('Microsoft documents the machine policy separately from its user counterpart. Verify supported policy edition and actual Open With UI on the declared target.', 'This neither removes the Store nor blocks all Store access, installs an app or assigns a default handler.')
+        OtherSupportedChoices = @('Legacy reverse also removed this value. Other user/device policy can still restrict the choice.', 'Saved restore recovers the captured machine policy value/type/absence, not installed apps or associations.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-icm#shellnousestoreopenwith_2')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -6368,8 +6854,17 @@
       Name = 'New app open-with alert'
       Kind = 'RegistryValue'
       Category = 'Windows settings / User interface'
-      Description = 'Disable the prompt asking how to open a file when no default app is set.'
-      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-windowsexplorer'
+      Description = 'Suppress the new application association notification when a newly installed app handles an invoked file type or protocol. Disabled writes NoNewAppAlert=1; Enabled removes the override. This does not assign default apps or remove all Open With prompts.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-windowsexplorer#nonewappalert'
+      SettingPresentation = @{
+        AppliesTo = 'Machine: new application association notification'
+        Behavior = 'EnforcedPolicy'
+        GuiPath = 'Group Policy > Windows Components > File Explorer > Do not show the new application installed notification'
+        GuiEffect = 'Disabled writes NoNewAppAlert=1 to suppress notification of a newly installed handler when its file type/protocol is invoked; Enabled removes the override.'
+        Requirements = @('Requires a supported policy edition and a newly registered handler scenario for native acceptance.', 'This does not assign default apps or suppress every Open With dialog for an unknown type.')
+        OtherSupportedChoices = @('Legacy reverse removed the policy, as does Enabled. Other managed settings and existing associations remain independent.', 'Saved restore recovers the policy value/type/absence, not previous app registrations or notifications.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-windowsexplorer#nonewappalert')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -6520,8 +7015,17 @@
       Name = 'Recycle Bin delete confirmation'
       Kind = 'RegistryValue'
       Category = 'Windows settings / User interface'
-      Description = 'Show a confirmation dialog when deleting items to the Recycle Bin. The registry mapping is retained from the legacy selector; Microsoft documents the user-visible setting.'
-      DocumentationUri = 'https://support.microsoft.com/en-us/windows/experience/backup-recovery/windows-backup-settings-catalog'
+      Description = 'Configure the documented current-user Explorer deletion-confirmation policy. Enabled writes ConfirmFileDelete=1; Disabled removes the override. Saved-run restore recovers the prior policy value and type, not deleted files.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-windowsexplorer#confirmfiledelete'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: Explorer deletion confirmation policy'
+        Behavior = 'EnforcedPolicy'
+        GuiPath = 'Recycle Bin Properties > Display delete confirmation dialog; File Explorer deletion-confirmation policy'
+        GuiEffect = 'Enabled writes ConfirmFileDelete=1 to require the Explorer deletion confirmation; Disabled removes the policy override rather than writing zero.'
+        Requirements = @('Microsoft documents this exact user policy. Verify supported edition, managed precedence and actual Explorer behavior using disposable files.', 'The dialog is not a backup or a guarantee that every application, network location or deletion path can recover a file.')
+        OtherSupportedChoices = @('Legacy reverse also removed the value. Unconfigured policy leaves other local preferences and managed controls to determine behavior.', 'Saved restore recovers the captured policy value/type/absence; it cannot recover deleted content.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-windowsexplorer#confirmfiledelete')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'User'
       RequiresAdmin = $false
@@ -6854,6 +7358,15 @@
       Category = 'Windows settings / Explorer'
       Description = 'Hide or show the Music entries in This PC by managing their Shell namespace registration keys. Hidden leaves the Music folder and its contents in place.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: Music namespace registration in This PC'
+        Behavior = 'Configuration'
+        GuiPath = 'File Explorer > This PC > Music (build-dependent)'
+        GuiEffect = 'Hidden deletes the declared Music namespace registry subtrees; Visible creates missing empty registration roots. Neither changes folder contents or pins in Home. Current Windows 11 rendering remains unverified.'
+        Requirements = @('Microsoft documents namespace registration mechanics, not guaranteed display of these legacy CLSIDs on every current build. Inspect the target shell and both Explorer views before relying on visibility.', 'No Explorer restart or folder relocation occurs. The RIDE Visible baseline does not establish a Windows default.')
+        OtherSupportedChoices = @('Legacy hide/show removed/created the same registration roots; Visible cannot reconstruct previously deleted registry values.', 'Exact saved restore recovers captured subtrees, typed values and security. Shell-folder ThisPCPolicy preferences remain separate.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -6877,6 +7390,15 @@
       Category = 'Windows settings / Explorer'
       Description = 'Hide or show the Videos entries in This PC by managing their Shell namespace registration keys. Hidden leaves the Videos folder and its contents in place.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: Videos namespace registration in This PC'
+        Behavior = 'Configuration'
+        GuiPath = 'File Explorer > This PC > Videos (build-dependent)'
+        GuiEffect = 'Hidden deletes the declared Videos namespace registry subtrees; Visible creates missing empty registration roots. Neither changes folder contents or pins in Home. Current Windows 11 rendering remains unverified.'
+        Requirements = @('Microsoft documents namespace registration mechanics, not guaranteed display of these legacy CLSIDs on every current build. Inspect the target shell and both Explorer views before relying on visibility.', 'No Explorer restart or folder relocation occurs. The RIDE Visible baseline does not establish a Windows default.')
+        OtherSupportedChoices = @('Legacy hide/show removed/created the same registration roots; Visible cannot reconstruct previously deleted registry values.', 'Exact saved restore recovers captured subtrees, typed values and security. Shell-folder ThisPCPolicy preferences remain separate.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -6900,6 +7422,15 @@
       Category = 'Windows settings / Explorer'
       Description = 'Hide or show the 3D Objects entry in This PC by managing its Shell namespace registration key. Hidden leaves the 3D Objects folder and its contents in place.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: 3D Objects namespace registration in This PC'
+        Behavior = 'Configuration'
+        GuiPath = 'File Explorer > This PC > 3D Objects (build-dependent)'
+        GuiEffect = 'Hidden deletes the declared 3D Objects namespace registry subtrees; Visible creates missing empty registration roots. Neither changes folder contents or pins in Home. Current Windows 11 rendering remains unverified.'
+        Requirements = @('Microsoft documents namespace registration mechanics, not guaranteed display of these legacy CLSIDs on every current build. Inspect the target shell and both Explorer views before relying on visibility.', 'No Explorer restart or folder relocation occurs. The RIDE Visible baseline does not establish a Windows default.')
+        OtherSupportedChoices = @('Legacy hide/show removed/created the same registration roots; Visible cannot reconstruct previously deleted registry values.', 'Exact saved restore recovers captured subtrees, typed values and security. Shell-folder ThisPCPolicy preferences remain separate.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -7126,6 +7657,15 @@
       Category = 'Windows settings / Security'
       Description = 'Hide or restore the current user''s account protection warning in the Windows Security app.'
       DocumentationUri = 'https://support.microsoft.com/en-gb/windows/security/windows-security/account-protection-in-the-windows-security-app'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user: retained Windows Security account warning state'
+        Behavior = 'Unverified'
+        GuiPath = 'Windows Security > Account protection'
+        GuiEffect = 'Hidden writes AccountProtection_MicrosoftAccount_Disconnected=1; Shown removes it. This does not improve account security, connect a Microsoft account or configure Windows Hello.'
+        Requirements = @('Microsoft describes the Account protection feature, not this internal state value. Current-build dismissal/reappearance and managed behavior need acceptance.', 'No account, credential, sign-in or security-provider settings are changed; do not interpret a hidden warning as remediation.')
+        OtherSupportedChoices = @('Legacy hide/show uses the same value/removal pair; Shown does not force a particular message.', 'Saved restore recovers the registry value/type/absence, not Windows Security history or account state.')
+        ReferenceUris = @('https://support.microsoft.com/en-gb/windows/security/windows-security/account-protection-in-the-windows-security-app')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'User'
       RequiresAdmin = $false
@@ -7146,8 +7686,17 @@
       Name = '.NET strong cryptography for 64-bit applications'
       Kind = 'RegistryValue'
       Category = 'Windows settings / Security'
-      Description = 'Configure SchUseStrongCrypto for 64-bit .NET Framework applications. Framework 4.6 and later use strong cryptography by default.'
+      Description = 'Configure SchUseStrongCrypto for 64-bit .NET Framework v4 applications. Effective defaults depend on the application target framework and configuration, not only the installed runtime; explicit protocol choices and operating-system support remain relevant.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/dotnet/framework/network-programming/tls'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: 64-bit .NET Framework v4 applications'
+        Behavior = 'Configuration'
+        GuiPath = 'Application .NET Framework TLS configuration; no desktop preference UI'
+        GuiEffect = 'Enabled writes SchUseStrongCrypto=1 in the native v4.0.30319 key. It influences eligible outgoing TLS connections; explicit app protocol choices and OS support remain relevant.'
+        Requirements = @('Defaults depend on the application''s target framework, not merely the installed runtime. Validate affected applications and remote endpoints on Windows 11 and the declared Server target.', 'This does not set SystemDefaultTlsVersions, change every TLS server or configure modern .NET globally.')
+        OtherSupportedChoices = @('Legacy strong-crypto selector changed both architecture views together; these are independently useful for their application populations.', 'WindowsDefault removes this override. Saved restore recovers prior value/type/absence, not application configuration or prior connections.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/dotnet/framework/network-programming/tls#schusestrongcrypto')
+      }
       SupportedTargets = @('Windows 11', 'Windows Server 2025')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -7169,8 +7718,17 @@
       Name = '.NET strong cryptography for 32-bit applications'
       Kind = 'RegistryValue'
       Category = 'Windows settings / Security'
-      Description = 'Configure SchUseStrongCrypto for 32-bit .NET Framework applications. Framework 4.6 and later use strong cryptography by default.'
+      Description = 'Configure SchUseStrongCrypto for 32-bit .NET Framework v4 applications. Effective defaults depend on the application target framework and configuration, not only the installed runtime; explicit protocol choices and operating-system support remain relevant.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/dotnet/framework/network-programming/tls'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: 32-bit .NET Framework v4 applications'
+        Behavior = 'Configuration'
+        GuiPath = 'Application .NET Framework TLS configuration; no desktop preference UI'
+        GuiEffect = 'Enabled writes SchUseStrongCrypto=1 in the Wow6432Node v4.0.30319 key. It influences eligible outgoing TLS connections; explicit app protocol choices and OS support remain relevant.'
+        Requirements = @('Defaults depend on the application''s target framework, not merely the installed runtime. Validate affected applications and remote endpoints on Windows 11 and the declared Server target.', 'This does not set SystemDefaultTlsVersions, change every TLS server or configure modern .NET globally.')
+        OtherSupportedChoices = @('Legacy strong-crypto selector changed both architecture views together; these are independently useful for their application populations.', 'WindowsDefault removes this override. Saved restore recovers prior value/type/absence, not application configuration or prior connections.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/dotnet/framework/network-programming/tls#schusestrongcrypto')
+      }
       SupportedTargets = @('Windows 11', 'Windows Server 2025')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -7348,8 +7906,17 @@
       Name = 'BitLocker encryption method policy'
       Kind = 'RegistryValue'
       Category = 'Windows settings / Security'
-      Description = 'Set the legacy BitLocker EncryptionMethod policy value to AES-CBC 256-bit for future drive encryption; this does not convert drives that are already encrypted.'
-      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-bitlocker'
+      Description = 'Retain the legacy EncryptionMethod policy values AES-CBC 128/256 for recovery compatibility. Local Windows policy definitions limit this value to Vista/Windows 7-era systems; it is not verified as the current Windows 11 drive-type cipher policy. No encryption or conversion runs.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure#choose-drive-encryption-method-and-cipher-strength'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: retained legacy BitLocker EncryptionMethod value'
+        Behavior = 'Unverified'
+        GuiPath = 'Legacy BitLocker cipher policy for Windows Vista/7 and Server 2008/R2; not the modern drive-type policy'
+        GuiEffect = 'AesCbc128 writes EncryptionMethod=3; AesCbc256 writes 4. Local VolumeEncryption.admx limits this legacy policy to older systems; no Windows 11 encryption effect is established.'
+        Requirements = @('Current Microsoft guidance uses a separate drive-type cipher policy. Do not treat this retained value as configuring Windows 11 encryption or include it in a recommended profile pending migration.', 'No drive encryption, conversion, protector or recovery-key action occurs. Existing declared target metadata is retained for a separate compatibility/migration decision, not revalidated here.')
+        OtherSupportedChoices = @('Legacy cipher selectors wrote 3/4. Modern XTS/drive-specific fields are not aliases for this value and must not replace its saved recovery identity silently.', 'WindowsDefault removes the legacy override. Restore recovers only its value/type/absence; encrypted drives are not converted.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure#choose-drive-encryption-method-and-cipher-strength')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -7372,6 +7939,15 @@
       Category = 'Windows settings / Network'
       Description = 'Set every reported non-domain connection profile to Private or Public and restore each profile to its captured category.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/netconnection/set-netconnectionprofile?view=windowsserver2025-ps'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: every reported non-domain connection profile'
+        Behavior = 'Configuration'
+        GuiPath = 'Settings > Network & internet > connection properties > Network profile type'
+        GuiEffect = 'Public/Private changes all eligible profiles, not only the default route. Firewall/discovery behavior may change; DomainAuthenticated is determined by Windows and cannot be selected here.'
+        Requirements = @('NetConnection provider and existing connection profiles required. Managed policy may prevent category changes; native multi-interface and reconnect behavior needs acceptance.', 'Private is appropriate only for a trusted network; selecting it does not create shares or independently configure every firewall rule.')
+        OtherSupportedChoices = @('Legacy selectors likewise requested Public/Private broadly. Domain membership is not configured by this operation.', 'Saved restore recovers captured profile identities/categories; it does not choose a Windows default, recreate disappeared networks or restore connections.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/powershell/module/netconnection/set-netconnectionprofile?view=windowsserver2025-ps')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -7594,6 +8170,15 @@
       Category = 'Windows settings / Power'
       Description = 'Choose whether closing the lid sleeps or does nothing while the device is connected to AC power.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: AC lid-close index in the active power scheme'
+        Behavior = 'Configuration'
+        GuiPath = 'Control Panel > Power Options > Choose what closing the lid does > plugged in'
+        GuiEffect = 'DoNothing writes index 0; Sleep writes 1 for AC, then reactivates the current scheme. It does not close the lid or immediately put the device to sleep.'
+        Requirements = @('A physical lid and supported sleep behavior are required for behavioral acceptance; VM registry/index checks cannot prove hardware response.', 'Power policy, Modern Standby and OEM behavior may constrain the effect. The other power-source index and unrelated settings are unchanged.')
+        OtherSupportedChoices = @('Legacy selectors used the same index; the battery Sleep selector omitted reactivation, while RIDE commits and verifies consistently.', 'Saved restore writes the captured index to its original scheme and reactivates only if still active. It does not recreate a deleted scheme or select a factory default.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -7613,6 +8198,15 @@
       Category = 'Windows settings / Power'
       Description = 'Choose whether closing the lid sleeps or does nothing while the device is running on battery power.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: DC lid-close index in the active power scheme'
+        Behavior = 'Configuration'
+        GuiPath = 'Control Panel > Power Options > Choose what closing the lid does > on battery'
+        GuiEffect = 'DoNothing writes index 0; Sleep writes 1 for DC, then reactivates the current scheme. It does not close the lid or immediately put the device to sleep.'
+        Requirements = @('A physical lid and supported sleep behavior are required for behavioral acceptance; VM registry/index checks cannot prove hardware response.', 'Power policy, Modern Standby and OEM behavior may constrain the effect. The other power-source index and unrelated settings are unchanged.')
+        OtherSupportedChoices = @('Legacy selectors used the same index; the battery Sleep selector omitted reactivation, while RIDE commits and verifies consistently.', 'Saved restore writes the captured index to its original scheme and reactivates only if still active. It does not recreate a deleted scheme or select a factory default.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -8009,6 +8603,15 @@
       Category = 'Windows settings / Policy'
       Description = 'Controls application-impact telemetry for Windows components used by applications. Disabled writes AITEnable=0; WindowsDefault removes the override. CEIP policy can suppress this independently; restart or new application activity may be required.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-appcompat#appcompatturnoffapplicationimpacttelemetry'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: Windows application-component usage telemetry'
+        Behavior = 'EnforcedPolicy'
+        GuiPath = 'Local Group Policy > Windows Components > Application Compatibility'
+        GuiEffect = 'Disabled=0; Enabled=1 writes AITEnable. This is one AppCompat policy; it does not disable every telemetry source.'
+        Requirements = @('Declared Windows 11 policy editions are Pro, Enterprise, Education and IoT Enterprise unless a narrower level is specified. Effective managed precedence and actual UI need native acceptance.', 'CEIP and diagnostic-data policies can independently suppress collection. Restart/new application activity and actual collection behavior require acceptance.')
+        OtherSupportedChoices = @('Legacy telemetry reverse removed this override; WindowsDefault matches that action. Explicit Enabled writes permission.', 'WindowsDefault removes this override; saved-run restore recovers its captured value/type/absence, not previously transmitted or deleted data.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-appcompat#appcompatturnoffapplicationimpacttelemetry')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -8031,6 +8634,15 @@
       Category = 'Windows settings / Policy'
       Description = 'Controls the application compatibility inventory collector for installed applications, files, devices and drivers. Disabled writes DisableInventory=1; WindowsDefault removes the override. CEIP and diagnostic-data policy can independently affect collection.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-appcompat#appcompatturnoffprograminventory'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: application compatibility inventory collection'
+        Behavior = 'EnforcedPolicy'
+        GuiPath = 'Local Group Policy > Windows Components > Application Compatibility'
+        GuiEffect = 'Disabled=1; Enabled=0 writes DisableInventory. This is one AppCompat policy; it does not disable every telemetry source.'
+        Requirements = @('Declared Windows 11 policy editions are Pro, Enterprise, Education and IoT Enterprise unless a narrower level is specified. Effective managed precedence and actual UI need native acceptance.', 'CEIP and diagnostic-data policies can independently suppress collection. Restart/new application activity and actual collection behavior require acceptance.')
+        OtherSupportedChoices = @('Legacy telemetry reverse removed this override; WindowsDefault matches that action. Explicit Enabled writes permission.', 'WindowsDefault removes this override; saved-run restore recovers its captured value/type/absence, not previously transmitted or deleted data.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-appcompat#appcompatturnoffprograminventory')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -8115,6 +8727,15 @@
       Category = 'Windows settings / Network bindings'
       Description = 'Enables or disables the Microsoft Link Layer Discovery Protocol binding (ms_lldp) on currently visible adapters. This controls the LLDP binding rather than the separate LLTD topology mapper/responder. Capture includes stable adapter GUIDs and coupled flags for restore; new adapters remain untouched. Actual neighbor discovery requires peer acceptance.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/netadapter/set-netadapterbinding'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: Link Layer Discovery Protocol on currently visible adapters'
+        Behavior = 'Configuration'
+        GuiPath = 'Network Connections > adapter Properties > Link Layer Discovery Protocol'
+        GuiEffect = 'Enabled/Disabled sets ms_lldp on the captured adapters, affecting neighbor discovery through LLDP. Binding changes can restart adapters, change coupled bindings and interrupt connections.'
+        Requirements = @('The Windows NetAdapter provider and declared components must be available. Microsoft documents binding configuration and coupled changes; actual device and peer behavior remains a separate check.', 'LLTD topology mapping is a separate operation.')
+        OtherSupportedChoices = @('Legacy selectors addressed wildcard adapters; RIDE captures stable GUIDs and coupled flags for saved recovery. Newly added adapters are not part of that restore.', 'Restore recovers captured binding flags, not interrupted connections or remote sessions. Verify local recovery before changing a management interface.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/powershell/module/netadapter/set-netadapterbinding?view=windowsserver2025-ps')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -8134,6 +8755,15 @@
       Category = 'Windows settings / Network bindings'
       Description = 'Enables or disables Link Layer Topology Discovery mapper (ms_lltdio) and responder (ms_rspndr) together on currently visible adapters. They implement one topology-discovery feature. Stable adapter GUIDs and coupled flags are captured for restore; new adapters remain untouched. Missing components and actual topology behavior require acceptance.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/netadapter/set-netadapterbinding'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: Link Layer Topology Discovery on currently visible adapters'
+        Behavior = 'Configuration'
+        GuiPath = 'Network Connections > adapter Properties > Link Layer Topology Discovery'
+        GuiEffect = 'Enabled/Disabled sets ms_lltdio and ms_rspndr on the captured adapters, affecting topology mapper and responder together. Binding changes can restart adapters, change coupled bindings and interrupt connections.'
+        Requirements = @('The Windows NetAdapter provider and declared components must be available. Microsoft documents binding configuration and coupled changes; actual device and peer behavior remains a separate check.', 'Both components form one topology feature; actual peer discovery needs acceptance.')
+        OtherSupportedChoices = @('Legacy selectors addressed wildcard adapters; RIDE captures stable GUIDs and coupled flags for saved recovery. Newly added adapters are not part of that restore.', 'Restore recovers captured binding flags, not interrupted connections or remote sessions. Verify local recovery before changing a management interface.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/powershell/module/netadapter/set-netadapterbinding?view=windowsserver2025-ps')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -8153,6 +8783,15 @@
       Category = 'Windows settings / Network bindings'
       Description = 'Enables or disables Client for Microsoft Networks (ms_msclient) on currently visible adapters. This binding supports accessing Microsoft network resources; it is distinct from the server sharing binding and SMB protocol flags. Stable GUIDs and coupled flags are captured for restore. Peer access may be interrupted; new adapters remain untouched.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/netadapter/set-netadapterbinding'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: Client for Microsoft Networks on currently visible adapters'
+        Behavior = 'Configuration'
+        GuiPath = 'Network Connections > adapter Properties > Client for Microsoft Networks'
+        GuiEffect = 'Enabled/Disabled sets ms_msclient on the captured adapters, affecting access to Microsoft network resources. Binding changes can restart adapters, change coupled bindings and interrupt connections.'
+        Requirements = @('The Windows NetAdapter provider and declared components must be available. Microsoft documents binding configuration and coupled changes; actual device and peer behavior remains a separate check.', 'Server sharing and SMB protocol versions remain separate.')
+        OtherSupportedChoices = @('Legacy selectors addressed wildcard adapters; RIDE captures stable GUIDs and coupled flags for saved recovery. Newly added adapters are not part of that restore.', 'Restore recovers captured binding flags, not interrupted connections or remote sessions. Verify local recovery before changing a management interface.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/powershell/module/netadapter/set-netadapterbinding?view=windowsserver2025-ps')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -8172,6 +8811,15 @@
       Category = 'Windows settings / Network bindings'
       Description = 'Enables or disables QoS Packet Scheduler (ms_pacer) on currently visible adapters. It controls the scheduler binding, not a promised bandwidth increase or a universal reservation percentage. Stable adapter GUIDs and coupled flags are captured for restore; new adapters remain untouched. Actual traffic behavior requires acceptance.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/netadapter/set-netadapterbinding'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: QoS Packet Scheduler on currently visible adapters'
+        Behavior = 'Configuration'
+        GuiPath = 'Network Connections > adapter Properties > QoS Packet Scheduler'
+        GuiEffect = 'Enabled/Disabled sets ms_pacer on the captured adapters, affecting the packet scheduler binding. Binding changes can restart adapters, change coupled bindings and interrupt connections.'
+        Requirements = @('The Windows NetAdapter provider and declared components must be available. Microsoft documents binding configuration and coupled changes; actual device and peer behavior remains a separate check.', 'This does not promise additional bandwidth or change a universal reservation percentage.')
+        OtherSupportedChoices = @('Legacy selectors addressed wildcard adapters; RIDE captures stable GUIDs and coupled flags for saved recovery. Newly added adapters are not part of that restore.', 'Restore recovers captured binding flags, not interrupted connections or remote sessions. Verify local recovery before changing a management interface.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/powershell/module/netadapter/set-netadapterbinding?view=windowsserver2025-ps')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -8191,6 +8839,15 @@
       Category = 'Windows settings / Network bindings'
       Description = 'Enables or disables Internet Protocol Version 4 (ms_tcpip) on currently visible adapters. Disabling it can immediately interrupt IPv4 connectivity, including remote management. Stable adapter GUIDs and coupled flags are captured for local restore; new adapters remain untouched. IPv6 and SMB server protocol flags are separate controls.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/netadapter/set-netadapterbinding'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: IPv4 transport on currently visible adapters'
+        Behavior = 'Configuration'
+        GuiPath = 'Network Connections > adapter Properties > IPv4 transport'
+        GuiEffect = 'Enabled/Disabled sets ms_tcpip on the captured adapters, affecting IPv4 connectivity. Binding changes can restart adapters, change coupled bindings and interrupt connections.'
+        Requirements = @('The Windows NetAdapter provider and declared components must be available. Microsoft documents binding configuration and coupled changes; actual device and peer behavior remains a separate check.', 'Disabling can immediately cut off IPv4 remote management; retain local recovery access.')
+        OtherSupportedChoices = @('Legacy selectors addressed wildcard adapters; RIDE captures stable GUIDs and coupled flags for saved recovery. Newly added adapters are not part of that restore.', 'Restore recovers captured binding flags, not interrupted connections or remote sessions. Verify local recovery before changing a management interface.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/powershell/module/netadapter/set-netadapterbinding?view=windowsserver2025-ps')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -8210,6 +8867,15 @@
       Category = 'Windows settings / Network bindings'
       Description = 'Enables or disables Internet Protocol Version 6 (ms_tcpip6) on currently visible adapters. Disabling it can interrupt IPv6 connectivity and dependent Windows features; this binding flag does not disable every IPv6 subsystem. Stable adapter GUIDs and coupled flags are captured for local restore; new adapters remain untouched.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/netadapter/set-netadapterbinding'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: IPv6 transport on currently visible adapters'
+        Behavior = 'Configuration'
+        GuiPath = 'Network Connections > adapter Properties > IPv6 transport'
+        GuiEffect = 'Enabled/Disabled sets ms_tcpip6 on the captured adapters, affecting IPv6 connectivity. Binding changes can restart adapters, change coupled bindings and interrupt connections.'
+        Requirements = @('The Windows NetAdapter provider and declared components must be available. Microsoft documents binding configuration and coupled changes; actual device and peer behavior remains a separate check.', 'This is not a full IPv6 subsystem disable; Windows and application dependencies can fail.')
+        OtherSupportedChoices = @('Legacy selectors addressed wildcard adapters; RIDE captures stable GUIDs and coupled flags for saved recovery. Newly added adapters are not part of that restore.', 'Restore recovers captured binding flags, not interrupted connections or remote sessions. Verify local recovery before changing a management interface.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/powershell/module/netadapter/set-netadapterbinding?view=windowsserver2025-ps')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -8229,6 +8895,15 @@
       Category = 'Windows settings / Network bindings'
       Description = 'Enables or disables File and Printer Sharing for Microsoft Networks (ms_server) on currently visible adapters. This is the server sharing binding; SMB protocol versions, firewall rules and installed components remain separate. Stable adapter GUIDs and coupled flags are captured for restore; new adapters remain untouched. Real peer sharing requires acceptance.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/netadapter/set-netadapterbinding'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: File and Printer Sharing on currently visible adapters'
+        Behavior = 'Configuration'
+        GuiPath = 'Network Connections > adapter Properties > File and Printer Sharing'
+        GuiEffect = 'Enabled/Disabled sets ms_server on the captured adapters, affecting the adapter server-sharing binding. Binding changes can restart adapters, change coupled bindings and interrupt connections.'
+        Requirements = @('The Windows NetAdapter provider and declared components must be available. Microsoft documents binding configuration and coupled changes; actual device and peer behavior remains a separate check.', 'Legacy DisableSMBServer also disabled SMB1 and SMB2/3; this binding alone does not reproduce that bundle.')
+        OtherSupportedChoices = @('Legacy selectors addressed wildcard adapters; RIDE captures stable GUIDs and coupled flags for saved recovery. Newly added adapters are not part of that restore.', 'Restore recovers captured binding flags, not interrupted connections or remote sessions. Verify local recovery before changing a management interface.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/powershell/module/netadapter/set-netadapterbinding?view=windowsserver2025-ps')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -8248,6 +8923,15 @@
       Category = 'Windows settings / Network'
       Description = 'Controls only the EnableSMB1Protocol server flag when its srv driver service is present. An absent driver is unavailable; no optional feature is installed. Enabling SMB1 can expose an obsolete insecure protocol. SMB2/3, client components, sharing bindings and firewall rules are separate. The legacy EnableSMBServer reverse selector leaves SMB1 unchanged; restore recovers the captured flag.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows-server/storage/file-server/troubleshoot/detect-enable-and-disable-smbv1-v2-v3'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: SMB 1 server protocol flag'
+        Behavior = 'Configuration'
+        GuiPath = 'PowerShell > Get-SmbServerConfiguration (not the optional-feature checkbox)'
+        GuiEffect = 'Enabled/Disabled sets EnableSMB1Protocol; the srv driver must already exist and SMB1 is obsolete/insecure. No optional feature is installed.'
+        Requirements = @('The SMB server provider and required driver/component must exist. Server flags do not configure client components, sharing bindings, firewall rules, signing or credentials.', 'Native peer negotiation and exact recovery remain unverified in this review; preserve local access for recovery.')
+        OtherSupportedChoices = @('Legacy EnableSMBServer leaves SMB1 unchanged; enabling this separate operation is not that legacy reverse action.', 'Saved restore recovers the captured flag, not feature installation or interrupted transfers; platform defaults remain separately declared.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows-server/storage/file-server/troubleshoot/detect-enable-and-disable-smbv1-v2-v3')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -8267,6 +8951,15 @@
       Category = 'Windows settings / Network'
       Description = 'Controls the EnableSMB2Protocol server flag, which governs both SMB2 and SMB3. Disabling it can prevent modern SMB clients from reaching shares. SMB1, client components, sharing bindings and firewall rules remain separate. No optional feature is installed; restore recovers the captured flag.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows-server/storage/file-server/troubleshoot/detect-enable-and-disable-smbv1-v2-v3'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: SMB 2 and SMB 3 server protocol flag'
+        Behavior = 'Configuration'
+        GuiPath = 'PowerShell > Get-SmbServerConfiguration (not the optional-feature checkbox)'
+        GuiEffect = 'Enabled/Disabled sets EnableSMB2Protocol; the shared switch controls both SMB2 and SMB3 and can disrupt modern file sharing. No optional feature is installed.'
+        Requirements = @('The SMB server provider and required driver/component must exist. Server flags do not configure client components, sharing bindings, firewall rules, signing or credentials.', 'Native peer negotiation and exact recovery remain unverified in this review; preserve local access for recovery.')
+        OtherSupportedChoices = @('Legacy EnableSMBServer enabled this flag plus ms_server; disabling the bundle also disabled SMB1. Compose only the independently intended controls.', 'Saved restore recovers the captured flag, not feature installation or interrupted transfers; platform defaults remain separately declared.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows-server/storage/file-server/troubleshoot/detect-enable-and-disable-smbv1-v2-v3')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -8314,6 +9007,15 @@
       Category = 'Windows settings / Power'
       Description = 'Selects an existing Balanced or High Performance scheme by stable GUID without parsing localized names. Exact GUID queries inspect schemes even when omitted from the list; device capabilities or policy can still prevent activation. Does not create, duplicate or delete schemes. Ultimate Performance selection and scheme creation remain deferred. Apply and restore verify the active GUID; a failed activation is reported.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: selection among existing power schemes'
+        Behavior = 'Configuration'
+        GuiPath = 'Control Panel > Power Options > existing plans'
+        GuiEffect = 'Balanced/HighPerformance selects the declared stable GUID and verifies activation. Device capabilities or policy can prevent selection; no plan is created, duplicated or deleted.'
+        Requirements = @('The selected scheme must exist, even if omitted from the ordinary plan list. Hardware/Modern Standby and managed policy require separate acceptance.', 'This is plan selection, not the Settings power-mode overlay or a promise of higher performance.')
+        OtherSupportedChoices = @('Legacy Balanced/High Performance selected the same schemes. Ultimate selection and owned-plan creation are separate operations/outcomes.', 'Saved restore returns to the captured active GUID if still available; it does not restore all plan contents or recreate missing plans.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -8364,6 +9066,15 @@
       Category = 'Windows settings / Network'
       Description = 'Sets the NetbiosOptions registry preference on existing GUID-named NetBT interface keys: Disabled=2, Enabled=1, Dhcp/default=0. This follows the legacy preference and supports static-IP configuration; the CIM DHCP-mode setter cannot restore every such adapter. Captures literal value, type and absence; new interface keys remain untouched by restore. Adapter restart or reboot and peer-connectivity acceptance remain necessary. The Microsoft method reference explains the modes, not this registry mapping.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/cimwin32prov/settcpipnetbios-method-in-class-win32-networkadapterconfiguration'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: existing GUID-named NetBT interface registry keys'
+        Behavior = 'Configuration'
+        GuiPath = 'Adapter IPv4 Properties > Advanced > WINS > NetBIOS setting'
+        GuiEffect = 'Disabled writes NetbiosOptions=2; Enabled writes 1; Dhcp writes 0. Registry configuration does not prove immediate peer behavior; adapter restart or reboot may be needed.'
+        Requirements = @('Microsoft documents mode meanings through the CIM method, not RIDE''s retained registry mapping. Existing interface keys are required; static-IP and DHCP cases need native acceptance.', 'No adapter restart or reboot occurs. Name resolution and legacy peer dependencies must be checked separately.')
+        OtherSupportedChoices = @('Legacy EnableNetBIOS wrote 0; Dhcp matches that reverse, while Enabled=1 is explicit enablement.', 'Restore recovers captured per-interface value/type/absence and leaves new keys untouched; it does not restore network traffic or DNS/WINS configuration.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/cimwin32prov/settcpipnetbios-method-in-class-win32-networkadapterconfiguration')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -8383,6 +9094,15 @@
       Category = 'Windows settings / Network'
       Description = 'Enables or disables existing local RemoteDesktop-* firewall rules in PersistentStore. Captures each individual flag and never creates missing rules. Does not enable Remote Desktop connections, change authentication or override domain firewall policy. Use with the separate connection permission when composing a Remote Desktop outcome.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/remotepc/remote-desktop-allow-access'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: existing local RemoteDesktop-* firewall rules'
+        Behavior = 'Configuration'
+        GuiPath = 'Windows Defender Firewall with Advanced Security > Inbound Rules > Remote Desktop'
+        GuiEffect = 'Enabled/Disabled changes each matching rule in PersistentStore. It neither enables the RDP connection permission nor changes NLA, account access or domain policy.'
+        Requirements = @('Existing local firewall rules and NetSecurity provider required. Effective policy, profile applicability and network reachability need separate acceptance.', 'Remote Desktop host support depends on edition and components; firewall state alone does not make a Home edition an RDP host.')
+        OtherSupportedChoices = @('Legacy Remote Desktop selectors combined connection permission, authentication and firewall effects. This is only the local firewall part; no missing rule is created.', 'Saved restore recovers each captured flag, including mixed states; it does not recreate removed rules or restore remote sessions.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/remotepc/remote-desktop-allow-access')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -8529,6 +9249,15 @@
       Category = 'Application settings / Microsoft Edge'
       Description = 'Controls the default desktop-shortcut creation behavior when Microsoft Edge is installed, for all channels without a channel-specific override. Disabled writes 0; WindowsDefault removes the policy. Requires Edge Update 1.3.128.0 or later and has no effect on an already installed Edge browser. Replaces the obsolete Explorer DisableEdgeDesktopShortcutCreation preference; does not delete existing shortcuts or suppress every later update action.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/deployedge/microsoft-edge-update-policies#createdesktopshortcutdefault'
+      SettingPresentation = @{
+        AppliesTo = 'Machine: Edge Update default for desktop-shortcut creation at installation'
+        Behavior = 'EnforcedPolicy'
+        GuiPath = 'Group Policy > Microsoft Edge Update > Applications > Create Desktop Shortcut upon install default'
+        GuiEffect = 'Disabled=0 suppresses the installation shortcut; Enabled=1 requests it. WindowsDefault removes the override. Existing Edge installations are unaffected.'
+        Requirements = @('Requires Edge Update 1.3.128.0 or later and a new installation to observe the effect.', 'A channel-specific CreateDesktopShortcut policy overrides this default. Verify actual installer/channel behavior in an isolated target.')
+        OtherSupportedChoices = @('The obsolete Explorer DisableEdgeDesktopShortcutCreation preference is not restored. This operation deletes no existing shortcut and does not govern every later update action.', 'Saved restore recovers this policy value/type/absence, not files created during an intervening installation.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/deployedge/microsoft-edge-update-policies#createdesktopshortcutdefault')
+      }
       SupportedTargets = @('Windows 11')
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -9631,6 +10360,163 @@
       RequiredFiles = @('handle.exe', 'handle64.exe', 'handle64a.exe', 'Eula.txt')
       DefaultVariant = 'portable'
       Variants = @{ portable = @{} }
+    }
+    @{
+      Id = 'package.ntcore-pe-detective'
+      Name = 'NTCore PE Detective (portable)'
+      Kind = 'Package'
+      Category = 'Software / Analysis utilities'
+      Description = 'Stage the pinned PE Detective and bundled Signature Explorer with their five signature databases. No program launch, scan, online signature refresh, file association or PATH change occurs. Existing modified databases are preserved; native and functional acceptance remain pending.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'ntcore-pe-detective'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^NTCore PE Detective$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://ntcore.com/files/PE_Detective.zip'
+      AssetName = 'PE_Detective.zip'
+      PackageVersion = '1.2.1.1'
+      ExpectedSha256 = '821f4fa1df9d3a39e32f15183126e56af8dacf4690a8fd01bfac6d850ea36263'
+      Architecture = 'x86'
+      ProductUri = 'https://ntcore.com/pe-detective/'
+      License = 'Proprietary freeware - NTCore publisher description; embedded copyright retained; no separate license file supplied in this archive'
+      LicenseUri = 'https://ntcore.com/pe-detective/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('Signatures/IMAGE_FILE_MACHINE_AMD64.xml', 'Signatures/IMAGE_FILE_MACHINE_ARM.xml', 'Signatures/IMAGE_FILE_MACHINE_I386.xml', 'Signatures/IMAGE_FILE_MACHINE_IA64.xml', 'Signatures/PLATFORM_INDEPENDENT.xml', 'Signature Explorer.exe', 'PE Detective.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+    }
+    @{
+      Id = 'package.ntcore-cff-explorer'
+      Name = 'NTCore CFF Explorer (portable)'
+      Kind = 'Package'
+      Category = 'Software / Analysis utilities'
+      Description = 'Stage the pinned standalone x86 CFF Explorer executable and five bundled signature databases. SDK installers, source examples, scripts and the optional UPX extension are excluded from this reviewed selection. This is not the complete installed Explorer Suite. No program launch, binary patching, signature update, extension registration or PATH change occurs; native acceptance remains pending.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'ntcore-cff-explorer'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^NTCore CFF Explorer$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://ntcore.com/files/CFF_Explorer.zip'
+      AssetName = 'CFF_Explorer.zip'
+      PackageVersion = '8.0.0.0'
+      ExpectedSha256 = '8e72bcb9c6e83f188f4a259ad039ed3cc37cdf2c3ea12b00f0df8d8b67e96d96'
+      Architecture = 'x86'
+      ProductUri = 'https://ntcore.com/explorer-suite/'
+      License = 'Proprietary freeware - NTCore publisher description; embedded copyright retained; no separate license file supplied in this archive'
+      LicenseUri = 'https://ntcore.com/explorer-suite/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('CFF_Explorer/CFF Explorer.exe', 'CFF_Explorer/Signatures/IMAGE_FILE_MACHINE_AMD64.xml', 'CFF_Explorer/Signatures/IMAGE_FILE_MACHINE_ARM.xml', 'CFF_Explorer/Signatures/IMAGE_FILE_MACHINE_I386.xml', 'CFF_Explorer/Signatures/IMAGE_FILE_MACHINE_IA64.xml', 'CFF_Explorer/Signatures/PLATFORM_INDEPENDENT.xml')
+      PortableMembers = @('CFF_Explorer/CFF Explorer.exe', 'CFF_Explorer/Signatures/IMAGE_FILE_MACHINE_AMD64.xml', 'CFF_Explorer/Signatures/IMAGE_FILE_MACHINE_ARM.xml', 'CFF_Explorer/Signatures/IMAGE_FILE_MACHINE_I386.xml', 'CFF_Explorer/Signatures/IMAGE_FILE_MACHINE_IA64.xml', 'CFF_Explorer/Signatures/PLATFORM_INDEPENDENT.xml')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+    }
+    @{
+      Id = 'package.mitec-json-viewer'
+      Name = 'MiTeC JSON Viewer (portable)'
+      Kind = 'Package'
+      Category = 'Software / File viewers'
+      Description = 'Stage the pinned viewer executable for the selected architecture; portable selects x64 and portable-x86 selects x86. Preserve existing unowned licence and configuration files. No launch, document access, file association, update check or activation occurs. Licence tiers use the same published archive; entitlement and native activation-preservation acceptance remain separate.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-json-viewer'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^MiTeC JSON Viewer$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/JSONView.zip'
+      AssetName = 'JSONView.zip'
+      PackageVersion = '3.2.2.0'
+      ExpectedSha256 = '9c6d38bc040bae98e9847539220611e4dea915d27314463e602b880c3f845b21'
+      Architecture = 'x64'
+      ProductUri = 'https://www.mitec.cz/wp/mjsonv/'
+      License = 'Proprietary MiTeC software EULA; unregistered non-commercial/evaluation use and purchased licence tiers have separate conditions'
+      LicenseUri = 'https://www.mitec.cz/wp/support/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-mitec-viewers'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('JSONView64.exe')
+      PortableMembers = @('JSONView64.exe')
+      DefaultVariant = 'portable'
+      Variants = @{
+        portable = @{}
+        'portable-x86' = @{
+          Architecture = 'x86'
+          RequiredFiles = @('JSONView.exe')
+          PortableMembers = @('JSONView.exe')
+        }
+      }
+    }
+    @{
+      Id = 'package.mitec-xml-viewer'
+      Name = 'MiTeC XML Viewer (portable)'
+      Kind = 'Package'
+      Category = 'Software / File viewers'
+      Description = 'Stage the pinned viewer executable for the selected architecture; portable selects x64 and portable-x86 selects x86. Preserve existing unowned licence and configuration files. No launch, document access, file association, update check or activation occurs. Licence tiers use the same published archive; entitlement and native activation-preservation acceptance remain separate.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-xml-viewer'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^MiTeC XML Viewer$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/XMLView.zip'
+      AssetName = 'XMLView.zip'
+      PackageVersion = '6.5.0.0'
+      ExpectedSha256 = 'c64a87ee9d26096d3a2efc63d2c1b38fb5440a825fa5b1bdc0d50cbb2d6b7960'
+      Architecture = 'x64'
+      ProductUri = 'https://www.mitec.cz/wp/mxmlv/'
+      License = 'Proprietary MiTeC software EULA; unregistered non-commercial/evaluation use and purchased licence tiers have separate conditions'
+      LicenseUri = 'https://www.mitec.cz/wp/support/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-mitec-viewers'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('XMLView64.exe')
+      PortableMembers = @('XMLView64.exe')
+      DefaultVariant = 'portable'
+      Variants = @{
+        portable = @{}
+        'portable-x86' = @{
+          Architecture = 'x86'
+          RequiredFiles = @('XMLView.exe')
+          PortableMembers = @('XMLView.exe')
+        }
+      }
     }
     @{
       Id = 'package.putty'

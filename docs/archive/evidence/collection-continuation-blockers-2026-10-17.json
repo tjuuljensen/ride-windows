@@ -1,0 +1,61 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "Zimmerman": {
+    "Request": "https://api.github.com/repos/EricZimmerman/Get-ZimmermanTools/commits/master",
+    "Result": "Anonymous API rate limit exceeded",
+    "ImmutableSourcePinObtained": false,
+    "RetryPerformed": false,
+    "CredentialRequested": false,
+    "Next": "Resume through existing bounded acquisition/backoff policy when quota permits; do not execute mutable source or claim abbreviated commit as a full pin"
+  },
+  "ClientComponents": {
+    "Selected": [
+      "OpenSSH.Client~~~~0.0.1.0",
+      "TelnetClient"
+    ],
+    "Status": "Existing outlines remain non-executable",
+    "Remaining": [
+      "Matching source completeness and policy/dependency evidence",
+      "Durable servicing/recovery contract after prerequisites",
+      "Native consumer and exact recovery acceptance"
+    ],
+    "NativeQueryOrMutation": false
+  },
+  "VmAcceptance": {
+    "Status": "Blocked",
+    "Reason": "Previously established non-elevated Hyper-V CIM access denied",
+    "RetryOrControllerChange": false
+  },
+  "Deferred": [
+    "New deployment profiles",
+    "BitLocker and recovery resource setup"
+  ],
+  "NirSoftProtection": {
+    "Status": "Blocked",
+    "ReportedDate": "2026-10-17",
+    "UserReportedMembers": [
+      "nirlauncher-extracted-review/NirSoft/chromecookiesview.exe",
+      "nirlauncher-extracted-review/NirSoft/bulletspassview.exe",
+      "x64-extracted-review/ProduKey.exe",
+      "x64-extracted-review/WirelessKeyView.exe"
+    ],
+    "PayloadExecuted": false,
+    "Action": "Stopped payload inspection; no restore, allow, exclusion, protection change or re-extraction",
+    "Disposition": "Incomplete source verification; no safety or false-positive claim; no catalog admission or native acceptance"
+  },
+  "HistoricalPowerIsoReport": {
+    "File": "Downloads/PowerISO9-x64.exe",
+    "Detection": "PUADlManager:Win32/Sepdot",
+    "UserReportedDetectionLocalTime": "2025-11-25 07:22",
+    "ReportedDate": "2026-10-17",
+    "Evidence": "User clarification; predates this migration run. Separate from current NirSoft reports.",
+    "FileOpenedOrExecutedInThisRun": false,
+    "ProtectionStateQueriedOrChanged": false,
+    "ScreenshotStatus": "Abandoned; Unable to block this app; threat can no longer be found",
+    "ScreenshotNotificationLocalTime": "2025-11-21 10:15",
+    "ScreenshotDetailLocalTime": "2025-11-25 07:22",
+    "ScreenshotSeverity": "Low",
+    "CurrentThreatState": "Not established by historical screenshot; no scanner/query/remediation invoked"
+  }
+}

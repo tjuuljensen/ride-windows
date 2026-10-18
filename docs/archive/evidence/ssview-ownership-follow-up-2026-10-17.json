@@ -1,0 +1,34 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "ProductUri": "https://www.mitec.cz/wp/mssv/",
+  "LicenseUri": "https://www.mitec.cz/wp/support/",
+  "ArchiveSha256": "e9d05067745a4f114b22dc798c7fa99017302b39bc8798853ed1bfd4c44d27ab",
+  "PreviousEvidence": "mitec-structured-storage-viewer-source-review-2026-10-17.json",
+  "SourceMember": "ZLibCodec.dpr",
+  "SourceSha256": "a7e1e2d316a07700de5f2e2e233eca4dadd57f2205c85ad63e1963f7337a4d69",
+  "SourceReviewedAsText": true,
+  "Findings": [
+    "Publisher and included source describe discovering DLLs in the viewer directory by EncodeIStream/DecodeIStream exports.",
+    "Source imports Delphi SysUtils, Classes, AxCtrls, ActiveX and ZLib; references a resource file not included in this four-member archive. Reproducible codec build is not established.",
+    "No explicit license grant appears in the included source comment; ZLib algorithm naming does not establish license coverage for the whole plugin.",
+    "Source/sample are not runtime prerequisites established by the page; optional codec behavior must be separately accepted."
+  ],
+  "OwnershipPlan": {
+    "Viewer": "SSView.exe; x86; candidate scope only",
+    "Sample": "test.ss; preserve upstream bytes, use separate disposable copy for tests",
+    "Source": "ZLibCodec.dpr; retain unchanged attribution/reference; no compilation or redistribution approval inferred",
+    "Codec": "ZLibCodec.dll; x86; explicit optional component, never silently load arbitrary existing DLLs during acceptance",
+    "ProductIdentity": "One SSView identity across R05 and R13",
+    "UserData": "Preserve unowned activation/configuration/plugins/documents; stop on ambiguous adoption"
+  },
+  "Remaining": [
+    "Resolve source/plugin/sample terms applicable to the exact artifact",
+    "Implement reviewed optional selection and complete owned-file recovery",
+    "Use isolated guest directory and synthetic files for viewer-only then codec round trips",
+    "Real activation/configuration and Windows target behavior"
+  ],
+  "PayloadExecuted": false,
+  "CatalogAdmission": false,
+  "NativeAcceptance": false
+}

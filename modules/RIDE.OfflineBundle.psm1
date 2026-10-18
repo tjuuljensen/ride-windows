@@ -10,8 +10,9 @@
   and prior versions. Preflight functions are read-only.
 .NOTES
   Compatibility: Native Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Version: 0.7.0.
-  Changelog: 0.7.0: Optionally gate assembly on byte-bound selected-profile coverage.
+  Version: 0.7.1.
+  Changelog: 0.7.1: Recognize catalog-neutral portable archives during target preflight.
+    0.7.0: Optionally gate assembly on byte-bound selected-profile coverage.
     0.6.0: Compare explicit catalog download sources during package coverage.
     0.5.0: Reverify all staged files after copying and before commit metadata.
     0.4.0: Assemble explicit local sources into a new verified bundle folder.
@@ -274,7 +275,7 @@ function Test-RideOfflineBundle {
     $artifact=$index.Artifacts[$id]
     if($artifact.Status -ceq 'Omitted'){$issues.Add([pscustomobject]@{Id=$id;Reason=$artifact.OmissionCode});continue}
     foreach($fileId in $artifact.FileIds){$required[$fileId]=$true}
-    if($profile.Target -notin $artifact.Targets -or ($artifact.Architecture -ine 'any' -and $artifact.Architecture -ine $profile.Architecture)){$issues.Add([pscustomobject]@{Id=$id;Reason='DeclaredTargetOrArchitectureMismatch'})}
+    if($profile.Target -notin $artifact.Targets -or ($artifact.Architecture -notin @('any','neutral') -and $artifact.Architecture -ine $profile.Architecture)){$issues.Add([pscustomobject]@{Id=$id;Reason='DeclaredTargetOrArchitectureMismatch'})}
     if($artifact.OfflineCapability -cne 'DeclaredNoNetwork'){$gates.Add([pscustomobject]@{Id=$id;Reason=$artifact.OfflineCapability})}
   }
   foreach($id in $profile.ServicingSourceIds){

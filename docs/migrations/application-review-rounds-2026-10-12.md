@@ -207,7 +207,40 @@ still lists September 2027 as JDK 11's earliest end of support. Choosing CE does
 not itself justify retiring JDK 11 or adding a general-purpose Java install to
 profiles. Independently wanted Java/Neo4j uses remain a follow-up decision.
 
+## Current dispositions, 2026-10-17
+
+The original group membership and selector index below remain coverage records,
+not a list of unanswered questions. The [decision ledger](decision-session-2026-10-17.md)
+supersedes their proposed choices; the [handoff](remaining-migrations-follow-up.md#archive-handoff-and-closure-order-2026-10-17)
+owns current sequencing. This reconciliation adds no native acceptance or numeric
+deduction. Review groups overlap the five estimate categories and must not be
+added to their ranges.
+
+| Group | Settled scope / disposition | Implementation or acceptance still required |
+| --- | --- | --- |
+| R01 | Gpg4win choices retained; ImageMagick installed/portable scope and optional integration settled; Wireshark all-user/no-association and separate interactive Npcap selected. | Wireshark MSI is source-ready; product coexistence, native installation/recovery and capture/driver behavior remain. |
+| R02 | Python command/association preservation; Volatility 2 retired, Volatility 3 selected; YARA-X primary with explicit classic compatibility; LOKI RS beta/Core signatures selected, old Python Loki handling excluded. | Interpreter isolation, pinned dependencies/cache/rules, installation and functional compatibility. Volatility 2 was already deducted; LOKI replacement is still open. |
+| R03 | OpenJDK 25 LTS default, explicit 21/17/11 and side-by-side preservation; CE collectors first; ImproHound retired. | Backend-version selection and standalone Neo4j/APOC deferred; collectors/AD tools need per-product evidence; RSAT remains a component. ImproHound was already deducted. |
+| R04 | Office/Visio products, channel, architecture, language and sign-in policy settled; Teams install/startup/cleanup independently selectable. | Office inspection/XML preparation exists; actual deployment, language compatibility, existing-installation preservation and recovery remain. |
+| R05 | Whole reviewed Sysinternals plus individual products; Zimmerman 26-member scope/maps; NirSoft, JoeWare, MiTeC and NTCore scopes accepted. | Frozen inventories: 41 JoeWare, 22 current MiTeC, 16 NTCore utility entries. Two MiTeC viewers join NTCore/Sysinternals pending candidates; four viewer architecture cases have file-lifecycle evidence. JoeWare version/form/license review and SSView codec/R13 ownership remain. NirLauncher/x64 inspection stopped after Defender alerts; Zimmerman pin remains rate-limited and 4GB Patch licensing unresolved. No new native acceptance. See the [named collection continuation](application-migration-review.md#b11-named-collections-and-mitec-viewers-2026-10-17). |
+| R06 | Pinned inert snapshots; editable Git workspaces and runtime/import/update actions explicitly separate. | PSScriptTools source candidate is ready for lifecycle completion; other source products, dependencies and functional evidence remain. |
+| R07 | Preserve OneDrive accounts/sync/files; updates opt-in with explicit package list, broad mode and schedule separate. | Eligibility, Winget identity/source and scheduler/recovery integration; no automatic reboot or forced app closure. |
+| R08 | VMware host first, directory preference separate; guest platform explicit; AutomatedLab module separate from lab creation; Vantage conditional on hardware. | Artifact/native/coexistence evidence, host preferences and applicable guest/hardware acceptance; no platform provisioning inferred. |
+| R09 | VeraCrypt installed/portable and WinPmem preparation selected; eight Arsenal products reviewed in scope. | Driver/capture/encrypted-data and entitlement boundaries; MEGAcmd deferred unless needed; no capture, mount or secret movement implied by deployment. |
+| R10 | Hashcat CLI with optional compatible launcher; GPU vendor coverage explicit and drivers separate. | Pinned artifacts, launcher compatibility and hardware/runtime evidence. |
+| R11 | RIDE owns configuration; LoggingBaseline observes only; Sysmon acquisition/application separate; browser fields and enforced policies distinct. | Desired-reference export is source-ready; real configuration ownership, mappings, recovery and native effects remain. |
+| R12 | FTK then KAPE; pinned KAPE definitions; four CCleaner-family products, TMOG, PST/OST viewers and WinHex individually selected. Shared-installer rule supersedes entitlement-only variant/tier gates. | FTK CodeMeter/driver acceptance, KAPE agreement/artifacts, exact edition artifact differences, shared OCX ownership and settings/activation preservation. Optional activation is not a blanket installation prerequisite. |
+| R13 | Retain all eleven historical products individually; defer unverified tools without substitution. | RegRipper 3.0, Hex2text and ChromeSyncParser have source candidates; ShimCacheParser has a Python 2 blocker. Remaining provenance, formats, dependencies and native/parser correctness need evidence. |
+
+The final [updater review](decision-session-2026-10-17.md#artifact-compatibility-and-updater-review-continuation-2026-10-17)
+found no new user decision. Its nine bounded fixtures are source-review evidence,
+not installer/updater execution or an immutable source pin. TMOG entitlement
+material must remain local and excluded from shared kits and ordinary logs.
+
 ## Primary discussion groups
+
+Historical planning table: consult the current dispositions above before treating
+any original "choose" or "decide" wording as an open question.
 
 Each unresolved ledger outcome belongs to exactly one primary group. Cross-group
 dependencies are handled below rather than counting an outcome twice.

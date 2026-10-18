@@ -168,6 +168,21 @@ Describe 'User-bin managed file ownership and recovery' {
     Set-RideProfileSettingState $BinOperation Default -Confirm:$false
     [IO.File]::ReadAllText($ProfilePath) | Should -BeExactly $legacy
   }
+  It 'restores an originally absent profile without claiming the parent directory' {
+    $parent=Split-Path -Parent $ProfilePath
+    $snapshot=Get-RideProfileSettingSnapshot $BinOperation (Get-RideProfileSettingState $BinOperation) Enabled
+    Set-RideProfileSettingState $BinOperation Enabled -Confirm:$false
+    Restore-RideProfileSettingState $BinOperation $snapshot -Confirm:$false
+    Test-Path -LiteralPath $ProfilePath | Should -BeFalse
+    Test-Path -LiteralPath $parent -PathType Container | Should -BeTrue
+  }
+  It 'refuses a profile changed after capture before writing the startup block' {
+    [IO.File]::WriteAllText($ProfilePath,'# captured')
+    $before=Get-RideProfileSettingState $BinOperation
+    [IO.File]::WriteAllText($ProfilePath,'# concurrent edit')
+    {Set-RideProfileSettingState $BinOperation Enabled -ExpectedState $before -Confirm:$false} | Should -Throw
+    [IO.File]::ReadAllText($ProfilePath) | Should -BeExactly '# concurrent edit'
+  }
   It 'does not mistake comments or literal example text for a legacy writer' {
     [IO.File]::WriteAllText($ProfilePath,'# UserBinaries example only' + "`n" + "'`$UserBinaries'")
     Set-RideProfileSettingState $BinOperation Enabled -Confirm:$false

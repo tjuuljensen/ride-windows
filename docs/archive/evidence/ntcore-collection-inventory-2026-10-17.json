@@ -1,0 +1,116 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "Index": {
+    "File": "ntcore-index.html",
+    "Uri": "https://ntcore.com/download/",
+    "Status": 200,
+    "ContentType": "text/html; charset=UTF-8",
+    "Length": 49626,
+    "Sha256": "2c79cdbb640c5b6343d6af74af7de6b26fd01b6db98da7b76608680299e1a4be"
+  },
+  "MemberCount": 16,
+  "Members": [
+    {
+      "Name": ".NET Generic Unpacker",
+      "SourceUri": "https://ntcore.com/?page_id=353",
+      "Disposition": "Page/index inventory only; artifact/license/lifecycle pending",
+      "NativeAcceptance": false
+    },
+    {
+      "Name": "4GB Patch",
+      "SourceUri": "https://ntcore.com/?page_id=371",
+      "Disposition": "Source evidence recorded; license grant unresolved",
+      "NativeAcceptance": false
+    },
+    {
+      "Name": "AntiMida 1.0",
+      "SourceUri": "https://ntcore.com/files/antimida_1.0.zip",
+      "Disposition": "Mixed research/source bundle; standalone scope not admitted",
+      "NativeAcceptance": false
+    },
+    {
+      "Name": "Driver List",
+      "SourceUri": "https://ntcore.com/?page_id=380",
+      "Disposition": "Page/index inventory only; artifact/license/lifecycle pending",
+      "NativeAcceptance": false
+    },
+    {
+      "Name": "DynLogger",
+      "SourceUri": "https://ntcore.com/?page_id=376",
+      "Disposition": "Page/index inventory only; artifact/license/lifecycle pending",
+      "NativeAcceptance": false
+    },
+    {
+      "Name": "Explorer Suite",
+      "SourceUri": "https://ntcore.com/?page_id=388",
+      "Disposition": "Standalone CFF candidate recorded; full installed suite remains separate",
+      "NativeAcceptance": false
+    },
+    {
+      "Name": "Filter Monitor",
+      "SourceUri": "https://ntcore.com/?page_id=382",
+      "Disposition": "Historical Vista/Windows 7 claim; current kernel compatibility unverified",
+      "NativeAcceptance": false
+    },
+    {
+      "Name": "NoDel",
+      "SourceUri": "https://ntcore.com/files/NoDel.zip",
+      "Disposition": "Page/index inventory only; artifact/license/lifecycle pending",
+      "NativeAcceptance": false
+    },
+    {
+      "Name": "PE Detective",
+      "SourceUri": "https://ntcore.com/?page_id=367",
+      "Disposition": "Pending candidate with file fixtures recorded",
+      "NativeAcceptance": false
+    },
+    {
+      "Name": "Phoenix Protector",
+      "SourceUri": "https://ntcore.com/?page_id=384",
+      "Disposition": "Page/index inventory only; artifact/license/lifecycle pending",
+      "NativeAcceptance": false
+    },
+    {
+      "Name": "Rebel.NET",
+      "SourceUri": "https://ntcore.com/?page_id=386",
+      "Disposition": "Page/index inventory only; artifact/license/lifecycle pending",
+      "NativeAcceptance": false
+    },
+    {
+      "Name": "ScreenWriter",
+      "SourceUri": "https://ntcore.com/?page_id=363",
+      "Disposition": "Page/index inventory only; artifact/license/lifecycle pending",
+      "NativeAcceptance": false
+    },
+    {
+      "Name": "SNSRemover",
+      "SourceUri": "https://ntcore.com/files/SNSRemover.zip",
+      "Disposition": "Page/index inventory only; artifact/license/lifecycle pending",
+      "NativeAcceptance": false
+    },
+    {
+      "Name": "VirtualReg Manager",
+      "SourceUri": "https://ntcore.com/?page_id=378",
+      "Disposition": "Page/index inventory only; artifact/license/lifecycle pending",
+      "NativeAcceptance": false
+    },
+    {
+      "Name": "Vista4Experts",
+      "SourceUri": "https://ntcore.com/?page_id=373",
+      "Disposition": "Historical system/protection changes; no execution or adoption of effects",
+      "NativeAcceptance": false
+    },
+    {
+      "Name": "WIM Installer",
+      "SourceUri": "https://ntcore.com/files/WIM_Installer.zip",
+      "Disposition": "Page/index inventory only; artifact/license/lifecycle pending",
+      "NativeAcceptance": false
+    }
+  ],
+  "SeparateProduct": "Cerbero Suite",
+  "ExcludedScope": "Sources section and developer examples",
+  "NewPayloadAcquired": false,
+  "NativeAcceptance": false,
+  "LegacyClosures": 0
+}

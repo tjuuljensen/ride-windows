@@ -12,6 +12,133 @@ The VM is for integration tests that change Windows state. Routine validation an
 
 ## What this pilot covers
 
+### Focused reviewed portable packages
+
+`Invoke-RidePortableVmAcceptance.ps1` is the focused Windows 11 runner for
+MiTeC JSON/XML Viewer and NTCore PE Detective/CFF Explorer. `AllReviewed` selects
+six cases: both viewer architectures and the two x86 NTCore candidates.
+`MiTeCViewers` and `NTCore` select four and two cases respectively. The older
+`ApplicationsBatch1`/`ApplicationsBatch2` selectors do not include these candidates.
+No NirSoft, other collection, installer or utility execution is selected.
+
+Two additional batches are explicit selections and are not included by
+`AllReviewed`: `PSScriptTools` verifies all 360 reviewed source files without
+importing upstream code; `OfflineCaffeine` checks the already accepted, pinned
+Caffeine portable package through disconnected CLI install/profile apply and
+saved recovery. Each requires a manifest containing only its one package ID and
+retained ZIP. Use `-TimeoutMinutes 40` for the larger PSScriptTools file lifecycle.
+The portable guest runner retains each saved state directory as a ZIP under
+`evidence/saved-state`, with its file count checked before collection. This avoids
+long member paths during guest-to-host evidence copying. Preserve these archives
+alongside the scenarios and source manifest; inspect them without executing their
+contents.
+
+`OfflineCaffeine` records the actual guest target, builds a private acceptance
+profile/bundle bound to current source hashes and the checkout HEAD, and disables
+any Up guest network adapters before invoking the engine. Existing disconnected
+guests remain disconnected. PowerShell Direct still collects evidence; checkpoint
+recovery restores the original adapter state. The test covers missing/corrupt/
+omitted payload and target mismatch refusals before state writes, offline preview,
+install/apply repeat and exact saved-file recovery. No Caffeine executable runs.
+The generated profile is an acceptance fixture, not a proposed deployment profile
+or distribution approval. Inspect `network-before.json`, `network-after.json`,
+`bundle-manifest.json`, scenarios and the host recovery result. Broader installer,
+servicing, dependency and interruption acceptance remains separate.
+
+For repeated `PSScriptTools` and `OfflineCaffeine` batches, prefer the registered
+task instead of launching this standalone host runner with `RunAs` each time.
+The installed controller must advertise `FocusedPortableV1`; the client refuses
+older installations before queuing or opening an elevation prompt. An idle,
+one-time elevated refresh uses the existing installed configuration and preserves
+its VM/checkpoint pins:
+
+```powershell
+# Repository root, elevated Windows PowerShell 5.1, owning account; one time.
+$configuration = 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json'
+.\tests\integration\Register-RideVmTestTask.ps1 -ConfigurationPath $configuration -Confirm:$false
+```
+
+Place the one-package retained-archive manifests at
+`.local/acceptance-input/PSScriptTools.json` and
+`.local/acceptance-input/OfflineCaffeine.json`, using the `Id`/`Path` format below.
+Requests accept no caller-supplied script or payload path. The protected runner
+reads only the selected manifest and verifies its exact catalog identity/hash;
+the snapshot still excludes `.local`. From ordinary PowerShell in the owning
+signed-in account, submit and wait for each result:
+
+```powershell
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite PSScriptTools -TimeoutMinutes 60
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite OfflineCaffeine -TimeoutMinutes 60
+```
+
+The worker serializes both requests, runs the protected host child without UAC,
+and retains timeout/process termination and checkpoint recovery. Focused results
+are under `results/<request-id>/focused`; require Passed, evidence collected and
+ResetAndOff. These suites use PowerShell Direct, including during disconnection,
+and run their focused integration assertions without the general guest Pester
+suite. Local regression validation remains a separate prerequisite. They do not
+support CI source or PAT, and do not alter the existing settings fixture. An
+installed-controller refresh and its first native dispatch are separate acceptance
+gates; preparing source does not claim they passed.
+
+Start in the repository root in elevated **Windows PowerShell 5.1**, using the
+owning account of an existing registered disposable controller. The host must
+already meet its AutomatedLab prerequisites, including running VMMS/WinRM and
+existing remoting configuration. The runner refuses missing prerequisites;
+it does not repair host services, policies, Defender or controller registration.
+The VM must be Off, the controller Ready, its queues empty and recovery unblocked.
+The configured VM and checkpoint IDs must still match their registered objects.
+
+Prepare a local JSON manifest with exactly one retained archive per selected
+package. Replace the example paths with existing reviewed files; do not include
+Defender-blocked archives or extract them. For `AllReviewed`:
+
+```json
+[
+  {"Id":"package.mitec-json-viewer","Path":"C:\\Acceptance\\JSONView.zip"},
+  {"Id":"package.mitec-xml-viewer","Path":"C:\\Acceptance\\XMLView.zip"},
+  {"Id":"package.ntcore-pe-detective","Path":"C:\\Acceptance\\PE_Detective.zip"},
+  {"Id":"package.ntcore-cff-explorer","Path":"C:\\Acceptance\\CFF_Explorer.zip"}
+]
+```
+
+Save it as `.local/portable-acceptance-input.json` and create the local output
+directory. Preview validates archive selection and catalog-pinned SHA-256 values
+without accessing or changing the VM. Then run the same command without `-WhatIf`:
+
+```powershell
+$null = New-Item -ItemType Directory -Path '.local\portable-vm-acceptance' -Force
+$acceptance = @{
+  ConfigurationPath = 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json'
+  ArtifactManifestPath = '.local\portable-acceptance-input.json'
+  OutputDirectory = '.local\portable-vm-acceptance'
+  Batch = 'AllReviewed'
+}
+.\tests\integration\Invoke-RidePortableVmAcceptance.ps1 @acceptance -WhatIf
+.\tests\integration\Invoke-RidePortableVmAcceptance.ps1 @acceptance
+```
+
+The runner exclusively locks the existing controller, stages a verified checkout
+and the selected pinned archives, restores the registered checkpoint, and uses
+its lab credential through PowerShell Direct. Guest checks cover preview,
+install/repeat, exact member selection, remove/repeat, saved removal restoration,
+original absence restoration, unowned-file collision refusal and preservation
+of modified/unowned files. Payloads are staged and inspected, never launched.
+The guest uses the real engine/provider with its cache seeded from the verified
+archives; this is not disconnected/offline acceptance.
+
+Each generated run directory retains `result.json`, source/payload manifests,
+and, once available, `evidence/acceptance.log`, `scenarios.json`, `summary.json`,
+saved state and artifact observations. `Passed` requires all selected cases plus
+checkpoint recovery. Verify `Cleanup = ResetAndOff`; `NotStarted` means the VM
+was untouched. Failed recovery records a controller block and requires the
+[existing recovery procedure](automatedlab-tasks.md#recovery-and-teardown) before
+further work. Evidence is collected before recovery, including after failure.
+GUI behavior, parser correctness and real licence/settings activation remain
+separate acceptance gates; this runner does not promote catalog support.
+
+### Existing application suites
+
 `ApplicationsBatch1` selects conventional application candidates;
 `ApplicationsBatch2` selects managed portable candidates and the ShareX portable
 variant. Both run guest validation/Pester before preview, install/repeat, remove

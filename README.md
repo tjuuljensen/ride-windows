@@ -93,7 +93,12 @@ The [offline bundle guide](docs/offline-bundles.md) describes local manifest
 preflight, byte-bound package coverage and explicit local assembly. Assembly's
 optional `-CatalogFileId` and `-CoverageProfileId` check selected package content
 before completion; both parameters complete IDs from the manifest.
-Automatic acquisition planning and offline install integration remain pending.
+Explicit `install`/`apply` selections now accept `-OfflineBundle`,
+`-OfflineProfileId` and `-OfflineCatalogFileId` together (manifest IDs complete
+with Tab). The whole plan must pass local coverage before mutation; no network
+fallback is allowed. Initially only accepted inert portable packages without
+dependency actions are supported. Automatic acquisition planning and native
+disconnected-VM acceptance remain pending; see the guide for exact constraints.
 
 For explicit user-only settings, `-UserContext Desktop` starts a separate process
 for the signed-in user in the current desktop session. See the

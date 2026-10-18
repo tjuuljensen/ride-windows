@@ -1,0 +1,734 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-17",
+  "Disposition": "Six native file-lifecycle cases passed; functionality and activation remain pending",
+  "PreviousEvidence": "focused-portable-vm-acceptance-2026-10-17.json",
+  "AuthorizedHostChange": {
+    "RemotingPolicyChanged": false,
+    "StartupAfter": "Manual",
+    "Service": "WinRM",
+    "StartupBefore": "Manual",
+    "After": "Running",
+    "Before": "Stopped"
+  },
+  "Attempts": [
+    {
+      "Result": {
+        "RunId": "ca4376f5a3ab43a2a5f503b9c9448825",
+        "Batch": "AllReviewed",
+        "VM": "RIDE-Win11-Test",
+        "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+        "CheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+        "ExpectedCases": 6,
+        "Status": "Failed",
+        "Error": "Cannot find an overload for \"GetCredential\" and the argument count: \"0\".",
+        "Cleanup": "NotStarted",
+        "EvidenceCollected": false,
+        "ToolExecuted": false
+      },
+      "Scenarios": []
+    },
+    {
+      "Result": {
+        "RunId": "5ad651f2bcd840c187febb0acc4097c4",
+        "Batch": "AllReviewed",
+        "VM": "RIDE-Win11-Test",
+        "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+        "CheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+        "ExpectedCases": 6,
+        "Status": "Failed",
+        "Error": "Guest portable checks failed; inspect acceptance.log and scenarios.json.",
+        "Cleanup": "ResetAndOff",
+        "EvidenceCollected": true,
+        "ToolExecuted": false
+      },
+      "Scenarios": [
+        {
+          "Id": "package.mitec-json-viewer",
+          "Variant": "portable",
+          "Status": "Failed",
+          "Error": "Invalid portable ownership manifest.",
+          "Checks": [
+            "InstallPreview",
+            "Install",
+            "ExactMemberSelection"
+          ]
+        }
+      ]
+    },
+    {
+      "Result": {
+        "RunId": "3c2ee725c46947c1b9e52dc8341e1594",
+        "Batch": "AllReviewed",
+        "VM": "RIDE-Win11-Test",
+        "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+        "CheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+        "ExpectedCases": 6,
+        "Status": "Failed",
+        "Error": "Guest portable checks failed; inspect acceptance.log and scenarios.json.",
+        "Cleanup": "ResetAndOff",
+        "EvidenceCollected": true,
+        "ToolExecuted": false
+      },
+      "Scenarios": [
+        {
+          "Id": "package.mitec-json-viewer",
+          "Variant": "portable",
+          "Status": "Failed",
+          "Error": "Unowned collision was not refused/preserved.",
+          "Checks": [
+            "InstallPreview",
+            "Install",
+            "ExactMemberSelection",
+            "RepeatInstall",
+            "RemovePreview",
+            "Remove",
+            "RepeatRemove",
+            "RestorePreview",
+            "ExactRemovalRestore",
+            "UnownedPreservation",
+            "OriginalAbsenceRestore"
+          ]
+        }
+      ]
+    },
+    {
+      "Result": {
+        "RunId": "a2cfd331a10e4f71a607a148361cdc0b",
+        "Batch": "AllReviewed",
+        "VM": "RIDE-Win11-Test",
+        "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+        "CheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+        "ExpectedCases": 6,
+        "Status": "Passed",
+        "Error": null,
+        "Cleanup": "ResetAndOff",
+        "EvidenceCollected": true,
+        "ToolExecuted": false
+      },
+      "Scenarios": [
+        {
+          "Id": "package.mitec-json-viewer",
+          "Variant": "portable",
+          "Status": "Passed",
+          "Error": null,
+          "Checks": [
+            "InstallPreview",
+            "Install",
+            "ExactMemberSelection",
+            "RepeatInstall",
+            "RemovePreview",
+            "Remove",
+            "RepeatRemove",
+            "RestorePreview",
+            "ExactRemovalRestore",
+            "UnownedPreservation",
+            "OriginalAbsenceRestore",
+            "UnownedCollisionRefusal",
+            "ModifiedReplacementRefusal",
+            "ModifiedRemovalPreservation"
+          ]
+        },
+        {
+          "Id": "package.mitec-json-viewer",
+          "Variant": "portable-x86",
+          "Status": "Passed",
+          "Error": null,
+          "Checks": [
+            "InstallPreview",
+            "Install",
+            "ExactMemberSelection",
+            "RepeatInstall",
+            "RemovePreview",
+            "Remove",
+            "RepeatRemove",
+            "RestorePreview",
+            "ExactRemovalRestore",
+            "UnownedPreservation",
+            "OriginalAbsenceRestore",
+            "UnownedCollisionRefusal",
+            "ModifiedReplacementRefusal",
+            "ModifiedRemovalPreservation"
+          ]
+        },
+        {
+          "Id": "package.mitec-xml-viewer",
+          "Variant": "portable",
+          "Status": "Passed",
+          "Error": null,
+          "Checks": [
+            "InstallPreview",
+            "Install",
+            "ExactMemberSelection",
+            "RepeatInstall",
+            "RemovePreview",
+            "Remove",
+            "RepeatRemove",
+            "RestorePreview",
+            "ExactRemovalRestore",
+            "UnownedPreservation",
+            "OriginalAbsenceRestore",
+            "UnownedCollisionRefusal",
+            "ModifiedReplacementRefusal",
+            "ModifiedRemovalPreservation"
+          ]
+        },
+        {
+          "Id": "package.mitec-xml-viewer",
+          "Variant": "portable-x86",
+          "Status": "Passed",
+          "Error": null,
+          "Checks": [
+            "InstallPreview",
+            "Install",
+            "ExactMemberSelection",
+            "RepeatInstall",
+            "RemovePreview",
+            "Remove",
+            "RepeatRemove",
+            "RestorePreview",
+            "ExactRemovalRestore",
+            "UnownedPreservation",
+            "OriginalAbsenceRestore",
+            "UnownedCollisionRefusal",
+            "ModifiedReplacementRefusal",
+            "ModifiedRemovalPreservation"
+          ]
+        },
+        {
+          "Id": "package.ntcore-pe-detective",
+          "Variant": "portable",
+          "Status": "Passed",
+          "Error": null,
+          "Checks": [
+            "InstallPreview",
+            "Install",
+            "ExactMemberSelection",
+            "RepeatInstall",
+            "RemovePreview",
+            "Remove",
+            "RepeatRemove",
+            "RestorePreview",
+            "ExactRemovalRestore",
+            "UnownedPreservation",
+            "OriginalAbsenceRestore",
+            "UnownedCollisionRefusal",
+            "ModifiedReplacementRefusal",
+            "ModifiedRemovalPreservation"
+          ]
+        },
+        {
+          "Id": "package.ntcore-cff-explorer",
+          "Variant": "portable",
+          "Status": "Passed",
+          "Error": null,
+          "Checks": [
+            "InstallPreview",
+            "Install",
+            "ExactMemberSelection",
+            "RepeatInstall",
+            "RemovePreview",
+            "Remove",
+            "RepeatRemove",
+            "RestorePreview",
+            "ExactRemovalRestore",
+            "UnownedPreservation",
+            "OriginalAbsenceRestore",
+            "UnownedCollisionRefusal",
+            "ModifiedReplacementRefusal",
+            "ModifiedRemovalPreservation"
+          ]
+        }
+      ]
+    }
+  ],
+  "Summary": {
+    "Batch": "AllReviewed",
+    "ExpectedCases": 6,
+    "Completed": 6,
+    "Passed": 6,
+    "Status": "Passed",
+    "PayloadExecution": false,
+    "FunctionalAcceptance": "Pending",
+    "ActivationAcceptance": "Pending"
+  },
+  "Cases": [
+    {
+      "Id": "package.mitec-json-viewer",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Pending",
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "a111575b38814f93a54464156312e8f2",
+        "90d4ad0b96cf4237b11e8e27ffbc8469",
+        "f6c6c7871b514005b12447eacb903e65"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "JSONView64.exe",
+          "Sha256": "3f607389f6ee2e6679022a32db8c24f4dc75fcee1356ab3afc2d64eabc577f33",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "ACEEBDADAF8E139C5B5B62A835440BED74747EDF"
+        }
+      ]
+    },
+    {
+      "Id": "package.mitec-json-viewer",
+      "Variant": "portable-x86",
+      "Status": "Passed",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Pending",
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "96cd09d54786407bb3ce73c082e27273",
+        "84108cee9f6f43ac97b2709b411f7cd9",
+        "c7ef4a03839a4879ab42237df548d978"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "JSONView.exe",
+          "Sha256": "394f6919e446e5a191905dbe6dd41d55a731b4177d45e0392dc06c92f0b23513",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "ACEEBDADAF8E139C5B5B62A835440BED74747EDF"
+        }
+      ]
+    },
+    {
+      "Id": "package.mitec-xml-viewer",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Pending",
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "71fe9ac8406348ff8c09d33143943724",
+        "3cd06ec3e07f4360b642f3bbce5c01dc",
+        "8ceeb0cf9f054202af1809a756ec14d2"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "XMLView64.exe",
+          "Sha256": "f32c4416c2a6adddd3769bc67234f45aea2e14132cacb22b0533695b8cea3d20",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "ACEEBDADAF8E139C5B5B62A835440BED74747EDF"
+        }
+      ]
+    },
+    {
+      "Id": "package.mitec-xml-viewer",
+      "Variant": "portable-x86",
+      "Status": "Passed",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Pending",
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "3d40032c14ef426b8f2f3e8495deae39",
+        "ebcb60b07b50489ab02ff7c69abe426c",
+        "72f2ebf1f4404016b6160d8870d9ba7c"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "XMLView.exe",
+          "Sha256": "d498af4595aeb982450b4f3aa1d16c6be1c7efe24c71873779cb233a92e25dc2",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "ACEEBDADAF8E139C5B5B62A835440BED74747EDF"
+        }
+      ]
+    },
+    {
+      "Id": "package.ntcore-pe-detective",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Pending",
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "3e777ad95fe14fd2b2e7049e0bb189cb",
+        "3104376a86ef4c61a6387af10ab4cb33",
+        "ea8af3c76ef04de394d33dffa365d744"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "PE Detective.exe",
+          "Sha256": "353e0cbf62604b5dd2f7d56678ea0554f5bd6bbda46004e03787564dbc52c4ab",
+          "AuthenticodeStatus": "NotSigned",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Signature Explorer.exe",
+          "Sha256": "74854823d553b7f70e9ba20ae56d3a86ed656afdd61c4e279b4da4248382b30f",
+          "AuthenticodeStatus": "NotSigned",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Signatures/IMAGE_FILE_MACHINE_AMD64.xml",
+          "Sha256": "dc6b4a0d62ea5bc2633a06b172a5d30a0ae2887ae7dbeda474de2ed07d8ec745",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Signatures/IMAGE_FILE_MACHINE_ARM.xml",
+          "Sha256": "cb5d1a3d6d93258cc87e732a7d7f8951ac5759a9323c6a16089e47a7a596212d",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Signatures/IMAGE_FILE_MACHINE_I386.xml",
+          "Sha256": "a2bba36ebc49c9884c2ddd90f8ce0e93e5daaa7e85681c3b0d6d264ce28b4444",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Signatures/IMAGE_FILE_MACHINE_IA64.xml",
+          "Sha256": "9cbb58cfcda628b8a6b57cdd6d7381d215cb300580ad15df642450e53b8aa422",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Signatures/PLATFORM_INDEPENDENT.xml",
+          "Sha256": "f9c3dea809c8aa1f1f2887dba627ca2197647159b6bcc3c30886f3dbbe2f7a0f",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        }
+      ]
+    },
+    {
+      "Id": "package.ntcore-cff-explorer",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Pending",
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "9ccc0933d4704696879c38123097f28d",
+        "0b78aa201a1440e1b6deb2c8b1e56a44",
+        "75eed35d3db44205aff0e89e8eb2cd63"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "CFF_Explorer/CFF Explorer.exe",
+          "Sha256": "0f01ca5385bca26ddfb7d335e84d2377d58063290ad8c2f9eef66ca1666e3b5d",
+          "AuthenticodeStatus": "NotSigned",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "CFF_Explorer/Signatures/IMAGE_FILE_MACHINE_AMD64.xml",
+          "Sha256": "dc6b4a0d62ea5bc2633a06b172a5d30a0ae2887ae7dbeda474de2ed07d8ec745",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "CFF_Explorer/Signatures/IMAGE_FILE_MACHINE_ARM.xml",
+          "Sha256": "cb5d1a3d6d93258cc87e732a7d7f8951ac5759a9323c6a16089e47a7a596212d",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "CFF_Explorer/Signatures/IMAGE_FILE_MACHINE_I386.xml",
+          "Sha256": "a2bba36ebc49c9884c2ddd90f8ce0e93e5daaa7e85681c3b0d6d264ce28b4444",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "CFF_Explorer/Signatures/IMAGE_FILE_MACHINE_IA64.xml",
+          "Sha256": "9cbb58cfcda628b8a6b57cdd6d7381d215cb300580ad15df642450e53b8aa422",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "CFF_Explorer/Signatures/PLATFORM_INDEPENDENT.xml",
+          "Sha256": "f9c3dea809c8aa1f1f2887dba627ca2197647159b6bcc3c30886f3dbbe2f7a0f",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        }
+      ]
+    }
+  ],
+  "Payloads": [
+    {
+      "Id": "package.mitec-json-viewer",
+      "FileName": "JSONView.zip",
+      "Sha256": "9c6d38bc040bae98e9847539220611e4dea915d27314463e602b880c3f845b21"
+    },
+    {
+      "Id": "package.mitec-xml-viewer",
+      "FileName": "XMLView.zip",
+      "Sha256": "c64a87ee9d26096d3a2efc63d2c1b38fb5440a825fa5b1bdc0d50cbb2d6b7960"
+    },
+    {
+      "Id": "package.ntcore-cff-explorer",
+      "FileName": "CFF_Explorer.zip",
+      "Sha256": "8e72bcb9c6e83f188f4a259ad039ed3cc37cdf2c3ea12b00f0df8d8b67e96d96"
+    },
+    {
+      "Id": "package.ntcore-pe-detective",
+      "FileName": "PE_Detective.zip",
+      "Sha256": "821f4fa1df9d3a39e32f15183126e56af8dacf4690a8fd01bfac6d850ea36263"
+    }
+  ],
+  "FinalSourceHashes": [
+    {
+      "Path": "catalog\\operations.psd1",
+      "SHA256": "2BDB4068913A29FC7E8DF4988EBC4E36013D56DE731AFEC988B5599772E2C291"
+    },
+    {
+      "Path": "modules\\RIDE.Engine.psm1",
+      "SHA256": "27F7A1423A401EA64C3BCB5D027D28603927E010DDD0B14EE699D6C281C48EE5"
+    },
+    {
+      "Path": "tests\\ApplicationPackages.Tests.ps1",
+      "SHA256": "23D1F18037AD4F3A79F128718DC4F1CB5D9AC0D55817A0B35E1E79C8F33ABF51"
+    },
+    {
+      "Path": "tests\\PortableAcceptanceAutomation.Tests.ps1",
+      "SHA256": "2B4CBCCCAF7F9901CC66BDF2087348F1BBFC2DAA81A83002653B1EC55003DBC2"
+    },
+    {
+      "Path": "tests\\integration\\Invoke-RidePortableAcceptance.ps1",
+      "SHA256": "C574558B2C579016D6771290A91BAAC336FB8E10F416993F08C83EB3DDBDB669"
+    },
+    {
+      "Path": "tests\\integration\\Invoke-RidePortableVmAcceptance.ps1",
+      "SHA256": "7981D0833F3915D54CFD827FFB26B3731BDC1546F9B78A25CC4DBBA4B3383134"
+    },
+    {
+      "Path": "tests\\integration\\RIDE.PortableAcceptance.psm1",
+      "SHA256": "50E815DBF43C01B313E6CE0C14EE51546997D34A8A5A7D2B2A610D661156B308"
+    }
+  ],
+  "PostAttempt": {
+    "VM": {
+      "Name": "RIDE-Win11-Test",
+      "Id": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+      "State": "Off"
+    },
+    "Checkpoint": {
+      "Name": "RIDE-clean-test-base",
+      "Id": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9"
+    },
+    "WinRM": {
+      "Name": "WinRM",
+      "Status": "Running",
+      "StartType": "Manual"
+    },
+    "Controller": {
+      "TaskName": "RIDEWin11Test",
+      "State": "Ready"
+    },
+    "RecoveryBlockPresent": false
+  },
+  "LocalTests": [
+    {
+      "PowerShell": "5.1.26100.9711",
+      "Tests": [
+        "ApplicationPackages",
+        "PortableAcceptanceAutomation"
+      ],
+      "Passed": 93,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 93
+    },
+    {
+      "PowerShell": "7.6.5",
+      "Tests": [
+        "ApplicationPackages",
+        "PortableAcceptanceAutomation"
+      ],
+      "Passed": 93,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 93
+    }
+  ],
+  "FinalGuestGuardRetest": [
+    {
+      "PowerShell": "5.1.26100.9711",
+      "Tests": [
+        "PortableAcceptanceAutomation"
+      ],
+      "Passed": 13,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 13
+    },
+    {
+      "PowerShell": "7.6.5",
+      "Tests": [
+        "PortableAcceptanceAutomation"
+      ],
+      "Passed": 13,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 13
+    }
+  ],
+  "Validation": {
+    "Groups": 8,
+    "Editions": [
+      "5.1.26100.9711",
+      "7.6.5"
+    ],
+    "GeneratedDocumentation": "Current",
+    "Operations": 362,
+    "Profiles": 5,
+    "PowerShellFiles": 234
+  },
+  "DefenderBlockedToolsExcluded": true,
+  "ProtectionSettingsChanged": false,
+  "CatalogSupportChanged": false,
+  "CompletedAssertions": 84,
+  "Corrections": [
+    "Pass the loaded lab to AutomatedLab GetCredential",
+    "Validate shared portable destination ownership against the selected variant before alternate-variant probing",
+    "Keep singleton selected-file lists as arrays in collision/modification fixtures"
+  ],
+  "RemainingBlockers": [
+    "GUI/parser functionality on suitable samples",
+    "Real licence/settings activation and preservation with authorized inputs",
+    "No general target expansion beyond lifecycle evidence for Windows 11 build 26300",
+    "NirSoft Defender exclusions retained",
+    "Other collection source/licensing/API and profile/resource deferrals retained"
+  ],
+  "Estimates": {
+    "Settings": "38-58",
+    "WholeLegacyOutcomesClosed": 0,
+    "Maintenance": "8-12",
+    "AccountsAssets": "25-35",
+    "Reason": "File-lifecycle subgate accepted; functional/activation and broader collection outcomes remain partial.",
+    "Components": "20-25",
+    "Packages": "56-71",
+    "Planning": 175,
+    "Rounded": "145-200"
+  },
+  "RawEvidenceRoot": ".local/portable-vm-acceptance-20261017",
+  "RawLogs": [
+    ".local/portable-vm-rerun-20261017T095302Z.log",
+    ".local/portable-vm-rerun-20261017T095450Z.log",
+    ".local/portable-vm-rerun-20261017T100205Z.log",
+    ".local/portable-vm-rerun-20261017T100635Z.log",
+    ".local/portable-vm-rerun-postcheck.json",
+    ".local/portable-rerun-engine-5.log",
+    ".local/portable-rerun-engine-7.log",
+    ".local/portable-rerun-guards-5.log",
+    ".local/portable-rerun-guards-7.log",
+    ".local/portable-rerun-validation-5.log",
+    ".local/portable-rerun-validation-7.log"
+  ]
+}

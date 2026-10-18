@@ -270,6 +270,19 @@ recovery. Use `tests/integration/Invoke-RideProfileVmAcceptance.ps1`; its option
 PowerShellArtifactPath accepts publisher acquisition JSON for a cached signed MSI.
 No workstation integration or production target-bypass flag is provided.
 
+For the separate pending user-bin candidates, select `-Scenario UserBinPath` on
+the same VM runner. This Windows 11 case requires both runtimes already installed
+and an initially absent user bin directory. It acquires no prerequisite and
+does not change UAC. It checks real ConsoleHost startup with missing/existing bin,
+equivalent inherited PATH entries, NoProfile, repeat apply, Default and exact
+saved-profile restoration. The fixture creates and removes only its own sentinel
+and empty bin directory; unexpected content stops cleanup. Existing profile code
+that changes PATH can make the case fail and must be reviewed, not erased.
+Use the existing idle controller configuration, guest credential and a fresh
+output directory; omit PowerShellArtifactPath for this scenario. Collection of
+source hashes, evidence and saved runs precedes pinned-checkpoint recovery.
+This scenario is prepared, not yet accepted; it does not expand supported targets.
+
 References: [PowerShell profiles](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_profiles),
 [Terminal color schemes](https://learn.microsoft.com/en-us/windows/terminal/customize-settings/color-schemes),
 [Terminal elevation](https://learn.microsoft.com/en-us/windows/terminal/customize-settings/profile-general#automatically-run-as-administrator),

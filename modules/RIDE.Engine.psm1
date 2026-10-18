@@ -36,8 +36,10 @@
   Recovery: Restore-RideRun recovers captured settings/presence. Read catalog rollback limits before
   applying packages or grouped changes.
   Author: RIDE-Windows maintainers.
-  Version: 0.20.4
+  Version: 0.21.1
   Changelog:
+    0.21.1: Inspect shared portable destinations using their selected ownership identity.
+    0.21.0: Gate explicit offline portable plans on complete local source/payload coverage.
     0.20.4: Bind Defender exclusion writes and versioned recovery to captured paths.
     0.20.3: Preserve unsigned power indexes in inspection and marked recovery snapshots.
     0.20.2: Describe user-bin startup PATH separately from profile colors.
@@ -77,7 +79,7 @@
 #>
 
 
-$script:ModuleVersion = '0.20.4'
+$script:ModuleVersion = '0.21.1'
 
 $script:RideRoot = Split-Path -Parent $PSScriptRoot
 $script:RideCatalogPath = Join-Path $script:RideRoot 'catalog/operations.psd1'
@@ -1140,6 +1142,97 @@ function Save-RidePackage {
   }
 }
 
+function Open-RideOfflineLocalFile {
+  param([string]$Path)
+  $full = [IO.Path]::GetFullPath($Path)
+  if ($full -notmatch '^[A-Za-z]:\\' -or ([IO.DriveInfo]::new([IO.Path]::GetPathRoot($full))).DriveType -eq 'Network') { throw 'Offline input must be on a local drive.' }
+  $cursor = [IO.Path]::GetPathRoot($full)
+  foreach ($part in $full.Substring($cursor.Length).Split('\')) {
+    $cursor = Join-Path $cursor $part
+    if (([IO.File]::GetAttributes($cursor) -band [IO.FileAttributes]::ReparsePoint) -ne 0) { throw 'Offline input cannot traverse a reparse point.' }
+  }
+  [IO.File]::Open($full,[IO.FileMode]::Open,[IO.FileAccess]::Read,[IO.FileShare]::Read)
+}
+
+function Get-RideOfflineTarget {
+  $version = Get-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -ErrorAction Stop
+  $architecture = if ($env:PROCESSOR_ARCHITEW6432) { $env:PROCESSOR_ARCHITEW6432 } else { $env:PROCESSOR_ARCHITECTURE }
+  $architecture = switch ($architecture) { 'AMD64' {'x64'} 'ARM64' {'arm64'} 'x86' {'x86'} default { throw 'Unknown offline target architecture.' } }
+  [pscustomobject]@{Name=Get-RidePlatform;Build=[int]$version.CurrentBuildNumber;EditionId=$version.EditionID;Architecture=$architecture}
+}
+
+function Get-RideOfflinePlanContext {
+  param([object[]]$Plan,[string]$ManifestPath,[string]$ProfileId,[string]$CatalogFileId,[string]$SourceRoot=$script:RideRoot)
+  # Internal whole-plan gate. Keep leases until the engine finishes; no source,
+  # payload or notice may be replaced between validation and handler dispatch.
+  $leases = [Collections.Generic.List[object]]::new()
+  try {
+    if (-not $ManifestPath -or -not $ProfileId -or -not $CatalogFileId) { throw 'OfflineBundle, OfflineProfileId and OfflineCatalogFileId are required together.' }
+    if ($script:RideLibraryContext -and @($script:RideLibraryContext.Libraries).Count) { throw 'Offline library dependency/source coverage is not implemented.' }
+    $manifestFile = [IO.Path]::GetFullPath($ManifestPath)
+    $stream = Open-RideOfflineLocalFile $manifestFile; $leases.Add($stream)
+    if ($stream.Length -gt 4MB) { throw 'Offline manifest exceeds 4 MiB.' }
+    $bytes = [byte[]]::new([int]$stream.Length); $offset = 0
+    while ($offset -lt $bytes.Length) { $read=$stream.Read($bytes,$offset,$bytes.Length-$offset); if (-not $read) { throw 'Incomplete offline manifest read.' }; $offset += $read }
+    $manifest = [Text.UTF8Encoding]::new($false,$true).GetString($bytes).TrimStart([char]0xfeff) | ConvertFrom-Json -ErrorAction Stop
+    $bundleRoot = [IO.Path]::GetDirectoryName($manifestFile)
+    Import-Module (Join-Path $PSScriptRoot 'RIDE.OfflineBundle.psm1') -Force -ErrorAction Stop
+    $preflight = Test-RideOfflineBundle -Manifest $manifest -Root $bundleRoot -ProfileId $ProfileId -CatalogFileId $CatalogFileId
+    if (-not $preflight.SelectedPackageContentComplete -or -not $preflight.ProfileCoverage.ParsedBytesBindingVerified -or @($preflight.OfflineGates).Count) { throw 'Offline selected-profile integrity, source or no-network coverage failed; no fallback is allowed.' }
+    if (@($preflight.ProfileCoverage.OtherSelections).Count) { throw 'Offline non-package/removal requirements are not implemented; no handler may run.' }
+    $selected = @($manifest.Profiles | Where-Object Id -eq $ProfileId)[0]
+    if (@($selected.ServicingSourceIds).Count) { throw 'Offline servicing requirements are not implemented.' }
+    $target = Get-RideOfflineTarget
+    if ($selected.Target -ine $target.Name -or $selected.Build -ne $target.Build -or $selected.EditionId -ine $target.EditionId -or $selected.Architecture -ine $target.Architecture) { throw 'Offline profile target/build/edition/architecture does not match this device.' }
+    $files = @{}; foreach ($file in $manifest.Files) { $files[$file.Id] = $file }
+    $catalogFile = $files[$CatalogFileId]
+    $suffix = 'catalog/operations.psd1'
+    if (-not $catalogFile.RelativePath.EndsWith($suffix,[StringComparison]::Ordinal)) { throw 'Offline catalog must identify the running catalog/operations.psd1 source.' }
+    $prefix = $catalogFile.RelativePath.Substring(0,$catalogFile.RelativePath.Length-$suffix.Length)
+    if ($prefix -and -not $prefix.EndsWith('/')) { throw 'Offline catalog source root must end at a directory boundary.' }
+    $enginePaths = @{}
+    foreach ($id in $manifest.Engine.FileIds) {
+      $file = $files[$id]
+      if (-not $file.RelativePath.StartsWith($prefix,[StringComparison]::Ordinal)) { throw 'Offline engine files must share the catalog source root.' }
+      $relative = $file.RelativePath.Substring($prefix.Length)
+      $enginePaths[$relative] = $file
+    }
+    $requiredSources = @('ride.ps1','catalog/operations.psd1') + @(Get-ChildItem -LiteralPath (Join-Path $SourceRoot 'modules') -File -Recurse | ForEach-Object { $_.FullName.Substring($SourceRoot.TrimEnd('\','/').Length+1).Replace('\','/') })
+    foreach ($relative in $requiredSources) { if (-not $enginePaths.ContainsKey($relative)) { throw "Offline running source is not covered: $relative" } }
+    foreach ($relative in $enginePaths.Keys) {
+      $file = $enginePaths[$relative]
+      $source = Open-RideOfflineLocalFile (Join-Path $SourceRoot $relative); $leases.Add($source)
+      $hash = [Security.Cryptography.SHA256]::Create()
+      try { $digest=([BitConverter]::ToString($hash.ComputeHash($source))).Replace('-','').ToLowerInvariant() } finally { $hash.Dispose() }
+      if ($source.Length -ne $file.Length -or $digest -ine $file.Sha256) { throw "Offline bundle differs from running source: $relative" }
+    }
+    # Recheck while acquiring durable read leases, closing the integrity-check gap.
+    foreach ($observed in $preflight.Files) {
+      $file = $files[$observed.Id]
+      $payload = Open-RideOfflineLocalFile (Join-Path $bundleRoot $file.RelativePath); $leases.Add($payload)
+      $hash = [Security.Cryptography.SHA256]::Create()
+      try { $digest=([BitConverter]::ToString($hash.ComputeHash($payload))).Replace('-','').ToLowerInvariant() } finally { $hash.Dispose() }
+      if ($payload.Length -ne $file.Length -or $digest -ine $file.Sha256) { throw 'Offline content changed before the execution gate.' }
+    }
+    $requirements = @($preflight.ProfileCoverage.PackageRequirements)
+    if (-not $Plan.Count -or $Plan.Count -ne $requirements.Count -or $requirements.Count -ne @($preflight.RequiredArtifactIds).Count) { throw 'Offline selected profile does not exactly cover the requested plan.' }
+    $artifacts = @{}; $seen = @{}
+    for ($i=0; $i -lt $Plan.Count; $i++) {
+      $item=$Plan[$i]; $op=$item.Operation; $requirement=$requirements[$i]
+      if ($item.State -cne 'Present' -or $op.Kind -cne 'Package' -or $op.InstallerType -cne 'Portable' -or $op.PrerequisitePackageId -or $op.DependsOn -or $requirement.CatalogPrerequisite) { throw 'Offline execution currently requires inert portable packages without installer or dependency actions.' }
+      if ($op.Id -ine $requirement.Id -or $op.SelectedVariant -ine $requirement.Variant -or $seen.ContainsKey($op.Id)) { throw 'Offline plan order, identity or variant differs from the bound profile.' }
+      $seen[$op.Id]=$true
+      if ($op.PendingAcceptance -or -not $requirement.CatalogTargetDeclared -or $requirement.PendingAcceptance) { throw 'Offline package native acceptance is still pending.' }
+      $artifact = @($manifest.Artifacts | Where-Object Id -eq $requirement.ArtifactId)[0]
+      if (@($artifact.DependencyIds).Count) { throw 'Offline artifact dependency actions are not implemented.' }
+      $payloads = @($artifact.FileIds | ForEach-Object {$files[$_]} | Where-Object Role -ceq Payload)
+      if ($payloads.Count -ne 1) { throw 'Offline portable deployment requires exactly one payload.' }
+      $artifacts[$op.Id] = [pscustomobject]@{Path=Join-Path $bundleRoot $payloads[0].RelativePath;Version=$artifact.Version;Sha256=$payloads[0].Sha256;Uri=$artifact.DownloadUri;Offline=$true;BundleId=$manifest.BundleId;BundleVersion=$manifest.BundleVersion;ProfileId=$ProfileId}
+    }
+    [pscustomobject]@{Artifacts=$artifacts;Leases=$leases;Preflight=$preflight}
+  } catch { foreach ($lease in $leases) { $lease.Dispose() }; throw }
+}
+
 function Invoke-RidePlan {
   <#
   .SYNOPSIS
@@ -1159,6 +1252,16 @@ function Invoke-RidePlan {
   .PARAMETER GitHubCredentialReference
     Nonsecret enrolled reference required with PAT. Resolved only during acquisition.
 
+  .PARAMETER OfflineBundle
+    Explicit local bundle manifest. Enables mandatory whole-plan local preflight;
+    only inert portable deployment is implemented and no network fallback is allowed.
+
+  .PARAMETER OfflineProfileId
+    Manifest profile ID that must exactly cover the ordered requested plan.
+
+  .PARAMETER OfflineCatalogFileId
+    Manifest engine file ID for the exact running catalog bytes.
+
   .EXAMPLE
     Invoke-RidePlan -Plan (Get-RidePlan -Profile (Get-RideProfile)) -WhatIf
 
@@ -1177,8 +1280,17 @@ function Invoke-RidePlan {
   param(
     [Parameter(Mandatory = $true)][object[]] $Plan,
     [ValidateSet('Anonymous','PAT')][string] $GitHubAuthentication = 'Anonymous',
-    [string] $GitHubCredentialReference
+    [string] $GitHubCredentialReference,
+    [string] $OfflineBundle,
+    [string] $OfflineProfileId,
+    [string] $OfflineCatalogFileId
   )
+  $offlineContext = $null
+  try {
+  if ($PSBoundParameters.ContainsKey('OfflineBundle') -or $PSBoundParameters.ContainsKey('OfflineProfileId') -or $PSBoundParameters.ContainsKey('OfflineCatalogFileId')) {
+    if ($GitHubAuthentication -ne 'Anonymous' -or $GitHubCredentialReference) { throw 'Offline execution does not accept network authentication.' }
+    $offlineContext = Get-RideOfflinePlanContext -Plan $Plan -ManifestPath $OfflineBundle -ProfileId $OfflineProfileId -CatalogFileId $OfflineCatalogFileId
+  }
   Assert-RidePlanAllowed -Plan $Plan
   $runId = [guid]::NewGuid().ToString('N')
   $savedOperationIds = New-Object System.Collections.Generic.List[string]
@@ -1193,6 +1305,13 @@ function Invoke-RidePlan {
       if ($product.Variants) {
         foreach ($variantName in $product.Variants.Keys | Where-Object { $_ -ne $operation.SelectedVariant }) {
           $other = if ($recorded -and $recorded.SelectedVariant -eq $variantName) { $recorded } else { Resolve-RidePackageSelection -Operation $product -Variant $variantName }
+          # Architecture variants can share one product directory. Validate its
+          # current ownership using the requested variant before probing another
+          # variant against that same manifest. Different/corrupt ownership still
+          # fails validation; recorded different editions were refused above.
+          if ($operation.InstallerType -eq 'Portable' -and $other.InstallerType -eq 'Portable' -and
+              $operation.InstallDirectory -and $operation.InstallDirectory -ieq $other.InstallDirectory -and
+              (Get-RideInstalledPackage -Operation $operation).Present) { continue }
           if ((Get-RideInstalledPackage -Operation $other).Present) { throw "Existing different edition '$variantName' for '$($operation.Id)'; use an explicit reviewed migration." }
         }
       }
@@ -1225,7 +1344,9 @@ function Invoke-RidePlan {
           Save-RidePackageSelectionIndex -Operation $operation
           if ($item.State -eq 'Present') {
             $cache = Join-Path (Get-RideStateRoot -Scope $operation.Scope) 'Cache'
-            $artifact = Install-RidePackage -Operation $operation -CacheDirectory $cache -GitHubAuthentication $GitHubAuthentication -GitHubCredentialReference $GitHubCredentialReference
+            $offlineParameters = @{}
+            if ($offlineContext) { $offlineParameters.OfflineArtifact = $offlineContext.Artifacts[$operation.Id] }
+            $artifact = Install-RidePackage -Operation $operation -CacheDirectory $cache -GitHubAuthentication $GitHubAuthentication -GitHubCredentialReference $GitHubCredentialReference @offlineParameters
             if ($artifact) {
               $recordPath = Join-Path (Get-RideStateRoot -Scope $operation.Scope) (Join-Path $runId (($operation.Id -replace '[^a-zA-Z0-9._-]', '_') + '.json'))
               $savedRecord = Get-Content -LiteralPath $recordPath -Raw | ConvertFrom-Json
@@ -1281,6 +1402,7 @@ function Invoke-RidePlan {
     }
     Write-Output 'No changes were needed; no state record was created.'
   }
+  } finally { if ($offlineContext) { foreach ($lease in $offlineContext.Leases) { $lease.Dispose() } } }
 }
 
 function Show-RideCatalog {
@@ -1943,6 +2065,18 @@ Register-ArgumentCompleter -CommandName Get-RideSingleOperationPlan, Save-RidePa
       }
     } $fakeBoundParameters.Id $wordToComplete
   } catch { }
+}
+
+foreach ($offlineParameter in @('OfflineProfileId','OfflineCatalogFileId')) {
+  Register-ArgumentCompleter -CommandName Invoke-RidePlan -ParameterName $offlineParameter -ScriptBlock {
+    param($commandName,$parameterName,$wordToComplete,$commandAst,$fakeBoundParameters)
+    try {
+      $path=Join-Path (Split-Path -Parent (Get-Module RIDE.Engine).Path) '../tools/Test-RideOfflineBundle.ps1'
+      $name=if($parameterName -eq 'OfflineProfileId'){'ProfileId'}else{'CatalogFileId'}
+      $completion=(Get-Command $path -ErrorAction Stop).Parameters[$name].Attributes | Where-Object {$_ -is [Management.Automation.ArgumentCompleterAttribute]}
+      & $completion.ScriptBlock $commandName $name $wordToComplete $commandAst @{ManifestPath=$fakeBoundParameters.OfflineBundle}
+    } catch { }
+  }
 }
 
 Export-ModuleMember -Function Set-RideLibraryContext, Get-RideCatalog, Get-RideOperation, Get-RideProfile, Get-RidePlan, Get-RideSingleOperationPlan, Save-RidePackage, Invoke-RidePlan, Show-RideCatalog, Show-RideOperation, Show-RidePlan, Get-RideStatus, Get-RideCurrentState, Test-RideDesiredState, Get-RidePlatform, Restore-RideRun

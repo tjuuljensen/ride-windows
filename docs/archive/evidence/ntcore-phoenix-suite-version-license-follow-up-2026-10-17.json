@@ -1,0 +1,116 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "Scope": "Official publisher page and archive follow-up for Phoenix Protector and Explorer Suite version and licence identities; no binary acquisition, execution, runtime acceptance or intended-user approval",
+  "PublisherPages": [
+    {
+      "Product": "Phoenix Protector",
+      "Uri": "https://ntcore.com/phoenix-protector/",
+      "RetrievedDate": "2026-10-17",
+      "LocalSnapshot": ".local/bde-terms-20261017/phoenix.html",
+      "LocalSnapshotLength": 42003,
+      "LocalSnapshotSha256": "08b06fa2c7fad281d9e8680b68f80d9bd88381f79c899561d58a8f137147c12d",
+      "PageVersion": "1.8.0.1",
+      "PageLicenceDescription": "Publisher describes the application as freeware",
+      "Artifact": {
+        "Uri": "https://ntcore.com/files/Phoenix_Protector.msi",
+        "Sha256": "15a7dbbf90ce66fb302a322c6809fafd897808096069dfecededf78e51b16369",
+        "Length": 1357312,
+        "MsiProductVersion": "1.7.1",
+        "ContainedExecutableVersion": "1.9.0.1",
+        "BundledEula": "Phoenix License.rtf",
+        "BundledEulaSha256": "19359dcf7a10c7a0d2be9d02e2ccdf10c09e276ba2fe7b8b2db24511cc46c525"
+      },
+      "VersionDisposition": "Unresolved. The page gives no mapping among its current version, the MSI ProductVersion and the contained executable's file version. Retain these as separate identities; do not infer chronology or substitute another binary.",
+      "LicenceDisposition": "The page's freeware description does not expressly supersede the retained MSI EULA. The bundled grant is limited to one individual user for development/testing, is nontransferable, and restricts separating components and commercial hosting. Applicability to the intended user and any shared distribution remains unreviewed; no publisher clarification or entitlement was obtained."
+    },
+    {
+      "Product": "Explorer Suite",
+      "Uri": "https://ntcore.com/explorer-suite/",
+      "RetrievedDate": "2026-10-17",
+      "LocalSnapshot": ".local/bde-terms-20261017/explorer-suite.html",
+      "LocalSnapshotLength": 42640,
+      "LocalSnapshotSha256": "40f00e00dddd4bfd97b47d2aa2c28224d4a37f5eb3058394a354d6e96a25af08",
+      "PageVersion": "III (18/11/2012)",
+      "PageLicenceDescription": "Publisher describes a freeware suite",
+      "CurrentDownload": {
+        "Uri": "https://ntcore.com/files/ExplorerSuite.exe",
+        "PublishedSha256": "94f4348ec573b05990b1e19542986e46dc30a87870739f5d5430b60072d5144d",
+        "RetainedArtifactSha256": "94f4348ec573b05990b1e19542986e46dc30a87870739f5d5430b60072d5144d",
+        "RetainedArtifactLength": 3613174,
+        "InstallerInternalProductLabel": "Explorer Suite IV"
+      },
+      "RecentArchivePagesChecked": [
+        {
+          "Uri": "https://ntcore.com/2025/05/",
+          "Observation": "May 2025 archive lists the May 2025 impersonator warning, not an Explorer Suite version release"
+        },
+        {
+          "Uri": "https://ntcore.com/2025/03/",
+          "Observation": "March 2025 archive lists Windows Memory Analysis, not an Explorer Suite version release"
+        },
+        {
+          "Uri": "https://ntcore.com/2022/06/",
+          "Observation": "June 2022 archive lists Cerbero Journal, not an Explorer Suite version release"
+        }
+      ],
+      "ComponentVersionsObserved": {
+        "CFF Explorer": "8.0.0.0 x86 and x64",
+        "Task Explorer": "2.2.0.1 x86 and x64",
+        "Signature Explorer": "2.0.0.0 x86"
+      },
+      "VersionDisposition": "Partially reconciled. The retained installer is byte-identical to the publisher's currently linked download, but the page label III (18/11/2012) and installer internal label IV differ. The reviewed monthly archive pages do not clarify when or why the label changed. Keep suite branding separate from component versions.",
+      "LicenceDisposition": "The publisher page says freeware and the retained readme says free software without warranty. Neither reviewed item states a separate redistribution grant. UPX 3.08 remains separately governed by its retained GPL-2.0-or-later licence and compressed-executable exception; that does not grant rights for the NTCore extension or SDK. Intended use and shared distribution remain unapproved."
+    }
+  ],
+  "AdditionalLicenceChecks": [
+    {
+      "Subject": "Phoenix Protector bundled EULA versus current page",
+      "Result": "No page statement found that expressly replaces the retained EULA. Keep the exact EULA content/hash and page claim together for intended-use and distribution review."
+    },
+    {
+      "Subject": "Explorer Suite readme, freeware page and bundled UPX",
+      "Result": "Freeware/free-software descriptions do not by themselves establish redistribution permission. UPX obligations are separate from the suite and extension grants."
+    },
+    {
+      "Subject": "Owner or organization licence review",
+      "Result": "Not performed. No user intent, individual/company facts, private entitlement, or licence key was assumed or recorded."
+    }
+  ],
+  "Validation": {
+    "OfficialCurrentPagesReviewed": 2,
+    "RecentPublisherArchivePagesReviewed": 3,
+    "PhoenixVersionIdentityResolved": false,
+    "ExplorerSuiteReleaseLabelResolved": false,
+    "ExplorerSuiteCurrentDownloadHashMatchedRetainedArtifact": true,
+    "NewWholeLegacyOutcomeClosed": 0,
+    "RetiredOutcomes": 0,
+    "NewExclusions": 0,
+    "NativeAcceptance": false,
+    "FreshUacPrompts": 0,
+    "VmRuns": 0,
+    "ControllerOrCheckpointChanges": 0,
+    "DefenderChanges": 0,
+    "InstallerOrPayloadExecuted": false
+  },
+  "RemainingBlockers": [
+    "Phoenix publisher clarification on page/MSI/executable version fields and on whether the freeware notice changes the bundled EULA",
+    "Explorer Suite version/release clarification for the publisher-linked artifact named IV while the page says III",
+    "Exact intended-user scope and applicable product/dependency rights for either bundle; shared redistribution is not approved",
+    "Separate Explorer Suite extension, SDK and UPX source/notice obligations",
+    "Phoenix framework/custom-action review and both products' disposable native install/repeat/remove/exact-restore acceptance",
+    "Defender-blocked NirSoft files remain excluded and untouched"
+  ],
+  "Estimates": {
+    "Groups": [
+      "38-58",
+      "56-71",
+      "20-25",
+      "25-35",
+      "8-12"
+    ],
+    "ExactTotal": "147-201",
+    "RoundedTotal": "145-200/about 175",
+    "Reason": "This batch adds publisher-page, archive and licence clarification but does not close, retire, exclude or accept a complete legacy outcome; ranges remain unchanged."
+  }
+}

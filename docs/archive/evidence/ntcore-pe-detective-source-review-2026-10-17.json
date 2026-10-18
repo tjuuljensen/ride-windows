@@ -1,0 +1,108 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "Archive": "PE_Detective.zip",
+  "Length": 622026,
+  "Sha256": "821f4fa1df9d3a39e32f15183126e56af8dacf4690a8fd01bfac6d850ea36263",
+  "MemberCount": 8,
+  "ExpandedBytes": 2072064,
+  "Members": [
+    {
+      "Path": "Signatures/",
+      "Length": 0,
+      "CompressedLength": 0,
+      "Sha256": null,
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "Signatures/IMAGE_FILE_MACHINE_AMD64.xml",
+      "Length": 1595,
+      "CompressedLength": 291,
+      "Sha256": "dc6b4a0d62ea5bc2633a06b172a5d30a0ae2887ae7dbeda474de2ed07d8ec745",
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "Signatures/IMAGE_FILE_MACHINE_ARM.xml",
+      "Length": 54,
+      "CompressedLength": 44,
+      "Sha256": "cb5d1a3d6d93258cc87e732a7d7f8951ac5759a9323c6a16089e47a7a596212d",
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "Signatures/IMAGE_FILE_MACHINE_I386.xml",
+      "Length": 754095,
+      "CompressedLength": 102989,
+      "Sha256": "a2bba36ebc49c9884c2ddd90f8ce0e93e5daaa7e85681c3b0d6d264ce28b4444",
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "Signatures/IMAGE_FILE_MACHINE_IA64.xml",
+      "Length": 1070,
+      "CompressedLength": 196,
+      "Sha256": "9cbb58cfcda628b8a6b57cdd6d7381d215cb300580ad15df642450e53b8aa422",
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "Signatures/PLATFORM_INDEPENDENT.xml",
+      "Length": 434,
+      "CompressedLength": 267,
+      "Sha256": "f9c3dea809c8aa1f1f2887dba627ca2197647159b6bcc3c30886f3dbbe2f7a0f",
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "Signature Explorer.exe",
+      "Length": 614400,
+      "CompressedLength": 221241,
+      "Sha256": "74854823d553b7f70e9ba20ae56d3a86ed656afdd61c4e279b4da4248382b30f",
+      "PeMachine": "014c",
+      "FileVersion": "2.0.0.0",
+      "ProductVersion": "2.0.0.0",
+      "LegalCopyright": "© 2008 Daniel Pistelli.  All rights reserved."
+    },
+    {
+      "Path": "PE Detective.exe",
+      "Length": 700416,
+      "CompressedLength": 295896,
+      "Sha256": "353e0cbf62604b5dd2f7d56678ea0554f5bd6bbda46004e03787564dbc52c4ab",
+      "PeMachine": "014c",
+      "FileVersion": "1.2.1.1",
+      "ProductVersion": "1.2.1.1",
+      "LegalCopyright": "© 2008 Daniel Pistelli.  All rights reserved"
+    }
+  ],
+  "PayloadExecuted": false,
+  "NativeAcceptance": false,
+  "InventoryOnly": false,
+  "ProductUri": "https://ntcore.com/pe-detective/",
+  "DownloadUri": "https://ntcore.com/files/PE_Detective.zip",
+  "SelectedFiles": [
+    "Signatures/IMAGE_FILE_MACHINE_AMD64.xml",
+    "Signatures/IMAGE_FILE_MACHINE_ARM.xml",
+    "Signatures/IMAGE_FILE_MACHINE_I386.xml",
+    "Signatures/IMAGE_FILE_MACHINE_IA64.xml",
+    "Signatures/PLATFORM_INDEPENDENT.xml",
+    "Signature Explorer.exe",
+    "PE Detective.exe"
+  ],
+  "OmittedFiles": [],
+  "PublisherDigestVerified": false,
+  "LicenseEvidence": "Publisher product page describes freeware; archive has no standalone license text. Embedded original copyright strings are retained. No blanket redistribution or personal/company review is asserted."
+}

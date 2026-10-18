@@ -24,6 +24,81 @@ install them. Publisher references checked **2026-10-13**.
 | KAPE | Kroll lists government, education/research and internal company use as free. The EULA limits the grant to owned/controlled systems and internal business use; assess the intended individual use against those terms. | Kroll now says KAPE is no longer available for commercial use on third-party networks or paid engagements. Do not repeat the older assumption that buying an enterprise license automatically resolves this. Check any existing agreement directly with the publisher. Modules, targets and third-party tools can have separate terms. | [Current usage clarification](https://www.kroll.com/en/services/cyber/reactive-services/kroll-artifact-parser-and-extractor-kape), [EULA](https://www.kroll.com/en/end-user-license-agreement) |
 | Docker Desktop, if selected for a container-based solution | Free for personal use, education, non-commercial open-source projects and eligible small businesses with fewer than 250 employees **and** less than USD 10 million annual revenue. | Larger-company professional use and government use require a paid subscription. Review the organization and selected subscription. Docker Desktop terms are separate from Docker Engine and the applications/images it runs. RIDE does not select or provision Desktop automatically. | [Desktop license](https://docs.docker.com/subscription-billing/desktop-license/), [Subscription FAQ](https://www.docker.com/pricing/faq/) |
 
+Additional publisher checks on **2026-10-17**:
+
+| Product or component | Review finding | Publisher reference |
+| --- | --- | --- |
+| JoeWare tools | The general licence permits personal/company system use but restricts distribution to other users or companies. Assess shared kits separately. The rdp-sec-check page identifies GPLv2 source, but its exact ZIP, compiled PerlApp binary, source and dependency notices remain uninspected; a source-repository reference also carries a tool-specific legal-use condition whose applicability to the JoeWare ZIP must be checked. | [General licence](https://www.joeware.net/freetools/warranty.htm), [rdp-sec-check](https://www.joeware.net/freetools/tools/rdp-sec-check/index.htm), [dated version/licence follow-up](archive/evidence/joeware-rdp-sec-check-version-license-follow-up-2026-10-17.json) |
+| MiTeC standalone apps | Product pages distinguish licence tiers; the software EULA describes unregistered non-commercial use, evaluation conditions and purchased licences. Do not inherit the old site's freeware labels. Keep licence keys private and preserve activation; deployment, use and distribution assessments remain separate. | [Software EULA](https://www.mitec.cz/wp/support/), [JSON Viewer](https://www.mitec.cz/wp/mjsonv/), [XML Viewer](https://www.mitec.cz/wp/mxmlv/) |
+| MiTeC historical standalone products | Reconcile each historical product statement with current terms. Internet History Browser, Icon Explorer and Windows File Analyzer restrict free use to private, educational and non-commercial purposes; the other ten reviewed historical pages state private/commercial free use. None establishes shared-kit distribution approval. SSView's bundled codec/source/sample require their own terms review; a ZLib name is insufficient. | [Dated reconciliation](archive/evidence/mitec-historical-reconciliation-2026-10-17.json), [SSView ownership review](archive/evidence/ssview-ownership-follow-up-2026-10-17.json) |
+| NTCore Driver List and Rebel.NET | Neither inspected archive contains a licence file; no explicit use/distribution grant was located on the reviewed product pages. Keep admission pending a product-specific reference; do not inherit Explorer Suite terms or treat a C/C++ format header as a licence. | [Driver List](https://ntcore.com/driver-list/), [Rebel.NET](https://ntcore.com/rebel-net/), [Artifact evidence](archive/evidence/ntcore-member-source-follow-up-2026-10-17.json) |
+| PhotoView and DDG bundled files | PhotoView includes a Microsoft GDI+ DLL plus language resources; DDG_IBFB includes a sample database/configuration and CSS. Publisher product terms alone do not establish all dependency/sample redistribution rights. Retain provenance and review exact selections before bundling. | [Utility evidence](archive/evidence/mitec-utility-artifact-review-2026-10-17.json), [Database evidence](archive/evidence/mitec-database-artifact-review-2026-10-17.json) |
+| NTCore VirtualReg Manager and ScreenWriter | VirtualReg Manager's publisher permits inclusion in freeware; broader distribution remains to assess. ScreenWriter's bundled readme describes free software without warranty but supplies no explicit redistribution grant; preserve its attribution and review the two included samples separately. | [VirtualReg Manager](https://ntcore.com/virtualreg-manager/), [ScreenWriter](https://ntcore.com/screenwriter/), [Static artifact evidence](archive/evidence/ntcore-managed-utility-source-review-2026-10-17.json) |
+
+The remaining MiTeC/NTCore source pass on **2026-10-17** adds these findings:
+
+| Product or component | Review finding | Reference |
+| --- | --- | --- |
+| Remaining current MiTeC apps | Certificate Generator, Certificate Information, InfoBar, Mail Viewer, OLE/COM Explorer, System Information eXtra and UUID Generator explicitly limit free use to private/educational/non-commercial purposes. Other reviewed current pages list paid tiers. Review exact product terms and intended use; historical freeware labels do not establish organizational or distribution permission. | [Product-level observations](archive/evidence/mitec-remaining-source-review-2026-10-17.json), [Software EULA](https://www.mitec.cz/wp/support/) |
+| DFM Editor and bundled SQLite components | DFM's Delphi 11/12 variants each ship eight matching BPLs; review the Embarcadero runtime notices separately. SQLite Query, Internet History Browser and ICQ/MSN History Browser contain SQLite-identified binaries, including renamed DLLs. Upstream SQLite deliverable code is public domain; that does not independently prove these exact binaries' provenance or license the surrounding MiTeC product. | [Artifact evidence](archive/evidence/mitec-remaining-source-review-2026-10-17.json), [SQLite copyright](https://www.sqlite.org/copyright.html) |
+| NTCore Phoenix Protector | The retained MSI includes Phoenix License.rtf. Its limited personal, nontransferable single-user development/testing grant and restrictions on component separation, transfer and commercial hosting require exact intended-use review. The page's freeware label is insufficient; keep page 1.8.0.1, MSI 1.7.1 and executable 1.9.0.1 separate. No agreement or private owner assessment was recorded on the user's behalf. | [Publisher page](https://ntcore.com/phoenix-protector/), [MSI/EULA hash and observations](archive/evidence/ntcore-remaining-source-review-2026-10-17.json) |
+| Remaining NTCore bundles | NETUnpack, DynLogger, NoDel, SNSRemover and WIM Installer retain product-specific grant/dependency gates. SNSRemover's nested older PE Detective is a separate pinned bundle; no inherited permission or automatic replacement of the reviewed standalone candidate. Explorer Suite's matching publisher hash does not resolve its opaque installer contents. | [Per-product evidence and exclusions](archive/evidence/ntcore-remaining-source-review-2026-10-17.json), [Collection coverage](archive/evidence/mitec-ntcore-source-coverage-2026-10-17.json) |
+
+The later [static installer extraction](migrations/application-migration-review.md#six-installer-static-extraction-2026-10-17)
+resolved all six outer payload inventories. Additional findings:
+
+- Mail Checker includes three OpenSSL-identified **1.0.1e** DLLs; two SSL DLL
+  names contain identical bytes. The [version-specific upstream terms](https://raw.githubusercontent.com/openssl/openssl/OpenSSL_1_0_1e/LICENSE)
+  include both OpenSSL and SSLeay conditions. Reconcile exact binary provenance,
+  notices and acknowledgements; the product's freeware label is insufficient.
+  No stand-alone licence file was found in its extracted file set; embedded
+  installer agreements remain a separate review surface.
+- Explorer Suite contains UPX **3.08**, its separate NTCore extension and a
+  source ZIP with older build artifacts. The [UPX 3.08 licence](https://raw.githubusercontent.com/upx/upx/v3.08/LICENSE)
+  is GPL-2.0-or-later with a compressed-executable exception; that exception does
+  not supply a grant for the NTCore extension/SDK or remove UPX distribution
+  obligations. Retain the source/MSI/templates/scripts as distinct reviewed
+  components. The suite readme describes free software without warranty; no
+  explicit redistribution grant was located there.
+- Paradox Data Editor includes **BdeInst.dll 5.1.1.1**, **TUTIL32.DLL 5.0.0.38**
+  and a temporary MiniReg helper. The subsequent nested review decoded all 29
+  BDEFILES records, including core BDE **5.1.1.1** and DBCLIENT **5.0.1.32**.
+  Exact distribution/registration terms remain unresolved. Extraction did not
+  register a component or establish dependency compatibility.
+
+Exact hashes, member inventories and helper/variant differences are in the
+[extraction evidence](archive/evidence/installer-static-extraction-2026-10-17.json).
+No local user/company review or shared distribution approval was created.
+
+The [nested BDE/version/licence follow-up](migrations/application-migration-review.md#nested-bde-and-versionlicence-reconciliation-2026-10-17)
+rehashes the retained MiTeC product pages and separates the software EULA from
+the component/class licence. Named-user/build-machine, team and site scope must
+match the applicable product agreement; component development rights are not
+blanket app redistribution rights. Historical free-use statements and current
+terms remain exact-product questions, not automatic permission for shared kits.
+
+Embarcadero's [software licence requirements](https://docwiki.embarcadero.com/RADStudio/Sydney/en/Software_License_Requirements)
+point to version-specific DEPLOY/README and product agreements, plus separate
+vendor terms. Search-indexed official guidance was readable, but direct requests
+to that page and two related BDE guides returned HTTP 403. It does not establish
+rights for these exact BDE or DFM BPL bytes. Preserve that access limitation and
+obtain the applicable publisher-supplied documents before distribution review.
+Phoenix's fresh freeware page does not explicitly replace its retained EULA;
+OpenSSL/UPX upstream references likewise do not resolve surrounding-product grants.
+
+The [Phoenix/Explorer Suite follow-up](archive/evidence/ntcore-phoenix-suite-version-license-follow-up-2026-10-17.json)
+confirms that NTCore's currently linked Explorer Suite download publishes the
+same SHA-256 as the retained installer, whose embedded product label is IV; the
+page still says III (18/11/2012), and the reviewed monthly archive pages contain
+no later suite release clarification. The Suite page describes freeware, while
+its retained readme says free software without warranty; neither reviewed source
+states a separate redistribution grant. Phoenix's page describes the application
+as freeware, but its bundled single-user development/testing EULA remains in the
+retained MSI and no superseding notice was found. These findings are not an
+individual or company use assessment, distribution approval, or license-key
+review. Preserve the exact product/component terms and request clarification
+before admitting either bundle to a shared distribution.
+
 This is a maintained review list, not a complete license inventory or a shared
 approval. Add products when review finds personal-only terms, enterprise or
 technician editions, restricted drivers, paid-engagement restrictions or
@@ -33,6 +108,12 @@ publisher terms before deployment and at release preparation; retain supplied
 notices and assess redistribution independently from internal use.
 
 ## Shared publisher metadata
+
+The accepted [shared-installer rule](migrations/package-deployment-decisions.md#shared-installers-and-licence-tiers)
+keeps one package when only entitlement changes. Installation and adoption must
+preserve activation and settings; activation is a separate optional action.
+Do not mistake this model for redistribution permission or evidence that all
+publisher editions have identical artifacts.
 
 Every package and standalone artifact in the built-in catalog declares:
 

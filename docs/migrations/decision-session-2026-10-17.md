@@ -7,6 +7,14 @@ The [question register](remaining-migrations-follow-up.md#questions-for-the-user
 and [approved deployment model](package-deployment-decisions.md) retain context.
 Unanswered recommendations remain proposals.
 
+Archive reconciliation, 2026-10-17: the broad policy pass is complete; later
+entries supersede earlier remaining-choice snapshots. Profile composition and
+BitLocker/recovery test setup are explicitly deferred. No new general approval
+question arose from the final artifact review. The [current handoff](remaining-migrations-follow-up.md#archive-handoff-and-closure-order-2026-10-17)
+and [application dispositions](application-review-rounds-2026-10-12.md#current-dispositions-2026-10-17)
+identify implementation and acceptance work. Continue this ledger for concrete
+exceptions and new explicit user answers; do not reopen accepted Q01-Q31 policy.
+
 The [shared-installer and licence-tier rule](#shared-installers-and-licence-tiers)
 clarifies earlier edition-selection decisions, including TMOG and other products:
 a feature entitlement alone does not create a separate deployment variant.
@@ -128,7 +136,7 @@ distribution-rights approval, network acquisition or installation is authorized 
 this discussion. Existing local license-review ownership remains unchanged.
 
 See [planned local-repository acquisition](../MIGRATION-PLAN.md) and
-[offline bundle status](../package-licensing.md#optional-future-offline-bundles).
+[offline bundle status](../package-licensing.md#requested-offline-bundles).
 This records workflow intent only; no kit was built and no native acceptance or
 legacy-outcome closure is claimed.
 

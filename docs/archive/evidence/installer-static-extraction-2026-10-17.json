@@ -1,0 +1,2389 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "Scope": "Static extraction of six previously opaque pinned installers; supersedes outer-payload blockers in remaining-collection-batches-2026-10-17.json only",
+  "Tool": {
+    "Name": "innoextract",
+    "Version": "1.9",
+    "Uri": "https://constexpr.org/innoextract/files/innoextract-1.9-windows.zip",
+    "DocumentationUri": "https://constexpr.org/innoextract/innoextract.1",
+    "License": "zlib/libpng; bundled dependency notices retained",
+    "ArchiveSha256": "6989342c9b026a00a72a38f23b62a8e6a22cc5de69805cf47d68ac2fec993065",
+    "ExecutableSha256": "946bd06d8b3722a791fea4d84f496139eef6faef61640924cb72f5f1998a68e1",
+    "PublishedMd5Matched": true,
+    "DetachedSignatureValid": true,
+    "KeyFingerprint": "ADE9653703D4ADE0E997758128555A66D7E1DEC9",
+    "KeySource": "https://constexpr.org/dscharrer.asc",
+    "TrustScope": "Cryptographic signature validated against publisher HTTPS key; no independent web-of-trust certification claimed",
+    "PortableLocalOnly": true,
+    "InstalledSystemWide": false,
+    "ExecutedAtOrdinaryUserPrivilege": true
+  },
+  "Extraction": {
+    "InstallerCount": 6,
+    "Succeeded": 6,
+    "OpaqueOuterInstallers": 0,
+    "OuterPayloadFiles": 85,
+    "NestedZipFiles": 14,
+    "NestedMsiCabinetFiles": 20,
+    "AdditionalOpaqueResources": 1,
+    "OuterPeFiles": 27,
+    "UnknownVersionsRefused": true,
+    "PathsPrevalidated": true,
+    "ExtractAndTest": true,
+    "InternalChecksum": "SHA-1 from installer, verified by extractor and independent file rehash; SHA-256 inventory also recorded",
+    "CollisionPolicy": "error for MiTeC; initial Explorer Suite collision refused, then rename-all after review; no variant overwrite",
+    "TemporaryInstallerHelpersRetainedAsData": true,
+    "AllSixInputPinsUnchanged": true
+  },
+  "Products": [
+    {
+      "Installer": "InfoBar_Setup.exe",
+      "Sha256": "6808673eb693870150e06b650e27b89785c8a21a01b2b067891685563e549a3a",
+      "Format": "Inno Setup",
+      "Listing": "InfoBar_Setup.exe.list.txt",
+      "CollisionMode": "error",
+      "ExtractAndTestExitCode": 0,
+      "Members": [
+        {
+          "Path": "app/InfoBar64.exe",
+          "Length": 6492160,
+          "Sha256": "b3887cd91ca424adfa4bb0a6ee7ed71828bdf0af63761148b4efa872bd07a438",
+          "InstallerSha1": "4db36e29c89fdbcb6c02930953fe75d62961552a",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "8664",
+            "FileVersion": "4.6.2.0",
+            "ProductVersion": "4.0.0.0",
+            "Company": "MiTeC"
+          }
+        },
+        {
+          "Path": "app/InfoBar.exe",
+          "Length": 4590080,
+          "Sha256": "55ce47b7c1f304847dcbada41ba9ba7cede707783958a92951cc1394b5ac0024",
+          "InstallerSha1": "20a5b62f518d874e9f1976fe9f190667188695b1",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "014c",
+            "FileVersion": "4.6.2.0",
+            "ProductVersion": "4.0.0.0",
+            "Company": "MiTeC"
+          }
+        },
+        {
+          "Path": "app/InfoBar.cs.dat",
+          "Length": 4549,
+          "Sha256": "900946afdbd47c51858d9a050ba83b3245c7db1994c3701311d85fdbc086e5f3",
+          "InstallerSha1": "36ccdb297de8be5f1ad469d605780b9d4a611643",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/InfoBar.en.lng",
+          "Length": 21871,
+          "Sha256": "1762b18bedd02cb05a97bb49e3de2175cb26f38ad9d55fb9088fcd1715c31e82",
+          "InstallerSha1": "5e1b2c5fddc85de99523427384f549923f8deb4a",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/InfoBar.de.lng",
+          "Length": 21025,
+          "Sha256": "097479aa865780ec1d351a102c1a21a2048f0f51f4a3531546f5677b1a15289d",
+          "InstallerSha1": "e5b6ec13332f4c742f24c19b8ed0151dadda189f",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/InfoBar.cs.lng",
+          "Length": 22381,
+          "Sha256": "2dd18627ea04f1602249ffdc199f24183e07b2607cb21b1d29a420548d75f241",
+          "InstallerSha1": "8664aa20e1913537dd92e27e04f1107d9446b917",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/InfoBar.it.lng",
+          "Length": 8984,
+          "Sha256": "0b1c3cdcfd89bc76e59449cedc0c06691c11fc31dd8bf5a9f2fb1e5f19b28a2f",
+          "InstallerSha1": "096bf2c6f4b632fbc0149d5f3b46b5b7ef12d064",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/InfoBar.es.lng",
+          "Length": 388,
+          "Sha256": "24094be319d2b9298b7d51f76c06730115ca0b494b73f4710e798abe8040606f",
+          "InstallerSha1": "09d1d06841bc07a56abfb06f06f33ab1a779ebdf",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/InfoBar.zh-cn.lng",
+          "Length": 21379,
+          "Sha256": "9d7f830f8a815b683b97fbd9b79fdebb5ce6ab316134dfee1a3f9a7efffc8653",
+          "InstallerSha1": "c603f67d9268d48e0e556b92d2862b44cf486594",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/InfoBar.zh.lng",
+          "Length": 312,
+          "Sha256": "f4f9613e2df563eb154d398abcca0549d5758835d90882f5606a124eaa78d91e",
+          "InstallerSha1": "66553e751443227fa0580ed3076b3a8e2bfbe616",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/InfoBar.ru.lng",
+          "Length": 15709,
+          "Sha256": "20c84c45fbfa36e4eaef7c4dcd899a258de924cdd3dc044ab781ff8fb00dd653",
+          "InstallerSha1": "f3c68868503f47e1c53d1c8abbe0a8b9aaf6f0a2",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/InfoBar.fr.lng",
+          "Length": 22341,
+          "Sha256": "d84fbe0869fa677153c7b870e58b06d9ec65dc50512cff55db7274bc9b9a18ee",
+          "InstallerSha1": "56eb3df041ab8dd6bd07904dc019563e25735173",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/InfoBar.si.lng",
+          "Length": 22939,
+          "Sha256": "25ff41731c958f2e87ac3fabfc2fb67fce9d6e5b57c29d45d739b43241c9f66c",
+          "InstallerSha1": "0f473f83bdbdf883e2f42b65a6432dcd340ae363",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/InfoBar.bg.lng",
+          "Length": 12890,
+          "Sha256": "e72a4b1ba294e96c675ab5c05837c818c005866ae3354ceeda1e052e40be7775",
+          "InstallerSha1": "96548b3794facf0bad13a8e2649b822f5b0a4a89",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/InfoBar.el.lng",
+          "Length": 28929,
+          "Sha256": "4e678cda0ad98ad8e78c8420f1c14c662844f9049ec871862556151ed2b914e2",
+          "InstallerSha1": "e1628c11481edba7cab426398334d2897d67bd47",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/InfoBar.zh-tc.lng",
+          "Length": 21866,
+          "Sha256": "95ad4256cc81cd6303f31c2c69393de7b9b928cdab3fc8eb73c8eeb6a7182bb7",
+          "InstallerSha1": "3e3ba7ea75ac262cd838e5b414017898e3d2b5db",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/Localization.txt",
+          "Length": 467,
+          "Sha256": "bbc0169c4c93cff9eb8b99b3a033ba5b8bb7772be9e3c854f27d5156f78dea35",
+          "InstallerSha1": "0745e578a09f5f8e0bdb1eded1d42bae1d37013a",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/DeskExp.exe",
+          "Length": 2720608,
+          "Sha256": "f4709ae8278798424067c525b36e143d8ba489cc62b48f6a6375903fd3982075",
+          "InstallerSha1": "2c6cf83a86268dd7959750ef0f4353e4df443c2b",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "014c",
+            "FileVersion": "1.4.0.0",
+            "ProductVersion": "1.0.0.0",
+            "Company": "MiTeC"
+          }
+        },
+        {
+          "Path": "app/DeskExp64.exe",
+          "Length": 3854352,
+          "Sha256": "6408f98e8acc117f061bfc5491540162b30d97495697c47d58a105a3d2d48cb0",
+          "InstallerSha1": "85375365fb4b4f1327e217d5600bd7058f384ba9",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "8664",
+            "FileVersion": "1.4.0.0",
+            "ProductVersion": "1.0.0.0",
+            "Company": "MiTeC"
+          }
+        },
+        {
+          "Path": "app/DeskExp.cs.lng",
+          "Length": 1468,
+          "Sha256": "a77b12d69682ad912d9e47b140509e457800f104c508be0a26397603c55a51d4",
+          "InstallerSha1": "c05492f31fef137f321f1a02e082366b11b03d56",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/DeskExp.de.lng",
+          "Length": 936,
+          "Sha256": "7ef1b009181d3c391d8b2c25669141cea496d62f7be42a5af75c6cfe04a6eaff",
+          "InstallerSha1": "c8cd912b88cc72675ebac8203515f93560f17076",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/DeskExp.en.lng",
+          "Length": 1513,
+          "Sha256": "48c2e570bb43f7ea6deb48918aaecdeae0c6fe764fa5a89191f09e2f49888f8c",
+          "InstallerSha1": "b70eca8571e5465e4188cb95eb7a5a0d77f7fe4e",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/DeskExp.es.lng",
+          "Length": 897,
+          "Sha256": "19baaf2b5c5e62d86b546e12bd2ddc3ba06629cc7381e733089b002baa65b1f2",
+          "InstallerSha1": "38d58cb971efae121f563a3149e43e8b4215f1cc",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/DeskExp.it.lng",
+          "Length": 1121,
+          "Sha256": "0b86da5c449106d0530cd993d5197921af163f015ea75bc7bd2b8a2cb11d5069",
+          "InstallerSha1": "c8ea5aa90648f42d8f7f818512dd2edc0d41207f",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/DeskExp.ru.lng",
+          "Length": 1286,
+          "Sha256": "1b8f68c94f6d1a3eb54864fafccb3d8e524b53a7af60155aba22f13f9e8bf5cc",
+          "InstallerSha1": "2e22e6786dc1d4c0fa6dddbad1e725790b809492",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/DeskExp.si.lng",
+          "Length": 1587,
+          "Sha256": "13d52860b9c6ed3f6e70caa4c17536fc784c4599c44f9dab0a6e75c8023e16c4",
+          "InstallerSha1": "acddb9fa86ca41e5cc6d32c77a5c9fc15d910ab9",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/DeskExp.zh.lng",
+          "Length": 910,
+          "Sha256": "486e35432f67941442c3263667a23aa069888daef8c65a0f640046dd9c48ad54",
+          "InstallerSha1": "33cd273704cb485c339a3270d8bb8f6112237c31",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/DeskExp.zh-cn.lng",
+          "Length": 1465,
+          "Sha256": "6243d400407afb6aff12253f059f01033bbf6a4a83d27c760444b6dd7efff8ed",
+          "InstallerSha1": "23ede82f901af19de3bb3aeea355f8f8357eba15",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/DeskExp.zh-tc.lng",
+          "Length": 1522,
+          "Sha256": "b11d3bbe7653d5a9474d6860a19f6d6c5e9ec5795e18cf0169aad93f0ed3d83b",
+          "InstallerSha1": "a967d007ca2758efefedc5b6eff33eae4797c1fa",
+          "Temporary": false,
+          "Pe": null
+        }
+      ],
+      "InstallerOrPayloadExecuted": false,
+      "NativeAcceptance": false,
+      "Review": [
+        "InfoBar x86/x64 4.6.2.0, DeskExp x86/x64 1.4.0.0; 29 files including language/data assets",
+        "DeskExp differs from TMX 2.0.0.0 helper; do not share ownership by filename. Startup, desktop/UI, service/API behavior and exact recovery remain unverified"
+      ]
+    },
+    {
+      "Installer": "PDESetup.exe",
+      "Sha256": "cc2fce64612324bd8f0318ec848da78bd5e9aca2a46ed269db343d635c89f045",
+      "Format": "Inno Setup",
+      "Listing": "PDESetup.exe.list.txt",
+      "CollisionMode": "error",
+      "ExtractAndTestExitCode": 0,
+      "Members": [
+        {
+          "Path": "tmp/MiniReg.exe",
+          "Length": 13312,
+          "Sha256": "42d21cd5fcd0f4b791c6ecdf10542293b4b800d20409d70063083a60cf680338",
+          "InstallerSha1": "606a7917bbd8511d60eab5372fd40e468c624e58",
+          "Temporary": true,
+          "Pe": {
+            "Machine": "014c",
+            "FileVersion": null,
+            "ProductVersion": null,
+            "Company": null
+          }
+        },
+        {
+          "Path": "tmp/BdeInst.dll",
+          "Length": 3853824,
+          "Sha256": "c3a55498c8f2b0c685c6279e18b016576a60fd2a1b985e0063cec8bf7727e976",
+          "InstallerSha1": "ff05bcb8502f5bee417cc5ccb6400547d4599266",
+          "Temporary": true,
+          "Pe": {
+            "Machine": "014c",
+            "FileVersion": "5.1.1.1",
+            "ProductVersion": "",
+            "Company": "Inprise Corporation"
+          }
+        },
+        {
+          "Path": "app/TUTIL32.DLL",
+          "Length": 244984,
+          "Sha256": "fa003ae81725e11564217457c522cce1f0c9bb9e3a781d1c4a7e58ce7806bc0d",
+          "InstallerSha1": "2643b96a06c09cda1f38ef25149ee3ffa17e3c40",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "014c",
+            "FileVersion": "5.0.0.38",
+            "ProductVersion": "",
+            "Company": "Borland International"
+          }
+        },
+        {
+          "Path": "app/PDE.exe",
+          "Length": 2811336,
+          "Sha256": "6243d4d73e8d43dd2d4dd7dc3ef761d7c23581ee7f3d047699d894b01bc022d6",
+          "InstallerSha1": "93e3de965986da0463fae596cb6ae7042bd18e71",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "014c",
+            "FileVersion": "3.7.0.0",
+            "ProductVersion": "3.0.0.0",
+            "Company": "MiTeC"
+          }
+        }
+      ],
+      "InstallerOrPayloadExecuted": false,
+      "NativeAcceptance": false,
+      "Review": [
+        "PDE x86 3.7.0.0, TUTIL32.DLL 5.0.0.38, temporary MiniReg.exe and BdeInst.dll 5.1.1.1",
+        "BDEFILES resource remains opaque to 7-Zip after exact resource extraction; nested BDE contents, redistribution, registry/service ownership and supported client behavior unresolved. No DLL registration/loader invoked"
+      ]
+    },
+    {
+      "Installer": "PMInstall.exe",
+      "Sha256": "ee2a74e34c0c0ad97c58163b2f4f114876252317cb52fffbf9fa11e2afe13419",
+      "Format": "Inno Setup",
+      "Listing": "PMInstall.exe.list.txt",
+      "CollisionMode": "error",
+      "ExtractAndTestExitCode": 0,
+      "Members": [
+        {
+          "Path": "app/ProjectMaker.exe",
+          "Length": 4163544,
+          "Sha256": "27227645e9034de09deda22c574d5d6e4254aa72a17b2f0c37b5929c0045ad7a",
+          "InstallerSha1": "ac44587b64869e433b10fc8d5e87702f756b71f3",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "014c",
+            "FileVersion": "1.9.0.0",
+            "ProductVersion": "1.0.0.0",
+            "Company": "MiTeC"
+          }
+        },
+        {
+          "Path": "app/ProjectMaker64.exe",
+          "Length": 5548616,
+          "Sha256": "bebeccf4de08e71ee9043acbb90d1aed89d1a22e33762c31b4ad99198083d920",
+          "InstallerSha1": "0d80994a3f514ed03c044a610803e81f697ddfaa",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "8664",
+            "FileVersion": "1.9.0.0",
+            "ProductVersion": "1.0.0.0",
+            "Company": "MiTeC"
+          }
+        },
+        {
+          "Path": "app/ProjectMaker.chm",
+          "Length": 578007,
+          "Sha256": "26384546d2a0f2dbeb459efdf12ff80b142c99593f706ac2ae06b1d38e23c38d",
+          "InstallerSha1": "b1ca28ed1ec7b6b988dacb003afa0c1980b3342b",
+          "Temporary": false,
+          "Pe": null
+        }
+      ],
+      "InstallerOrPayloadExecuted": false,
+      "NativeAcceptance": false,
+      "Review": [
+        "Both ProjectMaker executables are 1.9.0.0; CHM retained. Current page 2.0.0 and payload 1.9.0.0 disagree",
+        "Do not advertise/install this pin as 2.0.0. Publisher version reconciliation, build/compiler integrations, synthetic signing keys and recovery remain"
+      ]
+    },
+    {
+      "Installer": "WA_Setup.exe",
+      "Sha256": "1817767092b85cf2bd843c29747eb8787277f3044962a1169eeff50668831c4e",
+      "Format": "Inno Setup",
+      "Listing": "WA_Setup.exe.list.txt",
+      "CollisionMode": "error",
+      "ExtractAndTestExitCode": 0,
+      "Members": [
+        {
+          "Path": "app/WeatherAgent.EXE",
+          "Length": 4559704,
+          "Sha256": "0563922c21c12597bcff7404ba1f33c37f154a46e57f28f561af7e288c83fc51",
+          "InstallerSha1": "b59a33fcdf36c73184912c8e31ed1c2807b543ee",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "014c",
+            "FileVersion": "3.6.0.0",
+            "ProductVersion": "3.0.0.0",
+            "Company": "MiTeC"
+          }
+        },
+        {
+          "Path": "app/WeatherAgent.cs.dat",
+          "Length": 4549,
+          "Sha256": "900946afdbd47c51858d9a050ba83b3245c7db1994c3701311d85fdbc086e5f3",
+          "InstallerSha1": "36ccdb297de8be5f1ad469d605780b9d4a611643",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/WeatherAgent.en.lng",
+          "Length": 3629,
+          "Sha256": "26504a4c95f7870646ec8a4b1b201cb2e4e77cd42181ace2fe05e8dabcd15a26",
+          "InstallerSha1": "d37c497e22301b0a970f86de795f85a5bf00b0e2",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/WeatherAgent.cs.lng",
+          "Length": 3709,
+          "Sha256": "917c551198cc9cf16bf7480cd48b3fa9f001579d195d22051f756d21671261ff",
+          "InstallerSha1": "02f3eb3a89581a5c98accfa78eff25e40c9a5fcb",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/WeatherAgent.el.lng",
+          "Length": 8359,
+          "Sha256": "1a5ea38279b041068d97878605371702ca2b2236f3d25332af6e4eb70f7045b8",
+          "InstallerSha1": "5f5198e55a0b2ed532fd73adec59c9a2efc12f65",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/WeatherAgent.de.lng",
+          "Length": 3684,
+          "Sha256": "8a88a4fa6d345a330b469c7ec6b7d6148687c1760a75c0a96eaa8ef48a1d8d88",
+          "InstallerSha1": "9809cd72645e4306ea2d438729d8e1e4feb7b54f",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/WeatherAgent.fr.lng",
+          "Length": 3618,
+          "Sha256": "b46a672b384eb12c2246d0971cf646eb164eac780ef4921bfd83bd729f217709",
+          "InstallerSha1": "89685a3b5c6586707b0e9c4357f68fcc53da3216",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/WeatherAgent.it.lng",
+          "Length": 1533,
+          "Sha256": "e507c45dcac02abc0b71004833f1fec1de4c7b0e686053c22eabbdf660918ec3",
+          "InstallerSha1": "1c8891580d73522d20814ebe7acc2a86c3b2ec85",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/WeatherAgent.si.lng",
+          "Length": 3489,
+          "Sha256": "7e8a2911552cd20348075f6b6d1dd8c7ca23973e658b5b62f80584120f897ae6",
+          "InstallerSha1": "26cdc69e82c1238223c4e21417c91db52d399789",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/Localization.txt",
+          "Length": 477,
+          "Sha256": "aa629c97faf75c3a499d125ea4e59a6894c40eff5fdcf2ed138c0d8e60c8d84e",
+          "InstallerSha1": "b0ae39d033238c09535ec9a17a11f8f77ea3c3f6",
+          "Temporary": false,
+          "Pe": null
+        }
+      ],
+      "InstallerOrPayloadExecuted": false,
+      "NativeAcceptance": false,
+      "Review": [
+        "WeatherAgent x86 3.6.0.0 with data, seven language files and localization guidance",
+        "API/service availability, configuration, startup and functional acceptance remain; no service calls or keys used"
+      ]
+    },
+    {
+      "Installer": "MAILCHECKER_Instal.exe",
+      "Sha256": "da47910bf3eab1efabb6fc7200a6bdfc394c17a24dfb236b0aafb220967c8ce0",
+      "Format": "Inno Setup",
+      "Listing": "MAILCHECKER_Instal.exe.list.txt",
+      "CollisionMode": "error",
+      "ExtractAndTestExitCode": 0,
+      "Members": [
+        {
+          "Path": "app/MAILCHECKER.EXE",
+          "Length": 1222656,
+          "Sha256": "9104f5e92ba0cb0333cc5312fd6e97b944d9ee2da91771b99e19e47ba9d5167f",
+          "InstallerSha1": "8dbe41485e144486a3406c1b094b3254e22a6732",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "014c",
+            "FileVersion": "7.2.0.0",
+            "ProductVersion": "7.0.0.0",
+            "Company": "MiTeC"
+          }
+        },
+        {
+          "Path": "app/MailChecker.cs.lng",
+          "Length": 8997,
+          "Sha256": "6ec3fde609d430a20f27a4441338654627f0fe19ba9cec3104a95c1020d74289",
+          "InstallerSha1": "c92ffc47dfe1b093264992e6b9becbbe83fadee9",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/MailChecker.en.lng",
+          "Length": 8823,
+          "Sha256": "eef3afcafa2fa7bbe9271d4272ab45deff61d618587e1bdb5e91a2a8d44b652e",
+          "InstallerSha1": "e3a68e31262ce1e965728356808873829b990d59",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/MailChecker.du.lng",
+          "Length": 9458,
+          "Sha256": "d693974094a716f1069f803f7b4c073c23aef95aa8d1c41d28b6bd6ecaf6c5b5",
+          "InstallerSha1": "d35203e1aa70b6040e7c8dc3e3cadcf0f5103f66",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/MailChecker.el.lng",
+          "Length": 14160,
+          "Sha256": "bd59ba88b5cfa38f4ecec55ff7331c427380cb335e41e3ab6ce45363b11147c2",
+          "InstallerSha1": "3c25df0afd477a9dabfd07ff376018117aa25171",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/MailChecker.it.lng",
+          "Length": 9358,
+          "Sha256": "fb761af26201826e2f5520b293ea69f12a40f9340f558fc14c6fee9c12b63154",
+          "InstallerSha1": "9a783b2b8686be2d824bd8f7f412664108aaf879",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/MailChecker.pl.lng",
+          "Length": 9449,
+          "Sha256": "f4fdbf09b1df76332474718cdad71616e7c7dd35fa2d6cf3085a38c67c116fc5",
+          "InstallerSha1": "bb6b22f63e64e7dc34ef82abc968f56c5307e32d",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/libeay32.dll",
+          "Length": 1178624,
+          "Sha256": "b2f7887ae0bd418724eb32d3449197551a0895f2c764a933a7bd984f187eab78",
+          "InstallerSha1": "38c830cbe05d4ef7a193bbf754a521c8f7a185c5",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "014c",
+            "FileVersion": "1.0.1e",
+            "ProductVersion": "1.0.1e",
+            "Company": "The OpenSSL Project, http://www.openssl.org/"
+          }
+        },
+        {
+          "Path": "app/libssl32.dll",
+          "Length": 269824,
+          "Sha256": "1e6fb714037d30a6809ac7d1a46f63a8bb858bf33c97afaa3dda0d42c337ddec",
+          "InstallerSha1": "e89a16dfcea27e5528c4781a2140cb57dc40cd61",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "014c",
+            "FileVersion": "1.0.1e",
+            "ProductVersion": "1.0.1e",
+            "Company": "The OpenSSL Project, http://www.openssl.org/"
+          }
+        },
+        {
+          "Path": "app/ssleay32.dll",
+          "Length": 269824,
+          "Sha256": "1e6fb714037d30a6809ac7d1a46f63a8bb858bf33c97afaa3dda0d42c337ddec",
+          "InstallerSha1": "e89a16dfcea27e5528c4781a2140cb57dc40cd61",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "014c",
+            "FileVersion": "1.0.1e",
+            "ProductVersion": "1.0.1e",
+            "Company": "The OpenSSL Project, http://www.openssl.org/"
+          }
+        },
+        {
+          "Path": "app/Localization.txt",
+          "Length": 476,
+          "Sha256": "27c01db5ab19f8ffc10ae6a93241db1653960eb7a54c9e0fb62b81640baac102",
+          "InstallerSha1": "6f25c2a21a386744ac5f502abdb2d585cb378f7f",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/sample.csv",
+          "Length": 160,
+          "Sha256": "d669906ba1bdf947df5f658095d06ea62f9b4a8dad2e37f408b11edb0f34bb9c",
+          "InstallerSha1": "8b79d35c23a61176cefe4aac755ac4781a9c6c60",
+          "Temporary": false,
+          "Pe": null
+        }
+      ],
+      "InstallerOrPayloadExecuted": false,
+      "NativeAcceptance": false,
+      "Review": [
+        "MailChecker x86 7.2.0.0; three OpenSSL-identified 1.0.1e DLLs; libssl32.dll and ssleay32.dll are byte-identical; six language files, localization and sample CSV retained",
+        "Exact legacy OpenSSL/SSLeay notices and binary provenance require review; do not infer modern TLS support or substitute DLLs blindly. Isolated mail-server/credential fixtures and send/delete recovery remain. Sample contents are not published"
+      ]
+    },
+    {
+      "Installer": "ExplorerSuite.exe",
+      "Sha256": "94f4348ec573b05990b1e19542986e46dc30a87870739f5d5430b60072d5144d",
+      "Format": "Inno Setup",
+      "Listing": "ExplorerSuite.exe.rename-all.list.txt",
+      "CollisionMode": "rename-all",
+      "ExtractAndTestExitCode": 0,
+      "Members": [
+        {
+          "Path": "app/CFF Explorer.exe$0",
+          "Length": 3521536,
+          "Sha256": "238941c4b0f800cdaefb8c56e1b9f0849841c9cd93bb2d6fb4c2d726ba7bf34d",
+          "InstallerSha1": "0bb93b2a8a9b677578cb1cac47e39678d9f6b67e",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "8664",
+            "FileVersion": "8.0.0.0",
+            "ProductVersion": "8.0.0.0",
+            "Company": "Daniel Pistelli"
+          }
+        },
+        {
+          "Path": "app/CFF Explorer.exe$1",
+          "Length": 2803712,
+          "Sha256": "0f01ca5385bca26ddfb7d335e84d2377d58063290ad8c2f9eef66ca1666e3b5d",
+          "InstallerSha1": "026f66def6d485c64f86694ed4098104c0906395",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "014c",
+            "FileVersion": "8.0.0.0",
+            "ProductVersion": "8.0.0.0",
+            "Company": "Daniel Pistelli"
+          }
+        },
+        {
+          "Path": "app/Task Explorer-x64.exe",
+          "Length": 1014272,
+          "Sha256": "867236f146ebc3b66733f242e717dab3e61128c16bb968deb63109da0caccefd",
+          "InstallerSha1": "0961432611f67d773ba144bd1eb298828f2e89ec",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "8664",
+            "FileVersion": "2.2.0.1",
+            "ProductVersion": "2.2.0.1",
+            "Company": "Daniel Pistelli"
+          }
+        },
+        {
+          "Path": "app/Task Explorer.exe",
+          "Length": 780800,
+          "Sha256": "42d09c4a2a13e8498199d775f51150bc10141dbaea04ad32289240aba12b04d2",
+          "InstallerSha1": "1c2bf3d828f1c43cd2b3255a13751d101ef5465a",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "014c",
+            "FileVersion": "2.2.0.1",
+            "ProductVersion": "2.2.0.1",
+            "Company": "Daniel Pistelli"
+          }
+        },
+        {
+          "Path": "app/Signature Explorer.exe",
+          "Length": 597504,
+          "Sha256": "7eccf01d2d12e409e51e7be2618d499f876623aec03dbdb484657eda374c9584",
+          "InstallerSha1": "9a2ae4b06e428d1d01eab913b220e996663dba5c",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "014c",
+            "FileVersion": "2.0.0.0",
+            "ProductVersion": "2.0.0.0",
+            "Company": "Daniel Pistelli"
+          }
+        },
+        {
+          "Path": "app/PE Detective.exe$0",
+          "Length": 897024,
+          "Sha256": "3eb43ab5bca1eff1be363188f8354d22436b8c57d42a6ee6c202320d2a78183f",
+          "InstallerSha1": "007d1693b1dcddeff1c1905576179293b219ad56",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "8664",
+            "FileVersion": "1.2.1.1",
+            "ProductVersion": "1.2.1.1",
+            "Company": "Daniel Pistelli"
+          }
+        },
+        {
+          "Path": "app/PE Detective.exe$1",
+          "Length": 744960,
+          "Sha256": "e2217d21fb48eee1fee3688a8e8f9b54ec68fefa3777c9c135b94b0f8d661c1d",
+          "InstallerSha1": "74977b5dfd701f281ff0d52ec70bf2459ed0bfd8",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "014c",
+            "FileVersion": "1.2.1.1",
+            "ProductVersion": "1.2.1.1",
+            "Company": "Daniel Pistelli"
+          }
+        },
+        {
+          "Path": "app/Tools/DriverList.exe$0",
+          "Length": 81920,
+          "Sha256": "de90b5c29c0c1438c728b98252ba7a9e4e26a06913c575e8c44faba36ea4babf",
+          "InstallerSha1": "db5caf29c42e4949f6f7369b02e9f30c2e8d715e",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "8664",
+            "FileVersion": "1, 0, 2, 1",
+            "ProductVersion": "1, 0, 2, 1",
+            "Company": "Daniel Pistelli"
+          }
+        },
+        {
+          "Path": "app/Tools/DriverList.exe$1",
+          "Length": 76800,
+          "Sha256": "2daef3855fc3ab60a3f671ebbd52f493870a494486d57c4b99a112cdbd651e4f",
+          "InstallerSha1": "0ffb3a5a329c25e7859b0fd0aabc30d75db56ea4",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "014c",
+            "FileVersion": "1, 0, 2, 1",
+            "ProductVersion": "1, 0, 2, 1",
+            "Company": "Daniel Pistelli"
+          }
+        },
+        {
+          "Path": "app/Extensions/CFF Explorer/UPX Utility/UPX Utility.dll$0",
+          "Length": 76800,
+          "Sha256": "c7cf4e0c42f56b7bfbe8f0b5d9328366a235df16e94c958dd897bdc4d7f0a5bd",
+          "InstallerSha1": "eebc3cc6165ee9111c1df3d6a193c4c4b7a2a1c7",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "8664",
+            "FileVersion": "1, 0, 0, 1",
+            "ProductVersion": "1, 0, 0, 1",
+            "Company": "Daniel Pistelli"
+          }
+        },
+        {
+          "Path": "app/Extensions/CFF Explorer/UPX Utility/UPX Utility.dll$1",
+          "Length": 79360,
+          "Sha256": "c3657dad7f0fba5914ec749fe8427efa0d56ea3bc12d3b661febab3e2aa61e8f",
+          "InstallerSha1": "d957d7e545701656a0533df2f4ddc4a86e29f2a5",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "014c",
+            "FileVersion": "1, 0, 0, 1",
+            "ProductVersion": "1, 0, 0, 1",
+            "Company": "Daniel Pistelli"
+          }
+        },
+        {
+          "Path": "app/Extensions/CFF Explorer/UPX Utility/upx.exe",
+          "Length": 293888,
+          "Sha256": "4d3d363b5b3dcd9fa516b481c92d62c02aed804318bdc4d5e97a68bb6e6d62db",
+          "InstallerSha1": "d5589ff9d01d8d64669e41161f71e9969ee4204f",
+          "Temporary": false,
+          "Pe": {
+            "Machine": "014c",
+            "FileVersion": "3.08 (2011-12-12)",
+            "ProductVersion": "3.08 (2011-12-12)",
+            "Company": "The UPX Team http://upx.sf.net"
+          }
+        },
+        {
+          "Path": "app/SDK/How-To CFF Extension.pdf",
+          "Length": 273428,
+          "Sha256": "b085d1cdbcb15b6e8e12eb2b8f34d5e900509470bcfd49ab9565663960e2f38a",
+          "InstallerSha1": "0371b23100df3fd5739585473c3718c4bf85e974",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/SDK/CFF Explorer Scripting Language.pdf",
+          "Length": 348774,
+          "Sha256": "588b1e9b691d806ec3a527d9f73ff1a260956769f7f9cc5804bd8e19d09475f5",
+          "InstallerSha1": "36026f8b57b001a9c9f973cc9ac4c321fc982180",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/SDK/Signatures Technical Details.pdf",
+          "Length": 22304,
+          "Sha256": "37e4a7883be617ad2400e67a773ba10c9cb6545d96dd154ff33cfb84f7f6af38",
+          "InstallerSha1": "3fe9689346c71cbe9ecb6da52a51e641857613ff",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/SDK/UPX_Utility.zip",
+          "Length": 162294,
+          "Sha256": "a317ec979ffd4e7dd2353e3224ca977a3d2d1d68f8d92b10407f65c381fae9fe",
+          "InstallerSha1": "b6d4c434ddbee388cff2ccdbebb59b6cec97131f",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/SDK/ExSuiteExtWiz.msi",
+          "Length": 224256,
+          "Sha256": "0ea5e25b12ab314bc9a0569c3ca756f205f40b792119f8e0fc62c874628dfea0",
+          "InstallerSha1": "39be26a9cd049b2732423a7970a5ca8e68ffd89a",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/History.txt",
+          "Length": 4463,
+          "Sha256": "be61cd8fe010a41f0a6cb95f8934894c19735aa67d111e91151d0065b5c237fe",
+          "InstallerSha1": "ed76f4d13f1e87a97042e9b3eecf73f161bba259",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/Readme.txt",
+          "Length": 340,
+          "Sha256": "83fed8895d8e26cd2f845a923a43e545a85712f0ba49d698294d0a226b9a9c62",
+          "InstallerSha1": "cbbb57f60a68e8c281c37e4a95f66d4300a40ad7",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "commondocs/Explorer Suite Signatures/PLATFORM_INDEPENDENT.xml",
+          "Length": 434,
+          "Sha256": "f9c3dea809c8aa1f1f2887dba627ca2197647159b6bcc3c30886f3dbbe2f7a0f",
+          "InstallerSha1": "413e786921b56b35517d10a93968e12277938589",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "commondocs/Explorer Suite Signatures/IMAGE_FILE_MACHINE_AMD64.xml",
+          "Length": 1595,
+          "Sha256": "dc6b4a0d62ea5bc2633a06b172a5d30a0ae2887ae7dbeda474de2ed07d8ec745",
+          "InstallerSha1": "f5b2b328d5550d925c191d5a8083b228508b6c51",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "commondocs/Explorer Suite Signatures/IMAGE_FILE_MACHINE_ARM.xml",
+          "Length": 54,
+          "Sha256": "cb5d1a3d6d93258cc87e732a7d7f8951ac5759a9323c6a16089e47a7a596212d",
+          "InstallerSha1": "055013c87aab2de01fa6ea49a1257539b0ff62c1",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "commondocs/Explorer Suite Signatures/IMAGE_FILE_MACHINE_I386.xml",
+          "Length": 754095,
+          "Sha256": "a2bba36ebc49c9884c2ddd90f8ce0e93e5daaa7e85681c3b0d6d264ce28b4444",
+          "InstallerSha1": "93c4f1d7a2dc4ad29411554b57a5e622454af00a",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "commondocs/Explorer Suite Signatures/IMAGE_FILE_MACHINE_IA64.xml",
+          "Length": 1070,
+          "Sha256": "9cbb58cfcda628b8a6b57cdd6d7381d215cb300580ad15df642450e53b8aa422",
+          "InstallerSha1": "c539bf32b1a14a6c671ff9a2b4ee48888b21429b",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/Scripts/ITReport.cff",
+          "Length": 3863,
+          "Sha256": "f19f1e0736c7a4f5f802acc35d0a20542466c2803479585ded3732a80651c30e",
+          "InstallerSha1": "a6ab8c94283e985e1cc57f78a786199f04752891",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/Scripts/4GBPatch.cff",
+          "Length": 1679,
+          "Sha256": "36edcbb51d4ec9a0924385c0f7253f2ad497f73e014c19b4d8b8507b15698b1b",
+          "InstallerSha1": "647457b4689fba4af46879d7d9319b533847128e",
+          "Temporary": false,
+          "Pe": null
+        },
+        {
+          "Path": "app/Scripts/DotNETTablesReport.cff",
+          "Length": 3200,
+          "Sha256": "1404ac6983290dbbe62feecb92975dcf30aa953e8115600432363b4ed856e39f",
+          "InstallerSha1": "0b6b908993093838514dcc5f96fb0b683ef4b9f9",
+          "Temporary": false,
+          "Pe": null
+        }
+      ],
+      "InstallerOrPayloadExecuted": false,
+      "NativeAcceptance": false,
+      "Review": [
+        "27 outer files retained with rename-all to preserve four duplicate destination pairs; x86/x64 distinguished by PE machine, suffixes are inspection names only",
+        "x86 CFF and both DriverList bytes match prior reviewed copies; PE Detective same-version bytes do not match prior standalone. SDK/source/MSI, common-documents signatures, scripts, UPX notices and suite integration/uninstall remain separately owned; standalone VM acceptance does not cover suite"
+      ]
+    }
+  ],
+  "Nested": {
+    "UpxSourceZip": [
+      {
+        "Path": "UPX Utility/CFFExplorerSDK.h",
+        "Length": 8864,
+        "Sha256": "f6cb656be2d096c1eca152a88828c2b26b75996e16a958ad78c9c948bdc71641",
+        "Pe": null
+      },
+      {
+        "Path": "UPX Utility/Extension.h",
+        "Length": 175,
+        "Sha256": "c6703c784d551d4af9cf22e1c9756d70138bd4058d7c2d1bcdcd11fbf77c9444",
+        "Pe": null
+      },
+      {
+        "Path": "UPX Utility/Itanium/Release/UPX Utility.dll",
+        "Length": 175616,
+        "Sha256": "cecfcbc9b063cd9251ed188a03ec05232dc35e4e76d1720e546d90d612f81ab0",
+        "Pe": {
+          "FileVersion": "1, 0, 0, 1",
+          "Machine": "0200"
+        }
+      },
+      {
+        "Path": "UPX Utility/Redirect.cpp",
+        "Length": 11873,
+        "Sha256": "093a0479c88c3c8ed00d7e9b67035e38b35134c672c8e8cb02522f650b2f77a9",
+        "Pe": null
+      },
+      {
+        "Path": "UPX Utility/Redirect.h",
+        "Length": 1768,
+        "Sha256": "9d6f0748a5f5cbab2efe6cba1eb5bd5de2836d30dda2448cb85e21f9ad0a5aa4",
+        "Pe": null
+      },
+      {
+        "Path": "UPX Utility/Release/UPX Utility.dll",
+        "Length": 86016,
+        "Sha256": "ca74e6c7f8e00d0f61619743c46491b2f62a606476c15d4cd3087233fe364448",
+        "Pe": {
+          "FileVersion": "1, 0, 0, 1",
+          "Machine": "014c"
+        }
+      },
+      {
+        "Path": "UPX Utility/resource.h",
+        "Length": 1190,
+        "Sha256": "a3db8fa71ccc3a9ca77dd673a086a2199f7b44b943d95e59687fc02c9b056522",
+        "Pe": null
+      },
+      {
+        "Path": "UPX Utility/stdafx.cpp",
+        "Length": 299,
+        "Sha256": "a72a2fa43e4622039ec97cb9f5e8483f462faf88dfcd316bc3f98dfdcac7bd11",
+        "Pe": null
+      },
+      {
+        "Path": "UPX Utility/stdafx.h",
+        "Length": 1363,
+        "Sha256": "0b85d5544f737d0a0690cf5669ba46a0f6ff8f0695721baf4492ef655c276aa2",
+        "Pe": null
+      },
+      {
+        "Path": "UPX Utility/UPX Utility.cpp",
+        "Length": 17719,
+        "Sha256": "751c5c49550a8a367feab3ded6d64d1a2ab126479efc8a35d84956eb87fc6098",
+        "Pe": null
+      },
+      {
+        "Path": "UPX Utility/UPX Utility.rc",
+        "Length": 4036,
+        "Sha256": "beedd12a6240fa3bffa5d0649542d46f0bf13051ec03323e108fa101c0ee643a",
+        "Pe": null
+      },
+      {
+        "Path": "UPX Utility/UPX Utility.vcproj",
+        "Length": 8377,
+        "Sha256": "cba25367b0e405d81de42fb8c8466c34c80b8c24cb31d679c996b6e9c88be447",
+        "Pe": null
+      },
+      {
+        "Path": "UPX Utility/x64/Release/UPX Utility.dll",
+        "Length": 84480,
+        "Sha256": "ba2136b7bb1e3ad69af81aec87be415ded1371155c616f352f9621300f4cd350",
+        "Pe": {
+          "FileVersion": "1, 0, 0, 1",
+          "Machine": "8664"
+        }
+      },
+      {
+        "Path": "UPX Utility.sln",
+        "Length": 1654,
+        "Sha256": "960fbe7acb9e4f27e3f052a65768d90670571fcc20f64609c5d509e27b089070",
+        "Pe": null
+      }
+    ],
+    "ExtensionWizardMsi": {
+      "SchemaVersion": 1,
+      "RecordedDate": "2026-10-17",
+      "Product": "ExplorerSuiteExtensionWizard",
+      "DownloadUri": "https://ntcore.com/files/ExplorerSuite.exe",
+      "Sha256": "0ea5e25b12ab314bc9a0569c3ca756f205f40b792119f8e0fc62c874628dfea0",
+      "Length": 224256,
+      "Mode": "WindowsInstaller database opened read-only (0); no install/session/administrative install",
+      "NativeAcceptance": false,
+      "PayloadExecuted": false,
+      "Tables": {
+        "Property": [
+          {
+            "Property": "UpgradeCode",
+            "Value": "{170CAB7D-78DB-46AC-836B-3CCD0FE9E33F}"
+          },
+          {
+            "Property": "ProductName",
+            "Value": "Explorer Suite Extension Wizard"
+          },
+          {
+            "Property": "ProductCode",
+            "Value": "{D35C17BC-044C-4A61-98DD-9ED1D05CE565}"
+          },
+          {
+            "Property": "ProductVersion",
+            "Value": "1.0.0"
+          },
+          {
+            "Property": "Manufacturer",
+            "Value": "Default Company Name"
+          },
+          {
+            "Property": "ARPCONTACT",
+            "Value": "Daniel Pistelli"
+          },
+          {
+            "Property": "ARPCOMMENTS",
+            "Value": "Explorer Suite Extension Wizard"
+          },
+          {
+            "Property": "ProductLanguage",
+            "Value": "1033"
+          },
+          {
+            "Property": "SecureCustomProperties",
+            "Value": "NEWERPRODUCTFOUND"
+          },
+          {
+            "Property": "VSDNETURLMSG",
+            "Value": "This setup requires the .NET Framework version [1].  Please install the .NET Framework and run this setup again.  The .NET Framework can be obtained from the web.  Would you like to do this now?"
+          },
+          {
+            "Property": "VSDIISMSG",
+            "Value": "This setup requires Internet Information Server 4.0 or higher and Windows NT 4.0, Windows 2000 or higher.  This setup cannot be installed on Windows 95, Windows 98, or Windows Me.  Please install Internet Information Server and run this setup again."
+          },
+          {
+            "Property": "VSDUIANDADVERTISED",
+            "Value": "This advertised application will not be installed because it might be unsafe. Contact your administrator to change the installation user interface option of the package to basic."
+          },
+          {
+            "Property": "VSDNETMSG",
+            "Value": "This setup requires the .NET Framework version [1].  Please install the .NET Framework and run this setup again."
+          },
+          {
+            "Property": "VSDINVALIDURLMSG",
+            "Value": "The specified path '[2]' is unavailable. The Internet Information Server might not be running or the path exists and is redirected to another machine. Please check the status of this virtual directory in the Internet Services Manager."
+          },
+          {
+            "Property": "VSDVERSIONMSG",
+            "Value": "Unable to install because a newer version of this product is already installed."
+          },
+          {
+            "Property": "FolderForm_AllUsers",
+            "Value": "ME"
+          },
+          {
+            "Property": "FolderForm_AllUsersVisible",
+            "Value": "1"
+          },
+          {
+            "Property": "MaintenanceForm_Action",
+            "Value": "Repair"
+          },
+          {
+            "Property": "ErrorDialog",
+            "Value": "ErrorDialog"
+          },
+          {
+            "Property": "SFF_UpFldrBtn",
+            "Value": "UpFldrBtn"
+          },
+          {
+            "Property": "SFF_NewFldrBtn",
+            "Value": "NewFldrBtn"
+          },
+          {
+            "Property": "DefaultUIFont",
+            "Value": "VsdDefaultUIFont.524F4245_5254_5341_4C45_534153783400"
+          },
+          {
+            "Property": "AdminMaintenanceForm_Action",
+            "Value": "Repair"
+          },
+          {
+            "Property": "WelcomeForm_NextArgs",
+            "Value": "FolderForm"
+          },
+          {
+            "Property": "FolderForm_PrevArgs",
+            "Value": "WelcomeForm"
+          },
+          {
+            "Property": "FolderForm_NextArgs",
+            "Value": "ConfirmInstallForm"
+          },
+          {
+            "Property": "ConfirmInstallForm_PrevArgs",
+            "Value": "FolderForm"
+          },
+          {
+            "Property": "AdminWelcomeForm_NextArgs",
+            "Value": "AdminFolderForm"
+          },
+          {
+            "Property": "AdminFolderForm_PrevArgs",
+            "Value": "AdminWelcomeForm"
+          },
+          {
+            "Property": "AdminFolderForm_NextArgs",
+            "Value": "AdminConfirmInstallForm"
+          },
+          {
+            "Property": "AdminConfirmInstallForm_PrevArgs",
+            "Value": "AdminFolderForm"
+          }
+        ],
+        "File": [
+          {
+            "File": "_0041CE53AA1F49F3B99D01C9716878B9",
+            "Component_": "C__0041CE53AA1F49F3B99D01C9716878B9",
+            "FileName": "EXPLOR~1.GIF|Explorer Suite Extension_Background.gif",
+            "FileSize": "811",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "1"
+          },
+          {
+            "File": "_21029388216B4E319AB9FF87D77A73E3",
+            "Component_": "C__21029388216B4E319AB9FF87D77A73E3",
+            "FileName": "DOTTED~1.GIF|DottedHori.gif",
+            "FileSize": "43",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "2"
+          },
+          {
+            "File": "_4D802AE0B4A04B7EB3862865D942A849",
+            "Component_": "C__4D802AE0B4A04B7EB3862865D942A849",
+            "FileName": "CFFEXP~1.H|CFFExplorerSDK.h",
+            "FileSize": "8864",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "3"
+          },
+          {
+            "File": "_65762B397A474F9FA7DFB747268194CF",
+            "Component_": "C__65762B397A474F9FA7DFB747268194CF",
+            "FileName": "TEMPLA~1.INF|Templates.inf",
+            "FileSize": "84",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "4"
+          },
+          {
+            "File": "_6997679952A344C7BA15A8D7B2DC1E19",
+            "Component_": "C__6997679952A344C7BA15A8D7B2DC1E19",
+            "FileName": "DEFAULT.JS|default.js",
+            "FileSize": "5511",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "5"
+          },
+          {
+            "File": "_758B9D117BAC42B48EC5580ECE0FDEB8",
+            "Component_": "C__758B9D117BAC42B48EC5580ECE0FDEB8",
+            "FileName": "MAIN.RC|Main.rc",
+            "FileSize": "2104",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "6"
+          },
+          {
+            "File": "_766F814CC2B84BC5A3CA09F664D326FF",
+            "Component_": "C__766F814CC2B84BC5A3CA09F664D326FF",
+            "FileName": "EXTENS~1.H|Extension.h",
+            "FileSize": "175",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "7"
+          },
+          {
+            "File": "_9130D47DEF52472A9B7A07F7351A17C5",
+            "Component_": "C__9130D47DEF52472A9B7A07F7351A17C5",
+            "FileName": "RESOURCE.H|resource.h",
+            "FileSize": "499",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "8"
+          },
+          {
+            "File": "_926C45F04D2F4C87B817CFD0C6093830",
+            "Component_": "C__926C45F04D2F4C87B817CFD0C6093830",
+            "FileName": "NEWSTY~1.CSS|NewStyles.css",
+            "FileSize": "24330",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "9"
+          },
+          {
+            "File": "_9586FA3FB4EB4E8EAB44110AF6C22B20",
+            "Component_": "C__9586FA3FB4EB4E8EAB44110AF6C22B20",
+            "FileName": "EXPLOR~2.GIF|Explorer Suite Extension.gif",
+            "FileSize": "2554",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "10"
+          },
+          {
+            "File": "_A5B504D9ADA24A57B11536B4E1A3C96C",
+            "Component_": "C__A5B504D9ADA24A57B11536B4E1A3C96C",
+            "FileName": "STDAFX.CPP|stdafx.cpp",
+            "FileSize": "299",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "11"
+          },
+          {
+            "File": "_AB75DB11F97147C1BAD668FF878C8EE3",
+            "Component_": "C__AB75DB11F97147C1BAD668FF878C8EE3",
+            "FileName": "STDAFX.H|stdafx.h",
+            "FileSize": "1363",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "12"
+          },
+          {
+            "File": "_C6C05D77AC2F47B0851199DBF09081EF",
+            "Component_": "C__C6C05D77AC2F47B0851199DBF09081EF",
+            "FileName": "MAIN.CPP|Main.cpp",
+            "FileSize": "4374",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "13"
+          },
+          {
+            "File": "_DAC11DED74D64EE9BA71307124B2371E",
+            "Component_": "C__DAC11DED74D64EE9BA71307124B2371E",
+            "FileName": "DEFAULT.HTM|default.htm",
+            "FileSize": "8070",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "14"
+          },
+          {
+            "File": "_E3A7B11BC5C948A7B2DA7967C5A22E7E",
+            "Component_": "C__E3A7B11BC5C948A7B2DA7967C5A22E7E",
+            "FileName": "EXPLOR~1.VSD|Explorer Suite Extension.vsdir",
+            "FileSize": "119",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "15"
+          },
+          {
+            "File": "_E9D138C4E1CE4EAF96FAC4635CB8D8BB",
+            "Component_": "C__E9D138C4E1CE4EAF96FAC4635CB8D8BB",
+            "FileName": "SETUPTOP.BMP|SetupTop.bmp",
+            "FileSize": "103554",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "16"
+          },
+          {
+            "File": "_E9FEE878A81F4F88A64D760770F1C8CF",
+            "Component_": "C__E9FEE878A81F4F88A64D760770F1C8CF",
+            "FileName": "EXPLOR~1.ICO|Explorer Suite Extension.ico",
+            "FileSize": "1406",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "17"
+          },
+          {
+            "File": "_EADA246335264091A02AF1AFE8D6BEA5",
+            "Component_": "C__EADA246335264091A02AF1AFE8D6BEA5",
+            "FileName": "DOTTED~2.GIF|DottedVert.gif",
+            "FileSize": "43",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "18"
+          },
+          {
+            "File": "_EE587BBCF7214926B0A0EAFAEC58467A",
+            "Component_": "C__EE587BBCF7214926B0A0EAFAEC58467A",
+            "FileName": "EXPLOR~1.VSZ|Explorer Suite Extension.vsz",
+            "FileSize": "179",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "19"
+          },
+          {
+            "File": "_F2F6D1D9EF1A407EB726F40CEA6A4816",
+            "Component_": "C__F2F6D1D9EF1A407EB726F40CEA6A4816",
+            "FileName": "SPACER.GIF|spacer.gif",
+            "FileSize": "43",
+            "Version": "",
+            "Language": "",
+            "Attributes": "512",
+            "Sequence": "20"
+          }
+        ],
+        "Media": [
+          {
+            "DiskId": "1",
+            "LastSequence": "20",
+            "DiskPrompt": "",
+            "Cabinet": "#_966DB40C40F8C4EFBD4760B26A9605D6",
+            "VolumeLabel": "",
+            "Source": ""
+          }
+        ],
+        "Directory": [
+          {
+            "Directory": "TARGETDIR",
+            "Directory_Parent": "",
+            "DefaultDir": "SourceDir"
+          },
+          {
+            "Directory": "_645D0FEFB46543ED89CBAE09E1709E27",
+            "Directory_Parent": "_A96A84433DA2417797017537BF6CEC9E",
+            "DefaultDir": "IMAGES|Images"
+          },
+          {
+            "Directory": "_33F7ED78A1F34BC0B1E851E4CDB6B203",
+            "Directory_Parent": "_2964FDC65F074B2D833CBB86D4FEF998",
+            "DefaultDir": "IMAGES|Images"
+          },
+          {
+            "Directory": "_91AC4E6C23C64A9291F3F31CE9A39149",
+            "Directory_Parent": "_7F16F50783054A0B91D60907D7A5451F",
+            "DefaultDir": "1033|1033"
+          },
+          {
+            "Directory": "_6DA06B02B398487095B0E63D9B79B3DC",
+            "Directory_Parent": "_96ADB3BBAD78477C80C0735389DBB85F",
+            "DefaultDir": "1033|1033"
+          },
+          {
+            "Directory": "_2964FDC65F074B2D833CBB86D4FEF998",
+            "Directory_Parent": "_A96A84433DA2417797017537BF6CEC9E",
+            "DefaultDir": "1033|1033"
+          },
+          {
+            "Directory": "_16E063424FA143F186D419C06CC1861A",
+            "Directory_Parent": "_323845B8D38641399E41421A177AD93B",
+            "DefaultDir": "1033|1033"
+          },
+          {
+            "Directory": "_7A872B2D095B4A7A8BC467B89AC50E82",
+            "Directory_Parent": "TARGETDIR",
+            "DefaultDir": "VCPROJ~1|vcprojects"
+          },
+          {
+            "Directory": "_E379315782914369849E0B3BF84B76B2",
+            "Directory_Parent": "TARGETDIR",
+            "DefaultDir": "VCWIZA~1|VCWizards"
+          },
+          {
+            "Directory": "_CB90F2176BBC493496FD4B45E2324F6F",
+            "Directory_Parent": "_E379315782914369849E0B3BF84B76B2",
+            "DefaultDir": "APPWIZ|AppWiz"
+          },
+          {
+            "Directory": "_CF7BC0D9819B48158C237F1142127CD3",
+            "Directory_Parent": "_CB90F2176BBC493496FD4B45E2324F6F",
+            "DefaultDir": "GENERIC|Generic"
+          },
+          {
+            "Directory": "_A96A84433DA2417797017537BF6CEC9E",
+            "Directory_Parent": "_CF7BC0D9819B48158C237F1142127CD3",
+            "DefaultDir": "EXPLOR~1|Explorer Suite Extension"
+          },
+          {
+            "Directory": "_323845B8D38641399E41421A177AD93B",
+            "Directory_Parent": "_A96A84433DA2417797017537BF6CEC9E",
+            "DefaultDir": "HTML|HTML"
+          },
+          {
+            "Directory": "_7F16F50783054A0B91D60907D7A5451F",
+            "Directory_Parent": "_A96A84433DA2417797017537BF6CEC9E",
+            "DefaultDir": "TEMPLA~1|Templates"
+          },
+          {
+            "Directory": "_96ADB3BBAD78477C80C0735389DBB85F",
+            "Directory_Parent": "_A96A84433DA2417797017537BF6CEC9E",
+            "DefaultDir": "SCRIPTS|Scripts"
+          },
+          {
+            "Directory": "ProgramMenuFolder",
+            "Directory_Parent": "TARGETDIR",
+            "DefaultDir": ".:USER'S~1|User's Programs Menu"
+          },
+          {
+            "Directory": "DesktopFolder",
+            "Directory_Parent": "TARGETDIR",
+            "DefaultDir": ".:USER'S~2|User's Desktop"
+          }
+        ],
+        "Component": [
+          {
+            "Component": "C__0041CE53AA1F49F3B99D01C9716878B9",
+            "ComponentId": "{4908ECE2-0F97-3D25-3346-7C5A1191618A}",
+            "Directory_": "_645D0FEFB46543ED89CBAE09E1709E27",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_0041CE53AA1F49F3B99D01C9716878B9"
+          },
+          {
+            "Component": "C__21029388216B4E319AB9FF87D77A73E3",
+            "ComponentId": "{4E49AB39-81F0-F8EC-4354-5E4770BD177D}",
+            "Directory_": "_33F7ED78A1F34BC0B1E851E4CDB6B203",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_21029388216B4E319AB9FF87D77A73E3"
+          },
+          {
+            "Component": "C__4D802AE0B4A04B7EB3862865D942A849",
+            "ComponentId": "{EB0D57F1-9F26-D12D-9CF6-122419795601}",
+            "Directory_": "_91AC4E6C23C64A9291F3F31CE9A39149",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_4D802AE0B4A04B7EB3862865D942A849"
+          },
+          {
+            "Component": "C__65762B397A474F9FA7DFB747268194CF",
+            "ComponentId": "{CB4E29E6-56AB-8CFD-EC25-6893863A33C6}",
+            "Directory_": "_91AC4E6C23C64A9291F3F31CE9A39149",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_65762B397A474F9FA7DFB747268194CF"
+          },
+          {
+            "Component": "C__6997679952A344C7BA15A8D7B2DC1E19",
+            "ComponentId": "{41AD696F-EA77-29D3-F2D7-572CBF05347C}",
+            "Directory_": "_6DA06B02B398487095B0E63D9B79B3DC",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_6997679952A344C7BA15A8D7B2DC1E19"
+          },
+          {
+            "Component": "C__758B9D117BAC42B48EC5580ECE0FDEB8",
+            "ComponentId": "{015C3A65-2EAF-ACAA-CE23-CC9379424E3F}",
+            "Directory_": "_91AC4E6C23C64A9291F3F31CE9A39149",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_758B9D117BAC42B48EC5580ECE0FDEB8"
+          },
+          {
+            "Component": "C__766F814CC2B84BC5A3CA09F664D326FF",
+            "ComponentId": "{AB28644C-4716-997C-FE07-650243FFAAB7}",
+            "Directory_": "_91AC4E6C23C64A9291F3F31CE9A39149",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_766F814CC2B84BC5A3CA09F664D326FF"
+          },
+          {
+            "Component": "C__9130D47DEF52472A9B7A07F7351A17C5",
+            "ComponentId": "{83BCFFB3-3156-E4E1-4D7D-CC4C2BA4EB0A}",
+            "Directory_": "_91AC4E6C23C64A9291F3F31CE9A39149",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_9130D47DEF52472A9B7A07F7351A17C5"
+          },
+          {
+            "Component": "C__926C45F04D2F4C87B817CFD0C6093830",
+            "ComponentId": "{ECD681B2-3E2F-0593-E2EA-31C690B7872A}",
+            "Directory_": "_2964FDC65F074B2D833CBB86D4FEF998",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_926C45F04D2F4C87B817CFD0C6093830"
+          },
+          {
+            "Component": "C__9586FA3FB4EB4E8EAB44110AF6C22B20",
+            "ComponentId": "{A263B4E2-7B6B-DAD5-0FA2-CEE18C8F2D33}",
+            "Directory_": "_645D0FEFB46543ED89CBAE09E1709E27",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_9586FA3FB4EB4E8EAB44110AF6C22B20"
+          },
+          {
+            "Component": "C__A5B504D9ADA24A57B11536B4E1A3C96C",
+            "ComponentId": "{E9C1E3BA-ABE1-B621-0FBC-95698446640C}",
+            "Directory_": "_91AC4E6C23C64A9291F3F31CE9A39149",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_A5B504D9ADA24A57B11536B4E1A3C96C"
+          },
+          {
+            "Component": "C__AB75DB11F97147C1BAD668FF878C8EE3",
+            "ComponentId": "{B53578D7-B891-A3C3-2A83-A1A41E12F59D}",
+            "Directory_": "_91AC4E6C23C64A9291F3F31CE9A39149",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_AB75DB11F97147C1BAD668FF878C8EE3"
+          },
+          {
+            "Component": "C__C6C05D77AC2F47B0851199DBF09081EF",
+            "ComponentId": "{A2DC403A-52BD-B68F-3A8B-0D0C05542CE8}",
+            "Directory_": "_91AC4E6C23C64A9291F3F31CE9A39149",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_C6C05D77AC2F47B0851199DBF09081EF"
+          },
+          {
+            "Component": "C__DAC11DED74D64EE9BA71307124B2371E",
+            "ComponentId": "{C96DDEE4-D74A-C765-FF8B-F09B018BE225}",
+            "Directory_": "_16E063424FA143F186D419C06CC1861A",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_DAC11DED74D64EE9BA71307124B2371E"
+          },
+          {
+            "Component": "C__E3A7B11BC5C948A7B2DA7967C5A22E7E",
+            "ComponentId": "{F11B98F3-25AF-7F91-8768-339228710BEF}",
+            "Directory_": "_7A872B2D095B4A7A8BC467B89AC50E82",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_E3A7B11BC5C948A7B2DA7967C5A22E7E"
+          },
+          {
+            "Component": "C__E9D138C4E1CE4EAF96FAC4635CB8D8BB",
+            "ComponentId": "{802C8573-55FE-7E60-E6D6-544C07EC3B5B}",
+            "Directory_": "_645D0FEFB46543ED89CBAE09E1709E27",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_E9D138C4E1CE4EAF96FAC4635CB8D8BB"
+          },
+          {
+            "Component": "C__E9FEE878A81F4F88A64D760770F1C8CF",
+            "ComponentId": "{47EDF822-CDB6-6BBF-13C5-FD475AC78315}",
+            "Directory_": "_7A872B2D095B4A7A8BC467B89AC50E82",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_E9FEE878A81F4F88A64D760770F1C8CF"
+          },
+          {
+            "Component": "C__EADA246335264091A02AF1AFE8D6BEA5",
+            "ComponentId": "{C347923C-0816-FEC2-82E6-28873D6920AD}",
+            "Directory_": "_33F7ED78A1F34BC0B1E851E4CDB6B203",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_EADA246335264091A02AF1AFE8D6BEA5"
+          },
+          {
+            "Component": "C__EE587BBCF7214926B0A0EAFAEC58467A",
+            "ComponentId": "{7518C020-4F9C-8C7C-024E-21D38E4FFA7D}",
+            "Directory_": "_7A872B2D095B4A7A8BC467B89AC50E82",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_EE587BBCF7214926B0A0EAFAEC58467A"
+          },
+          {
+            "Component": "C__F2F6D1D9EF1A407EB726F40CEA6A4816",
+            "ComponentId": "{373A2C1D-D446-6161-8B6A-8096EDC0FCF0}",
+            "Directory_": "_33F7ED78A1F34BC0B1E851E4CDB6B203",
+            "Attributes": "0",
+            "Condition": "",
+            "KeyPath": "_F2F6D1D9EF1A407EB726F40CEA6A4816"
+          }
+        ],
+        "Feature": [
+          {
+            "Feature": "DefaultFeature",
+            "Feature_Parent": "",
+            "Title": "",
+            "Description": "",
+            "Display": "2",
+            "Level": "1",
+            "Directory_": "TARGETDIR",
+            "Attributes": "0"
+          }
+        ],
+        "FeatureComponents": [
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__0041CE53AA1F49F3B99D01C9716878B9"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__21029388216B4E319AB9FF87D77A73E3"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__4D802AE0B4A04B7EB3862865D942A849"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__65762B397A474F9FA7DFB747268194CF"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__6997679952A344C7BA15A8D7B2DC1E19"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__758B9D117BAC42B48EC5580ECE0FDEB8"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__766F814CC2B84BC5A3CA09F664D326FF"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__9130D47DEF52472A9B7A07F7351A17C5"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__926C45F04D2F4C87B817CFD0C6093830"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__9586FA3FB4EB4E8EAB44110AF6C22B20"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__A5B504D9ADA24A57B11536B4E1A3C96C"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__AB75DB11F97147C1BAD668FF878C8EE3"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__C6C05D77AC2F47B0851199DBF09081EF"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__DAC11DED74D64EE9BA71307124B2371E"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__E3A7B11BC5C948A7B2DA7967C5A22E7E"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__E9D138C4E1CE4EAF96FAC4635CB8D8BB"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__E9FEE878A81F4F88A64D760770F1C8CF"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__EADA246335264091A02AF1AFE8D6BEA5"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__EE587BBCF7214926B0A0EAFAEC58467A"
+          },
+          {
+            "Feature_": "DefaultFeature",
+            "Component_": "C__F2F6D1D9EF1A407EB726F40CEA6A4816"
+          }
+        ],
+        "CustomAction": [
+          {
+            "Action": "DIRCA_TARGETDIR",
+            "Type": "307",
+            "Source": "TARGETDIR",
+            "Target": "[ProgramFilesFolder]Microsoft Visual Studio 8\\VC"
+          },
+          {
+            "Action": "ERRCA_CANCELNEWERVERSION",
+            "Type": "19",
+            "Source": "",
+            "Target": "[VSDVERSIONMSG]"
+          },
+          {
+            "Action": "ERRCA_UIANDADVERTISED",
+            "Type": "19",
+            "Source": "",
+            "Target": "[VSDUIANDADVERTISED]"
+          },
+          {
+            "Action": "VSDCA_FolderForm_AllUsers",
+            "Type": "51",
+            "Source": "FolderForm_AllUsers",
+            "Target": "ALL"
+          }
+        ],
+        "LaunchCondition": [],
+        "InstallExecuteSequence": [
+          {
+            "Action": "AppSearch",
+            "Condition": "",
+            "Sequence": "100"
+          },
+          {
+            "Action": "BindImage",
+            "Condition": "",
+            "Sequence": "4300"
+          },
+          {
+            "Action": "CCPSearch",
+            "Condition": "NOT Installed",
+            "Sequence": "500"
+          },
+          {
+            "Action": "DIRCA_TARGETDIR",
+            "Condition": "TARGETDIR=\"\"",
+            "Sequence": "750"
+          },
+          {
+            "Action": "ERRCA_CANCELNEWERVERSION",
+            "Condition": "NEWERPRODUCTFOUND AND NOT Installed",
+            "Sequence": "201"
+          },
+          {
+            "Action": "FindRelatedProducts",
+            "Condition": "",
+            "Sequence": "200"
+          },
+          {
+            "Action": "LaunchConditions",
+            "Condition": "NOT Installed",
+            "Sequence": "400"
+          },
+          {
+            "Action": "RMCCPSearch",
+            "Condition": "NOT Installed",
+            "Sequence": "600"
+          },
+          {
+            "Action": "ValidateProductID",
+            "Condition": "",
+            "Sequence": "700"
+          },
+          {
+            "Action": "CostInitialize",
+            "Condition": "",
+            "Sequence": "800"
+          },
+          {
+            "Action": "FileCost",
+            "Condition": "",
+            "Sequence": "900"
+          },
+          {
+            "Action": "IsolateComponents",
+            "Condition": "RedirectedDllSupport",
+            "Sequence": "950"
+          },
+          {
+            "Action": "CostFinalize",
+            "Condition": "",
+            "Sequence": "1000"
+          },
+          {
+            "Action": "SetODBCFolders",
+            "Condition": "NOT Installed",
+            "Sequence": "1100"
+          },
+          {
+            "Action": "InstallValidate",
+            "Condition": "",
+            "Sequence": "1400"
+          },
+          {
+            "Action": "InstallInitialize",
+            "Condition": "",
+            "Sequence": "1500"
+          },
+          {
+            "Action": "AllocateRegistrySpace",
+            "Condition": "NOT Installed",
+            "Sequence": "1550"
+          },
+          {
+            "Action": "ProcessComponents",
+            "Condition": "",
+            "Sequence": "1600"
+          },
+          {
+            "Action": "MsiPublishAssemblies",
+            "Condition": "",
+            "Sequence": "6250"
+          },
+          {
+            "Action": "MsiUnpublishAssemblies",
+            "Condition": "",
+            "Sequence": "1650"
+          },
+          {
+            "Action": "UnpublishComponents",
+            "Condition": "",
+            "Sequence": "1700"
+          },
+          {
+            "Action": "UnpublishFeatures",
+            "Condition": "",
+            "Sequence": "1800"
+          },
+          {
+            "Action": "StopServices",
+            "Condition": "VersionNT",
+            "Sequence": "1900"
+          },
+          {
+            "Action": "DeleteServices",
+            "Condition": "VersionNT",
+            "Sequence": "2000"
+          },
+          {
+            "Action": "UnregisterComPlus",
+            "Condition": "",
+            "Sequence": "2100"
+          },
+          {
+            "Action": "SelfUnregModules",
+            "Condition": "",
+            "Sequence": "2200"
+          },
+          {
+            "Action": "UnregisterTypeLibraries",
+            "Condition": "",
+            "Sequence": "2300"
+          },
+          {
+            "Action": "RemoveODBC",
+            "Condition": "",
+            "Sequence": "2400"
+          },
+          {
+            "Action": "UnregisterFonts",
+            "Condition": "",
+            "Sequence": "2500"
+          },
+          {
+            "Action": "RemoveRegistryValues",
+            "Condition": "",
+            "Sequence": "2600"
+          },
+          {
+            "Action": "UnregisterClassInfo",
+            "Condition": "",
+            "Sequence": "2700"
+          },
+          {
+            "Action": "UnregisterExtensionInfo",
+            "Condition": "",
+            "Sequence": "2800"
+          },
+          {
+            "Action": "UnregisterProgIdInfo",
+            "Condition": "",
+            "Sequence": "2900"
+          },
+          {
+            "Action": "UnregisterMIMEInfo",
+            "Condition": "",
+            "Sequence": "3000"
+          },
+          {
+            "Action": "RemoveIniValues",
+            "Condition": "",
+            "Sequence": "3100"
+          },
+          {
+            "Action": "RemoveShortcuts",
+            "Condition": "",
+            "Sequence": "3200"
+          },
+          {
+            "Action": "RemoveEnvironmentStrings",
+            "Condition": "",
+            "Sequence": "3300"
+          },
+          {
+            "Action": "RemoveDuplicateFiles",
+            "Condition": "",
+            "Sequence": "3400"
+          },
+          {
+            "Action": "RemoveFiles",
+            "Condition": "",
+            "Sequence": "3500"
+          },
+          {
+            "Action": "RemoveFolders",
+            "Condition": "",
+            "Sequence": "3600"
+          },
+          {
+            "Action": "CreateFolders",
+            "Condition": "",
+            "Sequence": "3700"
+          },
+          {
+            "Action": "MoveFiles",
+            "Condition": "",
+            "Sequence": "3800"
+          },
+          {
+            "Action": "InstallFiles",
+            "Condition": "",
+            "Sequence": "4000"
+          },
+          {
+            "Action": "PatchFiles",
+            "Condition": "",
+            "Sequence": "4090"
+          },
+          {
+            "Action": "DuplicateFiles",
+            "Condition": "",
+            "Sequence": "4210"
+          },
+          {
+            "Action": "CreateShortcuts",
+            "Condition": "",
+            "Sequence": "4500"
+          },
+          {
+            "Action": "RegisterClassInfo",
+            "Condition": "",
+            "Sequence": "4600"
+          },
+          {
+            "Action": "RegisterExtensionInfo",
+            "Condition": "",
+            "Sequence": "4700"
+          },
+          {
+            "Action": "RegisterProgIdInfo",
+            "Condition": "",
+            "Sequence": "4800"
+          },
+          {
+            "Action": "RegisterMIMEInfo",
+            "Condition": "",
+            "Sequence": "4900"
+          },
+          {
+            "Action": "WriteRegistryValues",
+            "Condition": "",
+            "Sequence": "5000"
+          },
+          {
+            "Action": "WriteIniValues",
+            "Condition": "",
+            "Sequence": "5100"
+          },
+          {
+            "Action": "WriteEnvironmentStrings",
+            "Condition": "",
+            "Sequence": "5200"
+          },
+          {
+            "Action": "RegisterFonts",
+            "Condition": "",
+            "Sequence": "5300"
+          },
+          {
+            "Action": "InstallODBC",
+            "Condition": "",
+            "Sequence": "5400"
+          },
+          {
+            "Action": "RegisterTypeLibraries",
+            "Condition": "",
+            "Sequence": "5500"
+          },
+          {
+            "Action": "SelfRegModules",
+            "Condition": "",
+            "Sequence": "5600"
+          },
+          {
+            "Action": "RegisterComPlus",
+            "Condition": "",
+            "Sequence": "5700"
+          },
+          {
+            "Action": "InstallServices",
+            "Condition": "VersionNT",
+            "Sequence": "5800"
+          },
+          {
+            "Action": "StartServices",
+            "Condition": "VersionNT",
+            "Sequence": "5900"
+          },
+          {
+            "Action": "RegisterUser",
+            "Condition": "",
+            "Sequence": "6000"
+          },
+          {
+            "Action": "RegisterProduct",
+            "Condition": "",
+            "Sequence": "6100"
+          },
+          {
+            "Action": "PublishComponents",
+            "Condition": "",
+            "Sequence": "6200"
+          },
+          {
+            "Action": "PublishFeatures",
+            "Condition": "",
+            "Sequence": "6300"
+          },
+          {
+            "Action": "PublishProduct",
+            "Condition": "",
+            "Sequence": "6400"
+          },
+          {
+            "Action": "InstallFinalize",
+            "Condition": "",
+            "Sequence": "6600"
+          },
+          {
+            "Action": "RemoveExistingProducts",
+            "Condition": "",
+            "Sequence": "1525"
+          }
+        ],
+        "Registry": [],
+        "Shortcut": [],
+        "RemoveFile": [],
+        "MsiAssembly": [],
+        "MsiAssemblyName": []
+      }
+    },
+    "ExtensionWizardCabinet": [
+      {
+        "MsiFileId": "_0041CE53AA1F49F3B99D01C9716878B9",
+        "Name": "Explorer Suite Extension_Background.gif",
+        "Length": 811,
+        "Sha256": "463f430207d2cf648e4f9b4de1825139da3487e67aaf3f584edd2c499054383c"
+      },
+      {
+        "MsiFileId": "_21029388216B4E319AB9FF87D77A73E3",
+        "Name": "DottedHori.gif",
+        "Length": 43,
+        "Sha256": "28c1f3a3275a7c906e8e01700322175e89197f6fed55c88dd8c165af839edba6"
+      },
+      {
+        "MsiFileId": "_4D802AE0B4A04B7EB3862865D942A849",
+        "Name": "CFFExplorerSDK.h",
+        "Length": 8864,
+        "Sha256": "f6cb656be2d096c1eca152a88828c2b26b75996e16a958ad78c9c948bdc71641"
+      },
+      {
+        "MsiFileId": "_65762B397A474F9FA7DFB747268194CF",
+        "Name": "Templates.inf",
+        "Length": 84,
+        "Sha256": "117c272b73a2635d5ee9585f267f9d37c20e07417843a4c3e65079fa955f64fd"
+      },
+      {
+        "MsiFileId": "_6997679952A344C7BA15A8D7B2DC1E19",
+        "Name": "default.js",
+        "Length": 5511,
+        "Sha256": "59f51fef252817b54f6406d86cd40e652ad54779538a4d2bbe3e0b74d14cb244"
+      },
+      {
+        "MsiFileId": "_758B9D117BAC42B48EC5580ECE0FDEB8",
+        "Name": "Main.rc",
+        "Length": 2104,
+        "Sha256": "1869ac976f1a3dde46b82f2f688acb01f9a8e5039cf10a520bd6d7567e99f567"
+      },
+      {
+        "MsiFileId": "_766F814CC2B84BC5A3CA09F664D326FF",
+        "Name": "Extension.h",
+        "Length": 175,
+        "Sha256": "c6703c784d551d4af9cf22e1c9756d70138bd4058d7c2d1bcdcd11fbf77c9444"
+      },
+      {
+        "MsiFileId": "_9130D47DEF52472A9B7A07F7351A17C5",
+        "Name": "resource.h",
+        "Length": 499,
+        "Sha256": "c9b58a759f6a8ae19ff9a6348c351e9b1437019c5dd51e4eeda4ade5310ba19f"
+      },
+      {
+        "MsiFileId": "_926C45F04D2F4C87B817CFD0C6093830",
+        "Name": "NewStyles.css",
+        "Length": 24330,
+        "Sha256": "214fc9b4993f2d1bffa30d83a5f757f92da21946267ac384a3653a8c34085160"
+      },
+      {
+        "MsiFileId": "_9586FA3FB4EB4E8EAB44110AF6C22B20",
+        "Name": "Explorer Suite Extension.gif",
+        "Length": 2554,
+        "Sha256": "bcd2d426422d900ac1501b3a06d64736442069ba6af27b33847edc7b4b9259b2"
+      },
+      {
+        "MsiFileId": "_A5B504D9ADA24A57B11536B4E1A3C96C",
+        "Name": "stdafx.cpp",
+        "Length": 299,
+        "Sha256": "a72a2fa43e4622039ec97cb9f5e8483f462faf88dfcd316bc3f98dfdcac7bd11"
+      },
+      {
+        "MsiFileId": "_AB75DB11F97147C1BAD668FF878C8EE3",
+        "Name": "stdafx.h",
+        "Length": 1363,
+        "Sha256": "0b85d5544f737d0a0690cf5669ba46a0f6ff8f0695721baf4492ef655c276aa2"
+      },
+      {
+        "MsiFileId": "_C6C05D77AC2F47B0851199DBF09081EF",
+        "Name": "Main.cpp",
+        "Length": 4374,
+        "Sha256": "d4ef568e222460cc2faa86c2fc5056a5897fa93cfdc82a3c3df2a3be90f7d788"
+      },
+      {
+        "MsiFileId": "_DAC11DED74D64EE9BA71307124B2371E",
+        "Name": "default.htm",
+        "Length": 8070,
+        "Sha256": "8eb6f6d18729dd17d38a53c0f9e343795f81390f380d5533474dcf673a5102f2"
+      },
+      {
+        "MsiFileId": "_E3A7B11BC5C948A7B2DA7967C5A22E7E",
+        "Name": "Explorer Suite Extension.vsdir",
+        "Length": 119,
+        "Sha256": "d1a724d1f92d3f74897a579fd5ef953a9dccec500a723c859cbb9a979de5eae3"
+      },
+      {
+        "MsiFileId": "_E9D138C4E1CE4EAF96FAC4635CB8D8BB",
+        "Name": "SetupTop.bmp",
+        "Length": 103554,
+        "Sha256": "ab7fdd6ab72a35f37f197611f47c4c301123a0365f6dc5f9a43bc287d560145f"
+      },
+      {
+        "MsiFileId": "_E9FEE878A81F4F88A64D760770F1C8CF",
+        "Name": "Explorer Suite Extension.ico",
+        "Length": 1406,
+        "Sha256": "429aa56ef3c7d09f9b0f522ef26825ecc0284ac39980cbea2897ab62ed11a532"
+      },
+      {
+        "MsiFileId": "_EADA246335264091A02AF1AFE8D6BEA5",
+        "Name": "DottedVert.gif",
+        "Length": 43,
+        "Sha256": "157af9daa1d2b0d1bdde21c6398e009079e29f697bd0b8f66fb13a17ea223e86"
+      },
+      {
+        "MsiFileId": "_EE587BBCF7214926B0A0EAFAEC58467A",
+        "Name": "Explorer Suite Extension.vsz",
+        "Length": 179,
+        "Sha256": "3e2a71c854604389f18005bd56833bdf7020278eccc038782b082c55f2a36d68"
+      },
+      {
+        "MsiFileId": "_F2F6D1D9EF1A407EB726F40CEA6A4816",
+        "Name": "spacer.gif",
+        "Length": 43,
+        "Sha256": "24e480e4659fbae818853a38f8a3036f529f539024dc3e772c0b594ce02ea9db"
+      }
+    ],
+    "BdeResource": {
+      "Length": 3548843,
+      "Status": "Opaque embedded BDEFILES resource; no loader/registration invoked",
+      "Sha256": "cc4c87a57391cf6c283ba212bae3a0fbbcd3346e53ac640c7819319db0b70d25",
+      "SevenZipExitCode": 2
+    },
+    "Observations": [
+      "UPX source ZIP has 14 files including separate x86/x64/Itanium DLL builds; source-build DLL hashes differ from installed extension DLLs",
+      "Extension Wizard MSI ProductVersion 1.0.0 and ProductCode {D35C17BC-044C-4A61-98DD-9ED1D05CE565}; 20 templates/assets and four custom-action entries; no LaunchCondition table found",
+      "Generic MSI framework/IIS message strings do not establish actual prerequisites. vcprojects/VCWizards destinations need an explicit Visual Studio fixture and recovery",
+      "Nested MSI opened with OpenDatabase mode 0; only exact named cabinet and File-table identifiers extracted. JavaScript, HTML, project files and custom actions were never executed"
+    ]
+  },
+  "PriorByteComparison": [
+    {
+      "Path": "app/CFF Explorer.exe$0",
+      "SameHashAsPriorPaths": []
+    },
+    {
+      "Path": "app/CFF Explorer.exe$1",
+      "SameHashAsPriorPaths": [
+        "CFF_Explorer/CFF Explorer.exe"
+      ]
+    },
+    {
+      "Path": "app/Task Explorer-x64.exe",
+      "SameHashAsPriorPaths": []
+    },
+    {
+      "Path": "app/Task Explorer.exe",
+      "SameHashAsPriorPaths": []
+    },
+    {
+      "Path": "app/Signature Explorer.exe",
+      "SameHashAsPriorPaths": []
+    },
+    {
+      "Path": "app/PE Detective.exe$0",
+      "SameHashAsPriorPaths": []
+    },
+    {
+      "Path": "app/PE Detective.exe$1",
+      "SameHashAsPriorPaths": []
+    },
+    {
+      "Path": "app/Tools/DriverList.exe$0",
+      "SameHashAsPriorPaths": [
+        "DriverList_x64.exe"
+      ]
+    },
+    {
+      "Path": "app/Tools/DriverList.exe$1",
+      "SameHashAsPriorPaths": [
+        "DriverList_x86.exe"
+      ]
+    },
+    {
+      "Path": "app/Extensions/CFF Explorer/UPX Utility/UPX Utility.dll$0",
+      "SameHashAsPriorPaths": []
+    },
+    {
+      "Path": "app/Extensions/CFF Explorer/UPX Utility/UPX Utility.dll$1",
+      "SameHashAsPriorPaths": [
+        "CFF_Explorer/Extensions/CFF Explorer/UPX Utility/UPX Utility.dll"
+      ]
+    },
+    {
+      "Path": "app/Extensions/CFF Explorer/UPX Utility/upx.exe",
+      "SameHashAsPriorPaths": [
+        "CFF_Explorer/Extensions/CFF Explorer/UPX Utility/upx.exe"
+      ]
+    }
+  ],
+  "References": [
+    {
+      "Observation": "Both historical OpenSSL and SSLeay terms apply upstream; exact binary provenance/notices remain to reconcile",
+      "Uri": "https://raw.githubusercontent.com/openssl/openssl/OpenSSL_1_0_1e/LICENSE",
+      "Product": "OpenSSL 1.0.1e"
+    },
+    {
+      "Observation": "GPL-2.0-or-later with compressed-executable exception upstream; does not establish a grant for the separate NTCore extension/source or remove UPX distribution obligations",
+      "Uri": "https://raw.githubusercontent.com/upx/upx/v3.08/LICENSE",
+      "Product": "UPX 3.08"
+    }
+  ],
+  "RemainingBlockers": [
+    "Nested BDEFILES format/contents and BDE redistribution/registration ownership",
+    "Project Maker page/payload mismatch",
+    "Installer embedded agreements/scripts/registry/shortcut/task conditions not fully reconstructed by payload extraction",
+    "Product and third-party notices, synthetic fixtures, current-build dependencies, suite/component ownership",
+    "Fresh-UAC controller/prerequisite changes, native functional/install/remove/restore acceptance remain saved for later"
+  ],
+  "TechnicalAttempts": [
+    "Initial sandbox download failed DNS; ordinary host HTTPS retrieval succeeded",
+    "Git GPG sandbox startup/path/agent issues resolved using isolated keyring, relative paths and no-autostart; signature valid",
+    "Extractor sandbox startup failed Illegal System DLL Relocation; ordinary non-elevated host invocation succeeded",
+    "No Defender block reported in this run; no blocked tool restored, allowed, read or extracted"
+  ],
+  "InstallerOrPayloadExecuted": false,
+  "VmRuns": 0,
+  "FreshUacPrompts": 0,
+  "DefenderChanges": 0,
+  "ControllerChanges": 0,
+  "NewCatalogOperations": 0,
+  "WholeLegacyClosures": 0,
+  "NewRetirements": 0,
+  "NewExclusions": 0,
+  "Ranges": [
+    "38-58",
+    "56-71",
+    "20-25",
+    "25-35",
+    "8-12"
+  ],
+  "RoundedTotal": "145-200/about 175",
+  "EstimateReason": "Six outer extraction subgates resolved; complete legacy installation/use/recovery outcomes remain partial",
+  "IndependentValidation": {
+    "Passed": true,
+    "OriginalPins": 6,
+    "OuterFiles": 85,
+    "OuterPeMetadata": 27,
+    "NestedZipFiles": 14,
+    "NestedMsiFiles": 20,
+    "OpaqueResourcePins": 1,
+    "PriorMatchingFiles": 5,
+    "NewDocLinks": 5,
+    "RuntimeAcceptance": false,
+    "FocusedDiffReviewed": true,
+    "GitDiffCheckPassed": true
+  },
+  "LocalScriptPins": [
+    {
+      "Name": "list.ps1",
+      "Sha256": "00bf506f3aaf61e5f7c41beb8f7956f3bb38e6b42cc7a1e16407bfc7449adae0"
+    },
+    {
+      "Name": "extract.ps1",
+      "Sha256": "4fa4820457183b44e6f45cba9720413d3ac80191c6c3f1d85aee46110edaf6fe"
+    },
+    {
+      "Name": "inspect-msi.ps1",
+      "Sha256": "ddae56462037600047b0918e0d3644a4fbc192e01eb8531f9f3f268f5ff9baf8"
+    },
+    {
+      "Name": "nested.ps1",
+      "Sha256": "ad74865165ad9fe6d60723fb155f339bc3a7ccf4ada265f8ccb2e022b19f8310"
+    },
+    {
+      "Name": "record.ps1",
+      "Sha256": "39adf6b943c0130e857d49f8d10ba124887eefc80a3c9652cec686715b7f14a6"
+    },
+    {
+      "Name": "validate.ps1",
+      "Sha256": "324b86a9f293715352743de0ca62c5857e74b5088e99c16bc96e636bc8ec9222"
+    }
+  ]
+}

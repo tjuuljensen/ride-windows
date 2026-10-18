@@ -1,0 +1,74 @@
+{
+  "SchemaVersion": 1,
+  "Batch": "B01 appearance preference presentation",
+  "RecordedDate": "2026-10-17",
+  "PresentationCount": 202,
+  "SettingsCount": 279,
+  "RemainingPresentationCount": 77,
+  "ChangedIds": [
+    "windows.title-bar-shake",
+    "windows.title-bar-accent-color",
+    "windows.app-color-mode",
+    "windows.system-color-mode"
+  ],
+  "SourceFiles": [
+    {
+      "Sha256": "22d8fd3eb702bd23c13f136a8ec5affd4217cdf1cf9aca2111f75bc01e782f8e",
+      "Path": "catalog/operations.psd1"
+    },
+    {
+      "Sha256": "691b15562f7880c18770006a3b28ba4c5a151b612f3757ea694e363ef901991a",
+      "Path": "docs/OPERATIONS.md"
+    },
+    {
+      "Sha256": "81b43bcce87185aae2da91616236a153d851e70870a2a3dbd1e4cfef88036bd5",
+      "Path": "tests/SettingPresentation.Tests.ps1"
+    },
+    {
+      "Sha256": "c612377014a4f8b8bf896323efdf108be8d03a88155bbc248af2d0bed3b34bc2",
+      "Path": "tests/Catalog.Tests.ps1"
+    },
+    {
+      "Sha256": "1f30743b7acf6f6f4c87252a60b368506217b5c5752e1ee1704a6aad946ac320",
+      "Path": "tests/Search.Tests.ps1"
+    }
+  ],
+  "Checks": [
+    {
+      "PowerShell": "5.1.26100.9711",
+      "Tests": [
+        "SettingPresentation",
+        "Catalog",
+        "Search"
+      ],
+      "Passed": 122,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 123,
+      "ExcludedWindowsIntegration": 1
+    },
+    {
+      "PowerShell": "7.6.5",
+      "Tests": [
+        "SettingPresentation",
+        "Catalog",
+        "Search"
+      ],
+      "Passed": 122,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 123,
+      "ExcludedWindowsIntegration": 1
+    }
+  ],
+  "CatalogSemanticComparison": "Only four presentation blocks and their DocumentationUri references differ from HEAD 87893c6",
+  "RepositoryValidation": {
+    "GeneratedDocumentationCurrent": true,
+    "Groups": 8,
+    "Operations": 358,
+    "PowerShellFiles": 227,
+    "Profiles": 5
+  },
+  "NativeAcceptance": false,
+  "LegacyOutcomesClosed": 0
+}

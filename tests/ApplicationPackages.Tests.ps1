@@ -446,6 +446,33 @@ Describe 'Engine package variant integration' {
     It 'treats a modified portable tree as unhealthy rather than matching Present' {
       Test-RideCurrentStateMatch -Operation @{Kind='Package';InstallerType='Portable'} -State Present -CurrentState ([pscustomobject]@{Present=$true;Healthy=$false}) | Should -BeFalse
     }
+    It 'uses valid ownership for repeat and removal preview when portable architectures share a directory' {
+      $root=Join-Path $TestDrive 'shared-variants'
+      $directory=Join-Path $root 'fixture'
+      $null=New-Item -ItemType Directory -Path $directory -Force
+      $file=Join-Path $directory 'app.exe'
+      [IO.File]::WriteAllText($file,'Inert ownership fixture.')
+      $base=@{Id='package.fixture';PackageId='fixture';Name='Fixture';Kind='Package';Handler='Package';InstallerType='Portable';Scope='Machine';RequiresAdmin=$true;SupportedTargets=@('Windows 11');ResolvedToolsDirectory=$root;InstallDirectory=$directory;Variants=@{portable=@{};'portable-x86'=@{}}}
+      $op=$base.Clone();$op.Remove('Variants');$op.SelectedVariant='portable'
+      $manifest=@{SchemaVersion=1;PackageId='fixture';Variant='portable';Version='1';Status='Installed';Files=@(@{RelativePath='app.exe';Sha256=(Get-FileHash $file).Hash})}
+      $manifest|ConvertTo-Json -Depth 5|Set-Content -LiteralPath (Join-Path $directory '.ride-package.json')
+      Mock Get-RideOperation {$base}
+      Mock Resolve-RidePackageSelection {$copy=$Operation.Clone();$copy.Remove('Variants');$copy.SelectedVariant=$Variant;$copy}
+      Mock Get-RideInstalledPackage {Get-RidePortableState $Operation}
+      Mock Save-RideOperationSnapshot {throw 'Must not save state.'}
+      Mock Install-RidePackage {throw 'Must not install.'}
+      $output=@(Invoke-RidePlan @([pscustomobject]@{Operation=$op;State='Present'}) -Confirm:$false)
+      $output|Should -Contain 'No changes were needed; no state record was created.'
+      {Invoke-RidePlan @([pscustomobject]@{Operation=$op;State='Absent'}) -WhatIf}|Should -Not -Throw
+      Should -Invoke Save-RideOperationSnapshot -Exactly 0
+      Should -Invoke Install-RidePackage -Exactly 0
+      $manifest.Variant='portable-x86'
+      $manifest|ConvertTo-Json -Depth 5|Set-Content -LiteralPath (Join-Path $directory '.ride-package.json')
+      {Invoke-RidePlan @([pscustomobject]@{Operation=$op;State='Present'}) -WhatIf}|Should -Throw '*Invalid portable ownership manifest*'
+      $saved=$op.Clone();$saved.SelectedVariant='portable-x86'
+      Mock Get-RideRecordedPackageSelection {$saved}
+      {Invoke-RidePlan @([pscustomobject]@{Operation=$op;State='Present'}) -WhatIf}|Should -Throw '*different edition*'
+    }
     It 'rejects a desktop application on Server Core before changing state' {
       Mock Get-RidePlatform { 'Windows Server 2025' }
       Mock Get-ItemProperty { [pscustomobject]@{InstallationType='Server Core'} }

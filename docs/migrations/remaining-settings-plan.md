@@ -1,5 +1,12 @@
 # Remaining settings migration plan and decisions
 
+Current handoff, 2026-10-17: [all batch dispositions and completion order](remaining-migrations-follow-up.md#archive-handoff-and-closure-order-2026-10-17).
+Presentation review is complete at 279/279; see the [final evidence](settings-post-migration-review.md#b01-presentation-review-completion-2026-10-17). Source presentation and native/user-visible
+acceptance are separate. B03 startup fixtures pass, with native acceptance blocked by denied Hyper-V access. Q01-Q31
+policy choices and subsequent refinements are recorded; BitLocker/recovery setup
+and new deployment profiles are explicitly deferred, not awaiting repeated prompts.
+The thirty rows below retain partial outcomes and their exact acceptance gates.
+
 Reviewed: **2026-10-17**. B01 adds reviewed presentation for keyboard delay,
 pointer precision, registered sound schemes and startup sound, plus manual
 playback-device mute guidance. B02 read-only playback-endpoint capture contracts
@@ -21,13 +28,18 @@ Regional preparation also has [separate process/user/machine observations](remai
 
 ## Current implementation and validation
 
-The catalog has 358 operations: 279 setting/control declarations, 56 packages,
+The catalog has 362 operations: 279 setting/control declarations, 60 packages,
 one artifact and 22 pending Store app declarations. These are declarations, not
 counts of remaining legacy outcomes.
-One hundred seventy-nine settings have explicit `SettingPresentation` metadata; the other 100
-still require individual review before the fallback display can be replaced with
-specific behavior, GUI effects and requirements. Seventeen settings are pending
-candidates. Do not widen their published support from a lifecycle result alone.
+All 279 settings have explicit `SettingPresentation` metadata. Unverified mappings,
+obsolete behavior and native acceptance gaps remain identified within that metadata;
+coverage does not certify behavior or close legacy outcomes. Seventeen settings,
+including the two startup settings, remain pending candidates. Do not widen
+published support from a lifecycle result alone.
+The retained BitLocker `EncryptionMethod` mapping needs a separate compatibility
+migration or retirement decision; it is not established as a current Windows 11
+cipher policy. Whole accessibility Flags presets likewise need narrower ownership
+and live-session evidence before being recommended as prompt controls.
 
 All five accepted Store groups have guarded declarations and a separate
 current-user/desktop-handoff tool. App-specific native acceptance remains pending;
@@ -134,7 +146,7 @@ counted built-in app/component outcome rather than adding another legacy count.
 | Row | Outcome and current state | Next work and edge cases | Classification |
 | --- | --- | --- | --- |
 | R01 | Existing-plan selection, owned creation and desktop Power plans access | Creation and shared guards now have two-target evidence. Keep Ultimate activation separate; earlier native activation failed. Inspect menu installation-path ownership and intended-user scope before deploying a reversible helper. Physical device/power-mode effects and template absence remain separate | Implemented core; menu and physical acceptance pending |
-| R02 | Proxy detection, setup script and WinHTTP | E07. Query flags/URL for the selected connection; retain manual proxy and VPN/dial-up fields. Capture typed/structural prior state and explicit managed scope. A PAC test must use a controlled local server, not a publisher endpoint | Backend investigation, then implementation |
+| R02 | Proxy detection, setup script and WinHTTP | E07/B04. Default/LAN capture and owned-field preparation/recovery are source-ready. Durable writes, refresh, native/UI/policy and partial-failure acceptance remain; preserve manual proxy and unrelated fields. RAS and WinHTTP stay separate. A PAC test needs a controlled local server | Partial source preparation; native setter/recovery pending |
 | R03 | Telemetry mirrors, Windows CEIP and conditional App-V CEIP | Windows CEIP typed lifecycle is done. Verify an actual App-V client, policy mapping and consumer before availability. Leave Native/Wow telemetry mirrors untouched and unexposed; do not infer effect from duplicate values | Conditional consumer evidence; D04 |
 | R04 | Paired feedback frequency | Existing native guidance is available. Confirm current GUI choices, both value kinds and time units before exposing executable states. Preserve mixed/custom prior pairs and unrelated Rules values; exact paired restore needs partial-write evidence | Mapping investigation; D02 |
 | R05 | Windows RE registration lifecycle | Read-only registration/OS/image/partition capture first. Existing readiness guide covers independent recovery. The [volume inventory](../volume-inventory.md) provides GUID-path observation only, without boot-role or protection inference. Prove restoring a prior registration association, not merely calling the opposite command. Refuse identity/servicing conflicts; no image or partition changes | High dependency recovery work; D06 |

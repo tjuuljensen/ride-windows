@@ -1,0 +1,3607 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-17T11:07:47.9011914Z",
+  "Scope": "Preregistered PSScriptTools and disconnected OfflineCaffeine acceptance",
+  "Controller": {
+    "RecordedAtUtc": "2026-10-17T10:53:09.4388625Z",
+    "SchemaVersion": 2,
+    "Capabilities": [
+      "GitHubPatGuestV1",
+      "FocusedPortableV1"
+    ],
+    "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "CheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+    "Files": [
+      {
+        "Name": "RIDE.TestAutomation.psm1",
+        "Sha256": "9e45345be1ee515b8af905eaa8e141bf0ef21abf7d4b9b0e82fc6f0546b8a7bc",
+        "MatchesSource": true
+      },
+      {
+        "Name": "RIDE.GitHubVmAuthentication.psm1",
+        "Sha256": "dc5de222a37df07e6c6272f6f4c570ec3f83acd8c16642d3e97231addce6e659",
+        "MatchesSource": true
+      },
+      {
+        "Name": "Invoke-RideVmTestTaskWorker.ps1",
+        "Sha256": "36a81a1392d5beaefd8ce85f8d90de95f76e14479475e56872550a79870c9c6a",
+        "MatchesSource": true
+      },
+      {
+        "Name": "Invoke-RideVmTest.ps1",
+        "Sha256": "01c1903fa41d699e0bfdfe0fd89b77389d04747eb46fca7896c1f8f0d89d55b4",
+        "MatchesSource": true
+      },
+      {
+        "Name": "Invoke-RideVmTestTask.ps1",
+        "Sha256": "b8d14c364b125b15039a0beab0fd7e2c97feb667c356aeb10080f4b810a51749",
+        "MatchesSource": true
+      },
+      {
+        "Name": "Export-RideVmTestEvidence.ps1",
+        "Sha256": "2e7c2e50106a4a877ab8591c603ef32fe7136f7bbd05709da78dbf17fbd7a1e4",
+        "MatchesSource": true
+      },
+      {
+        "Name": "Invoke-RidePortableVmAcceptance.ps1",
+        "Sha256": "67b8f0c5c7a1a04ce7ca24c1889353bf2da107470ca4e3708a07779062e4feb1",
+        "MatchesSource": true
+      },
+      {
+        "Name": "RIDE.PortableAcceptance.psm1",
+        "Sha256": "c90ad54326c007308c7d34bfbaa4e2ae04b9cbd67821221ab6e7d8ea451a17eb",
+        "MatchesSource": true
+      },
+      {
+        "Name": "RIDE.GitHubAuthentication.psm1",
+        "Sha256": "69d03da0e6c6a1c6b2108a9fcb722529648fd2b2e7950b67fadc6ed204ffac1c",
+        "MatchesSource": true
+      },
+      {
+        "Name": "RIDE.CatalogData.psm1",
+        "Sha256": "836234ffe3082033cb9d4fa9470da610048dba720d848e52d0d769395e898954",
+        "MatchesSource": true
+      }
+    ]
+  },
+  "Runs": [
+    {
+      "ControllerResult": {
+        "SchemaVersion": 1,
+        "RunId": "c3f65b2ab9f643b2b84510aff987dd4d",
+        "Source": "Local",
+        "UnitOnly": false,
+        "IntegrationSuite": "PSScriptTools",
+        "Status": "Passed",
+        "StartedAtUtc": "2026-10-17T10:50:26.8432601Z",
+        "FinishedAtUtc": "2026-10-17T10:57:29.0687506Z",
+        "Error": null,
+        "CleanupError": null,
+        "CollectionError": null,
+        "GuestGitHubAuthentication": "Anonymous",
+        "GitHubTestScenario": "Acquire",
+        "CredentialCleanupVerified": null,
+        "EvidenceExportError": null,
+        "FocusedResult": {
+          "RunId": "c3f65b2ab9f643b2b84510aff987dd4d",
+          "Batch": "PSScriptTools",
+          "VM": "RIDE-Win11-Test",
+          "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+          "CheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+          "ExpectedCases": 1,
+          "Status": "Passed",
+          "Error": null,
+          "Cleanup": "ResetAndOff",
+          "EvidenceCollected": true,
+          "ToolExecuted": false
+        }
+      },
+      "FocusedResult": {
+        "RunId": "c3f65b2ab9f643b2b84510aff987dd4d",
+        "Batch": "PSScriptTools",
+        "VM": "RIDE-Win11-Test",
+        "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+        "CheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+        "ExpectedCases": 1,
+        "Status": "Passed",
+        "Error": null,
+        "Cleanup": "ResetAndOff",
+        "EvidenceCollected": true,
+        "ToolExecuted": false
+      },
+      "Scenarios": {
+        "Id": "package.psscripttools",
+        "Variant": "portable",
+        "Status": "Passed",
+        "Error": null,
+        "Target": "Windows 11",
+        "Build": "26300",
+        "LifecycleRecovery": true,
+        "FunctionalAcceptance": "Pending",
+        "ActivationAcceptance": "Pending",
+        "ToolExecuted": false,
+        "Checks": [
+          "InstallPreview",
+          "Install",
+          "ExactMemberSelection",
+          "RepeatInstall",
+          "RemovePreview",
+          "Remove",
+          "RepeatRemove",
+          "RestorePreview",
+          "ExactRemovalRestore",
+          "UnownedPreservation",
+          "OriginalAbsenceRestore",
+          "UnownedCollisionRefusal",
+          "ModifiedReplacementRefusal",
+          "ModifiedRemovalPreservation"
+        ],
+        "RunIds": [
+          "bd1b133afb9c41ae95b1e3596160b66a",
+          "99d3c164661444d3b2d405e540b44ee7",
+          "493e7ce2a7cb434c81105bebfa77395a"
+        ],
+        "FileEvidence": [
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/Archive-ChangeLog.md",
+            "Sha256": "80e965fdb5787e18a3017b13ddc7d120ccbe1434b4b530e56f3e6910090d30f4",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/changelog.md",
+            "Sha256": "f955fdb8c1f959acc2672bf3243392276c4034887fb45d527c85eb09ee596ea7",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/CODE_OF_CONDUCT.md",
+            "Sha256": "e7679416d791008717732ea2bb1bb0334fd12829ba2b4cd2a121d9c508419d7a",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/CONTRIBUTING.md",
+            "Sha256": "01c6650fcb4d9d1bbd4444718e4fb6f78ab3fe761ad2b4c3640ee04edb0fa77b",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/license.txt",
+            "Sha256": "fb7d4eb5de8741978ce3dc1338771a53756e87d1134dc19b0199b2ee43beef95",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/psansifilemap.json",
+            "Sha256": "053bebd05e115b2886055fc49166c9e37e4d219593d4ea95189a63f5aa326183",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/PSScriptToolData.json",
+            "Sha256": "d7afe7dd0cc7893616f59d7e6a187a75a11acca986ae8ce55063d0a4786799fa",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/PSScriptTools.psd1",
+            "Sha256": "0f6753327bf6454dbab1182b53a3cc9d1422472c20fca70b22de7ee62a5d8a6f",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/PSScriptTools.psm1",
+            "Sha256": "f9c3ab568821f41ae1921f1d9fe78b47f870a137d2f8c1ff0995f54b6218eee3",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/PSScriptToolsManual.pdf",
+            "Sha256": "5677312742591b8883a7ef02fac581a314a81912366ea7596c40f6f736eaa88e",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/README.md",
+            "Sha256": "ec99266ddff5307e2798e9b24869f67be34b192a040d892e8c078ac108e99531",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/.github/FUNDING.yml",
+            "Sha256": "1300806d3928a8e495461c91b69cec15e7f37eace4c8dc20df2c8b0771b99fe8",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/.github/ISSUE_TEMPLATE/bug-report.yml",
+            "Sha256": "3c2f90f39e99ebf2a28022a61e595cd26a6d7d94d6121ead4de47d4204df7022",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/.github/ISSUE_TEMPLATE/config.yml",
+            "Sha256": "6e03204126579d31c1ae7fb87b69810a99b013573f86e65720125b0db4c8f04b",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/.github/ISSUE_TEMPLATE/feature-request.yml",
+            "Sha256": "b684b856002d81259bf5d3be10e650eacddc1e8a43a9b0b0071984860deb3fc4",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/.github/ISSUE_TEMPLATE/other-request.yml",
+            "Sha256": "8ad3e5f3fbeafd2d97dad1ac2da136303095812e287bfc05b46c1b75414ffe40",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/archive/ConvertTo-ASCIIArt.md",
+            "Sha256": "72bd41c9f29fea3bbfc3c167c54b7e6211b8ad9898f38a8c10fb4d2fe6e6b2e5",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/archive/ConvertTo-ASCIIArt.ps1",
+            "Sha256": "61212fc46d3d990b358f07d5ff4aa0051691d0124639507b632dbab8cf3cf753",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/archive/Get-TZData.md",
+            "Sha256": "f8d5184fa8c1d11c8c57ead687045d97088655e734ef0fa80fcffaf28148316c",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/archive/Get-TZList.md",
+            "Sha256": "7f29d3207b3460218ff47cb825b887e176f7c9b3cc7cd48aff07c391a21f2319",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/archive/Out-conditionalColor.md",
+            "Sha256": "e791787f5f6a24f064881622e0eab59ecbbbeac1df327b43738b9e6ed7a0584b",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/archive/Out-ConditionalColor.ps1",
+            "Sha256": "03f6071d62a914f4b8faa604b30d654271965b9324aee68a40527fcbc4613080",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/archive/readme.txt",
+            "Sha256": "72acffce92dfd10b84ff7e1b07d90741e622251d168be2c5c657aecd9c599a13",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/archive/Set-ConsoleColor.md",
+            "Sha256": "03e7a7bc730c062e54c36ba899c9f33b7879b075dcddc4792c31c47aa36068d6",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/archive/today.ps1",
+            "Sha256": "98391aafd9a2bd2e09252a513a45b8cc7b64361d1f5c8a37130b883c150555ed",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/archive/Write-Detail.md",
+            "Sha256": "0eb9a031c38763a756a27e3ceef4c5cf0c5bb5e08f9e680041beeb8580bdd091",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/archive/Write-Detail.ps1",
+            "Sha256": "b0ad5838b3bf5634c5baf1902723f0d3a42892dbd936d2f0b00cae5dccc554f8",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Add-Border.md",
+            "Sha256": "5d63b7440acc8c8b9c90ea5ed5d657f3af71ad41772c82894ceaf0ce77dc1321",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Compare-Module.md",
+            "Sha256": "1f3703ebbcab59015175676be33cc6c010d5e8d50d7f44c76ae75c33aa070252",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Compare-Script.md",
+            "Sha256": "b739fff6ce4786e98e40d6378806740d0ea190cd72a95436d8cb76d697cdf0af",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Convert-CommandToHashtable.md",
+            "Sha256": "b25bc739788487b7594a8ddf7475cdaee94942677942675b6a59d641efea64cf",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Convert-EventLogRecord.md",
+            "Sha256": "9bc590fe73eba55ce1e29d03c1d078f99facfc2dadb16374fc4389133723b619",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Convert-HashtableString.md",
+            "Sha256": "d4b96e897d90ddb8ac01d9ede6fe3593034a7a636ff31818bbfd78ec59a63957",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Convert-HashtableToCode.md",
+            "Sha256": "c0f4de7480eaf1608a76897a289a248e5e8037c3ae7977356da9ef91fc9ede2d",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Convert-HtmlToAnsi.md",
+            "Sha256": "1a1402478ec4e1962ed0358002c532c4d4a7e5397f9a48a516c5491aecfe7858",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/ConvertFrom-LexicalTimespan.md",
+            "Sha256": "f76a6cd92d7ca5b6f7602f45f76285424811ca26551fe37c241e64e84cb1f339",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/ConvertFrom-Text.md",
+            "Sha256": "d344f48406321d61d4b27d9926a955567cede78ffe6b27ed3dbf85d68c5ecac8",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/ConvertFrom-UTCTime.md",
+            "Sha256": "310ffb983577ada75dc663d556ed32898b04abbe78da35772c63337a99c15a46",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/ConvertTo-Hashtable.md",
+            "Sha256": "6f0e31da97b05a95656418f98d090651be04ceb350a2282216f8bf786614a52e",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/ConvertTo-LexicalTimespan.md",
+            "Sha256": "5b2c7f61afd0782d8728e031c5474a67e4d0101e3b620277e4a0c41fc42b0fa3",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Convertto-LocalTime.md",
+            "Sha256": "36ae12372412d136f40da5c47a406a013a80fafdf774ac73b0747bc7a5803bbb",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/ConvertTo-Markdown.md",
+            "Sha256": "0a5c943b545e6c8ae53db3108ed2a5ae3a1683f5d0ca8994ac77deb9d3a0131d",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/ConvertTo-TitleCase.md",
+            "Sha256": "1accfc601b1856eaa0815e41a063d871d50cc67a8d3b280d3c73f308a3f23408",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/ConvertTo-UTCTime.md",
+            "Sha256": "86672f62f0152be2cb759fc5e546d38f64af1ad2db6577381f3ad31ec52a8afe",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/ConvertTo-WPFGrid.md",
+            "Sha256": "17be1df71cb22b65edf3afd703cb12dffbd083237482751d452fc3be0512d34b",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Copy-Command.md",
+            "Sha256": "a09e54f38f1c1dbc6cb226d748dd2b7e57d941e5edde28f9a866b9000c1eb99a",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Copy-HelpExample.md",
+            "Sha256": "79bb4e2162e43bb580a12dab9eb7f8ddb9f301d44e996d474217ab283acc6dbc",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Copy-HistoryCommand.md",
+            "Sha256": "560188fcab104189e7ae1826570194086fb1c283314918b278eb3755eaa9a0c8",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Copy-PSFunction.md",
+            "Sha256": "7a4c00a5778f920cbfaeea05ea0fd593f30274f0a5d980b43ea1d90f50b167ad",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Export-PSAnsiFileMap.md",
+            "Sha256": "7ddebae48bbfa2fde1ef6f5721be685d7e944a86498e3db177bb0870c1385cbd",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Find-CimClass.md",
+            "Sha256": "c8a5944c6c136c83aa98433ced2d984a7b32bb30b26151b5fb6ca73b5fa9b63f",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Format-BorderBox.md",
+            "Sha256": "9900e8bcb8d2d152f16c2a46194df63b945ed55731058fa8bc5f07e2156e0ae1",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Format-Percent.md",
+            "Sha256": "e07b87b5e72f3ff365a0b8f5c5c90ca2e286336b5fc3aa1ce2c88548986dea69",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Format-String.md",
+            "Sha256": "0b8e4e182345e1539c95d27f72a4367b93b424350396b4235f68327e49a2a5b4",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Format-Value.md",
+            "Sha256": "df0e8c4aa50efc7412bcbfff7a66b3d84693827674be63e2f5534777ca7ee3cb",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-CimClassListing.md",
+            "Sha256": "2457914b4186ea104754dd32d87dab956f17d24e14e06161fe9247af00ce5c4d",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-CimClassMethod.md",
+            "Sha256": "b735075e67293bb9f9b08b909e4af40801fc468f76d120d423a3a4c4be2f06d6",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-CimClassProperty.md",
+            "Sha256": "3cede755859bf5e27a497dcc67243e41b37c40c26043c448ca50f3c0de47b8e3",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-CimClassPropertyQualifier.md",
+            "Sha256": "0e3fb62303d5ffd1abe91e5a356750d94c166681d9583ec8aa328859d0df089e",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-CimMember.md",
+            "Sha256": "bc05f4bfe2043a089c207058c8ba35f82dff814b7a103cec3be37103f4ba1862",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-CimNamespace.md",
+            "Sha256": "9cf2baf40c40ee575c42ade35c72066f8c69ca2ae67c459f08985f4fc05fd688",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-CommandSyntax.md",
+            "Sha256": "68602e948ca32bd3fd5ef6fd6be7f045aedbb27822da961d347d811e14988da3",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-DirectoryInfo.md",
+            "Sha256": "cc5fda5da094e59175e63bf127830ec3c99f7653cc0894de9f2ec56c3e003360",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-FileExtensionInfo.md",
+            "Sha256": "896d4fa28ccc0c1b360be1c156606d5936643ab1503f49c5e7831d50e9ca1d9f",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-FileItem.md",
+            "Sha256": "4146f8232079cac9ef505ce43f0cf3c5f9e1064cd05081a056ef652a0dd8dea7",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-FolderSizeInfo.md",
+            "Sha256": "2c075bcb3a0834d741526b58331cce264db448b2ca52eb9129bc8904c07c88f2",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-FormatView.md",
+            "Sha256": "2c6cdd17112f95fc09562ea86519f0e9d2a7fea10063d0af51fda9ca3631b472",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-GitSize.md",
+            "Sha256": "4e0c546a8a5717190dc06bd328a86d5293cdb7563d79ade141bed94cb1185485",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-LastModifiedFile.md",
+            "Sha256": "bfe679e2be70c4f4bc54500c32794846b8e8f294e04a40cea038d6c53985d01a",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-ModuleCommand.md",
+            "Sha256": "1a019e4725f543db6e40e342719a8b908ecc124e66d1073669053990382ebde4",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-MyAlias.md",
+            "Sha256": "c28290817e156e2a4793136a62a2ba94dff26129e0867b9e67c78f3f05b2c322",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-MyCounter.md",
+            "Sha256": "0e71caeb51a3ede78cdb5c1a709f4effa61eaa8a98490afe6e9fff7ef0251199",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-MyTimeInfo.md",
+            "Sha256": "457ea40d06480726982d5fca750ca1f99e4cc5f8acbd504ad92267bd6cbabd85",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-MyVariable.md",
+            "Sha256": "691fa9284685e476eeeee3da256a12b3166eb60bc5d63fbc32019a966c3713b7",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-ParameterInfo.md",
+            "Sha256": "3e9348841401a49aca6d3c433088c01e8715d71fa93213956246b39bacb8b86c",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-PathVariable.md",
+            "Sha256": "c793db1a122cc7a235e5dda6a216379b37e81af434ec51083b7bac9ff15366f3",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-PowerShellEngine.md",
+            "Sha256": "76879af74f62e1c392066aaf16924bcc2f00c3ffe9212f8e40680272a3d77758",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-ProcessTree.md",
+            "Sha256": "499407a650f39b4b9867d81cf51316830df22462d3054061d988aa3f001108f8",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-PSAnsiFileMap.md",
+            "Sha256": "d2701a4cfc2c844f81226a043c705dda3ae1d30c1b64e793f730a6cd3a4485a7",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-PSLocation.md",
+            "Sha256": "4c81404711541106cbd717d4cc5e755df5a11de732a53fff2706c879b0f0b9f4",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-PSProfile.md",
+            "Sha256": "e2158c362b2e7e48c8b22ba48c2c878cbf4ace3be8dad302e30b74f48042b0f1",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-PSScriptTools.md",
+            "Sha256": "fb982cc9f1ddf09763a62fc7d993b0e297135530df0f1b1b21722f34c7ca298c",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-PSScriptToolsTypeExtension.md",
+            "Sha256": "51d4c9918855ecdd879d41d1dc8a1fd7cb87e58cfa7e540eef626f5677cd8ba9",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-PSSessionInfo.md",
+            "Sha256": "824f10d576e89dbfbe363dfd30d1f62027210dd777d82872f7330085e1efe968",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-PSUnique.md",
+            "Sha256": "16a5bb458a5eb596a17e9077cb17d0e6aa423ba2fd3e2b720812cb0cb41bb23c",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-PSWho.md",
+            "Sha256": "3b2789d2dd6f8b25bf7940fab990eb0b5ff4fdacb7d2d651512492acbc99d1dd",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-TypeConstructor.md",
+            "Sha256": "608f25ce13c8dd4d0aa07643e0be67b302e5b53b0bc7920ec213dbb6e509ffb7",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-TypeMember.md",
+            "Sha256": "f4e31a2c8fae78cd274f58f68f9f105bb97cdc0c5384729854316bb79fab0259",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-WhoIs.md",
+            "Sha256": "467aaf3d9c82207531bae906ebdcbe9109b34cbf6c7e6d9703867803813b95cf",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-WindowsVersion.md",
+            "Sha256": "61e1f3c7438837d529514ae77b57b75a96f5da126e8fc7d333b2e7627cb11bef",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Get-WindowsVersionString.md",
+            "Sha256": "3112ed6e70bbf6fd28e7b17f1a7e25254b2d1e1123b071a27eb782e415f79fa1",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Import-PSScriptToolsTypeExtension.md",
+            "Sha256": "55b8204546c4be9f6f290ab1ae0dc22efd1e1107686b642d62dbeaa2f6532033",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Invoke-InputBox.md",
+            "Sha256": "91413d0e03186e8e85dc3b9d4ac8f04fa162f1ba6addbf9e2c7921e63badbcba",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Join-Hashtable.md",
+            "Sha256": "c307bf6fb66350d4e64ce480063fd8e95581e358d65194a03e34232ebcfe3d4f",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/New-ANSIBar.md",
+            "Sha256": "379c59cebe6878af5cf56dd028c4c823ab6e39d47cca9725238b6bc102a76b00",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/New-ANSIHyperlink.md",
+            "Sha256": "66038727f02eb08f52da0d3801e75cc74d95ce1e9660964349e38ddda78086a9",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/New-CustomFileName.md",
+            "Sha256": "46d7c070534fbd3771516d69701798571ce89d83dfbc6a12f126fb9ec98183b0",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/New-FunctionItem.md",
+            "Sha256": "c5943a9efa926723180d89fc1d1e05902305079eaa6ef9064f95d062d9bfca69",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/New-PSDriveHere.md",
+            "Sha256": "8abb5dd1408f9955e3a7100a28bf8a704e1a911bb944a015eb5a7e882b707577",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/New-PSDynamicParameter.md",
+            "Sha256": "0580cd90b3431ab361071bb05ea970e2c2e495519adb4abbf2128f66d5a94fa5",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/New-PSDynamicParameterForm.md",
+            "Sha256": "a3e221ec751285e06cf5d11abf9daf99068fc9fc87357f28c7ab741b4e59c8f2",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/New-PSFormatXML.md",
+            "Sha256": "04114f8c444ded555d47f4f2bd7daa31f3cdb7c51c25409a9e8f2a9e4b22a41a",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/New-RandomFileName.md",
+            "Sha256": "a8f79e71ffa07511b56145b8bce11f696c11c406075b89e72f536404c663b485",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/New-RedGreenGradient.md",
+            "Sha256": "776762321396ec4ee52d044d882d7894d5398f34518453a865c893a89c925107",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/New-WPFMessageBox.md",
+            "Sha256": "89011b376c2560d42e1881fb0a0861d9f5807537badb16b672a15f107bc65ace",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Open-PSScriptToolsHelp.md",
+            "Sha256": "26bacbe31589dd904dc255b9bb173ac40b6afd15e97d51689194b3e387d2e740",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Optimize-Text.md",
+            "Sha256": "ab5cbe91047c678745879215e4ff15731d25e743b30ac504477a7f091ca06ea7",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Out-Copy.md",
+            "Sha256": "4024beb8954fe79e51e82bde5f13f723222d13518ce344a9cd19143a4fc83049",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Out-More.md",
+            "Sha256": "9738bd5306ad6a75b6a2b6766e27ee0bdd74e0d0d354c2954c15d90fa08e3531",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Out-VerboseTee.md",
+            "Sha256": "9c0e49d7d203f7c0e54187b4c72339a496985e143f0bef2dc570b94472924dbb",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Remove-MergedBranch.md",
+            "Sha256": "4edfb32592fe0d55ae940bc23e66a53968d56ef277a168368665e7094e34ae6c",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Remove-PSAnsiFileEntry.md",
+            "Sha256": "28e3edd8212af5907c09ea119cfa31cbfe1089bab99222b74c50d032016ac197",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Remove-Runspace.md",
+            "Sha256": "e8cb22a5d61769d8e442df2c8c67df5f4cef2735082af6b30ca74a23bde7f991",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Rename-Hashtable.md",
+            "Sha256": "1db3b724cc426fba22583febd959ec3e56e7b0ed3a060ffbca125c1f5efbff70",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Save-GitSetup.md",
+            "Sha256": "528a4e85b2c000cc81eddc3d7386be73fe116a535aff9c8f66d26fa8328ad4b1",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Select-After.md",
+            "Sha256": "450a8e4caf072c3f16833e863761c57d6bf46c781fc53ea805b22dfdc4057376",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Select-Before.md",
+            "Sha256": "5b8f5f8cc0d7bf42a0d29f71b599423f1d0ceef5c86616fa5dd0b150f358d673",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Select-First.md",
+            "Sha256": "64e19f5c1ff091f97f75c90714e20494ed4990c96854121b27df57d22f316b9a",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Select-Last.md",
+            "Sha256": "67f7f311a4373137954c05eb5bb023dbb13f11bffb8a18162ee9a5aa1139666e",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Select-Newest.md",
+            "Sha256": "4ec2170254ae5b21793c93c370e5e0fb712d82c7ab53015e00e69d20ae8e4dd2",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Select-Oldest.md",
+            "Sha256": "d550cb85a4e81f1892b91ea093c9feeb886a1d1926dfcd3a3870980cafb296ad",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Set-ConsoleTitle.md",
+            "Sha256": "0145bba4ede3b67cf6610c803bcc034dddeb263dc40a684b7666163148f88d86",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Set-LocationToCurrent.md",
+            "Sha256": "8a8e0bbb285030d89a4ff5c12c2e13e639ff8b41f76c6b67bbf054bb6ac7cb6a",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Set-PSAnsiFileMap.md",
+            "Sha256": "c87067f9deea53811fc5f4345e99d58e562caaa3370db0dfd6234227d1cdb35e",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Show-ANSISequence.md",
+            "Sha256": "7ce6d455e352c7cb01f7d4b779d1d799d10b4d8211d1d43f48456a6fb01d4a57",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Show-Enum.md",
+            "Sha256": "b45984bbf8164432b951a7440f2e8459c0adfdc1783c65a973d63556e5082335",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Show-FunctionItem.md",
+            "Sha256": "7040a5e0d90c83341430eec3fa4df29bacc9a771bab2ac8e6deb5f7e68add773",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Show-HiddenMember.md",
+            "Sha256": "36effa015ae68ec0a690daedaf735fda1976761985e243e1aa580ff6e74f96b1",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Show-ProcessTree.md",
+            "Sha256": "cb6f46f530ed819f4f1d3d60bc17017e8f17f52f2b7360e1de09a6543dd553b2",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Show-Tree.md",
+            "Sha256": "bf9d337a2f98002b908150b88b25b8a45fad44e12b1051539b9c03ff38bca844",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Test-EmptyFolder.md",
+            "Sha256": "47d301e5817cd8e2014a544584fd11d73bc38b350b187508395d8c2f2080c395",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Test-Expression.md",
+            "Sha256": "49b0a672b7a3e50be469d4ee4ad6d6177ba2dbb94768429f36b694c8b8cea7b4",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Test-ExpressionForm.md",
+            "Sha256": "38a25b5d5c0f70887f81083b5fb7a63a7259654f58abe3818adf54a54302c2c5",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Test-IsElevated.md",
+            "Sha256": "f632c5dd4860d8d1158dd9a1e61674463e0e0a909cac653468960f8a8fba6aaf",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Test-IsEnum.md",
+            "Sha256": "030e946b1f57d2c51f13083aa71f2fbca9213632d8e54c034956fca86e14cf10",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Test-IsPSWindows.md",
+            "Sha256": "a180c0f2f000b5707b197a832e0644466e49ee3092e2ca7941b1a51c3c51b053",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Test-WithCulture.md",
+            "Sha256": "e53fd7b45f38329161a596789f0464741965980ef22532f50ea5215369815699",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Trace-Message.md",
+            "Sha256": "9c8ee6159a66021668ee4dd2d189d07df98bc0e2fac087d1c94426da4d759183",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Write-ANSIProgress.md",
+            "Sha256": "a5d3b5c39f6ae9de21ab784354bf75be6cdef7c0475d9a704424eef25ac5d815",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/docs/Write-PSHorizontalRule.md",
+            "Sha256": "a09275f5eb1de678e6ce1f1b3b97c031676e478768fa0312a0dd89e38e7a0278",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/en-us/PSScriptTools-help.xml",
+            "Sha256": "c3e0e75dbc8cce0d99e7ee6a1ef84b5cff96504111d18f7b889ac3b1e4d7b6ac",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/alias.format.ps1xml",
+            "Sha256": "401931ffc5160870aab91f43d74c8938f3891395c8ee31b38daa10408090cbc5",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/cimclasslisting.format.ps1xml",
+            "Sha256": "6bae35a7b6ffd76912a49a863754bc1cd75e38c810eb24a9daa740fbff95d7a9",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/cimmember.format.ps1xml",
+            "Sha256": "de536c84368be6e475337b8c1b8a1568b09df5f4e4c1e706b77717efe6426268",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/directorystat.format.ps1xml",
+            "Sha256": "c2416aa5f2fcc7453c38ef7f6c55d3e35bbdb4f34e9711a6b082da5697b8160a",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/enumInfo.format.ps1xml",
+            "Sha256": "61468b562fa0ffc76ffa1e73cf82e4ad77ee5daf15879a974b1e259804e96e32",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/envpath.format.ps1xml",
+            "Sha256": "7736f8b17661e446bf9d9613fe070f3f80215d4d0e34915149aaf695fed3fa23",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/FileExtensionInfo.format.ps1xml",
+            "Sha256": "786cd574390f1f3a0f8d5a66a20f4d1a56a82985442c1bbc14194e6d00d31907",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/filesystem-ansi.format.ps1xml",
+            "Sha256": "e653d6d69680e43deb39f3fc9ca8b9f399a30c91b617bb6e188c3adc55071ce5",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/foldersizeinfo.format.ps1xml",
+            "Sha256": "cbfdd1409432ac0847b03b101a8925fac647351f188e57d1eda99fdb1522831b",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/formatview.format.ps1xml",
+            "Sha256": "45a43dc01c1540554e0992e98882e4de504d89be0a5f764c1f4ca78c0a42e29b",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/gitsize.format.ps1xml",
+            "Sha256": "52aae0329de578a0dbf95d451fa996b9a9b1c20a6cb1787f9310333a5915c26a",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/modulecommand.format.ps1xml",
+            "Sha256": "5034b124a0b55c78f1398fe98e38c24106085df6091d5bdf041076a4989b2b33",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/mycounter.format.ps1xml",
+            "Sha256": "fdbe3b716057e59080339025f55bf92acc6452fd97e3dec6d6f783e1ef02afce",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/psansifileentry.format.ps1xml",
+            "Sha256": "259b8a39e1af2a99aecabd4ca09e137926830a2ee02f195eb4c4283dce2551fa",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/psHiddenMember.format.ps1xml",
+            "Sha256": "d761333f64d3a64186409137edc578802c8ecd50340c282afc8c8eb4c6b763fc",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/pslocation.format.ps1xml",
+            "Sha256": "7accf44245f12fee0cf1e5eb06cf88fba0a1ed04f0e268c4b942985a91c600b7",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/psparameterinfo.format.ps1xml",
+            "Sha256": "0ffac0e95a71b050e9c863c5c4fbbd4fb00532b1ad6f9592bf31c93df837a644",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/PSProcessTree.format.ps1xml",
+            "Sha256": "b0ab84a767f08fd276107e4c50076dd40c36d6d3097b8497085652f5f7a4ba2e",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/psprofilepath.format.ps1xml",
+            "Sha256": "feb4a316cdcc88e3904af5db0adbe57336eab3fda74dead3011590a09c41a675",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/psscripttool.format.ps1xml",
+            "Sha256": "92815a4314b7c8190ede23e7a8d476c74c44794e38047869cf1caeb0d579028b",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/PSScriptToolsTypeExtension.format.ps1xml",
+            "Sha256": "d29f25b3e569c449f5315ce9cbbc5e806d31cd6015986917ccfe4dddbed63691",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/pssessioninfo.format.ps1xml",
+            "Sha256": "25b4bb9852dabacf310949f7e2b7c017f929158725d1f74a53f64150c7a56fa4",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/pstypemember.format.ps1xml",
+            "Sha256": "97df4e228e807ffa1dcf8752902d0beb97d40039d466588b3ccdb8f2c92a1add",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/psTypeMemberConstructor.format.ps1xml",
+            "Sha256": "1762d2690fae45dacb4d0a1880dadc26d388234919e8dbeca513ff372cbccc8f",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/pswho.format.ps1xml",
+            "Sha256": "ba722818c868da3f01671d18282ffc6b9535ed45dfd0da33b0d180ca75726a19",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/serviceansi.format.ps1xml",
+            "Sha256": "b7537849fe08e0a58dba4d662bf67f651026db96b73977eac09e41ac5fdb2ea0",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/timezonedata.format.ps1xml",
+            "Sha256": "bb441bb23d4c40b6293c355fc63d4562ddbf401c08ce9e21c0848b7dfbad781c",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/whoisresult.format.ps1xml",
+            "Sha256": "bd721666daa4d70c11214f729fc709c5dbba7c080cba5856b688acf6607b69bc",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/windowsversion.format.ps1xml",
+            "Sha256": "40fa8904600e3c34705f58c7505c1ea32349ba6a4034d31869dd70eeeb9d0e8b",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Add-Border.ps1",
+            "Sha256": "e51c9a17cfe7c9790380e524b11f7d8c8e542c4221e7067dbdc33b03b6f0258f",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/ANSIFileMap.ps1",
+            "Sha256": "ae18f2b4fa796e0c00373a17db6e6117e4e379fc82884fe6acadc1dcf0f319d2",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/CimMember.ps1",
+            "Sha256": "ac9c0bc137f815604928d68e59f3b9ee0504c8d15a1148c718944dbb667a83a4",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Compare-Module.ps1",
+            "Sha256": "59ce5bb2e51addc4c6143a98bd7f006e9d8ec549c389d9d4bd2f76f1139c1c1f",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Compare-Script.ps1",
+            "Sha256": "2a3355a410ef053fd0c0c06d68eb626e84dfeb72173db11684288d7641e8a453",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Convert-EventLogRecord.ps1",
+            "Sha256": "0a16c0e80ff0780ae2a16bd4331efb409f625b43d92b2f4e0a6310d9ca77fb9a",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Convert-HTMLtoANSI.ps1",
+            "Sha256": "6a39651a920957d8e146e963bd4bee392f4e617a0535a6f593492a9d03733f07",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/convertfrom-text.ps1",
+            "Sha256": "9d57636f6d78c599682cc620d9be66642f3aa4ddc26625082faee0d34ed544f9",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/ConvertTo-Markdown.ps1",
+            "Sha256": "dc394b92bff75afe82f33469bc066ee46200a72329d7f446ac122a83f0f136e0",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/ConvertTo-TitleCase2.ps1",
+            "Sha256": "85950da8eefa8d2d1a1d8907bfd787691c97ea55debe86187cc4e52972ae6b54",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/ConvertTo-WPFGrid.ps1",
+            "Sha256": "ee46ea4187323dac24099d9956268dc608fdb3b7ee1f7e9553d9fff517e96b89",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Copy-Command.ps1",
+            "Sha256": "9fe8dae88fac427c5950685a3ca33f13cbaeb0df9b0a3df8e8968f0848831728",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Copy-HelpExample.ps1",
+            "Sha256": "50f8151458aadc0581a65c51a5fa72769dbf489131fd9075a645545585c760e5",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Copy-HistoryCommand.ps1",
+            "Sha256": "42bd28692254da1b078e5ccf6ce56cb6dd6a34e446320d06a6376b03d444b327",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Copy-PSFunction.ps1",
+            "Sha256": "3b527d3e31221935e8c7c7f40ad3ffd0eb12eb194e02f4aeed8d65b9ecdbbdda",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Download-Git.ps1",
+            "Sha256": "278f8f07c1fbe3e0677c54caf14d9208c8503c40f02259a37c54120320719dbd",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/FileNameTools.ps1",
+            "Sha256": "ea264bc7898ac3a6c27b1dbe787ec555dc40144be957290a364d8f4d0c25eb3f",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/find-cimclass.ps1",
+            "Sha256": "6a13743f5de27e510a9cce5f90ea6a1a98859280132e8307ef5c9c0e0faac1f2",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/form.xaml",
+            "Sha256": "2253fa8f1c00b66dbe8dfcbe42b28b5884ad4ded00afa3b3361ddbe734c6bd4d",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Format-BorderBox.ps1",
+            "Sha256": "1bf9273944c75fe95185ab2aebf00e4e53805f83c7a40fe0891b4bae922088ab",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/FormatFunctions.ps1",
+            "Sha256": "0a0fea01d8c99cb43216194d3dbb25e462c573ef775c2c69324e934de5e841dd",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/FunctionItems.ps1",
+            "Sha256": "71bb71afc55b349bb4d4a3a57e0c741090f6ebb974284fe522c3b89a45f70648",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-CommandSyntax.ps1",
+            "Sha256": "91bc610abff4518c2386b3df5ba5d96c828929ac6ee624ee87079e19c784f66f",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-DirectoryInfo.ps1",
+            "Sha256": "e2666d58c45474ee1bf0a15cde09cd683c2d67acdf3f26b972cd003b7e1eed36",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-FileExtensionInfo.ps1",
+            "Sha256": "b0e0ea5de8cca3e75d66cca7ce98bd128e1bcf7708bf1d5fe3f4490b7a0a329a",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-FileItem.ps1",
+            "Sha256": "0fbffade97751a7948db16f856ef471e4f023fe162c9eb6f09a9a2c0e7539bd8",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-FolderSizeInfo.ps1",
+            "Sha256": "2f15235b7155a4f756ec5ff5585900d184aed6aa51f6ccd5fcb09dac86001884",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-FormatView.ps1",
+            "Sha256": "fb007c2e56ff47cae293b6548f19d8f1da6b2d72ca18cec9ea2e30e5d0d3ded0",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-GitSize.ps1",
+            "Sha256": "8bc2562c2fe3b7e9e54b1c306e64327f30227322453987e1340143dee66ef076",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/get-lastModified.ps1",
+            "Sha256": "7c4838631d77c6b5a388cf8f554bb8e7a92773d8ca3441e1f0e057b518862810",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-ModuleCommand.ps1",
+            "Sha256": "7fb23cb41cf481ee8c9e3a30241918294c24b853824f71698f9abc518701732e",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-MyAlias.ps1",
+            "Sha256": "fc53fe5e7ba8c910775c646a108abf97b8a4f21050fc8d3517a960fa542c71f1",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-MyCounter.ps1",
+            "Sha256": "b30935dc964a4be2079ef6e723b8e487311b4be78b77fbd74523cc8f7aefb454",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-MyVariable2.ps1",
+            "Sha256": "3b7b2e6d9d055bae0485d56743f63df2297c8b9a9692553b55c5071f71118c04",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-Parameter.ps1",
+            "Sha256": "d16398311f3c7b938b2a833b9aacfd2312e5ef15f41aab63fc6b85cbf2378d70",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-PSProfile.ps1",
+            "Sha256": "9f0820d799a4f6aca0c4d145e5bfc9f2b08e123f69c1c22ff7675b9b67081bc8",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-PSScriptTools.ps1",
+            "Sha256": "44496022d758d2599313ecd3d4c691105a6a31c676bdd3991ebc89b04a1137d4",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-PSSessionInfo.ps1",
+            "Sha256": "4eca11cb99c598e7b4eeda0ea62fe0a3635aea93df5bf6d2ba303e39e153e70a",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-PSUnique.ps1",
+            "Sha256": "b9c97e3c4f3b6cb30ca6f059857ba9b44dcd505e6bd44f9f5f59966bfa4a2512",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-TypeMember.ps1",
+            "Sha256": "cd1e4af714de527ff54216ecbcee22bfcff96a49cc8d6c527b4a2e36969d8011",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-WhoIs.ps1",
+            "Sha256": "5eaed156f790294c4c144f72cf00034d4cabf7ef3a2845f919c741ffcddbfe4f",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Get-WindowsVersion.ps1",
+            "Sha256": "fe489ea181e344c64b658ae08bac36c2c142836948d2067f39f45fd5f763dda0",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/hashtableTools.ps1",
+            "Sha256": "8c84ab506998fb28e70c067eda893fad8fe48e2a7f2ccf98e9c87248d5c34293",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Import-PSScriptToolsTypeExtensions.ps1",
+            "Sha256": "5b3a34ade9d6468f0a0d3372ab53db724ddda62e70199460986e93d73eeb50e3",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/LexicalTime.ps1",
+            "Sha256": "8c2fc6d568baf6e8bbf6fb1afc6a5e9c70211aee3bbe0590e9c2251f927e5d2e",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Locations.ps1",
+            "Sha256": "d40472661c3b312a37ac4527ab7702012fa320f3b1c2464ce5813158e76003d0",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/New-ANSIBar.ps1",
+            "Sha256": "1dfb9223fff3a621fb4022c84bbdf9f2b3b8e4b909cb8894b67f2e4145dc9ded",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/New-ANSIHyperlink.ps1",
+            "Sha256": "90f7edc1e9236a5352d63deadd0a3f25599cd26ff3fcf5de1d7ce5e02d8aa1f8",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/New-DynamicParamCode.ps1",
+            "Sha256": "307660edcaa925e9fba6fe009d40b9f4695cf44d89c5f5e3c1012048e0964c60",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/New-PSDriveHere.ps1",
+            "Sha256": "c64257986c8ff469fcb279eaee322767e2fd71bc1eaf7c1b7a5bda7f4b714212",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/New-PSFormatXML.ps1",
+            "Sha256": "d1154a6851cc0ddbf36d0a00e3d71ed27d9d86db5a74b0c92857989a7af03f0c",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/New-RedGreenGradient.ps1",
+            "Sha256": "e71f9b440c8cb2521823e1ef3e69b03afeab37d277c07b1cebda30cbb49bf6b7",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/New-WPFMessageBox.ps1",
+            "Sha256": "2f5407426984d6ecefa1e4b4a6ad871002e00cc287ad4575ed2c5c5cba92221d",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Optimize-Text.ps1",
+            "Sha256": "5e1b846ece45b990b28838f4e79b9e576851ef60b513d3e45edfc495d99e0be8",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Out-Copy.ps1",
+            "Sha256": "6e0b28861b0cfbc0c2dde103ad69cd510cf422de0bbc968b350c2738e3de00fc",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Out-VerboseTee.ps1",
+            "Sha256": "67dabdb10d8ea0075bf89cfa7ce33547f11287dd1323303649ae614979c430b4",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/PathUtilities.ps1",
+            "Sha256": "1b603eaab43cd68b7af071df83708d9878543cf1f48a5c238a7cc1e3d01c63ca",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/process-tree.ps1",
+            "Sha256": "7485620f7adb4b124bc3b1d27aa4ede8d5335914315daba62cfd267179a7f562",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/PSWho.ps1",
+            "Sha256": "34736408d95291a8dbf2907e12a80445d6cfb68a93ea96f934cb204748fbe3c1",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Remove-MergedGitBranch.ps1",
+            "Sha256": "dc0cfe507a6e2516739e4995359c0a136a03124eee5ecf4ddb43f51f2895c404",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/remove-runspace.ps1",
+            "Sha256": "9f07a632413fab809840d7c460fa2108e5db2633d09b64081dfa24b575519451",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/SelectFunctions.ps1",
+            "Sha256": "7bc55afe5c17ca71c0e264ce444fd9557dfdcb91cad51b3c1f2dbd280ba7adec",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/show-ansi.ps1",
+            "Sha256": "c639decf9bfbcaa4ddcf52da090ac47838c89e9d6d12b3db2a7b50dc914b0f4d",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Show-Enum.ps1",
+            "Sha256": "9b043cbbcb40e98715e6f493b8c1256d777a0ac75cd2f9b8f81f0c8d35196fa1",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Show-HiddenMember.ps1",
+            "Sha256": "cd5d7e833db4183695181880ebc4d45d76f5eca4e474bc08ee816bf2e1967ca1",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/ShowTree.ps1",
+            "Sha256": "247ed38488726d4ffdd93a7a6af81779ffec825585513a78ed812cddcfca5548",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Test-EmptyFolder.ps1",
+            "Sha256": "59a427193e26c82f3c550c7c3219886379489e714976bec251b874a70a777e3a",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Test-Expression.ps1",
+            "Sha256": "82dfd6ed313f17dc9122f3f058e21db1d67742fc3ac3cf910e6003bb82636cf3",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Test-IsElevated.ps1",
+            "Sha256": "813c4fadf89d4fb2859b7809cf015683ab9e3d33c9f514463152e79c248535d2",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Test-IsWindows.ps1",
+            "Sha256": "8514f3cb7e47f21aee2d4c9f3773b7d45c18d9b863f7dd0b7bb01c17be409f1d",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Test-WithCulture.ps1",
+            "Sha256": "1c28fd392de5b84e6624c6ef7cef0b122af79874b601ee17fa41e63e43b6e659",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/timehelpers.ps1",
+            "Sha256": "a06dd4424297a9eca0bafb57ab8514d6365a4dae28b81b19f8ecce8921918abe",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Trace.ps1",
+            "Sha256": "90073b0a58a6ca86bc3bbb569f77f3561f98496ade65bc49d47bfb3035bce110",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Utilities.ps1",
+            "Sha256": "1625373211d326669795cdd8ff2b40381e57147fd07065ca69bbec50cec81592",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Write-AnsiProgress.ps1",
+            "Sha256": "2768f1fda6b2ecf58b0227b5a29b2f96c5c9ed2c93c58afec7dde764bfc7a493",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/functions/Write-PSHorizontalRule.ps1",
+            "Sha256": "a3a596d8765ce73998708acf2d471b34732f192ad6ac512d2560edb24a5c2691",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/icons/application.png",
+            "Sha256": "d15eb3c5197cd8ca8e743af52b6d71def0162e54617276b9fbde87b5ff3a44de",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/icons/error.png",
+            "Sha256": "ecacdcf3eb6905cd9737f2701a91ad71bb6dca40a43f721bd579cdbfb1fedcee",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/icons/information.png",
+            "Sha256": "7a559f0efc4262e5d16f5c50e6a2f73faf6bb69a163437b891aeac478fdc375c",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/icons/question.png",
+            "Sha256": "cf34b920f7601d31fafa28e678d98a8074ddb8c1c9606efe3e10b01ed50f82ae",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/icons/shield.png",
+            "Sha256": "274a89e2fd658187403200c9ba4b305eca6a55aede3d9421db7f83299f9e0f14",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/icons/warning.png",
+            "Sha256": "d4b6e422a37a9efeeae0d2f27cda2a0225f05b291c32681bc95b072c28d0d87c",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/icons/windows.png",
+            "Sha256": "d15eb3c5197cd8ca8e743af52b6d71def0162e54617276b9fbde87b5ff3a44de",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/add-border-ansi.png",
+            "Sha256": "874ea7e18a303a629d694d3094e6eebfa4b9ca60aa6799d0dcbd56d50f932c92",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/add-border-ansi2.png",
+            "Sha256": "69d54b5bd574c7b0fe14b5b9d4ed28e13a2b70702be1be062c3028687b617ce9",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/add-border-ansi3.png",
+            "Sha256": "013d959ae9cfb1aab792c01b5ec81f9f0664bdcc803da0c234800ecba85567ca",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/alias-source.png",
+            "Sha256": "085bbf3a2bc309092f6f7ad24210f1723ba2a0358e0bc62237faaca91eecf6b6",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/ansi-file-format.png",
+            "Sha256": "0482f99924172934ec1a789bb2d2518adf2847d47c1dab806a439f43d0d00c73",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/ansibar.png",
+            "Sha256": "e0a884c258a0cb2f4618a40e82efefda53980e19021b7d6974168d6ec454d0b1",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/convert-htmltoansi.png",
+            "Sha256": "abc350f7b850c703586370adb802272930143a22802954bf56ebce8083cdb865",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/convert-markdown-list.png",
+            "Sha256": "f82fcc3b7ca19278a9110a1828a515d0ad3dda123f5a1fde310c5bc7aa24722b",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/convert-markdown-table.png",
+            "Sha256": "0e0bc561171a892679327aa8e8187336928bdd27e3a64fb8fcb6bba914e85b99",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/copy-helpexample-1.png",
+            "Sha256": "145173d177047df667c63bc79c124b0db1829b96b0e8034b697a3fab5b9262fd",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/copy-helpexample-2.png",
+            "Sha256": "fba25c7f80e1a8b1ac3c9ef9d7b811faafc6c81f5c5a2ed5f38430d6629726c0",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/dw-1.png",
+            "Sha256": "132838178c778bd6697e7d78256351a384645e62095f95c46bb97b3bbf4193a6",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/dw-2.png",
+            "Sha256": "95a225aeb606c90bc7195b8bedc34a1141e076339f2ce1e8635d5e42b387f59a",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/dw-3.png",
+            "Sha256": "9d073e3bc0a913dbd60a1e84674e4e9aec84ee51ee67105d20d8283c67ab007f",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/find-cimclass.png",
+            "Sha256": "e0ea1b71687344f327c8e5223c617961949cd036d1ca79fc3780a2910276d736",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/format-borderbox-linux.png",
+            "Sha256": "ca362b7add9f96a9c08b51470113bc3d45f28d18d460940630583b643e99014b",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/format-borderbox-trimmed.png",
+            "Sha256": "1f9a94106c422dd0edde0c2039a9a623b93ec0a323299506d9899c6012b16540",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/format-borderbox.png",
+            "Sha256": "3d89548c46bf6b0317eb72e1c40c7c91682933d7273e9c5d41b99df083b4a81a",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-alias-option.png",
+            "Sha256": "a9a2ffc595131c1d1c7b726d11a904d77db490322f571eedcdd68f26f6d14158",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-commandsyntax.png",
+            "Sha256": "22a7948b5a272e3f9d535d963455e09a4aa6ff361b374ae168f5661532ddf03b",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-formatview.png",
+            "Sha256": "25fc069d6294b074efba06ba2c9dbc150c158841b48cc62b60b954ab742bb20a",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-mycounter1.png",
+            "Sha256": "2ff573c4fd3f441735f108cdc9504c86750fa1c40f9ce482993e3b08fabe3062",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-mycounter2.png",
+            "Sha256": "57746421cf1fa57063b0e6738cf00bfd8294d7bb0794444e14c360a78cd7cbf9",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-mycounter3.png",
+            "Sha256": "a27b546e1283c8e0bc7828e9b3c84a4bf84f8b7c4db656aeed8514c257a97bbc",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-parameterinfo-1.png",
+            "Sha256": "16e66f4aea172a1bd7a4770089e2c45bd117949aea891be26284aae04f32d99a",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-parameterinfo-2.png",
+            "Sha256": "58dd083ef85aa4673de3be6183e1175a472159cc64d9564d8d7cc0d54e0a2d15",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-powershellengine1.png",
+            "Sha256": "8301449e5df190b8e3ab2644605a40dffe3b5e7124a5855ab26378b8456b2a68",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-powershellengine2.png",
+            "Sha256": "2d8bd3d0803edf095cb0dc15450ff48a922e86f3ae28594db886bff0f162923a",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-powershellengine3.png",
+            "Sha256": "d4cec3619326111a6f822bd71ea03df8819930f44fc9c1f4c5a7548ac538bc22",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-psansifilemap.png",
+            "Sha256": "8707aba7cdf45407c5c308264e7b3746f0414748a914805cccab84f7cec1b6dc",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-psprofile-linux.png",
+            "Sha256": "116beed3c5aea1b1319c67f02b532466340633ccb9f6359abbd2891c68310a6c",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-psprofile-windows.png",
+            "Sha256": "3c574b9246632acfe617129e760bc39deb18abb14e31950568b08a1c6786356d",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-psscripttools-verb.png",
+            "Sha256": "b29e805be6bfe9bbe77e38983ffa8c48ac23ae8e76398748c04147fc2d3b5851",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-psscripttools.png",
+            "Sha256": "3e7d7d794a8f4168bea963432240b345c7863bae2be0ed4e1679db5b8eb57fc0",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-psscripttoolstypeextension.png",
+            "Sha256": "e4632070f4cbcafd621be5a6139f927bcfc9fc507e629d876417594d1a7df743",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-typeconstructor.png",
+            "Sha256": "36edd61b19f6cfceeb308fb578ca1c87dcc62913733c5c778f416d790b5da6a9",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/get-windowsversion.png",
+            "Sha256": "15c486533c09bea0900b7939562f6810641569338e21a752d038232dacc215d7",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/gfei.png",
+            "Sha256": "1a1900b27ad07532ef4b0ea920090943fb7101242c166ee2ca9640f0983e7905",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/gma-1.png",
+            "Sha256": "2553761a029b9d98c99a6db691871b9bce4a3eec403b2003330e9c7da6277575",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/gma-2.png",
+            "Sha256": "f9c16244ba3ea5dc3998a117002c87cf0e5c9f3c3380f02063d2927ff5fce6a1",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/hr-default.png",
+            "Sha256": "ace0b21c7a77cbe3f5b5c897319c5e5d55de8e4e3a1159c06793d3b8dc179deb",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/hr-processes.png",
+            "Sha256": "6595b7c904239c507be2bc9750e70351b15128d68a4e7898a98da58291ade476",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/hr-title-styled.png",
+            "Sha256": "fe27d5394933e4fa25b702eea2cc75b35bae872024980f875e6a9753ffbb8094",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/ibx-1.png",
+            "Sha256": "23ed97770c627836e76fe0818bae436e769e0adb36565a0f2f3998c005ebe439",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/ibx-2.png",
+            "Sha256": "e6ad9e84ddf0c64e54b95f9c9f96ffde51fc22b70e822dcf809596ed06260261",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/module-info-with-links.png",
+            "Sha256": "3a84b5fa00f8e578997ebe68621a1e0b106d20c3ac572a494c826ad803b78f86",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/MsPowershell-Transparent.png",
+            "Sha256": "d6cd60ca2bd65cad290d4694abdc14abab45e13d8c9c94a6a5aa096b91db8091",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/MsPowerShell.png",
+            "Sha256": "07c847f1ef71875852ae8b6f45a6d3845735ba48d0e30fc620f04746e8da2d3f",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/new-ansihyperlink-basic.png",
+            "Sha256": "d180468af325bd1730385f4fecd6f64728762c8adb9ffd0d55a48786e081b67b",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/new-ansihyperlink-styled.png",
+            "Sha256": "47a72123d437ef70d4a59d06662a18de59a379c0e6b5126d7ce0c9562fcb52c1",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/new-psdynamicparameter-form.png",
+            "Sha256": "aac832f9ed6c4d64bc176d5452d21614d66c3c8c116e58a8fbcbafcc266b5645",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/new-psdynamicparameter-ise.png",
+            "Sha256": "308e11e7e80b3a80e42cf0bd8783826afd25e130391d8020cc2f7b01b83b21fd",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/new-psdynamicparameter-vscode.png",
+            "Sha256": "8f0567475a0d3b33b36bd2488fe6960624a065ae31a489802bcdf0cfb7224383",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/occ-1.png",
+            "Sha256": "a685cef03c518a5e6d36db86d3a463276ac4e59fbce5b2944c7009355f7e226d",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/occ-2.png",
+            "Sha256": "e8c90d81acf34fe1eb45db3e39985375820b87c6eb227c554fc4bc0bd1ed2e11",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/out-more.png",
+            "Sha256": "895f284ac22ec10f7218d3b38d815963c90155f6d27767920425eb71c797192d",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/process-report.png",
+            "Sha256": "405a54af5f59045e6f981641193ce0453fab914dc4258fd13d429b98e54a1992",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/processpercent.png",
+            "Sha256": "4defcc99d9fb32c91e4e774eb80c26a11b5f12895ecd00eff56f44e0d07ab339",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/pslocation-linux.png",
+            "Sha256": "afcf10aba77eb1e576f244b91ee5e3a3309aaedd409be51c4f66b0e7413d8074",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/pslocation-win.png",
+            "Sha256": "409d006a5664ba74964a73ca2646299eb57d0f3ab5d78477e0c7a8e00af1cb23",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/pssessioninfo-linux.png",
+            "Sha256": "05f7e3ac163f8914b73a19604fbc08c33a954cbe772abcb98df42368b170d254",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/pssessioninfo-windows.png",
+            "Sha256": "aeb0b1bc40458070d945e771292ccd8c10d4f649b409a8dd524a5d91d7512d82",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/psspecialchar-border.png",
+            "Sha256": "b2ff716d4c714a9450ae26f9323c641b91fc7f10ad098fa8dbe73ab5c98c5ef4",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/psspecialchar.png",
+            "Sha256": "4ed645af5587821c553afec5aa863bcee2730372dd72f14b094f57b08478cd5e",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/pstoolbox-256.jpeg",
+            "Sha256": "a8762ee34da497eff0cef601ae5919a63bd7834479203581f27d42d44ae8ba0c",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/pstoolbox-512.jpeg",
+            "Sha256": "1f283600e6d1fe2983e0ee5a0d69238cbb66d28c8f3d7066740a87fcbb78803d",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/pstoolbox-icon.png",
+            "Sha256": "adaa0cdc2a6f01da3eb5f69b31863560c973f116e90848ce6f89cb290026d1fc",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/pstoolbox.png",
+            "Sha256": "bc9b0df3007cfa168c4db029dbc71959477a8d5b191aa3229de688b59b4c9726",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/redgreen.png",
+            "Sha256": "a2cc680106f05b6e6e5c39658b4bbe98536daac2be51af90cc5fc33341e455b2",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/serviceansi.png",
+            "Sha256": "e846c50c1a48d1e2ac4577bdcf2e2e1a1a9e1f01359be0705914b52d28ffdb1f",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/show-ansi-basic.png",
+            "Sha256": "de66d2a3d1682de5e56f95dec7886a62880a80e132a3f9a148d575663b1a2e0d",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/show-ansi-foreground.png",
+            "Sha256": "c733de249dd39d4a9d3a4e209b46910cac6223a554e5fc294599d93604dee8d7",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/show-ansi-paged.png",
+            "Sha256": "8403b7913dbcb87a0202ea0b4950871d4deba7521df4764c4f6a7e7d03ff33e7",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/show-ansi-rgb.png",
+            "Sha256": "fb7b808e7aa1456daef61fc82b01f39d5c6f21798436f648bbd56197695364fb",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/show-processtree-user.png",
+            "Sha256": "e32f070f50fa0b28ada7706c1d72664f4b03634f759de6f106d06824c9c81844",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/show-processtree.png",
+            "Sha256": "e17839624ddf0053d46d691697c7db752e0bdad2ad658be7e10a75fd61c393f4",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/show-tree1.png",
+            "Sha256": "e254f60d2948ea844b3bcb18f6ebc6549f690a67a5ede1db43a5138b79f19a6a",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/show-tree2.png",
+            "Sha256": "e8c41a740fd2c120389f1a13bf5f3b20b5682834343657e62d478ea388409d56",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/testexpressionform.png",
+            "Sha256": "21df7eb2804303f26dcd90231603724f0e096b005225f9c8a73fb49550748f31",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/todo-1.png",
+            "Sha256": "4e036c4c1eda7685909366dadff8d4e8f6175ff2dbbf1068bec93a08d91edced",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/todo-2.png",
+            "Sha256": "e7640ae5cf7c6bcc91f9d19b23a5c051f98e6f8181ff64c22bfc4f220ae9f554",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/toolbox-thumbnail.png",
+            "Sha256": "431ff77101d6099a50b6206476e171d304a8c990d084dbd99b5d58921c55763e",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/trace.png",
+            "Sha256": "e1527223fde7077c932f00bdb199ebb75f84c0554bcdfee8af77a9f7259f95eb",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/typemember-enum.png",
+            "Sha256": "f2ea1a9260199d5ced6bf6ef3da6e6f376ab64ccbb2629531a6231450226ca50",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/typemember-static.png",
+            "Sha256": "81d1f369e9e2e8f5692298f94ec2553bfa827d9ffff2088451acd49177df24a8",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/windowsversionstring-styled.png",
+            "Sha256": "aa890cc432d7d1e7da188397790790a76b72d2bccda756cce1a1ea6ea5f6812b",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/wpfbox-1.png",
+            "Sha256": "3a950f71edd5671163899ab3a1580b316ea8676c1c3190f01be5aa2572c20f83",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/wpfbox-2.png",
+            "Sha256": "b9a00432ffa27881ad1dc3c096967da66eec8908028b782ceb028bf54b267e23",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/wpfgrid.png",
+            "Sha256": "4bc07bada5df3af845f3296b93db96da4c1a6b633a4513aa76448715f6723497",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/wpfgrid2.png",
+            "Sha256": "964a2be9e9591f0ba9a84b6fb4a20d330c4e72ea261bf85fc94f10296ea92b2c",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/write-ansprogress-1.png",
+            "Sha256": "0a8ae7036b9e2d4bcdf633fdbcfe4df7550fc1e4f926b00f1e909c1458a6e707",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/write-ansprogress-2.png",
+            "Sha256": "01c96e1e19fe4f9314a75bb4ceb01964c379c2126c8b1e5d1dc7c3bacca5b34b",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/images/write-ansprogress-3.png",
+            "Sha256": "d553509487c2a9d5af813247dceba3b90eb69d5cf3b5bff230b6b6e59989329f",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/optional-typeextensions/fileinfo.types.ps1xml",
+            "Sha256": "6c19b09b6de2ab70acae5c2b303e1a2d8a0373dfc10e877be0810ecc7527e727",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/optional-typeextensions/measure.types.ps1xml",
+            "Sha256": "b243b723dba822aa5df0fa5be155e9daa3b7321fb310e2f06e95241cbce9d707",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/optional-typeextensions/system.diagnostics.process.types.ps1xml",
+            "Sha256": "fcb3ccbe993932e4bf5ae8fa63496e705c3142295e1c05c684f9a9ee36b7ab34",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/samples/CounterMarkdown.ps1",
+            "Sha256": "8b23b0c140a6fbe9bad281e1f5c1c07f985b6f1fc40a029015dcdda4ab755648",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/samples/DiskData.ps1",
+            "Sha256": "f7b92951f2f0ee0e200259419765d8815623a4bf8f45c5a1b939add33542cbba",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/samples/FileUsageReport.ps1",
+            "Sha256": "3c43b98e2284d907fc66635574575aad90d1129ba3979afbb1889819b822c530",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/samples/Get-Status.ps1",
+            "Sha256": "d5c6e2f0d1a91d789da74582df45b7275905a44e803336d6ff8ae096850688b2",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/samples/Get-TopProcess.ps1",
+            "Sha256": "ae403b7bd22539cec0ad8c64ae5d35a30f80bb05a986899c0c04adf9eea75d67",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/samples/New-Password.ps1",
+            "Sha256": "d256fc66c36716baa167dd1c9d29a6884f414cdd15e60a76acfaae1b527d8d3c",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/samples/ProcessPercent.ps1",
+            "Sha256": "70b718f0b32cdf344a4ecaf91986472c53b79afe0989b051f15e2c82f33ac409",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/Tests/Get-ParameterInfo.tests.ps1",
+            "Sha256": "3cb467b38a1170a11b21809bd1dbdb71fb4d91267421987ea9fbadea8c81efd2",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/Tests/Test-Expression.tests.ps1",
+            "Sha256": "c244eaaf65ca291cce231793ab1fc8933b2141a3edb6a6b0ceb328ee11a0c7db",
+            "AuthenticodeStatus": "NotSigned",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/types/PSScriptTools.type.ps1xml",
+            "Sha256": "31974ec2fa0d07840ba40eefb1ac7e076ff80209f93ae15d3ea16af53a197ddf",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/types/pstypemember.types.ps1xml",
+            "Sha256": "7f8ffd630c08c69e0bf938394c6f53d8aacb08c603a318bfd6f66a8bc330692e",
+            "AuthenticodeStatus": "NotApplicable",
+            "SignerThumbprint": null
+          }
+        ],
+        "CollisionRefusal": "RIDE operation 'package.psscripttools' failed. Run ID: 55ecd96e74aa4dc28feb0d4d155ae188. Saved state: package.psscripttools. Completed operations: <none>. Error: Portable destination collision: PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/.github/FUNDING.yml",
+        "ModifiedRefusal": "RIDE operation 'package.psscripttools' failed. Run ID: de4037a9c5f246f7812f577da03bd436. Saved state: package.psscripttools. Completed operations: <none>. Error: Portable upgrade would overwrite modified managed files."
+      },
+      "Payloads": {
+        "Id": "package.psscripttools",
+        "FileName": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361.zip",
+        "Sha256": "05c86295a0846ae4f51ecfa6f38ef71ba8173be83eb0adc8627525a4c6ee72bd"
+      },
+      "SourceContext": {
+        "SourceCommit": "87893c66d919653d8b28b69a55a1a76be5187421",
+        "ContentIdentity": "Working-tree source-manifest hashes, including uncommitted changes"
+      },
+      "SourceFiles": [
+        {
+          "Path": "ride.ps1",
+          "SHA256": "4313DF9A9CE6245959058974F2C1B7F5CE477B4ED5FEE3E34A77EF167196A6D4"
+        },
+        {
+          "Path": "catalog/operations.psd1",
+          "SHA256": "2BDB4068913A29FC7E8DF4988EBC4E36013D56DE731AFEC988B5599772E2C291"
+        },
+        {
+          "Path": "modules/RIDE-AdapterBindings.psm1",
+          "SHA256": "913CBE26B6AC42DB78484B2EE2F1F9AB8B535E177E826A27B5CADA43D9D06271"
+        },
+        {
+          "Path": "modules/RIDE-BackgroundApps.psm1",
+          "SHA256": "F1471FE68702DA7A981B13583D4132D9DA7ABED46F856AB58014849C0CFFE8EA"
+        },
+        {
+          "Path": "modules/RIDE-BootConfiguration.psm1",
+          "SHA256": "0EFCDF55C23345023EAA29E6FFFDE78EC774ABEBA3CAE07D50E1FB2BBEBAF559"
+        },
+        {
+          "Path": "modules/RIDE-Defender.psm1",
+          "SHA256": "86B075F350C70AE12402215483D8C776011C63911BCDC544AC3D3169DEED9402"
+        },
+        {
+          "Path": "modules/RIDE-FirewallProfiles.psm1",
+          "SHA256": "C0AC8D5D7DC6C770B8207A59167DBACB04C678B659489339FF07816BF58EA9D7"
+        },
+        {
+          "Path": "modules/RIDE-LocalPasswordAge.psm1",
+          "SHA256": "164D12E5A2000D65156037332EFA8A2EE80CCF1D5D49EEF8FB0785AAEA22E9A5"
+        },
+        {
+          "Path": "modules/RIDE-ManagedSettings.psm1",
+          "SHA256": "D47EF176CC8CA9DBCEA4A1F4B760C866EF08D6B9D91479EB1FEA62F1685D7B70"
+        },
+        {
+          "Path": "modules/RIDE-NetworkControls.psm1",
+          "SHA256": "A2E0F67BD18E25B3BF02E00791D5B1C435580D5515BA9B94E0FB8AC4B74E1144"
+        },
+        {
+          "Path": "modules/RIDE-NetworkProfiles.psm1",
+          "SHA256": "4C41C61E36DFAD66C6E215FDA865AC4902D64816932D9ABCA614212D0ED9B0C1"
+        },
+        {
+          "Path": "modules/RIDE-OwnedPowerPlans.psm1",
+          "SHA256": "C80E8B5A8ABB1A422FAE17082DFFEE2CEAF8B8668572B1F8555317413E90A009"
+        },
+        {
+          "Path": "modules/RIDE-Packages.psm1",
+          "SHA256": "FDADEECE8DCE0FD2C9F42DE8437D291D29C2A4766DCA613059325715262831EB"
+        },
+        {
+          "Path": "modules/RIDE-PortablePackages.psm1",
+          "SHA256": "C0756F4B63C6A3752A73B7716960D919F83754194D7D7D05C4E48A542090B798"
+        },
+        {
+          "Path": "modules/RIDE-PowerSettings.psm1",
+          "SHA256": "318A9DD8AD4AE0DDF185AC8E914FBDF2A2A235C33755B59CCCF4E17ECF96E66A"
+        },
+        {
+          "Path": "modules/RIDE-ProfileSettings.psm1",
+          "SHA256": "00AD8ED157FDFC591FD5B055695CC79DA3077B181C35A1C80337882F81F7EA3C"
+        },
+        {
+          "Path": "modules/RIDE-RegistryKeySet.psm1",
+          "SHA256": "508D36E682BC4E04F4987A623AADEC8A43EB3A711402B0FF9EC4E0D6F7B579E3"
+        },
+        {
+          "Path": "modules/RIDE-RegistryValueSet.psm1",
+          "SHA256": "EB4EBF2696EB1F891E08F46F31CFD60B400F14C1A4798CD27ACCCEF4D1D62374"
+        },
+        {
+          "Path": "modules/RIDE-ScheduledTasks.psm1",
+          "SHA256": "8C828F2148FEF6934E468C2DC4B2F39132AFC671E09AE305D489F88A03D7B9CB"
+        },
+        {
+          "Path": "modules/RIDE-Services.psm1",
+          "SHA256": "CB708C4BFD49F1BA527A59672A585CF2E0DEEAE008710538DFDA189E9246A8EC"
+        },
+        {
+          "Path": "modules/RIDE-Settings.psm1",
+          "SHA256": "8127E9356E25E68682170F612B4B91BF646E271D69F720E480BA6D7F27BB0D80"
+        },
+        {
+          "Path": "modules/RIDE-ShellFolders.psm1",
+          "SHA256": "3469B0394BE12D60F79195EB87B4C01D708D8B4A7937828D78D2630198A5BF75"
+        },
+        {
+          "Path": "modules/RIDE-SoundSchemes.psm1",
+          "SHA256": "0A052AE183AA89F161BBE1DB88FE7E15F597A2C2967685BFFDC5F82C79BA3830"
+        },
+        {
+          "Path": "modules/RIDE-SystemPreferences.psm1",
+          "SHA256": "A30F8C50E21F4B6A0AC2C8A63A7B0384C3E09B7461BB14739FA62B1CF95CA787"
+        },
+        {
+          "Path": "modules/RIDE.AdapterInventory.psm1",
+          "SHA256": "AE5751EF9040B318EE38F37F969AA4546700A2060A7C17D8983DC7EB3539C7CA"
+        },
+        {
+          "Path": "modules/RIDE.AudioEndpointInventory.psm1",
+          "SHA256": "BF431D04CEF7893FC441F391152F6CCC37DF9EF7884F270B7BA8D4FE6A04EC67"
+        },
+        {
+          "Path": "modules/RIDE.CatalogData.psm1",
+          "SHA256": "836234FFE3082033CB9D4FA9470DA610048DBA720D848E52D0D769395E898954"
+        },
+        {
+          "Path": "modules/RIDE.CatalogValidation.psm1",
+          "SHA256": "AB654F5050CDD98F2028EA158290186A7169B9BA4D2F319E6A4B26A46AB5C1A3"
+        },
+        {
+          "Path": "modules/RIDE.ClientComponentPreparation.psm1",
+          "SHA256": "8AFC33D8BE28E544306CF8D7B03FAD288E1C5684280BE360EA5239064629C84F"
+        },
+        {
+          "Path": "modules/RIDE.ComponentInventory.psm1",
+          "SHA256": "4A1611FBD7EF197930F404763BD6ECCAF8717D3DBF33B4A7C67AF4AE0B827D47"
+        },
+        {
+          "Path": "modules/RIDE.DeploymentIdentity.psm1",
+          "SHA256": "B264DC197F260E3487692C7EF507B9A434625DCF74BC8CB6D79CAC92A41F56A6"
+        },
+        {
+          "Path": "modules/RIDE.DesiredConfiguration.psm1",
+          "SHA256": "1BF737ECB5841B857BA2B3BE3B7E6E61AE760FA7ADD85197126CBB1FDC2ACCEA"
+        },
+        {
+          "Path": "modules/RIDE.Discovery.psm1",
+          "SHA256": "3C68B50D4B61851521A97EF55CD2E444300A95BEC014BF0B8A00E4E6EAC5E612"
+        },
+        {
+          "Path": "modules/RIDE.Engine.psm1",
+          "SHA256": "27F7A1423A401EA64C3BCB5D027D28603927E010DDD0B14EE699D6C281C48EE5"
+        },
+        {
+          "Path": "modules/RIDE.GitHubAuthentication.psm1",
+          "SHA256": "69D03DA0E6C6A1C6B2108A9FCB722529648FD2B2E7950B67FADC6ED204FFAC1C"
+        },
+        {
+          "Path": "modules/RIDE.InstalledRegistrationInventory.psm1",
+          "SHA256": "998819278A4C0BB0C2168974BB2ABAA2217C71E2067A9A6713927A19CBAD88B2"
+        },
+        {
+          "Path": "modules/RIDE.InstallerInspection.psm1",
+          "SHA256": "6EBABE0F7EB40E984C761389923FC3CEF932F03BD20D712C670F6637FD683E92"
+        },
+        {
+          "Path": "modules/RIDE.LegacyDeploymentMapping.psm1",
+          "SHA256": "5BFE5E5EC8174E6A6592344109EFDC332B853D1A6A57094E673A8CCF54BB2AA7"
+        },
+        {
+          "Path": "modules/RIDE.Libraries.psm1",
+          "SHA256": "55650A29FD0FE66ED33A4B84A9B4FE49EC7FED7BCCFBF95AF83BEA9796446B07"
+        },
+        {
+          "Path": "modules/RIDE.LibraryAuthoring.psm1",
+          "SHA256": "59C3780B3B8CF86A9D6199F13C9E51A78356AF823F1058FB6A367A818978D056"
+        },
+        {
+          "Path": "modules/RIDE.LibrarySchema.psm1",
+          "SHA256": "5ABA191758278B2A2D0881CBE96DEC30F162A2D977FDFBEDB9911541A0C0C29B"
+        },
+        {
+          "Path": "modules/RIDE.LocalUserInventory.psm1",
+          "SHA256": "627825E703A104CB384B0019F6E83BA1F6A8D9CC08F96DCCC0E1C81C4D49BC53"
+        },
+        {
+          "Path": "modules/RIDE.OfficeConfigurationReview.psm1",
+          "SHA256": "A6E871B8F55F355D4EF6D7D2B86B09FD9E7A7979034520CF99D1FCF8CF3C372D"
+        },
+        {
+          "Path": "modules/RIDE.OfficeInventory.psm1",
+          "SHA256": "139557CD2E0108BCFED0F34724A1B9DE9D8EE4A9F04EEEB0791BCB63A28DFEA2"
+        },
+        {
+          "Path": "modules/RIDE.OfflineBundle.psm1",
+          "SHA256": "0D8317F2226820DC00ECAD324758A38FB54C7C4D86207CECCCDD2268D03C56EB"
+        },
+        {
+          "Path": "modules/RIDE.PackageAdoptionReview.psm1",
+          "SHA256": "99F166799AC4427BD9E660434D583908A79690371695A2C0A2D8602678E6DCCF"
+        },
+        {
+          "Path": "modules/RIDE.PackageSelection.psm1",
+          "SHA256": "2D7BA8E005AC0649F65BD3EBEC410FE3485558FC1ECF8CEDD34C0E89A40C9109"
+        },
+        {
+          "Path": "modules/RIDE.PowerPlanExportData.psm1",
+          "SHA256": "805145FEB70F0FC3741D20AE0C297E030319E93C084A40D200C3F4BF710EF51A"
+        },
+        {
+          "Path": "modules/RIDE.PowerRead.psm1",
+          "SHA256": "E14878C5031129C1AD662551146B4BDEB75BDAE4CBFE1EAFEBD7697B42BACAEE"
+        },
+        {
+          "Path": "modules/RIDE.PublisherSources.psm1",
+          "SHA256": "ADA0196AFB935BB3052A96A0A8332CB90D71817D47BD8D2C3B687AF8DD56FFAD"
+        },
+        {
+          "Path": "modules/RIDE.RegionalInventory.psm1",
+          "SHA256": "6EE1CE36EBCCEB330C9FB7E54C4BBE949E05277C4D1B3986B50BF8F7DE0DA056"
+        },
+        {
+          "Path": "modules/RIDE.SettingPresentation.psm1",
+          "SHA256": "F0A0F2657B3F75760AD9D676D77BDCFA3E1BD61A15C7F5CFD47150D54787FD59"
+        },
+        {
+          "Path": "modules/RIDE.SettingsFixtureData.psm1",
+          "SHA256": "2F2659CB87F8986A18E82E7A5EF20C8C2252E5348739F40EEF17CC942D90AF12"
+        },
+        {
+          "Path": "modules/RIDE.StoreAppReview.psm1",
+          "SHA256": "FFC5F11724BB7993CAE488E1400A4A60F6AE19635F04DC89B19B7392A94ED797"
+        },
+        {
+          "Path": "modules/RIDE.StoreApps.psm1",
+          "SHA256": "1BDC1D55229909F6A0EE672A8363485668F43F7FA613FF92AD31714BB75F27A7"
+        },
+        {
+          "Path": "modules/RIDE.TerminalJsonc.psm1",
+          "SHA256": "2559BF9287F126D289DB95B56453F3C3A4E37904412555AF2322CF23FB7B91B9"
+        },
+        {
+          "Path": "modules/RIDE.ToolkitUpdatePreparation.psm1",
+          "SHA256": "90F97183686E3CCAF2BF437BB0212FD8C41C11CE5B65DC9D226C442FFEC868AC"
+        },
+        {
+          "Path": "modules/RIDE.UserHandoff.psm1",
+          "SHA256": "091B424B07F6E9F52F8C9FA58A96D2901526DC674B3ACA35E17E649A93DB07EA"
+        },
+        {
+          "Path": "modules/RIDE.UserLanguageInventory.psm1",
+          "SHA256": "C6A30256F09EDCA409570E5B256A49FC5A2E3E77CE881DA7D4FDF9D7C6638E03"
+        },
+        {
+          "Path": "modules/RIDE.UserLanguagePreparation.psm1",
+          "SHA256": "5FFC494C86A78FF3DE1E0043F6D1E219FEDFA0027FB9DB8DE692FF77674B7BA5"
+        },
+        {
+          "Path": "modules/RIDE.UserPathPreparation.psm1",
+          "SHA256": "C701DF140AF3FD2D1FE09E13825D2E7C5C308D4E97D1A57E1D060C98D59D7221"
+        },
+        {
+          "Path": "modules/RIDE.UserProxyInventory.psm1",
+          "SHA256": "EC9A01617CBD28F5C914ED808A5F93DB22CC07D68AFA0A00C8A86E80F9FF95C8"
+        },
+        {
+          "Path": "modules/RIDE.UserProxyPreparation.psm1",
+          "SHA256": "3C12BB7EBC5D405478C7C928E5C6A66DC81B590D3A651AF822F342F3A2771FF8"
+        },
+        {
+          "Path": "modules/RIDE.VisualEffectsInventory.psm1",
+          "SHA256": "C22FEE4255555537EE031F4D7C7A23C10341EE30ED31DE1893D8B717C7B95DCE"
+        },
+        {
+          "Path": "modules/RIDE.VolumeInventory.psm1",
+          "SHA256": "C8D12B541A12BA56D2A1DF94072470716422F144627D9C6688976FB4526D1643"
+        },
+        {
+          "Path": "modules/RIDE.WirelessInventory.psm1",
+          "SHA256": "EDCB44B25151DF7881F2EC6DFBDD89D42D544C9B35CC60A12941C9E05DE046D3"
+        },
+        {
+          "Path": "tests/integration/Invoke-RideOfflineAcceptance.ps1",
+          "SHA256": "A5E88769B6B8E8C12425D85BC4A1A9E2BF832631DE644A9A2404604347B2D67D"
+        },
+        {
+          "Path": "tests/integration/Invoke-RidePortableAcceptance.ps1",
+          "SHA256": "6522715A73FA84D38263BEAE95F4AFBC611536A5AC0B51DE0E99FF3D6C379B26"
+        },
+        {
+          "Path": "tests/integration/Invoke-RidePortableVmAcceptance.ps1",
+          "SHA256": "67B8F0C5C7A1A04CE7CA24C1889353BF2DA107470CA4E3708A07779062E4FEB1"
+        },
+        {
+          "Path": "tests/integration/RIDE.PortableAcceptance.psm1",
+          "SHA256": "C90AD54326C007308C7D34BFBAA4E2AE04B9CBD67821221AB6E7D8EA451A17EB"
+        }
+      ],
+      "summary": {
+        "Batch": "PSScriptTools",
+        "ExpectedCases": 1,
+        "Completed": 1,
+        "Passed": 1,
+        "Status": "Passed",
+        "PayloadExecution": false,
+        "FunctionalAcceptance": "Pending",
+        "ActivationAcceptance": "Pending"
+      },
+      "RetainedStateArchives": [
+        {
+          "Sha256": "cb909042c65f2c541d20faa6332ca1d91230a7bdc25569fbaacfb516fe15cda5",
+          "Name": "493e7ce2a7cb434c81105bebfa77395a.zip",
+          "Length": 2150
+        },
+        {
+          "Sha256": "fd18a910b1be7dad1554ab9d9377e19232e1a947a81f64e00c5052be2e73b4be",
+          "Name": "55ecd96e74aa4dc28feb0d4d155ae188.zip",
+          "Length": 1865
+        },
+        {
+          "Sha256": "83b197a2b050f536ea82b0ca629ddcdfbeb07b33398ed95171065e5cdf611bf5",
+          "Name": "99d3c164661444d3b2d405e540b44ee7.zip",
+          "Length": 25085979
+        },
+        {
+          "Sha256": "50d4500bcba45f6741b9456f0aabad0ff319f1f7eef960fd1c486d0bdb230353",
+          "Name": "bd1b133afb9c41ae95b1e3596160b66a.zip",
+          "Length": 2150
+        },
+        {
+          "Sha256": "194700a467356b70ecf5183ba20fd1196c20da9a10daf08c008e6fe6fa942c34",
+          "Name": "c24735c563144529bf033c41a56b3496.zip",
+          "Length": 25085732
+        },
+        {
+          "Sha256": "34d047aab3b2456fd2c48a1de7668bd26a1cc8903a4dbedb690ca7399c52bda5",
+          "Name": "de4037a9c5f246f7812f577da03bd436.zip",
+          "Length": 25085751
+        },
+        {
+          "Sha256": "a4bc66f7da1eeecf33e54530de6719dc7698bac1c891d3a974c2f05db5d1bad9",
+          "Name": "PackageSelections.zip",
+          "Length": 1347
+        }
+      ]
+    },
+    {
+      "ControllerResult": {
+        "SchemaVersion": 1,
+        "RunId": "ee094143fc904dc692760a3de0b248fc",
+        "Source": "Local",
+        "UnitOnly": false,
+        "IntegrationSuite": "OfflineCaffeine",
+        "Status": "Failed",
+        "StartedAtUtc": "2026-10-17T10:57:31.1660933Z",
+        "FinishedAtUtc": "2026-10-17T11:00:48.8350729Z",
+        "Error": "Test controller exited with code 1. See controller-errors.log.",
+        "CleanupError": null,
+        "CollectionError": null,
+        "GuestGitHubAuthentication": "Anonymous",
+        "GitHubTestScenario": "Acquire",
+        "CredentialCleanupVerified": null,
+        "EvidenceExportError": null
+      },
+      "FocusedResult": {
+        "RunId": "ee094143fc904dc692760a3de0b248fc",
+        "Batch": "OfflineCaffeine",
+        "VM": "RIDE-Win11-Test",
+        "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+        "CheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+        "ExpectedCases": 1,
+        "Status": "Failed",
+        "Error": "Guest portable checks failed; inspect acceptance.log and scenarios.json.",
+        "Cleanup": "ResetAndOff",
+        "EvidenceCollected": true,
+        "ToolExecuted": false
+      },
+      "Scenarios": {
+        "Id": "package.caffeine",
+        "Variant": "portable",
+        "Status": "Failed",
+        "Error": "Offline selected-profile integrity, source or no-network coverage failed; no fallback is allowed.",
+        "Checks": [
+          "DisconnectedAdapters",
+          "MissingPayloadRefused",
+          "CorruptPayloadPinRefused",
+          "OmittedPayloadRefused",
+          "WrongTargetRefused"
+        ],
+        "RunIds": [],
+        "ToolExecuted": false,
+        "NetworkDisconnected": true,
+        "FunctionalAcceptance": "NotTested",
+        "Build": "26300",
+        "Edition": "EnterpriseEval",
+        "MissingPayload": "Offline selected-profile integrity, source or no-network coverage failed; no fallback is allowed.",
+        "CorruptPayloadPin": "Offline selected-profile integrity, source or no-network coverage failed; no fallback is allowed.",
+        "OmittedPayload": "Offline selected-profile integrity, source or no-network coverage failed; no fallback is allowed.",
+        "WrongTarget": "Offline selected-profile integrity, source or no-network coverage failed; no fallback is allowed."
+      },
+      "Payloads": {
+        "Id": "package.caffeine",
+        "FileName": "caffeine-1.98.zip",
+        "Sha256": "4a259c348e59eb51bbb75aac7fdcc798705496d575892ee1e01fff6970d5ba1c"
+      },
+      "SourceContext": {
+        "SourceCommit": "87893c66d919653d8b28b69a55a1a76be5187421",
+        "ContentIdentity": "Working-tree source-manifest hashes, including uncommitted changes"
+      },
+      "SourceFiles": [
+        {
+          "Path": "ride.ps1",
+          "SHA256": "4313DF9A9CE6245959058974F2C1B7F5CE477B4ED5FEE3E34A77EF167196A6D4"
+        },
+        {
+          "Path": "catalog/operations.psd1",
+          "SHA256": "2BDB4068913A29FC7E8DF4988EBC4E36013D56DE731AFEC988B5599772E2C291"
+        },
+        {
+          "Path": "modules/RIDE-AdapterBindings.psm1",
+          "SHA256": "913CBE26B6AC42DB78484B2EE2F1F9AB8B535E177E826A27B5CADA43D9D06271"
+        },
+        {
+          "Path": "modules/RIDE-BackgroundApps.psm1",
+          "SHA256": "F1471FE68702DA7A981B13583D4132D9DA7ABED46F856AB58014849C0CFFE8EA"
+        },
+        {
+          "Path": "modules/RIDE-BootConfiguration.psm1",
+          "SHA256": "0EFCDF55C23345023EAA29E6FFFDE78EC774ABEBA3CAE07D50E1FB2BBEBAF559"
+        },
+        {
+          "Path": "modules/RIDE-Defender.psm1",
+          "SHA256": "86B075F350C70AE12402215483D8C776011C63911BCDC544AC3D3169DEED9402"
+        },
+        {
+          "Path": "modules/RIDE-FirewallProfiles.psm1",
+          "SHA256": "C0AC8D5D7DC6C770B8207A59167DBACB04C678B659489339FF07816BF58EA9D7"
+        },
+        {
+          "Path": "modules/RIDE-LocalPasswordAge.psm1",
+          "SHA256": "164D12E5A2000D65156037332EFA8A2EE80CCF1D5D49EEF8FB0785AAEA22E9A5"
+        },
+        {
+          "Path": "modules/RIDE-ManagedSettings.psm1",
+          "SHA256": "D47EF176CC8CA9DBCEA4A1F4B760C866EF08D6B9D91479EB1FEA62F1685D7B70"
+        },
+        {
+          "Path": "modules/RIDE-NetworkControls.psm1",
+          "SHA256": "A2E0F67BD18E25B3BF02E00791D5B1C435580D5515BA9B94E0FB8AC4B74E1144"
+        },
+        {
+          "Path": "modules/RIDE-NetworkProfiles.psm1",
+          "SHA256": "4C41C61E36DFAD66C6E215FDA865AC4902D64816932D9ABCA614212D0ED9B0C1"
+        },
+        {
+          "Path": "modules/RIDE-OwnedPowerPlans.psm1",
+          "SHA256": "C80E8B5A8ABB1A422FAE17082DFFEE2CEAF8B8668572B1F8555317413E90A009"
+        },
+        {
+          "Path": "modules/RIDE-Packages.psm1",
+          "SHA256": "FDADEECE8DCE0FD2C9F42DE8437D291D29C2A4766DCA613059325715262831EB"
+        },
+        {
+          "Path": "modules/RIDE-PortablePackages.psm1",
+          "SHA256": "C0756F4B63C6A3752A73B7716960D919F83754194D7D7D05C4E48A542090B798"
+        },
+        {
+          "Path": "modules/RIDE-PowerSettings.psm1",
+          "SHA256": "318A9DD8AD4AE0DDF185AC8E914FBDF2A2A235C33755B59CCCF4E17ECF96E66A"
+        },
+        {
+          "Path": "modules/RIDE-ProfileSettings.psm1",
+          "SHA256": "00AD8ED157FDFC591FD5B055695CC79DA3077B181C35A1C80337882F81F7EA3C"
+        },
+        {
+          "Path": "modules/RIDE-RegistryKeySet.psm1",
+          "SHA256": "508D36E682BC4E04F4987A623AADEC8A43EB3A711402B0FF9EC4E0D6F7B579E3"
+        },
+        {
+          "Path": "modules/RIDE-RegistryValueSet.psm1",
+          "SHA256": "EB4EBF2696EB1F891E08F46F31CFD60B400F14C1A4798CD27ACCCEF4D1D62374"
+        },
+        {
+          "Path": "modules/RIDE-ScheduledTasks.psm1",
+          "SHA256": "8C828F2148FEF6934E468C2DC4B2F39132AFC671E09AE305D489F88A03D7B9CB"
+        },
+        {
+          "Path": "modules/RIDE-Services.psm1",
+          "SHA256": "CB708C4BFD49F1BA527A59672A585CF2E0DEEAE008710538DFDA189E9246A8EC"
+        },
+        {
+          "Path": "modules/RIDE-Settings.psm1",
+          "SHA256": "8127E9356E25E68682170F612B4B91BF646E271D69F720E480BA6D7F27BB0D80"
+        },
+        {
+          "Path": "modules/RIDE-ShellFolders.psm1",
+          "SHA256": "3469B0394BE12D60F79195EB87B4C01D708D8B4A7937828D78D2630198A5BF75"
+        },
+        {
+          "Path": "modules/RIDE-SoundSchemes.psm1",
+          "SHA256": "0A052AE183AA89F161BBE1DB88FE7E15F597A2C2967685BFFDC5F82C79BA3830"
+        },
+        {
+          "Path": "modules/RIDE-SystemPreferences.psm1",
+          "SHA256": "A30F8C50E21F4B6A0AC2C8A63A7B0384C3E09B7461BB14739FA62B1CF95CA787"
+        },
+        {
+          "Path": "modules/RIDE.AdapterInventory.psm1",
+          "SHA256": "AE5751EF9040B318EE38F37F969AA4546700A2060A7C17D8983DC7EB3539C7CA"
+        },
+        {
+          "Path": "modules/RIDE.AudioEndpointInventory.psm1",
+          "SHA256": "BF431D04CEF7893FC441F391152F6CCC37DF9EF7884F270B7BA8D4FE6A04EC67"
+        },
+        {
+          "Path": "modules/RIDE.CatalogData.psm1",
+          "SHA256": "836234FFE3082033CB9D4FA9470DA610048DBA720D848E52D0D769395E898954"
+        },
+        {
+          "Path": "modules/RIDE.CatalogValidation.psm1",
+          "SHA256": "AB654F5050CDD98F2028EA158290186A7169B9BA4D2F319E6A4B26A46AB5C1A3"
+        },
+        {
+          "Path": "modules/RIDE.ClientComponentPreparation.psm1",
+          "SHA256": "8AFC33D8BE28E544306CF8D7B03FAD288E1C5684280BE360EA5239064629C84F"
+        },
+        {
+          "Path": "modules/RIDE.ComponentInventory.psm1",
+          "SHA256": "4A1611FBD7EF197930F404763BD6ECCAF8717D3DBF33B4A7C67AF4AE0B827D47"
+        },
+        {
+          "Path": "modules/RIDE.DeploymentIdentity.psm1",
+          "SHA256": "B264DC197F260E3487692C7EF507B9A434625DCF74BC8CB6D79CAC92A41F56A6"
+        },
+        {
+          "Path": "modules/RIDE.DesiredConfiguration.psm1",
+          "SHA256": "1BF737ECB5841B857BA2B3BE3B7E6E61AE760FA7ADD85197126CBB1FDC2ACCEA"
+        },
+        {
+          "Path": "modules/RIDE.Discovery.psm1",
+          "SHA256": "3C68B50D4B61851521A97EF55CD2E444300A95BEC014BF0B8A00E4E6EAC5E612"
+        },
+        {
+          "Path": "modules/RIDE.Engine.psm1",
+          "SHA256": "27F7A1423A401EA64C3BCB5D027D28603927E010DDD0B14EE699D6C281C48EE5"
+        },
+        {
+          "Path": "modules/RIDE.GitHubAuthentication.psm1",
+          "SHA256": "69D03DA0E6C6A1C6B2108A9FCB722529648FD2B2E7950B67FADC6ED204FFAC1C"
+        },
+        {
+          "Path": "modules/RIDE.InstalledRegistrationInventory.psm1",
+          "SHA256": "998819278A4C0BB0C2168974BB2ABAA2217C71E2067A9A6713927A19CBAD88B2"
+        },
+        {
+          "Path": "modules/RIDE.InstallerInspection.psm1",
+          "SHA256": "6EBABE0F7EB40E984C761389923FC3CEF932F03BD20D712C670F6637FD683E92"
+        },
+        {
+          "Path": "modules/RIDE.LegacyDeploymentMapping.psm1",
+          "SHA256": "5BFE5E5EC8174E6A6592344109EFDC332B853D1A6A57094E673A8CCF54BB2AA7"
+        },
+        {
+          "Path": "modules/RIDE.Libraries.psm1",
+          "SHA256": "55650A29FD0FE66ED33A4B84A9B4FE49EC7FED7BCCFBF95AF83BEA9796446B07"
+        },
+        {
+          "Path": "modules/RIDE.LibraryAuthoring.psm1",
+          "SHA256": "59C3780B3B8CF86A9D6199F13C9E51A78356AF823F1058FB6A367A818978D056"
+        },
+        {
+          "Path": "modules/RIDE.LibrarySchema.psm1",
+          "SHA256": "5ABA191758278B2A2D0881CBE96DEC30F162A2D977FDFBEDB9911541A0C0C29B"
+        },
+        {
+          "Path": "modules/RIDE.LocalUserInventory.psm1",
+          "SHA256": "627825E703A104CB384B0019F6E83BA1F6A8D9CC08F96DCCC0E1C81C4D49BC53"
+        },
+        {
+          "Path": "modules/RIDE.OfficeConfigurationReview.psm1",
+          "SHA256": "A6E871B8F55F355D4EF6D7D2B86B09FD9E7A7979034520CF99D1FCF8CF3C372D"
+        },
+        {
+          "Path": "modules/RIDE.OfficeInventory.psm1",
+          "SHA256": "139557CD2E0108BCFED0F34724A1B9DE9D8EE4A9F04EEEB0791BCB63A28DFEA2"
+        },
+        {
+          "Path": "modules/RIDE.OfflineBundle.psm1",
+          "SHA256": "0D8317F2226820DC00ECAD324758A38FB54C7C4D86207CECCCDD2268D03C56EB"
+        },
+        {
+          "Path": "modules/RIDE.PackageAdoptionReview.psm1",
+          "SHA256": "99F166799AC4427BD9E660434D583908A79690371695A2C0A2D8602678E6DCCF"
+        },
+        {
+          "Path": "modules/RIDE.PackageSelection.psm1",
+          "SHA256": "2D7BA8E005AC0649F65BD3EBEC410FE3485558FC1ECF8CEDD34C0E89A40C9109"
+        },
+        {
+          "Path": "modules/RIDE.PowerPlanExportData.psm1",
+          "SHA256": "805145FEB70F0FC3741D20AE0C297E030319E93C084A40D200C3F4BF710EF51A"
+        },
+        {
+          "Path": "modules/RIDE.PowerRead.psm1",
+          "SHA256": "E14878C5031129C1AD662551146B4BDEB75BDAE4CBFE1EAFEBD7697B42BACAEE"
+        },
+        {
+          "Path": "modules/RIDE.PublisherSources.psm1",
+          "SHA256": "ADA0196AFB935BB3052A96A0A8332CB90D71817D47BD8D2C3B687AF8DD56FFAD"
+        },
+        {
+          "Path": "modules/RIDE.RegionalInventory.psm1",
+          "SHA256": "6EE1CE36EBCCEB330C9FB7E54C4BBE949E05277C4D1B3986B50BF8F7DE0DA056"
+        },
+        {
+          "Path": "modules/RIDE.SettingPresentation.psm1",
+          "SHA256": "F0A0F2657B3F75760AD9D676D77BDCFA3E1BD61A15C7F5CFD47150D54787FD59"
+        },
+        {
+          "Path": "modules/RIDE.SettingsFixtureData.psm1",
+          "SHA256": "2F2659CB87F8986A18E82E7A5EF20C8C2252E5348739F40EEF17CC942D90AF12"
+        },
+        {
+          "Path": "modules/RIDE.StoreAppReview.psm1",
+          "SHA256": "FFC5F11724BB7993CAE488E1400A4A60F6AE19635F04DC89B19B7392A94ED797"
+        },
+        {
+          "Path": "modules/RIDE.StoreApps.psm1",
+          "SHA256": "1BDC1D55229909F6A0EE672A8363485668F43F7FA613FF92AD31714BB75F27A7"
+        },
+        {
+          "Path": "modules/RIDE.TerminalJsonc.psm1",
+          "SHA256": "2559BF9287F126D289DB95B56453F3C3A4E37904412555AF2322CF23FB7B91B9"
+        },
+        {
+          "Path": "modules/RIDE.ToolkitUpdatePreparation.psm1",
+          "SHA256": "90F97183686E3CCAF2BF437BB0212FD8C41C11CE5B65DC9D226C442FFEC868AC"
+        },
+        {
+          "Path": "modules/RIDE.UserHandoff.psm1",
+          "SHA256": "091B424B07F6E9F52F8C9FA58A96D2901526DC674B3ACA35E17E649A93DB07EA"
+        },
+        {
+          "Path": "modules/RIDE.UserLanguageInventory.psm1",
+          "SHA256": "C6A30256F09EDCA409570E5B256A49FC5A2E3E77CE881DA7D4FDF9D7C6638E03"
+        },
+        {
+          "Path": "modules/RIDE.UserLanguagePreparation.psm1",
+          "SHA256": "5FFC494C86A78FF3DE1E0043F6D1E219FEDFA0027FB9DB8DE692FF77674B7BA5"
+        },
+        {
+          "Path": "modules/RIDE.UserPathPreparation.psm1",
+          "SHA256": "C701DF140AF3FD2D1FE09E13825D2E7C5C308D4E97D1A57E1D060C98D59D7221"
+        },
+        {
+          "Path": "modules/RIDE.UserProxyInventory.psm1",
+          "SHA256": "EC9A01617CBD28F5C914ED808A5F93DB22CC07D68AFA0A00C8A86E80F9FF95C8"
+        },
+        {
+          "Path": "modules/RIDE.UserProxyPreparation.psm1",
+          "SHA256": "3C12BB7EBC5D405478C7C928E5C6A66DC81B590D3A651AF822F342F3A2771FF8"
+        },
+        {
+          "Path": "modules/RIDE.VisualEffectsInventory.psm1",
+          "SHA256": "C22FEE4255555537EE031F4D7C7A23C10341EE30ED31DE1893D8B717C7B95DCE"
+        },
+        {
+          "Path": "modules/RIDE.VolumeInventory.psm1",
+          "SHA256": "C8D12B541A12BA56D2A1DF94072470716422F144627D9C6688976FB4526D1643"
+        },
+        {
+          "Path": "modules/RIDE.WirelessInventory.psm1",
+          "SHA256": "EDCB44B25151DF7881F2EC6DFBDD89D42D544C9B35CC60A12941C9E05DE046D3"
+        },
+        {
+          "Path": "tests/integration/Invoke-RideOfflineAcceptance.ps1",
+          "SHA256": "A5E88769B6B8E8C12425D85BC4A1A9E2BF832631DE644A9A2404604347B2D67D"
+        },
+        {
+          "Path": "tests/integration/Invoke-RidePortableAcceptance.ps1",
+          "SHA256": "6522715A73FA84D38263BEAE95F4AFBC611536A5AC0B51DE0E99FF3D6C379B26"
+        },
+        {
+          "Path": "tests/integration/Invoke-RidePortableVmAcceptance.ps1",
+          "SHA256": "67B8F0C5C7A1A04CE7CA24C1889353BF2DA107470CA4E3708A07779062E4FEB1"
+        },
+        {
+          "Path": "tests/integration/RIDE.PortableAcceptance.psm1",
+          "SHA256": "C90AD54326C007308C7D34BFBAA4E2AE04B9CBD67821221AB6E7D8EA451A17EB"
+        }
+      ],
+      "network-before": [
+        {
+          "Name": "Teredo Tunneling Pseudo-Interface",
+          "InterfaceDescription": "",
+          "Status": "Not Present"
+        },
+        {
+          "Name": "Ethernet (Kernel Debugger)",
+          "InterfaceDescription": "Microsoft Kernel Debug Network Adapter",
+          "Status": "Not Present"
+        },
+        {
+          "Name": "RIDE-Internet 0",
+          "InterfaceDescription": "Microsoft Hyper-V Network Adapter",
+          "Status": "Up"
+        },
+        {
+          "Name": "Microsoft IP-HTTPS Platform Interface",
+          "InterfaceDescription": "",
+          "Status": "Not Present"
+        },
+        {
+          "Name": "6to4 Adapter",
+          "InterfaceDescription": "",
+          "Status": "Not Present"
+        }
+      ],
+      "network-after": [
+        {
+          "Name": "Teredo Tunneling Pseudo-Interface",
+          "InterfaceDescription": "",
+          "Status": "Not Present"
+        },
+        {
+          "Name": "Ethernet (Kernel Debugger)",
+          "InterfaceDescription": "Microsoft Kernel Debug Network Adapter",
+          "Status": "Not Present"
+        },
+        {
+          "Name": "RIDE-Internet 0",
+          "InterfaceDescription": "Microsoft Hyper-V Network Adapter",
+          "Status": "Disabled"
+        },
+        {
+          "Name": "Microsoft IP-HTTPS Platform Interface",
+          "InterfaceDescription": "",
+          "Status": "Not Present"
+        },
+        {
+          "Name": "6to4 Adapter",
+          "InterfaceDescription": "",
+          "Status": "Not Present"
+        }
+      ],
+      "summary": {
+        "Passed": 0,
+        "NetworkDisconnected": true,
+        "Completed": 1,
+        "Batch": "OfflineCaffeine",
+        "PayloadExecution": false,
+        "Status": "Failed",
+        "ExpectedCases": 1
+      },
+      "RetainedStateArchives": []
+    },
+    {
+      "ControllerResult": {
+        "SchemaVersion": 1,
+        "RunId": "efca4ec56f604cee840c28d31f11e622",
+        "Source": "Local",
+        "UnitOnly": false,
+        "IntegrationSuite": "OfflineCaffeine",
+        "Status": "Passed",
+        "StartedAtUtc": "2026-10-17T11:03:50.9068329Z",
+        "FinishedAtUtc": "2026-10-17T11:06:33.3428668Z",
+        "Error": null,
+        "CleanupError": null,
+        "CollectionError": null,
+        "GuestGitHubAuthentication": "Anonymous",
+        "GitHubTestScenario": "Acquire",
+        "CredentialCleanupVerified": null,
+        "EvidenceExportError": null,
+        "FocusedResult": {
+          "RunId": "efca4ec56f604cee840c28d31f11e622",
+          "Batch": "OfflineCaffeine",
+          "VM": "RIDE-Win11-Test",
+          "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+          "CheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+          "ExpectedCases": 1,
+          "Status": "Passed",
+          "Error": null,
+          "Cleanup": "ResetAndOff",
+          "EvidenceCollected": true,
+          "ToolExecuted": false
+        }
+      },
+      "FocusedResult": {
+        "RunId": "efca4ec56f604cee840c28d31f11e622",
+        "Batch": "OfflineCaffeine",
+        "VM": "RIDE-Win11-Test",
+        "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+        "CheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+        "ExpectedCases": 1,
+        "Status": "Passed",
+        "Error": null,
+        "Cleanup": "ResetAndOff",
+        "EvidenceCollected": true,
+        "ToolExecuted": false
+      },
+      "Scenarios": {
+        "Id": "package.caffeine",
+        "Variant": "portable",
+        "Status": "Passed",
+        "Error": null,
+        "Checks": [
+          "DisconnectedAdapters",
+          "MissingPayloadRefused",
+          "CorruptPayloadPinRefused",
+          "OmittedPayloadRefused",
+          "WrongTargetRefused",
+          "InstallPreview",
+          "CliInstall",
+          "OfflineSignatureInspectionSkipped",
+          "RepeatInstall",
+          "InstallAbsenceRestore",
+          "CliProfileApply",
+          "RepeatProfileApply",
+          "Remove",
+          "ExactRemovalRestore",
+          "ProfileAbsenceRestore",
+          "StillDisconnected"
+        ],
+        "RunIds": [
+          "54225697440b4463a608ae51709632f3",
+          "2706b060326c412a9c8ed62231596127",
+          "17cfb689ece547c9ac7c8d908fd3510c"
+        ],
+        "ToolExecuted": false,
+        "NetworkDisconnected": true,
+        "FunctionalAcceptance": "NotTested",
+        "Build": "26300",
+        "Edition": "EnterpriseEval",
+        "MissingPayload": "Offline selected-profile integrity, source or no-network coverage failed; no fallback is allowed.",
+        "CorruptPayloadPin": "Offline selected-profile integrity, source or no-network coverage failed; no fallback is allowed.",
+        "OmittedPayload": "Offline selected-profile integrity, source or no-network coverage failed; no fallback is allowed.",
+        "WrongTarget": "Offline profile target/build/edition/architecture does not match this device.",
+        "FileEvidence": [
+          {
+            "RelativePath": "caffeine32.exe",
+            "Sha256": "327fe70ed4f6502ebf8f3d4c5f890960eb7a357529c14f078999829b6f78fb9d",
+            "AuthenticodeStatus": "NotInspectedOffline",
+            "SignerThumbprint": null
+          },
+          {
+            "RelativePath": "caffeine64.exe",
+            "Sha256": "98c0af01b4257e12679aaba3c148cdc95c9168f95ad17add25287a584d9070bf",
+            "AuthenticodeStatus": "NotInspectedOffline",
+            "SignerThumbprint": null
+          }
+        ]
+      },
+      "Payloads": {
+        "Id": "package.caffeine",
+        "FileName": "caffeine-1.98.zip",
+        "Sha256": "4a259c348e59eb51bbb75aac7fdcc798705496d575892ee1e01fff6970d5ba1c"
+      },
+      "SourceContext": {
+        "SourceCommit": "87893c66d919653d8b28b69a55a1a76be5187421",
+        "ContentIdentity": "Working-tree source-manifest hashes, including uncommitted changes"
+      },
+      "SourceFiles": [
+        {
+          "Path": "ride.ps1",
+          "SHA256": "4313DF9A9CE6245959058974F2C1B7F5CE477B4ED5FEE3E34A77EF167196A6D4"
+        },
+        {
+          "Path": "catalog/operations.psd1",
+          "SHA256": "2BDB4068913A29FC7E8DF4988EBC4E36013D56DE731AFEC988B5599772E2C291"
+        },
+        {
+          "Path": "modules/RIDE-AdapterBindings.psm1",
+          "SHA256": "913CBE26B6AC42DB78484B2EE2F1F9AB8B535E177E826A27B5CADA43D9D06271"
+        },
+        {
+          "Path": "modules/RIDE-BackgroundApps.psm1",
+          "SHA256": "F1471FE68702DA7A981B13583D4132D9DA7ABED46F856AB58014849C0CFFE8EA"
+        },
+        {
+          "Path": "modules/RIDE-BootConfiguration.psm1",
+          "SHA256": "0EFCDF55C23345023EAA29E6FFFDE78EC774ABEBA3CAE07D50E1FB2BBEBAF559"
+        },
+        {
+          "Path": "modules/RIDE-Defender.psm1",
+          "SHA256": "86B075F350C70AE12402215483D8C776011C63911BCDC544AC3D3169DEED9402"
+        },
+        {
+          "Path": "modules/RIDE-FirewallProfiles.psm1",
+          "SHA256": "C0AC8D5D7DC6C770B8207A59167DBACB04C678B659489339FF07816BF58EA9D7"
+        },
+        {
+          "Path": "modules/RIDE-LocalPasswordAge.psm1",
+          "SHA256": "164D12E5A2000D65156037332EFA8A2EE80CCF1D5D49EEF8FB0785AAEA22E9A5"
+        },
+        {
+          "Path": "modules/RIDE-ManagedSettings.psm1",
+          "SHA256": "D47EF176CC8CA9DBCEA4A1F4B760C866EF08D6B9D91479EB1FEA62F1685D7B70"
+        },
+        {
+          "Path": "modules/RIDE-NetworkControls.psm1",
+          "SHA256": "A2E0F67BD18E25B3BF02E00791D5B1C435580D5515BA9B94E0FB8AC4B74E1144"
+        },
+        {
+          "Path": "modules/RIDE-NetworkProfiles.psm1",
+          "SHA256": "4C41C61E36DFAD66C6E215FDA865AC4902D64816932D9ABCA614212D0ED9B0C1"
+        },
+        {
+          "Path": "modules/RIDE-OwnedPowerPlans.psm1",
+          "SHA256": "C80E8B5A8ABB1A422FAE17082DFFEE2CEAF8B8668572B1F8555317413E90A009"
+        },
+        {
+          "Path": "modules/RIDE-Packages.psm1",
+          "SHA256": "FDADEECE8DCE0FD2C9F42DE8437D291D29C2A4766DCA613059325715262831EB"
+        },
+        {
+          "Path": "modules/RIDE-PortablePackages.psm1",
+          "SHA256": "C0756F4B63C6A3752A73B7716960D919F83754194D7D7D05C4E48A542090B798"
+        },
+        {
+          "Path": "modules/RIDE-PowerSettings.psm1",
+          "SHA256": "318A9DD8AD4AE0DDF185AC8E914FBDF2A2A235C33755B59CCCF4E17ECF96E66A"
+        },
+        {
+          "Path": "modules/RIDE-ProfileSettings.psm1",
+          "SHA256": "00AD8ED157FDFC591FD5B055695CC79DA3077B181C35A1C80337882F81F7EA3C"
+        },
+        {
+          "Path": "modules/RIDE-RegistryKeySet.psm1",
+          "SHA256": "508D36E682BC4E04F4987A623AADEC8A43EB3A711402B0FF9EC4E0D6F7B579E3"
+        },
+        {
+          "Path": "modules/RIDE-RegistryValueSet.psm1",
+          "SHA256": "EB4EBF2696EB1F891E08F46F31CFD60B400F14C1A4798CD27ACCCEF4D1D62374"
+        },
+        {
+          "Path": "modules/RIDE-ScheduledTasks.psm1",
+          "SHA256": "8C828F2148FEF6934E468C2DC4B2F39132AFC671E09AE305D489F88A03D7B9CB"
+        },
+        {
+          "Path": "modules/RIDE-Services.psm1",
+          "SHA256": "CB708C4BFD49F1BA527A59672A585CF2E0DEEAE008710538DFDA189E9246A8EC"
+        },
+        {
+          "Path": "modules/RIDE-Settings.psm1",
+          "SHA256": "8127E9356E25E68682170F612B4B91BF646E271D69F720E480BA6D7F27BB0D80"
+        },
+        {
+          "Path": "modules/RIDE-ShellFolders.psm1",
+          "SHA256": "3469B0394BE12D60F79195EB87B4C01D708D8B4A7937828D78D2630198A5BF75"
+        },
+        {
+          "Path": "modules/RIDE-SoundSchemes.psm1",
+          "SHA256": "0A052AE183AA89F161BBE1DB88FE7E15F597A2C2967685BFFDC5F82C79BA3830"
+        },
+        {
+          "Path": "modules/RIDE-SystemPreferences.psm1",
+          "SHA256": "A30F8C50E21F4B6A0AC2C8A63A7B0384C3E09B7461BB14739FA62B1CF95CA787"
+        },
+        {
+          "Path": "modules/RIDE.AdapterInventory.psm1",
+          "SHA256": "AE5751EF9040B318EE38F37F969AA4546700A2060A7C17D8983DC7EB3539C7CA"
+        },
+        {
+          "Path": "modules/RIDE.AudioEndpointInventory.psm1",
+          "SHA256": "BF431D04CEF7893FC441F391152F6CCC37DF9EF7884F270B7BA8D4FE6A04EC67"
+        },
+        {
+          "Path": "modules/RIDE.CatalogData.psm1",
+          "SHA256": "836234FFE3082033CB9D4FA9470DA610048DBA720D848E52D0D769395E898954"
+        },
+        {
+          "Path": "modules/RIDE.CatalogValidation.psm1",
+          "SHA256": "AB654F5050CDD98F2028EA158290186A7169B9BA4D2F319E6A4B26A46AB5C1A3"
+        },
+        {
+          "Path": "modules/RIDE.ClientComponentPreparation.psm1",
+          "SHA256": "8AFC33D8BE28E544306CF8D7B03FAD288E1C5684280BE360EA5239064629C84F"
+        },
+        {
+          "Path": "modules/RIDE.ComponentInventory.psm1",
+          "SHA256": "4A1611FBD7EF197930F404763BD6ECCAF8717D3DBF33B4A7C67AF4AE0B827D47"
+        },
+        {
+          "Path": "modules/RIDE.DeploymentIdentity.psm1",
+          "SHA256": "B264DC197F260E3487692C7EF507B9A434625DCF74BC8CB6D79CAC92A41F56A6"
+        },
+        {
+          "Path": "modules/RIDE.DesiredConfiguration.psm1",
+          "SHA256": "1BF737ECB5841B857BA2B3BE3B7E6E61AE760FA7ADD85197126CBB1FDC2ACCEA"
+        },
+        {
+          "Path": "modules/RIDE.Discovery.psm1",
+          "SHA256": "3C68B50D4B61851521A97EF55CD2E444300A95BEC014BF0B8A00E4E6EAC5E612"
+        },
+        {
+          "Path": "modules/RIDE.Engine.psm1",
+          "SHA256": "27F7A1423A401EA64C3BCB5D027D28603927E010DDD0B14EE699D6C281C48EE5"
+        },
+        {
+          "Path": "modules/RIDE.GitHubAuthentication.psm1",
+          "SHA256": "69D03DA0E6C6A1C6B2108A9FCB722529648FD2B2E7950B67FADC6ED204FFAC1C"
+        },
+        {
+          "Path": "modules/RIDE.InstalledRegistrationInventory.psm1",
+          "SHA256": "998819278A4C0BB0C2168974BB2ABAA2217C71E2067A9A6713927A19CBAD88B2"
+        },
+        {
+          "Path": "modules/RIDE.InstallerInspection.psm1",
+          "SHA256": "6EBABE0F7EB40E984C761389923FC3CEF932F03BD20D712C670F6637FD683E92"
+        },
+        {
+          "Path": "modules/RIDE.LegacyDeploymentMapping.psm1",
+          "SHA256": "5BFE5E5EC8174E6A6592344109EFDC332B853D1A6A57094E673A8CCF54BB2AA7"
+        },
+        {
+          "Path": "modules/RIDE.Libraries.psm1",
+          "SHA256": "55650A29FD0FE66ED33A4B84A9B4FE49EC7FED7BCCFBF95AF83BEA9796446B07"
+        },
+        {
+          "Path": "modules/RIDE.LibraryAuthoring.psm1",
+          "SHA256": "59C3780B3B8CF86A9D6199F13C9E51A78356AF823F1058FB6A367A818978D056"
+        },
+        {
+          "Path": "modules/RIDE.LibrarySchema.psm1",
+          "SHA256": "5ABA191758278B2A2D0881CBE96DEC30F162A2D977FDFBEDB9911541A0C0C29B"
+        },
+        {
+          "Path": "modules/RIDE.LocalUserInventory.psm1",
+          "SHA256": "627825E703A104CB384B0019F6E83BA1F6A8D9CC08F96DCCC0E1C81C4D49BC53"
+        },
+        {
+          "Path": "modules/RIDE.OfficeConfigurationReview.psm1",
+          "SHA256": "A6E871B8F55F355D4EF6D7D2B86B09FD9E7A7979034520CF99D1FCF8CF3C372D"
+        },
+        {
+          "Path": "modules/RIDE.OfficeInventory.psm1",
+          "SHA256": "139557CD2E0108BCFED0F34724A1B9DE9D8EE4A9F04EEEB0791BCB63A28DFEA2"
+        },
+        {
+          "Path": "modules/RIDE.OfflineBundle.psm1",
+          "SHA256": "3B58055E28DE423A27E25CD2C47AC00C1BA6661F9B7E46B1D537B30A6FFB7D5E"
+        },
+        {
+          "Path": "modules/RIDE.PackageAdoptionReview.psm1",
+          "SHA256": "99F166799AC4427BD9E660434D583908A79690371695A2C0A2D8602678E6DCCF"
+        },
+        {
+          "Path": "modules/RIDE.PackageSelection.psm1",
+          "SHA256": "2D7BA8E005AC0649F65BD3EBEC410FE3485558FC1ECF8CEDD34C0E89A40C9109"
+        },
+        {
+          "Path": "modules/RIDE.PowerPlanExportData.psm1",
+          "SHA256": "805145FEB70F0FC3741D20AE0C297E030319E93C084A40D200C3F4BF710EF51A"
+        },
+        {
+          "Path": "modules/RIDE.PowerRead.psm1",
+          "SHA256": "E14878C5031129C1AD662551146B4BDEB75BDAE4CBFE1EAFEBD7697B42BACAEE"
+        },
+        {
+          "Path": "modules/RIDE.PublisherSources.psm1",
+          "SHA256": "ADA0196AFB935BB3052A96A0A8332CB90D71817D47BD8D2C3B687AF8DD56FFAD"
+        },
+        {
+          "Path": "modules/RIDE.RegionalInventory.psm1",
+          "SHA256": "6EE1CE36EBCCEB330C9FB7E54C4BBE949E05277C4D1B3986B50BF8F7DE0DA056"
+        },
+        {
+          "Path": "modules/RIDE.SettingPresentation.psm1",
+          "SHA256": "F0A0F2657B3F75760AD9D676D77BDCFA3E1BD61A15C7F5CFD47150D54787FD59"
+        },
+        {
+          "Path": "modules/RIDE.SettingsFixtureData.psm1",
+          "SHA256": "2F2659CB87F8986A18E82E7A5EF20C8C2252E5348739F40EEF17CC942D90AF12"
+        },
+        {
+          "Path": "modules/RIDE.StoreAppReview.psm1",
+          "SHA256": "FFC5F11724BB7993CAE488E1400A4A60F6AE19635F04DC89B19B7392A94ED797"
+        },
+        {
+          "Path": "modules/RIDE.StoreApps.psm1",
+          "SHA256": "1BDC1D55229909F6A0EE672A8363485668F43F7FA613FF92AD31714BB75F27A7"
+        },
+        {
+          "Path": "modules/RIDE.TerminalJsonc.psm1",
+          "SHA256": "2559BF9287F126D289DB95B56453F3C3A4E37904412555AF2322CF23FB7B91B9"
+        },
+        {
+          "Path": "modules/RIDE.ToolkitUpdatePreparation.psm1",
+          "SHA256": "90F97183686E3CCAF2BF437BB0212FD8C41C11CE5B65DC9D226C442FFEC868AC"
+        },
+        {
+          "Path": "modules/RIDE.UserHandoff.psm1",
+          "SHA256": "091B424B07F6E9F52F8C9FA58A96D2901526DC674B3ACA35E17E649A93DB07EA"
+        },
+        {
+          "Path": "modules/RIDE.UserLanguageInventory.psm1",
+          "SHA256": "C6A30256F09EDCA409570E5B256A49FC5A2E3E77CE881DA7D4FDF9D7C6638E03"
+        },
+        {
+          "Path": "modules/RIDE.UserLanguagePreparation.psm1",
+          "SHA256": "5FFC494C86A78FF3DE1E0043F6D1E219FEDFA0027FB9DB8DE692FF77674B7BA5"
+        },
+        {
+          "Path": "modules/RIDE.UserPathPreparation.psm1",
+          "SHA256": "C701DF140AF3FD2D1FE09E13825D2E7C5C308D4E97D1A57E1D060C98D59D7221"
+        },
+        {
+          "Path": "modules/RIDE.UserProxyInventory.psm1",
+          "SHA256": "EC9A01617CBD28F5C914ED808A5F93DB22CC07D68AFA0A00C8A86E80F9FF95C8"
+        },
+        {
+          "Path": "modules/RIDE.UserProxyPreparation.psm1",
+          "SHA256": "3C12BB7EBC5D405478C7C928E5C6A66DC81B590D3A651AF822F342F3A2771FF8"
+        },
+        {
+          "Path": "modules/RIDE.VisualEffectsInventory.psm1",
+          "SHA256": "C22FEE4255555537EE031F4D7C7A23C10341EE30ED31DE1893D8B717C7B95DCE"
+        },
+        {
+          "Path": "modules/RIDE.VolumeInventory.psm1",
+          "SHA256": "C8D12B541A12BA56D2A1DF94072470716422F144627D9C6688976FB4526D1643"
+        },
+        {
+          "Path": "modules/RIDE.WirelessInventory.psm1",
+          "SHA256": "EDCB44B25151DF7881F2EC6DFBDD89D42D544C9B35CC60A12941C9E05DE046D3"
+        },
+        {
+          "Path": "tests/integration/Invoke-RideOfflineAcceptance.ps1",
+          "SHA256": "578A07E1C3FE7207531F34DFF6E09A7A63432337DC01EC15B48DFCF4BC267545"
+        },
+        {
+          "Path": "tests/integration/Invoke-RidePortableAcceptance.ps1",
+          "SHA256": "6522715A73FA84D38263BEAE95F4AFBC611536A5AC0B51DE0E99FF3D6C379B26"
+        },
+        {
+          "Path": "tests/integration/Invoke-RidePortableVmAcceptance.ps1",
+          "SHA256": "67B8F0C5C7A1A04CE7CA24C1889353BF2DA107470CA4E3708A07779062E4FEB1"
+        },
+        {
+          "Path": "tests/integration/RIDE.PortableAcceptance.psm1",
+          "SHA256": "C90AD54326C007308C7D34BFBAA4E2AE04B9CBD67821221AB6E7D8EA451A17EB"
+        }
+      ],
+      "network-before": [
+        {
+          "Name": "Teredo Tunneling Pseudo-Interface",
+          "InterfaceDescription": "",
+          "Status": "Not Present"
+        },
+        {
+          "Name": "Ethernet (Kernel Debugger)",
+          "InterfaceDescription": "Microsoft Kernel Debug Network Adapter",
+          "Status": "Not Present"
+        },
+        {
+          "Name": "RIDE-Internet 0",
+          "InterfaceDescription": "Microsoft Hyper-V Network Adapter",
+          "Status": "Up"
+        },
+        {
+          "Name": "Microsoft IP-HTTPS Platform Interface",
+          "InterfaceDescription": "",
+          "Status": "Not Present"
+        },
+        {
+          "Name": "6to4 Adapter",
+          "InterfaceDescription": "",
+          "Status": "Not Present"
+        }
+      ],
+      "network-after": [
+        {
+          "Name": "Teredo Tunneling Pseudo-Interface",
+          "InterfaceDescription": "",
+          "Status": "Not Present"
+        },
+        {
+          "Name": "Ethernet (Kernel Debugger)",
+          "InterfaceDescription": "Microsoft Kernel Debug Network Adapter",
+          "Status": "Not Present"
+        },
+        {
+          "Name": "RIDE-Internet 0",
+          "InterfaceDescription": "Microsoft Hyper-V Network Adapter",
+          "Status": "Disabled"
+        },
+        {
+          "Name": "Microsoft IP-HTTPS Platform Interface",
+          "InterfaceDescription": "",
+          "Status": "Not Present"
+        },
+        {
+          "Name": "6to4 Adapter",
+          "InterfaceDescription": "",
+          "Status": "Not Present"
+        }
+      ],
+      "summary": {
+        "Passed": 1,
+        "NetworkDisconnected": true,
+        "Completed": 1,
+        "Batch": "OfflineCaffeine",
+        "PayloadExecution": false,
+        "Status": "Passed",
+        "ExpectedCases": 1
+      },
+      "PositivePreflight": {
+        "SelectedPackageContentComplete": true,
+        "ProfileCoverageStatus": "Compared",
+        "OfflineGates": [],
+        "RequirementIssues": [],
+        "NetworkFallbackAllowed": false
+      },
+      "RetainedStateArchives": []
+    }
+  ],
+  "FinalState": {
+    "RecordedAtUtc": "2026-10-17T11:07:16.8757788Z",
+    "ControllerState": "Ready",
+    "RecoveryBlocked": false,
+    "PendingRequests": 0,
+    "RunningRequests": 0,
+    "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "CheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+    "VMRecoveryEvidence": "Final focused result confirms ResetAndOff; no fresh elevated Hyper-V inspection",
+    "WinRM": "Running"
+  },
+  "EarlierElevatedPostcheck": {
+    "Capabilities": [
+      "GitHubPatGuestV1",
+      "FocusedPortableV1"
+    ],
+    "CheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+    "RecoveryBlocked": false,
+    "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "WinRM": "Running",
+    "VMState": "Off",
+    "RecordedAtUtc": "2026-10-17T11:00:51.6614344Z",
+    "ControllerState": "Ready"
+  },
+  "Correction": "OfflineBundle 0.7.1 accepts catalog neutral archives without relaxing exact-architecture or declared-target mismatch checks; guest 0.1.1 requires a positive preflight before negative cases",
+  "FailedAttemptInterpretation": "First offline run reached disconnection but positive preflight failed; its negative assertions do not establish independent negative-case acceptance",
+  "Validation": [
+    {
+      "PowerShell": "5.1.26100.9711",
+      "Tests": [
+        "OfflineBundle",
+        "OfflineExecution",
+        "PortableAcceptanceAutomation"
+      ],
+      "Passed": 87,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 87
+    },
+    {
+      "PowerShell": "7.6.5",
+      "Tests": [
+        "OfflineBundle",
+        "OfflineExecution",
+        "PortableAcceptanceAutomation"
+      ],
+      "Passed": 87,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 87
+    }
+  ],
+  "CatalogValidation": {
+    "Operations": 362,
+    "PowerShellFiles": 235,
+    "Groups": 8,
+    "Passed": true,
+    "Editions": [
+      "5.1",
+      "7"
+    ],
+    "Profiles": 5
+  },
+  "FreshUacLaunches": 1,
+  "SubsequentRequest": "Submitted from ordinary Windows PowerShell through installed task without RunAs",
+  "DefenderBlockedToolsIncluded": false,
+  "AcquiredCodeExecuted": false,
+  "NewWholeLegacyClosures": 0,
+  "NewRetirements": 0,
+  "NewExclusions": 0,
+  "Ranges": [
+    "38-58",
+    "56-71",
+    "20-25",
+    "25-35",
+    "8-12"
+  ],
+  "RoundedTotal": "145-200/about 175",
+  "DeferredFreshElevation": [
+    "User-bin prerequisite/profile acceptance",
+    "Interactive Store/settings scenario preparation and controller support",
+    "Any further protected-controller or host-prerequisite change"
+  ],
+  "Remaining": [
+    "PSScriptTools runtime/function/dependency ownership",
+    "Broader offline installer/dependency/servicing and interruption coverage",
+    "Other native/UI/Server/activation gates",
+    "Existing profile/resource and controller/PAT RC deferrals"
+  ]
+}

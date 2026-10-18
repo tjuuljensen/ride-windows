@@ -1,0 +1,359 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "Collection": "mitec",
+  "Index": {
+    "File": "mitec-apps.html",
+    "Uri": "https://www.mitec.cz/wp/apps/",
+    "Status": 200,
+    "ContentType": "text/html; charset=UTF-8",
+    "Length": 113435,
+    "Sha256": "d97c47bc5f0138da05bd9b0450ce3334051d4943edd9a70a838238f4aa1d73f1"
+  },
+  "MemberCount": 22,
+  "Members": [
+    {
+      "Name": "MiTeC Certificate Generator",
+      "ProductUri": "https://www.mitec.cz/wp/cg/",
+      "ReviewStatus": "PageEvidenceOnly",
+      "CatalogAdmission": false,
+      "NativeAcceptance": false,
+      "PageStatus": 200,
+      "PageSha256": "8662f550b04b38cbb06a3ff2f9c8c5dc4994a39dea5631e9a5cdfbd13ff3a3be",
+      "ProductPageVersion": "1.0.0",
+      "DownloadLinks": [
+        "https://www.mitec.cz/wp/files/CG.zip"
+      ],
+      "LicenseUri": "https://www.mitec.cz/wp/support/",
+      "LicenseDisposition": "Per-product edition/entitlement and distribution review remains separate; no blanket freeware classification"
+    },
+    {
+      "Name": "MiTeC Certificate Information",
+      "ProductUri": "https://www.mitec.cz/wp/mci/",
+      "ReviewStatus": "PageEvidenceOnly",
+      "CatalogAdmission": false,
+      "NativeAcceptance": false,
+      "PageStatus": 200,
+      "PageSha256": "8c6bfd56c7f7ac1430ecf3a3e49a37d82b0a5617babbcd2c9802b4f173b527d2",
+      "ProductPageVersion": "1.5.0",
+      "DownloadLinks": [
+        "https://www.mitec.cz/wp/files/CertInfo.zip"
+      ],
+      "LicenseUri": "https://www.mitec.cz/wp/support/",
+      "LicenseDisposition": "Per-product edition/entitlement and distribution review remains separate; no blanket freeware classification"
+    },
+    {
+      "Name": "MiTeC DFM Editor",
+      "ProductUri": "https://www.mitec.cz/wp/mdfme/",
+      "ReviewStatus": "PageEvidenceOnly",
+      "CatalogAdmission": false,
+      "NativeAcceptance": false,
+      "PageStatus": 200,
+      "PageSha256": "3f37db55acb1c2d0bddb42b433ea2f4e01a71e3f8d7c0979d83128f7cf5c3021",
+      "ProductPageVersion": "8.4.0",
+      "DownloadLinks": [
+        "https://www.mitec.cz/wp/files/DFMEdit.zip"
+      ],
+      "LicenseUri": "https://www.mitec.cz/wp/support/",
+      "LicenseDisposition": "Per-product edition/entitlement and distribution review remains separate; no blanket freeware classification"
+    },
+    {
+      "Name": "MiTeC EXE Explorer",
+      "ProductUri": "https://www.mitec.cz/wp/mee/",
+      "ReviewStatus": "PageEvidenceOnly",
+      "CatalogAdmission": false,
+      "NativeAcceptance": false,
+      "PageStatus": 200,
+      "PageSha256": "dc7a18372269574fb98200bc9a95bd212b76f9c050dc7ed21397ab854d64c36c",
+      "ProductPageVersion": "3.7.5",
+      "DownloadLinks": [
+        "https://www.mitec.cz/wp/files/EXE.zip"
+      ],
+      "LicenseUri": "https://www.mitec.cz/wp/support/",
+      "LicenseDisposition": "Per-product edition/entitlement and distribution review remains separate; no blanket freeware classification"
+    },
+    {
+      "Name": "MiTeC HexEdit",
+      "ProductUri": "https://www.mitec.cz/wp/mhex/",
+      "ReviewStatus": "PageEvidenceOnly",
+      "CatalogAdmission": false,
+      "NativeAcceptance": false,
+      "PageStatus": 200,
+      "PageSha256": "b6bde85265e252b4fb3ae864a4b2f945c1d6474efd3ca6b446d8ead9f3d5bdcb",
+      "ProductPageVersion": "7.1.0",
+      "DownloadLinks": [
+        "https://www.mitec.cz/wp/files/HEXEdit.zip"
+      ],
+      "LicenseUri": "https://www.mitec.cz/wp/support/",
+      "LicenseDisposition": "Per-product edition/entitlement and distribution review remains separate; no blanket freeware classification"
+    },
+    {
+      "Name": "MiTeC InfoBar",
+      "ProductUri": "https://www.mitec.cz/wp/mib/",
+      "ReviewStatus": "PageEvidenceOnly",
+      "CatalogAdmission": false,
+      "NativeAcceptance": false,
+      "PageStatus": 200,
+      "PageSha256": "1ee6d57c0e244b40e78698792d9689f3956e3db68f85c936731649100dc213df",
+      "ProductPageVersion": "4.6.2",
+      "DownloadLinks": [
+        "https://www.mitec.cz/wp/files/InfoBar_Setup.exe"
+      ],
+      "LicenseUri": "https://www.mitec.cz/wp/support/",
+      "LicenseDisposition": "Per-product edition/entitlement and distribution review remains separate; no blanket freeware classification"
+    },
+    {
+      "Name": "MiTeC Interbase Query",
+      "ProductUri": "https://www.mitec.cz/wp/mibq/",
+      "ReviewStatus": "PageEvidenceOnly",
+      "CatalogAdmission": false,
+      "NativeAcceptance": false,
+      "PageStatus": 200,
+      "PageSha256": "c6b50836d2ae75dedf66a5ff09a8017a7197f853c261df32e63df6a818c33447",
+      "ProductPageVersion": "9.5.0",
+      "DownloadLinks": [
+        "https://www.mitec.cz/wp/files/IBQ.zip"
+      ],
+      "LicenseUri": "https://www.mitec.cz/wp/support/",
+      "LicenseDisposition": "Per-product edition/entitlement and distribution review remains separate; no blanket freeware classification"
+    },
+    {
+      "Name": "MiTeC JSON Viewer",
+      "ProductUri": "https://www.mitec.cz/wp/mjsonv/",
+      "ReviewStatus": "PendingCandidate; native acceptance separate",
+      "CatalogAdmission": false,
+      "NativeAcceptance": false,
+      "PageStatus": 200,
+      "PageSha256": "04f6736c64031f827179074b5539c312bba63ce02709c3a4078ac13b1abb98f7",
+      "ProductPageVersion": "3.2.2",
+      "DownloadLinks": [
+        "https://www.mitec.cz/wp/files/JSONView.zip"
+      ],
+      "LicenseUri": "https://www.mitec.cz/wp/support/",
+      "LicenseDisposition": "Per-product edition/entitlement and distribution review remains separate; no blanket freeware classification",
+      "PendingCandidateId": "package.mitec-json-viewer"
+    },
+    {
+      "Name": "MiTeC Mail Viewer",
+      "ProductUri": "https://www.mitec.cz/wp/mmv/",
+      "ReviewStatus": "PageEvidenceOnly",
+      "CatalogAdmission": false,
+      "NativeAcceptance": false,
+      "PageStatus": 200,
+      "PageSha256": "376cbdb4e4f7d673729ce176eb88555544b9b8c06703337d82559f104c6ea5e0",
+      "ProductPageVersion": null,
+      "DownloadLinks": [
+        "https://www.mitec.cz/wp/files/MailView.zip"
+      ],
+      "LicenseUri": "https://www.mitec.cz/wp/support/",
+      "LicenseDisposition": "Per-product edition/entitlement and distribution review remains separate; no blanket freeware classification"
+    },
+    {
+      "Name": "MiTeC Network Scanner",
+      "ProductUri": "https://www.mitec.cz/wp/mns/",
+      "ReviewStatus": "PageEvidenceOnly",
+      "CatalogAdmission": false,
+      "NativeAcceptance": false,
+      "PageStatus": 200,
+      "PageSha256": "28aa5069785709e8cc638392882086e7e3d784569d1b7756640c9831eed77456",
+      "ProductPageVersion": "6.1.0",
+      "DownloadLinks": [
+        "https://www.mitec.cz/wp/files/NetScanner.zip"
+      ],
+      "LicenseUri": "https://www.mitec.cz/wp/support/",
+      "LicenseDisposition": "Per-product edition/entitlement and distribution review remains separate; no blanket freeware classification"
+    },
+    {
+      "Name": "MiTeC OLE/COM Explorer",
+      "ProductUri": "https://www.mitec.cz/wp/molexp/",
+      "ReviewStatus": "PageEvidenceOnly",
+      "CatalogAdmission": false,
+      "NativeAcceptance": false,
+      "PageStatus": 200,
+      "PageSha256": "3d600e99d0ac56bd536ddafa354b8e148d30a8f47e5524774f77571d5218ed7a",
+      "ProductPageVersion": null,
+      "DownloadLinks": [
+        "https://www.mitec.cz/wp/files/OLExp.zip"
+      ],
+      "LicenseUri": "https://www.mitec.cz/wp/support/",
+      "LicenseDisposition": "Per-product edition/entitlement and distribution review remains separate; no blanket freeware classification"
+    },
+    {
+      "Name": "MiTeC Paradox Data Editor",
+      "ProductUri": "https://www.mitec.cz/wp/mpde/",
+      "ReviewStatus": "PageEvidenceOnly",
+      "CatalogAdmission": false,
+      "NativeAcceptance": false,
+      "PageStatus": 200,
+      "PageSha256": "6559feb0a15e3372acf6db5ce69fa0816e6c525cc613f4ef4ef6257df3fcd600",
+      "ProductPageVersion": "3.7.0",
+      "DownloadLinks": [
+        "https://www.mitec.cz/wp/files/PDESetup.exe"
+      ],
+      "LicenseUri": "https://www.mitec.cz/wp/support/",
+      "LicenseDisposition": "Per-product edition/entitlement and distribution review remains separate; no blanket freeware classification"
+    },
+    {
+      "Name": "MiTeC System Information eXtra",
+      "ProductUri": "https://www.mitec.cz/wp/msix/",
+      "ReviewStatus": "PageEvidenceOnly",
+      "CatalogAdmission": false,
+      "NativeAcceptance": false,
+      "PageStatus": 200,
+      "PageSha256": "1eaf901096dc8b88347a93bfcfce8437b09b64dabc42711360aade0447f9fdd3",
+      "ProductPageVersion": "16.0.0",
+      "DownloadLinks": [
+        "https://www.mitec.cz/wp/files/MSIX.zip"
+      ],
+      "LicenseUri": "https://www.mitec.cz/wp/support/",
+      "LicenseDisposition": "Per-product edition/entitlement and distribution review remains separate; no blanket freeware classification"
+    },
+    {
+      "Name": "MiTeC SQLite Query",
+      "ProductUri": "https://www.mitec.cz/wp/msqliteq/",
+      "ReviewStatus": "PageEvidenceOnly",
+      "CatalogAdmission": false,
+      "NativeAcceptance": false,
+      "PageStatus": 200,
+      "PageSha256": "27b0e947f6b57a8e75e8869726763a4d0c4f2606c5389c1df616cc29ecac8db4",
+      "ProductPageVersion": "3.2.0",
+      "DownloadLinks": [
+        "https://www.mitec.cz/wp/files/SQLiteQ.zip"
+      ],
+      "LicenseUri": "https://www.mitec.cz/wp/support/",
+      "LicenseDisposition": "Per-product edition/entitlement and distribution review remains separate; no blanket freeware classification"
+    },
+    {
+      "Name": "MiTeC Structured Storage Viewer",
+      "ProductUri": "https://www.mitec.cz/wp/mssv/",
+      "ReviewStatus": "PageEvidenceOnly",
+      "CatalogAdmission": false,
+      "NativeAcceptance": false,
+      "PageStatus": 200,
+      "PageSha256": "924385a34eae744d557033acc89daa026341e0fbdcb7973d51cdb00b049bf4df",
+      "ProductPageVersion": "4.1.2",
+      "DownloadLinks": [
+        "https://www.mitec.cz/wp/files/SSView.zip"
+      ],
+      "LicenseUri": "https://www.mitec.cz/wp/support/",
+      "LicenseDisposition": "Per-product edition/entitlement and distribution review remains separate; no blanket freeware classification",
+      "OwnershipDisposition": "R05 and R13 identify one product; do not create duplicate deployment ownership. Optional codec/source/sample scope remains separate."
+    },
+    {
+      "Name": "MiTeC TAPI Monitor",
+      "ProductUri": "https://www.mitec.cz/wp/mtapimon/",
+      "ReviewStatus": "PageEvidenceOnly",
+      "CatalogAdmission": false,
+      "NativeAcceptance": false,
+      "PageStatus": 200,
+      "PageSha256": "443b6a5166f6532897123b81dfd1632aa5ca5b251118c51e315649d92c417a16",
+      "ProductPageVersion": "1.2.0",
+      "DownloadLinks": [
+        "https://www.mitec.cz/wp/files/TAPIMon.zip"
+      ],
+      "LicenseUri": "https://www.mitec.cz/wp/support/",
+      "LicenseDisposition": "Per-product edition/entitlement and distribution review remains separate; no blanket freeware classification"
+    },
+    {
+      "Name": "MiTeC Windows Registry Recovery",
+      "ProductUri": "https://www.mitec.cz/wp/mwrr/",
+      "ReviewStatus": "PageEvidenceOnly",
+      "CatalogAdmission": false,
+      "NativeAcceptance": false,
+      "PageStatus": 200,
+      "PageSha256": "a2ce40437c264a40bffea95ab08877c51ba5fab7b448c3e9481ee9498c88e383",
+      "ProductPageVersion": "3.1.3",
+      "DownloadLinks": [
+        "https://www.mitec.cz/wp/files/WRR.zip"
+      ],
+      "LicenseUri": "https://www.mitec.cz/wp/support/",
+      "LicenseDisposition": "Per-product edition/entitlement and distribution review remains separate; no blanket freeware classification"
+    },
+    {
+      "Name": "MiTeC XML Viewer",
+      "ProductUri": "https://www.mitec.cz/wp/mxmlv/",
+      "ReviewStatus": "PendingCandidate; native acceptance separate",
+      "CatalogAdmission": false,
+      "NativeAcceptance": false,
+      "PageStatus": 200,
+      "PageSha256": "1b5d0636625adbd3bb0f9f445ff89ba4d5b728b1c62ff31e23cdef56856f097d",
+      "ProductPageVersion": "6.5.0",
+      "DownloadLinks": [
+        "https://www.mitec.cz/wp/files/XMLView.zip"
+      ],
+      "LicenseUri": "https://www.mitec.cz/wp/support/",
+      "LicenseDisposition": "Per-product edition/entitlement and distribution review remains separate; no blanket freeware classification",
+      "PendingCandidateId": "package.mitec-xml-viewer"
+    },
+    {
+      "Name": "MiTeC Project Maker",
+      "ProductUri": "https://www.mitec.cz/wp/pm/",
+      "ReviewStatus": "PageEvidenceOnly",
+      "CatalogAdmission": false,
+      "NativeAcceptance": false,
+      "PageStatus": 200,
+      "PageSha256": "a96874b1e5312aea57839242d57cdcf874e4aca4b1c81e314c49833c6ed1d678",
+      "ProductPageVersion": "2.0.0",
+      "DownloadLinks": [
+        "https://www.mitec.cz/wp/files/PMInstall.exe"
+      ],
+      "LicenseUri": "https://www.mitec.cz/wp/support/",
+      "LicenseDisposition": "Per-product edition/entitlement and distribution review remains separate; no blanket freeware classification"
+    },
+    {
+      "Name": "MiTeC SMBIOS Explorer",
+      "ProductUri": "https://www.mitec.cz/wp/smbe/",
+      "ReviewStatus": "PageEvidenceOnly",
+      "CatalogAdmission": false,
+      "NativeAcceptance": false,
+      "PageStatus": 200,
+      "PageSha256": "40c595d22da25dd1246ed30269a6942d7de3f980ed7cb84cdff9ea7721ffde04",
+      "ProductPageVersion": "1.8.0",
+      "DownloadLinks": [
+        "https://www.mitec.cz/wp/files/SMBE.zip"
+      ],
+      "LicenseUri": "https://www.mitec.cz/wp/support/",
+      "LicenseDisposition": "Per-product edition/entitlement and distribution review remains separate; no blanket freeware classification"
+    },
+    {
+      "Name": "MiTeC Task Manager DeLuxe",
+      "ProductUri": "https://www.mitec.cz/wp/tmx/",
+      "ReviewStatus": "PageEvidenceOnly",
+      "CatalogAdmission": false,
+      "NativeAcceptance": false,
+      "PageStatus": 200,
+      "PageSha256": "61530125f57df5658e6bbd2a283fc971b439d5ee2d8158fc373a3cffc8fd8523",
+      "ProductPageVersion": "5.1.1",
+      "DownloadLinks": [
+        "https://www.mitec.cz/wp/files/TMX.zip"
+      ],
+      "LicenseUri": "https://www.mitec.cz/wp/support/",
+      "LicenseDisposition": "Per-product edition/entitlement and distribution review remains separate; no blanket freeware classification"
+    },
+    {
+      "Name": "MiTeC UUID Generator",
+      "ProductUri": "https://www.mitec.cz/wp/uuid/",
+      "ReviewStatus": "PageEvidenceOnly",
+      "CatalogAdmission": false,
+      "NativeAcceptance": false,
+      "PageStatus": 200,
+      "PageSha256": "30880aedb3a829cbf741c8799ca1c0c0c2fa60d39b0a71887fe6a5ae66b66a11",
+      "ProductPageVersion": "1.0.0",
+      "DownloadLinks": [
+        "https://www.mitec.cz/wp/files/UUID.zip"
+      ],
+      "LicenseUri": "https://www.mitec.cz/wp/support/",
+      "LicenseDisposition": "Per-product edition/entitlement and distribution review remains separate; no blanket freeware classification"
+    }
+  ],
+  "RuntimeCrawler": false,
+  "PayloadExecuted": false,
+  "SupportedTargets": [],
+  "Remaining": [
+    "Exact per-artifact SHA256 and member inventory where not separately recorded",
+    "Per-product licensing/edition and owned deployment",
+    "Disposable-target functionality and recovery acceptance"
+  ],
+  "Scope": "22 current Apps & Tools entries; developer component libraries/demos excluded. Publisher-linked older-site standalone entries still need reconciliation; not claimed as an exhaustive historical inventory.",
+  "DeveloperComponentsAdmitted": false
+}

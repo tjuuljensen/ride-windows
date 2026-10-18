@@ -1,0 +1,222 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "Batch": "Historical MiTeC database utilities",
+  "Products": [
+    {
+      "Artifact": {
+        "Product": "Database Documentation/Code Generator",
+        "Archive": "DDG_IBFB.zip",
+        "DownloadUri": "https://www.mitec.cz/Downloads/DDG_IBFB.zip",
+        "Length": 2006098,
+        "Sha256": "2626cd8b9395ff43bfb414f9e2b67ab47125e9022fe7504794f4e0813ee0b341",
+        "Members": [
+          {
+            "Path": "EMPLOYEE.GDB",
+            "Length": 1196032,
+            "Sha256": "188dae28767effe3b4c7782e45eb8edac59af0c7b3234dcbd812e832fa20ba4f",
+            "PeMachine": null,
+            "FileVersion": null,
+            "ProductVersion": null,
+            "CompanyName": null,
+            "LegalCopyright": null
+          },
+          {
+            "Path": "EMPLOYEE.ini",
+            "Length": 717,
+            "Sha256": "6213118e3b3fcd8df2eb3dff5873e356a2c9dfa898456f6f3e27bcf6bc6f8a39",
+            "PeMachine": null,
+            "FileVersion": null,
+            "ProductVersion": null,
+            "CompanyName": null,
+            "LegalCopyright": null
+          },
+          {
+            "Path": "DDG_IBFB.css",
+            "Length": 537,
+            "Sha256": "788a875e48914635cf2e6620f00a62895f8faee70c832c1dafe2993673f80313",
+            "PeMachine": null,
+            "FileVersion": null,
+            "ProductVersion": null,
+            "CompanyName": null,
+            "LegalCopyright": null
+          },
+          {
+            "Path": "DDG_IBFB.exe",
+            "Length": 5046784,
+            "Sha256": "f65c076e53115d4e82c87621492e11cb6d42f0b34d66c9df92b1ad54000e52c1",
+            "PeMachine": "014c",
+            "FileVersion": "1.0.0.0",
+            "ProductVersion": "1.0.0.0",
+            "CompanyName": "MiTeC",
+            "LegalCopyright": "Copyright (c) 2013-2014, Michal Mutl"
+          }
+        ],
+        "NativeAcceptance": false,
+        "PayloadExecuted": false,
+        "PublisherDigestVerified": false,
+        "LicenseFilePresent": false
+      },
+      "ProductUri": "https://www.mitec.cz/ddg.html",
+      "ProductPageSha256": "61945c41499dbe65a99312cb0e401a591a8bfa60a3f08752e37b862ffb974875",
+      "HistoricalIndexVersion": "1.2.0",
+      "LicenseObservation": "Historical product page permits private/commercial use; distribution not established",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "CatalogAdmission": false,
+      "Blockers": [
+        "Reconcile exact historical product terms with current EULA; shared-kit distribution not established",
+        "Implement exact owned-file selection and non-destructive adoption/recovery",
+        "Windows 11 and declared Server functionality not yet accepted; no profile selection",
+        "Embedded version 1.0.0.0 differs from historical shared product version 1.2.0; keep engine variants separate",
+        "EMPLOYEE.GDB/EMPLOYEE.ini are supplied sample assets; ownership and applicable notices remain to review",
+        "Interbase/Firebird client/server versions and architecture prerequisites not established"
+      ],
+      "PreparedAcceptance": [
+        "Use disposable database/sample copies and explicit test credentials only",
+        "Preserve CSS, descriptions, generated output and unowned connection files",
+        "Validate generated documentation and SQL against a synthetic database; no production connections"
+      ]
+    },
+    {
+      "Artifact": {
+        "Product": "Database Documentation/Code Generator",
+        "Archive": "DDG_MSSQL.zip",
+        "DownloadUri": "https://www.mitec.cz/Downloads/DDG_MSSQL.zip",
+        "Length": 2444694,
+        "Sha256": "fde2433729fc5b9f8ac1008276d8c829e06a5cedb882191018683d11ecf6cbd6",
+        "Members": [
+          {
+            "Path": "DDG_MSSQL.css",
+            "Length": 537,
+            "Sha256": "788a875e48914635cf2e6620f00a62895f8faee70c832c1dafe2993673f80313",
+            "PeMachine": null,
+            "FileVersion": null,
+            "ProductVersion": null,
+            "CompanyName": null,
+            "LegalCopyright": null
+          },
+          {
+            "Path": "DDG_MSSQL.exe",
+            "Length": 5832584,
+            "Sha256": "c5d373a147cde3b8975f38320a9c3105ad07aadc0781a80b8d6513c4bcddc125",
+            "PeMachine": "014c",
+            "FileVersion": "1.2.0.0",
+            "ProductVersion": "1.0.0.0",
+            "CompanyName": "MiTeC",
+            "LegalCopyright": "Copyright (c) 2015-2021, Michal Mutl"
+          }
+        ],
+        "NativeAcceptance": false,
+        "PayloadExecuted": false,
+        "PublisherDigestVerified": false,
+        "LicenseFilePresent": false
+      },
+      "ProductUri": "https://www.mitec.cz/ddg.html",
+      "ProductPageSha256": "61945c41499dbe65a99312cb0e401a591a8bfa60a3f08752e37b862ffb974875",
+      "HistoricalIndexVersion": "1.2.0",
+      "LicenseObservation": "Historical product page permits private/commercial use; distribution not established",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "CatalogAdmission": false,
+      "Blockers": [
+        "Reconcile exact historical product terms with current EULA; shared-kit distribution not established",
+        "Implement exact owned-file selection and non-destructive adoption/recovery",
+        "Windows 11 and declared Server functionality not yet accepted; no profile selection",
+        "Embedded version 1.2.0.0; do not apply this pin/version to DDG_IBFB",
+        "SQL Server provider/client prerequisites and architecture unresolved"
+      ],
+      "PreparedAcceptance": [
+        "Use a disposable SQL Server fixture",
+        "Preserve CSS/output/configuration; test connection failure and exact file recovery"
+      ]
+    },
+    {
+      "Artifact": {
+        "Product": "MSA Query",
+        "Archive": "MSAQuery.zip",
+        "DownloadUri": "https://www.mitec.cz/Downloads/MSAQuery.zip",
+        "Length": 1021739,
+        "Sha256": "9382e37ba54cfea34078239f058d1dbb51a3cb7a42048a9b8747cc005e1ecd1d",
+        "Members": [
+          {
+            "Path": "MSAQuery.exe",
+            "Length": 1036800,
+            "Sha256": "10585f22c2e63a3a1e16fb3a944cd2086381d57241b98c7c40f3caeb57dbf671",
+            "PeMachine": "014c",
+            "FileVersion": "2.1.0.0",
+            "ProductVersion": "1.0.0.0",
+            "CompanyName": "MiTeC",
+            "LegalCopyright": "Copyright © 1999-2010, Michal Mutl"
+          }
+        ],
+        "NativeAcceptance": false,
+        "PayloadExecuted": false,
+        "PublisherDigestVerified": false,
+        "LicenseFilePresent": false
+      },
+      "ProductUri": "https://www.mitec.cz/msaq.html",
+      "ProductPageSha256": "1bfa65cae0e59c64653a2db9de254c8bef55a1e592ccbdd4f9cabb2a608d400c",
+      "HistoricalIndexVersion": "2.1.0",
+      "LicenseObservation": "Historical product page permits private/commercial use; distribution not established",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "CatalogAdmission": false,
+      "Blockers": [
+        "Reconcile exact historical product terms with current EULA; shared-kit distribution not established",
+        "Implement exact owned-file selection and non-destructive adoption/recovery",
+        "Windows 11 and declared Server functionality not yet accepted; no profile selection",
+        "Publisher identifies DAO Engine dependency; compatible provider version/bitness and install rights not verified"
+      ],
+      "PreparedAcceptance": [
+        "Use a synthetic Access database copy",
+        "Test required provider detection, read/write/import/export and absence/refusal paths",
+        "Preserve database and connection/history files through lifecycle"
+      ]
+    },
+    {
+      "Artifact": {
+        "Product": "ADO Query",
+        "Archive": "ADOQuery.zip",
+        "DownloadUri": "https://www.mitec.cz/Downloads/ADOQuery.zip",
+        "Length": 1127362,
+        "Sha256": "a412293b10ad00b0a94509cd48ad389c4f609b96fa504ccbbb2501742e3ad96d",
+        "Members": [
+          {
+            "Path": "ADOQuery.exe",
+            "Length": 1143808,
+            "Sha256": "16109679cfccc5afa88230925d4642cc98bbeadd9c3536a48903ee029865def2",
+            "PeMachine": "014c",
+            "FileVersion": "1.9.0.0",
+            "ProductVersion": "1.0.0.0",
+            "CompanyName": "MiTeC",
+            "LegalCopyright": "Copyright © 2005-2010 Michal Mutl"
+          }
+        ],
+        "NativeAcceptance": false,
+        "PayloadExecuted": false,
+        "PublisherDigestVerified": false,
+        "LicenseFilePresent": false
+      },
+      "ProductUri": "https://www.mitec.cz/adoq.html",
+      "ProductPageSha256": "fd54c9449cbfcb87f88c8dfe1dcf0801af200dded19e72d4e92e2e01e9c5ad27",
+      "HistoricalIndexVersion": "1.9.0",
+      "LicenseObservation": "Historical product page permits private/commercial use; distribution not established",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "CatalogAdmission": false,
+      "Blockers": [
+        "Reconcile exact historical product terms with current EULA; shared-kit distribution not established",
+        "Implement exact owned-file selection and non-destructive adoption/recovery",
+        "Windows 11 and declared Server functionality not yet accepted; no profile selection",
+        "Publisher requires installed ADO support; actual selected database provider/version/bitness remains to specify"
+      ],
+      "PreparedAcceptance": [
+        "Use a synthetic database and explicitly reviewed provider",
+        "Test provider absence, transaction/query/import/export behavior and saved ownership recovery"
+      ]
+    }
+  ],
+  "PayloadExecuted": false,
+  "DatabaseOpened": false,
+  "CredentialsUsed": false,
+  "NativeAcceptance": false,
+  "FreshUacLaunches": 0,
+  "SampleContentPublished": false
+}

@@ -611,8 +611,12 @@ default-branch cutover remain separate.
 ## Configuration contract
 
 The finite integration selections include `ApplicationsBatch1` and
-`ApplicationsBatch2`. The request validator, client/VM runner completion and
-guest dispatcher use the same declared suite set. A successful controller result
+`ApplicationsBatch2`. The general client/VM runner and guest dispatcher share
+those suite selections. With the `FocusedPortableV1` capability, the task client
+also accepts `PSScriptTools` and `OfflineCaffeine` and routes them through the
+protected portable runner, not the general guest dispatcher. See the
+[focused preregistration procedure](README.md#focused-reviewed-portable-packages)
+for its one-time elevated refresh and subsequent unelevated requests. A successful controller result
 must correlate the requested suite with the guest summary. Source snapshots now
 exclude `.local`, including machine-specific configuration and research samples;
 refresh the protected controller through registration while idle.

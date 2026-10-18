@@ -3,6 +3,51 @@
 Current disposable validation sequence, accepted lifecycle scopes and the owned
 power-plan export failure: [settings validation resume](settings-validation-resume.md).
 
+## B01 appearance preference presentation, 2026-10-17
+
+Four existing current-user controls now expose independent preferences and their
+limits: title-bar shake, title-bar accent color, app color mode and Windows color
+mode. Presentation advances from **198/279 to 202/279; 77 remain**. Stable IDs,
+literal states, scope, targets, baseline/default declarations and profiles are
+unchanged. Generated OPERATIONS documentation was rebuilt from the catalog.
+
+The [Microsoft shake behavior reference](https://support.microsoft.com/en-gb/accessibility/windows/make-it-easier-to-focus-on-tasks)
+documents the Multitasking option, not DisallowShaking. Legacy DisableAeroShake
+wrote 1 and EnableAeroShake removed the override; the published Enabled=0 remains
+explicit and WindowsDefault retains legacy removal. The color controls' broad
+settings reference is replaced by the focused [Microsoft color guide](https://support.microsoft.com/en-us/windows/experience/personalization/personalize-your-colors-in-windows).
+It describes UI behavior and application exceptions, not the three retained
+registry mappings. The legacy color selectors use the same explicit 1/0 values.
+App and Windows modes remain separate; neither selects a full theme. Title-bar
+accent does not select a new accent color or enable taskbar coloring. No shell/app
+restart or sign-out is initiated. Exact restore owns registry type/value/absence,
+not application preferences, window positions or the full theme.
+
+Native Windows PowerShell 5.1.26100.9711 and PowerShell 7.6.5 each passed **122**
+presentation/catalog/search checks, with zero failures or skips and one intentionally
+excluded WindowsIntegration case. Repository validation passed **358 operations,
+eight groups, five profiles and 227 PowerShell files** on both editions; generated
+documentation is current. Logs are `.local/closure-appearance-*.log`. No Windows
+setting was applied. GUI readback, current-build registry mapping, contrast/theme
+precedence, app exceptions and exact native recovery remain separate acceptance.
+Whole-catalog semantic comparison permits only the four new presentation blocks
+and their reference changes; all other catalog data matches HEAD 87893c6. The
+[source/result index](../archive/evidence/appearance-presentation-2026-10-17.json)
+retains hashes and both edition results.
+
+Next procedure: continue the 77 unreviewed presentation entries in focused feature
+families, preserving literal behavior and identifying legacy reverse differences.
+For this family, use an isolated Windows 11 desktop to capture prior values and
+UI, preview, apply each declared choice separately, inspect supported/independent
+apps and shell surfaces, repeat, then restore captured state. Retain evidence and
+recover the pinned checkpoint. Denied Hyper-V access defers this session's native
+case; metadata/source validation does not substitute for it.
+
+Resolved: four presentation reviews only. No whole legacy outcome resolved,
+retired or excluded. Native feature outcomes remain partial/deferred. All five
+ranges remain **38-58 / 56-71 / 20-25 / 25-35 / 8-12**, rounded **145-200/about
+175**, because presentation is tracked separately from completed legacy outcomes.
+
 ## Hashing context-menu follow-up, 2026-10-11
 
 The requested additions are tracked in the
@@ -7340,6 +7385,43 @@ rounded **150-205/about 180**. No whole legacy feature/product outcome has compl
 acceptance. Next independent batches: B06 conditional-component inventory and B08
 individual portable review; retain unresolved ownership/product questions.
 
+## B03 startup closure fixture, 2026-10-17
+
+The successor closure batch reviewed both pending UserBinPath operations and the
+shared profile writer. Added explicit absent-profile recovery and capture/write
+race fixtures; existing exact UTF-16 restore, legacy-writer refusal, modified-block
+preservation and color-block coexistence checks remain. The serialized profile VM
+runner now selects `-Scenario UserBinPath` and stages the new guarded
+`Invoke-RideUserBinAcceptance.ps1` with the current source manifest. Its Windows 11
+case requires installed 5.1/7 runtimes and an absent bin directory, checks real
+ConsoleHost process startup, missing/existing bin, normalized duplicate, NoProfile,
+repeat apply, Default and saved-run restore, and preserves sentinel contents.
+No prerequisite installation, UAC change or production target bypass is added.
+
+Validation: UserBinProfile and ProfileAcceptanceAutomation passed **28/28 on each
+native edition** (5.1 and 7), with no skipped tests. Two stale pre-existing color
+worker version assertions were corrected from 0.1.0 to their actual 0.1.1;
+the initial run's two failures were fixture expectations, not runtime acceptance.
+The [source/check index](../archive/evidence/startup-closure-fixture-2026-10-17.json)
+binds these checks to their source hashes. Logs: `.local/closure-startup-powershell.log` and
+`.local/closure-startup-pwsh.log`. The first 5.1 launch was blocked by process
+execution policy; retry used process-only ExecutionPolicy Bypass.
+
+Exact native blocker: this host token is not elevated; a read-only `Get-VM`
+request returned `Access to a CIM resource was not available to the client.`
+No VM was started, controller/pin changed or interactive elevation requested.
+The scenario still needs actual source-correlated Windows 11 acceptance in the
+intended account; alternate-user/redirected-path behavior and existing unmarked
+snippets retain their explicit review/recovery boundaries. Run through the existing
+idle controller with its guest credential and fresh evidence directory when access
+is available, retain evidence, and require checkpoint recovery before promotion.
+
+Resolved legacy outcomes: none. Retired/excluded: none. Partial: startup user-bin.
+Deferred: native startup acceptance; persistent PATH, directory provisioning and
+WindowsApps remain separate. All five ranges remain **38-58 / 56-71 / 20-25 /
+25-35 / 8-12**, rounded **145-200/about 175**. Fixture completion is not a legacy
+closure. Advance to B08/R06 while this resource gate remains.
+
 ## B03 existing user-bin startup candidate, 2026-10-16
 
 Source f53ce6ab102a plus the overnight patch. Two pending operations represent the
@@ -8900,3 +8982,199 @@ explicit profile, recovery-resource and CE-backend decisions. Next: remaining
 acceptance only with the required disposable-target resources and authority.
 All five ranges were reviewed unchanged: 38-58 / 56-71 / 20-25 / 25-35 / 8-12,
 rounded 145-200/about 175. Shared handler hardening closes no whole legacy outcome.
+
+## B01 remaining presentation review: explorer-namespace, 2026-10-17
+
+Sixteen controls: seven This PC namespace registrations, seven mirrored ThisPCPolicy preferences, shortcut suffix and the All Tasks desktop folder. Namespace roots and actual folder contents remain separate. ThisPCPolicy and binary shortcut naming remain Unverified. Legacy 3D Objects show removes overrides; published Visible writes Show. Empty-folder recovery includes ACL and timestamps and refuses content/redirection conflicts. Microsoft namespace/known-folder/link references were reviewed as mechanism or background evidence, not proof of current CLSID rendering.
+
+Catalog schema validation passed. Presentation is **218/279; 61 remain**.
+Runtime behavior, IDs, targets, defaults and profile selections are unchanged.
+Native VM acceptance remains blocked: this session has no elevated Hyper-V CIM
+access. No controller, VM pin, Windows setting or package was changed. Acceptance
+requires a disposable declared target: capture prior state, preview, exercise each
+state and repeat, inspect the actual feature and managed precedence, restore the
+saved run and verify the original state, then recover the pinned checkpoint.
+Retain feature-specific limits above; registry round trips do not prove GUI effects.
+
+Resolved: source presentation only. No whole legacy outcome resolved, retired or
+excluded. Native outcomes remain partial/deferred. All five estimates remain
+**38-58 / 56-71 / 20-25 / 25-35 / 8-12**, rounded **145-200/about 175**;
+presentation coverage is a separate counter. Next: Review the twelve network profile, binding, SMB, NetBIOS and firewall controls.
+
+## B01 remaining presentation review: network-controls, 2026-10-17
+
+Twelve controls: seven adapter bindings, current network category, SMB1 and SMB2/3 flags, NetBIOS and local RDP firewall rules. Legacy SMB server enable leaves SMB1 unchanged; NetBIOS enable writes DHCP/default 0, not explicit 1. Binding changes may restart adapters and couple other flags. Private/Public applies to all reported non-domain profiles. Local rule flags do not establish effective policy, RDP host support or reachability. Native peer, disconnect/reconnect, mixed-state and stable-identity recovery tests remain pending.
+
+Catalog schema validation passed. Presentation is **230/279; 49 remain**.
+Runtime behavior, IDs, targets, defaults and profile selections are unchanged.
+Native VM acceptance remains blocked: this session has no elevated Hyper-V CIM
+access. No controller, VM pin, Windows setting or package was changed. Acceptance
+requires a disposable declared target: capture prior state, preview, exercise each
+state and repeat, inspect the actual feature and managed precedence, restore the
+saved run and verify the original state, then recover the pinned checkpoint.
+Retain feature-specific limits above; registry round trips do not prove GUI effects.
+
+Resolved: source presentation only. No whole legacy outcome resolved, retired or
+excluded. Native outcomes remain partial/deferred. All five estimates remain
+**38-58 / 56-71 / 20-25 / 25-35 / 8-12**, rounded **145-200/about 175**;
+presentation coverage is a separate counter. Next: Review privacy, diagnostic data, app access and activity-history controls.
+
+## B01 remaining presentation review: privacy-and-history, 2026-10-17
+
+Twenty-one controls: diagnostic/linguistic data, feedback/WER, sensors/biometrics, recent history, four app capability consent stores, background overrides, tailored experiences, three activity policies, website language/shared experiences and two AppCompat policies. ConsentStore and legacy user mappings remain Unverified. Local StartMenu/Biometrics ADMX confirms scope/mapping without claiming runtime behavior. Activity cloud-upload UI deprecation is explicit. Whole telemetry/background/history legacy bundles remain distinct; policy restoration cannot recover deleted history or transmitted data. Four capability references moved to the current Microsoft package-and-deploy page; focused activity/tailored anchors were verified.
+
+Catalog schema validation passed. Presentation is **251/279; 28 remain**.
+Runtime behavior, IDs, targets, defaults and profile selections are unchanged.
+Native VM acceptance remains blocked: this session has no elevated Hyper-V CIM
+access. No controller, VM pin, Windows setting or package was changed. Acceptance
+requires a disposable declared target: capture prior state, preview, exercise each
+state and repeat, inspect the actual feature and managed precedence, restore the
+saved run and verify the original state, then recover the pinned checkpoint.
+Retain feature-specific limits above; registry round trips do not prove GUI effects.
+
+Resolved: source presentation only. No whole legacy outcome resolved, retired or
+excluded. Native outcomes remain partial/deferred. All five estimates remain
+**38-58 / 56-71 / 20-25 / 25-35 / 8-12**, rounded **145-200/about 175**;
+presentation coverage is a separate counter. Next: Review power, BitLocker and compatibility/platform controls.
+
+## B01 remaining presentation review: power-and-bitlocker, 2026-10-17
+
+Seven controls: hardware-clock interpretation, enhanced PIN permission, startup-authentication gate, legacy encryption method, AC/DC lid actions and existing scheme selection. Local VolumeEncryption.admx/ADML restricts EncryptionMethod to Vista/Windows 7-era targets; presentation is Unverified and its description no longer promises Windows 11 encryption behavior. Stable ID, target declaration and saved recovery identity remain for a separate compatibility/migration correction. No encryption/recovery setup is authorized by this review. Legacy local-clock reverse removes the override; Local=0 is explicit. Lid acceptance requires physical hardware; a VM alone is insufficient.
+
+Catalog schema validation passed. Presentation is **258/279; 21 remain**.
+Runtime behavior, IDs, targets, defaults and profile selections are unchanged.
+Native VM acceptance remains blocked: this session has no elevated Hyper-V CIM
+access. No controller, VM pin, Windows setting or package was changed. Acceptance
+requires a disposable declared target: capture prior state, preview, exercise each
+state and repeat, inspect the actual feature and managed precedence, restore the
+saved run and verify the original state, then recover the pinned checkpoint.
+Retain feature-specific limits above; registry round trips do not prove GUI effects.
+
+Resolved: source presentation only. No whole legacy outcome resolved, retired or
+excluded. Native outcomes remain partial/deferred. All five estimates remain
+**38-58 / 56-71 / 20-25 / 25-35 / 8-12**, rounded **145-200/about 175**;
+presentation coverage is a separate counter. Next: Review the eleven remaining platform and compatibility preferences.
+
+## B01 remaining presentation review: platform-compatibility, 2026-10-17
+
+Eleven controls: fullscreen GameConfigStore bundle, Storage Sense, Recycle Bin, Delivery Optimization, swap file, Windows Script Host, PAC URL, long paths, account warning and two .NET Framework views. Internal mappings remain Unverified. Storage Sense no longer implies legacy recursive preference deletion; Recycle Bin reversal cannot recover deleted content. Empty versus absent PAC URL does not restore a prior URL. .NET descriptions now distinguish application target-framework defaults from installed runtime versions. Long-path application opt-in and refresh limits remain explicit. UWP suspension reference moved to its current Microsoft path.
+
+Catalog schema validation passed. Presentation is **269/279; 10 remain**.
+Runtime behavior, IDs, targets, defaults and profile selections are unchanged.
+Native VM acceptance remains blocked: this session has no elevated Hyper-V CIM
+access. No controller, VM pin, Windows setting or package was changed. Acceptance
+requires a disposable declared target: capture prior state, preview, exercise each
+state and repeat, inspect the actual feature and managed precedence, restore the
+saved run and verify the original state, then recover the pinned checkpoint.
+Retain feature-specific limits above; registry round trips do not prove GUI effects.
+
+Resolved: source presentation only. No whole legacy outcome resolved, retired or
+excluded. Native outcomes remain partial/deferred. All five estimates remain
+**38-58 / 56-71 / 20-25 / 25-35 / 8-12**, rounded **145-200/about 175**;
+presentation coverage is a separate counter. Next: Review the final ten shell, accessibility, search and Edge controls.
+
+## B01 remaining presentation review: shell-accessibility-and-edge, 2026-10-17
+
+Reviewed ten controls. Accessibility IDs retain whole Flags presets, not verified prompt-only switches: their paired values differ by API hotkey bit 0x4 while retaining 0x8 and omitting feature-on bit 0x1; API documentation is not proof of the registry-string contract. Corrected new-app notification meaning and linked exact Store lookup/deletion-confirmation policy mappings. Repaired the missing Search CSP fragment with Microsoft connection-management guidance. Edge URL formatting uses the mandatory user policy and excludes Microsoft-account profiles; Edge installation shortcuts have separate channel overrides and no effect on existing installations. Source review is complete; no runtime accessibility, search, shell or installer behavior was exercised.
+
+Catalog schema validation passed. Presentation is **279/279; 0 remain**.
+Runtime behavior, IDs, targets, defaults and profile selections are unchanged.
+Native VM acceptance remains blocked: this session has no elevated Hyper-V CIM
+access. No controller, VM pin, Windows setting or package was changed. Acceptance
+requires a disposable declared target: capture prior state, preview, exercise each
+state and repeat, inspect the actual feature and managed precedence, restore the
+saved run and verify the original state, then recover the pinned checkpoint.
+Retain feature-specific limits above; registry round trips do not prove GUI effects.
+
+Resolved: source presentation only. No whole legacy outcome resolved, retired or
+excluded. Native outcomes remain partial/deferred. All five estimates remain
+**38-58 / 56-71 / 20-25 / 25-35 / 8-12**, rounded **145-200/about 175**;
+presentation coverage is a separate counter. Next: Generate the catalog reference, validate both native PowerShell editions and retain feature-specific VM acceptance gates.
+
+## B01 presentation review completion, 2026-10-17
+
+Completed the authorized remaining **77 setting presentation reviews**, moving
+coverage from **202/279 to 279/279**. The six batches above cover namespace (16),
+network (12), privacy/history (21), power/BitLocker (7), platform compatibility
+(11), and shell/accessibility/Edge (10). The [machine-readable evidence](../archive/evidence/remaining-presentation-reviews-2026-10-17.json)
+records every reviewed ID, behavior classification, reference, source hash,
+description/reference correction and native gate. Unverified classifications are
+review outcomes, not successful feature acceptance.
+
+Semantic comparison against the captured start-of-turn catalog passed: exactly
+77 presentation additions and the declared description/reference corrections.
+IDs, states, handlers, targets, defaults, profiles and prior presentations remain
+unchanged. The existing default profile still selects the legacy BitLocker
+EncryptionMethod value; its modern-target compatibility/recommendation requires
+a separate correction preserving recovery identity. Accessibility presets still
+replace complete Flags strings. Neither issue is hidden by completed coverage.
+
+Validation on native Windows PowerShell **5.1.26100.9711** and PowerShell **7.6.5**:
+
+- SettingPresentation, Catalog and Search: **122 distinct checks pass per edition**;
+  one WindowsIntegration test is excluded. Initial runs each passed 121 and failed
+  the obsolete BitLocker description assertion. Corrected that existing assertion
+  to require Unverified behavior and the legacy/current-target caveat. Catalog
+  reruns passed all 70 checks per edition; the other 52 passing checks are retained.
+- Generated docs/OPERATIONS.md through tools/Export-RideCatalog.ps1. Both validators
+  passed **358 operations, eight groups, five profiles and 227 PowerShell files**,
+  including generated-reference consistency. The test-only assertion correction
+  was subsequently parsed and executed by both Pester runtimes.
+- Catalog schema validation passed after each batch. The final semantic comparison
+  and focused diff review preserve pre-existing unrelated working-tree changes.
+
+**Blocked native acceptance:** the previously observed non-elevated Hyper-V CIM
+access denial still prevents the disposable-target run. No retry, elevation bypass,
+controller/pin change, VM mutation, workstation setting change or installation was
+performed. Physical lid/sleep acceptance needs suitable hardware even after VM
+access is available. BitLocker/recovery resource setup and new profile composition
+remain explicitly deferred; no further permission was requested for these reviews.
+
+Next procedure, from the repository root with Windows-native tools: use the
+[existing validation resume matrix](settings-validation-resume.md) and the individual
+catalog requirements to select a declared target and one feature family. Once an
+authorized elevated disposable target is available, verify its identity and pinned
+checkpoint, capture prior values and managed state, preview the chosen operation,
+apply each relevant state and repeat, inspect the actual UI/consumer, then restore
+the captured run and compare exact prior state. Exercise partial failure and
+identity changes where the family requires them. Recover the checkpoint after the
+scenario. Record target/build/edition, actor, observed effects and recovery evidence
+before changing acceptance. Registry readback alone does not pass this gate.
+For networks retain console access and a controlled peer; for deletion/history
+use disposable data; for Edge use the relevant profile/channel/installation case.
+Compatibility corrections need their own reviewed mapping and recovery migration.
+
+Resolved: all 77 requested source presentations. Retired/excluded: no additional
+legacy outcome. Partial: native behavior, managed precedence and exact target
+recovery. Deferred: unavailable VM/hardware acceptance and the explicit resource/
+profile decisions. All five ranges remain **38-58 / 56-71 / 20-25 / 25-35 / 8-12**,
+rounded **145-200/about 175**. No whole legacy outcome was deducted. The overview
+and active continuation documents now distinguish completed presentation from the
+remaining implementation and acceptance queue.
+
+## B03 user-bin native prerequisite attempt, 2026-10-17
+
+The authorized continuation ran the existing `UserBinPath` scenario on
+RIDE-Win11-Test with its unchanged registered checkpoint. Host access is now
+available. Run **be21c647ec6247d0be626b4ddd45e019** reached guest preparation and
+refused because **C:\Program Files\PowerShell\7\pwsh.exe is absent** in the clean
+checkpoint. The scenario requires both installed runtimes and explicitly does
+not acquire/install prerequisites. No profile/startup case ran; this is not a
+profile-handler failure or acceptance pass.
+
+The host retained the source manifest and failure result, then reported
+**ResetAndOff**. Raw evidence is
+`.local/user-bin-vm-acceptance-20261017/be21c647ec6247d0be626b4ddd45e019/result.json`
+and `.local/user-bin-vm-20261017T101645Z.log`. Existing VM/checkpoint pins and
+controller registration were preserved; no Defender-blocked tool was selected.
+The earlier non-elevated Hyper-V diagnosis is superseded for this attempt by the
+missing guest-runtime prerequisite. Prepare both runtimes in an explicitly scoped
+disposable prerequisite workflow before repeating the same startup case; no new
+checkpoint or production profile is implied.
+
+Resolved: concrete prerequisite diagnosis and successful checkpoint recovery.
+Whole legacy outcomes resolved/retired/excluded: **none**. User-bin startup stays
+partial; PowerShell 7 prerequisite and native startup remain pending. Persistent
+PATH, directory provisioning, WindowsApps and explicit profile/resource deferrals
+remain separate. All five ranges stay **38-58 / 56-71 / 20-25 / 25-35 / 8-12**,
+rounded **145-200/about 175**; this failed prerequisite closes no legacy outcome.

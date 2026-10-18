@@ -1,0 +1,376 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "Scope": "Frozen 35 MiTeC product identities and 16 NTCore utility entries; not an assertion that every historical release is included",
+  "Members": [
+    {
+      "Collection": "MiTeC",
+      "Name": "MiTeC Certificate Generator",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "MiTeC Certificate Information",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "MiTeC DFM Editor",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "MiTeC EXE Explorer",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "MiTeC HexEdit",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "MiTeC InfoBar",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "MiTeC Interbase Query",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "MiTeC JSON Viewer",
+      "Evidence": "mitec-json-viewer-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "MiTeC Mail Viewer",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "MiTeC Network Scanner",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "MiTeC OLE/COM Explorer",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "MiTeC Paradox Data Editor",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "MiTeC System Information eXtra",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "MiTeC SQLite Query",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "MiTeC Structured Storage Viewer",
+      "Evidence": "ssview-ownership-follow-up-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "MiTeC TAPI Monitor",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "MiTeC Windows Registry Recovery",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "MiTeC XML Viewer",
+      "Evidence": "mitec-xml-viewer-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "MiTeC Project Maker",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "MiTeC SMBIOS Explorer",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "MiTeC Task Manager DeLuxe",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "MiTeC UUID Generator",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "Internet History Browser",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "E-mail History Browser",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "Instant Messaging History Browser",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "Windows File Analyzer",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "Database Documentation/Code Generator",
+      "Evidence": "mitec-database-artifact-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "MSA Query",
+      "Evidence": "mitec-database-artifact-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "ADO Query",
+      "Evidence": "mitec-database-artifact-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "Weather Agent",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "DirList",
+      "Evidence": "mitec-utility-artifact-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "Network Meter",
+      "Evidence": "mitec-utility-artifact-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "PhotoView",
+      "Evidence": "mitec-utility-artifact-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "Icon Explorer",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "MiTeC",
+      "Name": "Mail Checker",
+      "Evidence": "mitec-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; exact remaining terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "NTCore",
+      "Name": ".NET Generic Unpacker",
+      "Evidence": "ntcore-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "NTCore",
+      "Name": "4GB Patch",
+      "Evidence": "ntcore-4gb-patch-source-review-2026-10-17.json",
+      "Status": "Source reviewed; terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "NTCore",
+      "Name": "AntiMida 1.0",
+      "Evidence": "ntcore-remaining-source-review-2026-10-17.json",
+      "Status": "Existing mixed research/source exclusion retained; payload not acquired",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "NTCore",
+      "Name": "Driver List",
+      "Evidence": "ntcore-member-source-follow-up-2026-10-17.json",
+      "Status": "Source reviewed; terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "NTCore",
+      "Name": "DynLogger",
+      "Evidence": "ntcore-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "NTCore",
+      "Name": "Explorer Suite",
+      "Evidence": "ntcore-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "NTCore",
+      "Name": "Filter Monitor",
+      "Evidence": "ntcore-remaining-source-review-2026-10-17.json",
+      "Status": "Page-only; payload not acquired",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "NTCore",
+      "Name": "NoDel",
+      "Evidence": "ntcore-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "NTCore",
+      "Name": "PE Detective",
+      "Evidence": "ntcore-pe-detective-source-review-2026-10-17.json",
+      "Status": "Source reviewed; terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "NTCore",
+      "Name": "Phoenix Protector",
+      "Evidence": "ntcore-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "NTCore",
+      "Name": "Rebel.NET",
+      "Evidence": "ntcore-member-source-follow-up-2026-10-17.json",
+      "Status": "Source reviewed; terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "NTCore",
+      "Name": "ScreenWriter",
+      "Evidence": "ntcore-managed-utility-source-review-2026-10-17.json",
+      "Status": "Source reviewed; terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "NTCore",
+      "Name": "SNSRemover",
+      "Evidence": "ntcore-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "NTCore",
+      "Name": "VirtualReg Manager",
+      "Evidence": "ntcore-managed-utility-source-review-2026-10-17.json",
+      "Status": "Source reviewed; terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "NTCore",
+      "Name": "Vista4Experts",
+      "Evidence": "ntcore-remaining-source-review-2026-10-17.json",
+      "Status": "Page-only; payload not acquired",
+      "ClosedLegacyOutcome": false
+    },
+    {
+      "Collection": "NTCore",
+      "Name": "WIM Installer",
+      "Evidence": "ntcore-remaining-source-review-2026-10-17.json",
+      "Status": "Source reviewed; terms/dependencies/selection/acceptance remain in evidence",
+      "ClosedLegacyOutcome": false
+    }
+  ],
+  "MiTeC": 35,
+  "NTCore": 16,
+  "Total": 51,
+  "Unassigned": 0,
+  "ResidualSourceBlockers": [
+    "Six opaque installer payloads need a reviewed static extractor; no UAC is inherently needed for that work",
+    "Phoenix page/MSI/executable identity and restrictive bundled EULA",
+    "DFM variant/BPL terms, SQLite provenance, helper/language/sample ownership",
+    "NoDel kernel driver, Filter Monitor signature enforcement and Vista4Experts protection changes",
+    "Other exact product grants and prior 4GB Patch/SSView/PhotoView/DDG gates"
+  ],
+  "RuntimeAcceptanceComplete": false
+}

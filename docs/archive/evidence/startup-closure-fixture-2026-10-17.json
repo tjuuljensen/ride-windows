@@ -1,0 +1,59 @@
+{
+  "SchemaVersion": 1,
+  "Batch": "B03 startup closure fixture",
+  "RecordedDate": "2026-10-17",
+  "SourceFiles": [
+    {
+      "Path": "tests/UserBinProfile.Tests.ps1",
+      "Sha256": "7d64ca7d59735400b821a36b58920c04f6b0b082cc835dfb8190194dd4df1b28"
+    },
+    {
+      "Path": "tests/ProfileAcceptanceAutomation.Tests.ps1",
+      "Sha256": "5bd61cc0ccc13c32dd44db7139ff21e7d2e92cab1cfe28012b9af3fd8f584a2d"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideProfileVmAcceptance.ps1",
+      "Sha256": "e70792a4d6b136f28851a14ce4b971071392db48a4e5bcd0335dd271c3a2d085"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideUserBinAcceptance.ps1",
+      "Sha256": "8a4f9ce068ca2c41eccf06199e21d9fe39e340012df30513242d289f78cace0e"
+    },
+    {
+      "Path": "modules/RIDE-ProfileSettings.psm1",
+      "Sha256": "00ad8ed157fdfc591fd5b055695cc79da3077b181c35a1c80337882f81f7ea3c"
+    },
+    {
+      "Path": "catalog/operations.psd1",
+      "Sha256": "6ce97447555d9711a1538148761147df9dbb1b990bd5ea100949b80fb7efd0a9"
+    }
+  ],
+  "Checks": [
+    {
+      "PowerShell": "5.1.26100.9711",
+      "Tests": [
+        "UserBinProfile",
+        "ProfileAcceptanceAutomation"
+      ],
+      "Passed": 28,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 28
+    },
+    {
+      "PowerShell": "7.6.5",
+      "Tests": [
+        "UserBinProfile",
+        "ProfileAcceptanceAutomation"
+      ],
+      "Passed": 28,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 28
+    }
+  ],
+  "NativeAcceptance": false,
+  "Blocker": "Host token is not elevated; Get-VM returned: Access to a CIM resource was not available to the client.",
+  "LegacyOutcomesClosed": 0,
+  "SupportedTargetsChanged": false
+}

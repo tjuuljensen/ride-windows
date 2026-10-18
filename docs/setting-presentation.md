@@ -504,8 +504,17 @@ Explorer automatically. See the [shell review](migrations/settings-post-migratio
 
 ## Remaining implementation and acceptance
 
-Audit the remaining settings before filling their presentation fields. Add
-observable effective-policy/source inspection per feature, not a generic registry
+Title-bar shake, title-bar accent color, app mode and Windows mode are separate
+current-user preferences. Their Microsoft references describe visible controls;
+the retained registry mappings still need GUI acceptance. App-specific themes can
+ignore the app preference. Legacy shake enable removed its override, whereas the
+published Enabled state writes zero; WindowsDefault retains removal semantics.
+See the [appearance review](migrations/settings-post-migration-review.md#b01-appearance-preference-presentation-2026-10-17)
+for recovery and current-build limits.
+
+All 279 built-in settings now have reviewed presentation fields. `Unverified`
+identifies unresolved mappings or current-build effects; coverage is not runtime
+certification. Add observable effective-policy/source inspection per feature, not a generic registry
 heuristic. The [intended-user handoff](intended-user-handoff.md) now implements
 explicit user-only actions for the current desktop session. Its native interactive
 acceptance remains pending; automatic mixed-scope ordering and recovery are still
@@ -516,3 +525,36 @@ native Windows PowerShell 5.1 and PowerShell 7 after the concurrent application
 migration finished; the post-migration review records results and fixture retries.
 GUI/sign-in/reboot, managed precedence and Windows Server acceptance remain
 disposable-VM work.
+
+## Additional scope and compatibility boundaries
+
+Explorer namespace visibility does not delete personal folders. ThisPCPolicy,
+shortcut suffixes and several older preference values remain Unverified. Network
+bindings and profiles can interrupt connectivity; adapter identity and local recovery
+must be established before activation. SMB server versions, NetBIOS and Remote
+Desktop firewall rules are separate controls with different legacy reverse states.
+
+Privacy policies, user consent preferences and app-specific override removal have
+different ownership. Restoring values cannot recover cleared history or retract
+data already sent. Current Windows activity-history behavior may differ from the
+older upload policy's label. Storage Sense configuration can permit later cleanup;
+restoring its preference cannot recover removed content.
+
+The retained BitLocker `EncryptionMethod` value is an older Vista/Windows 7 policy
+mapping. Its presentation is Unverified for the declared Windows 11 target; it is
+not a current cipher-selection recommendation. The existing default profile still
+selects AesCbc256; its compatibility and recommendation require a separate
+correction. This review preserves that selection and the published recovery mapping.
+Startup-authentication policies do not create protectors or recovery resources.
+Power scheme/lid choices need actual
+scheme, hardware and sleep acceptance independently of registry readback.
+
+Sticky Keys, Toggle Keys and Filter Keys IDs replace whole legacy Flags strings.
+Their Enabled/Disabled presets are not verified prompt-only controls and may replace
+custom accessibility choices. New-app alerts concern newly installed association
+handlers, not every unknown-file dialog. Edge URL format uses a mandatory policy;
+Edge desktop-shortcut policy affects installation and has channel-specific overrides.
+
+See the [six-batch review and blocked acceptance record](migrations/settings-post-migration-review.md#b01-presentation-review-completion-2026-10-17)
+for the complete 77-operation source review, exact recovery boundaries and remaining
+compatibility work. No new default-profile recommendation follows from this review.

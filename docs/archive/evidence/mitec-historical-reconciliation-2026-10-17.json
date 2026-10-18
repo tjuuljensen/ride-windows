@@ -1,0 +1,230 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "CurrentIndex": "https://www.mitec.cz/wp/apps/",
+  "HistoricalIndex": "https://www.mitec.cz/main.html",
+  "HistoricalIndexSha256": "0b9b3505c714f243dbc141ef0081e4e65c3b6b0224de19a6184e1fbfc3d35660",
+  "HistoricalSiteNotice": "Publisher marks old site no longer updated after new site launch 2025-07-25",
+  "CurrentInventoryMembers": 22,
+  "AdditionalHistoricalStandaloneMembers": [
+    {
+      "Name": "Internet History Browser",
+      "ProductUri": "https://www.mitec.cz/ihb.html",
+      "ProductPageSha256": "187aedc093c768885775138a9a49a0c90264f68ff656185f805f964bb3de7ab1",
+      "HistoricalIndexVersion": "2.5.0",
+      "ArtifactVersionVerified": false,
+      "DownloadLinks": [
+        "https://www.mitec.cz/Downloads/IHB.zip"
+      ],
+      "LicenseObservation": "Historical product page limits free use to private/educational/non-commercial purposes",
+      "CurrentAppsInventoryMatch": false,
+      "Disposition": "Historical standalone retained in collection scope; current artifact, terms, dependency and native acceptance pending",
+      "PayloadAcquired": false,
+      "CatalogAdmission": false
+    },
+    {
+      "Name": "E-mail History Browser",
+      "ProductUri": "https://www.mitec.cz/ehb.html",
+      "ProductPageSha256": "826abda975939b52e86983e542b9e3b3e7ab1b81807d28390a7877615bfdad07",
+      "HistoricalIndexVersion": "1.2.0",
+      "ArtifactVersionVerified": false,
+      "DownloadLinks": [
+        "https://www.mitec.cz/Downloads/EHB.zip"
+      ],
+      "LicenseObservation": "Historical product page permits private/commercial use; distribution not established",
+      "CurrentAppsInventoryMatch": false,
+      "Disposition": "Historical standalone retained in collection scope; current artifact, terms, dependency and native acceptance pending",
+      "PayloadAcquired": false,
+      "CatalogAdmission": false
+    },
+    {
+      "Name": "Instant Messaging History Browser",
+      "ProductUri": "https://www.mitec.cz/imhb.html",
+      "ProductPageSha256": "3633aca626e004ef7525c78ee6d643128e1ffcfdd4ac3ce15a03da6cc48f83a4",
+      "HistoricalIndexVersion": "1.2.1",
+      "ArtifactVersionVerified": false,
+      "DownloadLinks": [
+        "https://www.mitec.cz/Downloads/IMHB.zip"
+      ],
+      "LicenseObservation": "Historical product page permits private/commercial use; distribution not established",
+      "CurrentAppsInventoryMatch": false,
+      "Disposition": "Historical standalone retained in collection scope; current artifact, terms, dependency and native acceptance pending",
+      "PayloadAcquired": false,
+      "CatalogAdmission": false
+    },
+    {
+      "Name": "Windows File Analyzer",
+      "ProductUri": "https://www.mitec.cz/wfa.html",
+      "ProductPageSha256": "e5ff26cd9155d7bf1c5e214dbd5015a26261c4ce6ec80642b5dfc97ca265a87c",
+      "HistoricalIndexVersion": "2.10.0",
+      "ArtifactVersionVerified": false,
+      "DownloadLinks": [
+        "https://www.mitec.cz/Downloads/WFA.zip"
+      ],
+      "LicenseObservation": "Historical product page limits free use to private/educational/non-commercial purposes",
+      "CurrentAppsInventoryMatch": false,
+      "Disposition": "Historical standalone retained in collection scope; current artifact, terms, dependency and native acceptance pending",
+      "PayloadAcquired": false,
+      "CatalogAdmission": false
+    },
+    {
+      "Name": "Database Documentation/Code Generator",
+      "ProductUri": "https://www.mitec.cz/ddg.html",
+      "ProductPageSha256": "61945c41499dbe65a99312cb0e401a591a8bfa60a3f08752e37b862ffb974875",
+      "HistoricalIndexVersion": "1.2.0",
+      "ArtifactVersionVerified": false,
+      "DownloadLinks": [
+        "https://www.mitec.cz/Downloads/DDG_IBFB.zip",
+        "https://www.mitec.cz/Downloads/DDG_MSSQL.zip"
+      ],
+      "LicenseObservation": "Historical product page permits private/commercial use; distribution not established",
+      "CurrentAppsInventoryMatch": false,
+      "Disposition": "Historical standalone retained in collection scope; current artifact, terms, dependency and native acceptance pending",
+      "PayloadAcquired": false,
+      "CatalogAdmission": false
+    },
+    {
+      "Name": "MSA Query",
+      "ProductUri": "https://www.mitec.cz/msaq.html",
+      "ProductPageSha256": "1bfa65cae0e59c64653a2db9de254c8bef55a1e592ccbdd4f9cabb2a608d400c",
+      "HistoricalIndexVersion": "2.1.0",
+      "ArtifactVersionVerified": false,
+      "DownloadLinks": [
+        "https://www.mitec.cz/Downloads/MSAQuery.zip"
+      ],
+      "LicenseObservation": "Historical product page permits private/commercial use; distribution not established",
+      "CurrentAppsInventoryMatch": false,
+      "Disposition": "Historical standalone retained in collection scope; current artifact, terms, dependency and native acceptance pending",
+      "PayloadAcquired": false,
+      "CatalogAdmission": false
+    },
+    {
+      "Name": "ADO Query",
+      "ProductUri": "https://www.mitec.cz/adoq.html",
+      "ProductPageSha256": "fd54c9449cbfcb87f88c8dfe1dcf0801af200dded19e72d4e92e2e01e9c5ad27",
+      "HistoricalIndexVersion": "1.9.0",
+      "ArtifactVersionVerified": false,
+      "DownloadLinks": [
+        "https://www.mitec.cz/Downloads/ADOQuery.zip"
+      ],
+      "LicenseObservation": "Historical product page permits private/commercial use; distribution not established",
+      "CurrentAppsInventoryMatch": false,
+      "Disposition": "Historical standalone retained in collection scope; current artifact, terms, dependency and native acceptance pending",
+      "PayloadAcquired": false,
+      "CatalogAdmission": false
+    },
+    {
+      "Name": "Weather Agent",
+      "ProductUri": "https://www.mitec.cz/wa.html",
+      "ProductPageSha256": "3083c3cdae9b14fc791b1818110e46e5398eead264331e32eee750329097c2bd",
+      "HistoricalIndexVersion": "3.6.0",
+      "ArtifactVersionVerified": false,
+      "DownloadLinks": [
+        "https://www.mitec.cz/Downloads/WA_Setup.exe"
+      ],
+      "LicenseObservation": "Historical product page permits private/commercial use; distribution not established",
+      "CurrentAppsInventoryMatch": false,
+      "Disposition": "Historical standalone retained in collection scope; current artifact, terms, dependency and native acceptance pending",
+      "PayloadAcquired": false,
+      "CatalogAdmission": false
+    },
+    {
+      "Name": "DirList",
+      "ProductUri": "https://www.mitec.cz/dirlist.html",
+      "ProductPageSha256": "e158fb5eb12b376bf8affaf47b79a03468070034132fca1286387c897af2c28b",
+      "HistoricalIndexVersion": "1.3.0",
+      "ArtifactVersionVerified": false,
+      "DownloadLinks": [
+        "https://www.mitec.cz/Downloads/DirList.zip"
+      ],
+      "LicenseObservation": "Historical product page permits private/commercial use; distribution not established",
+      "CurrentAppsInventoryMatch": false,
+      "Disposition": "Historical standalone retained in collection scope; current artifact, terms, dependency and native acceptance pending",
+      "PayloadAcquired": false,
+      "CatalogAdmission": false
+    },
+    {
+      "Name": "Network Meter",
+      "ProductUri": "https://www.mitec.cz/netmet.html",
+      "ProductPageSha256": "ad80fbcc6b3abf5ed3b2c5cd3a726847b686e5f39864f3142c780edea61908c2",
+      "HistoricalIndexVersion": "2.5.0",
+      "ArtifactVersionVerified": false,
+      "DownloadLinks": [
+        "https://www.mitec.cz/Downloads/NetMet.zip"
+      ],
+      "LicenseObservation": "Historical product page permits private/commercial use; distribution not established",
+      "CurrentAppsInventoryMatch": false,
+      "Disposition": "Historical standalone retained in collection scope; current artifact, terms, dependency and native acceptance pending",
+      "PayloadAcquired": false,
+      "CatalogAdmission": false
+    },
+    {
+      "Name": "PhotoView",
+      "ProductUri": "https://www.mitec.cz/photo.html",
+      "ProductPageSha256": "b019ed6e913148154f151e0d448f75dc4cca6f1f12a8a7e5c28c14c806a360a6",
+      "HistoricalIndexVersion": "1.4.0",
+      "ArtifactVersionVerified": false,
+      "DownloadLinks": [
+        "https://www.mitec.cz/Downloads/PhotoView.zip"
+      ],
+      "LicenseObservation": "Historical product page permits private/commercial use; distribution not established",
+      "CurrentAppsInventoryMatch": false,
+      "Disposition": "Historical standalone retained in collection scope; current artifact, terms, dependency and native acceptance pending",
+      "PayloadAcquired": false,
+      "CatalogAdmission": false
+    },
+    {
+      "Name": "Icon Explorer",
+      "ProductUri": "https://www.mitec.cz/iconex.html",
+      "ProductPageSha256": "031c15481fa1062e09ab3140cf8bcc5292ce85b9c08de38aae71f464d22c5edb",
+      "HistoricalIndexVersion": "5.3.0",
+      "ArtifactVersionVerified": false,
+      "DownloadLinks": [
+        "https://www.mitec.cz/Downloads/IconExplorer.zip"
+      ],
+      "LicenseObservation": "Historical product page limits free use to private/educational/non-commercial purposes",
+      "CurrentAppsInventoryMatch": false,
+      "Disposition": "Historical standalone retained in collection scope; current artifact, terms, dependency and native acceptance pending",
+      "PayloadAcquired": false,
+      "CatalogAdmission": false
+    },
+    {
+      "Name": "Mail Checker",
+      "ProductUri": "https://www.mitec.cz/mailchecker.html",
+      "ProductPageSha256": "07a2237ff9c973d5855ebd4752672cb168c9f1d7d500f147dc9d1325fbb5baf0",
+      "HistoricalIndexVersion": "7.2.0",
+      "ArtifactVersionVerified": false,
+      "DownloadLinks": [
+        "https://www.mitec.cz/Downloads/MAILCHECKER_Instal.exe"
+      ],
+      "LicenseObservation": "Historical product page permits private/commercial use; distribution not established",
+      "CurrentAppsInventoryMatch": false,
+      "Disposition": "Historical standalone retained in collection scope; current artifact, terms, dependency and native acceptance pending",
+      "PayloadAcquired": false,
+      "CatalogAdmission": false
+    }
+  ],
+  "AdditionalHistoricalStandaloneCount": 13,
+  "UnionReviewScopeCount": 35,
+  "Scope": "Union of frozen current Apps & Tools list and reviewed standalone links from old main page; not an exhaustive archive of every historical release",
+  "DeveloperComponentPagesExcluded": [
+    "exif.html",
+    "kml.html",
+    "mdibg.html",
+    "mfacs.html",
+    "mibhcs.html",
+    "msics.html",
+    "mt.html",
+    "oe.html",
+    "onoff.html",
+    "pe.html",
+    "wf.html"
+  ],
+  "Deduplication": "Existing current product identities remain authoritative; R05 SSView and R13 SSView share one identity",
+  "Remaining": [
+    "Artifact hashes, exact members, version and current source availability",
+    "Reconcile product-specific historical terms with current software EULA before package admission; do not infer distribution approval",
+    "DAO/ADO/database clients and installer dependencies",
+    "Synthetic-data functionality and owned recovery; no personal browser/mail/history data"
+  ]
+}

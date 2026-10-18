@@ -1,0 +1,94 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "Scope": "Static source and publisher-page reconciliation of the JoeWare rdp-sec-check version-list discrepancy and its separate source/binary licensing; download form not submitted and no artifact acquired",
+  "PublisherEvidence": {
+    "ProductPage": {
+      "Uri": "https://www.joeware.net/freetools/tools/rdp-sec-check/index.htm",
+      "Snapshot": ".local/collection-inventory-20261017/joeware-product-rdp-sec-check.html",
+      "Status": 200,
+      "Length": 8829,
+      "Sha256": "0506d71c7e5bc9969b8b10e2ea56d47d43298612abfeccfe6efdf1d0badc92ee",
+      "CurrentVersionText": "0.9-beta (joeware.net V02.00.00), November 17, 2014",
+      "VersionHistory": [
+        "1.00.00 - 02/11/2013 - Modified Portcullis Labs script to meet JoeWare needs",
+        "2.00.00 - 11/17/2014 - Updated to Portcullis v0.9-beta base and added IPv6 capability"
+      ],
+      "SourceStatement": "GPLv2; source Perl script included in the publisher ZIP; original source attributed to Portcullis Labs",
+      "DownloadFormAction": "https://www.joeware.net/downloads/dl2.php",
+      "DownloadFormSubmitted": false
+    },
+    "VersionList": {
+      "Uri": "https://www.joeware.net/freetools/versions.txt",
+      "Snapshot": ".local/collection-inventory-20261017/joeware-versions.txt",
+      "Status": 200,
+      "Length": 4177,
+      "Sha256": "d0c1c3b827a86a791dd3973b621fe2338f55eff547d50cc74519d371230b9164",
+      "Header": "Updated: 2023.05.06",
+      "Row": "rdp-sec-check,01.00.00,2011.02.11,835b662d44b251dfd0c89c51da3da63d,9a6bde20e329d57456d35917c5a1d9cdcaf915ac"
+    },
+    "PublisherAnnouncement": {
+      "Uri": "https://blog.joeware.net/2014/11/17/5553/",
+      "Date": "2014-11-17",
+      "Observation": "JoeWare describes using Portcullis v0.9-beta as the base for JoeWare V02.00.00 after a planned V01.01.00 release."
+    }
+  },
+  "VersionReconciliation": {
+    "Status": "Current publisher page label clarified; version-list row and retained artifact identity remain unreconciled",
+    "Explanation": "The product page explicitly labels v0.9-beta as JoeWare V02.00.00 and its history dates V02.00.00 to 2014. The collection versions list has a 01.00.00 entry dated 2011, which is not the current page's advertised release; the list's row date also does not match the page's V01.00.00 history date. Treat the entry as stale or otherwise non-current metadata, not as proof of the current ZIP's version. The archive has not been acquired, so no exact archive identity or byte version is asserted.",
+    "OlderVersionListDigests": {
+      "Md5": "835b662d44b251dfd0c89c51da3da63d",
+      "Sha1": "9a6bde20e329d57456d35917c5a1d9cdcaf915ac"
+    },
+    "PublisherSha256Verified": false
+  },
+  "LicenseReview": {
+    "JoeWareGeneralTerms": "The publisher's general warranty page distinguishes use on personal/company systems from distribution to other users or companies; that distribution restriction remains relevant to the JoeWare package.",
+    "ProductPageTerms": "The rdp-sec-check product page identifies GPLv2 and says the Perl source is included in the ZIP. The ZIP was not downloaded, so the exact source, notices, compiled PerlApp executable relationship, and included third-party modules were not inspected.",
+    "OriginalSourceReference": {
+      "RepositoryUri": "https://github.com/CiscoCXSecurity/rdp-sec-check",
+      "ObservedFiles": [
+        "COPYING.GPL",
+        "COPYING.RDP-SEC-CHECK",
+        "README.md",
+        "rdp-sec-check.pl"
+      ],
+      "Observation": "The repository advertises GPL-2.0 and also contains a tool-specific notice limiting use to legal purposes. It is a source reference for the Portcullis-origin script, not proof that the unacquired JoeWare ZIP contains these exact bytes/notices or that the restriction maps unchanged to the JoeWare executable. Preserve this provenance/terms question for exact-archive review."
+    },
+    "Disposition": "No local individual/company entitlement review, redistribution approval or legal interpretation was made. Keep the GPL source, source-specific notices, JoeWare package/distribution terms and PerlApp dependency notices as separate review items."
+  },
+  "SafetyAndAcceptance": {
+    "ArtifactAcquired": false,
+    "PayloadExecuted": false,
+    "NetworkScanRun": false,
+    "TestBehavior": "Publisher describes connecting to an RDP service over TCP port 3389. Any future functional test must use only an explicitly isolated, owned disposable endpoint; no live-network scan was run or authorized in this source batch.",
+    "NonElevatedVmQuery": "Get-VM for RIDE-Win11-Test failed with Access to a CIM resource was not available to the client.",
+    "VmStateChanged": false,
+    "FreshUacPrompts": 0,
+    "DefenderChanges": 0,
+    "DefenderBlockedToolsTouched": false
+  },
+  "MigrationDisposition": {
+    "ClarifiedBlocker": "The publisher's current-page release is V02.00.00 / 0.9-beta; the 2011 versions-list row is not that release. The row's date/provenance and exact archive identity remain unresolved.",
+    "Partial": "Publisher page naming/history is clarified; the versions-list row's provenance, exact ZIP contents, executable identity, terms and behavior are not verified.",
+    "RetiredOutcomes": 0,
+    "NewExclusions": 0,
+    "WholeLegacyOutcomesClosed": 0,
+    "Deferred": [
+      "Exact ZIP/source/executable hash and notice inventory",
+      "Separate JoeWare package distribution rights and GPL/source notices review",
+      "Owned disposable TCP/3389 endpoint and behavior/recovery acceptance",
+      "RIDE-Win11-Test access through the approved VM workflow; non-elevated host CIM lookup was denied and no UAC was requested"
+    ],
+    "EstimateRanges": [
+      "38-58",
+      "56-71",
+      "20-25",
+      "25-35",
+      "8-12"
+    ],
+    "ExactTotal": "147-201",
+    "RoundedTotal": "145-200/about 175",
+    "EstimateReason": "One metadata/version discrepancy is resolved, but no complete legacy product outcome is closed and all artifact/licence/acceptance gates remain; ranges stay unchanged."
+  }
+}

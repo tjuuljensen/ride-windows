@@ -141,7 +141,7 @@ Describe 'Task configuration and read-only watch selection' {
     $client = Get-Command (Join-Path $PSScriptRoot 'integration\Invoke-RideVmTestTask.ps1')
     $setup = Get-Command (Join-Path $PSScriptRoot 'integration\Register-RideVmTestTask.ps1')
     ($client.Parameters.Source.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Local', 'CI')
-    ($client.Parameters.IntegrationSuite.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2', 'GitHubAuthentication')
+    ($client.Parameters.IntegrationSuite.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2', 'GitHubAuthentication', 'PSScriptTools', 'OfflineCaffeine')
     ($client.Parameters.GuestGitHubAuthentication.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Anonymous','PAT')
     ($setup.Parameters.Action.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Register', 'Remove')
   }
@@ -482,6 +482,61 @@ Describe 'Correlated execution, failures and VM recovery' {
       $result.Status | Should -Be 'Failed'
       $result.Error | Should -Match 'suite does not match'
       Should -Invoke Reset-RideAutomationVm -Times 2 -Exactly
+    }
+
+    Context 'Fixed preregistered portable batches' {
+      BeforeEach {
+        $script:config|Add-Member NoteProperty Capabilities @('FocusedPortableV1')
+        $script:request|Add-Member NoteProperty IntegrationSuite 'PSScriptTools'
+        Mock Import-RideAutomationLab { [pscustomobject]@{ VM = [pscustomobject]@{ State = 'Off' }; Snapshot = 'clean' } }
+        $script:focusedOverride=@{}
+        Mock Start-Process {
+          $path=Join-Path $script:testRoot ('results/'+$script:request.RunId+'/focused')
+          $null=New-Item -ItemType Directory -Path $path -Force
+          $result=@{RunId=$script:request.RunId;Batch=$script:request.IntegrationSuite;Status='Passed';Cleanup='ResetAndOff';EvidenceCollected=$true;ToolExecuted=$false}
+          foreach($key in $script:focusedOverride.Keys){$result[$key]=$script:focusedOverride[$key]}
+          $result|ConvertTo-Json|Set-Content -LiteralPath (Join-Path $path 'result.json')
+          $process=[pscustomobject]@{Handle=[intptr]1;ExitCode=0;Id=123}
+          $process|Add-Member ScriptMethod WaitForExit {param($Milliseconds) $true}
+          $process|Add-Member ScriptMethod Refresh {}
+          $process
+        }
+      }
+      It 'dispatches <Suite> without RunAs or acquiring the worker lock again' -ForEach @(@{Suite='PSScriptTools'},@{Suite='OfflineCaffeine'}) {
+        $script:request.IntegrationSuite=$Suite
+        (Invoke-RideAutomationRequest $script:config $script:request $script:testRoot).Status|Should -Be Passed
+        Should -Invoke Start-Process -Times 1 -Exactly -ParameterFilter {$ArgumentList -match 'Invoke-RidePortableVmAcceptance.ps1' -and $ArgumentList -match "-ControllerRunId $($script:request.RunId) -Batch $Suite" -and $Verb -ne 'RunAs'}
+        Should -Invoke Start-VM -Times 0 -Exactly
+        Should -Invoke Reset-RideAutomationVm -Times 1 -Exactly
+      }
+      It 'refuses an old controller before staging or VM mutation' {
+        $script:config.PSObject.Properties.Remove('Capabilities')
+        (Invoke-RideAutomationRequest $script:config $script:request $script:testRoot).Error|Should -Match 'FocusedPortableV1'
+        Should -Invoke Copy-RideAutomationSnapshot -Times 0 -Exactly
+        Should -Invoke Start-Process -Times 0 -Exactly
+        Should -Invoke Reset-RideAutomationVm -Times 0 -Exactly
+      }
+      It 'rejects CI and caller supplied paths' {
+        $script:request.Source='CI'
+        {Assert-RideAutomationRequest $script:request}|Should -Throw '*Local source*'
+        $script:request.Source='Local'
+        $script:request|Add-Member NoteProperty ArtifactManifestPath 'C:\arbitrary.json'
+        {Assert-RideAutomationRequest $script:request}|Should -Throw '*unsupported field*'
+      }
+      It 'leaves an already running VM untouched' {
+        Mock Import-RideAutomationLab { [pscustomobject]@{ VM = [pscustomobject]@{ State = 'Running' } } }
+        (Invoke-RideAutomationRequest $script:config $script:request $script:testRoot).Error|Should -Match 'VM to be Off'
+        Should -Invoke Start-Process -Times 0 -Exactly
+        Should -Invoke Reset-RideAutomationVm -Times 0 -Exactly
+      }
+      It 'rejects incomplete <Field> evidence and still recovers' -ForEach @(
+        @{Field='RunId';Value=('a'*32)},@{Field='Batch';Value='AllReviewed'},@{Field='Cleanup';Value='Failed'},
+        @{Field='EvidenceCollected';Value=$false},@{Field='ToolExecuted';Value=$true},@{Field='Status';Value='Failed'}
+      ) {
+        $script:focusedOverride[$Field]=$Value
+        (Invoke-RideAutomationRequest $script:config $script:request $script:testRoot).Status|Should -Be Failed
+        Should -Invoke Reset-RideAutomationVm -Times 1 -Exactly
+      }
     }
 
     It 'starts the VM resolved by its pinned ID using the supported VM parameter' {

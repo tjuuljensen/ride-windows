@@ -1,0 +1,1926 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "CurrentProducts": 19,
+  "HistoricalProducts": 7,
+  "Products": [
+    {
+      "Artifact": {
+        "Product": "MiTeC Certificate Generator",
+        "Archive": "CG.zip",
+        "DownloadUri": "https://www.mitec.cz/wp/files/CG.zip",
+        "PageUri": "https://www.mitec.cz/wp/cg/",
+        "PageSha256": "8662f550b04b38cbb06a3ff2f9c8c5dc4994a39dea5631e9a5cdfbd13ff3a3be",
+        "Scope": "Current",
+        "Sha256": "dab3421d6ca9629c938b86e267ce139d4f2ce54758f1125008bf7da158f28666",
+        "Length": 2223981,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "CG.exe",
+            "Length": 6521456,
+            "Sha256": "8cc29d56a0a7fc863ca2e659a66d115a581521767bd8988a5ace504d32cc9c0e",
+            "Pe": {
+              "Machine": "8664",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "1.0.0.0",
+              "ProductVersion": "1.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2013-2025, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": "1.0.0",
+      "LicenseObservation": "Current product page limits free use to private/educational/non-commercial purposes",
+      "LicenseUri": "https://www.mitec.cz/wp/cg/",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "Single x64 executable; use disposable test certificate/key outputs only; do not inspect or import host keys.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "MiTeC Certificate Information",
+        "Archive": "CertInfo.zip",
+        "DownloadUri": "https://www.mitec.cz/wp/files/CertInfo.zip",
+        "PageUri": "https://www.mitec.cz/wp/mci/",
+        "PageSha256": "8c6bfd56c7f7ac1430ecf3a3e49a37d82b0a5617babbcd2c9802b4f173b527d2",
+        "Scope": "Current",
+        "Sha256": "6183172dc2277111b3019460716b4f57ad5b5f09d3bf3584620bdaff033e7c7b",
+        "Length": 1893898,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "CertInfo.exe",
+            "Length": 4859480,
+            "Sha256": "d4d7936b1f9498c2ba03a1a613a06562f447c7f2d1371d9be01e0e6ae407b391",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "1.5.0.0",
+              "ProductVersion": "1.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2019-2026, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": "1.5.0",
+      "LicenseObservation": "Current product page limits free use to private/educational/non-commercial purposes",
+      "LicenseUri": "https://www.mitec.cz/wp/mci/",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "Single x86 executable; verify certificate/signature display using synthetic public fixtures.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "MiTeC DFM Editor",
+        "Archive": "DFMEdit.zip",
+        "DownloadUri": "https://www.mitec.cz/wp/files/DFMEdit.zip",
+        "PageUri": "https://www.mitec.cz/wp/mdfme/",
+        "PageSha256": "3f37db55acb1c2d0bddb42b433ea2f4e01a71e3f8d7c0979d83128f7cf5c3021",
+        "Scope": "Current",
+        "Sha256": "189386a7b43e835c936d0858a7e47d0e7840d0031f991d50f4abc55d391783aa",
+        "Length": 16714229,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "Delphi 11/DFMEdit.exe",
+            "Length": 1848904,
+            "Sha256": "f4e9ba99c21dd064b1638b9960267b4d6e2f9a176dafee807d8c4ea5dfb53b9d",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "8.3.1.0",
+              "ProductVersion": "8.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 1999-2023, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "Delphi 11/bindengine280.bpl",
+            "Length": 1297824,
+            "Sha256": "a4a20f21e51057be2b10138ceea79fbfed5563f63746bd2d78b545a09067529a",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "28.0.47991.2819",
+              "ProductVersion": "28.0",
+              "CompanyName": "Embarcadero Technologies, Inc.",
+              "LegalCopyright": "Copyright © 1997-2023 Embarcadero Technologies, Inc.",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "Delphi 11/rtl280.bpl",
+            "Length": 13152672,
+            "Sha256": "88ee1956f414d8e41b88b372a5a5a9660d33f1fe7724a08c24f24a53ca5c2bd2",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "28.0.48361.3236",
+              "ProductVersion": "28.0",
+              "CompanyName": "Embarcadero Technologies, Inc.",
+              "LegalCopyright": "Copyright © 1997-2023 Embarcadero Technologies, Inc.",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "Delphi 11/vcl280.bpl",
+            "Length": 4260768,
+            "Sha256": "332631ee642bb72e66bf49e1e2c52cb7dbb874f9718f4e2a0816e7ab28169f7b",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "28.0.47991.2819",
+              "ProductVersion": "28.0",
+              "CompanyName": "Embarcadero Technologies, Inc.",
+              "LegalCopyright": "Copyright © 1997-2023 Embarcadero Technologies, Inc.",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "Delphi 11/vclactnband280.bpl",
+            "Length": 472992,
+            "Sha256": "69459030053d608592733a3d10cc63638775f3ec95b71b091611c71f4874f86f",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "28.0.47991.2819",
+              "ProductVersion": "28.0",
+              "CompanyName": "Embarcadero Technologies, Inc.",
+              "LegalCopyright": "Copyright © 1997-2023 Embarcadero Technologies, Inc.",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "Delphi 11/vclimg280.bpl",
+            "Length": 361888,
+            "Sha256": "da04ecc04737f40408a68705a3ee785eed535cdad91a1f97fa2b45f99531090a",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "28.0.47991.2819",
+              "ProductVersion": "28.0",
+              "CompanyName": "Embarcadero Technologies, Inc.",
+              "LegalCopyright": "Copyright © 1997-2023 Embarcadero Technologies, Inc.",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "Delphi 11/vclwinx280.bpl",
+            "Length": 913824,
+            "Sha256": "f437e8f6faf83922ffe8ec51c00a7ba0142cc45364abb3f17952638042ed0bb2",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "28.0.47991.2819",
+              "ProductVersion": "28.0",
+              "CompanyName": "Embarcadero Technologies, Inc.",
+              "LegalCopyright": "Copyright © 2015-2023 Embarcadero Technologies, Inc.",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "Delphi 11/vclx280.bpl",
+            "Length": 281504,
+            "Sha256": "b0fb25e387dbf92ec6b287ecee2c82a4420794cb5bdf76335f84678ad77a750a",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "28.0.47991.2819",
+              "ProductVersion": "28.0",
+              "CompanyName": "Embarcadero Technologies, Inc.",
+              "LegalCopyright": "Copyright © 1997-2023 Embarcadero Technologies, Inc.",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "Delphi 11/xmlrtl280.bpl",
+            "Length": 2340768,
+            "Sha256": "3409e923cc571d73ed88d28bb6ecc489b82e2bf2ef0404ec0fcecd3ea6800d33",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "28.0.47991.2819",
+              "ProductVersion": "28.0",
+              "CompanyName": "Embarcadero Technologies, Inc.",
+              "LegalCopyright": "Copyright © 2000-2023 Embarcadero Technologies, Inc.",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "Delphi 12/DFMEdit.exe",
+            "Length": 1866376,
+            "Sha256": "1b86845a39b2382a1a841650be0c07d7aa4d10bb2f772785ffb27f9982c308b2",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "8.4.0.0",
+              "ProductVersion": "8.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 1999-2024, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "Delphi 12/bindengine290.bpl",
+            "Length": 1312240,
+            "Sha256": "adc785fa306d2e3dbf635ba240a2a1c492df7a75a451b2e36af35cfccc667461",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "29.0.51961.7529",
+              "ProductVersion": "29.0",
+              "CompanyName": "Embarcadero Technologies, Inc.",
+              "LegalCopyright": "Copyright © 1997-2024 Embarcadero Technologies, Inc.",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "Delphi 12/rtl290.bpl",
+            "Length": 12734440,
+            "Sha256": "e6b9f5a6075364bc4bfa1502b58ac195b75755ef11a4207c9e7985d19c4036cd",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "29.0.51961.7529",
+              "ProductVersion": "29.0",
+              "CompanyName": "Embarcadero Technologies, Inc.",
+              "LegalCopyright": "Copyright © 1997-2024 Embarcadero Technologies, Inc.",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "Delphi 12/vcl290.bpl",
+            "Length": 4419048,
+            "Sha256": "a429b15a755d2a909f53086a4353efbb2f7e881d556ad6fe0d5a8fa072e8eb4e",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "29.0.51961.7529",
+              "ProductVersion": "29.0",
+              "CompanyName": "Embarcadero Technologies, Inc.",
+              "LegalCopyright": "Copyright © 1997-2024 Embarcadero Technologies, Inc.",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "Delphi 12/vclactnband290.bpl",
+            "Length": 477168,
+            "Sha256": "36421659d74671a04adc9d1c2c1502febd5b92b9d215a98fc9f52e7c0ffe4074",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "29.0.51961.7529",
+              "ProductVersion": "29.0",
+              "CompanyName": "Embarcadero Technologies, Inc.",
+              "LegalCopyright": "Copyright © 1997-2024 Embarcadero Technologies, Inc.",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "Delphi 12/vclimg290.bpl",
+            "Length": 363496,
+            "Sha256": "c458735e4fb9915d8d1cc3bb7caa57e220e1f87dc89b996ab079369a23b3e53e",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "29.0.51961.7529",
+              "ProductVersion": "29.0",
+              "CompanyName": "Embarcadero Technologies, Inc.",
+              "LegalCopyright": "Copyright © 1997-2024 Embarcadero Technologies, Inc.",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "Delphi 12/vclwinx290.bpl",
+            "Length": 946672,
+            "Sha256": "02d2df7beb04fae67c831aa453b5fd5054a7b39c3bdf40a0566c35abef4c7479",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "29.0.51961.7529",
+              "ProductVersion": "29.0",
+              "CompanyName": "Embarcadero Technologies, Inc.",
+              "LegalCopyright": "Copyright © 2015-2024 Embarcadero Technologies, Inc.",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "Delphi 12/vclx290.bpl",
+            "Length": 285680,
+            "Sha256": "8ac114422f55a1967d00fe092d016e8a3de2c5af37c1508991a856d0c4ba9a90",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "29.0.51961.7529",
+              "ProductVersion": "29.0",
+              "CompanyName": "Embarcadero Technologies, Inc.",
+              "LegalCopyright": "Copyright © 1997-2024 Embarcadero Technologies, Inc.",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "Delphi 12/xmlrtl290.bpl",
+            "Length": 2355696,
+            "Sha256": "b0b4192d91cd6e06c46acfbbb8185b5d66fa5e8f871604588c7a7ef76bb99926",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "29.0.51961.7529",
+              "ProductVersion": "29.0",
+              "CompanyName": "Embarcadero Technologies, Inc.",
+              "LegalCopyright": "Copyright © 2000-2024 Embarcadero Technologies, Inc.",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": "8.4.0",
+      "LicenseObservation": "Current product page lists paid license tiers; current software EULA also applies",
+      "LicenseUri": "https://www.mitec.cz/wp/mdfme/",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "Delphi 11 executable 8.3.1.0 and Delphi 12 executable 8.4.0.0 each ship eight matching BPLs. Keep variants and runtime families separate; review Embarcadero redistribution notices and user-package loading.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "MiTeC EXE Explorer",
+        "Archive": "EXE.zip",
+        "DownloadUri": "https://www.mitec.cz/wp/files/EXE.zip",
+        "PageUri": "https://www.mitec.cz/wp/mee/",
+        "PageSha256": "dc7a18372269574fb98200bc9a95bd212b76f9c050dc7ed21397ab854d64c36c",
+        "Scope": "Current",
+        "Sha256": "87b3bbf80301de96b871da5f1d4ce742c38182ee2fbc4414a28a2e7133011c78",
+        "Length": 12837437,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "EXE.exe",
+            "Length": 5931048,
+            "Sha256": "d9deec06c474d8d3ec8a64a8cbc12e9c91fc94ed5871438f658c1fff44762746",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "3.7.5.0",
+              "ProductVersion": "3.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2006-2026, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "EXE64.exe",
+            "Length": 7588424,
+            "Sha256": "25987ef9c3b6d0cb24e887de71120faf958c97d9bd63a323c355c332028649d9",
+            "Pe": {
+              "Machine": "8664",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "3.7.5.0",
+              "ProductVersion": "3.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2006-2026, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": "3.7.5",
+      "LicenseObservation": "Current product page lists paid license tiers; current software EULA also applies",
+      "LicenseUri": "https://www.mitec.cz/wp/mee/",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "Separate x86/x64 3.7.5.0 executables; synthetic PE inputs and non-destructive parsing acceptance.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "MiTeC HexEdit",
+        "Archive": "HEXEdit.zip",
+        "DownloadUri": "https://www.mitec.cz/wp/files/HEXEdit.zip",
+        "PageUri": "https://www.mitec.cz/wp/mhex/",
+        "PageSha256": "b6bde85265e252b4fb3ae864a4b2f945c1d6474efd3ca6b446d8ead9f3d5bdcb",
+        "Scope": "Current",
+        "Sha256": "cfe264a121c560d69e2bb95512be407f374164f2f79d0ddc4ceb7a8d0a09c788",
+        "Length": 2100697,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "HEXEdit.exe",
+            "Length": 2222048,
+            "Sha256": "cb782a9d85690487bc4138968f03c9c1e320b55347a76bfa3dc01eb6956144e7",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "7.1.0.0",
+              "ProductVersion": "7.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 1999-2021, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": "7.1.0",
+      "LicenseObservation": "Current product page lists paid license tiers; current software EULA also applies",
+      "LicenseUri": "https://www.mitec.cz/wp/mhex/",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "Single x86 7.1.0.0 executable; confine editor/memory/disk features to explicit disposable fixtures.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "MiTeC InfoBar",
+        "Archive": "InfoBar_Setup.exe",
+        "DownloadUri": "https://www.mitec.cz/wp/files/InfoBar_Setup.exe",
+        "PageUri": "https://www.mitec.cz/wp/mib/",
+        "PageSha256": "1ee6d57c0e244b40e78698792d9689f3956e3db68f85c936731649100dc213df",
+        "Scope": "Current",
+        "Sha256": "6808673eb693870150e06b650e27b89785c8a21a01b2b067891685563e549a3a",
+        "Length": 16746064,
+        "Status": "InstallerOuterMetadataOnly",
+        "Members": [],
+        "OuterPe": {
+          "Machine": "014c",
+          "ClrDirectoryPresent": false,
+          "FileVersion": "                    ",
+          "ProductVersion": "4.6.2                                             ",
+          "CompanyName": "Michal Mutl                                                 ",
+          "LegalCopyright": "Copyright (c) 2012-2025, Michal Mutl                                                                ",
+          "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+        },
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": "4.6.2",
+      "LicenseObservation": "Current product page limits free use to private/educational/non-commercial purposes",
+      "LicenseUri": "https://www.mitec.cz/wp/mib/",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "Opaque installer payload; host/process/startup effects and actual application version remain unverified.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": {
+        "Artifact": "InfoBar_Setup.exe",
+        "ExitCode": 0,
+        "Formats": [
+          "Type = PE"
+        ],
+        "EntryCount": 18
+      },
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "MiTeC Interbase Query",
+        "Archive": "IBQ.zip",
+        "DownloadUri": "https://www.mitec.cz/wp/files/IBQ.zip",
+        "PageUri": "https://www.mitec.cz/wp/mibq/",
+        "PageSha256": "c6b50836d2ae75dedf66a5ff09a8017a7197f853c261df32e63df6a818c33447",
+        "Scope": "Current",
+        "Sha256": "6ce815ac089ff38afc0e4ed3eda4f3255f61a9e46611b55619dbdcfbb1688478",
+        "Length": 7322738,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "IBQ.exe",
+            "Length": 3257040,
+            "Sha256": "0a0ca4106508960d836a9f9c6e55d34e4b74d7d8cb6505e7bed1e33c163c0971",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "9.5.0.0",
+              "ProductVersion": "9.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2002-2021, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "Localization.txt",
+            "Length": 464,
+            "Sha256": "860f070816e8c698c6f7d8a5e5805be918b1e5ab3eb7395994677ff0809a41a2",
+            "Pe": null,
+            "TextReviewCandidate": true
+          },
+          {
+            "Path": "IBQ.en.lng",
+            "Length": 37495,
+            "Sha256": "afb690887867670b176ffc1c68d51ec7e3d669cea268a2eddd94eb142c434b18",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "IBQ.de.lng",
+            "Length": 36143,
+            "Sha256": "6245c4373c816b0d57f87fcdcf3c83ae4b063516507f47b25fa18452936fde95",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "IBQ.es.lng",
+            "Length": 37439,
+            "Sha256": "729546f3880730aad599d1015791897c1c8587e61e2a834350d6a28abd351c88",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "IBQ.fr.lng",
+            "Length": 38331,
+            "Sha256": "e230cdfe06377c852023d0fc873b68ed229ca6a6f240bddf8f04fcf8a3434a67",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "IBQ.cs.lng",
+            "Length": 432,
+            "Sha256": "8188d794d5f3baa98fd207b81e38c1ffeeca3c924780a053e2970df0216860e8",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "IBQ64.exe",
+            "Length": 4386136,
+            "Sha256": "12246e0c2013bbdc37abe2c96c4e085f817d263093aed9af263f3e9a33891ea0",
+            "Pe": {
+              "Machine": "8664",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "9.5.0.0",
+              "ProductVersion": "9.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2002-2021, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "IBQ.hu.lng",
+            "Length": 40621,
+            "Sha256": "9ddc2c90b30f150bb0c51b0b36ae2107ed018ccbaac20e554d8fceb561f01609",
+            "Pe": null,
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": "9.5.0",
+      "LicenseObservation": "Current product page lists paid license tiers; current software EULA also applies",
+      "LicenseUri": "https://www.mitec.cz/wp/mibq/",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "x86/x64 9.5.0.0 executables plus localization guidance and six language files; exact database client/bitness and synthetic Interbase/Firebird service required.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "MiTeC Mail Viewer",
+        "Archive": "MailView.zip",
+        "DownloadUri": "https://www.mitec.cz/wp/files/MailView.zip",
+        "PageUri": "https://www.mitec.cz/wp/mmv/",
+        "PageSha256": "376cbdb4e4f7d673729ce176eb88555544b9b8c06703337d82559f104c6ea5e0",
+        "Scope": "Current",
+        "Sha256": "c2590633a9b13cc9d46a41a2980347057c84d8788a4597b83ffcc057ffd5b774",
+        "Length": 1939876,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "MailView.exe",
+            "Length": 4939600,
+            "Sha256": "cc775794e9a2973f633fcf8df19d98ffbbb6dd30a31b3305d26052c18eea962a",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "2.5.1.0",
+              "ProductVersion": "2.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2009-2021, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "MailViewer.cs.lng",
+            "Length": 5381,
+            "Sha256": "50355266d6d82a3364ce5d789059d49af363f10c805254b8778ff0b9d4aa7846",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "MailViewer.de.lng",
+            "Length": 5080,
+            "Sha256": "b629028e9d5d01161894756cd22b0083685e90e781fd167dc010d770dc9a9e89",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "MailViewer.en.lng",
+            "Length": 5120,
+            "Sha256": "e3300811fd484168c793ff8a103206728ccf205214d3e07e841962fac0df94da",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "MailViewer.fr.lng",
+            "Length": 5366,
+            "Sha256": "de98e4200c9c6515be8ae18c091767f609a00e6981c15daffba7cc81f87f2055",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "MailViewer.pl.lng",
+            "Length": 5317,
+            "Sha256": "ac6ae828043ac97949559977e1c8b6ac123ed841ea51a9d81617df9f79160d29",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "MailViewer.zh.lng",
+            "Length": 5016,
+            "Sha256": "e474a610d16d1b0360ffeef33521aac2b4b3839368d8e3a2f6e3c93a5ad1aed2",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "MailViewer.es.lng",
+            "Length": 4962,
+            "Sha256": "4deac468ce800d163f304e08501d7a7fb6dc5a9bd79366db05c08fcd092eb141",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "Localization.txt",
+            "Length": 474,
+            "Sha256": "704b33cb254a346de3bd12f24091c5146b8babfd3213af49345cef7ca8acf7cf",
+            "Pe": null,
+            "TextReviewCandidate": true
+          },
+          {
+            "Path": "MailViewer.it.lng",
+            "Length": 5506,
+            "Sha256": "37f209801c7936c2263990e9ac4ca1da73a9c203dab533e9beed0b24be49bbbb",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "MailViewer.pt_br.lng",
+            "Length": 6835,
+            "Sha256": "94f1988b2238608cfd82bf8a0bca6c1e1e6a1d27994bf10cdcfb606fb16f5bdb",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "MailViewer.hu.lng",
+            "Length": 5179,
+            "Sha256": "83caf26eeed2e3fcb1c452860e353e3c9008c18033adb34bab1bbc1cbbd4b4db",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "MailViewer.sv.lng",
+            "Length": 4743,
+            "Sha256": "d61de889163d0dd217a145256b86f9fb7dad15118aae17d7476a8973ef74e950",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "MailViewer.nl.lng",
+            "Length": 5397,
+            "Sha256": "fb20da84600b6269ab41cf55093ad6e6de5aba92803bfd8389e86fe0bd5dc88e",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "MailViewer.sk.lng",
+            "Length": 4907,
+            "Sha256": "678b976b0bb1e975f5eb07607871ca2c879a788c2eedcb81cde54699487ee048",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "MailViewer.ru.lng",
+            "Length": 6614,
+            "Sha256": "2ea2ff49c52cfaec480c098a7158ecd9df0c6bcc53e9c463837c170857b74935",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "MailViewer.tr.lng",
+            "Length": 4689,
+            "Sha256": "1c10e9ae7dad84f6e07d698d48437d8fd50a6bb070458a591a205f3a8f94a05f",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "MailViewer.zh-tw.lng",
+            "Length": 4590,
+            "Sha256": "0b9c08b4a16e43308c633aac555bc14ee07fa7e51dd082c1be688ed2fba96a1c",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "MailViewer.el.lng",
+            "Length": 7986,
+            "Sha256": "9873b33da16bd5fed112dd42c1a28dd87213f543fb049313d31fd73634fcf7ef",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "MailViewer.lv.lng",
+            "Length": 4562,
+            "Sha256": "86859c3aa75e043282990a2757e414f5573b8d89ce9ffe82e23e3093494a55e8",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "MailViewer.pt_pt.lng",
+            "Length": 4609,
+            "Sha256": "ca69ca69d6a115b151eec4163e734f1362063204fd438aac25d563aa6709a531",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "MailViewer.lt.lng",
+            "Length": 10550,
+            "Sha256": "90e54d3f8690643bf74218554f763e611ab7250db5ae981443796acb4e29e536",
+            "Pe": null,
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "MailViewer.sr.lng",
+            "Length": 7037,
+            "Sha256": "dc636b6fd22b8e0a74e6c4de425ff7042ff63570e3319423de264faf34c1ba53",
+            "Pe": null,
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": null,
+      "LicenseObservation": "Current product page limits free use to private/educational/non-commercial purposes",
+      "LicenseUri": "https://www.mitec.cz/wp/mmv/",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "Embedded 2.5.1.0 resolves missing page-version observation; executable plus 21 language files and localization guidance. Use synthetic mail stores only.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "MiTeC Network Scanner",
+        "Archive": "NetScanner.zip",
+        "DownloadUri": "https://www.mitec.cz/wp/files/NetScanner.zip",
+        "PageUri": "https://www.mitec.cz/wp/mns/",
+        "PageSha256": "28aa5069785709e8cc638392882086e7e3d784569d1b7756640c9831eed77456",
+        "Scope": "Current",
+        "Sha256": "02fbf13ffcc8bfd3b3ef907b265cc4d2338309e99039f1384f2c6cd370995c66",
+        "Length": 11317163,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "NetScanner.exe",
+            "Length": 5080296,
+            "Sha256": "b6a0f814d10719da2a5e2f7b6a39c61742118cfc509acdd9e0e7649e3680eaa4",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "6.1.0.0",
+              "ProductVersion": "6.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2007-2026, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "NetScanner64.exe",
+            "Length": 6973512,
+            "Sha256": "9c8972abab5984478c7d4eda4a96fbcdbce1eea04af6b9187d6d7c9cee90ca06",
+            "Pe": {
+              "Machine": "8664",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "6.1.0.0",
+              "ProductVersion": "6.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2007-2026, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": "6.1.0",
+      "LicenseObservation": "Current product page lists paid license tiers; current software EULA also applies",
+      "LicenseUri": "https://www.mitec.cz/wp/mns/",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "Separate x86/x64 6.1.0.0 executables; no scanning has run. Later testing must name isolated guest endpoints and exclude live directory/network discovery.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "MiTeC OLE/COM Explorer",
+        "Archive": "OLExp.zip",
+        "DownloadUri": "https://www.mitec.cz/wp/files/OLExp.zip",
+        "PageUri": "https://www.mitec.cz/wp/molexp/",
+        "PageSha256": "3d600e99d0ac56bd536ddafa354b8e148d30a8f47e5524774f77571d5218ed7a",
+        "Scope": "Current",
+        "Sha256": "322a2d03c31b9bb995a7b176a95aa3bbfba9ba155dd9770a0e55d88fc1085769",
+        "Length": 1279322,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "OLExp.exe",
+            "Length": 3368088,
+            "Sha256": "eeb8a18c5f8a961e1f0fc7fefc131f4fc33f900cf1d0cf2107e73fc45c504b4b",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "1.4.0.0",
+              "ProductVersion": "1.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2002-2019, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": null,
+      "LicenseObservation": "Current product page limits free use to private/educational/non-commercial purposes",
+      "LicenseUri": "https://www.mitec.cz/wp/molexp/",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "Embedded 1.4.0.0 resolves missing page-version observation; use known inert COM/type-library fixtures before broader inspection.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "MiTeC Paradox Data Editor",
+        "Archive": "PDESetup.exe",
+        "DownloadUri": "https://www.mitec.cz/wp/files/PDESetup.exe",
+        "PageUri": "https://www.mitec.cz/wp/mpde/",
+        "PageSha256": "6559feb0a15e3372acf6db5ce69fa0816e6c525cc613f4ef4ef6257df3fcd600",
+        "Scope": "Current",
+        "Sha256": "cc2fce64612324bd8f0318ec848da78bd5e9aca2a46ed269db343d635c89f045",
+        "Length": 6706624,
+        "Status": "InstallerOuterMetadataOnly",
+        "Members": [],
+        "OuterPe": {
+          "Machine": "014c",
+          "ClrDirectoryPresent": false,
+          "FileVersion": "                    ",
+          "ProductVersion": "                                                  ",
+          "CompanyName": "                                                            ",
+          "LegalCopyright": "Copyright (c) 2001-2023 Michal Mutl                                                                 ",
+          "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+        },
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": "3.7.0",
+      "LicenseObservation": "Current product page lists paid license tiers; current software EULA also applies",
+      "LicenseUri": "https://www.mitec.cz/wp/mpde/",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "Opaque installer; publisher requires BDE. Provider bitness/version, table writes/repair and installer recovery remain pending.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": {
+        "Artifact": "PDESetup.exe",
+        "ExitCode": 0,
+        "Formats": [
+          "Type = PE"
+        ],
+        "EntryCount": 18
+      },
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "MiTeC System Information eXtra",
+        "Archive": "MSIX.zip",
+        "DownloadUri": "https://www.mitec.cz/wp/files/MSIX.zip",
+        "PageUri": "https://www.mitec.cz/wp/msix/",
+        "PageSha256": "1eaf901096dc8b88347a93bfcfce8437b09b64dabc42711360aade0447f9fdd3",
+        "Scope": "Current",
+        "Sha256": "a7ae03e7172afa128565b2f8e148869678b3e543c65ba16f219ff87139986976",
+        "Length": 10635839,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "MSIX.exe",
+            "Length": 2794920,
+            "Sha256": "27f17567efbbc6fbd39263f43b97d2d95b0fcf1745789517a589ffbf273716c3",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "16.0.0.0",
+              "ProductVersion": "16.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 1997-2026, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "GetSys.exe",
+            "Length": 1237256,
+            "Sha256": "80efa6ceee1859d5da5f32d827d88db7569dbd23e161eca8c82a43cae21209dd",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "16.0.0.0",
+              "ProductVersion": "16.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 1997-2026, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "GetSys64.exe",
+            "Length": 2614344,
+            "Sha256": "9a43a1b1acccf50f9a7902cb8c2e1fa25e1ef662bbaf5fa42b797602df99e85d",
+            "Pe": {
+              "Machine": "8664",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "16.0.0.0",
+              "ProductVersion": "16.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 1997-2026, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "MSIX64.exe",
+            "Length": 4494440,
+            "Sha256": "3ee0d2031c4b733fcfc2c1f5d87726aa7c9d0557af1525f372774e2775e0841d",
+            "Pe": {
+              "Machine": "8664",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "16.0.0.0",
+              "ProductVersion": "16.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 1997-2026, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": "16.0.0",
+      "LicenseObservation": "Current product page limits free use to private/educational/non-commercial purposes",
+      "LicenseUri": "https://www.mitec.cz/wp/msix/",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "Two architectures each have viewer and GetSys helper at 16.0.0.0; preserve distinct helper ownership and avoid personal host reports.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "MiTeC SQLite Query",
+        "Archive": "SQLiteQ.zip",
+        "DownloadUri": "https://www.mitec.cz/wp/files/SQLiteQ.zip",
+        "PageUri": "https://www.mitec.cz/wp/msqliteq/",
+        "PageSha256": "27b0e947f6b57a8e75e8869726763a4d0c4f2606c5389c1df616cc29ecac8db4",
+        "Scope": "Current",
+        "Sha256": "7f979a622de9e97b9682dc09a5156a1bd872139a9dd56ba60616fb824e77ab16",
+        "Length": 3791645,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "sqlite3.dll",
+            "Length": 1071715,
+            "Sha256": "e9e45d6db26b5a9a020ca5214f6434bb9796caa9328085e77345ff149bbace84",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "3.35.5",
+              "ProductVersion": "3.35.5",
+              "CompanyName": "SQLite Development Team",
+              "LegalCopyright": "http://www.sqlite.org/copyright.html",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "SQLiteQuery.exe",
+            "Length": 2846168,
+            "Sha256": "00bdc0c929a782563ecd3c3cf1d393405432bec9278ebbd7c19987b4d2ba0128",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "3.2.0.0",
+              "ProductVersion": "3.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2010-2021, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "sqlite3.exe",
+            "Length": 1064448,
+            "Sha256": "01a6c2e43ecffadac3c3c7792c02604a87032d3a6d0f10bba8e7401b83ff3324",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "3.35.5",
+              "ProductVersion": "3.35.5",
+              "CompanyName": "SQLite Development Team",
+              "LegalCopyright": "http://www.sqlite.org/copyright.html",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": "3.2.0",
+      "LicenseObservation": "Current product page lists paid license tiers; current software EULA also applies",
+      "LicenseUri": "https://www.mitec.cz/wp/msqliteq/",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "SQLiteQuery.exe 3.2.0.0 with sqlite3.dll and sqlite3.exe 3.35.5; exact dependency selection/provenance and synthetic database round trips remain.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "MiTeC TAPI Monitor",
+        "Archive": "TAPIMon.zip",
+        "DownloadUri": "https://www.mitec.cz/wp/files/TAPIMon.zip",
+        "PageUri": "https://www.mitec.cz/wp/mtapimon/",
+        "PageSha256": "443b6a5166f6532897123b81dfd1632aa5ca5b251118c51e315649d92c417a16",
+        "Scope": "Current",
+        "Sha256": "3abfb30f19f3c22dec5440416fcd006a828e73dd660ea2bf59b8f2e7a5898914",
+        "Length": 2015874,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "TAPIMon.exe",
+            "Length": 2130496,
+            "Sha256": "4eb667fbdf159c44399dac9aae6d68cc30e0857589f284f1cf72f7584ee81df5",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "1.2.0.0",
+              "ProductVersion": "1.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2020-2025, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": "1.2.0",
+      "LicenseObservation": "Current product page lists paid license tiers; current software EULA also applies",
+      "LicenseUri": "https://www.mitec.cz/wp/mtapimon/",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "Single 1.2.0.0 executable; hardware/TSP prerequisites and active call controls are separate. Use simulated/non-production telephone resources.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "MiTeC Windows Registry Recovery",
+        "Archive": "WRR.zip",
+        "DownloadUri": "https://www.mitec.cz/wp/files/WRR.zip",
+        "PageUri": "https://www.mitec.cz/wp/mwrr/",
+        "PageSha256": "a2ce40437c264a40bffea95ab08877c51ba5fab7b448c3e9481ee9498c88e383",
+        "Scope": "Current",
+        "Sha256": "bc0785fbf3184a5f1c83d791bb759363d58d47fe249e77e54ef41e5fc7cb6aa9",
+        "Length": 5593684,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "WRR.exe",
+            "Length": 2436656,
+            "Sha256": "2585f37fea169883e5340c111a77dc96763f6546ba79d4ff1651067372c1ef14",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "3.1.3.0",
+              "ProductVersion": "3.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2005-2025, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "WRR64.exe",
+            "Length": 3485520,
+            "Sha256": "cd11e0630e46539f8d6ad485f58b8dc58132afad75d465efb9199bc3a984aa2e",
+            "Pe": {
+              "Machine": "8664",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "3.1.3.0",
+              "ProductVersion": "3.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2005-2025, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": "3.1.3",
+      "LicenseObservation": "Current product page lists paid license tiers; current software EULA also applies",
+      "LicenseUri": "https://www.mitec.cz/wp/mwrr/",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "Separate x86/x64 3.1.3.0 executables; synthetic hive files and exact export ownership, no host hive recovery.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "MiTeC Project Maker",
+        "Archive": "PMInstall.exe",
+        "DownloadUri": "https://www.mitec.cz/wp/files/PMInstall.exe",
+        "PageUri": "https://www.mitec.cz/wp/pm/",
+        "PageSha256": "a96874b1e5312aea57839242d57cdcf874e4aca4b1c81e314c49833c6ed1d678",
+        "Scope": "Current",
+        "Sha256": "ee2a74e34c0c0ad97c58163b2f4f114876252317cb52fffbf9fa11e2afe13419",
+        "Length": 9944720,
+        "Status": "InstallerOuterMetadataOnly",
+        "Members": [],
+        "OuterPe": {
+          "Machine": "014c",
+          "ClrDirectoryPresent": false,
+          "FileVersion": "1.9.0               ",
+          "ProductVersion": "1.9.0                                             ",
+          "CompanyName": "Michal Mutl - MiTeC                                         ",
+          "LegalCopyright": "Copyright (c) 2013-2025, Michal Mutl                                                                ",
+          "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+        },
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": "2.0.0",
+      "LicenseObservation": "Current product page lists paid license tiers; current software EULA also applies",
+      "LicenseUri": "https://www.mitec.cz/wp/pm/",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "Installer outer FileVersion is 1.9.0 while page lists 2.0.0; installed application version unverified. Review compiler/build actions and disposable signing keys separately.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": {
+        "Artifact": "PMInstall.exe",
+        "ExitCode": 0,
+        "Formats": [
+          "Type = PE"
+        ],
+        "EntryCount": 18
+      },
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "MiTeC SMBIOS Explorer",
+        "Archive": "SMBE.zip",
+        "DownloadUri": "https://www.mitec.cz/wp/files/SMBE.zip",
+        "PageUri": "https://www.mitec.cz/wp/smbe/",
+        "PageSha256": "40c595d22da25dd1246ed30269a6942d7de3f980ed7cb84cdff9ea7721ffde04",
+        "Scope": "Current",
+        "Sha256": "7297b844b5fa0c4b84bd514f06e635e90f75541b5e38422bd0bed2d3c4db8f68",
+        "Length": 9212025,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "SMBE.exe",
+            "Length": 3553088,
+            "Sha256": "4384dfa9ea81a4f870df55c270d08e81e9172857c4d995182291e8179e987f74",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "1.8.0.0",
+              "ProductVersion": "1.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2022-2026, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "SMBE64.exe",
+            "Length": 4952656,
+            "Sha256": "5fdbd6cafe3bb56172bff18bd29238fbcd12de34bf813dae494353ab888c8842",
+            "Pe": {
+              "Machine": "8664",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "1.8.0.0",
+              "ProductVersion": "1.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2022-2026, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "SMBIOS.exe",
+            "Length": 1380088,
+            "Sha256": "358113343a4b8d52536466e8ddeb88cd00a9fe98b0b8b7288bd74d2986956a12",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "1.0.0.0",
+              "ProductVersion": "1.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2022, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": "1.8.0",
+      "LicenseObservation": "Current product page lists paid license tiers; current software EULA also applies",
+      "LicenseUri": "https://www.mitec.cz/wp/smbe/",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "SMBE x86/x64 1.8.0.0 plus SMBIOS.exe 1.0.0.0; helper is not interchangeable with the main program version.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "MiTeC Task Manager DeLuxe",
+        "Archive": "TMX.zip",
+        "DownloadUri": "https://www.mitec.cz/wp/files/TMX.zip",
+        "PageUri": "https://www.mitec.cz/wp/tmx/",
+        "PageSha256": "61530125f57df5658e6bbd2a283fc971b439d5ee2d8158fc373a3cffc8fd8523",
+        "Scope": "Current",
+        "Sha256": "3dd111519325ecf18ed9202649c4f8740a2c195382cd4337fc701056d2234f3b",
+        "Length": 16119724,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "TMX.exe",
+            "Length": 4417216,
+            "Sha256": "85e820f08ebf3692a3b3144e10083fe3144be24bf1c6bb0ef1db410f412d9213",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "5.1.1.0",
+              "ProductVersion": "5.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2012-2026, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "TMX64.exe",
+            "Length": 6212176,
+            "Sha256": "932f56d8b32f5e8ac0533622702de8cf622a58aa59821a24afc60798f56928a3",
+            "Pe": {
+              "Machine": "8664",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "5.1.1.0",
+              "ProductVersion": "5.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2012-2026, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "DeskExp.exe",
+            "Length": 2737680,
+            "Sha256": "b958eaccfa78bb80a2b59fdfc9da484cefab4bd62eef3938a61e9e1665507bb0",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "2.0.0.0",
+              "ProductVersion": "2.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2012-2026, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "DeskExp64.exe",
+            "Length": 3871824,
+            "Sha256": "d72a929b59ac463e9f78b35425faebfb85309a0691462f94e941cec7fefcd800",
+            "Pe": {
+              "Machine": "8664",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "2.0.0.0",
+              "ProductVersion": "2.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2012-2026, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": "5.1.1",
+      "LicenseObservation": "Current product page lists paid license tiers; current software EULA also applies",
+      "LicenseUri": "https://www.mitec.cz/wp/tmx/",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "TMX x86/x64 5.1.1.0 plus DeskExp x86/x64 2.0.0.0; process/service control and external reputation queries require separate reviewed acceptance.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "MiTeC UUID Generator",
+        "Archive": "UUID.zip",
+        "DownloadUri": "https://www.mitec.cz/wp/files/UUID.zip",
+        "PageUri": "https://www.mitec.cz/wp/uuid/",
+        "PageSha256": "30880aedb3a829cbf741c8799ca1c0c0c2fa60d39b0a71887fe6a5ae66b66a11",
+        "Scope": "Current",
+        "Sha256": "0795838486e6a0ce15edeaeaeed978e09d510ffa9478f9f040122a4583914c80",
+        "Length": 1615754,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "UUID.exe",
+            "Length": 3959880,
+            "Sha256": "36508b19dec5f4ff521322ddffc278e1cbba69f75d733eb1fcee1ba94ab6137f",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "1.0.0.0",
+              "ProductVersion": "1.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2024, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": "1.0.0",
+      "LicenseObservation": "Current product page limits free use to private/educational/non-commercial purposes",
+      "LicenseUri": "https://www.mitec.cz/wp/uuid/",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "Single x86 1.0.0.0 executable; inspect generated identifiers with synthetic fixtures.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "Internet History Browser",
+        "Archive": "IHB.zip",
+        "DownloadUri": "https://www.mitec.cz/Downloads/IHB.zip",
+        "PageUri": "https://www.mitec.cz/ihb.html",
+        "PageSha256": "187aedc093c768885775138a9a49a0c90264f68ff656185f805f964bb3de7ab1",
+        "Scope": "Historical",
+        "Sha256": "94d513e5507e871b7d87246676f1072a92386e0b352ef7e02473a5812fd292db",
+        "Length": 1956135,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "IHB.dll",
+            "Length": 1071715,
+            "Sha256": "e9e45d6db26b5a9a020ca5214f6434bb9796caa9328085e77345ff149bbace84",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "3.35.5",
+              "ProductVersion": "3.35.5",
+              "CompanyName": "SQLite Development Team",
+              "LegalCopyright": "http://www.sqlite.org/copyright.html",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "IHB.exe",
+            "Length": 3770208,
+            "Sha256": "290045a378ab23a3efba1856240f31b93fd9c04bad35ed4ec5b70ec7359662f3",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "2.5.0.0",
+              "ProductVersion": "2.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2012-2022, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": "2.5.0",
+      "LicenseObservation": "Historical product page limits free use to private/educational/non-commercial purposes",
+      "LicenseUri": "https://www.mitec.cz/ihb.html",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "IHB.exe 2.5.0.0 and renamed SQLite DLL 3.35.5; test synthetic history stores, preserve dependency identity, no personal browsing data.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "E-mail History Browser",
+        "Archive": "EHB.zip",
+        "DownloadUri": "https://www.mitec.cz/Downloads/EHB.zip",
+        "PageUri": "https://www.mitec.cz/ehb.html",
+        "PageSha256": "826abda975939b52e86983e542b9e3b3e7ab1b81807d28390a7877615bfdad07",
+        "Scope": "Historical",
+        "Sha256": "6ecc87d4a0061cedc13ccc398eb66009c39c5e36931737bb1841a373de22c363",
+        "Length": 897775,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "EHB.exe",
+            "Length": 2106880,
+            "Sha256": "274180e49846829773177ed65ac93fab03d104f84b2c8ce565a30e2a25c1e0ee",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "1.2.0.0",
+              "ProductVersion": "1.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2013-2016, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": "1.2.0",
+      "LicenseObservation": "Historical product page permits private/commercial use; distribution not established",
+      "LicenseUri": "https://www.mitec.cz/ehb.html",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "Single 1.2.0.0 executable; synthetic mail metadata stores only, no personal accounts or messages.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "Instant Messaging History Browser",
+        "Archive": "IMHB.zip",
+        "DownloadUri": "https://www.mitec.cz/Downloads/IMHB.zip",
+        "PageUri": "https://www.mitec.cz/imhb.html",
+        "PageSha256": "3633aca626e004ef7525c78ee6d643128e1ffcfdd4ac3ce15a03da6cc48f83a4",
+        "Scope": "Historical",
+        "Sha256": "107dd1bc31e4493a93f2a213934a976a0f1901d6eecd8ed203216d1765bba7a8",
+        "Length": 1425874,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "IMHB.dll",
+            "Length": 676036,
+            "Sha256": "44d3392efdc45532d42eefc780729ff062bfab8dcba1e7c0f077ab1ab48e02e3",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "3.8.10.2",
+              "ProductVersion": "3.8.10.2",
+              "CompanyName": "SQLite Development Team",
+              "LegalCopyright": "http://www.sqlite.org/copyright.html",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          },
+          {
+            "Path": "IMHB.exe",
+            "Length": 2504704,
+            "Sha256": "c36547380d21e7b31a7ef62056bc688002ed7a0a62ed22e50fab23dc2ab8bb52",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "1.2.1.0",
+              "ProductVersion": "1.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2013-2016, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": "1.2.1",
+      "LicenseObservation": "Historical product page permits private/commercial use; distribution not established",
+      "LicenseUri": "https://www.mitec.cz/imhb.html",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "IMHB.exe 1.2.1.0 and renamed SQLite DLL 3.8.10.2; old client-format compatibility and synthetic messaging fixtures remain.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "Windows File Analyzer",
+        "Archive": "WFA.zip",
+        "DownloadUri": "https://www.mitec.cz/Downloads/WFA.zip",
+        "PageUri": "https://www.mitec.cz/wfa.html",
+        "PageSha256": "e5ff26cd9155d7bf1c5e214dbd5015a26261c4ce6ec80642b5dfc97ca265a87c",
+        "Scope": "Historical",
+        "Sha256": "57acae30ea14576e06822703c6211c8f0c675286c989ee0cdafec23578e7a9c6",
+        "Length": 2099639,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "WFA.exe",
+            "Length": 2195296,
+            "Sha256": "2fdfb29599db66a8c8c91b139e6842551a6dbe8c4fa82f2daf2c9fcfd62707b6",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "2.10.0.0",
+              "ProductVersion": "2.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2005-2021, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": "2.10.0",
+      "LicenseObservation": "Historical product page limits free use to private/educational/non-commercial purposes",
+      "LicenseUri": "https://www.mitec.cz/wfa.html",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "Single 2.10.0.0 executable; use synthetic filesystem artifacts and preserve input bytes; no broad host forensic collection.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "Weather Agent",
+        "Archive": "WA_Setup.exe",
+        "DownloadUri": "https://www.mitec.cz/Downloads/WA_Setup.exe",
+        "PageUri": "https://www.mitec.cz/wa.html",
+        "PageSha256": "3083c3cdae9b14fc791b1818110e46e5398eead264331e32eee750329097c2bd",
+        "Scope": "Historical",
+        "Sha256": "1817767092b85cf2bd843c29747eb8787277f3044962a1169eeff50668831c4e",
+        "Length": 1516488,
+        "Status": "InstallerOuterMetadataOnly",
+        "Members": [],
+        "OuterPe": {
+          "Machine": "014c",
+          "ClrDirectoryPresent": false,
+          "FileVersion": "                    ",
+          "ProductVersion": "                                                  ",
+          "CompanyName": "Michal Mutl                                                 ",
+          "LegalCopyright": "Copyright (c) 2013-2021, Michal Mutl                                                                ",
+          "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+        },
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": "3.6.0",
+      "LicenseObservation": "Historical product page permits private/commercial use; distribution not established",
+      "LicenseUri": "https://www.mitec.cz/wa.html",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "Opaque installer; weather service/API-key prerequisites and startup/network behavior unverified; no account or API key requested.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": {
+        "Artifact": "WA_Setup.exe",
+        "ExitCode": 0,
+        "Formats": [
+          "Type = PE"
+        ],
+        "EntryCount": 18
+      },
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "Icon Explorer",
+        "Archive": "IconExplorer.zip",
+        "DownloadUri": "https://www.mitec.cz/Downloads/IconExplorer.zip",
+        "PageUri": "https://www.mitec.cz/iconex.html",
+        "PageSha256": "031c15481fa1062e09ab3140cf8bcc5292ce85b9c08de38aae71f464d22c5edb",
+        "Scope": "Historical",
+        "Sha256": "b7f71cee4664638a7ee24ee1091e8c604283adb3781e39ee2d5514cf1a0458f0",
+        "Length": 1525935,
+        "Status": "BoundedZipInventory",
+        "Members": [
+          {
+            "Path": "IconExplorer.exe",
+            "Length": 3793232,
+            "Sha256": "da678c0473d335690d68c4dece3e303972d85c96641e856ff6dd163a14d16451",
+            "Pe": {
+              "Machine": "014c",
+              "ClrDirectoryPresent": false,
+              "FileVersion": "5.3.0.0",
+              "ProductVersion": "5.0.0.0",
+              "CompanyName": "MiTeC",
+              "LegalCopyright": "Copyright (c) 2004-2021, Michal Mutl",
+              "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+            },
+            "TextReviewCandidate": false
+          }
+        ],
+        "OuterPe": null,
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": "5.3.0",
+      "LicenseObservation": "Historical product page limits free use to private/educational/non-commercial purposes",
+      "LicenseUri": "https://www.mitec.cz/iconex.html",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "Single 5.3.0.0 executable; synthetic icons/library files and separate output ownership.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": null,
+      "CatalogAdmission": false
+    },
+    {
+      "Artifact": {
+        "Product": "Mail Checker",
+        "Archive": "MAILCHECKER_Instal.exe",
+        "DownloadUri": "https://www.mitec.cz/Downloads/MAILCHECKER_Instal.exe",
+        "PageUri": "https://www.mitec.cz/mailchecker.html",
+        "PageSha256": "07a2237ff9c973d5855ebd4752672cb168c9f1d7d500f147dc9d1325fbb5baf0",
+        "Scope": "Historical",
+        "Sha256": "da47910bf3eab1efabb6fc7200a6bdfc394c17a24dfb236b0aafb220967c8ce0",
+        "Length": 2174711,
+        "Status": "InstallerOuterMetadataOnly",
+        "Members": [],
+        "OuterPe": {
+          "Machine": "014c",
+          "ClrDirectoryPresent": false,
+          "FileVersion": "                    ",
+          "ProductVersion": "                                                  ",
+          "CompanyName": "                                                            ",
+          "LegalCopyright": "Copyright © 2001-2013 Michal Mutl                                                                   ",
+          "Interpretation": "PE machine and CLR presence are static observations, not proof of runtime compatibility or managed-process bitness"
+        },
+        "Error": null,
+        "PayloadExecuted": false,
+        "NativeAcceptance": false,
+        "PublisherDigestVerified": false
+      },
+      "PageVersion": "7.2.0",
+      "LicenseObservation": "Historical product page permits private/commercial use; distribution not established",
+      "LicenseUri": "https://www.mitec.cz/mailchecker.html",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "Review": "Opaque installer; SMTP/mailbox credentials, send/delete behavior, startup and configuration require an isolated test server, not real mailboxes.",
+      "AcceptanceGates": [
+        "No catalog admission or supported-target promotion in this source pass",
+        "Exact product/dependency terms and local owner reviews remain distinct from artifact evidence",
+        "Prepare preview/install/repeat/remove/exact-restore fixtures preserving unowned data before registered VM acceptance"
+      ],
+      "InstallerListing": {
+        "Artifact": "MAILCHECKER_Instal.exe",
+        "ExitCode": 2,
+        "Formats": [],
+        "EntryCount": -1
+      },
+      "CatalogAdmission": false
+    }
+  ],
+  "SqliteReference": "https://www.sqlite.org/copyright.html",
+  "SqliteScope": "Upstream deliverable SQLite code is public domain; embedded metadata identifies SQLite components but does not independently prove provenance of these exact renamed binaries or license the surrounding MiTeC product",
+  "InstallerLimit": "Four MiTeC wrappers expose only PE resources to 7-Zip; Mail Checker is not opened as an archive. No payload inventory inferred from PE listing success.",
+  "NativeAcceptance": false,
+  "FreshUacLaunches": 0
+}

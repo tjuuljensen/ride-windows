@@ -32,8 +32,9 @@
   Recovery: State-changing handlers are engine-internal: use ride.ps1 preview and captured-run
   restoration. Direct calls bypass ShouldProcess and snapshot capture.
   Author: RIDE-Windows maintainers.
-  Version: 0.11.0
+  Version: 0.12.0
   Changelog:
+    0.12.0: Accept engine-verified local portable payloads with no acquisition fallback.
     0.11.0: Add explicit GitHub PAT selection and credential-safe acceptance boundaries.
     0.10.0: Bound latest-release metadata reuse and defer shared GitHub quota exhaustion.
     - 0.9.0: Reject conflicting scope, language, architecture and destinations for reviewed user packages.
@@ -761,6 +762,10 @@ function Install-RidePackage {
   .PARAMETER CacheDirectory
     Versioned artifact cache root selected by the engine for the operation scope.
 
+  .PARAMETER OfflineArtifact
+    Engine-verified, read-leased local portable artifact. Explicit null/invalid
+    records fail; acquisition and certificate network checks are never substituted.
+
   .PARAMETER GitHubAuthentication
     Anonymous (default) or explicit PAT for GitHub release discovery only.
 
@@ -786,10 +791,16 @@ function Install-RidePackage {
     [Parameter(Mandatory = $true)][hashtable] $Operation,
     [Parameter(Mandatory = $true)][string] $CacheDirectory,
     [ValidateSet('Anonymous','PAT')][string] $GitHubAuthentication = 'Anonymous',
-    [string] $GitHubCredentialReference
+    [string] $GitHubCredentialReference,
+    $OfflineArtifact
   )
 
   $Operation = Resolve-RidePackageSelection -Operation $Operation
+  $offline = $PSBoundParameters.ContainsKey('OfflineArtifact')
+  if ($offline -and ($null -eq $OfflineArtifact -or $OfflineArtifact.Offline -ne $true -or
+      $OfflineArtifact.Sha256 -notmatch '^[a-fA-F0-9]{64}$' -or -not $OfflineArtifact.Version -or
+      $Operation.InstallerType -ne 'Portable' -or $Operation.PrerequisitePackageId -or $Operation.DependsOn -or
+      $GitHubAuthentication -ne 'Anonymous' -or $GitHubCredentialReference)) { throw 'Invalid or unsupported offline package; no network fallback is allowed.' }
   $null = Get-RidePackagePrerequisiteDirectory -Operation $Operation
   Assert-RidePackageExecutionContext -Operation $Operation
   if ($Operation.LocalAppDataInstallDirectory) {
@@ -800,9 +811,9 @@ function Install-RidePackage {
     }
     if ((Test-Path -LiteralPath $Operation.InstallDirectory) -and -not (Get-RideInstalledPackage -Operation $Operation).Present) { throw 'Unowned content occupies the current-user installation destination; review it before installing.' }
   }
-  $download = Save-RidePackageArtifact -Operation $Operation -DestinationDirectory $CacheDirectory -GitHubAuthentication $GitHubAuthentication -GitHubCredentialReference $GitHubCredentialReference
+  $download = if ($offline) { $OfflineArtifact } else { Save-RidePackageArtifact -Operation $Operation -DestinationDirectory $CacheDirectory -GitHubAuthentication $GitHubAuthentication -GitHubCredentialReference $GitHubCredentialReference }
   if ($download.Sha256 -and (Get-FileHash -LiteralPath $download.Path -Algorithm SHA256).Hash -ne $download.Sha256) { throw 'Retained artifact SHA-256 changed before installation.' }
-  if ($Operation.InstallerType -eq 'Portable') { Install-RidePortablePayload -Operation $Operation -Artifact $download; return $download }
+  if ($Operation.InstallerType -eq 'Portable') { Install-RidePortablePayload -Operation $Operation -Artifact $download -Offline:$offline; return $download }
   if ($Operation.InstallerType -eq 'SysmonZip') {
     $staging = Join-Path ([IO.Path]::GetTempPath()) ('RIDE-Sysmon-' + [guid]::NewGuid().ToString('N'))
     $installDirectory = Join-Path (Get-RideSysmonInstallRoot) $download.Version

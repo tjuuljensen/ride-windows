@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "Archive": "SSView.zip",
+  "DownloadUri": "https://www.mitec.cz/wp/files/SSView.zip",
+  "Sha256": "e9d05067745a4f114b22dc798c7fa99017302b39bc8798853ed1bfd4c44d27ab",
+  "Length": 3572814,
+  "Members": [
+    {
+      "Path": "ZLibCodec.dll",
+      "Length": 1159168,
+      "Sha256": "97b9081bd7f5a29262f6d06a2fca06e35f1f3c543eb0467e3542ba66d17f1545",
+      "PeMachine": "014c",
+      "FileVersion": "1.1.0.0",
+      "LegalCopyright": "Copyright (c) 2009-2013 Michal Mutl "
+    },
+    {
+      "Path": "ZLibCodec.dpr",
+      "Length": 2919,
+      "Sha256": "a7e1e2d316a07700de5f2e2e233eca4dadd57f2205c85ad63e1963f7337a4d69",
+      "PeMachine": null,
+      "FileVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "SSView.exe",
+      "Length": 2706280,
+      "Sha256": "2620d85bf64e9f527740921a2a905753ac571d532dfc56ce7e91f629bbab6c0c",
+      "PeMachine": "014c",
+      "FileVersion": "4.1.2.0",
+      "LegalCopyright": "Copyright (c) 2005-2022, Michal Mutl"
+    },
+    {
+      "Path": "test.ss",
+      "Length": 883712,
+      "Sha256": "bec2c051d4165761a82a525662bf62b85aad805b8d3689c3b2498d2e56b9c671",
+      "PeMachine": null,
+      "FileVersion": null,
+      "LegalCopyright": null
+    }
+  ],
+  "PublisherDigestVerified": false,
+  "PayloadExecuted": false,
+  "NativeAcceptance": false,
+  "LicenseUri": "https://www.mitec.cz/wp/support/",
+  "LicenseEvidence": "Publisher software EULA and product license tiers apply; no standalone license file in these archives. No personal/company approval or redistribution determination recorded.",
+  "ProductUri": "https://www.mitec.cz/wp/mssv/",
+  "CatalogAdmission": false,
+  "Remaining": [
+    "One identity across R05 collection and R13 standalone SSView",
+    "Optional x86 ZLibCodec.dll and included Delphi source/sample selection, licensing and attribution",
+    "Native viewer/codec and activation preservation acceptance"
+  ]
+}

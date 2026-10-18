@@ -1,9 +1,10 @@
 # Package deployment and acquisition toolkit decisions
 
 Approved by the user on 2026-10-14. Design approved; deployment coexistence and
-host-folder toolkit publication remain unimplemented. The user resumed package implementation
-for the [2026-10-16 overnight migration window](remaining-migrations-follow-up.md#matching-batches);
-unresolved product, schema and acceptance choices remain deferred.
+host-folder toolkit publication remain unimplemented. Package implementation
+continues under the direct continuation instruction; the expired overnight
+automation remains paused. See the [current handoff](remaining-migrations-follow-up.md#archive-handoff-and-closure-order-2026-10-17).
+Q01-Q04 are accepted; durable integration and runtime acceptance remain open.
 
 The [full migration follow-up](remaining-migrations-follow-up.md#questions-for-the-users-return)
 records accepted Q01-Q04 deployment, adoption and host-folder publication choices.
@@ -38,6 +39,24 @@ The current implementation still refuses conflicting editions and uses its
 existing saved selection. The [application guide](../application-packages.md)
 describes that behavior; this decision adds no command, catalog entry, target
 support or automatic selection.
+
+## Shared installers and licence tiers
+
+Accepted 2026-10-17: model one package when free, paid or feature-tier editions
+use the same installer and installed application. Licence keys, subscriptions
+and accounts that unlock features do not alone justify separate variants.
+Create variants only for verified differences in artifacts, installed components
+or deployment behavior. Distinct products and reviewed installed/portable choices
+remain distinct where their deployment differs.
+
+Installation, adoption, updates and removal are separate from optional explicit
+activation through publisher-supported methods. Preserve existing settings and
+activation; do not require tier selection for shared installation, initiate a
+trial, or upgrade a subscription implicitly. Startup and integrations remain
+independent choices. Per-product artifact equivalence and activation preservation
+need evidence. This supersedes earlier mandatory entitlement-selection wording;
+see the [accepted rule](decision-session-2026-10-17.md#shared-installers-and-licence-tiers)
+and [local licensing/publication boundaries](../package-licensing.md).
 
 ## Explicit identity and adoption decisions, 2026-10-17
 

@@ -34,6 +34,7 @@ BeforeDiscovery {
 
 BeforeAll {
   $script:Root = Split-Path -Parent $PSScriptRoot
+  $script:OriginalRideModules = @(Get-Module | Where-Object { $_.Path -and $_.Path.StartsWith((Join-Path $script:Root 'modules'),[StringComparison]::OrdinalIgnoreCase) } | ForEach-Object Path)
   $script:EngineSpy = @'
 function Set-RideLibraryContext { param([string[]] $Library) }
 function Get-RideProfile { param([string] $Path) @{ Operations = @() } }
@@ -47,10 +48,11 @@ function New-SpyRecord {
     WhatIf = [bool]$Bound['WhatIf']; Preference = [bool]$Preference
     ConfirmBound = $Bound.ContainsKey('Confirm'); Confirm = [bool]$Bound['Confirm']
     GitHubAuthentication = $Bound['GitHubAuthentication']; GitHubCredentialReference = $Bound['GitHubCredentialReference']
+    OfflineBundle = $Bound['OfflineBundle']; OfflineProfileId = $Bound['OfflineProfileId']; OfflineCatalogFileId = $Bound['OfflineCatalogFileId']
   }
 }
 function Invoke-RidePlan {
-  [CmdletBinding(SupportsShouldProcess)] param($Plan, $GitHubAuthentication, $GitHubCredentialReference)
+  [CmdletBinding(SupportsShouldProcess)] param($Plan, $GitHubAuthentication, $GitHubCredentialReference, $OfflineBundle, $OfflineProfileId, $OfflineCatalogFileId)
   $performed = if ($PSBoundParameters.ContainsKey('Confirm') -and [bool]$PSBoundParameters['Confirm']) { $false } else { $PSCmdlet.ShouldProcess('synthetic target', 'record only') }
   New-SpyRecord $PSBoundParameters $WhatIfPreference $performed 'plan'
 }
@@ -79,6 +81,12 @@ Describe 'CLI ShouldProcess forwarding' {
   AfterEach {
     Get-Module -All | Where-Object { $_.Path -and $_.Path.StartsWith($script:Isolated + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase) } | Remove-Module -Force
   }
+  AfterAll {
+    # The isolated spies use the engine's name; restore real command discovery
+    # for later files in a combined Pester run.
+    Import-Module (Join-Path $script:Root 'modules/RIDE.Engine.psm1') -Force
+    foreach ($modulePath in $script:OriginalRideModules) { if ([IO.Path]::GetFileName($modulePath) -ne 'RIDE.Engine.psm1') { Import-Module $modulePath -Global } }
+  }
 
   It 'forwards explicit PAT selection for <Command> without resolving credentials during preview' -TestCases @(
     @{ Command='download'; Arguments=@{ Command='download'; Id='fake.package' } },
@@ -97,6 +105,23 @@ Describe 'CLI ShouldProcess forwarding' {
     { & $script:Runner download fake.package -GitHubAuthentication PAT } | Should -Throw '*requires*'
     { & $script:Runner download fake.package -GitHubCredentialReference fake } | Should -Throw '*Anonymous forbids*'
     { & $script:Runner list -GitHubAuthentication PAT -GitHubCredentialReference fake } | Should -Throw '*only*'
+  }
+  It 'forwards the complete explicit offline selection for <Command>' -ForEach @(
+    @{Command='install';Arguments=@{Command='install';Id='fake.package'}},
+    @{Command='apply';Arguments=@{Command='apply';Profile='fake.psd1'}}
+  ) {
+    $record=& $script:Runner @Arguments -OfflineBundle 'bundle.json' -OfflineProfileId workstation -OfflineCatalogFileId catalog -WhatIf | Where-Object Stage -eq Engine
+    $record.OfflineBundle | Should -BeExactly 'bundle.json'
+    $record.OfflineProfileId | Should -BeExactly workstation
+    $record.OfflineCatalogFileId | Should -BeExactly catalog
+    $record.Performed | Should -BeFalse
+  }
+  It 'refuses incomplete, unsupported and conflicting offline command options' {
+    {& $script:Runner install fake.package -OfflineBundle 'bundle.json'} | Should -Throw '*required together*'
+    {& $script:Runner install fake.package -OfflineBundle ''} | Should -Throw '*required together*'
+    {& $script:Runner restore -OfflineBundle 'bundle.json' -OfflineProfileId p -OfflineCatalogFileId c} | Should -Throw '*install and apply only*'
+    {& $script:Runner install fake.package -OfflineBundle 'bundle.json' -OfflineProfileId p -OfflineCatalogFileId c -GitHubAuthentication Anonymous} | Should -Throw '*network authentication*'
+    {& $script:Runner apply -OfflineBundle 'bundle.json' -OfflineProfileId p -OfflineCatalogFileId c -UserContext Desktop} | Should -Throw '*desktop handoff*'
   }
 
   It 'allows <Command> without an accidental preview or confirmation switch' -TestCases $commandCases {

@@ -1,6 +1,149 @@
 # Remaining migration analysis and decisions
 
-Latest: [resumed implementation results, 2026-10-17](#resumed-implementation-results-2026-10-17). The [morning handoff](#morning-handoff-2026-10-17) remains the preserved baseline; the expired overnight automation stays paused.
+Latest: [archive handoff and closure order, 2026-10-17](#archive-handoff-and-closure-order-2026-10-17). This supersedes the morning handoff's checkout status and next-work order. The expired overnight automation remains paused; direct continuation is authorized without batch-by-batch approval.
+
+Implementation continuation, 2026-10-17: [B03 startup fixtures](settings-post-migration-review.md#b03-startup-closure-fixture-2026-10-17),
+[B08 full-source lifecycle](application-migration-review.md#b08-psscripttools-lifecycle-continuation-2026-10-17),
+[B10 explicit offline execution](application-migration-review.md#b10-offline-execution-gate-2026-10-17)
+and [four appearance presentations](settings-post-migration-review.md#b01-appearance-preference-presentation-2026-10-17)
+supersede the corresponding source-ready counts and next steps below. Presentation
+is now 279/279 after the [remaining 77 reviews](settings-post-migration-review.md#b01-presentation-review-completion-2026-10-17). Unverified mappings and compatibility gaps retain explicit dispositions. Native acceptance is blocked by denied
+non-elevated Hyper-V CIM access. No whole legacy outcome was deducted; the dated
+handoff below retains its original baseline. Current work order is in TODO.
+
+Collection continuation, 2026-10-17: [named inventories and MiTeC viewers](application-migration-review.md#b11-named-collections-and-mitec-viewers-2026-10-17)
+follow the earlier NTCore/exact ZIP selection batch. Current catalog: 362 operations,
+60 packages, 279 settings, one artifact and 22 Store declarations; eight groups/five
+profiles. There are 33 pending packages: 20 continuation candidates plus 13 Artcraft
+products omitted from the earlier shorthand count. The 41 JoeWare, 22 current MiTeC
+and 16 NTCore entries are frozen review inputs. Both native PowerShell editions pass
+107 focused checks; VM acceptance remains blocked. NirSoft protection alerts,
+JoeWare artifact/distribution review, SSView codec ownership, Zimmerman API quota,
+4GB Patch licensing and component source/recovery prerequisites remain explicit.
+No native acceptance or legacy deduction is made. The dated handoff below retains
+its original counts and order.
+
+## Archive handoff and closure order, 2026-10-17
+
+The user requested reconciliation before archiving both old chats and continuation
+through separate implementation and decision chats, with priority on reducing open
+legacy outcomes. At reconciliation, HEAD was `87893c6` and the working tree was
+clean. That commit includes the overnight/resumed implementation and decision
+record. Earlier statements that this work was uncommitted describe those runs,
+not the current checkout. This handoff is a documentation-only follow-up.
+
+### What is complete and what remains
+
+| Record | Reconciled result | Still open / closure boundary |
+| --- | --- | --- |
+| B01 settings | 198/279 setting presentations; 81 remain. Scheduled-task typed observation and readback repaired. Earlier literal/native results retain their original scope. | Finish remaining presentation reviews and user-visible, managed, boot, hardware and recovery evidence per the [30-row settings ledger](remaining-settings-plan.md#complete-remaining-ledger-triage). Presentation is a separate counter, not 198 completed legacy outcomes. |
+| B02 identities | Supplied-data inventories for audio endpoints, adapters, volumes, local users and Wi-Fi are source-ready. | Native provider binding and selected-resource lifecycle; unknown/missing/managed states remain explicit. Inventory alone closes no mutation outcome. |
+| B03 startup / Terminal / PATH | Two pending user-bin startup candidates, Terminal JSONC preparation and persistent user-PATH capture/preparation exist. | Complete one startup outcome first; then separately own Terminal live files and persistent PATH writes/recovery. Do not merge these outcomes or create a bin directory implicitly. |
+| B04 proxy | Default/LAN capture and owned-field edit/recovery preparation exist. | Durable setter, refresh, partial-failure recovery and native/UI/policy evidence; RAS and WinHTTP remain distinct. |
+| B05 Store | Five guarded groups implemented; Solitaire basic isolated registration lifecycle accepted. | Clipchamp next when elevation/resources permit; GUI/data, interruption, full intended-user handoff, groups, policy and other targets remain open. News/Weather need usable reinstall sources. |
+| B06 components | Namespace-aware inventory and explicit Online/Offline client transition preparation exist. | OpenSSH Client and Telnet Client durable transitions, source/no-network enforcement and native recovery. No automatic WSL/Docker/Hyper-V provisioning. |
+| B07 deployments | Named identity, registration/adoption review, logical legacy mapping and owned-file update comparisons exist. Q01-Q04 are settled. | Main CLI/profile integration, original-byte preservation, durable store/index migration, ownership, staged publication and interrupted recovery. Coexistence is approved design, not enabled runtime behavior. |
+| B08 packages | Sixteen new package declarations are pending: six earlier candidates, whole Sysinternals Suite and nine individual Sysinternals products. Exact acquired bytes/notices are recorded. | Per-product lifecycle and functional acceptance. Source archives are not imported/executed; no new native acceptance came from the overnight or resumed batches. |
+| B09 accounts / regional / assets | User/SID, language order/overrides and regional inventories/preparation exist. | Secure credentials, durable writes, exact recovery and native effects; asset source/rights and collision handling remain per deployment. |
+| B10 complex products / offline / actions | Office XML/inventory, desired configuration and offline preflight/assembly are source-ready. OfflineBundle 0.7.0 includes source comparison and optional selected-profile assembly coverage. | Mandatory install/apply gate, full requirements/provenance and offline runtime acceptance; Office/driver/hardware/destructive actions retain their separate gates. |
+
+The catalog remains **358 operations: 279 settings, 56 packages, one artifact,
+22 Store declarations; eight groups and five profiles**. Eighteen new operations
+(sixteen packages/two startup settings) remain pending; their count is not a
+legacy burndown deduction. The [application outcome reconciliation](application-review-rounds-2026-10-12.md#current-dispositions-2026-10-17)
+covers all R01-R13 review groups; their exact selector index remains authoritative.
+
+Q17 Volatility 2 and Q20 ImproHound are explicitly retired and already deducted.
+Q31 User .NET bookkeeping is closed without a numeric deduction. Earlier accepted
+distributions, retirements and exclusions are retained, not counted again. The
+LOKI Python implementation is excluded while the selected LOKI RS replacement
+remains open; no whole LOKI outcome is newly closed. Deferred work remains counted.
+
+### Completion order
+
+[TODO.md](../../TODO.md#migration-closure-queue) owns the active queue. Work on one
+closure candidate at a time; keep at most three ready priorities. Finish an
+existing outcome before starting another general preparation API. When a real
+gate blocks it, record the exact missing resource/acceptance and advance to the
+next independent item. Do not wait for approval between authorized batches.
+
+| Priority / existing outcome | First concrete work | Evidence required to close / recovery |
+| --- | --- | --- |
+| 1: B03 startup user-bin | Inspect the two existing candidates and profile-block ownership tests; finish any missing lifecycle/fixture behavior. Prepare the smallest source-pinned Windows 11 startup scenario for both installed PowerShell runtimes. | Prove intended-user ConsoleHost startup, duplicate/missing-bin behavior, repeat apply, exact prior-profile restore and refusal of unowned legacy snippets. Preserve bin contents and unrelated profile bytes. Only close the startup slice; persistent PATH, directory provisioning and WindowsApps repair stay separate. If resources are unavailable, leave native acceptance pending and advance. |
+| 2: B08 / application R06 PSScriptTools | Reuse the pinned 3.2.0 archive and reviewed notices; finish its inert source-deployment lifecycle fixture, then use the existing serialized disposable-VM procedure if available/authorized. | Verify complete files, repeat deployment, owned removal, modified-file preservation and recovery on the declared target. Do not auto-import scripts, install dependencies or infer runtime function compatibility. Reconcile the original legacy outcome before claiming closure; any required functional evidence stays open. Rufus is an additional requested tool with hardware acceptance, not the first legacy-count win. |
+| 3: B10 offline deployment gate | Connect the existing byte-bound profile coverage/preflight to actual install/apply entry points, preserving the versioned state/recovery model and explicit bundle selection. | Before any handler runs, fail missing, changed, wrong-source or unsupported dependency requirements; forbid network fallback. Mocked no-network/no-mutation failure checks first, then a minimal reviewed disposable offline deployment. Preserve failed staging, old bundles and saved runs. This is a capability completion; deduct only specifically accepted legacy outcomes it enables. |
+
+Next ready work, after these or a documented blocker: B05 Clipchamp acceptance
+when fresh elevation is available; B01 remaining 81 presentation reviews in
+small families while preserving the separate GUI queue; B06 selected client
+components; R05 exact collection source pinning and extraction/ownership. Do not
+open all of these simultaneously. Broader B02/B04/B07/B09 work remains backlog,
+not completed or abandoned because it is outside the active queue.
+
+### Decisions, deferrals and retained technical knowledge
+
+The [decision ledger](decision-session-2026-10-17.md) is authoritative for Q01-Q31
+and later refinements. The broad policy pass is complete. Ask only a concrete
+exception supported by technical evidence, not the same general scope again.
+Shared artifacts use one package; licence/activation changes remain optional and
+separate. The durable rule now also lives in the [deployment model](package-deployment-decisions.md#shared-installers-and-licence-tiers).
+
+Explicitly deferred: new deployment-profile composition/default selections;
+BitLocker/recovery TPM/boot/backup/retrieval setup; BloodHound CE backend-version
+choice; standalone Neo4j/APOC pending a use case; MEGAcmd unless needed; dynamic
+Store lists. Controller/default-branch certification stays at v3 RC. Entitlements,
+credentials, publisher agreements, interactive elevation and GUI/hardware input
+remain concrete per-task gates, not unanswered general policy questions.
+
+The latest [artifact/updater review](decision-session-2026-10-17.md#artifact-compatibility-and-updater-review-continuation-2026-10-17)
+requires replacement of eight destructive/fragile legacy acquisition wrappers;
+those replacements are not yet implemented. The Zimmerman endless-retry suspicion was withdrawn: its
+duplicate guard advances after failure. Actual outstanding issues are false
+"current" results after discovery failures, early return before Sync, missing
+local payload checks and ETag matching without URL identity. Nine bounded fixtures
+passed, but no immutable full upstream pin or full updater execution was verified.
+Publisher-page NirLauncher hashes are observations, not downloaded-byte proof.
+TMOG's local licence file is machine-bound sensitive entitlement data: preserve it
+and exclude it from shared kits/logs; copying it is not activation.
+
+### Evidence and two-chat ownership
+
+Read AGENTS.md, the overview, this section and the latest decision entries before
+each new work sequence. Existing [resumed evidence](#resumed-implementation-results-2026-10-17)
+records 63 coverage, 48 assembly, 122 presentation/catalog/search and 20 focused
+task checks per native PowerShell edition, plus 225-file repository validation.
+Do not sum repeated runs or rerun passed checks absent relevant changes. The
+[231-file source inventory](../archive/evidence/resumed-source-handoff-index-2026-10-17.json)
+and earlier inventory remain dated evidence, not VM pins or release provenance.
+Preserve ignored `.local` caches, failed staging and recovery evidence; a Git
+commit or archived chat alone does not retain those files elsewhere.
+
+The implementation successor owns code, TODO, overview and implementation subject
+ledgers. The decision successor owns additions to `decision-session-2026-10-17.md`
+and presents only concrete exceptions; it does not edit implementation concurrently.
+The implementation chat reads newly accepted decisions between batches and records
+their application. This split avoids two writers updating the same status files.
+No cross-thread messaging or new automation is required; repository records carry
+the handoff. Keep the expired `ride-migration-overnight-to-05-00` automation paused.
+
+Use Windows-native validation in this Windows-filesystem checkout. Disposable VM
+work remains serialized, pinned to the actual candidate, and subject to existing
+resource/elevation/acceptance gates. Never use the developer workstation as the
+integration target, restart ArtCraft Launcher, change protected controllers/pins,
+publish/release, or expand targets without applicable evidence and authorization.
+This reconciliation changes documentation only and requires no runtime rollback.
+
+All five ranges remain **38-58 / 56-71 / 20-25 / 25-35 / 8-12**, exact endpoints
+147-201, rounded **145-200/about 175**. This pass closes stale question bookkeeping
+and corrects current status, not a legacy feature. No new migration, retirement,
+exclusion or runtime acceptance is claimed. Deferments and partial outcomes above
+stay in the estimate until their individual exit evidence is recorded.
+
+## Earlier analysis and batch history
+
+The sections below preserve the planning and dated implementation sequence.
+Use the archive handoff above and later decision entries when an earlier proposal,
+count, work window or unanswered question has been superseded.
 
 Reviewed 2026-10-17. The remaining source has been triaged across all five
 migration groups. B01 presentation/guidance and the first B02 playback-endpoint
@@ -153,7 +296,7 @@ just because one legacy function performed them all.
 
 | Batch | Proposed scope | Why this order / exit evidence |
 | --- | --- | --- |
-| B01 | Input/audio, media/privacy, power, Explorer, App Privacy, update/maintenance, security and desktop/Explorer presentation source-ready; 179/279 reviewed | One hundred forty-nine existing controls gained presentation this window; two new startup candidates also supply it. Legacy reverse distinctions and exact reference scope retained; 100 presentation reviews and GUI/managed/physical acceptance remain. Unsigned capture/recovery and typed native power reads implemented with 63 tests per edition; native API/locale and physical acceptance stays open. Defender exclusion writes now bind capture path/membership and retain versioned recovery; hidden-list/native acceptance remains open. See the latest setting ledger. |
+| B01 | Input/audio, media/privacy, power, Explorer, App Privacy, update/maintenance, security and desktop/Explorer presentation source-ready; 198/279 reviewed | The resumed service/task batches add 19 presentations. Legacy reverse distinctions and exact reference scope retained; 81 presentation reviews and GUI/managed/physical acceptance remain. Unsigned capture/recovery and typed native power reads implemented with 63 tests per edition; native API/locale and physical acceptance stays open. Defender exclusion writes now bind capture path/membership and retain versioned recovery; hidden-list/native acceptance remains open. See the latest setting ledger. |
 | B02 | Read-only playback-endpoint, adapter, volume, local-user and Wi-Fi profile identity contracts source-ready; other resources remain | Define selected connection, endpoint, adapter, volume, account SID, feature/capability and owned file identities. Inspect source/availability without mutation. Unknown, missing and managed states must be explicit. |
 | B03 | Existing user-bin startup renderer source-ready, 2026-10-16; Terminal file ownership remains | Two optional runtime candidates reuse profile-block recovery and refuse known unmarked legacy writers. Native startup acceptance and directory provisioning remain open. Q08 persistent user PATH now has literal observation and entry-owned append/recovery preparation (44 distinct tests per edition); durable writes/refresh/native acceptance remain. Terminal JSONC root-field byte-preservation/conflict proof is source-ready; live file/instance binding, actual availability, writer and actual per-machine Q09 selection remain open. |
 | B04 | Default/LAN capture and in-memory edit/recovery source-ready | 31 capture and 39 preparation tests per edition preserve manual/bypass/PAC/unknown flags and reject owned-field conflicts. Native/UI/policy, durable setter/refresh/partial-failure recovery and RAS remain open. Keep WinHTTP separate. |
@@ -164,7 +307,7 @@ just because one legacy function performed them all.
 | B09 | Accounts, regional configuration and owned assets | Read-only local-user SID and intended-user ordered language capture are source-ready, with separate display/input override observations order-only existing-language priority preparation/recovery, and separate format-culture/home-location/system-locale/time-zone observations. None resolves ownership, viable access or native regional mutation acceptance. Implement mutations independently after credentials, SID ownership, content source and reboot choices are settled. Do not disable a last viable administrator or overwrite shared assets. Q07-Q12. |
 | B10 | Complex packages, security and maintenance | Drivers, Office/Teams, CE backend, encryption, WSL data, update installation and destructive cleanup follow their distinct dependency/recovery decisions. No default-profile activation or automatic reboot. Q16-Q27. |
 
-B01 and the first B02 endpoint source slice are complete. B02 does not select a
+The recorded B01 presentation slices and first B02 endpoint source slice are complete; neither whole batch is closed. B02 does not select a
 resource for the user; its other resource contracts remain open. B03-B10 contain explicit gates; their
 presence in this sequence does not authorize changing unknown state.
 
@@ -377,18 +520,24 @@ a setter from its name.
 
 ## Questions for the user's return
 
-Answer in batches, starting with Q01-Q04 when packages are ready to resume,
-or Q05-Q12 for components/configuration. Technical API/build/provenance checks
-remain implementation research; the user need not decide undocumented mappings.
-Earlier settings D02-D10 retain their exact questions in the settings plan.
+Current status: Q01-Q31 policy answers and subsequent refinements are recorded in
+the decision ledger. Question-shaped labels below preserve traceability; they are
+not requests to repeat approval. Later accepted membership, shared-installer and
+explicit deferral entries control over earlier proposals. Actual per-deployment
+inputs and technical acceptance remain open as listed in the current handoff.
+
+The original discussion grouped Q01-Q04 and Q05-Q12; those choices are now settled.
+Technical API/build/provenance checks remain implementation research; the user
+need not decide undocumented mappings. Earlier settings D02-D10 retain their
+technical acceptance questions and later explicit deferrals in the settings plan.
 
 | ID | Decision needed | Recommended starting choice and consequence |
 | --- | --- | --- |
 | Q01 | Accepted 2026-10-17: explicit named deployment identity | Product-only mutation refuses ambiguity; inspection exposes independent copies. In-memory selection source-ready; main CLI/profile and versioned record migration remain. See [decision](decision-session-2026-10-17.md#q01-explicit-deployment-identity). |
 | Q02 | Accepted 2026-10-17: adoption plus explicit replacement | Existing installations must be adoptable without replacement. First-run supported-package review permits bulk adoption; ambiguous matches are handled individually. Ownership/backup/recovery design remains; no workstation adoption authorized. See [decision](decision-session-2026-10-17.md#q02-adopt-existing-installations-and-offer-explicit-replacement). |
-| Q03 | Accepted 2026-10-17: named profile-driven host-folder publication | Standard product/distribution layout, chosen root, manifest/hashes/notices. Operator transfers manually; no USB tracking or volume enrollment. Air-gap installer source remains a separate desired workflow with scope unresolved. See [decision](decision-session-2026-10-17.md#q03-profile-driven-toolkit-publication-to-a-host-folder). |
+| Q03 | Accepted 2026-10-17: named profile-driven host-folder publication | Standard product/distribution layout, chosen root, manifest/hashes/notices. Operator transfers manually; no USB tracking or volume enrollment. Offline profile-selected/full bundles are also accepted; mandatory installation preflight/native acceptance remain. See [decision](decision-session-2026-10-17.md#q03-profile-driven-toolkit-publication-to-a-host-folder). |
 | Q04 | Accepted 2026-10-17: staged publication updates and explicit modified-file decisions | Build/verify before changing the host publication; update managed files, remove unchanged obsolete managed files, preserve unrelated/generated data. Ask before replacing modified managed content; retain modified obsolete files. Commit/journal/recovery and conflict handling need validation. See [decision](decision-session-2026-10-17.md#q04-staged-toolkit-updates-with-explicit-modified-file-decisions). |
-| Q05 | Which components should the first selectable group offer? | Start individually with OpenSSH Client/Telnet Client where available; add Server/RSAT/Hyper-V/Sandbox/WSL only as separate roles with their dependencies. None selected by default. |
+| Q05 | Accepted: separate OpenSSH Client and Telnet Client | Start individually with OpenSSH Client/Telnet Client where available; add Server/RSAT/Hyper-V/Sandbox/WSL only as separate roles with their dependencies. None selected by default. |
 | Q06 | What servicing media/source may be used? | Accepted: explicit Online respecting configured sources/policy, or Offline with matching local source and no network fallback. No implicit default; source and offline-boundary acceptance remain. |
 | Q07 | What should replacement admin enrollment expose? | Explicit new name and secure interactive password, no secret in profile/config/state; refuse existing-account collision and disabling a last viable administrator. Keep credential rotation/recovery separate. |
 | Q08 | Does user-bin mean PowerShell startup only or also persistent Windows PATH? | Migrate the actual legacy startup-only block first. Offer persistent user PATH only as a separate explicit outcome; preserve directory contents on removal. |
@@ -396,8 +545,8 @@ Earlier settings D02-D10 retain their exact questions in the settings plan.
 | Q10 | Should browser preferences be managed policies or user preferences? | Separate explicit managed policy from user-file preference choices. Import no blanket legacy preference file; preview owned fields per existing profile. |
 | Q11 | Where should fonts/wallpapers/lock-screen assets come from and what scope? | User-supplied reviewed manifest plus official license/source; start per-user where supported. Machine/default-user changes stay separate and collision-refusing. |
 | Q12 | Which Wi-Fi scope and connection behavior? | Explicit current-user profile and interface, import without connecting; machine/all-user provisioning separate. Secure credential entry and recoverable existing profile are prerequisites. |
-| Q13 | Which tools belong in each collection? | Approve exact members/versioned manifest; start small with independently licensed tools. Keep launcher/configuration separate from content; do not equate suite archive with permission for every member. |
-| Q14 | Should restricted/free-for-personal-use tools be offered to company users? | Keep licensing review visible per exact product/version/owner in the local review store; no catalog approval default. Omit unreviewed members from shared kits. |
+| Q13 | Accepted: reviewed collections and later membership decisions | Follow the later Sysinternals, Zimmerman, NirSoft, JoeWare, MiTeC and NTCore scopes in the decision ledger. Pin exact member inventories; new upstream members need review. Launcher/configuration and redistribution remain separate. |
+| Q14 | Accepted: separate local review, installation and publication | Pending local review alone does not block unattended installation. Keep exact product/version/owner assessments local; publication omits members lacking applicable redistribution review. No catalog approval default. |
 | Q15 | Pinned source snapshot or editable development checkout? | Pinned inert snapshot for deployment; explicitly separate clone/update/import/execute workflows for development tools and rules. |
 | Q16 | Which integrations should drivers/nested installers enable? | Minimum product-specific reviewed integration; service/driver/reboot requirements explicit. Preserve earlier Gpg4win/ImageMagick/Npcap decisions and collect only unresolved installer flags. |
 | Q17 | Accepted: retire planned Volatility 2 deployment | Preserve selector history and all existing installations/data. Continue separately selected Volatility 3; do not claim every historical workflow is replaced. |
@@ -407,7 +556,7 @@ Earlier settings D02-D10 retain their exact questions in the settings plan.
 | Q21 | Office/Visio choices accepted; technical acceptance open | Microsoft 365 Apps enterprise, Monthly Enterprise default/Current option; fresh x64/existing match/explicit x86; standard sign-in with activation-pending continuation. Separate 2016 Retail/Plan 2 Visio, en-US/da-DK exception, optional Teams and separate startup/cleanup. Extra-language compatibility and native recovery remain open. [Record](application-migration-review.md#b10-inert-office-configuration-review-2026-10-17). |
 | Q22 | Accepted: OneDrive preservation and opt-in updater | Preserve accounts/sync/files. Updater defaults to an explicit package list; broad eligible-except-exclusions mode is explicit. Approved sources/pins, separate schedule, no automatic reboot or forced app closure. Eligibility, identity and upstream behavior still require implementation. |
 | Q23 | Accepted priority: VMware workstation installation first | Preserve VMs/preferences; directory configuration separate with no relocation. Guest drivers need a selected virtual platform. Edition/source/integrations, hardware/GPU roles and native acceptance remain open. |
-| Q24 | Accepted priority: FTK Imager, then KAPE | Arsenal product remains unresolved. Review official artifacts/terms independently. FTK source inspection found an external CodeMeter prerequisite; no installer was executed. |
+| Q24 | Accepted: FTK Imager, then KAPE; eight Arsenal products selected | Later Arsenal/KAPE entries settle scope; MEGAcmd remains deferred unless needed. Artifacts, terms, drivers and functional evidence remain. FTK source inspection found CodeMeter; no installer was executed. |
 | Q25 | Accepted: RIDE owns configuration | ADR 0001 is accepted. LoggingBaseline remains read-only observation/evaluation/reporting, with separate measurement thresholds. Schema-1 desired-reference export is source-ready; consumer/native mapping acceptance pending. Sysmon download and application separate. |
 | Q26 | Accepted: validate existing reviewed Store selection first | Preserve optional uninstall/reinstall groups and separate device policy. Dynamic-list support is deferred to an independently validated extension; no identities or target support expanded. |
 | Q27 | Accepted: explicit destructive maintenance and disposable-cache exception | Preview affected data and recovery limits. External backup/checkpoint required for destructive transitions including Sysprep; explicitly selected, defined disposable caches may omit backup. No implicit reboot/shutdown or ordinary-install cleanup. |

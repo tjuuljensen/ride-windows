@@ -1,0 +1,124 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "Kind": "NamedCollectionInventoryAndMitecCandidates",
+  "Inventories": [
+    {
+      "Collection": "joeware",
+      "Members": 41,
+      "RetainedPageHashesVerified": 41,
+      "MissingParsedVersion": 0,
+      "DownloadNameReview": 0
+    },
+    {
+      "Collection": "mitec",
+      "Members": 22,
+      "RetainedPageHashesVerified": 22,
+      "MissingParsedVersion": 2,
+      "DownloadNameReview": null
+    }
+  ],
+  "NtcoreUtilityEntries": 16,
+  "CerberoAssessedSeparately": true,
+  "DeveloperSourcesExcludedFromCollection": true,
+  "Catalog": {
+    "Operations": 362,
+    "Packages": 60,
+    "PendingPackages": 33,
+    "SettingPresentations": 279,
+    "Groups": 8,
+    "Profiles": 5,
+    "OnlyTwoCandidateChanges": true,
+    "SupportedTargetsExpanded": false,
+    "ContinuationPendingPackages": 20,
+    "SeparatelyPendingArtcraftPackages": 13,
+    "CountCorrection": "Previous 18 was the continuation cohort, not the full pending count of 31; current full pending count is 33 after two new candidates"
+  },
+  "Acquisition": "63 named product pages, retained publisher indexes/terms and three MiTeC ZIPs; no form submission, utility execution, credentials, Defender changes, blocked-file reads or VM action",
+  "InitialSourceCheck": "Quoted hyphenated variant keys after parser rejected the initial generated declarations; no execution of malformed catalog",
+  "InitialPowerShell51Attempt": "Sandbox AuthorizationManager failure before tests; read-only policy query reported registry access denied. Host-access rerun uses unchanged policies.",
+  "SourceEvidence": [
+    "joeware-collection-inventory-2026-10-17.json",
+    "mitec-collection-inventory-2026-10-17.json",
+    "ntcore-collection-inventory-2026-10-17.json",
+    "mitec-json-viewer-source-review-2026-10-17.json",
+    "mitec-xml-viewer-source-review-2026-10-17.json",
+    "mitec-structured-storage-viewer-source-review-2026-10-17.json"
+  ],
+  "SourceFiles": [
+    {
+      "Path": "catalog/operations.psd1",
+      "Sha256": "2bdb4068913a29fc7e8df4988ebc4e36013d56de731afec988b5599772e2c291"
+    },
+    {
+      "Path": "tests/MitecViewerPackages.Tests.ps1",
+      "Sha256": "d903d687d152236f752b0e3adeea933ab00afa1c7f600ac9e35e7300889ba44d"
+    },
+    {
+      "Path": "docs/OPERATIONS.md",
+      "Sha256": "25bab201bb88a267f0f64a7b077a0fa874be2c2b830401a16e560516ec87bbae"
+    }
+  ],
+  "Blockers": [
+    "Defender-blocked NirSoft reviews unchanged",
+    "Non-elevated Hyper-V CIM access denied; VM acceptance pending",
+    "JoeWare per-artifact SHA256/source and distribution terms; rdp-sec-check version mismatch",
+    "MiTeC historical standalone scope and real entitlement/activation preservation",
+    "Structured Storage Viewer codec/source/sample ownership and licensing",
+    "Remaining NTCore artifact/license/native review; 4GB Patch license grant",
+    "Zimmerman immutable source pin remains rate-limited; not retried"
+  ],
+  "Deferred": [
+    "New deployment profiles",
+    "BitLocker/recovery resource setup"
+  ],
+  "LegacyOutcomes": {
+    "Resolved": 0,
+    "Retired": 0,
+    "Partial": "Source inventories and candidate file lifecycles; all legacy acceptance remains counted",
+    "Excluded": 0,
+    "PlanningMidpoint": 175,
+    "Ranges": [
+      "38-58",
+      "56-71",
+      "20-25",
+      "25-35",
+      "8-12"
+    ],
+    "RoundedTotal": "145-200"
+  },
+  "Validation": [
+    {
+      "PowerShell": "5.1.26100.9711",
+      "Passed": 107,
+      "Failed": 0,
+      "ExcludedIntegration": 1,
+      "ViewerCases": 16,
+      "CatalogCases": 70,
+      "SelectionCases": 21,
+      "ActualViewerArchives": true,
+      "AcquiredProgramExecuted": false,
+      "RepositoryValidationPassed": true,
+      "PowerShellFiles": 230,
+      "GeneratedDocumentationCurrent": true,
+      "TestLog": ".local/mitec-checks-5-host.log",
+      "ValidationLog": ".local/mitec-validation-5-host.log"
+    },
+    {
+      "PowerShell": "7.6.5",
+      "Passed": 107,
+      "Failed": 0,
+      "ExcludedIntegration": 1,
+      "ViewerCases": 16,
+      "CatalogCases": 70,
+      "SelectionCases": 21,
+      "ActualViewerArchives": true,
+      "AcquiredProgramExecuted": false,
+      "RepositoryValidationPassed": true,
+      "PowerShellFiles": 230,
+      "GeneratedDocumentationCurrent": true,
+      "TestLog": ".local/mitec-checks-7.log",
+      "ValidationLog": ".local/mitec-validation-7.log"
+    }
+  ]
+}

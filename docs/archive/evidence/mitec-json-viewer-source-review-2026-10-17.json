@@ -1,0 +1,46 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "Archive": "JSONView.zip",
+  "DownloadUri": "https://www.mitec.cz/wp/files/JSONView.zip",
+  "Sha256": "9c6d38bc040bae98e9847539220611e4dea915d27314463e602b880c3f845b21",
+  "Length": 8428524,
+  "Members": [
+    {
+      "Path": "JSONView.exe",
+      "Length": 3821584,
+      "Sha256": "394f6919e446e5a191905dbe6dd41d55a731b4177d45e0392dc06c92f0b23513",
+      "PeMachine": "014c",
+      "FileVersion": "3.2.2.0",
+      "LegalCopyright": "Copyright (c) 2016-2025, Michal Mutl"
+    },
+    {
+      "Path": "JSONView64.exe",
+      "Length": 5302064,
+      "Sha256": "3f607389f6ee2e6679022a32db8c24f4dc75fcee1356ab3afc2d64eabc577f33",
+      "PeMachine": "8664",
+      "FileVersion": "3.2.2.0",
+      "LegalCopyright": "Copyright (c) 2016-2025, Michal Mutl"
+    }
+  ],
+  "PublisherDigestVerified": false,
+  "PayloadExecuted": false,
+  "NativeAcceptance": false,
+  "LicenseUri": "https://www.mitec.cz/wp/support/",
+  "LicenseEvidence": "Publisher software EULA and product license tiers apply; no standalone license file in these archives. No personal/company approval or redistribution determination recorded.",
+  "ProductUri": "https://www.mitec.cz/wp/mjsonv/",
+  "SelectedFilesByVariant": {
+    "portable": [
+      "JSONView64.exe"
+    ],
+    "portable-x86": [
+      "JSONView.exe"
+    ]
+  },
+  "CatalogCandidate": "package.mitec-json-viewer",
+  "Remaining": [
+    "Windows 11 engine and application acceptance for each architecture",
+    "Real activation/configuration preservation and shared-installer entitlement equivalence",
+    "Local per-owner licensing review and independent distribution permissions"
+  ]
+}

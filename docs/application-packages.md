@@ -21,6 +21,11 @@ switching editions requires a reviewed edition change. `show`, default `status`
 and removal use the recorded selection where available. An explicit profile
 compares its requested edition.
 
+Portable architecture variants can share a product directory. Repeating an
+installation or previewing removal validates that directory against the selected
+variant's ownership manifest. A different installed variant still requires an
+explicit reviewed migration; invalid ownership remains an error.
+
 The [approved deployment decision](migrations/package-deployment-decisions.md)
 of 2026-10-14 allows future workstation installation, separate portable copies
 and acquisition USB/toolkit assembly to coexist under one product ID, with
@@ -380,9 +385,42 @@ x86/x64 archives. It does not establish application runtime compatibility.
 
 Portable payloads are copied, never run. ZIP extraction rejects traversal,
 absolute paths, streams, reserved device names, duplicate paths, links and
-oversized archives. All supplied files, including notices, are retained.
+oversized archives. Whole-archive deployment retains all supplied files, including notices.
 Required files must exist before product writes. RIDE refuses unowned filename
 collisions and never adopts an arbitrary pre-existing installation.
+
+An optional `PortableMembers` array limits a pinned ZIP to exact reviewed file
+paths. It requires `ExpectedSha256`, contains every `RequiredFiles` entry, and
+cannot contain wildcards, directory entries or duplicate Windows paths. Every
+selected file must exist before product writes. The handler still validates
+unselected archive paths, links and declared size limits. Omitted files are not
+staged or owned; packages without this field keep whole-archive behavior. Review
+the generated [selected-member lists](OPERATIONS.md#selected-portable-zip-members)
+and retain all notices applicable to the selected files. The complete original
+archive remains in acquisition/recovery storage; selection does not remove its
+other contents or establish permission to redistribute that archive.
+
+The pending NTCore candidates are independently owned portable copies: PE Detective
+includes Signature Explorer and five signature databases; standalone x86 CFF Explorer
+selects its executable and five databases, omitting SDK installers, example scripts
+and the UPX extension. It does not replace the installed Explorer Suite. Publisher
+pages describe freeware; the inspected archives contain no separate license file.
+Embedded copyright is preserved, and shared-kit rights need their own assessment.
+Neither candidate launches a tool, scans or patches files, refreshes signatures,
+registers extensions, or changes PATH. Native acceptance is still pending, so no
+supported apply target or profile selection is added.
+
+The pending MiTeC JSON Viewer and XML Viewer candidates each use one pinned
+publisher archive. The `portable` variant selects its x64 executable;
+`portable-x86` selects its x86 executable. Both remain pending Windows 11
+acceptance. Licence tiers are not separate package identities: these candidates
+do not activate the software, inspect licence keys, open documents or launch
+update checks. Unowned licence/configuration files are preserved by file ownership
+rules; real activation preservation still needs disposable-target evidence.
+Read the product's [MiTeC EULA](https://www.mitec.cz/wp/support/) and licence-tier
+information before use. The archives contain no separate licence file; embedded
+copyright remains intact. Structured Storage Viewer is separately under review
+because codec plugins, samples and existing R13 ownership need reconciliation.
 
 The product's `.ride-package.json` records owned relative paths and hashes,
 version, variant and artifact evidence. Missing or modified owned files make
@@ -625,16 +663,19 @@ analyst files. Saved recovery restores owned captured bytes, not session/editor
 state, external dependencies or an editable Git history. The archive has no Git
 workspace metadata and no implicit update command.
 
-This candidate does not resolve Q15's source snapshot versus editable checkout
-choice or select the publisher-recommended Gallery distribution. It does not
+The accepted Q15 model selects a pinned snapshot for normal deployment; editable
+Git workspaces and the publisher's Gallery distribution are separate. It does not
 register on PSModulePath, edit profiles, import/type-load anything, install
 Microsoft.PowerShell.Threadjob or load System.Drawing. Those are separate runtime
 requirements and ownership/compatibility work. A later upstream module import
 loads functions, types/formats, global customization variables and optional
 VS Code/ISE integrations; that is outside inert file deployment and recovery.
-Keep the original source/modified files until recovery succeeds. Native file
-lifecycle, runtime/function behavior, dependency ownership and deployment choice
-remain [acceptance gates](migrations/application-migration-review.md#b08-psscripttools-source-candidate-2026-10-17).
+Keep the original source/modified files until recovery succeeds. The Windows 11
+build 26300 rerun passed all 14 lifecycle checks across the complete archive,
+collected saved-state ZIP evidence and restored the registered checkpoint. This
+closes the file-lifecycle collection gate; production support remains pending.
+Runtime/function behavior and dependency ownership remain
+[acceptance gates](migrations/application-migration-review.md#preregistered-acceptance-and-deferred-elevation-2026-10-17).
 
 ## Office and Visio configuration review
 
@@ -745,6 +786,15 @@ and state before resetting, and records cleanup failure separately. See the
 [controller recovery procedure](../tests/integration/automatedlab-tasks.md#recovery-and-teardown).
 File lifecycle acceptance does not establish a forensic tool's parsing quality,
 collector behavior, browser UI or hardware-driver compatibility.
+
+The newer MiTeC JSON/XML Viewer and NTCore PE Detective/CFF Explorer candidates
+use the [focused portable runner](../tests/integration/README.md#focused-reviewed-portable-packages),
+with six architecture cases and retained pinned archives. They are outside the
+older `ApplicationsBatch1`/`ApplicationsBatch2` selectors. Defender-blocked tools
+are excluded. Check the [focused acceptance evidence](migrations/application-migration-review.md#focused-portable-vm-acceptance-rerun-2026-10-17)
+for the latest lifecycle results and remaining blockers; lifecycle success alone
+does not close functionality or activation acceptance.
+
 Desktop products declare `RequiresDesktopExperience`; planning/execution and
 saved-run preflight reject Server Core explicitly. The integration ledger reports
 that applicability separately from failures. Detection follows Microsoft's

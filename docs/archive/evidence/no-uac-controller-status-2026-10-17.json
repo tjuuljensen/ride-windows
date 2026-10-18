@@ -1,0 +1,17 @@
+{
+  "RecordedAtUtc": "2026-10-17T11:55:49.5252276Z",
+  "TaskState": "Ready",
+  "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+  "CheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+  "Capabilities": [
+    "GitHubPatGuestV1",
+    "FocusedPortableV1"
+  ],
+  "PendingRequests": 0,
+  "RunningRequests": 0,
+  "RecoveryBlocked": false,
+  "WinRM": "Running",
+  "NewVmRuns": 0,
+  "FreshUacLaunches": 0,
+  "VmPowerState": "Not queried; prior completed focused request reports ResetAndOff"
+}

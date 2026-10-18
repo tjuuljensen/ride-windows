@@ -15,6 +15,9 @@
 .PARAMETER PowerShellArtifactPath
   Optional publisher acquisition JSON containing a local Path, official release Uri
   and Sha256. Verified Microsoft-signed MSI is staged only as a guest prerequisite.
+.PARAMETER Scenario
+  Colors (default) or UserBinPath. UserBinPath requires both runtimes already
+  installed and does not install prerequisites or change guest UAC.
 .PARAMETER Version
   Print the version without accessing a VM.
 .EXAMPLE
@@ -28,18 +31,20 @@
   Prerequisites: Existing idle disposable RIDE controller; Hyper-V/PowerShell Direct access.
   Guest prerequisites: Existing signed-in unlocked desktop and Windows Terminal.
   Recovery: Finally restores only the pinned VM/checkpoint; failures retain source/evidence.
-  Author: RIDE-Windows maintainers. Version: 0.1.1.
-  Changelog: 0.1.1: Remove host UAC observations and comparison; retain guest-specific acceptance.
+  Author: RIDE-Windows maintainers. Version: 0.2.0.
+  Changelog: 0.2.0: Add isolated user-bin startup acceptance selection.
+    0.1.1: Remove host UAC observations and comparison; retain guest-specific acceptance.
     0.1.0: Add checkpoint-backed focused profile acceptance.
 #>
 
 
 [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
-param([string]$ConfigurationPath, [pscredential]$Credential, [string]$OutputDirectory, [string]$PowerShellArtifactPath, [switch]$Version)
-$script:ScriptVersion = '0.1.1'
+param([string]$ConfigurationPath, [pscredential]$Credential, [string]$OutputDirectory, [string]$PowerShellArtifactPath, [ValidateSet('Colors','UserBinPath')][string]$Scenario = 'Colors', [switch]$Version)
+$script:ScriptVersion = '0.2.0'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 if (-not $ConfigurationPath -or -not $Credential -or -not $OutputDirectory) { throw 'ConfigurationPath, Credential and OutputDirectory are required.' }
+if ($Scenario -eq 'UserBinPath' -and $PowerShellArtifactPath) { throw 'UserBinPath requires installed runtimes; prerequisite installation is outside this scenario.' }
 Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -Force
 $config = Read-RideAutomationConfiguration $ConfigurationPath
 $artifact = $null
@@ -57,7 +62,7 @@ $runId = [guid]::NewGuid().ToString('N')
 $output = Join-Path ([IO.Path]::GetFullPath($OutputDirectory)) $runId
 $guestBase = 'C:\RIDE\ProfileAcceptance\' + $runId
 $guestEvidence = Join-Path $guestBase 'evidence'
-$result = [ordered]@{ RunId = $runId; VM = $config.VMName; VMId = $config.VMId; CheckpointId = $config.CheckpointId; Status = 'Failed'; Error = $null; Cleanup = 'NotStarted' }
+$result = [ordered]@{ RunId = $runId; Scenario = $Scenario; VM = $config.VMName; VMId = $config.VMId; CheckpointId = $config.CheckpointId; Status = 'Failed'; Error = $null; Cleanup = 'NotStarted' }
 function Connect-ProfileAcceptanceGuest {
   param([datetime]$AfterBoot = [datetime]::MinValue)
   $deadline = [datetime]::UtcNow.AddMinutes(5)
@@ -103,7 +108,8 @@ try {
       $Artifact | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $Evidence -Encoding UTF8
     }
   }
-  $guestScript = Join-Path $guestBase 'source/tests/integration/Invoke-RideProfileAcceptance.ps1'
+  $guestFile = if ($Scenario -eq 'UserBinPath') { 'Invoke-RideUserBinAcceptance.ps1' } else { 'Invoke-RideProfileAcceptance.ps1' }
+  $guestScript = Join-Path $guestBase ('source/tests/integration/' + $guestFile)
   $prepared = Invoke-Command -Session $session -ArgumentList $guestScript,$config.VMName,$guestEvidence,$guestArtifact {
     param($Script,$Expected,$Evidence,$Artifact)
     $env:RIDE_INTEGRATION_VM = '1'

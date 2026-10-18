@@ -3,15 +3,18 @@
   Manage declarative portable package files and exact file recovery.
 .DESCRIPTION
   Installs without executing payloads, creating shortcuts, changing PATH, or
-  adding exclusions. Owns only manifest-listed content; preserves other files.
+  adding exclusions. Optional PortableMembers selects exact reviewed ZIP files;
+  omitted members are never staged. Owns only manifest-listed content; preserves other files.
   Engine-internal writers require engine ShouldProcess and snapshot capture.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
   Prerequisites: Local filesystem, ZIP APIs, resolved package metadata.
   Recovery: Versioned file snapshots; missing backups stop restore before writes.
   Failed manifest commits retain staged evidence for review, never automatic adoption.
-  Owner: RIDE-Windows maintainers. Version: 0.3.0.
-  Changelog: 0.3.0: Bound unchanged-file replacement retries and retain failed manifest evidence.
+  Owner: RIDE-Windows maintainers. Version: 0.5.0.
+  Changelog: 0.5.0: Support pinned exact ZIP member selection before product writes.
+    0.4.0: Omit certificate-provider inspection during explicit offline deployment.
+    0.3.0: Bound unchanged-file replacement retries and retain failed manifest evidence.
     0.2.0: Inspect available signatures on portable COM executables.
     0.1.0: Add bounded extraction, manifest ownership and file recovery.
 #>
@@ -150,6 +153,9 @@ function Install-RidePortablePayload {
     Resolved portable package metadata.
   .PARAMETER Artifact
     Retained payload path, version and SHA-256 evidence.
+  .PARAMETER Offline
+    Skip Authenticode provider inspection, which can perform certificate network
+    checks. Record NotInspectedOffline; SHA-256 and ownership checks still apply.
   .EXAMPLE
     Install-RidePortablePayload -Operation $package -Artifact $artifact
   .INPUTS
@@ -160,7 +166,7 @@ function Install-RidePortablePayload {
     Engine-internal writer. Payloads are never executed.
   #>
   [CmdletBinding()]
-  param([Parameter(Mandatory)][hashtable] $Operation, [Parameter(Mandatory)] $Artifact)
+  param([Parameter(Mandatory)][hashtable] $Operation, [Parameter(Mandatory)] $Artifact, [switch]$Offline)
   $state = Get-RidePortableState $Operation
   if (@($state.Files | Where-Object Modified).Count) { throw 'Portable upgrade would overwrite modified managed files.' }
   if ((Get-FileHash -LiteralPath $Artifact.Path -Algorithm SHA256).Hash -ne $Artifact.Sha256) { throw 'Portable artifact SHA-256 changed before extraction.' }
@@ -168,6 +174,24 @@ function Install-RidePortablePayload {
   $stage = Join-Path ([IO.Path]::GetTempPath()) ('RIDE-Portable-' + [guid]::NewGuid().ToString('N'))
   $archive = $null
   try {
+    $selected = $null
+    if ($Operation.ContainsKey('PortableMembers')) {
+      if ($Operation.PortableFormat -ne 'Zip' -or $Operation.PortableMembers -isnot [array] -or
+          $Operation.PortableMembers.Count -lt 1 -or $Operation.PortableMembers.Count -gt 10000 -or
+          $Operation.ExpectedSha256 -notmatch '^[a-fA-F0-9]{64}$' -or $Artifact.Sha256 -ine $Operation.ExpectedSha256) {
+        throw 'Portable member selection requires a nonempty exact list and matching pinned ZIP.'
+      }
+      $selected = @{}
+      foreach ($member in $Operation.PortableMembers) {
+        if ($member -isnot [string]) { throw 'Portable member selection requires literal file names.' }
+        $null = Get-RidePortableMemberPath $stage $member
+        if ($member -ieq '.ride-package.json' -or $selected.ContainsKey($member)) { throw 'Portable member selection contains a reserved or duplicate path.' }
+        $selected[$member] = $false
+      }
+      foreach ($required in $Operation.RequiredFiles) {
+        if (-not $selected.ContainsKey([string]$required)) { throw 'RequiredFiles must be included in the exact portable member selection.' }
+      }
+    }
     New-Item -ItemType Directory -Path $stage | Out-Null
     if ($Operation.PortableFormat -eq 'Zip') {
       Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -183,10 +207,15 @@ function Install-RidePortablePayload {
         if ($name -eq '.ride-package.json' -or (($entry.ExternalAttributes -shr 16) -band 0xF000) -eq 0xA000 -or ($entry.ExternalAttributes -band 0x400)) { throw 'Portable archive contains a reserved manifest or link.' }
         $total += $entry.Length
         if ($total -gt 2147483648 -or $entry.Length -gt 536870912) { throw 'Portable archive exceeds extraction bounds.' }
+        if ($null -ne $selected) {
+          if ($entry.FullName.EndsWith('/') -or -not $selected.ContainsKey($name)) { continue }
+          $selected[$name] = $true
+        }
         if ($entry.FullName.EndsWith('/')) { New-Item -ItemType Directory -Path $path -Force | Out-Null; continue }
         New-Item -ItemType Directory -Path (Split-Path -Parent $path) -Force | Out-Null
         [IO.Compression.ZipFileExtensions]::ExtractToFile($entry, $path)
       }
+      if ($null -ne $selected -and @($selected.Keys | Where-Object { -not $selected[$_] }).Count) { throw 'Portable archive is missing a selected file.' }
     } elseif ($Operation.PortableFormat -eq 'File') {
       $path = Get-RidePortableMemberPath $stage $Operation.PortableFileName
       New-Item -ItemType Directory -Path (Split-Path -Parent $path) -Force | Out-Null
@@ -204,9 +233,10 @@ function Install-RidePortablePayload {
       if (Test-Path -LiteralPath $destination) {
         if (-not $owned.ContainsKey($relative) -or -not (Test-Path -LiteralPath $destination -PathType Leaf)) { throw "Portable destination collision: $relative" }
       }
-      $signature = if ($_.Extension -in @('.exe', '.com', '.dll', '.ps1', '.msi')) { Get-AuthenticodeSignature -LiteralPath $_.FullName -ErrorAction SilentlyContinue } else { $null }
+      $inspectable = $_.Extension -in @('.exe', '.com', '.dll', '.ps1', '.msi')
+      $signature = if ($inspectable -and -not $Offline) { Get-AuthenticodeSignature -LiteralPath $_.FullName -ErrorAction SilentlyContinue } else { $null }
       if ($signature -and [string]$signature.Status -eq 'HashMismatch') { throw "Portable signature integrity failure: $relative" }
-      [pscustomobject]@{ RelativePath = $relative; Sha256 = (Get-FileHash -LiteralPath $_.FullName).Hash.ToLowerInvariant(); AuthenticodeStatus = if ($signature) { [string]$signature.Status } else { 'NotApplicable' }; SignerThumbprint = if ($signature.SignerCertificate) { $signature.SignerCertificate.Thumbprint } else { $null } }
+      [pscustomobject]@{ RelativePath = $relative; Sha256 = (Get-FileHash -LiteralPath $_.FullName).Hash.ToLowerInvariant(); AuthenticodeStatus = if ($inspectable -and $Offline) { 'NotInspectedOffline' } elseif ($signature) { [string]$signature.Status } else { 'NotApplicable' }; SignerThumbprint = if ($signature.SignerCertificate) { $signature.SignerCertificate.Thumbprint } else { $null } }
     })
     if (-not $newFiles.Count) { throw 'Portable payload contains no files.' }
     # Preflight all destinations before the first product write.

@@ -24,7 +24,7 @@ Source references below identify the publisher declared by the legacy implementa
 | 2 | `GetSysmonSwiftXML` | Previously migrated: `artifact.sysmon-swift-config` | Retain prior acceptance; see existing software disposition and verification records. No new Server support inferred. | [Legacy publisher reference](https://raw.githubusercontent.com/SwiftOnSecurity/sysmon-config/master/sysmonconfig-export.xml) |
 | 1 | `InstallSysmon64`, `RemoveSysmon64` | Previously migrated: `package.sysmon64` | Retain prior acceptance; see existing software disposition and verification records. No new Server support inferred. | [Legacy publisher reference](https://download.sysinternals.com/files/Sysmon.zip) |
 | 1 | `InstallGitLFS`, `RemoveGitLFS` | Previously migrated: `package.git-lfs` | Retain prior acceptance; see existing software disposition and verification records. No new Server support inferred. | [Legacy publisher reference](https://github.com/git-lfs/git-lfs) |
-| 2 | `InstallPSScriptTools`, `RemovePSScriptTools` | Pending source candidate: `package.psscripttools` | The [inert archive candidate](#b08-psscripttools-source-candidate-2026-10-17) retains full source/notices; no production target or deployment choice is accepted. Legacy copies a Git clone under Tools. Current inspected MIT source is module 3.2.0, PowerShell >=5.1/Desktop/Core, requiring Microsoft.PowerShell.Threadjob and System.Drawing. Choose retained Git workspace or pinned source archive; Gallery installation is a separate publisher-recommended distribution. Define dependency ownership, notices and preservation of user edits before deployment; never auto-import the module or silently replace with Install-Module. | [Exact source/initialization review](../archive/migrations/application-winscp-follow-up-2026-10-11.md#psscripttools-repository-and-module-boundary) |
+| 2 | `InstallPSScriptTools`, `RemovePSScriptTools` | Pending source candidate: `package.psscripttools` | Q15 selects the [pinned inert archive](#b08-psscripttools-source-candidate-2026-10-17) for normal deployment; editable Git workspaces and Gallery installation remain separate. Legacy copies a Git clone under Tools and removes the whole destination. The 3.2.0 MIT snapshot retains full source/notices and owned-file recovery. Windows 11 native deployment acceptance remains pending; runtime/import compatibility and Microsoft.PowerShell.Threadjob/System.Drawing ownership remain separate. Never auto-import or silently replace with Install-Module. | [Exact source/initialization review](../archive/migrations/application-winscp-follow-up-2026-10-11.md#psscripttools-repository-and-module-boundary) |
 | 1 | `InstallVSCode`, `RemoveVSCode` | Accepted migration: `package.vscode` | Preview, install/repeat/remove and restoration of original absence passed on Windows 11 and Server 2025 Desktop Experience. See dated acceptance evidence; application behavior and prior-version recovery remain separate limits. | [Legacy publisher reference](https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user) |
 | 1 | `InstallGPGwin` | Individual review: gpgwin | User confirmed current-user scope, GnuPG command line and Kleopatra only, without Explorer/Outlook integration, on 2026-10-12. Verify current-user scope in both the outer and nested GnuPG installers and explicit component exclusions before admission. Inspected 5.1.1 installer/source hashes and certificate are recorded; nested GnuPG install/removal can affect both registry views. Resolve dependency ownership, process handling and key/configuration preservation; outer EXE presence is insufficient recovery. | [Confirmed preparation choices](application-review-rounds-2026-10-12.md#confirmed-first-round-choices); [exact integrity/certificate reference](https://gpg4win.org/package-integrity.html); [source inspection](../archive/migrations/application-installed-follow-up-2026-10-11.md#gpg4win-component-and-dependency-preparation) |
 | 1 | `InstallNotepadPlusPlus`, `RemoveNotepadPlusPlus` | Previously migrated: `package.notepadpp` | Retain prior acceptance; see existing software disposition and verification records. No new Server support inferred. | [Legacy publisher reference](https://github.com/notepad-plus-plus/notepad-plus-plus) |
@@ -394,6 +394,45 @@ Resolved: current source-only availability confirmed. Retired/excluded: none.
 Deferred: YARA binary/build and native/runtime acceptance. No legacy outcome
 closes; all five ranges stay 38-58 / 58-73 / 20-25 / 25-35 / 8-12, rounded
 150-205/about 180. No state recovery required; continue independent batches.
+
+## B08 PSScriptTools lifecycle continuation, 2026-10-17
+
+Q15 is settled: normal deployment uses the pinned inert 3.2.0 snapshot. The
+original `InstallPSScriptTools` cloned mutable Git source into bootstrap and
+replaced the entire Tools destination; `RemovePSScriptTools` removed that tree.
+Neither original selector imported the module. The accepted snapshot model
+replaces those acquisition/deletion semantics with retained pinned source and
+owned-file preservation; it does not migrate an editable Git workspace.
+
+The fixture now uses all 360 reviewed members instead of only ten required files.
+An explicit `RIDE_PSSCRIPTTOOLS_FIXTURE_ARCHIVE` selects the already retained ZIP
+only after its digest matches both the catalog and acquisition evidence. All
+destinations are isolated TestDrive paths; no upstream module or script is
+imported/executed and no dependency is installed. Coverage includes complete-file
+repeat/remove/exact-hash recovery, unowned output, modified source, unowned
+destination collisions, damaged recovery bytes and prior absence. JSON-round-trip
+snapshots exercise the saved-state representation. The [source index](../archive/evidence/psscripttools-lifecycle-2026-10-17.json)
+retains the exact handler/fixture baseline independently of later offline work.
+Local validation passed **7/7** with zero failures/skips on Windows PowerShell
+5.1.26100.9711 and PowerShell 7.6.5, using the actual retained ZIP. Durations were
+811.45 and 2165.07 seconds respectively. Logs are
+`.local/closure-psscripttools-powershell.log` and
+`.local/closure-psscripttools-pwsh.log`. These runs loaded portable handler 0.3.0;
+the later B10 offline branch and B01 presentation changes have separate recorded
+checks. No acquired script/module was imported or executed.
+
+Native Windows 11 engine/destination acceptance remains pending: the host token
+is not elevated and direct Hyper-V CIM access is denied. Do not submit a broad
+application suite or refresh protected controllers/pins to bypass this gate.
+Next native case must stage this exact ZIP/current source in the existing serialized
+disposable workflow, capture the engine run, verify repeat/owned removal/modified
+preservation/exact recovery, retain evidence and restore its pinned checkpoint.
+Import/dependency/function compatibility stays separate and unverified.
+
+No legacy outcome is closed, retired or excluded. PSScriptTools remains partial;
+its native acceptance is deferred on the concrete access/resource gate. All five
+ranges remain **38-58 / 56-71 / 20-25 / 25-35 / 8-12**, rounded **145-200/about
+175**. The next independent closure candidate is B10's mandatory offline gate.
 
 ## B08 PSScriptTools source candidate, 2026-10-17
 
@@ -1557,3 +1596,1456 @@ rounded 145-200/about 175; this shared preparation feature closes no whole legac
 ## Resumed-session decision reconciliation, 2026-10-17
 
 The [latest setting/source record](settings-post-migration-review.md#b01-scheduled-task-observation-and-readback-2026-10-17) reconciles subsequent distribution/edition choices, the superseding shared-installer/licence-tier policy, optional TMOG and WinHex scope, separate mailbox viewers, historical tool retention and explicit profile/recovery-resource deferrals. Earlier statements that edition policy is unanswered are superseded; exact artifact equivalence and native activation-preservation remain technical evidence gates. This reconciliation introduces no product/default selection, runtime acceptance or legacy-count deduction. All five ranges remain 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175.
+
+## B10 offline execution gate, 2026-10-17
+
+Explicit `install`/`apply` now require `-OfflineBundle`, `-OfflineProfileId` and
+`-OfflineCatalogFileId` together. The engine verifies byte-bound profile/catalog
+coverage, the running source files, exact ordered plan, target/build/edition/
+architecture and selected payloads/notices before state capture or any handler.
+Read leases remain held through execution. Manifest-derived completion is read-only.
+The initial execution subset is accepted portable packages with one inert payload
+and no dependency actions. Settings/removals, servicing, executable installers,
+libraries, pending candidates and unresolved dependencies fail before mutation.
+No acquisition fallback is used. Offline deployment skips certificate-provider
+inspection and records `NotInspectedOffline`; it makes no signature-validity claim.
+
+Validation on Windows PowerShell 5.1.26100.9711 and PowerShell 7.6.5: **162/162**
+combined offline execution/CLI/portable ownership/application checks per edition,
+including **28** offline cases; **25/25** package-evidence checks per edition.
+The combined suite exposed CLI-spy module unloading; its teardown now restores
+the original real module exports, and both complete reruns passed. Repository
+validation passed **358 operations, eight groups, five profiles and 227 PowerShell
+files**, with generated documentation current. Fixtures use inert isolated files
+and mocked system calls; they do not establish disconnected native acceptance.
+The [source and result index](../archive/evidence/offline-execution-2026-10-17.json)
+records this baseline. See the [operator procedure](../offline-bundles.md#execute-an-explicitly-selected-portable-bundle).
+
+Next acceptance: stage the exact source and a complete accepted portable profile
+on a disposable declared Windows target; disconnect networking; verify preview,
+apply/repeat, missing/altered file refusal before changes, preserved user content
+and saved-run restore. Retain results and restore the pinned checkpoint. Hyper-V
+CIM access is denied to this session's non-elevated token, so that native run is
+deferred; no protected controller or VM pin was changed. Extend installer and
+dependency coverage only with explicit no-network execution contracts and tests.
+
+No whole legacy outcome is resolved, retired or excluded. B10 is partial;
+disconnected acceptance and broader installer/component coverage remain counted.
+All five ranges remain **38-58 / 56-71 / 20-25 / 25-35 / 8-12**, rounded
+**145-200/about 175**. The implementation advances preparation without deducting
+unfinished product outcomes. Next independent source work is the remaining
+presentation review; Clipchamp remains dependent on serialized VM access.
+
+## B11 collection continuation, 2026-10-17
+
+The next independent collection batches advance source preparation under the
+standing continuation authorization. The catalog now contains **360 operations:
+58 packages, 279 settings, one artifact and 22 Store declarations**, with eight
+groups and five profiles. **Eighteen continuation package candidates remain
+pending; 31 packages were pending in the full catalog, including 13 Artcraft
+candidates.** The later named-collection audit corrected this counting scope. All
+279 setting presentations retain their prior review; this run changes no setting
+metadata, profile selection or supported target. The [result index](../archive/evidence/collection-continuation-2026-10-17.json)
+binds the focused source files and local validation results.
+
+### Selected ZIP files and NTCore candidates
+
+PortablePackages 0.5.0 supports optional `PortableMembers`: an exact file list
+bound to the declared archive SHA-256. Catalog validation requires a bounded,
+safe, unique list containing every required file. Extraction validates all ZIP
+entry paths, links, duplicates and declared size bounds, but stages only selected
+files. A missing selected member fails before product writes. Existing ownership,
+modified-file preservation and saved-file recovery remain in effect. Packages
+without this field retain whole-archive behavior. The catalog generator 0.16.0
+renders selections in OPERATIONS; full cached archive contents are still separate
+from the deployment selection and any distribution approval.
+
+Two candidates are source-ready, with `PendingAcceptance = true` and empty
+`SupportedTargets`:
+
+- `package.ntcore-pe-detective`: pinned PE Detective 1.2.1.1, bundled Signature
+  Explorer 2.0.0.0 and five signature databases; seven files, x86 executables.
+  [Source evidence](../archive/evidence/ntcore-pe-detective-source-review-2026-10-17.json)
+  retains the acquired archive digest, member hashes and embedded copyrights;
+  its evidence does not claim a publisher-provided digest comparison.
+- `package.ntcore-cff-explorer`: pinned standalone CFF Explorer 8.0.0.0, x86,
+  and five signature databases. Six selected files omit ten SDK, source example,
+  script and optional UPX files. This does not deliver the entire installed
+  Explorer Suite. [Source evidence](../archive/evidence/ntcore-cff-explorer-source-review-2026-10-17.json)
+  records both selection and omissions. Publisher freeware descriptions and
+  embedded copyright are retained; neither archive supplies a separate license
+  file. Individual/company distribution review remains in its independent store.
+
+The retained archives passed isolated TestDrive file installation, repeat,
+removal, exact restoration, modified-database preservation and unowned-file
+collision checks. No acquired executable was launched, registered, used to patch
+another file or allowed to update signatures. These are file lifecycle checks,
+not native functionality acceptance. [4GB Patch evidence](../archive/evidence/ntcore-4gb-patch-source-review-2026-10-17.json)
+records its inert archive/version inspection; an explicit publisher license grant
+was not established, so no candidate was added and no binary was patched.
+
+### NirSoft inspection stopped after protection alerts
+
+The first NirLauncher response was an HTML referer error, retained as rejected
+input. One corrected official request supplied the publisher page referer and
+acquired version 1.30.26 with the published matching SHA-256. Its central directory
+contains 668 entries. Installed 7-Zip 26.04 extracted the archive for inspection
+using the publisher's public password; no utility or launcher was executed.
+Extraction reported 668 files, but the subsequent observation found 667, with
+`NirSoft/bulletspassview.exe` missing. Reading `NirSoft/chromecookiesview.exe`
+then failed with Windows' virus/potentially unwanted software error. The user
+reported Defender alerts for both files. This is **incomplete member verification**,
+not evidence that every extracted file matched the archive. The [central inventory](../archive/evidence/nirlauncher-source-inventory-2026-10-17.json)
+preserves archive-level proof and the failed inspection separately.
+
+The separate x64 ZIP has 49 recorded files. Its [partial source inventory](../archive/evidence/nirsoft-x64-source-review-2026-10-17.json)
+retains hashes/version metadata where reading succeeded and explicit unavailable
+members. The user reported alerts for `ProduKey.exe` and `WirelessKeyView.exe`.
+Matching NirLauncher member names do not prove identical versions or bytes;
+`SameSha256 = null` means unknown, not different. Both source identities and
+the unresolved overlap remain recorded. All NirSoft payload inspection has
+stopped. No restoration, allow action, exclusion, protection change or
+re-extraction was performed. No false-positive or safety determination is made.
+Neither collection entered the catalog. Licensing, ownership/configuration,
+encrypted-archive lifecycle and native acceptance remain blocked or incomplete.
+
+The user also reported `Downloads/PowerISO9-x64.exe`, then identified the
+detection as `PUADlManager:Win32/Sepdot` dated **2025-11-25 07:22**. That historical
+report predates this run and is separate from the current NirSoft alerts. This
+run did not open or execute that installer or query/change its protection state.
+The [blocker record](../archive/evidence/collection-continuation-blockers-2026-10-17.json)
+keeps the user report and its date without attributing it to this acquisition.
+
+### Validation, remaining gates and next batch procedure
+
+Windows PowerShell **5.1.26100.9711** and PowerShell **7.6.5** each have **191
+distinct passing checks** across PortableSelection, ApplicationPackages,
+PortableManifest, NtcorePackages and Catalog. The first combined run passed 100
+and failed 13 because the new fixture's repository-root variable collided with
+its case-root variable. The fixture was corrected; all 21 PortableSelection
+checks then passed in both editions, retaining the other 92 passing checks.
+NtcorePackages/Catalog added 78 passes per edition with one native integration
+case excluded. Counts do not add repeated checks. Repository validation passed
+360 operations, eight groups, five profiles and 229 PowerShell files in both
+editions; generated documentation is current.
+
+Zimmerman immutable source pinning remains blocked by the anonymous GitHub API
+rate limit. No retry, credential request or mutable updater execution followed.
+OpenSSH Client/Telnet preparation remains non-executable: matching source
+completeness, policy/dependencies and durable servicing recovery are required
+before writers. Previously denied non-elevated Hyper-V CIM access still blocks
+VM acceptance, including Clipchamp and the NTCore candidates. No controller,
+checkpoint pin or protection settings were changed. New deployment profiles and
+BitLocker/recovery resource setup remain explicitly deferred.
+
+Next independent work starts at the repository root: review the existing R05
+named JoeWare/MiTeC/remaining NTCore scope and official source/license evidence,
+or complete component source/dependency/recovery contracts when inputs exist.
+Keep protected NirSoft files out of further inspection, acquisition retries and
+deployment. Do not treat an unavailable source, API limit or VM denial as a
+reason to weaken protections or execute on the workstation.
+
+For reproducible source validation, use native Windows PowerShell/Pester 5 with
+`tests/PortableSelection.Tests.ps1` and `tests/NtcorePackages.Tests.ps1`; the latter
+defaults to inert fixtures. Its optional `RIDE_NTCORE_FIXTURE_DIRECTORY` accepts
+only retained NTCore archives matching the catalog/evidence digests. All product
+paths are isolated in TestDrive. Run `tools/validate.ps1` in each native edition.
+No administrator privileges, NirSoft payload access or VM are needed for these
+checks. TestDrive cleanup does not remove retained acquisition evidence.
+
+When disposable-target access is available, follow the existing package
+acceptance procedure with the exact reviewed source and a pinned checkpoint:
+verify preview, selected files, repeat, modified-file refusal, removal, exact
+saved restore and separately scoped product functionality on the candidate
+Windows 11 target. Retain results and restore the checkpoint; promote no target
+before applicable acceptance passes. A failure keeps the candidate pending.
+Source recovery is a focused reversal of this batch's two catalog declarations,
+selection code/tests and generated output, preserving unrelated working changes.
+No installed workstation product or Windows state needs recovery from this run.
+
+Resolved preparation: exact ZIP selection and two candidate file lifecycles.
+**No whole legacy outcome is resolved, retired or excluded.** Collections,
+components and native product outcomes remain partial; protection, license,
+source and VM blockers are explicit. All five ranges were reviewed unchanged:
+**38-58 / 56-71 / 20-25 / 25-35 / 8-12**, rounded **145-200/about 175**. Candidate
+IDs and local checks do not deduct unfinished legacy feature/product outcomes.
+
+## B11 named collections and MiTeC viewers, 2026-10-17
+
+Three authorized source batches continued without VM access or access to blocked
+NirSoft files. The [run index](../archive/evidence/named-collections-continuation-2026-10-17.json)
+records sources, checks and remaining gates. No downloaded program, installer,
+codec or updater was executed. No credentials, form submissions, Defender
+changes, native system changes or VM actions were involved.
+
+### Frozen named inventories
+
+- **JoeWare:** [41 named tools](../archive/evidence/joeware-collection-inventory-2026-10-17.json)
+  from the official index, with 41 retained product-page hashes, observed versions
+  and explicit HTTPS form routes/ZIP names. The version list's header is dated
+  2023 while some rows are later. More materially, rdp-sec-check's list entry
+  disagrees with its product page. Publisher MD5/SHA1 values are observations,
+  not verified archive SHA-256 pins. No download form was submitted. The general
+  licence permits personal/company system use but restricts onward distribution;
+  rdp-sec-check identifies separate GPLv2/source and Portcullis attribution.
+  Per-artifact identity, bytes, notices and current-target acceptance remain open.
+- **MiTeC:** [22 current Apps & Tools entries](../archive/evidence/mitec-collection-inventory-2026-10-17.json)
+  and all 22 product pages are frozen. Mail Viewer and OLE/COM Explorer have no
+  version parsed from the current page; no website script/library version was
+  substituted. Older linked standalone products still need reconciliation, so
+  this is not claimed as an exhaustive historical inventory. Developer component
+  libraries/demos stay outside the approved collection. Current product/EULA
+  information supersedes blanket assumptions based on historical freeware labels.
+- **NTCore:** [16 utility entries](../archive/evidence/ntcore-collection-inventory-2026-10-17.json)
+  now have explicit dispositions. Cerbero remains a separate product and the
+  Sources section remains excluded from the collection. Existing PE Detective/CFF
+  evidence is reused; the PE Detective digest is locally measured, whereas CFF
+  also has a publisher-digest comparison. The previous prose was corrected to
+  match that distinction. 4GB Patch's licence gap, Filter Monitor's historical
+  compatibility limitation and the remaining utilities' artifact/licence/native
+  gates remain visible. Mixed research/source bundles are not silently admitted.
+
+This freezes review inputs; it does not add a runtime site crawler or treat
+publisher page availability as tested product support. Source exclusions above
+describe the accepted collection scope, not additional retired legacy outcomes.
+
+### MiTeC JSON and XML Viewer candidates
+
+Added `package.mitec-json-viewer` **3.2.2.0** and
+`package.mitec-xml-viewer` **6.5.0.0** with exact archive SHA-256 pins and member
+hashes. The [JSON evidence](../archive/evidence/mitec-json-viewer-source-review-2026-10-17.json)
+and [XML evidence](../archive/evidence/mitec-xml-viewer-source-review-2026-10-17.json)
+record both actual PE architectures and embedded versions/copyrights. Each
+archive contains two executables and no separate licence file. `portable`
+selects x64; `portable-x86` selects x86. Each deploys exactly one file through
+the existing pinned ZIP selection handler. No profile chooses either package.
+Both operations remain pending, with Windows 11 as a candidate and no supported
+apply target. Publisher platform claims do not expand RIDE support.
+
+Each product has one package identity across its published licence tiers;
+activation is separate. Isolated file fixtures preserve synthetic unowned licence
+and configuration files through repeat/remove/restore. They do not establish real
+activation preservation or entitlement equivalence. The shared licensing guide
+now records JoeWare distribution restrictions and MiTeC's per-product EULA/tier
+review. Personal/company assessments remain in the local review store and do not
+become new catalog installation gates.
+
+[Structured Storage Viewer 4.1.2.0](../archive/evidence/mitec-structured-storage-viewer-source-review-2026-10-17.json)
+was inspected without execution. Its four-file archive contains the x86 viewer,
+an x86 ZLib codec, Delphi source and a sample. R05 collection and R13 SSView refer
+to the same product: do not create duplicate ownership. Codec/source/sample
+selection, attribution/licensing and native behavior remain a specific gate;
+no SSView candidate or automatic plugin loading was introduced.
+
+### Validation and corrected counting scope
+
+Both native **PowerShell 5.1.26100.9711** and **PowerShell 7.6.5** pass **107
+checks**: 16 viewer cases covering both products/architectures, 70 catalog checks
+and 21 exact-selection checks. One integration case is excluded. Retained actual
+MiTeC archives were used only for isolated file lifecycle checks. Initial catalog
+generation exposed an unquoted hyphenated variant key; it was corrected before
+tests. The first sandboxed 5.1 attempt failed authorization before testing, and a
+read-only policy query reported registry access denied. The normal-host-access
+rerun passed without policy/Defender changes. Repository validation passes in
+both editions: **362 operations, eight groups, five profiles, 230 PowerShell
+files**, generated documentation current. Only the two MiTeC declarations differ
+semantically from this run's captured catalog baseline; all settings are unchanged.
+
+There are now **60 packages and 33 pending packages in the full catalog**.
+The earlier count of 18 described the continuation group, omitting 13 separately
+pending Artcraft products. That group is now 20 after the MiTeC additions. This
+is a reporting-scope correction, not newly discovered legacy work or acceptance.
+Setting presentation remains **279/279**.
+
+### Next procedure, acceptance and recovery
+
+From the repository root, use native Windows PowerShell/Pester 5 to run
+`tests/MitecViewerPackages.Tests.ps1`, `tests/Catalog.Tests.ps1` (excluding
+`WindowsIntegration`) and `tests/PortableSelection.Tests.ps1`, followed by
+`tools/validate.ps1`. The viewer suite defaults to inert ZIP fixtures; set
+`RIDE_MITEC_FIXTURE_DIRECTORY` only to the retained, digest-matched viewer archive
+directory for actual-byte file checks. TestDrive isolates writes. No acquired
+program runs and no administrator privileges are required by these fixtures.
+
+Next source batches: reconcile remaining named product artifact versions and
+licences against the frozen page inventories, review JoeWare form-response
+identity before adding any acquisition provider, reconcile older MiTeC standalone
+entries and resolve SSView's codec/source/sample scope. Preserve per-product
+unavailable or conflicting evidence; no mutable deployment-time crawling or
+silent replacement. Existing Zimmerman rate limiting, 4GB Patch licensing,
+component source/dependency/recovery and explicit profile/recovery-resource
+deferrals remain. Do not retry protected NirSoft files or VM access in this state.
+
+When disposable-target access is available, use the existing package acceptance
+procedure and pinned checkpoint for each selected viewer architecture: preview,
+apply/repeat, exact file selection, collision/modified-file refusal, removal and
+saved restore; then separately verify viewer behavior and real licence/settings
+preservation with authorized inputs. Retain results and restore the checkpoint.
+No target is promoted before those checks pass. Source recovery is a focused
+reversal of the two declarations and their fixture, followed by regeneration of
+OPERATIONS; preserve earlier work and retained evidence. No installed workstation
+product needs recovery from this run.
+
+The supplied PowerISO screenshot adds historical status **Abandoned**, severity
+Low, and a statement that the threat can no longer be found, with notification
+and detail dates in November 2025. It establishes no present threat state; the
+[historical record](../archive/evidence/collection-continuation-blockers-2026-10-17.json)
+remains separate from current NirSoft alerts. Protection and VM blockers are
+unchanged.
+
+Resolved preparation: three explicit inventories and two architecture-selectable
+viewer candidates with file lifecycle evidence. **No whole legacy outcome was
+resolved, retired or excluded.** All five estimate ranges were refreshed and
+remain **38-58 / 56-71 / 20-25 / 25-35 / 8-12**, rounded **145-200/about 175**.
+Partial collection, component, native and deferred outcomes remain counted;
+the inventory/member/candidate counts are not legacy burndown deductions.
+
+## Focused portable VM acceptance, 2026-10-17
+
+Historical first attempt. The later [authorized WinRM start and rerun](#focused-portable-vm-acceptance-rerun-2026-10-17)
+supersedes the host blocker and unrun lifecycle status below.
+
+User-authorized scope: prepare and run the new package checks on the existing
+**RIDE-Win11-Test** with its registered checkpoint, excluding Defender-blocked
+tools. The new [focused procedure](../../tests/integration/README.md#focused-reviewed-portable-packages)
+selects MiTeC JSON Viewer 3.2.2.0 and XML Viewer 6.5.0.0 (`portable` and
+`portable-x86`), NTCore PE Detective 1.2.1.1 and CFF Explorer 8.0.0.0
+(`portable`): **four products, six architecture cases**. The older application
+batch selectors do not cover these candidates. No NirSoft or additional collection
+is in the runner selection; no protected file was reopened, restored or executed.
+
+Prepared source includes host/guest runners, a fixed selection/archive validator
+and entry-point tests. The host verifies registered ownership, exact VM/checkpoint,
+idle controller, empty queues, exclusive lock and catalog-pinned archives. The
+guest uses real engine lifecycle operations in a guarded disposable VM, with only
+selected candidate support enabled in memory. Checks cover preview, repeat,
+exact member selection, removal, saved recovery and modified/unowned preservation.
+Evidence collection precedes checkpoint reset; recovery failure blocks reuse.
+No payload execution, GUI/parser functionality or real activation is claimed.
+
+### Attempt and blocker
+
+Read-only host access and the elevated launch are now available. The actual
+elevated run **361729f7f6434c299eddcc40bc84069f** failed host preflight with:
+
+> WinRM must already be running. Prepare the host in an elevated session; no services were started.
+
+The raw result has `Status = Failed`, `Cleanup = NotStarted` and
+`EvidenceCollected = false`: **zero of six guest cases ran**. No VM restore/start,
+source staging or package action occurred. Post-attempt reads confirm:
+
+| Object | Observed state |
+| --- | --- |
+| RIDE-Win11-Test | Off; ID `6a5c9f91-91f9-44c5-924a-d1b5f863e16f` |
+| RIDE-clean-test-base | Existing checkpoint ID `a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9` |
+| RIDEWin11Test controller | Ready; registration unchanged |
+| VMMS | Running, Automatic |
+| Host WinRM | Stopped, Manual |
+
+This replaces the nonspecific access diagnosis for this focused attempt with a
+concrete host prerequisite blocker. Later preflight gates have not run; restoring
+WinRM alone is not proof that the entire host is ready. No service, remoting policy,
+Defender setting or protected controller file was changed. Checkpoint recovery was
+not needed and is **not** reported as tested. Earlier acceptance remains separate.
+The historical PowerISO alert remains separate from current NirSoft exclusions.
+
+### Validation, evidence and next procedure
+
+Native Windows PowerShell **5.1.26100.9711** and PowerShell **7.6.5** each pass
+**37 focused checks**: 13 selection/entry/archive guards, 16 MiTeC fixture checks
+and eight NTCore fixture checks. These are inert TestDrive fixtures, not guest
+acceptance. Initial use of the generic PSD1 loader and PowerShell 5.1 JSON-array
+enumeration were corrected before the final successful tests. Both editions
+validate **362 operations, eight groups, five profiles and 234 PowerShell files**;
+generated documentation is current. No production catalog or handler changed in
+this focused run. All **33 pending packages** remain pending; presentation remains
+**279/279**.
+
+The [sanitized evidence record](../archive/evidence/focused-portable-vm-acceptance-2026-10-17.json)
+links the raw run ID, exact selection, checks and blocker. Raw local output is
+`.local/portable-vm-acceptance-20261017/361729f7f6434c299eddcc40bc84069f/result.json`;
+launcher and postcheck evidence are `.local/portable-vm-launch.log` and
+`.local/portable-vm-postcheck.json`. Preserve these before cleaning local outputs.
+
+Next, restore the existing host's required running WinRM state through its normal
+administrative procedure, then use the runbook's elevated `-WhatIf` and actual
+commands with the same installed configuration and retained four-archive manifest.
+Do not refresh controller binaries or change checkpoint pins. Successful lifecycle
+acceptance must retain all six scenario results and `ResetAndOff`, followed by
+separate GUI/functionality and authorized real licence/settings acceptance.
+If another host prerequisite fails, retain that concrete blocker before proceeding.
+Independent artifact/licensing review can continue; Defender-protected tools,
+Zimmerman API pin, 4GB Patch licensing, SSView scope and explicit resource/profile
+deferrals remain open.
+
+Resolved preparation: focused runner coverage and a concrete host diagnosis.
+**No whole legacy outcome was resolved, retired or newly excluded.** All six
+runtime cases remain blocked; related collection outcomes remain partial and
+existing resource/profile deferrals remain deferred. All five group ranges were
+refreshed unchanged at **38-58 / 56-71 / 20-25 / 25-35 / 8-12**, rounded
+**145-200/about 175**. Runner preparation and a failed preflight do not reduce
+legacy outcome counts.
+
+## Focused portable VM acceptance rerun, 2026-10-17
+
+The user authorized starting the existing host WinRM service and rerunning the
+focused checks on **RIDE-Win11-Test** using its existing checkpoint. WinRM changed
+from Stopped to Running; its **Manual startup type is unchanged**. No host remoting
+policy, Defender setting, controller registration or checkpoint pin changed.
+NirSoft and all other Defender-blocked tools remained outside the selection.
+
+### Result and scope
+
+Final run **a2cfd331a10e4f71a607a148361cdc0b** passed **all six cases**, with
+**14 lifecycle assertions per case (84 total)**, in Windows PowerShell 5.1 on
+**Windows 11 build 26300**. Evidence was collected before the same registered
+checkpoint was restored; the runner reports **ResetAndOff**. A separate host
+postcheck confirms VM Off, controller Ready, no recovery block and WinRM Running.
+
+| Product | Variant | Native file lifecycle |
+| --- | --- | --- |
+| MiTeC JSON Viewer 3.2.2.0 | portable / x64 | Passed |
+| MiTeC JSON Viewer 3.2.2.0 | portable-x86 | Passed |
+| MiTeC XML Viewer 6.5.0.0 | portable / x64 | Passed |
+| MiTeC XML Viewer 6.5.0.0 | portable-x86 | Passed |
+| NTCore PE Detective 1.2.1.1 | portable / x86 | Passed |
+| NTCore CFF Explorer 8.0.0.0 | portable / x86 | Passed |
+
+Each case verifies install preview, installation, exact member selection, repeat
+installation, removal preview, removal, repeat removal, restore preview, exact
+removal restoration, unowned preservation, restoration of original absence,
+unowned collision refusal, modified replacement refusal and modified removal
+preservation. The actual retained, hash-pinned archives were staged through the
+real engine/provider path. **No acquired utility was executed.** These results
+do not establish GUI/parsing behavior, real licence activation or disconnected
+installation acceptance. Build 26300 evidence does not expand support to other
+Windows builds or Server targets.
+
+### Corrections and retained failed attempts
+
+- `ca4376f5a3ab43a2a5f503b9c9448825`: host prerequisites passed after WinRM start;
+  the new runner called AutomatedLab's credential accessor without its required
+  loaded-lab argument. Corrected to the installed provider's documented source
+  call shape. Failure preceded VM mutation; cleanup was NotStarted.
+- `5ad651f2bcd840c187febb0acc4097c4`: the first viewer installed correctly, then
+  repeat installation failed because the engine probed its ownership manifest as
+  the other architecture sharing the same product directory. The engine now
+  validates current ownership using the selected variant before skipping that
+  redundant probe. Invalid ownership and recorded different editions still fail.
+  Evidence collected; checkpoint restored and VM Off.
+- `3c2ee725c46947c1b9e52dc8341e1594`: repeat, remove and exact recovery passed, but
+  the collision assertion used the first character of a scalar filename. The
+  guest runner now preserves singleton member lists as arrays and records refusal
+  details. Evidence collected; checkpoint restored and VM Off.
+- `a2cfd331a10e4f71a607a148361cdc0b`: all six corrected cases passed; evidence
+  collected and checkpoint restored. No cleanup failure occurred in this rerun.
+
+Engine version **0.21.1** contains the focused shared-destination correction;
+host and guest runner versions are **0.1.1**. The regression uses an inert owned
+file/manifest in TestDrive to cover repeat, removal preview, invalid ownership
+and recorded different-edition refusal. Both native PowerShell **5.1.26100.9711**
+and **7.6.5** pass **93 checks** across ApplicationPackages and
+PortableAcceptanceAutomation. The final guest-fixture correction also reran all
+13 entry/selection/archive guards per edition; those are included in the 93
+distinct checks, not additional coverage. Both editions validate **362 operations,
+eight groups, five profiles and 234 PowerShell files**, with generated docs current.
+
+### Evidence, next acceptance and estimates
+
+The [sanitized rerun record](../archive/evidence/focused-portable-vm-rerun-2026-10-17.json)
+contains all four attempts, six scenario results, source/payload hashes, saved run
+IDs, test summaries and postcheck. Raw output is retained under
+`.local/portable-vm-acceptance-20261017/<run-id>/`; preserve the final source and
+payload manifests, result, guest scenarios/log/summary, observations and saved
+state before local cleanup. Earlier blocked evidence remains available separately.
+VM/checkpoint IDs remain `6a5c9f91-91f9-44c5-924a-d1b5f863e16f` and
+`a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9` respectively.
+
+The focused host-access and file-lifecycle blockers are resolved for this run.
+Next acceptance is GUI/parser functionality on suitable synthetic/copied samples,
+plus real licence/settings activation and preservation with authorized inputs.
+Use the same [checkpoint-backed procedure](../../tests/integration/README.md#focused-reviewed-portable-packages)
+when repeating lifecycle acceptance; verify controller idle, retain evidence and
+require ResetAndOff. Catalog support remains unchanged: **33 pending packages**,
+including all four products here. Other collection artifact/licensing questions,
+SSView scope, Zimmerman API pin, 4GB Patch licence grant, Defender exclusions and
+explicit profile/recovery-resource deferrals remain open. This result does not
+retroactively accept unrelated settings, components or controller/PAT scenarios.
+
+Resolved: authorized host prerequisite and six native file-lifecycle subgates.
+**No whole legacy outcome was resolved, retired or newly excluded.** Product
+functionality/activation and collection outcomes remain partial; existing
+profile/resource scope remains deferred. All five ranges were refreshed unchanged:
+**38-58 / 56-71 / 20-25 / 25-35 / 8-12**, rounded **145-200/about 175**. Partial
+acceptance increases evidence without deducting a whole legacy outcome.
+
+## Next authorized acceptance batches, 2026-10-17
+
+The continuation selected B03 user-bin startup, B08 PSScriptTools and B10 offline
+portable execution, using RIDE-Win11-Test and the existing registered checkpoint.
+VM/checkpoint IDs remain `6a5c9f91-91f9-44c5-924a-d1b5f863e16f` and
+`a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9`. Defender-blocked NirLauncher/NirSoft x64
+payloads were excluded; protections and quarantine were not changed.
+
+| Batch | Dated result | Remaining gate |
+| --- | --- | --- |
+| B03 UserBinPath | `be21c647ec6247d0be626b4ddd45e019`: guest prerequisite failed before startup checks; installed PowerShell 7 was absent. ResetAndOff. | Supply the runtime through a scoped disposable prerequisite workflow, then repeat the existing scenario. No runtime was installed and no checkpoint was replaced. |
+| B08 PSScriptTools | `62c045acec124c7eb57aecba30dacba8`: all 14 lifecycle checks and exact 360-file selection passed on Windows 11 build 26300. Host result Failed because saved-state evidence copying exceeded a Windows PowerShell path limit. Evidence partially collected; ResetAndOff. | Guest runner 0.2.1 archives each saved-state directory and checks its file count; complete native rerun and collection remain pending. Runtime/function/dependency ownership remains separate. |
+| B10 OfflineCaffeine | Prepared a source-bound private fixture using the retained, pinned Caffeine 1.98 archive. Intended coverage is 16 disconnected/preflight/CLI lifecycle assertions. | No native run started: the subsequent Windows elevation launch was canceled. Broader installers, dependencies, servicing and interruption remain open. |
+
+PSScriptTools used the full pinned source snapshot at revision
+`549fa3e3d769532320054fc0b3c8f42df0452361`; no upstream module was imported or
+executed. Its scenario verifies preview/install/repeat, exact members,
+preview/remove/repeat, preview/restore, exact recovery, unowned preservation,
+original absence recovery, collision refusal and modified-file preservation.
+Passing the scenario does not override the failed collection/host result.
+The offline fixture uses a private test profile, not a newly proposed deployment
+profile or redistribution approval. No Caffeine executable ran.
+
+### Preregistered continuation instead of repeated elevation
+
+The user requested reuse of preregistration after repeated Windows prompts.
+Read-only inspection confirmed the existing scheduled task, but its protected
+controller predates these two focused batches. Both later direct elevation
+launches (an optional progress read and the sequential rerun launcher) returned
+"The operation was canceled by the user." No further UAC launch was attempted.
+This was a Windows elevation cancellation, not an automatic approval-review denial.
+
+Prepared task client/controller **0.6.0**, registration **0.3.0**, and focused host
+runner **0.3.0**. The `FocusedPortableV1` capability adds only `PSScriptTools` and
+`OfflineCaffeine` to the registered Local queue. The protected child derives its
+source, fixed archive-manifest and result paths from registration/request identity;
+queue requests accept no arbitrary scripts or payload paths. It validates the
+running request and worker-held lock, checks the same VM/checkpoint pins, transfers
+only verified selected payloads with PowerShell Direct and requires collected
+evidence plus ResetAndOff. Existing timeout/termination/recovery blocking remains.
+An already-running VM is refused before mutation. The general suites, active
+settings fixture, controller/PAT RC gate and support declarations remain separate.
+
+**Prepared, not installed:** one elevated refresh of the idle existing controller
+is required to deploy these protected files. Afterward ordinary task submissions
+need no per-batch UAC. The current client was checked against the installed old
+configuration: it refused before creating a request or prompting. Follow the
+[preregistration procedure](../../tests/integration/README.md#focused-reviewed-portable-packages),
+using the existing installed configuration, owning account and unchanged pins.
+Submit PSScriptTools first, inspect its correlated result/recovery, then submit
+OfflineCaffeine. The local handoff `.local/refresh-and-run-focused-acceptance.ps1`
+performs the single refresh and serial requests when explicitly run in elevated
+Windows PowerShell 5.1; it does not open UAC itself. Its manifests are prepared at
+`.local/acceptance-input/<batch>.json`. First registered dispatch remains unverified.
+
+### Validation, evidence and estimates
+
+Both editions passed the initial **44** focused portable/offline checks. The final
+controller, portable and offline set passes **136 checks on Windows PowerShell 5.1**
+and **134 on PowerShell 7**, with two intended Desktop-only host-preflight skips on
+PowerShell 7. Tests cover fixed dispatch without RunAs, old-controller refusal,
+CI/path rejection, already-running VM preservation, result mismatch/incomplete
+recovery refusal and existing timeout/recovery behavior. Both editions validate
+**362 operations, eight groups, five profiles and 235 PowerShell files**. These
+local checks do not establish native registration or disconnected acceptance.
+
+The [sanitized record](../archive/evidence/next-authorized-acceptance-2026-10-17.json)
+retains run results, source/payload hashes, all 360 file observations, local tests
+and blockers. Raw results remain under `.local/user-bin-vm-acceptance-20261017/`
+and `.local/portable-vm-acceptance-20261017/`. Preserve them before local cleanup.
+The last completed VM runner confirms the existing checkpoint restored and VM
+Off; a later independent Hyper-V postcheck was not run after elevation cancellation.
+The task itself was observed Ready by unelevated read-only inspection.
+
+Resolved: concrete startup prerequisite diagnosis, partial PSScriptTools lifecycle
+evidence and a prepared path through preregistration. **No whole legacy outcome
+was resolved, retired or newly excluded.** B03/B08/B10 remain partial; existing
+Defender exclusions, runtime/GUI/activation and Server acceptance remain open.
+New deployment profiles and BitLocker/recovery resources remain deferred. All
+five ranges are refreshed unchanged: **38-58 / 56-71 / 20-25 / 25-35 / 8-12**,
+rounded **145-200/about 175** (exact endpoints 147-201). Preparation and failed or
+partial acceptance do not justify a whole legacy-count deduction.
+
+## Preregistered acceptance and deferred elevation, 2026-10-17
+
+The user approved one attended controller refresh and instructed that all later
+scenarios needing a fresh UAC prompt be saved for a later session. The refresh
+installed `FocusedPortableV1` on the existing RIDEWin11Test task. All ten protected
+files match the reviewed source. VM/checkpoint IDs remain
+`6a5c9f91-91f9-44c5-924a-d1b5f863e16f` and
+`a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9`; no new checkpoint or controller identity
+was introduced. Registration/client versions are 0.3.0/0.6.0 and the focused host
+runner is 0.3.0. No additional UAC launch occurred after the approved refresh.
+
+| Registered request | Result and evidence | Recovery |
+| --- | --- | --- |
+| PSScriptTools `c3f65b2ab9f643b2b84510aff987dd4d` | Passed all 14 lifecycle checks, exact 360-file selection and complete saved-state ZIP collection on Windows 11 build 26300. This resolves the earlier long-path collection failure. | ResetAndOff; collected evidence. |
+| OfflineCaffeine `ee094143fc904dc692760a3de0b248fc` | Failed before installation. The adapter was disabled, but positive preflight rejected the catalog's `neutral` archive as an architecture mismatch. Its four negative assertions are not independent acceptance evidence because the positive bundle was invalid. | ResetAndOff; failure evidence retained. |
+| OfflineCaffeine `efca4ec56f604cee840c28d31f11e622` | Passed all 16 checks after the focused correction. Submitted from ordinary Windows PowerShell through the existing task, without RunAs or another UAC prompt. | ResetAndOff; collected evidence. |
+
+OfflineBundle **0.7.1** now recognizes the catalog's neutral archive declaration,
+alongside manifest `any`; explicitly architecture-specific content and declared
+targets still must match. Catalog/manifest architecture equality remains required.
+The guest fixture **0.1.1** now retains and requires a valid positive preflight
+before interpreting negative cases. This correction is guest source delivered by
+the registered runner, so it required no protected-controller refresh. Both native
+PowerShell editions pass **87** OfflineBundle/OfflineExecution/portable-runner
+checks, including neutral x64/x86 coverage and retained target mismatch refusal.
+Both validate **362 operations, eight groups, five profiles and 235 PowerShell
+files**. The preceding controller regression remains 136 passes on Windows
+PowerShell 5.1, and 134 with two Desktop-only skips on PowerShell 7.
+
+The successful offline run records the Hyper-V adapter changing from Up to
+Disabled, with no Up adapter at completion. Positive package preflight passed
+with no requirement issues or offline gates. Missing payload, changed digest,
+omission and wrong actual target were refused without state mutation. CLI install
+preview/install/repeat, original-absence restore, profile apply/repeat, removal,
+exact removal restore and profile-absence restore passed. Both Caffeine files
+retained `NotInspectedOffline` signature observations. No upstream PSScriptTools
+code or acquired executable was launched. This establishes portable file
+deployment/recovery on this build, not application functionality, broad installer
+coverage or public redistribution approval.
+
+The [sanitized record](../archive/evidence/preregistered-acceptance-2026-10-17.json)
+contains all three requests, source/payload hashes, scenario/file observations,
+network transitions, archive hashes, tests and final queue state. Raw evidence is
+retained at `%ProgramData%/RIDE/TestAutomation/RIDEWin11Test/results/<request-id>/`;
+preserve `focused/evidence`, source and payload manifests, controller logs and
+result records. Final read-only inspection found task Ready, no pending/running
+requests, no recovery block and WinRM Running. Final VM Off is established by
+the successful focused recovery result; no fresh elevated Hyper-V inspection was
+launched solely to repeat it. The earlier attended postcheck is retained separately.
+
+Next: use the [registered task procedure](../../tests/integration/README.md#focused-reviewed-portable-packages)
+for supported authorized batches. Keep B03's missing installed PowerShell 7 and
+standalone profile workflow, interactive Store/settings setup, and any further
+protected-controller/host changes in the [deferred elevation list](../../TODO.md#deferred-elevation-sessions).
+Do not open fresh UAC prompts for them until a later attended session. This is
+the user's instruction, not an approval-review rejection. Defender-blocked tools
+remain excluded; no exclusions, restoration or protection changes were made.
+
+Resolved: native preregistered dispatch, PSScriptTools file-lifecycle collection
+and the focused disconnected portable execution subgate. **No whole legacy
+outcome was resolved, retired or newly excluded.** B08 runtime/function/dependency
+work and B10 broader installers/dependencies/servicing/interruption remain partial.
+B03 remains blocked by its guest prerequisite; GUI/activation/Server and broader
+controller/PAT RC gates stay open. New deployment profiles and BitLocker/recovery
+resources remain deferred. All five ranges were refreshed unchanged:
+**38-58 / 56-71 / 20-25 / 25-35 / 8-12**, rounded **145-200/about 175**, exact
+endpoints 147-201. Closing these subgates does not deduct a whole legacy outcome.
+
+## No-UAC source continuation, 2026-10-17
+
+Continued three source batches under the instruction to save every fresh-UAC
+scenario for later. The installed focused queue exposes PSScriptTools and
+OfflineCaffeine, whose file acceptance already passed. B03 prerequisites, new
+portable selections and interactive Store workflows are not added by renaming a
+request or changing protected files. No VM request or new UAC launch occurred.
+The [read-only controller record](../archive/evidence/no-uac-controller-status-2026-10-17.json)
+confirms Ready, empty pending/running queues, no recovery block, WinRM Running
+and unchanged VM/checkpoint IDs. VM power was not queried; the previous run's
+ResetAndOff evidence remains the latest runtime observation.
+
+### Batch 1: NTCore member artifacts
+
+[Driver List and Rebel.NET](../archive/evidence/ntcore-member-source-follow-up-2026-10-17.json)
+now have official-source archive SHA-256 pins, exact member hashes and PE machine
+observations. Archives were read in memory without extraction or execution.
+Driver List contains x64, x86 and IA64 executables; IA64 is not an ARM64 or x64
+variant. Rebel.NET contains an x86 PE and a file-format header. Publisher page
+versions are 1.0.2 and 1.6.0.1 respectively; embedded versions remain unverified.
+Neither archive includes a licence file, and no explicit use/distribution grant
+was located on the two reviewed product pages. Explorer Suite terms cannot be
+inherited. Both remain outside the catalog pending product-specific licence
+evidence, version/selection checks and owned deployment/acceptance. No publisher
+digest verification or target support is claimed.
+
+### Batch 2: historical MiTeC reconciliation
+
+The current site's link to its retired main page exposed **13 additional
+standalone products** beyond the frozen 22 current Apps & Tools entries:
+Internet History Browser, E-mail History Browser, Instant Messaging History
+Browser, Windows File Analyzer, Database Documentation/Code Generator, MSA Query,
+ADO Query, Weather Agent, DirList, Network Meter, PhotoView, Icon Explorer and
+Mail Checker. The [reconciliation](../archive/evidence/mitec-historical-reconciliation-2026-10-17.json)
+retains all 13 page hashes, historical index versions and exact download routes.
+The bounded union is **35 product review identities**, not 35 admitted packages
+or an exhaustive inventory of all historical releases. Eleven linked developer
+component pages remain outside the standalone collection scope. No historical
+product payload was acquired. Existing SSView identity is reused across R05/R13.
+
+Ten old product pages explicitly describe private/commercial free use. Internet
+History Browser, Icon Explorer and Windows File Analyzer instead restrict free
+use to private, educational and non-commercial purposes; WFA directs other use
+to a commercial licence. Reconcile these exact product statements with current
+terms before admission. Neither historical labels nor this review approve
+distribution or record a personal/company licence assessment. DAO/ADO/database
+clients, installer behavior and data ownership remain per-product gates.
+
+### Batch 3: SSView ownership and codec prerequisites
+
+The retained SSView archive still matches its recorded SHA-256. Text review of
+`ZLibCodec.dpr` and the publisher description confirms DLL discovery in the
+viewer directory through `EncodeIStream`/`DecodeIStream`. The
+[ownership record](../archive/evidence/ssview-ownership-follow-up-2026-10-17.json)
+separates the viewer, optional codec, reference source and sample without adding
+catalog operations. The source imports Delphi units and references a resource
+file absent from the archive; a reproducible build is not established. It has no
+explicit source licence grant. Algorithm naming alone does not settle plugin
+licensing. Native tests must use an isolated directory and disposable sample
+copies, preserve unowned configuration/activation/plugins, and verify viewer-only
+behavior before codec round trips. No DLL, viewer or source was executed.
+
+AdFind remains page-only: its publisher describes a password-protected executable
+and antivirus interaction. No download, password handling or allowlisting was
+attempted. The existing Defender-blocked NirSoft paths were not read, restored,
+re-extracted or included in any batch. Defender settings remain unchanged.
+
+### Validation, next procedure and estimates
+
+Validation checked the two archive member sets and hashes, retained SSView pin,
+13 historical product routes/page hashes, JSON readability, local evidence links
+and the focused documentation diff. No engine/catalog change was made, so prior
+Pester/native results remain dated evidence rather than rerun claims. Initial
+sandbox DNS access failed; ordinary host network access fetched only the declared
+review inputs without Windows elevation.
+
+From the repository root, continue the frozen collection review one product at a
+time: resolve exact official terms and artifact versions, inspect bounded member
+sets, then prepare isolated file-lifecycle fixtures. Keep raw pages/archives in
+the local review store and sanitized hashes in the linked evidence. Source review
+needs no administrator rights and makes no system change; retain previous evidence
+if a publisher artifact changes. Do not run a newly selected product through an
+unrelated registered suite. Save a concrete controller delta and native procedure
+for the [later attended session](../../TODO.md#deferred-elevation-sessions).
+
+Resolved subgates: two NTCore artifact inventories, historical MiTeC scope and
+SSView source/ownership analysis. **No whole legacy outcome closed, retired or
+newly excluded.** The 13 historical products are reconciliation within the
+already-counted collection outcome, not 13 new deductions or additions. Packages
+remain 60 with 33 pending; setting presentations remain 279/279. Native behavior,
+licensing, dependencies, Server/UI/activation and broader offline coverage remain
+partial. B03, protected-controller changes and desktop handoffs remain deferred
+for fresh elevation; Defender and resource blockers stay separate. All five
+ranges were refreshed unchanged: **38-58 / 56-71 / 20-25 / 25-35 / 8-12**, rounded
+**145-200/about 175**, exact endpoints 147-201.
+
+## Utility and database source batches, 2026-10-17
+
+Three more authorized batches reviewed **nine artifacts for eight products**:
+eight ZIPs with 16 members and one MSI with five cabinet files. The
+[run record](../archive/evidence/source-review-batches2-2026-10-17.json) retains
+official source URLs, input hashes and the three evidence records. No downloaded
+application, DLL, database or installer custom action was executed. No UAC prompt,
+VM request, controller change or Defender change occurred. The previously
+recorded controller/power state was not rechecked and is not a new runtime claim.
+Defender-blocked NirSoft payloads and page-only AdFind remain excluded.
+
+### Batch 1: MiTeC directory, network and image utilities
+
+[Artifact evidence](../archive/evidence/mitec-utility-artifact-review-2026-10-17.json)
+records exact files, archive/member SHA-256 values, PE machine fields and embedded
+versions. DirList **1.3.0.0** and Network Meter **2.5.0.0** each contain one x86
+executable. PhotoView **1.4.0.0** contains an x86 executable, three language files
+and Microsoft's x86 `gdiplus.dll` **5.1.3102.1360**. The latter is a dependency
+review gate: retain its provenance, establish applicable redistribution notices
+and verify supported loading behavior before omitting or replacing it. An old
+version observation alone is not a vulnerability assessment.
+
+The historical product pages describe private/commercial free use. Exact artifact
+terms and current-EULA reconciliation remain distinct from local licence-owner
+assessments and shared-kit approval. Prepared acceptance uses synthetic directory
+trees/images, isolated guest counters, separate export directories and exact
+owned-file restore. Language resources, user configuration, original images and
+unowned exports must be preserved. No product was admitted or declared supported.
+
+### Batch 2: MiTeC database utilities
+
+[Database evidence](../archive/evidence/mitec-database-artifact-review-2026-10-17.json)
+distinguishes **DDG_IBFB 1.0.0.0** from **DDG_MSSQL 1.2.0.0**. The historical shared
+product version 1.2.0 must not be copied onto both artifacts. The Interbase/Firebird
+archive also contains `EMPLOYEE.GDB`, `EMPLOYEE.ini` and CSS; the SQL Server archive
+contains its own CSS. Sample data/configuration was hashed as data, not opened in
+a database or used for a connection. Its content is not published in evidence.
+
+MSA Query **2.1.0.0** and ADO Query **1.9.0.0** each contain one x86 executable.
+Publisher requirements identify DAO and installed ADO support respectively;
+concrete provider versions/bitness, database clients and target compatibility
+remain unverified. All four archives have exact pins/member inventories and no
+standalone licence file. Later acceptance needs synthetic databases, explicit
+test credentials, provider-absence refusal, query/import/export checks and
+preservation of connections, history, CSS, generated files and databases.
+No database/provider was installed, connected or modified.
+
+### Batch 3: NTCore managed utilities
+
+[NTCore evidence](../archive/evidence/ntcore-managed-utility-source-review-2026-10-17.json)
+pins VirtualReg Manager **1.0.0.1** and its single x86 PE. The publisher expressly
+permits inclusion in freeware; that narrow statement is retained without
+claiming unrestricted commercial or shared-kit redistribution. Actual CLR
+requirements, synthetic virtual-registry round trips and separate ownership of
+output XML/configuration remain acceptance gates.
+
+ScreenWriter's publisher/executable version is **1.1.0.1**, while MSI
+`ProductVersion` is **1.0.0** and `ProductCode` is
+`{0D75586D-610A-41E3-9278-9D4860DFA99F}`. Keep installer identity and application
+version separate in future detection/recovery. Read-only MSI tables identify
+framework **2.0.50727**, `VSDAllowLaterFrameworkVersions=False`, six custom actions,
+shortcuts/registry metadata and five files. The executable's embedded version
+matches the MSI File table. The cabinet contains two sample scripts, an icon and
+a readme alongside the program. The readme describes free software without
+warranty and credits Daniel Pistelli; an explicit redistribution grant was not
+located. Preserve sample provenance and resolve their terms before bundling.
+
+MSI inspection used `OpenDatabase` mode 0, never an installation session. The
+initial COM property read produced empty metadata; explicit property access and
+required-table/count checks corrected that before evidence was accepted. 7-Zip
+extracted only the named embedded cabinet and its five validated file identifiers.
+No custom-action binary was extracted or loaded. Framework servicing, installer
+scope, actual custom-action behavior, application function and uninstall/rollback
+remain for a reviewed disposable-guest scenario in a later attended session.
+
+### Validation, next instructions and estimates
+
+Validation rechecked all nine artifact pins, exact ZIP member sets, nine staged
+PE hashes/version observations, five MSI cabinet sizes/hashes, evidence JSON,
+linked files and the focused documentation diff. No engine/catalog code changed;
+no new Pester or native acceptance claim is made. Raw source material and inspection
+scripts are retained in `.local/source-review-batches2-20261017/`; sanitized
+evidence contains no personal credentials, sample connection values or payloads.
+
+Next source work: finish the remaining historical MiTeC artifacts and NTCore
+member-specific terms; prioritize the explicit PhotoView dependency, DDG variant
+identity, DAO/ADO providers and ScreenWriter framework/custom-action gates. From
+the repository root, compare retained hashes before review, keep each artifact's
+version/selection independent and prepare exact inert file fixtures only after
+selection and terms are understood. Source review requires no elevation. Preserve
+the original evidence on publisher changes and record a new pin instead of
+silently replacing it. Do not install prerequisites on the host. Save any new
+registered scenario/controller delta in [deferred elevation](../../TODO.md#deferred-elevation-sessions)
+before a later attended session; retain the existing checkpoint and recovery
+procedure. Do not submit these products under an unrelated registered suite.
+
+Resolved: artifact identity/member/version subgates for eight products, with
+explicit dependency and licensing gaps. **No whole legacy outcome closed, retired
+or newly excluded.** These products remain within the existing collection scope;
+60 catalog packages/33 pending and 279/279 setting presentations are unchanged.
+Fresh-UAC work, native/UI/Server/function/activation gates, Defender exclusions,
+Zimmerman pin, 4GB Patch grant, SSView and resource/profile deferrals remain.
+All five estimates were refreshed unchanged: **38-58 / 56-71 / 20-25 / 25-35 /
+8-12**, rounded **145-200/about 175**, exact endpoints 147-201. Source inspection
+reduces uncertainty but does not establish complete deployment or user outcomes.
+
+## Remaining MiTeC and NTCore source review, 2026-10-17
+
+The authorized continuation needed no fresh UAC. The [run record](../archive/evidence/remaining-collection-batches-2026-10-17.json)
+pins **35 additional official artifacts**: 26 MiTeC and nine NTCore. Static
+inspection covers **122 embedded files** (110 members in 28 ZIPs, five Phoenix
+MSI cabinet files and seven nested SNSRemover ZIP files). Six installer wrappers
+have outer hashes/metadata only. All 41 artifact/page requests returned HTTP 200;
+no new Defender/access failure was recorded. Acquired programs, libraries,
+drivers and installer custom actions were not executed. No VM, controller,
+checkpoint, Windows configuration or Defender policy changed; prior runtime
+status was not rechecked. Existing Defender-blocked NirSoft files were untouched.
+
+The [coverage reconciliation](../archive/evidence/mitec-ntcore-source-coverage-2026-10-17.json)
+assigns all **35 MiTeC and 16 NTCore** frozen review entries to existing/new
+evidence or a page-only/excluded disposition. Zero entries are unassigned.
+This closes the unassigned source-review queue, not product admission, complete
+licensing, opaque-payload inspection or native acceptance. Explorer Suite's full
+installer is a follow-up within the existing product outcome; variants and
+bundled files are not new legacy outcomes.
+
+### MiTeC current and historical batches
+
+[MiTeC evidence](../archive/evidence/mitec-remaining-source-review-2026-10-17.json)
+covers the remaining 19 current apps and seven historical products. Archive and
+member hashes, PE machine fields, versions, dependency/helper files and exact
+per-product acceptance gaps are retained. Notable distinctions:
+
+- DFM Editor's Delphi 11 executable is **8.3.1.0**, while Delphi 12 is **8.4.0.0**.
+  Each has eight matching BPLs. Keep the variants/runtime families separate and
+  review Embarcadero redistribution and user-package loading.
+- Mail Viewer **2.5.1.0** and OLE/COM Explorer **1.4.0.0** resolve the missing
+  parsed page-version observations through embedded metadata. Mail Viewer also
+  carries 21 language files and localization guidance.
+- SQLite Query includes SQLite **3.35.5**; Internet History Browser's renamed
+  DLL identifies the same version, while ICQ/MSN History Browser's identifies
+  **3.8.10.2**. Upstream public-domain status does not independently establish
+  these binaries' provenance or the surrounding product's licence.
+- System Information eXtra/GetSys are **16.0.0.0**. SMBIOS Explorer **1.8.0.0**
+  has a **1.0.0.0** helper; Task Manager DeLuxe **5.1.1.0** has **2.0.0.0**
+  DeskExp helpers. Preserve distinct file ownership and version detection.
+- Project Maker's page lists **2.0.0**, but its outer installer FileVersion is
+  **1.9.0**. Actual installed version is unverified. No build/signing action ran.
+
+InfoBar, Paradox Data Editor, Project Maker, Weather Agent and Mail Checker
+remain opaque installer payloads. Installed 7-Zip exposes only PE resources for
+four wrappers and cannot open Mail Checker as an archive; listing success does
+not establish a payload inventory. No reviewed alternative static extractor was
+available on PATH. Record this source-tool limitation separately from elevation.
+Paradox Data Editor's BDE, database clients/providers, TAPI/TSP resources, weather
+services and isolated mail infrastructure remain concrete dependency gates.
+
+Current product pages distinguish non-commercial free use and paid tiers;
+historical terms retain their exact per-product scope. See the updated
+[licensing watchlist](../package-licensing.md#important-to-review-licensing).
+No private individual/company review or distribution approval was recorded.
+
+### NTCore utilities and installer batch
+
+[NTCore evidence](../archive/evidence/ntcore-remaining-source-review-2026-10-17.json)
+records NETUnpack's x86/x64 **1.0.0.1** variants and DynLogger's matched
+three-file sets. Target-process architecture, hook/dump behavior and current
+Windows compatibility need synthetic owned targets; no process was inspected.
+
+Explorer Suite's downloaded SHA-256 matches the publisher's published digest.
+The full installer is the sixth opaque payload. Prior standalone CFF lifecycle
+acceptance does not cover suite installation, integrations or uninstall.
+
+Phoenix has three distinct identities: page **1.8.0.1**, MSI ProductVersion
+**1.7.1**, and contained Phoenix Protector executable **1.9.0.1**. ProductCode
+is `{32A1C684-C199-4DD2-9F89-8F44C655D4EC}`. Read-only MSI tables identify
+framework **2.0.50727**, later-framework acceptance disabled, six custom actions
+and five cabinet files. The latter include Phoenix Merger **1.0.0.0**, help,
+bitmap and `Phoenix License.rtf`. Its limited single-user development/testing
+grant and no-transfer/component-separation/commercial-hosting restrictions need
+exact intended-use review; the page's freeware label is insufficient. The EULA
+hash is published, not its full text. Inspection used `OpenDatabase` mode 0 and
+bounded cabinet extraction, never an installation session or custom action.
+
+NoDel's 16-file source/project/binary archive includes an x86 driver, and reviewed
+`Drivers.cpp` creates a `SERVICE_KERNEL_DRIVER` service. No compilation/loading
+occurred. Grant, signing and current-build support remain open. WIM Installer's
+single x86 **1.0.0.1** executable still needs imaging dependencies, exact disk/image
+destinations and a recovery procedure; no image was opened or applied.
+
+SNSRemover includes a separately pinned nested PE Detective archive, with
+**PE Detective 1.0.0.1**, **Signature Explorer 1.0.0.0** and five signature XMLs.
+Its hash and versions differ from the previously reviewed standalone candidate;
+do not silently replace or co-own it. An initial root-only guard rejected the
+signature subdirectory; the explicit eight-entry set was reviewed before bounded
+inspection of seven leaf files. No target binary was processed by these tools.
+
+Filter Monitor remains page-only: the publisher describes an unsigned driver
+and disabling signature enforcement, with Vista/Windows 7 support claims.
+Vista4Experts also remains page-only; its UAC/Defender/update changes are not
+adopted. Neither payload was acquired. AntiMida's existing mixed research/source
+exclusion is retained, not a new retirement. These are publisher/support/scope
+dispositions, not new Defender detections.
+
+### Validation, saved acceptance and next procedure
+
+Validation rechecks all 41 retained inputs, 110 ZIP members, 66 staged PE members,
+five MSI cabinet files and seven nested ZIP members against the evidence. It
+also checks unique 35+16 coverage, evidence links/JSON, documented counts and the
+focused documentation diff. No engine/catalog changes or new Pester/native
+acceptance claim. Raw material and inspection scripts are retained under
+`.local/remaining-collections-20261017/`; published evidence contains hashes and
+observations, not payloads, real-user data or credentials.
+
+From the repository root, the next source-only procedure is:
+
+1. Verify retained artifact hashes against the linked records. For each of the
+   six named wrappers, select a reviewed static extractor that supports its
+   actual installer format; extract only bounded paths to a new local review
+   directory. Do not invoke an installer, even for help or extraction switches.
+   Preserve prior pins and record changed publisher bytes as a separate input.
+2. Reconcile actual payload versions/architecture, bundled notices and dependency
+   ownership. Prior PhotoView GDI+, DDG samples, DAO/ADO, ScreenWriter, SSView and
+   NTCore grant gaps remain linked from earlier entries. Product review and local
+   owner assessment remain separate from shared-kit distribution approval.
+3. Prepare exact synthetic fixtures and expected outputs for each admitted
+   selection: test certificates, mail/history stores, databases, hives and PE
+   files; explicit isolated endpoints for network/process checks. Preserve
+   unowned files, outputs, configuration and activation. Kernel/imaging/service
+   changes require their own compatibility and recovery evidence.
+4. Save new registered selections, installer/prerequisite setup and protected
+   controller changes in [deferred elevation](../../TODO.md#deferred-elevation-sessions).
+   The installed focused controller permits PSScriptTools/OfflineCaffeine only;
+   do not submit unrelated products under those names. Later acceptance must
+   verify install/repeat/status/function/remove/exact recovery, collect evidence
+   and restore the existing checkpoint. No fresh UAC is authorized now.
+
+Source acceptance is exact identity, complete bounded member inventory where
+available and explicit unresolved terms/dependencies; runtime acceptance is
+separate. Recovery in this pass consists of retaining original artifacts and
+evidence; no application/system state was changed. Do not delete the prior raw
+evidence or restore Defender-blocked files. No VM recovery was needed this run.
+
+Resolved: 35 artifact pins and remaining frozen-entry dispositions, with version,
+dependency and ownership uncertainty narrowed. **No whole legacy outcome closed,
+retired or newly excluded.** Filter Monitor/Vista4Experts stay page-only and the
+prior AntiMida exclusion remains. Six opaque payloads and all recorded
+licensing/native/UI/activation/Server gaps remain partial/deferred work. Catalog
+362 operations/60 packages/33 pending and setting presentation 279/279 are unchanged.
+All five estimate ranges were refreshed unchanged: **38-58 / 56-71 / 20-25 /
+25-35 / 8-12**, exact **147-201**, rounded **145-200/about 175**. The scoped
+source-review queue is assigned, but complete legacy deployment and user outcomes
+are still unverified; no estimate deduction is justified by file inspection alone.
+
+## Six-installer static extraction, 2026-10-17
+
+The authorized no-UAC continuation resolves all **six outer installer extraction
+blockers** from the preceding entry. [Dated evidence](../archive/evidence/installer-static-extraction-2026-10-17.json)
+records unchanged input pins, **85 extracted files**, **14 nested SDK ZIP files**,
+**20 nested MSI cabinet files**, their SHA-256 hashes and the remaining dependency
+gates. A further embedded BDEFILES resource is pinned but still opaque. This is
+source evidence only: no installer, extracted program/DLL, script, driver or
+custom action ran; no VM/controller/checkpoint or Defender change occurred.
+Defender-blocked NirSoft payloads remained untouched. All 51 frozen collection
+entries retain their prior dispositions; no new product was admitted.
+
+### Extractor provenance and bounded procedure
+
+The six retained inputs contain Inno Setup 5.5.x data markers; the extractor
+interprets four MiTeC headers as 5.6.0 and Mail Checker/Explorer Suite as 5.5.0
+(Unicode for Explorer Suite). The portable Windows **innoextract 1.9** came from
+the [official publisher](https://constexpr.org/innoextract/). Its archive matches
+the published MD5 and has SHA-256
+`6989342c9b026a00a72a38f23b62a8e6a22cc5de69805cf47d68ac2fec993065`.
+The detached OpenPGP signature verifies against the publisher's HTTPS key,
+fingerprint `ADE9653703D4ADE0E997758128555A66D7E1DEC9`. This establishes that
+cryptographic match, not independent web-of-trust certification. Tool/dependency
+licences remain beside the local executable; nothing was installed system-wide.
+
+Sandbox DNS/MSYS startup restrictions and an extractor DLL-relocation startup
+error were resolved using ordinary host execution, not Windows elevation. GPG
+used an isolated review keyring and disabled agent startup for verification.
+These were tooling/environment errors, not reported Defender detections. The
+successful extractor ran at ordinary user privilege; no RunAs/UAC was requested.
+
+From the repository root, the local scripts under
+`.local/installer-static-20261017/` first verified each retained installer hash
+against the preceding evidence. `list.ps1` captured names/sizes/internal hashes;
+`extract.ps1` rejected unsafe/duplicate paths and bounded member count and size
+before extraction to separate new directories. The reviewed
+[extractor options](https://constexpr.org/innoextract/innoextract.1) combine
+`--extract --test --no-extract-unknown --no-gog-galaxy`, explicit output directories
+and collision handling. No installer extraction/help switch was used.
+
+MiTeC used `--collisions error`. Explorer Suite initially refused duplicate
+destinations, then used `--collisions rename-all` after review, retaining four
+pairs independently. `$0`/`$1` suffixes are inspection names, not installation
+names or architecture declarations; PE machine fields establish x86/x64.
+All six extraction/checksum tests passed. Independent file rehashing matched
+the installer SHA-1 values; new SHA-256 inventories supplement those checks.
+Temporary BDE helpers were retained as data rather than silently omitted.
+
+### Product findings and remaining acceptance
+
+| Installer | Extracted files | Source finding / remaining gate |
+| --- | ---: | --- |
+| InfoBar | 29 | InfoBar x86/x64 **4.6.2.0**, DeskExp x86/x64 **1.4.0.0**, language/data files. TMX's separately reviewed DeskExp is 2.0.0.0; do not merge helpers by filename. Startup, desktop/UI, API behavior and recovery remain. |
+| Paradox Data Editor | 4 | PDE **3.7.0.0**, TUTIL32.DLL **5.0.0.38**, temporary MiniReg.exe and BdeInst.dll **5.1.1.1**, all x86. BDE registration/redistribution/current-build behavior remain; no loader was invoked. |
+| Project Maker | 3 | Both x86/x64 payloads are **1.9.0.0**, plus CHM. The page lists **2.0.0**: this is now a verified page/payload mismatch, not merely an outer-wrapper observation. Do not label this pin 2.0.0. Build/compiler/signing integrations still need synthetic fixtures. |
+| Weather Agent | 10 | x86 **3.6.0.0**, data, seven languages and localization guidance. Service/API availability, startup/configuration and functional behavior remain; no keys or service calls used. |
+| Mail Checker | 12 | x86 **7.2.0.0**, three OpenSSL-identified **1.0.1e** DLLs, six languages, localization and sample CSV. libssl32.dll/ssleay32.dll are byte-identical. Exact notices/provenance and isolated mail-server/TLS/send/delete acceptance remain. No real mailboxes or sample contents published. |
+| Explorer Suite IV | 27 | Both CFF **8.0.0.0**, Task Explorer **2.2.0.1**, PE Detective **1.2.1.1** and DriverList **1, 0, 2, 1** variants; Signature Explorer **2.0.0.0**, UPX extension **1, 0, 0, 1**, UPX **3.08**, SDK, scripts and common-documents signatures. Component ownership, exact conditional destinations and suite install/uninstall remain. |
+
+Explorer Suite's x86 CFF, both DriverList binaries, x86 installed UPX extension
+and UPX executable match prior reviewed hashes. The suite's PE Detective files
+do not match the prior standalone hash despite matching version text. Neither
+version text nor byte matches extend prior standalone VM acceptance to the full
+suite. Common-documents signatures and app scripts need explicit ownership and
+preservation rules. The suite readme describes free software without warranty;
+it does not supply an explicit redistribution grant.
+
+### Nested components and saved blockers
+
+`nested.ps1` inventories all 14 files in `UPX_Utility.zip`, including source/project
+files and distinct x86/x64/Itanium extension builds. Those source-package DLLs
+differ from the installed extension DLLs; no build, extension loading or UPX
+operation occurred. No separate licence file was found in that ZIP. UPX's own
+version-specific grant remains distinct from the NTCore extension and SDK.
+
+The nested Extension Wizard MSI was opened with `OpenDatabase` mode 0. It has
+ProductVersion **1.0.0**, ProductCode
+`{D35C17BC-044C-4A61-98DD-9ED1D05CE565}`, four custom-action entries and 20
+template/script/image assets. Only its exact named cabinet and File-table IDs
+were extracted with existing 7-Zip. `vcprojects`/`VCWizards` destinations need a
+specific Visual Studio fixture and recovery plan. Generic MSI .NET/IIS message
+strings are not prerequisite evidence; no LaunchCondition table was found.
+JavaScript, HTML, project files and MSI actions were never executed.
+
+Exact extraction of `.rsrc/RCDATA/BDEFILES` from BdeInst.dll produced a
+**3,548,843-byte** resource with SHA-256
+`cc4c87a57391cf6c283ba212bae3a0fbbcd3346e53ac640c7819319db0b70d25`.
+7-Zip cannot open it as an archive. Its internal BDE file set remains a concrete
+source-format blocker; do not use MiniReg, DLL registration or an installer as
+an extraction fallback. No protection setting was relaxed.
+
+The [licensing watchlist](../package-licensing.md#important-to-review-licensing)
+now records exact OpenSSL/SSLeay, UPX and BDE dependency review needs. Payload
+inventories do not reconstruct embedded installer agreements, conditional file
+selection, scripts, registry/tasks/shortcuts or post-install behavior. Those
+surfaces remain open, as do existing Phoenix, DFM, SQLite, SSView and other terms
+gates. No private licensing assessment was written on the user's behalf.
+
+### Validation, recovery, next instructions and estimates
+
+Validation checks six original pins, exact output sets, all 85 SHA-1/SHA-256
+pairs, 27 outer PE metadata records, 14 nested ZIP hashes, 20 MSI cabinet file
+sizes/hashes and the BDE resource pin. Evidence JSON, documentation links and
+the focused diff/whitespace are checked. There were no engine/catalog changes;
+no new Pester or native acceptance is claimed. Original artifacts, tool notices,
+signature logs and output records remain in the local review directories.
+No system/application state needs rollback, and no original evidence is deleted.
+
+Next: resolve Project Maker's publisher/version discrepancy; identify a reviewed
+static decoder for BDEFILES; reconcile exact bundled notices and installer
+agreements/action metadata. Prepare synthetic fixtures and per-component
+ownership/recovery before native proposals. Save BDE registration, prerequisites,
+Visual Studio/SDK setup and new protected-controller selections in the
+[deferred queue](../../TODO.md#deferred-elevation-sessions) for an attended session.
+Keep the existing checkpoint and do not submit these products as an unrelated
+registered suite. Defender exclusions and resource/profile deferrals persist.
+
+Resolved: **six outer extraction subgates**, complete bounded output inventories
+and specific version/helper/dependency observations. Partial: nested BDE data,
+installer actions/terms and functional installation/recovery. Deferred: fresh
+UAC and native/UI/activation/Server acceptance. **No whole legacy outcome closed,
+retired or newly excluded.** All five ranges refreshed unchanged: **38-58 /
+56-71 / 20-25 / 25-35 / 8-12**, exact **147-201**, rounded **145-200/about 175**.
+The file-level progress does not yet establish a complete legacy user outcome;
+362 operations/60 packages/33 pending and 279/279 setting presentations remain.
+
+## Nested BDE and version/licence reconciliation, 2026-10-17
+
+The authorized source-only continuation resolves the nested BDE extraction
+blocker and corrects the prior Project Maker version conclusion. [Evidence](../archive/evidence/bde-version-license-follow-up-2026-10-17.json)
+records **29 decoded BDE files**, five focused version checks, five licensing
+checks, 22 rehashed frozen MiTeC pages and six newly retained publisher references.
+Three direct Embarcadero guide requests returned HTTP 403 and remain recorded
+access limits. No fresh UAC, installer/payload execution, VM/controller/checkpoint
+change or Defender change occurred. Defender-blocked tools remained untouched.
+
+### BDE data-format review and result
+
+The resource pin remains
+`cc4c87a57391cf6c283ba212bae3a0fbbcd3346e53ac640c7819319db0b70d25`,
+3,548,843 bytes. A bounded read found a 32-bit count followed by 29 records, each
+containing a byte-length ASCII filename, expanded/compressed lengths, an
+uninterpreted 32-bit metadata word and a zlib stream. This is an inference from
+this exact resource, not a published format specification or general decoder
+support claim. All record boundaries consume the input exactly; metadata words
+are retained without inventing timestamp or flag semantics.
+
+The local `decode-bde.ps1` under `.local/bde-terms-20261017/` validates the input
+hash, count, unique safe leaf names, header/buffer bounds and aggregate output
+limit before accepting any result. .NET ZLibStream and a separate raw Deflate
+read produce identical SHA-256 output; an explicit Adler-32 calculation matches
+each stored checksum. Both paths use the platform compression implementation,
+so this is not an independent decompression-library comparison. All 29 expanded
+lengths match; **8,189,528 output bytes** are retained under the new review root.
+No original file was overwritten, and no decoded DLL/EXE/CPL was loaded.
+
+There are **18 x86 PE files**. Core engine/driver/admin files report **5.1.1.1**;
+the set also contains **BLW32.DLL 3.05**, **bantam.dll 01.008** and
+**DBCLIENT.DLL 5.0.1.32**. Do not assign one version indiscriminately to every
+dependency. Remaining members include translation/data tables, help/index files
+and `IDAPI32.CFG`. They were hashed, not opened as live database configuration or
+help applications. No standalone licence file is present in the 29-file set;
+this does not establish that all installer-embedded agreement surfaces are absent.
+
+The former opaque-resource blocker is resolved. Registration and alias/config
+coexistence, dependency/provider availability, rights and Windows compatibility
+remain separate. This inventory is review data, not a supported portable BDE
+installation. Do not use MiniReg, BdeInst/IDAPINST registration, BDEADMIN or a CPL
+loader on the workstation to fill those acceptance gaps.
+
+### Version reconciliation and explicit correction
+
+**Correction to the preceding two source reviews:** Project Maker **2.0.0** is
+explicitly marked **under development**, while **1.9.0** is dated **12 September
+2025** in the [publisher history](https://www.mitec.cz/wp/pm/). The original
+hash-verified frozen page already contained both labels; this was a review
+interpretation error, not a changed publisher download. Both extracted
+**1.9.0.0** executables agree with the dated release. The mismatch blocker is
+removed, with prior evidence preserved as history. Compiler/build/signing and
+licensing/runtime gates remain; unreleased 2.0.0 is not selected.
+
+The context audit rehashed all **22** frozen current MiTeC pages. DFM Editor's
+history explicitly distinguishes Delphi 11/12 variants, consistent with retaining
+their individual **8.3.1.0/8.4.0.0** observations and matching BPL families.
+InfoBar's current **4.6.2** dated entry matches **4.6.2.0** payloads; an older
+history row also says under development. Do not classify an entire page using
+that phrase or blindly select its first numeric version.
+
+Phoenix's fresh page still reports **1.8.0.1**, the retained MSI ProductVersion
+is **1.7.1**, and its File table/executable both report **1.9.0.1**. That identity
+discrepancy remains unresolved. Explorer Suite's page says **III (18/11/2012)**,
+while the retained installer identifies **IV**; the page's SHA-256 still matches
+the exact installer. Keep suite labels and individual component versions distinct.
+No artifact was re-downloaded, and no same-version binary was substituted.
+
+### Licensing checks and remaining inputs
+
+| Subject | Checked evidence | Remaining gate |
+| --- | --- | --- |
+| BDE and DFM BPLs | Official search-indexed Embarcadero licence guidance points to version-specific DEPLOY/README/product agreements and third-party vendor terms. Direct page and two BDE guide requests returned 403. | Applicable publisher-supplied edition/version documents or clarification for these exact files; generic guidance is not distribution permission. |
+| MiTeC apps/components | Fresh support page separates application EULA and component/class terms. Named-user/build-machine, team and site scope are distinct. | Exact intended use and historical/current applicability; component development rights do not establish blanket app/shared-kit rights. |
+| Mail Checker OpenSSL 1.0.1e | Retained and hashed the version-specific upstream OpenSSL/SSLeay terms. | Exact binary provenance and supplied notices/acknowledgements; modern TLS behavior and replacement compatibility remain unverified. |
+| Explorer Suite UPX 3.08 | Retained and hashed its version-specific GPL-2.0-or-later licence and compressed-executable exception. | UPX source/notices/distribution obligations plus separate NTCore extension/source/SDK grants. |
+| Phoenix/NTCore | Fresh freeware descriptions compared with the prior bundled EULA and suite readme observations. | No explicit replacement of Phoenix's restrictive EULA or blanket suite/component redistribution grant located in those sources. |
+
+The [licensing watchlist](../package-licensing.md#important-to-review-licensing)
+links the precise upstream references. The six successful HTTP responses and
+three 403 outcomes are retained with hashes where content was acquired. No access
+bypass, publisher message, licence purchase, entitlement assertion or private
+individual/company review was performed. These findings do not convert pending
+internal review status into a new unattended-installation approval gate; actual
+terms, required entitlements/responses and shared-distribution review remain
+separate under the accepted workflow.
+
+### Validation, recovery and next instructions
+
+Validation checks all resource/member offsets and lengths, complete input
+consumption, checksums, saved output hashes, 18 PE observations, all 22 frozen
+page hashes, six retained reference hashes and the correction's original-page
+context. JSON, documentation targets/anchors, LF preservation and the focused
+diff/whitespace are checked. No engine/catalog edit or Pester/native acceptance
+claim. Raw data, scripts, original evidence and new outputs remain in their
+review directories; no Windows/application state requires recovery.
+
+Next source work: obtain accessible, exact publisher deployment/notice documents;
+review remaining installer agreements/actions and the Phoenix/suite version
+identities; prepare synthetic Paradox/database and existing-alias/configuration
+fixtures with explicit dependency and ownership expectations. Keep source-ready,
+activation and verified behavior distinct. Save BDE registration, prerequisites,
+IDE setup and protected-controller changes in the [deferred queue](../../TODO.md#deferred-elevation-sessions)
+for later attended acceptance against the existing checkpoint. No fresh UAC now.
+
+Resolved: nested BDE format/member inspection and the erroneous Project Maker
+mismatch blocker. Partial: exact rights, installer action semantics, dependency
+coexistence and complete functional lifecycle. Deferred: UAC/native/UI/activation/
+Server and existing resource/profile work. Defender exclusions remain. **No whole
+legacy outcome closed, retired or newly excluded.** All five ranges refreshed
+unchanged: **38-58 / 56-71 / 20-25 / 25-35 / 8-12**, exact **147-201**, rounded
+**145-200/about 175**. Source clarification does not yet complete installation,
+use or recovery outcomes; 362 operations/60 packages/33 pending and 279/279 setting
+presentations are unchanged.
+
+## Phoenix/Explorer Suite version and licence follow-up, 2026-10-17
+
+The authorized no-UAC source continuation rechecked both current NTCore product
+pages against retained artifacts and EULAs/readme material, then examined three
+publisher monthly archive pages. [Evidence](../archive/evidence/ntcore-phoenix-suite-version-license-follow-up-2026-10-17.json)
+records the exact hashes, distinct version fields, page/archive observations and
+remaining product/use gates. No installer or extracted payload was run, no
+download was substituted, and no user-specific or company licence approval was
+made. There was no UAC, VM, controller/checkpoint or Defender change. Defender-
+blocked tools remained excluded and untouched.
+
+### Phoenix Protector
+
+The publisher page still reports **1.8.0.1** and calls the application freeware.
+The retained publisher-linked MSI remains hash
+`15a7dbbf90ce66fb302a322c6809fafd897808096069dfecededf78e51b16369`; its MSI
+ProductVersion is **1.7.1**, while the contained executable's file version is
+**1.9.0.1**. The page has no release history mapping those fields. Keep all three
+as different identities; the version relationship is unresolved.
+
+The MSI contains `Phoenix License.rtf` with the previously recorded limited
+single-user development/testing grant, nontransfer condition, restriction on
+separating components, and commercial-hosting restriction. The live page's
+freeware statement does not say it replaces that EULA. No publisher clarification
+or intended-user entitlement was obtained. Do not treat freeware wording as an
+EULA supersession or as permission to distribute a shared bundle.
+
+### Explorer Suite
+
+The current publisher page still labels the suite **III (18/11/2012)** and
+publishes SHA-256
+`94f4348ec573b05990b1e19542986e46dc30a87870739f5d5430b60072d5144d`. That hash
+matches the retained **3,613,174-byte** installer whose internal product label is
+**Explorer Suite IV**. This confirms the retained file matches the publisher's
+currently linked download, but does not reconcile the page/installer labels.
+The reviewed May 2025, March 2025 and June 2022 monthly archive pages contain no
+Explorer Suite release announcement that explains the mismatch. Preserve the
+publisher page's suite identity separately from the components observed in the
+artifact: CFF Explorer 8.0.0.0 x86/x64, Task Explorer 2.2.0.1 x86/x64, and
+Signature Explorer 2.0.0.0 x86.
+
+The page calls the suite freeware; its retained readme says free software without
+warranty. Neither reviewed source states an explicit redistribution grant.
+Bundled UPX 3.08 is governed separately by its retained GPL-2.0-or-later terms
+and compressed-executable exception; that does not grant rights for the NTCore
+extension or SDK. No owner-specific use or redistribution decision was made.
+
+### Migration disposition and next steps
+
+Resolved: provenance linkage between the exact retained Explorer Suite installer
+and the publisher's currently linked SHA-256. Partially clarified: the three
+recent archive pages do not provide the missing Suite IV release history.
+Unresolved: Phoenix version chronology; whether its freeware notice changes the
+bundled EULA; Explorer Suite label chronology; intended-user rights, component
+notices and redistribution; installer action/dependency review and native
+acceptance. Deferred: both installers' functional and recovery acceptance until
+a separately prepared, authorized attended session. These are artifact/licence
+subquestions, not whole legacy outcomes. No whole outcome closed or retired and
+no new exclusion was added. The existing Defender-blocked NirSoft tools remain
+excluded and untouched.
+
+Next: request exact publisher-supplied version and licence clarification through
+the existing later-attended workflow; keep exact artifacts and notices pinned;
+finish Phoenix framework/custom-action review and prepare disposable install,
+repeat, removal and exact-restore checks before a future authorized acceptance
+session. Do not run either installer now. Save any new UAC-dependent setup or
+controller change for that session.
+
+All five estimates were refreshed unchanged: **38-58 / 56-71 / 20-25 / 25-35 /
+8-12**, exact **147-201**, rounded **145-200/about 175**. This source-only batch
+adds evidence but resolves no complete legacy feature/product outcome, so no
+range was deducted. The current inventory remains 362 operations/60 packages/33
+pending and 279/279 setting presentations. JSON structure, the new evidence
+hashes/links, LF endings and focused whitespace were checked; no runtime test or
+Windows acceptance is claimed.
+
+## NTCore installer-action static review, 2026-10-17
+
+The next authorized no-UAC batch reviewed the retained MSI table records for
+Phoenix Protector and Explorer Suite Extension Wizard, then inspected the
+wizard's hashed template/script sources as text. [Evidence](../archive/evidence/ntcore-installer-action-static-review-2026-10-17.json)
+contains the artifact pins, action sequencing, paths, script hashes, findings,
+and remaining acceptance gates. No installer, extracted script or payload was
+executed; no user or system state changed. There was no fresh UAC, VM,
+controller/checkpoint or Defender action. Defender-blocked files remained
+excluded and untouched.
+
+### Phoenix Protector MSI
+
+The retained MSI is 1,357,312 bytes with SHA-256
+`15a7dbbf90ce66fb302a322c6809fafd897808096069dfecededf78e51b16369`. Its
+serialized tables contain DLL-backed custom actions `DIRCA_CheckFX` and
+`VSDCA_VsdLaunchConditions`, both sourced from `MSVBDPCADLL`. Properties record
+.NET Framework **2.0.50727** and `VSDAllowLaterFrameworkVersions=False`. The
+action table names and properties identify the framework gate but do not reveal
+the exact DLL implementation or prove behavior on any Windows build. The
+`LaunchCondition` table has no direct rows; the `VsdLaunchConditions` custom
+action is sequenced before installation. The default target directory combines
+Program Files, Manufacturer and ProductName. Three shortcuts and one RemoveFile
+row are recorded; the MSI declares no registry or service-install/control rows.
+
+The bundled custom-action DLL/source, exact checks and rollback/restore effects
+remain unverified. Keep the previously recorded Phoenix version and EULA blockers.
+Do not run the MSI or stage Framework prerequisites on the workstation.
+
+### Explorer Suite Extension Wizard MSI and source
+
+The retained nested MSI is 224,256 bytes, ProductVersion **1.0.0**, ProductCode
+`{D35C17BC-044C-4A61-98DD-9ED1D05CE565}`. Its default destination is
+`[ProgramFilesFolder]Microsoft Visual Studio 8\VC`, under both `vcprojects` and
+`VCWizards\AppWiz\Generic\Explorer Suite Extension` with template and script
+subdirectories. Its custom actions set a default directory/property and report
+newer-version/advertised-install errors. No DLL-backed custom action,
+`LaunchCondition`, Registry, service, shortcut or RemoveFile rows were recorded.
+Generic .NET/IIS message strings are present, but without corresponding condition
+rows they do not establish runtime prerequisites. In particular, the MSI does
+not establish that Visual Studio 8 is present or identify an acceptable IDE
+revision; installing it could place files in an unused Visual Studio directory.
+
+The **20-file** MSI payload is mainly wizard templates and project assets. Static
+inspection of `default.js`, `default.htm`, `.vsz`, `.vsdir` and `Templates.inf`
+shows the wizard uses Visual Studio automation and the user's selected project
+path to create a Unicode DLL project and render/add seven listed source/project
+files. It creates a temporary rendered INF through
+`Scripting.FileSystemObject` and deletes it on the normal path. The reviewed
+script/HTML has no shell/process, registry or network invocation; the HTTP URI
+in the HTML is a Microsoft target-schema declaration. This static observation
+does not verify wizard-host behavior, generated project integrity, temp-file
+cleanup under failure, collisions, or preservation of an existing project.
+
+### Disposition and next procedure
+
+Resolved: the MSI table-level destinations and action records, plus the wizard
+script's intended project-file effects, are now explicit. Partial: exact
+custom-action code, framework detection, Visual Studio prerequisite semantics,
+file collision/rollback behavior and product terms. Deferred: isolated native
+acceptance of both installers and the generated wizard in the exact framework/
+IDE fixtures. No whole outcome closed or retired and no new exclusion was added.
+Existing Defender-blocked NirSoft tools remain excluded.
+
+Next: preserve the exact custom-action DLL and its notices/source; determine
+whether a disposable registered VM has the required Visual Studio 8 fixture;
+prepare a synthetic project folder with collision and recovery cases; then
+prepare bounded install/repeat/remove/exact-restore acceptance in a later
+attended session. Do not invoke MSI, Visual Studio wizard scripts, BDE loaders or
+SDK helpers on the host. Any prerequisite/controller work requiring fresh
+elevation stays in the [deferred queue](../../TODO.md#deferred-elevation-sessions).
+
+All five estimates refreshed unchanged: **38-58 / 56-71 / 20-25 / 25-35 /
+8-12**, exact **147-201**, rounded **145-200/about 175**. Static semantics do not
+complete a legacy product outcome, so no count was deducted. The repository
+inventory remains 362 operations/60 packages/33 pending and 279/279 setting
+presentations. JSON structure, retained MSI/source hashes, estimate summary,
+links, LF endings and focused whitespace were checked; no Pester, runtime test
+or Windows acceptance is claimed.
+
+## JoeWare rdp-sec-check version and licence follow-up, 2026-10-17
+
+The next authorized no-UAC source batch reconciled the frozen JoeWare product
+page with the collection's versions list, checked the publisher's version
+history/announcement, and reviewed the separate original-source reference and
+licence files. [Evidence](../archive/evidence/joeware-rdp-sec-check-version-license-follow-up-2026-10-17.json)
+retains snapshot hashes, exact row values, source attribution and remaining gates.
+The optional download form was not submitted; no archive was acquired and no
+code or network probe was executed. A read-only `Get-VM -Name RIDE-Win11-Test`
+check failed because the non-elevated client lacked access to a CIM resource.
+No elevation was requested, and no VM, checkpoint, controller, Defender or
+Windows state changed. Defender-blocked tools remain excluded and untouched.
+
+### Version-list clarification
+
+The product page explicitly advertises **0.9-beta (JoeWare V02.00.00)** dated
+November 17, 2014. Its history says V02.00.00 updates the Portcullis 0.9-beta
+base and adds IPv6 capability. The JoeWare versions list still has a
+**01.00.00 / 2011.02.11** row. The page therefore identifies the current
+publisher-advertised release; the 2011 row is not evidence for that release.
+That row's origin/date is not reconciled with the page history's V01.00.00
+entry, and no archive was fetched to establish exact contents or byte version.
+Treat the page-level release label as clarified, while retaining archive/source
+identity as a blocker. The [publisher product page](https://www.joeware.net/freetools/tools/rdp-sec-check/index.htm)
+and [2014 publisher announcement](https://blog.joeware.net/2014/11/17/5553/)
+both describe the V02.00.00/0.9-beta update.
+
+### Source and licensing
+
+The JoeWare page describes an AutoState PerlApp executable, says source Perl is
+included in the ZIP under GPLv2, and attributes the original script to
+Portcullis. The general JoeWare terms separately restrict distribution of its
+tools to other users/companies. The exact ZIP, source, compiled executable and
+CPAN/dependency notices remain uninspected; the current publisher versions list
+provides MD5/SHA-1 rows only, not a verified SHA-256 pin.
+
+The [CiscoCXSecurity source reference](https://github.com/CiscoCXSecurity/rdp-sec-check)
+identifies the Perl source and GPL-2.0. Its repository also has a
+`COPYING.RDP-SEC-CHECK` file with an additional legal-use-only condition. The
+JoeWare page points to the Portcullis original source, but without the JoeWare
+ZIP this reference does not prove those exact files/terms are bundled or how
+they map to JoeWare's executable. Keep this as a provenance/terms question, not
+a concluded legal interpretation. No personal/company entitlement assessment
+or shared-distribution approval was made.
+
+### Disposition and later acceptance
+
+Clarified: the publisher page's current release is V02.00.00 / 0.9-beta rather
+than the older versions-list row. Partial: no exact archive, source/binary
+relationship, notices, entitlement or runtime behavior is verified. Deferred:
+artifact acquisition/inventory and any functional test. This command-line tool
+opens TCP connections to RDP services on port 3389, so any later test requires
+an explicitly owned isolated endpoint; no live-network scan is authorized here.
+The host could not inspect RIDE-Win11-Test through non-elevated Hyper-V CIM, and
+that VM-access blocker is saved in the [deferred queue](../../TODO.md#deferred-elevation-sessions).
+No whole legacy outcome closed or retired, and no new exclusion was added.
+
+Next: if the established acquisition path permits it without submitting private
+data, retain the exact official ZIP/source and record SHA-256, file versions,
+notices and module attribution; preserve the JoeWare distribution limits and
+GPL obligations as separate review fields. Otherwise keep acquisition queued.
+Use only the registered VM workflow once non-elevated access is available; do
+not try to elevate or probe any network target.
+
+All five estimates refreshed unchanged: **38-58 / 56-71 / 20-25 / 25-35 /
+8-12**, exact **147-201**, rounded **145-200/about 175**. One page/manifest
+version subquestion is clarified, but no complete legacy product outcome closed,
+so no estimate range was reduced. Inventory remains 362 operations/60 packages/
+33 pending and 279/279 setting presentations. Evidence JSON, local source-page
+hashes, estimate summary, links, LF endings and focused whitespace were checked;
+no installer, Pester test, VM acceptance or network behavior is claimed.

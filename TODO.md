@@ -1,6 +1,54 @@
 # RIDE-Windows tasks
 
-## Active priorities
+## Migration closure queue
+
+Current [archive handoff and closure criteria](docs/migrations/remaining-migrations-follow-up.md#archive-handoff-and-closure-order-2026-10-17), reconciled 2026-10-17. Work one outcome at a time. These are the next three priorities, not three completed or simultaneously active batches. Record a concrete blocker and advance when acceptance/resources are unavailable; do not request approval between authorized batches.
+
+- [ ] **B03 user-bin startup: missing guest PowerShell 7.** The authorized `UserBinPath` attempt reached the guest but refused its absent installed runtime before startup checks. Existing checkpoint restored and VM Off. Prepare the missing prerequisite through a scoped disposable-guest workflow, then repeat; see [native prerequisite evidence](docs/migrations/settings-post-migration-review.md#b03-user-bin-native-prerequisite-attempt-2026-10-17). Preserve profile bytes/bin contents; persistent PATH, provisioning and WindowsApps stay separate.
+- [ ] **B08 / R06 PSScriptTools: native file lifecycle passed.** The registered run passed all 14 checks across 360 files, collected complete saved-state ZIP evidence and restored the existing checkpoint. Runtime/function behavior and dependency ownership remain; no support promotion or whole legacy deduction. See [registered acceptance](docs/migrations/application-migration-review.md#preregistered-acceptance-and-deferred-elevation-2026-10-17).
+- [ ] **B10 offline execution: focused disconnected acceptance passed.** OfflineCaffeine passed all 16 checks after correcting neutral-archive preflight. CLI install/apply, repeat, fail-closed inputs and exact recovery passed with the guest adapter disabled. Both editions pass 87 focused regression checks. Broader installers/dependencies/settings/servicing/interruption remain separate; see [registered acceptance](docs/migrations/application-migration-review.md#preregistered-acceptance-and-deferred-elevation-2026-10-17).
+
+Next ready: continue per-member artifact/version/licensing review from the frozen JoeWare/MiTeC/NTCore inventories. The [no-UAC continuation](docs/migrations/application-migration-review.md#no-uac-source-continuation-2026-10-17) reconciles 13 older MiTeC standalone products (35 combined review identities), pins Driver List/Rebel.NET archives and records SSView codec/source/sample ownership. NTCore product-specific grants, MiTeC historical/current terms and SSView plugin/source terms remain blockers; none is newly admitted. The [focused portable runner](tests/integration/README.md#focused-reviewed-portable-packages) selects six MiTeC/NTCore cases. All six lifecycle cases passed on Windows 11 build 26300, with evidence collected and the same checkpoint restored. GUI/parser functionality and real activation remain pending; see [rerun evidence](docs/migrations/application-migration-review.md#focused-portable-vm-acceptance-rerun-2026-10-17). NirLauncher/x64 inspection stays stopped after Defender alerts; do not restore, allow or re-extract blocked members. AdFind remains page-only with its publisher-documented antivirus/password-protected download gate. Zimmerman immutable pin remains rate-limited, 4GB Patch needs a license grant, and component writers need matching sources/dependencies/recovery. Current pending count is 33 packages, including the 20 continuation candidates and 13 Artcraft products. Setting presentation remains 279/279. New profile composition and BitLocker/recovery resource setup stay deferred.
+
+Latest source progress: [JoeWare rdp-sec-check follow-up](docs/migrations/application-migration-review.md#joeware-rdp-sec-check-version-and-licence-follow-up-2026-10-17)
+confirms the current publisher page advertises 0.9-beta / JoeWare V02.00.00
+(2014); the versions-list's 01.00.00/2011 row is stale or otherwise non-current
+metadata. Exact ZIP bytes/source and source/binary rights remain open; no download
+form was submitted. The non-elevated Hyper-V query for RIDE-Win11-Test returned
+CIM access denied, so VM acceptance stays queued without requesting elevation.
+The preceding [NTCore installer-action review](docs/migrations/application-migration-review.md#ntcore-installer-action-static-review-2026-10-17)
+records Phoenix framework actions and the Explorer Extension Wizard's Visual
+Studio 8 destination/project-generation effects. Prepare the exact custom-action
+source and owned IDE/project fixtures later; do not change the host. BDE rights
+(direct official requests returned 403), OpenSSL/UPX notices, installer terms
+and dependencies remain open. Do not register BDE or run installers on the host.
+All 51 frozen MiTeC/NTCore entries remain assigned. Phoenix/DFM/SQLite/SNS and prior
+GDI+/DDG/provider/SSView terms and runtime gates remain. No new catalog admission
+or native pass is implied.
+
+## Deferred elevation sessions
+
+User instruction, 2026-10-17: after the approved focused-controller refresh,
+continue work supported by preregistration without repeated UAC prompts. Record
+any scenario requiring a fresh prompt here and leave it for a later attended
+session; do not launch another `RunAs` process automatically.
+
+| Scenario | Preparation / blocker | Later attended action |
+| --- | --- | --- |
+| RIDE-Win11-Test access from the current non-elevated host | Read-only `Get-VM -Name RIDE-Win11-Test` failed with `Access to a CIM resource was not available to the client`; no elevation was attempted and VM/checkpoint state is unknown. | Restore the existing approved VM-access workflow when available, verify the pinned checkpoint/state read-only, then run only registered scenarios already in scope. Do not change host services or enroll/update a controller as part of this check. |
+| B03 user-bin startup | Existing checkpoint lacks installed PowerShell 7; the standalone profile runner is outside FocusedPortableV1. | Review disposable runtime staging and the profile runner's registration path together before another elevated acceptance session. Preserve the current checkpoint pin. |
+| Clipchamp and interactive Store/settings checks | Require a reviewed scenario and matching intended-user desktop context; the current focused portable task does not provide that workflow. | Prepare the specific desktop handoff and any required protected-controller update; defer fresh UAC until the user is available. Existing Solitaire evidence remains separate. |
+| Further protected-controller changes or host prerequisites | Only the current PSScriptTools/OfflineCaffeine refresh is approved for this session's fresh prompt. | Save the concrete change and validation here before requesting a later attended update. Existing controller/PAT RC deferrals remain in force. |
+| New portable selections after source review | Driver List/Rebel.NET and SSView still need licence/selection/fixture work; the installed focused queue permits only PSScriptTools and OfflineCaffeine. | Finish source gates first, then review a bounded registration delta and exact native acceptance/recovery procedure. Do not reuse an unrelated suite name or trigger fresh UAC now. |
+| Database/framework prerequisites and ScreenWriter installer | Static review identifies DAO/ADO/client dependencies and ScreenWriter's .NET 2.0.50727/custom-action checks. No prerequisite or installer has run. | Resolve exact versions, terms, intended-user scope and synthetic fixtures before preparing a disposable-guest registration/acceptance delta. Do not service the host or change the pinned checkpoint now. |
+| Remaining MiTeC/NTCore prerequisites and installers | Six outer payloads and all 29 nested BDE files are inspected. Phoenix custom-action DLL behavior and .NET 2.0.50727 checks are not runtime-verified. Extension Wizard targets Visual Studio 8 VC directories and its script creates files in a user-selected project path; current IDE/project contents are unknown. BDE/MiniReg registration, aliases/configuration, DFM BPLs and exact terms remain separate gates. | Keep Phoenix and the Extension Wizard out of host execution. Identify source/notice for the exact custom-action DLL, prepare an isolated Visual Studio 8 fixture and synthetic project-path collision/recovery cases, then prepare exact install/repeat/uninstall/restore checks and a bounded registered selection. Do not invoke BDE loaders, SDK scripts or installer actions on the host; defer any prompt-dependent prerequisites/controller changes. |
+| Driver, process, network and imaging functions | NoDel creates a kernel-driver service; Filter Monitor requires a publisher-described unsigned driver and stays page-only. DynLogger/NETUnpack, Network Scanner and WIM Installer need explicit disposable targets and recovery. | Keep driver-signing requirements intact; resolve compatibility and synthetic fixtures before any runtime proposal. Do not load drivers, scan the live network or apply images during source review. |
+
+This does not defer already authorized batches that the installed controller can
+run without a fresh prompt. Defender exclusions and other resource/acceptance
+blockers remain independently applicable.
+
+## Remaining backlog and release gates
 
 ### Development reliability - high priority
 
@@ -23,10 +71,10 @@
 - [x] Reconcile accepted Q17/Q20 retirement of planned Volatility 2 and ImproHound deployment; preserve exact selector history and existing installations/data. Remaining package range is 56-71; see the [disposition/estimate record](docs/migrations/application-migration-review.md#accepted-volatility-2-and-improhound-retirements-2026-10-17). Standalone Neo4j/APOC and optional CE backend deployment remain deferred, not retired.
 
 - [x] Complete the authorized implementation window through 2026-10-17 08:00 Europe/Copenhagen and record the [morning handoff](docs/migrations/remaining-migrations-follow-up.md#morning-handoff-2026-10-17). Source-ready work and native acceptance remain distinct; this does not mark the migration complete.
-- [ ] Resume from the [morning handoff](docs/migrations/remaining-migrations-follow-up.md#morning-handoff-2026-10-17) (resumed by direct instruction on 2026-10-17; [five batches recorded](docs/migrations/remaining-migrations-follow-up.md#resumed-implementation-results-2026-10-17)): remaining collections/dependencies, 81 setting presentations, durable live ownership/offline integration and serialized native acceptance. Preserve the separate decision ledger, pending resources, existing B01 work and retained source/recovery evidence.
+- [x] Reconcile the implementation and decision chats into the [archive handoff](docs/migrations/remaining-migrations-follow-up.md#archive-handoff-and-closure-order-2026-10-17), current R01-R13 dispositions and closure queue. This closes handoff bookkeeping only; all unfinished outcomes remain below or in their subject ledgers.
 - [ ] Complete native acceptance of the [five implemented optional Store app groups](docs/store-app-groups.md). Solitaire basic registration lifecycle passed; Clipchamp is next when fresh elevation is available. GUI/data, interruption, groups and full intended-user handoff remain pending. The reviewed identity/removability rule is approved; News/Weather wait for usable local reinstall source. Track [remaining acceptance tasks](docs/migrations/store-app-follow-up-decisions.md). The [policy workflow](docs/migrations/store-app-removal-review.md) remains separate and linked. Keep current apps installed and acquisition-dependent reinstall deferred until that app has a reviewed source. [V2 lists](docs/archive/migrations/store-app-v2-historical-coverage-2026-10-14.md) remain history; shared/protected dependencies, AllUsers and image deprovisioning are not automatic group actions.
 - [ ] Continue the accepted settings decisions from the [implementation handoff](docs/migrations/settings-implementation-handoff.md) and [remaining settings plan](docs/migrations/remaining-settings-plan.md#recommended-implementation-order). Six-control metadata and explicit user-only desktop handoff are implemented; complete native interactive acceptance and mixed-profile ordering/recovery, retain numbered questions and finish remaining handlers/acceptance before the final walkthrough.
-- [ ] Include **Rufus** as an optional v3 tool for bootable USB media creation; see the [requested additions](docs/candidate-tools.md#requested-v3-additions-2026-10-11) for portable acquisition, publisher/license references and acceptance work.
+- [ ] Complete **Rufus** acceptance: the pinned optional portable candidate and source/license evidence exist; file lifecycle and application/hardware acceptance remain. See the [verification record](docs/package-verification-matrix.md). This is requested additional scope, not an automatic legacy-count deduction.
 - [ ] Include **HashCheck - idrassi fork** as an optional v3 app; see the [requested additions](docs/candidate-tools.md#requested-v3-additions-2026-10-11) for publisher, license and acceptance work.
 - [ ] Include the supplied **Hash value** submenu and corrected **SHA-256 with Certutil** context-menu setting as optional v3 solutions; see the [source and corrected registry example](examples/hash-context-menu/README.md).
 - [ ] Inventory the v2 default profile and migrate its high-use settings and installers into v3 operation metadata.
@@ -45,7 +93,7 @@
 ## Down the road
 
 - [ ] Add explicit opt-in `search -Regex` with bounded, case-insensitive, culture-invariant matching; preserve literal search by default and reuse field/view filters. Validate invalid patterns and timeouts on Windows PowerShell 5.1 and 7.
-- [ ] Implement the accepted [offline bundle workflow](docs/offline-bundles.md): profile-selected/full reviewed variants, pinned engine/profiles/payloads, version retention, explicit omissions and optional supplied servicing sources. Local manifest preflight is source-ready; next derive complete requirements from catalog/profiles, assemble versioned content and integrate a mandatory no-network preflight before any install/apply changes. Preserve Q14's separate installation/publication rules; see [licensing boundaries](docs/package-licensing.md#requested-offline-bundles).
+The accepted [offline bundle workflow](docs/offline-bundles.md) is in the active closure queue above. Manifest/byte-bound profile coverage and local assembly are implemented; mandatory install/apply integration, complete dependencies/provenance and native no-network acceptance remain. Profile-selected/full sets, retained versions, omissions and supplied servicing sources retain their accepted scope.
 
 - [ ] Once the CLI commands and operation lifecycle have stabilized, evaluate exposing a public, importable RIDE PowerShell module for interactive use and integration from other scripts. Keep `ride.ps1` as the standalone entry point; define a stable module API only if there is a clear use case.
 

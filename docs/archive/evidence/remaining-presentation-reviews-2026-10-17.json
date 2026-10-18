@@ -1,0 +1,871 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "Batch": "B01 remaining 77 setting presentation reviews",
+  "Before": 202,
+  "Added": 77,
+  "After": 279,
+  "Settings": 279,
+  "Remaining": 0,
+  "BaselineCatalogSha256": "22d8fd3eb702bd23c13f136a8ec5affd4217cdf1cf9aca2111f75bc01e782f8e",
+  "SemanticComparison": "Passed against the captured start-of-turn catalog: only 77 SettingPresentation additions and the listed Description/DocumentationUri corrections. All other catalog fields and existing presentations unchanged.",
+  "SourceFiles": [
+    {
+      "Path": "catalog/operations.psd1",
+      "Sha256": "20aa30e1a6fe8f63b887246f6f72b6084d046074ad51237f25b25ea98fde874b"
+    },
+    {
+      "Path": "docs/OPERATIONS.md",
+      "Sha256": "f8a916c71ada7336075a946a6b934bb87e38c066c9c0083a659e2930a8806eec"
+    },
+    {
+      "Path": "tests/SettingPresentation.Tests.ps1",
+      "Sha256": "81b43bcce87185aae2da91616236a153d851e70870a2a3dbd1e4cfef88036bd5"
+    },
+    {
+      "Path": "tests/Catalog.Tests.ps1",
+      "Sha256": "74ed1eeca0b81ce5c6ebf55bd4c1539d840aae153a925d7c55bc89b27952a33a"
+    },
+    {
+      "Path": "tests/Search.Tests.ps1",
+      "Sha256": "1f30743b7acf6f6f4c87252a60b368506217b5c5752e1ee1704a6aad946ac320"
+    },
+    {
+      "Path": "tools/Export-RideCatalog.ps1",
+      "Sha256": "c3dad13d72a3ebf635a28c8bcfd47cdf1caa811a6039ca1a03b1905c6b37a865"
+    }
+  ],
+  "LocalPolicyDefinitionEvidence": [
+    {
+      "Path": "Windows/PolicyDefinitions/StartMenu.admx",
+      "Sha256": "dd419e65e02e78e370c93b34aa63c05dd958f25b0189cbd00462107d351716c7"
+    },
+    {
+      "Path": "Windows/PolicyDefinitions/Biometrics.admx",
+      "Sha256": "fd017004712164af3b824187ff9d016e917ca11243452d3e7e2a57f1b35f5232"
+    },
+    {
+      "Path": "Windows/PolicyDefinitions/VolumeEncryption.admx",
+      "Sha256": "3f207ac665325809008de2339c150d81256636d6d5bee5a192b16207371c0f10"
+    },
+    {
+      "Path": "Windows/PolicyDefinitions/en-US/VolumeEncryption.adml",
+      "Sha256": "57a22fbcfb4f669ec0630bf611257574a27963fe529c14e9bcc3f45074ca5bd0"
+    },
+    {
+      "Path": "Windows/PolicyDefinitions/ICM.admx",
+      "Sha256": "96441aa74a539f8ae8688f31ba2d61b460d87a4159765b546b1bc39bfa905c5d"
+    },
+    {
+      "Path": "Windows/PolicyDefinitions/WindowsExplorer.admx",
+      "Sha256": "dd68b2e4bdef20a500f78c2808ec62493a3d9aafaaedd5c6f480466a91879cb0"
+    },
+    {
+      "Path": "Windows/PolicyDefinitions/Search.admx",
+      "Sha256": "b0521c1b02bd6dc51790508c60de695621d22b0e7d467a1e1fd27d08d6954977"
+    }
+  ],
+  "Checks": [
+    {
+      "PowerShell": "5.1.26100.9711",
+      "InitialCombinedRun": {
+        "PowerShell": "5.1.26100.9711",
+        "Tests": [
+          "SettingPresentation",
+          "Catalog",
+          "Search"
+        ],
+        "Passed": 121,
+        "Failed": 1,
+        "Skipped": 0,
+        "Total": 123
+      },
+      "ResolvedFailure": "Obsolete BitLocker description assertion replaced with unverified/legacy compatibility assertions",
+      "CatalogRerun": {
+        "PowerShell": "5.1.26100.9711",
+        "Tests": [
+          "Catalog"
+        ],
+        "Passed": 70,
+        "Failed": 0,
+        "Skipped": 0,
+        "Total": 71
+      },
+      "FinalDistinctPassed": 122,
+      "FinalFailed": 0,
+      "ExcludedWindowsIntegration": 1,
+      "Validation": "358 operations, 8 groups, 5 profiles, 227 PowerShell files; generated documentation current"
+    },
+    {
+      "PowerShell": "7.6.5",
+      "InitialCombinedRun": {
+        "PowerShell": "7.6.5",
+        "Tests": [
+          "SettingPresentation",
+          "Catalog",
+          "Search"
+        ],
+        "Passed": 121,
+        "Failed": 1,
+        "Skipped": 0,
+        "Total": 123
+      },
+      "ResolvedFailure": "Obsolete BitLocker description assertion replaced with unverified/legacy compatibility assertions",
+      "CatalogRerun": {
+        "PowerShell": "7.6.5",
+        "Tests": [
+          "Catalog"
+        ],
+        "Passed": 70,
+        "Failed": 0,
+        "Skipped": 0,
+        "Total": 71
+      },
+      "FinalDistinctPassed": 122,
+      "FinalFailed": 0,
+      "ExcludedWindowsIntegration": 1,
+      "Validation": "358 operations, 8 groups, 5 profiles, 227 PowerShell files; generated documentation current"
+    }
+  ],
+  "Batches": [
+    {
+      "Name": "explorer-namespace",
+      "Count": 16,
+      "Operations": [
+        {
+          "Id": "windows.desktop-folder-this-pc",
+          "Behavior": "Configuration",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction"
+          ]
+        },
+        {
+          "Id": "windows.desktop-folder-shell-policy",
+          "Behavior": "Unverified",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/win32/shell/known-folders"
+          ]
+        },
+        {
+          "Id": "windows.documents-folder-this-pc",
+          "Behavior": "Configuration",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction"
+          ]
+        },
+        {
+          "Id": "windows.documents-folder-shell-policy",
+          "Behavior": "Unverified",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/win32/shell/known-folders"
+          ]
+        },
+        {
+          "Id": "windows.downloads-folder-this-pc",
+          "Behavior": "Configuration",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction"
+          ]
+        },
+        {
+          "Id": "windows.downloads-folder-shell-policy",
+          "Behavior": "Unverified",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/win32/shell/known-folders"
+          ]
+        },
+        {
+          "Id": "windows.pictures-folder-this-pc",
+          "Behavior": "Configuration",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction"
+          ]
+        },
+        {
+          "Id": "windows.pictures-folder-shell-policy",
+          "Behavior": "Unverified",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/win32/shell/known-folders"
+          ]
+        },
+        {
+          "Id": "windows.music-folder-this-pc",
+          "Behavior": "Configuration",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction"
+          ]
+        },
+        {
+          "Id": "windows.music-folder-shell-policy",
+          "Behavior": "Unverified",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/win32/shell/known-folders"
+          ]
+        },
+        {
+          "Id": "windows.videos-folder-this-pc",
+          "Behavior": "Configuration",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction"
+          ]
+        },
+        {
+          "Id": "windows.videos-folder-shell-policy",
+          "Behavior": "Unverified",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/win32/shell/known-folders"
+          ]
+        },
+        {
+          "Id": "windows.3d-objects-folder-this-pc",
+          "Behavior": "Configuration",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction"
+          ]
+        },
+        {
+          "Id": "windows.3d-objects-folder-shell-policy",
+          "Behavior": "Unverified",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/win32/shell/known-folders"
+          ]
+        },
+        {
+          "Id": "windows.shortcut-name-suffix",
+          "Behavior": "Unverified",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/win32/shell/links"
+          ]
+        },
+        {
+          "Id": "windows.god-mode-shortcut",
+          "Behavior": "Configuration",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/win32/shell/nse-junction"
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "network-controls",
+      "Count": 12,
+      "Operations": [
+        {
+          "Id": "windows.adapter-lldp-binding",
+          "Behavior": "Configuration",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/powershell/module/netadapter/set-netadapterbinding?view=windowsserver2025-ps"
+          ]
+        },
+        {
+          "Id": "windows.adapter-lltd-binding",
+          "Behavior": "Configuration",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/powershell/module/netadapter/set-netadapterbinding?view=windowsserver2025-ps"
+          ]
+        },
+        {
+          "Id": "windows.adapter-microsoft-network-client-binding",
+          "Behavior": "Configuration",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/powershell/module/netadapter/set-netadapterbinding?view=windowsserver2025-ps"
+          ]
+        },
+        {
+          "Id": "windows.adapter-qos-packet-scheduler-binding",
+          "Behavior": "Configuration",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/powershell/module/netadapter/set-netadapterbinding?view=windowsserver2025-ps"
+          ]
+        },
+        {
+          "Id": "windows.adapter-ipv4-binding",
+          "Behavior": "Configuration",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/powershell/module/netadapter/set-netadapterbinding?view=windowsserver2025-ps"
+          ]
+        },
+        {
+          "Id": "windows.adapter-ipv6-binding",
+          "Behavior": "Configuration",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/powershell/module/netadapter/set-netadapterbinding?view=windowsserver2025-ps"
+          ]
+        },
+        {
+          "Id": "windows.adapter-file-printer-sharing-binding",
+          "Behavior": "Configuration",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/powershell/module/netadapter/set-netadapterbinding?view=windowsserver2025-ps"
+          ]
+        },
+        {
+          "Id": "windows.current-network-category",
+          "Behavior": "Configuration",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/powershell/module/netconnection/set-netconnectionprofile?view=windowsserver2025-ps"
+          ]
+        },
+        {
+          "Id": "windows.smb1-server-protocol",
+          "Behavior": "Configuration",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows-server/storage/file-server/troubleshoot/detect-enable-and-disable-smbv1-v2-v3"
+          ]
+        },
+        {
+          "Id": "windows.smb2-server-protocol",
+          "Behavior": "Configuration",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows-server/storage/file-server/troubleshoot/detect-enable-and-disable-smbv1-v2-v3"
+          ]
+        },
+        {
+          "Id": "windows.netbios-over-tcpip",
+          "Behavior": "Configuration",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/win32/cimwin32prov/settcpipnetbios-method-in-class-win32-networkadapterconfiguration"
+          ]
+        },
+        {
+          "Id": "windows.remote-desktop-firewall",
+          "Behavior": "Configuration",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/remotepc/remote-desktop-allow-access"
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "privacy-and-history",
+      "Count": 21,
+      "Operations": [
+        {
+          "Id": "windows.diagnostic-data-policy",
+          "Behavior": "EnforcedPolicy",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-system#allowtelemetry"
+          ]
+        },
+        {
+          "Id": "windows.linguistic-data-collection-policy",
+          "Behavior": "EnforcedPolicy",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-textinput#allowlinguisticdatacollection"
+          ]
+        },
+        {
+          "Id": "windows.feedback-notifications-policy",
+          "Behavior": "EnforcedPolicy",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-experience#donotshowfeedbacknotifications"
+          ]
+        },
+        {
+          "Id": "windows.error-reporting",
+          "Behavior": "Preference",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/win32/wer/wer-settings"
+          ]
+        },
+        {
+          "Id": "windows.sensors-policy",
+          "Behavior": "EnforcedPolicy",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-sensors#disablesensors_2"
+          ]
+        },
+        {
+          "Id": "windows.biometrics-policy",
+          "Behavior": "EnforcedPolicy",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/win32/api/winbio/nf-winbio-winbiogetenabledsetting"
+          ]
+        },
+        {
+          "Id": "windows.clear-recent-documents-on-exit",
+          "Behavior": "EnforcedPolicy",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-startmenu#clearrecentdocsonexit"
+          ]
+        },
+        {
+          "Id": "windows.recent-document-history-policy",
+          "Behavior": "EnforcedPolicy",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-startmenu#clearrecentdocsonexit"
+          ]
+        },
+        {
+          "Id": "windows.uwp-documents-library-access",
+          "Behavior": "Unverified",
+          "CorrectedFields": [
+            "DocumentationUri"
+          ],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/apps/package-and-deploy/app-capability-declarations"
+          ]
+        },
+        {
+          "Id": "windows.uwp-pictures-library-access",
+          "Behavior": "Unverified",
+          "CorrectedFields": [
+            "DocumentationUri"
+          ],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/apps/package-and-deploy/app-capability-declarations"
+          ]
+        },
+        {
+          "Id": "windows.uwp-videos-library-access",
+          "Behavior": "Unverified",
+          "CorrectedFields": [
+            "DocumentationUri"
+          ],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/apps/package-and-deploy/app-capability-declarations"
+          ]
+        },
+        {
+          "Id": "windows.uwp-broad-file-system-access-access",
+          "Behavior": "Unverified",
+          "CorrectedFields": [
+            "DocumentationUri"
+          ],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/apps/package-and-deploy/app-capability-declarations"
+          ]
+        },
+        {
+          "Id": "windows.uwp-background-app-user-overrides",
+          "Behavior": "Unverified",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy#letappsruninbackground"
+          ]
+        },
+        {
+          "Id": "windows.tailored-experiences-policy",
+          "Behavior": "EnforcedPolicy",
+          "CorrectedFields": [
+            "DocumentationUri"
+          ],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-experience#allowtailoredexperienceswithdiagnosticdata"
+          ]
+        },
+        {
+          "Id": "windows.activity-history-feed-policy",
+          "Behavior": "EnforcedPolicy",
+          "CorrectedFields": [
+            "DocumentationUri"
+          ],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy#enableactivityfeed",
+            "https://support.microsoft.com/en-us/windows/privacy/windows-activity-history-and-your-privacy"
+          ]
+        },
+        {
+          "Id": "windows.activity-history-publish-policy",
+          "Behavior": "EnforcedPolicy",
+          "CorrectedFields": [
+            "DocumentationUri"
+          ],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy#publishuseractivities",
+            "https://support.microsoft.com/en-us/windows/privacy/windows-activity-history-and-your-privacy"
+          ]
+        },
+        {
+          "Id": "windows.activity-history-upload-policy",
+          "Behavior": "EnforcedPolicy",
+          "CorrectedFields": [
+            "DocumentationUri"
+          ],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy#uploaduseractivities",
+            "https://support.microsoft.com/en-us/windows/privacy/windows-activity-history-and-your-privacy"
+          ]
+        },
+        {
+          "Id": "windows.website-language-list-policy",
+          "Behavior": "Unverified",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/privacy/windows-privacy-compliance-guide"
+          ]
+        },
+        {
+          "Id": "windows.shared-experiences-policy",
+          "Behavior": "Unverified",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/privacy/windows-privacy-compliance-guide"
+          ]
+        },
+        {
+          "Id": "windows.application-impact-telemetry",
+          "Behavior": "EnforcedPolicy",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-appcompat#appcompatturnoffapplicationimpacttelemetry"
+          ]
+        },
+        {
+          "Id": "windows.application-inventory-policy",
+          "Behavior": "EnforcedPolicy",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-appcompat#appcompatturnoffprograminventory"
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "power-and-bitlocker",
+      "Count": 7,
+      "Operations": [
+        {
+          "Id": "windows.hardware-clock-time-basis",
+          "Behavior": "Unverified",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/win32/sysinfo/system-time"
+          ]
+        },
+        {
+          "Id": "windows.bitlocker-enhanced-pin",
+          "Behavior": "EnforcedPolicy",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure#allow-enhanced-pins-for-startup"
+          ]
+        },
+        {
+          "Id": "windows.bitlocker-additional-startup-auth",
+          "Behavior": "EnforcedPolicy",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure#require-additional-authentication-at-startup"
+          ]
+        },
+        {
+          "Id": "windows.bitlocker-encryption-method",
+          "Behavior": "Unverified",
+          "CorrectedFields": [
+            "Description",
+            "DocumentationUri"
+          ],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure#choose-drive-encryption-method-and-cipher-strength"
+          ]
+        },
+        {
+          "Id": "windows.lid-close-action-ac",
+          "Behavior": "Configuration",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options"
+          ]
+        },
+        {
+          "Id": "windows.lid-close-action-dc",
+          "Behavior": "Configuration",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options"
+          ]
+        },
+        {
+          "Id": "windows.active-power-scheme",
+          "Behavior": "Configuration",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options"
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "platform-compatibility",
+      "Count": 11,
+      "Operations": [
+        {
+          "Id": "windows.fullscreen-optimizations",
+          "Behavior": "Unverified",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://support.microsoft.com/en-us/windows/hardware/display-graphics/optimizations-for-windowed-games-in-windows-11"
+          ]
+        },
+        {
+          "Id": "windows.storage-sense",
+          "Behavior": "Unverified",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://support.microsoft.com/en-us/windows/experience/storage-filemanagement/manage-drive-space-with-storage-sense"
+          ]
+        },
+        {
+          "Id": "windows.recycle-bin-policy",
+          "Behavior": "EnforcedPolicy",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-windowsexplorer#norecyclefiles"
+          ]
+        },
+        {
+          "Id": "windows.delivery-optimization-download-mode",
+          "Behavior": "EnforcedPolicy",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/deployment/do/waas-delivery-optimization-reference#download-mode"
+          ]
+        },
+        {
+          "Id": "windows.uwp-swap-file",
+          "Behavior": "Unverified",
+          "CorrectedFields": [
+            "DocumentationUri"
+          ],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/uwp/debug-test-perf/optimize-suspend-resume"
+          ]
+        },
+        {
+          "Id": "windows.script-host-policy",
+          "Behavior": "Unverified",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/wscript"
+          ]
+        },
+        {
+          "Id": "windows.proxy-autoconfig-url",
+          "Behavior": "Preference",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/configure-proxy-server-settings"
+          ]
+        },
+        {
+          "Id": "windows.long-paths-policy",
+          "Behavior": "Configuration",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation"
+          ]
+        },
+        {
+          "Id": "windows.account-protection-warning",
+          "Behavior": "Unverified",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://support.microsoft.com/en-gb/windows/security/windows-security/account-protection-in-the-windows-security-app"
+          ]
+        },
+        {
+          "Id": "windows.dotnet-strong-crypto-64bit",
+          "Behavior": "Configuration",
+          "CorrectedFields": [
+            "Description"
+          ],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/dotnet/framework/network-programming/tls#schusestrongcrypto"
+          ]
+        },
+        {
+          "Id": "windows.dotnet-strong-crypto-32bit",
+          "Behavior": "Configuration",
+          "CorrectedFields": [
+            "Description"
+          ],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/dotnet/framework/network-programming/tls#schusestrongcrypto"
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "shell-accessibility-and-edge",
+      "Count": 10,
+      "Operations": [
+        {
+          "Id": "windows.search-web-policy",
+          "Behavior": "EnforcedPolicy",
+          "CorrectedFields": [
+            "DocumentationUri"
+          ],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services"
+          ]
+        },
+        {
+          "Id": "windows.edge-friendly-url-format",
+          "Behavior": "EnforcedPolicy",
+          "CorrectedFields": [
+            "DocumentationUri"
+          ],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-browser-policies/configurefriendlyurlformat"
+          ]
+        },
+        {
+          "Id": "windows.sticky-keys-prompts",
+          "Behavior": "Unverified",
+          "CorrectedFields": [
+            "Description"
+          ],
+          "ReferenceUris": [
+            "https://support.microsoft.com/en-us/accessibility/windows/make-your-mouse-keyboard-and-other-input-devices-easier-to-use",
+            "https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-stickykeys"
+          ]
+        },
+        {
+          "Id": "windows.toggle-keys-prompts",
+          "Behavior": "Unverified",
+          "CorrectedFields": [
+            "Description"
+          ],
+          "ReferenceUris": [
+            "https://support.microsoft.com/en-us/accessibility/windows/make-your-mouse-keyboard-and-other-input-devices-easier-to-use",
+            "https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-togglekeys"
+          ]
+        },
+        {
+          "Id": "windows.filter-keys-prompts",
+          "Behavior": "Unverified",
+          "CorrectedFields": [
+            "Description"
+          ],
+          "ReferenceUris": [
+            "https://support.microsoft.com/en-us/accessibility/windows/make-your-mouse-keyboard-and-other-input-devices-easier-to-use",
+            "https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-filterkeys"
+          ]
+        },
+        {
+          "Id": "windows.file-operation-details",
+          "Behavior": "Unverified",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://support.microsoft.com/en-us/windows/experience/fileexplorer/file-explorer-in-windows"
+          ]
+        },
+        {
+          "Id": "windows.store-app-suggestion",
+          "Behavior": "EnforcedPolicy",
+          "CorrectedFields": [
+            "DocumentationUri"
+          ],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-icm#shellnousestoreopenwith_2"
+          ]
+        },
+        {
+          "Id": "windows.new-app-alert",
+          "Behavior": "EnforcedPolicy",
+          "CorrectedFields": [
+            "Description",
+            "DocumentationUri"
+          ],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-windowsexplorer#nonewappalert"
+          ]
+        },
+        {
+          "Id": "windows.recycle-bin-delete-confirmation",
+          "Behavior": "EnforcedPolicy",
+          "CorrectedFields": [
+            "Description",
+            "DocumentationUri"
+          ],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-windowsexplorer#confirmfiledelete"
+          ]
+        },
+        {
+          "Id": "application.edge-install-desktop-shortcut",
+          "Behavior": "EnforcedPolicy",
+          "CorrectedFields": [],
+          "ReferenceUris": [
+            "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-update-policies#createdesktopshortcutdefault"
+          ]
+        }
+      ]
+    }
+  ],
+  "NativeAcceptance": {
+    "Status": "Blocked",
+    "Reason": "Previously established non-elevated Hyper-V CIM access denied; no elevated disposable-target session available in this run",
+    "AttemptedInThisRun": false,
+    "WorkstationMutations": false,
+    "ControllerOrPinChanges": false,
+    "Remaining": [
+      "Target GUI and managed-policy behavior",
+      "Sign-in/reboot and session refresh",
+      "Network peer/connectivity and stable identity recovery",
+      "Actual installer/channel behavior",
+      "Physical lid/sleep behavior cannot be established by a VM",
+      "Exact saved-state recovery and partial failures on declared targets"
+    ],
+    "ExplicitlyDeferred": [
+      "BitLocker/recovery test resource setup",
+      "New deployment profiles"
+    ]
+  },
+  "CompatibilityFollowUp": [
+    "Legacy BitLocker EncryptionMethod remains selected in existing default profile; current Windows 11 applicability and recommendation need separate correction without changing saved recovery identity",
+    "Accessibility whole Flags presets remain Unverified and are not prompt-only toggles",
+    "Other Unverified mappings retain feature-specific gaps in catalog metadata"
+  ],
+  "LegacyOutcomeDisposition": {
+    "NewWholeOutcomesResolved": 0,
+    "NewRetirements": 0,
+    "NewExclusions": 0,
+    "Partial": "Source presentation complete; native feature/managed/recovery evidence remains open",
+    "Ranges": [
+      "38-58",
+      "56-71",
+      "20-25",
+      "25-35",
+      "8-12"
+    ],
+    "RoundedTotal": "145-200/about 175"
+  }
+}

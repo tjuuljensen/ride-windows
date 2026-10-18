@@ -1,0 +1,94 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "Products": [
+    {
+      "Name": "Driver List",
+      "ProductUri": "https://ntcore.com/driver-list/",
+      "ProductPageSha256": "75d1f31256be40ea99336e090fbe733af1109622f2e0760d36fb100640574558",
+      "ProductPageVersion": "1.0.2",
+      "EmbeddedVersionVerified": false,
+      "DownloadUri": "https://ntcore.com/files/DriverList.zip",
+      "Archive": "DriverList.zip",
+      "Sha256": "dbc5736808cf7203cf289a269cc27cbcf90a8c69e03eed60ae361ad29da08d28",
+      "Length": 162127,
+      "Members": [
+        {
+          "Path": "DriverList_x64.exe",
+          "Length": 81920,
+          "Sha256": "de90b5c29c0c1438c728b98252ba7a9e4e26a06913c575e8c44faba36ea4babf",
+          "PeMachine": "8664"
+        },
+        {
+          "Path": "DriverList_x86.exe",
+          "Length": 76800,
+          "Sha256": "2daef3855fc3ab60a3f671ebbd52f493870a494486d57c4b99a112cdbd651e4f",
+          "PeMachine": "014c"
+        },
+        {
+          "Path": "DriverList_IA64.exe",
+          "Length": 185856,
+          "Sha256": "9f0a9936eb0e6940fe703e8c9d24308468c7dd14f6dc7bdcdb670f45f3b80bab",
+          "PeMachine": "0200"
+        }
+      ],
+      "PublisherDigestVerified": false,
+      "LicenseFilePresent": false,
+      "LicenseDisposition": "No explicit use/distribution license grant located in the reviewed product page or archive; do not inherit Explorer Suite terms.",
+      "CatalogAdmission": false,
+      "PayloadExecuted": false,
+      "NativeAcceptance": false,
+      "Remaining": [
+        "Resolve official product-specific license reference/grant",
+        "Verify embedded version and architecture selection",
+        "Owned deployment and exact restore fixtures",
+        "Review native functionality and preregister an exact acceptance mode before VM execution"
+      ]
+    },
+    {
+      "Name": "Rebel.NET",
+      "ProductUri": "https://ntcore.com/rebel-net/",
+      "ProductPageSha256": "097747c9b85f236dfb77394c900fc2b2390fec1fa0841a778f8b07e2f0b99f4a",
+      "ProductPageVersion": "1.6.0.1",
+      "EmbeddedVersionVerified": false,
+      "DownloadUri": "https://ntcore.com/files/RebelDotNET.zip",
+      "Archive": "RebelDotNET.zip",
+      "Sha256": "7bd01e9cb15426642c74f8f3cab45cf7005f7525ab7cb8abc5a32973f383af32",
+      "Length": 226063,
+      "Members": [
+        {
+          "Path": "RebelDotNET.h",
+          "Length": 1718,
+          "Sha256": "f50c5bf92f24ada49711a3944acf00bc6d3034558c8c73183e9a35e25b0fd86a",
+          "PeMachine": null
+        },
+        {
+          "Path": "RebelDotNET.exe",
+          "Length": 820224,
+          "Sha256": "cc54efdf25852b677ed3cf73f4fb018a29c75103e611e306c0fe1a9f9468a665",
+          "PeMachine": "014c"
+        }
+      ],
+      "PublisherDigestVerified": false,
+      "LicenseFilePresent": false,
+      "LicenseDisposition": "No explicit use/distribution license grant located in the reviewed product page or archive; do not inherit Explorer Suite terms.",
+      "CatalogAdmission": false,
+      "PayloadExecuted": false,
+      "NativeAcceptance": false,
+      "Remaining": [
+        "Resolve official product-specific license reference/grant",
+        "Verify embedded version and architecture selection",
+        "Owned deployment and exact restore fixtures",
+        "Review native functionality and preregister an exact acceptance mode before VM execution"
+      ]
+    }
+  ],
+  "ArchiveExtraction": false,
+  "Inspection": "Bounded ZIP member reads in memory; SHA256 and PE header only; C/C++ header read as text",
+  "SupportedTargetsExpanded": false,
+  "Notes": [
+    "IA64 is Itanium, not ARM64 or x64; not selected for Windows 11 acceptance.",
+    "RebelDotNET.h describes a file format; its presence is not a source-code license grant.",
+    "Initial sandbox DNS lookup failed; ordinary host network fetch succeeded without Windows elevation."
+  ]
+}

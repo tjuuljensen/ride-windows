@@ -1,0 +1,46 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "Archive": "XMLView.zip",
+  "DownloadUri": "https://www.mitec.cz/wp/files/XMLView.zip",
+  "Sha256": "c64a87ee9d26096d3a2efc63d2c1b38fb5440a825fa5b1bdc0d50cbb2d6b7960",
+  "Length": 6255339,
+  "Members": [
+    {
+      "Path": "XMLView.exe",
+      "Length": 2882536,
+      "Sha256": "d498af4595aeb982450b4f3aa1d16c6be1c7efe24c71873779cb233a92e25dc2",
+      "PeMachine": "014c",
+      "FileVersion": "6.5.0.0",
+      "LegalCopyright": "Copyright (c) 2014-2024, Michal Mutl"
+    },
+    {
+      "Path": "XMLView64.exe",
+      "Length": 3766072,
+      "Sha256": "f32c4416c2a6adddd3769bc67234f45aea2e14132cacb22b0533695b8cea3d20",
+      "PeMachine": "8664",
+      "FileVersion": "6.5.0.0",
+      "LegalCopyright": "Copyright (c) 2014-2024, Michal Mutl"
+    }
+  ],
+  "PublisherDigestVerified": false,
+  "PayloadExecuted": false,
+  "NativeAcceptance": false,
+  "LicenseUri": "https://www.mitec.cz/wp/support/",
+  "LicenseEvidence": "Publisher software EULA and product license tiers apply; no standalone license file in these archives. No personal/company approval or redistribution determination recorded.",
+  "ProductUri": "https://www.mitec.cz/wp/mxmlv/",
+  "SelectedFilesByVariant": {
+    "portable": [
+      "XMLView64.exe"
+    ],
+    "portable-x86": [
+      "XMLView.exe"
+    ]
+  },
+  "CatalogCandidate": "package.mitec-xml-viewer",
+  "Remaining": [
+    "Windows 11 engine and application acceptance for each architecture",
+    "Real activation/configuration preservation and shared-installer entitlement equivalence",
+    "Local per-owner licensing review and independent distribution permissions"
+  ]
+}

@@ -1,0 +1,3394 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "Kind": "NirLauncherCentralDirectoryReview",
+  "ProductUri": "https://launcher.nirsoft.net/",
+  "DownloadPage": "https://launcher.nirsoft.net/downloads/index.html",
+  "DownloadUri": "https://download.nirsoft.net/nirsoft_package_enc_1.30.26.zip",
+  "PublisherVersion": "1.30.26",
+  "Length": 41961437,
+  "Sha256": "6cfd973d0f2d34ec2fe5c7cfdcc0bdbcb56a8fad329fb4683f6446602769f1b2",
+  "PublisherSha256Matches": true,
+  "Acquisition": "One corrected request supplied the publisher download-page Referer after an HTML error response; no aggressive downloader or credential used.",
+  "RejectedResponse": {
+    "Length": 1369,
+    "Sha256": "5dcda3940e1b6955da713fc1d7308dcd0e0b9b72c8edda8894d2045646a59aa5",
+    "Reason": "HTML: Error 403 Missing HTTP referer; not archive bytes",
+    "Retained": true
+  },
+  "MemberCount": 668,
+  "DeclaredExpandedBytes": 69392700,
+  "PathDuplicateLinkAndDeclaredSizeChecksPassed": true,
+  "Members": [
+    {
+      "Path": "autorun.inf",
+      "Length": 176,
+      "CompressedLength": 121
+    },
+    {
+      "Path": "NirLauncher.cfg",
+      "Length": 1087,
+      "CompressedLength": 468
+    },
+    {
+      "Path": "NirLauncher.exe",
+      "Length": 111616,
+      "CompressedLength": 53606
+    },
+    {
+      "Path": "NirSoft/advancedrun.chm",
+      "Length": 20624,
+      "CompressedLength": 12726
+    },
+    {
+      "Path": "NirSoft/advancedrun.exe",
+      "Length": 104824,
+      "CompressedLength": 51017
+    },
+    {
+      "Path": "NirSoft/allthreadsview.chm",
+      "Length": 15272,
+      "CompressedLength": 7384
+    },
+    {
+      "Path": "NirSoft/allthreadsview.exe",
+      "Length": 89296,
+      "CompressedLength": 45933
+    },
+    {
+      "Path": "NirSoft/alternatestreamview.chm",
+      "Length": 16424,
+      "CompressedLength": 8561
+    },
+    {
+      "Path": "NirSoft/alternatestreamview.exe",
+      "Length": 49480,
+      "CompressedLength": 42414
+    },
+    {
+      "Path": "NirSoft/altstreamdump.chm",
+      "Length": 12984,
+      "CompressedLength": 5068
+    },
+    {
+      "Path": "NirSoft/altstreamdump.exe",
+      "Length": 9216,
+      "CompressedLength": 4545
+    },
+    {
+      "Path": "NirSoft/appaudioconfig.chm",
+      "Length": 17030,
+      "CompressedLength": 9161
+    },
+    {
+      "Path": "NirSoft/appaudioconfig.exe",
+      "Length": 97656,
+      "CompressedLength": 51366
+    },
+    {
+      "Path": "NirSoft/appcompatibilityview.chm",
+      "Length": 16846,
+      "CompressedLength": 8977
+    },
+    {
+      "Path": "NirSoft/appcompatibilityview.exe",
+      "Length": 91648,
+      "CompressedLength": 43094
+    },
+    {
+      "Path": "NirSoft/appcrashview.chm",
+      "Length": 15684,
+      "CompressedLength": 7823
+    },
+    {
+      "Path": "NirSoft/appcrashview.exe",
+      "Length": 51408,
+      "CompressedLength": 42364
+    },
+    {
+      "Path": "NirSoft/appnetworkcounter.chm",
+      "Length": 18132,
+      "CompressedLength": 10298
+    },
+    {
+      "Path": "NirSoft/appnetworkcounter.exe",
+      "Length": 94720,
+      "CompressedLength": 48364
+    },
+    {
+      "Path": "NirSoft/appreadwritecounter.chm",
+      "Length": 17734,
+      "CompressedLength": 9888
+    },
+    {
+      "Path": "NirSoft/appreadwritecounter.exe",
+      "Length": 94720,
+      "CompressedLength": 49077
+    },
+    {
+      "Path": "NirSoft/appresourcesusageview.chm",
+      "Length": 16878,
+      "CompressedLength": 9025
+    },
+    {
+      "Path": "NirSoft/appresourcesusageview.exe",
+      "Length": 111616,
+      "CompressedLength": 56902
+    },
+    {
+      "Path": "NirSoft/awatch.chm",
+      "Length": 13414,
+      "CompressedLength": 5490
+    },
+    {
+      "Path": "NirSoft/awatch.exe",
+      "Length": 35328,
+      "CompressedLength": 30894
+    },
+    {
+      "Path": "NirSoft/axhelper.chm",
+      "Length": 14830,
+      "CompressedLength": 6936
+    },
+    {
+      "Path": "NirSoft/axhelper.exe",
+      "Length": 39424,
+      "CompressedLength": 34213
+    },
+    {
+      "Path": "NirSoft/batteryhistoryview.chm",
+      "Length": 17270,
+      "CompressedLength": 9410
+    },
+    {
+      "Path": "NirSoft/batteryhistoryview.exe",
+      "Length": 99328,
+      "CompressedLength": 51224
+    },
+    {
+      "Path": "NirSoft/batteryinfoview.chm",
+      "Length": 83552,
+      "CompressedLength": 75717
+    },
+    {
+      "Path": "NirSoft/batteryinfoview.exe",
+      "Length": 80384,
+      "CompressedLength": 38170
+    },
+    {
+      "Path": "NirSoft/bluescreenview.chm",
+      "Length": 18488,
+      "CompressedLength": 10542
+    },
+    {
+      "Path": "NirSoft/bluescreenview.exe",
+      "Length": 61024,
+      "CompressedLength": 50695
+    },
+    {
+      "Path": "NirSoft/bluetoothcl.chm",
+      "Length": 13574,
+      "CompressedLength": 5693
+    },
+    {
+      "Path": "NirSoft/bluetoothcl.exe",
+      "Length": 9216,
+      "CompressedLength": 5992
+    },
+    {
+      "Path": "NirSoft/bluetoothleview.chm",
+      "Length": 17002,
+      "CompressedLength": 9161
+    },
+    {
+      "Path": "NirSoft/bluetoothleview.exe",
+      "Length": 111616,
+      "CompressedLength": 101298
+    },
+    {
+      "Path": "NirSoft/bluetoothlogview.chm",
+      "Length": 27458,
+      "CompressedLength": 19703
+    },
+    {
+      "Path": "NirSoft/bluetoothlogview.exe",
+      "Length": 266448,
+      "CompressedLength": 253754
+    },
+    {
+      "Path": "NirSoft/bluetoothview.chm",
+      "Length": 16558,
+      "CompressedLength": 8696
+    },
+    {
+      "Path": "NirSoft/bluetoothview.exe",
+      "Length": 42496,
+      "CompressedLength": 36979
+    },
+    {
+      "Path": "NirSoft/bootperformanceview.chm",
+      "Length": 16166,
+      "CompressedLength": 8306
+    },
+    {
+      "Path": "NirSoft/bootperformanceview.exe",
+      "Length": 56320,
+      "CompressedLength": 48593
+    },
+    {
+      "Path": "NirSoft/browseraddonsview.chm",
+      "Length": 18548,
+      "CompressedLength": 10718
+    },
+    {
+      "Path": "NirSoft/browseraddonsview.exe",
+      "Length": 332800,
+      "CompressedLength": 197368
+    },
+    {
+      "Path": "NirSoft/browserautofillview.chm",
+      "Length": 16712,
+      "CompressedLength": 8866
+    },
+    {
+      "Path": "NirSoft/browserautofillview.exe",
+      "Length": 326656,
+      "CompressedLength": 197562
+    },
+    {
+      "Path": "NirSoft/browserdownloadsview.chm",
+      "Length": 20972,
+      "CompressedLength": 13092
+    },
+    {
+      "Path": "NirSoft/browserdownloadsview.exe",
+      "Length": 369664,
+      "CompressedLength": 220148
+    },
+    {
+      "Path": "NirSoft/browsinghistoryview.chm",
+      "Length": 22808,
+      "CompressedLength": 14976
+    },
+    {
+      "Path": "NirSoft/browsinghistoryview.exe",
+      "Length": 663040,
+      "CompressedLength": 359269
+    },
+    {
+      "Path": "NirSoft/bulkfilechanger.chm",
+      "Length": 66752,
+      "CompressedLength": 58909
+    },
+    {
+      "Path": "NirSoft/bulkfilechanger.exe",
+      "Length": 47616,
+      "CompressedLength": 43549
+    },
+    {
+      "Path": "NirSoft/bulletspassview.chm",
+      "Length": 26944,
+      "CompressedLength": 19121
+    },
+    {
+      "Path": "NirSoft/bulletspassview.exe",
+      "Length": 71776,
+      "CompressedLength": 37606
+    },
+    {
+      "Path": "NirSoft/chromecacheview.chm",
+      "Length": 18478,
+      "CompressedLength": 10522
+    },
+    {
+      "Path": "NirSoft/chromecacheview.exe",
+      "Length": 254464,
+      "CompressedLength": 245802
+    },
+    {
+      "Path": "NirSoft/chromecookiesview.chm",
+      "Length": 18494,
+      "CompressedLength": 10659
+    },
+    {
+      "Path": "NirSoft/chromecookiesview.exe",
+      "Length": 249344,
+      "CompressedLength": 241032
+    },
+    {
+      "Path": "NirSoft/chromehistoryview.chm",
+      "Length": 17204,
+      "CompressedLength": 9365
+    },
+    {
+      "Path": "NirSoft/chromehistoryview.exe",
+      "Length": 224768,
+      "CompressedLength": 216692
+    },
+    {
+      "Path": "NirSoft/chromepass.chm",
+      "Length": 17771,
+      "CompressedLength": 9938
+    },
+    {
+      "Path": "NirSoft/chromepass.exe",
+      "Length": 373760,
+      "CompressedLength": 198633
+    },
+    {
+      "Path": "NirSoft/clipboardic.chm",
+      "Length": 14318,
+      "CompressedLength": 6421
+    },
+    {
+      "Path": "NirSoft/clipboardic.exe",
+      "Length": 38400,
+      "CompressedLength": 33794
+    },
+    {
+      "Path": "NirSoft/controlmymonitor.chm",
+      "Length": 20118,
+      "CompressedLength": 12236
+    },
+    {
+      "Path": "NirSoft/controlmymonitor.exe",
+      "Length": 112640,
+      "CompressedLength": 56830
+    },
+    {
+      "Path": "NirSoft/countrytraceroute.chm",
+      "Length": 32112,
+      "CompressedLength": 24209
+    },
+    {
+      "Path": "NirSoft/countrytraceroute.exe",
+      "Length": 518144,
+      "CompressedLength": 506285
+    },
+    {
+      "Path": "NirSoft/cports.chm",
+      "Length": 21750,
+      "CompressedLength": 13856
+    },
+    {
+      "Path": "NirSoft/cports.exe",
+      "Length": 80384,
+      "CompressedLength": 75724
+    },
+    {
+      "Path": "NirSoft/cprocess.chm",
+      "Length": 14348,
+      "CompressedLength": 6469
+    },
+    {
+      "Path": "NirSoft/cprocess.exe",
+      "Length": 36352,
+      "CompressedLength": 31059
+    },
+    {
+      "Path": "NirSoft/credentialsfileview.chm",
+      "Length": 18172,
+      "CompressedLength": 10332
+    },
+    {
+      "Path": "NirSoft/credentialsfileview.exe",
+      "Length": 116736,
+      "CompressedLength": 60430
+    },
+    {
+      "Path": "NirSoft/credhistview.chm",
+      "Length": 16774,
+      "CompressedLength": 8925
+    },
+    {
+      "Path": "NirSoft/credhistview.exe",
+      "Length": 86528,
+      "CompressedLength": 44991
+    },
+    {
+      "Path": "NirSoft/csvfileview.chm",
+      "Length": 22414,
+      "CompressedLength": 14608
+    },
+    {
+      "Path": "NirSoft/csvfileview.exe",
+      "Length": 205824,
+      "CompressedLength": 107160
+    },
+    {
+      "Path": "NirSoft/ctie.exe",
+      "Length": 23040,
+      "CompressedLength": 15455
+    },
+    {
+      "Path": "NirSoft/customexplorertoolbar.chm",
+      "Length": 130266,
+      "CompressedLength": 122426
+    },
+    {
+      "Path": "NirSoft/customexplorertoolbar.exe",
+      "Length": 50176,
+      "CompressedLength": 23268
+    },
+    {
+      "Path": "NirSoft/dataprotectiondecryptor.chm",
+      "Length": 17668,
+      "CompressedLength": 9821
+    },
+    {
+      "Path": "NirSoft/dataprotectiondecryptor.exe",
+      "Length": 114688,
+      "CompressedLength": 58626
+    },
+    {
+      "Path": "NirSoft/deviceioview.chm",
+      "Length": 33049,
+      "CompressedLength": 25161
+    },
+    {
+      "Path": "NirSoft/deviceioview.exe",
+      "Length": 54992,
+      "CompressedLength": 44201
+    },
+    {
+      "Path": "NirSoft/devmanview.chm",
+      "Length": 20044,
+      "CompressedLength": 12164
+    },
+    {
+      "Path": "NirSoft/devmanview.exe",
+      "Length": 112128,
+      "CompressedLength": 56169
+    },
+    {
+      "Path": "NirSoft/dhcplogview.chm",
+      "Length": 16600,
+      "CompressedLength": 8758
+    },
+    {
+      "Path": "NirSoft/dhcplogview.exe",
+      "Length": 457728,
+      "CompressedLength": 445355
+    },
+    {
+      "Path": "NirSoft/dialupass.chm",
+      "Length": 16026,
+      "CompressedLength": 8160
+    },
+    {
+      "Path": "NirSoft/dialupass.exe",
+      "Length": 74752,
+      "CompressedLength": 38063
+    },
+    {
+      "Path": "NirSoft/diskcountersview.chm",
+      "Length": 15492,
+      "CompressedLength": 7635
+    },
+    {
+      "Path": "NirSoft/diskcountersview.exe",
+      "Length": 42496,
+      "CompressedLength": 36249
+    },
+    {
+      "Path": "NirSoft/disksmartview.chm",
+      "Length": 14998,
+      "CompressedLength": 7128
+    },
+    {
+      "Path": "NirSoft/disksmartview.exe",
+      "Length": 51408,
+      "CompressedLength": 40694
+    },
+    {
+      "Path": "NirSoft/dllexp.chm",
+      "Length": 16552,
+      "CompressedLength": 8703
+    },
+    {
+      "Path": "NirSoft/dllexp.exe",
+      "Length": 51408,
+      "CompressedLength": 42569
+    },
+    {
+      "Path": "NirSoft/dnsdataview.chm",
+      "Length": 15542,
+      "CompressedLength": 7685
+    },
+    {
+      "Path": "NirSoft/dnsdataview.exe",
+      "Length": 38912,
+      "CompressedLength": 34339
+    },
+    {
+      "Path": "NirSoft/dnslookupview.chm",
+      "Length": 17286,
+      "CompressedLength": 9427
+    },
+    {
+      "Path": "NirSoft/dnslookupview.exe",
+      "Length": 96256,
+      "CompressedLength": 48682
+    },
+    {
+      "Path": "NirSoft/dnsquerysniffer.chm",
+      "Length": 20088,
+      "CompressedLength": 12203
+    },
+    {
+      "Path": "NirSoft/dnsquerysniffer.exe",
+      "Length": 178176,
+      "CompressedLength": 89758
+    },
+    {
+      "Path": "NirSoft/domainhostingview.chm",
+      "Length": 18410,
+      "CompressedLength": 10588
+    },
+    {
+      "Path": "NirSoft/domainhostingview.exe",
+      "Length": 221184,
+      "CompressedLength": 114748
+    },
+    {
+      "Path": "NirSoft/dotnetresourcesextract.chm",
+      "Length": 13287,
+      "CompressedLength": 5374
+    },
+    {
+      "Path": "NirSoft/dotnetresourcesextract.exe",
+      "Length": 28672,
+      "CompressedLength": 6527
+    },
+    {
+      "Path": "NirSoft/downtester.chm",
+      "Length": 19302,
+      "CompressedLength": 11490
+    },
+    {
+      "Path": "NirSoft/downtester.exe",
+      "Length": 54368,
+      "CompressedLength": 46270
+    },
+    {
+      "Path": "NirSoft/driveletterview.chm",
+      "Length": 16058,
+      "CompressedLength": 8200
+    },
+    {
+      "Path": "NirSoft/driveletterview.exe",
+      "Length": 53096,
+      "CompressedLength": 43859
+    },
+    {
+      "Path": "NirSoft/driverview.chm",
+      "Length": 14796,
+      "CompressedLength": 6910
+    },
+    {
+      "Path": "NirSoft/driverview.exe",
+      "Length": 36352,
+      "CompressedLength": 32063
+    },
+    {
+      "Path": "NirSoft/dumpedid.chm",
+      "Length": 13011,
+      "CompressedLength": 5088
+    },
+    {
+      "Path": "NirSoft/dumpedid.exe",
+      "Length": 10240,
+      "CompressedLength": 8027
+    },
+    {
+      "Path": "NirSoft/edgecookiesview.chm",
+      "Length": 16808,
+      "CompressedLength": 8953
+    },
+    {
+      "Path": "NirSoft/edgecookiesview.exe",
+      "Length": 105984,
+      "CompressedLength": 55334
+    },
+    {
+      "Path": "NirSoft/encryptedregview.chm",
+      "Length": 16752,
+      "CompressedLength": 8899
+    },
+    {
+      "Path": "NirSoft/encryptedregview.exe",
+      "Length": 111104,
+      "CompressedLength": 57019
+    },
+    {
+      "Path": "NirSoft/esedatabaseview.chm",
+      "Length": 20068,
+      "CompressedLength": 12154
+    },
+    {
+      "Path": "NirSoft/esedatabaseview.exe",
+      "Length": 109056,
+      "CompressedLength": 56035
+    },
+    {
+      "Path": "NirSoft/eventlogchannelsview.chm",
+      "Length": 18022,
+      "CompressedLength": 10188
+    },
+    {
+      "Path": "NirSoft/eventlogchannelsview.exe",
+      "Length": 120528,
+      "CompressedLength": 63202
+    },
+    {
+      "Path": "NirSoft/eventlogsourcesview.chm",
+      "Length": 14878,
+      "CompressedLength": 7007
+    },
+    {
+      "Path": "NirSoft/eventlogsourcesview.exe",
+      "Length": 76896,
+      "CompressedLength": 38663
+    },
+    {
+      "Path": "NirSoft/executedprogramslist.chm",
+      "Length": 15504,
+      "CompressedLength": 7617
+    },
+    {
+      "Path": "NirSoft/executedprogramslist.exe",
+      "Length": 77824,
+      "CompressedLength": 38847
+    },
+    {
+      "Path": "NirSoft/exifdataview.chm",
+      "Length": 16038,
+      "CompressedLength": 8152
+    },
+    {
+      "Path": "NirSoft/exifdataview.exe",
+      "Length": 87368,
+      "CompressedLength": 47354
+    },
+    {
+      "Path": "NirSoft/extpassword.chm",
+      "Length": 17860,
+      "CompressedLength": 10007
+    },
+    {
+      "Path": "NirSoft/extpassword.exe",
+      "Length": 291328,
+      "CompressedLength": 283779
+    },
+    {
+      "Path": "NirSoft/fastresolver.chm",
+      "Length": 14140,
+      "CompressedLength": 6259
+    },
+    {
+      "Path": "NirSoft/fastresolver.exe",
+      "Length": 38496,
+      "CompressedLength": 33073
+    },
+    {
+      "Path": "NirSoft/faview.chm",
+      "Length": 14246,
+      "CompressedLength": 6370
+    },
+    {
+      "Path": "NirSoft/faview.exe",
+      "Length": 46176,
+      "CompressedLength": 39124
+    },
+    {
+      "Path": "NirSoft/fbcacheview.chm",
+      "Length": 17098,
+      "CompressedLength": 9251
+    },
+    {
+      "Path": "NirSoft/fbcacheview.exe",
+      "Length": 73216,
+      "CompressedLength": 67495
+    },
+    {
+      "Path": "NirSoft/fileaccesserrorview.chm",
+      "Length": 17662,
+      "CompressedLength": 9804
+    },
+    {
+      "Path": "NirSoft/fileaccesserrorview.exe",
+      "Length": 95232,
+      "CompressedLength": 49464
+    },
+    {
+      "Path": "NirSoft/fileactivitywatch.chm",
+      "Length": 17800,
+      "CompressedLength": 9962
+    },
+    {
+      "Path": "NirSoft/fileactivitywatch.exe",
+      "Length": 101888,
+      "CompressedLength": 52256
+    },
+    {
+      "Path": "NirSoft/filetypesman.chm",
+      "Length": 19197,
+      "CompressedLength": 11254
+    },
+    {
+      "Path": "NirSoft/filetypesman.exe",
+      "Length": 119808,
+      "CompressedLength": 56375
+    },
+    {
+      "Path": "NirSoft/firefoxdownloadsview.chm",
+      "Length": 17406,
+      "CompressedLength": 9560
+    },
+    {
+      "Path": "NirSoft/firefoxdownloadsview.exe",
+      "Length": 320208,
+      "CompressedLength": 196654
+    },
+    {
+      "Path": "NirSoft/firmwaretablesview.chm",
+      "Length": 14198,
+      "CompressedLength": 6310
+    },
+    {
+      "Path": "NirSoft/firmwaretablesview.exe",
+      "Length": 86856,
+      "CompressedLength": 44810
+    },
+    {
+      "Path": "NirSoft/flashcookiesview.chm",
+      "Length": 15244,
+      "CompressedLength": 7380
+    },
+    {
+      "Path": "NirSoft/flashcookiesview.exe",
+      "Length": 41984,
+      "CompressedLength": 35213
+    },
+    {
+      "Path": "NirSoft/folderchangesview.chm",
+      "Length": 18578,
+      "CompressedLength": 10748
+    },
+    {
+      "Path": "NirSoft/folderchangesview.exe",
+      "Length": 107008,
+      "CompressedLength": 52855
+    },
+    {
+      "Path": "NirSoft/foldertimeupdate.chm",
+      "Length": 18748,
+      "CompressedLength": 10928
+    },
+    {
+      "Path": "NirSoft/foldertimeupdate.exe",
+      "Length": 96256,
+      "CompressedLength": 48729
+    },
+    {
+      "Path": "NirSoft/freespacelogview.chm",
+      "Length": 16088,
+      "CompressedLength": 8216
+    },
+    {
+      "Path": "NirSoft/freespacelogview.exe",
+      "Length": 106872,
+      "CompressedLength": 56762
+    },
+    {
+      "Path": "NirSoft/fulleventlogview.chm",
+      "Length": 20916,
+      "CompressedLength": 13023
+    },
+    {
+      "Path": "NirSoft/fulleventlogview.exe",
+      "Length": 128512,
+      "CompressedLength": 63861
+    },
+    {
+      "Path": "NirSoft/fullupdateshistoryview.chm",
+      "Length": 17084,
+      "CompressedLength": 9234
+    },
+    {
+      "Path": "NirSoft/fullupdateshistoryview.exe",
+      "Length": 227840,
+      "CompressedLength": 219057
+    },
+    {
+      "Path": "NirSoft/gdiview.chm",
+      "Length": 15910,
+      "CompressedLength": 8059
+    },
+    {
+      "Path": "NirSoft/gdiview.exe",
+      "Length": 49360,
+      "CompressedLength": 40421
+    },
+    {
+      "Path": "NirSoft/getnir.chm",
+      "Length": 50430,
+      "CompressedLength": 42619
+    },
+    {
+      "Path": "NirSoft/getnir.exe",
+      "Length": 19832,
+      "CompressedLength": 12462
+    },
+    {
+      "Path": "NirSoft/guipropview.chm",
+      "Length": 21560,
+      "CompressedLength": 13706
+    },
+    {
+      "Path": "NirSoft/guipropview.exe",
+      "Length": 117248,
+      "CompressedLength": 57047
+    },
+    {
+      "Path": "NirSoft/handlecountersview.chm",
+      "Length": 16374,
+      "CompressedLength": 8511
+    },
+    {
+      "Path": "NirSoft/handlecountersview.exe",
+      "Length": 83456,
+      "CompressedLength": 42781
+    },
+    {
+      "Path": "NirSoft/hashmyfiles.chm",
+      "Length": 20348,
+      "CompressedLength": 12517
+    },
+    {
+      "Path": "NirSoft/hashmyfiles.exe",
+      "Length": 51712,
+      "CompressedLength": 46221
+    },
+    {
+      "Path": "NirSoft/heapmemview.chm",
+      "Length": 14536,
+      "CompressedLength": 6657
+    },
+    {
+      "Path": "NirSoft/heapmemview.exe",
+      "Length": 42080,
+      "CompressedLength": 35684
+    },
+    {
+      "Path": "NirSoft/hostednetworkstarter.chm",
+      "Length": 17170,
+      "CompressedLength": 9308
+    },
+    {
+      "Path": "NirSoft/hostednetworkstarter.exe",
+      "Length": 271568,
+      "CompressedLength": 259454
+    },
+    {
+      "Path": "NirSoft/hotkeyslist.chm",
+      "Length": 14566,
+      "CompressedLength": 6679
+    },
+    {
+      "Path": "NirSoft/hotkeyslist.exe",
+      "Length": 77672,
+      "CompressedLength": 39709
+    },
+    {
+      "Path": "NirSoft/htmlastext.chm",
+      "Length": 14222,
+      "CompressedLength": 6317
+    },
+    {
+      "Path": "NirSoft/htmlastext.exe",
+      "Length": 22016,
+      "CompressedLength": 18602
+    },
+    {
+      "Path": "NirSoft/htmldocedit.chm",
+      "Length": 13734,
+      "CompressedLength": 5834
+    },
+    {
+      "Path": "NirSoft/htmldocedit.exe",
+      "Length": 75264,
+      "CompressedLength": 71523
+    },
+    {
+      "Path": "NirSoft/iconsext.chm",
+      "Length": 15490,
+      "CompressedLength": 7632
+    },
+    {
+      "Path": "NirSoft/iconsext.exe",
+      "Length": 27136,
+      "CompressedLength": 23388
+    },
+    {
+      "Path": "NirSoft/iecacheview.chm",
+      "Length": 17312,
+      "CompressedLength": 9492
+    },
+    {
+      "Path": "NirSoft/iecacheview.exe",
+      "Length": 58064,
+      "CompressedLength": 49329
+    },
+    {
+      "Path": "NirSoft/iecv.chm",
+      "Length": 55987,
+      "CompressedLength": 48216
+    },
+    {
+      "Path": "NirSoft/iecv.exe",
+      "Length": 68304,
+      "CompressedLength": 45401
+    },
+    {
+      "Path": "NirSoft/iehv.chm",
+      "Length": 17194,
+      "CompressedLength": 9333
+    },
+    {
+      "Path": "NirSoft/iehv.exe",
+      "Length": 38400,
+      "CompressedLength": 33906
+    },
+    {
+      "Path": "NirSoft/iepv.chm",
+      "Length": 17126,
+      "CompressedLength": 9286
+    },
+    {
+      "Path": "NirSoft/iepv.exe",
+      "Length": 101376,
+      "CompressedLength": 54681
+    },
+    {
+      "Path": "NirSoft/imagecacheviewer.chm",
+      "Length": 16944,
+      "CompressedLength": 9076
+    },
+    {
+      "Path": "NirSoft/imagecacheviewer.exe",
+      "Length": 181248,
+      "CompressedLength": 174918
+    },
+    {
+      "Path": "NirSoft/insideclipboard.chm",
+      "Length": 14580,
+      "CompressedLength": 6700
+    },
+    {
+      "Path": "NirSoft/insideclipboard.exe",
+      "Length": 37376,
+      "CompressedLength": 33223
+    },
+    {
+      "Path": "NirSoft/installedappview.chm",
+      "Length": 16928,
+      "CompressedLength": 9076
+    },
+    {
+      "Path": "NirSoft/installedappview.exe",
+      "Length": 114176,
+      "CompressedLength": 57164
+    },
+    {
+      "Path": "NirSoft/installedcodec.chm",
+      "Length": 15507,
+      "CompressedLength": 7634
+    },
+    {
+      "Path": "NirSoft/installedcodec.exe",
+      "Length": 43104,
+      "CompressedLength": 36269
+    },
+    {
+      "Path": "NirSoft/installeddriverslist.chm",
+      "Length": 16634,
+      "CompressedLength": 8768
+    },
+    {
+      "Path": "NirSoft/installeddriverslist.exe",
+      "Length": 87040,
+      "CompressedLength": 44167
+    },
+    {
+      "Path": "NirSoft/installedpackagesview.chm",
+      "Length": 16336,
+      "CompressedLength": 8473
+    },
+    {
+      "Path": "NirSoft/installedpackagesview.exe",
+      "Length": 92672,
+      "CompressedLength": 46234
+    },
+    {
+      "Path": "NirSoft/ipinfooffline.chm",
+      "Length": 15560,
+      "CompressedLength": 7699
+    },
+    {
+      "Path": "NirSoft/ipinfooffline.exe",
+      "Length": 1342280,
+      "CompressedLength": 1133211
+    },
+    {
+      "Path": "NirSoft/ipneighborsview.chm",
+      "Length": 16358,
+      "CompressedLength": 8502
+    },
+    {
+      "Path": "NirSoft/ipneighborsview.exe",
+      "Length": 1368064,
+      "CompressedLength": 461719
+    },
+    {
+      "Path": "NirSoft/ipnetinfo.chm",
+      "Length": 17236,
+      "CompressedLength": 9355
+    },
+    {
+      "Path": "NirSoft/ipnetinfo.exe",
+      "Length": 55144,
+      "CompressedLength": 48126
+    },
+    {
+      "Path": "NirSoft/ippathtableview.chm",
+      "Length": 15092,
+      "CompressedLength": 7227
+    },
+    {
+      "Path": "NirSoft/ippathtableview.exe",
+      "Length": 91976,
+      "CompressedLength": 47139
+    },
+    {
+      "Path": "NirSoft/jumplistsview.chm",
+      "Length": 15658,
+      "CompressedLength": 7797
+    },
+    {
+      "Path": "NirSoft/jumplistsview.exe",
+      "Length": 95440,
+      "CompressedLength": 48312
+    },
+    {
+      "Path": "NirSoft/keyboardstateview.chm",
+      "Length": 14764,
+      "CompressedLength": 6877
+    },
+    {
+      "Path": "NirSoft/keyboardstateview.exe",
+      "Length": 91856,
+      "CompressedLength": 45258
+    },
+    {
+      "Path": "NirSoft/lanipscanner.chm",
+      "Length": 17036,
+      "CompressedLength": 9197
+    },
+    {
+      "Path": "NirSoft/lanipscanner.exe",
+      "Length": 475648,
+      "CompressedLength": 463207
+    },
+    {
+      "Path": "NirSoft/lastactivityview.chm",
+      "Length": 20066,
+      "CompressedLength": 12290
+    },
+    {
+      "Path": "NirSoft/lastactivityview.exe",
+      "Length": 133448,
+      "CompressedLength": 70640
+    },
+    {
+      "Path": "NirSoft/livecontactsview.chm",
+      "Length": 16470,
+      "CompressedLength": 8601
+    },
+    {
+      "Path": "NirSoft/livecontactsview.exe",
+      "Length": 95232,
+      "CompressedLength": 89308
+    },
+    {
+      "Path": "NirSoft/livetcpudpwatch.chm",
+      "Length": 29566,
+      "CompressedLength": 21740
+    },
+    {
+      "Path": "NirSoft/livetcpudpwatch.exe",
+      "Length": 130048,
+      "CompressedLength": 67418
+    },
+    {
+      "Path": "NirSoft/loadeddllsview.chm",
+      "Length": 16270,
+      "CompressedLength": 8418
+    },
+    {
+      "Path": "NirSoft/loadeddllsview.exe",
+      "Length": 99656,
+      "CompressedLength": 50624
+    },
+    {
+      "Path": "NirSoft/lostmypassword.chm",
+      "Length": 15498,
+      "CompressedLength": 7628
+    },
+    {
+      "Path": "NirSoft/lostmypassword.exe",
+      "Length": 280576,
+      "CompressedLength": 271547
+    },
+    {
+      "Path": "NirSoft/lsasecretsdump.chm",
+      "Length": 13133,
+      "CompressedLength": 5201
+    },
+    {
+      "Path": "NirSoft/lsasecretsdump.exe",
+      "Length": 10240,
+      "CompressedLength": 8456
+    },
+    {
+      "Path": "NirSoft/lsasecretsview.chm",
+      "Length": 14134,
+      "CompressedLength": 6260
+    },
+    {
+      "Path": "NirSoft/lsasecretsview.exe",
+      "Length": 65024,
+      "CompressedLength": 34059
+    },
+    {
+      "Path": "NirSoft/macaddressview.chm",
+      "Length": 16198,
+      "CompressedLength": 8341
+    },
+    {
+      "Path": "NirSoft/macaddressview.exe",
+      "Length": 1339904,
+      "CompressedLength": 1305069
+    },
+    {
+      "Path": "NirSoft/madpassext.chm",
+      "Length": 16550,
+      "CompressedLength": 8702
+    },
+    {
+      "Path": "NirSoft/madpassext.exe",
+      "Length": 47104,
+      "CompressedLength": 23521
+    },
+    {
+      "Path": "NirSoft/mailpv.chm",
+      "Length": 15672,
+      "CompressedLength": 7786
+    },
+    {
+      "Path": "NirSoft/mailpv.exe",
+      "Length": 515584,
+      "CompressedLength": 278874
+    },
+    {
+      "Path": "NirSoft/managewirelessnetworks.chm",
+      "Length": 18736,
+      "CompressedLength": 10909
+    },
+    {
+      "Path": "NirSoft/managewirelessnetworks.exe",
+      "Length": 122880,
+      "CompressedLength": 62567
+    },
+    {
+      "Path": "NirSoft/mdnsview.chm",
+      "Length": 14942,
+      "CompressedLength": 7074
+    },
+    {
+      "Path": "NirSoft/mdnsview.exe",
+      "Length": 49664,
+      "CompressedLength": 42328
+    },
+    {
+      "Path": "NirSoft/mmcsnapinsview.chm",
+      "Length": 15724,
+      "CompressedLength": 7843
+    },
+    {
+      "Path": "NirSoft/mmcsnapinsview.exe",
+      "Length": 83040,
+      "CompressedLength": 43507
+    },
+    {
+      "Path": "NirSoft/mobilefilesearch.chm",
+      "Length": 20168,
+      "CompressedLength": 12305
+    },
+    {
+      "Path": "NirSoft/mobilefilesearch.exe",
+      "Length": 120320,
+      "CompressedLength": 60194
+    },
+    {
+      "Path": "NirSoft/monitorinfoview.chm",
+      "Length": 14910,
+      "CompressedLength": 7053
+    },
+    {
+      "Path": "NirSoft/monitorinfoview.exe",
+      "Length": 36352,
+      "CompressedLength": 31670
+    },
+    {
+      "Path": "NirSoft/mozillahistoryview.chm",
+      "Length": 16474,
+      "CompressedLength": 8619
+    },
+    {
+      "Path": "NirSoft/mozillahistoryview.exe",
+      "Length": 228728,
+      "CompressedLength": 220576
+    },
+    {
+      "Path": "NirSoft/mspass.chm",
+      "Length": 15358,
+      "CompressedLength": 7465
+    },
+    {
+      "Path": "NirSoft/mspass.exe",
+      "Length": 66048,
+      "CompressedLength": 60399
+    },
+    {
+      "Path": "NirSoft/muicacheview.chm",
+      "Length": 14339,
+      "CompressedLength": 6450
+    },
+    {
+      "Path": "NirSoft/muicacheview.exe",
+      "Length": 30208,
+      "CompressedLength": 26776
+    },
+    {
+      "Path": "NirSoft/multimonitortool.chm",
+      "Length": 144546,
+      "CompressedLength": 136655
+    },
+    {
+      "Path": "NirSoft/multimonitortool.exe",
+      "Length": 118784,
+      "CompressedLength": 60505
+    },
+    {
+      "Path": "NirSoft/mweather.chm",
+      "Length": 21412,
+      "CompressedLength": 13573
+    },
+    {
+      "Path": "NirSoft/mweather.exe",
+      "Length": 215040,
+      "CompressedLength": 188230
+    },
+    {
+      "Path": "NirSoft/myeventviewer.chm",
+      "Length": 18326,
+      "CompressedLength": 10370
+    },
+    {
+      "Path": "NirSoft/myeventviewer.exe",
+      "Length": 57552,
+      "CompressedLength": 48369
+    },
+    {
+      "Path": "NirSoft/mylastsearch.chm",
+      "Length": 16343,
+      "CompressedLength": 8483
+    },
+    {
+      "Path": "NirSoft/mylastsearch.exe",
+      "Length": 59904,
+      "CompressedLength": 55009
+    },
+    {
+      "Path": "NirSoft/mzcacheview.chm",
+      "Length": 18572,
+      "CompressedLength": 10651
+    },
+    {
+      "Path": "NirSoft/mzcacheview.exe",
+      "Length": 250368,
+      "CompressedLength": 242853
+    },
+    {
+      "Path": "NirSoft/mzcv.chm",
+      "Length": 15408,
+      "CompressedLength": 7548
+    },
+    {
+      "Path": "NirSoft/mzcv.exe",
+      "Length": 51528,
+      "CompressedLength": 41008
+    },
+    {
+      "Path": "NirSoft/netbscanner.chm",
+      "Length": 27558,
+      "CompressedLength": 19798
+    },
+    {
+      "Path": "NirSoft/netbscanner.exe",
+      "Length": 791760,
+      "CompressedLength": 301592
+    },
+    {
+      "Path": "NirSoft/netconnectchoose.chm",
+      "Length": 17076,
+      "CompressedLength": 9198
+    },
+    {
+      "Path": "NirSoft/netconnectchoose.exe",
+      "Length": 95560,
+      "CompressedLength": 51659
+    },
+    {
+      "Path": "NirSoft/netpass.chm",
+      "Length": 17048,
+      "CompressedLength": 9205
+    },
+    {
+      "Path": "NirSoft/netpass.exe",
+      "Length": 91136,
+      "CompressedLength": 45932
+    },
+    {
+      "Path": "NirSoft/netresview.chm",
+      "Length": 15239,
+      "CompressedLength": 7365
+    },
+    {
+      "Path": "NirSoft/netresview.exe",
+      "Length": 44544,
+      "CompressedLength": 33524
+    },
+    {
+      "Path": "NirSoft/netrouteview.chm",
+      "Length": 15120,
+      "CompressedLength": 7264
+    },
+    {
+      "Path": "NirSoft/netrouteview.exe",
+      "Length": 48968,
+      "CompressedLength": 42397
+    },
+    {
+      "Path": "NirSoft/networkconnectlog.chm",
+      "Length": 15852,
+      "CompressedLength": 7961
+    },
+    {
+      "Path": "NirSoft/networkconnectlog.exe",
+      "Length": 474624,
+      "CompressedLength": 460654
+    },
+    {
+      "Path": "NirSoft/networkcounterswatch.chm",
+      "Length": 16694,
+      "CompressedLength": 8821
+    },
+    {
+      "Path": "NirSoft/networkcounterswatch.exe",
+      "Length": 79872,
+      "CompressedLength": 40424
+    },
+    {
+      "Path": "NirSoft/networkinterfacesview.chm",
+      "Length": 16810,
+      "CompressedLength": 8956
+    },
+    {
+      "Path": "NirSoft/networkinterfacesview.exe",
+      "Length": 58368,
+      "CompressedLength": 48344
+    },
+    {
+      "Path": "NirSoft/networklatencyview.chm",
+      "Length": 18092,
+      "CompressedLength": 10264
+    },
+    {
+      "Path": "NirSoft/networklatencyview.exe",
+      "Length": 159744,
+      "CompressedLength": 81131
+    },
+    {
+      "Path": "NirSoft/networkopenedfiles.chm",
+      "Length": 18874,
+      "CompressedLength": 11047
+    },
+    {
+      "Path": "NirSoft/networkopenedfiles.exe",
+      "Length": 112640,
+      "CompressedLength": 56262
+    },
+    {
+      "Path": "NirSoft/networktrafficview.chm",
+      "Length": 22160,
+      "CompressedLength": 14313
+    },
+    {
+      "Path": "NirSoft/networktrafficview.exe",
+      "Length": 190464,
+      "CompressedLength": 95676
+    },
+    {
+      "Path": "NirSoft/networkusageview.chm",
+      "Length": 18078,
+      "CompressedLength": 10232
+    },
+    {
+      "Path": "NirSoft/networkusageview.exe",
+      "Length": 113664,
+      "CompressedLength": 59378
+    },
+    {
+      "Path": "NirSoft/nircmd.chm",
+      "Length": 46449,
+      "CompressedLength": 38649
+    },
+    {
+      "Path": "NirSoft/nircmd.exe",
+      "Length": 46080,
+      "CompressedLength": 43098
+    },
+    {
+      "Path": "NirSoft/nircmdc.exe",
+      "Length": 45056,
+      "CompressedLength": 42384
+    },
+    {
+      "Path": "NirSoft/nirsoft.nlp",
+      "Length": 163357,
+      "CompressedLength": 37123
+    },
+    {
+      "Path": "NirSoft/nk2edit.chm",
+      "Length": 273851,
+      "CompressedLength": 266690
+    },
+    {
+      "Path": "NirSoft/nk2edit.exe",
+      "Length": 220880,
+      "CompressedLength": 104985
+    },
+    {
+      "Path": "NirSoft/ntfslinksview.chm",
+      "Length": 15068,
+      "CompressedLength": 7209
+    },
+    {
+      "Path": "NirSoft/ntfslinksview.exe",
+      "Length": 38400,
+      "CompressedLength": 32458
+    },
+    {
+      "Path": "NirSoft/officeins.chm",
+      "Length": 14234,
+      "CompressedLength": 6354
+    },
+    {
+      "Path": "NirSoft/officeins.exe",
+      "Length": 39008,
+      "CompressedLength": 32698
+    },
+    {
+      "Path": "NirSoft/offlineregistryfinder.chm",
+      "Length": 16688,
+      "CompressedLength": 8804
+    },
+    {
+      "Path": "NirSoft/offlineregistryfinder.exe",
+      "Length": 113152,
+      "CompressedLength": 56120
+    },
+    {
+      "Path": "NirSoft/offlineregistryview.chm",
+      "Length": 15610,
+      "CompressedLength": 7726
+    },
+    {
+      "Path": "NirSoft/offlineregistryview.exe",
+      "Length": 76800,
+      "CompressedLength": 38640
+    },
+    {
+      "Path": "NirSoft/openedfilesview.chm",
+      "Length": 18526,
+      "CompressedLength": 10583
+    },
+    {
+      "Path": "NirSoft/openedfilesview.exe",
+      "Length": 85712,
+      "CompressedLength": 73603
+    },
+    {
+      "Path": "NirSoft/opensavefilesview.chm",
+      "Length": 16856,
+      "CompressedLength": 8981
+    },
+    {
+      "Path": "NirSoft/opensavefilesview.exe",
+      "Length": 86344,
+      "CompressedLength": 46709
+    },
+    {
+      "Path": "NirSoft/openwithview.chm",
+      "Length": 14585,
+      "CompressedLength": 6696
+    },
+    {
+      "Path": "NirSoft/openwithview.exe",
+      "Length": 34304,
+      "CompressedLength": 29150
+    },
+    {
+      "Path": "NirSoft/operacacheview.chm",
+      "Length": 16303,
+      "CompressedLength": 8434
+    },
+    {
+      "Path": "NirSoft/operacacheview.exe",
+      "Length": 41984,
+      "CompressedLength": 36702
+    },
+    {
+      "Path": "NirSoft/operapassview.chm",
+      "Length": 15078,
+      "CompressedLength": 7219
+    },
+    {
+      "Path": "NirSoft/operapassview.exe",
+      "Length": 40960,
+      "CompressedLength": 35637
+    },
+    {
+      "Path": "NirSoft/outlookaccountsview.chm",
+      "Length": 16452,
+      "CompressedLength": 8595
+    },
+    {
+      "Path": "NirSoft/outlookaccountsview.exe",
+      "Length": 100864,
+      "CompressedLength": 51084
+    },
+    {
+      "Path": "NirSoft/outlookaddressbookview.chm",
+      "Length": 43528,
+      "CompressedLength": 35742
+    },
+    {
+      "Path": "NirSoft/outlookaddressbookview.exe",
+      "Length": 128000,
+      "CompressedLength": 63308
+    },
+    {
+      "Path": "NirSoft/outlookattachview.chm",
+      "Length": 23404,
+      "CompressedLength": 15570
+    },
+    {
+      "Path": "NirSoft/outlookattachview.exe",
+      "Length": 112640,
+      "CompressedLength": 104809
+    },
+    {
+      "Path": "NirSoft/outlookstatview.chm",
+      "Length": 19258,
+      "CompressedLength": 11439
+    },
+    {
+      "Path": "NirSoft/outlookstatview.exe",
+      "Length": 93184,
+      "CompressedLength": 87035
+    },
+    {
+      "Path": "NirSoft/passwordfox.chm",
+      "Length": 16930,
+      "CompressedLength": 9073
+    },
+    {
+      "Path": "NirSoft/passwordfox.exe",
+      "Length": 484864,
+      "CompressedLength": 260228
+    },
+    {
+      "Path": "NirSoft/passwordscan.chm",
+      "Length": 17790,
+      "CompressedLength": 9955
+    },
+    {
+      "Path": "NirSoft/passwordscan.exe",
+      "Length": 296960,
+      "CompressedLength": 287782
+    },
+    {
+      "Path": "NirSoft/pcanypass.exe",
+      "Length": 49152,
+      "CompressedLength": 17316
+    },
+    {
+      "Path": "NirSoft/pinginfoview.chm",
+      "Length": 27423,
+      "CompressedLength": 19611
+    },
+    {
+      "Path": "NirSoft/pinginfoview.exe",
+      "Length": 62976,
+      "CompressedLength": 57368
+    },
+    {
+      "Path": "NirSoft/previousfilesrecovery.chm",
+      "Length": 17194,
+      "CompressedLength": 9328
+    },
+    {
+      "Path": "NirSoft/previousfilesrecovery.exe",
+      "Length": 96120,
+      "CompressedLength": 51290
+    },
+    {
+      "Path": "NirSoft/processactivityview.chm",
+      "Length": 15612,
+      "CompressedLength": 7724
+    },
+    {
+      "Path": "NirSoft/processactivityview.exe",
+      "Length": 50272,
+      "CompressedLength": 42681
+    },
+    {
+      "Path": "NirSoft/processtcpsummary.chm",
+      "Length": 16126,
+      "CompressedLength": 8273
+    },
+    {
+      "Path": "NirSoft/processtcpsummary.exe",
+      "Length": 95744,
+      "CompressedLength": 48428
+    },
+    {
+      "Path": "NirSoft/processthreadsview.chm",
+      "Length": 57518,
+      "CompressedLength": 49670
+    },
+    {
+      "Path": "NirSoft/processthreadsview.exe",
+      "Length": 99536,
+      "CompressedLength": 51103
+    },
+    {
+      "Path": "NirSoft/productkeyscanner.chm",
+      "Length": 16964,
+      "CompressedLength": 9092
+    },
+    {
+      "Path": "NirSoft/productkeyscanner.exe",
+      "Length": 94720,
+      "CompressedLength": 48026
+    },
+    {
+      "Path": "NirSoft/produkey.chm",
+      "Length": 18338,
+      "CompressedLength": 10393
+    },
+    {
+      "Path": "NirSoft/produkey.exe",
+      "Length": 128000,
+      "CompressedLength": 60027
+    },
+    {
+      "Path": "NirSoft/propertysystemview.chm",
+      "Length": 19220,
+      "CompressedLength": 11281
+    },
+    {
+      "Path": "NirSoft/propertysystemview.exe",
+      "Length": 105472,
+      "CompressedLength": 52472
+    },
+    {
+      "Path": "NirSoft/pstpassword.chm",
+      "Length": 14790,
+      "CompressedLength": 6929
+    },
+    {
+      "Path": "NirSoft/pstpassword.exe",
+      "Length": 34816,
+      "CompressedLength": 30519
+    },
+    {
+      "Path": "NirSoft/quicksetdns.chm",
+      "Length": 15740,
+      "CompressedLength": 7883
+    },
+    {
+      "Path": "NirSoft/quicksetdns.exe",
+      "Length": 93184,
+      "CompressedLength": 45642
+    },
+    {
+      "Path": "NirSoft/rdpv.chm",
+      "Length": 13634,
+      "CompressedLength": 5737
+    },
+    {
+      "Path": "NirSoft/rdpv.exe",
+      "Length": 30720,
+      "CompressedLength": 26515
+    },
+    {
+      "Path": "NirSoft/recentfilesview.chm",
+      "Length": 15332,
+      "CompressedLength": 7461
+    },
+    {
+      "Path": "NirSoft/recentfilesview.exe",
+      "Length": 47312,
+      "CompressedLength": 38957
+    },
+    {
+      "Path": "NirSoft/regdllview.chm",
+      "Length": 16002,
+      "CompressedLength": 8157
+    },
+    {
+      "Path": "NirSoft/regdllview.exe",
+      "Length": 47200,
+      "CompressedLength": 40459
+    },
+    {
+      "Path": "NirSoft/regfileexport.chm",
+      "Length": 13942,
+      "CompressedLength": 6050
+    },
+    {
+      "Path": "NirSoft/regfileexport.exe",
+      "Length": 11776,
+      "CompressedLength": 6132
+    },
+    {
+      "Path": "NirSoft/regfromapp.chm",
+      "Length": 15335,
+      "CompressedLength": 7465
+    },
+    {
+      "Path": "NirSoft/regfromapp.exe",
+      "Length": 43104,
+      "CompressedLength": 37206
+    },
+    {
+      "Path": "NirSoft/registrychangesview.chm",
+      "Length": 19690,
+      "CompressedLength": 11788
+    },
+    {
+      "Path": "NirSoft/registrychangesview.exe",
+      "Length": 124416,
+      "CompressedLength": 59721
+    },
+    {
+      "Path": "NirSoft/regscanner.chm",
+      "Length": 19032,
+      "CompressedLength": 11094
+    },
+    {
+      "Path": "NirSoft/regscanner.exe",
+      "Length": 53760,
+      "CompressedLength": 48700
+    },
+    {
+      "Path": "NirSoft/resourcesextract.chm",
+      "Length": 14847,
+      "CompressedLength": 6975
+    },
+    {
+      "Path": "NirSoft/resourcesextract.exe",
+      "Length": 26208,
+      "CompressedLength": 20172
+    },
+    {
+      "Path": "NirSoft/routerpassview.chm",
+      "Length": 47990,
+      "CompressedLength": 40233
+    },
+    {
+      "Path": "NirSoft/routerpassview.exe",
+      "Length": 154112,
+      "CompressedLength": 82787
+    },
+    {
+      "Path": "NirSoft/rtmpdumphelper.chm",
+      "Length": 79014,
+      "CompressedLength": 71238
+    },
+    {
+      "Path": "NirSoft/rtmpdumphelper.dll",
+      "Length": 5120,
+      "CompressedLength": 2223
+    },
+    {
+      "Path": "NirSoft/rtmpdumphelper.exe",
+      "Length": 78336,
+      "CompressedLength": 41103
+    },
+    {
+      "Path": "NirSoft/runasdate.chm",
+      "Length": 16068,
+      "CompressedLength": 8217
+    },
+    {
+      "Path": "NirSoft/runasdate.exe",
+      "Length": 41288,
+      "CompressedLength": 34835
+    },
+    {
+      "Path": "NirSoft/runfromprocess.chm",
+      "Length": 13548,
+      "CompressedLength": 5640
+    },
+    {
+      "Path": "NirSoft/runfromprocess.exe",
+      "Length": 13824,
+      "CompressedLength": 6756
+    },
+    {
+      "Path": "NirSoft/runtimeclassesview.chm",
+      "Length": 17370,
+      "CompressedLength": 9507
+    },
+    {
+      "Path": "NirSoft/runtimeclassesview.exe",
+      "Length": 103240,
+      "CompressedLength": 55759
+    },
+    {
+      "Path": "NirSoft/safaricacheview.chm",
+      "Length": 47546,
+      "CompressedLength": 39675
+    },
+    {
+      "Path": "NirSoft/safaricacheview.exe",
+      "Length": 461312,
+      "CompressedLength": 274739
+    },
+    {
+      "Path": "NirSoft/safarihistoryview.chm",
+      "Length": 32982,
+      "CompressedLength": 25111
+    },
+    {
+      "Path": "NirSoft/safarihistoryview.exe",
+      "Length": 68608,
+      "CompressedLength": 36395
+    },
+    {
+      "Path": "NirSoft/searchfilterview.chm",
+      "Length": 14474,
+      "CompressedLength": 6584
+    },
+    {
+      "Path": "NirSoft/searchfilterview.exe",
+      "Length": 36352,
+      "CompressedLength": 32101
+    },
+    {
+      "Path": "NirSoft/searchmyfiles.chm",
+      "Length": 25934,
+      "CompressedLength": 18125
+    },
+    {
+      "Path": "NirSoft/searchmyfiles.exe",
+      "Length": 89088,
+      "CompressedLength": 81827
+    },
+    {
+      "Path": "NirSoft/securityquestionsview.chm",
+      "Length": 15440,
+      "CompressedLength": 7557
+    },
+    {
+      "Path": "NirSoft/securityquestionsview.exe",
+      "Length": 88064,
+      "CompressedLength": 44852
+    },
+    {
+      "Path": "NirSoft/securitysoftview.chm",
+      "Length": 15640,
+      "CompressedLength": 7747
+    },
+    {
+      "Path": "NirSoft/securitysoftview.exe",
+      "Length": 79456,
+      "CompressedLength": 41667
+    },
+    {
+      "Path": "NirSoft/seqdownload.chm",
+      "Length": 17036,
+      "CompressedLength": 9161
+    },
+    {
+      "Path": "NirSoft/seqdownload.exe",
+      "Length": 33280,
+      "CompressedLength": 29323
+    },
+    {
+      "Path": "NirSoft/serviwin.chm",
+      "Length": 16714,
+      "CompressedLength": 8860
+    },
+    {
+      "Path": "NirSoft/serviwin.exe",
+      "Length": 47432,
+      "CompressedLength": 40201
+    },
+    {
+      "Path": "NirSoft/shadowcopyview.chm",
+      "Length": 17166,
+      "CompressedLength": 9328
+    },
+    {
+      "Path": "NirSoft/shadowcopyview.exe",
+      "Length": 94720,
+      "CompressedLength": 47209
+    },
+    {
+      "Path": "NirSoft/shellbagsview.chm",
+      "Length": 15198,
+      "CompressedLength": 7325
+    },
+    {
+      "Path": "NirSoft/shellbagsview.exe",
+      "Length": 47432,
+      "CompressedLength": 41038
+    },
+    {
+      "Path": "NirSoft/shellmenunew.chm",
+      "Length": 14464,
+      "CompressedLength": 6582
+    },
+    {
+      "Path": "NirSoft/shellmenunew.exe",
+      "Length": 41056,
+      "CompressedLength": 35097
+    },
+    {
+      "Path": "NirSoft/shexview.chm",
+      "Length": 19458,
+      "CompressedLength": 11524
+    },
+    {
+      "Path": "NirSoft/shexview.exe",
+      "Length": 65936,
+      "CompressedLength": 53968
+    },
+    {
+      "Path": "NirSoft/shman.chm",
+      "Length": 13342,
+      "CompressedLength": 5441
+    },
+    {
+      "Path": "NirSoft/shman.exe",
+      "Length": 37984,
+      "CompressedLength": 31575
+    },
+    {
+      "Path": "NirSoft/shmnview.chm",
+      "Length": 15243,
+      "CompressedLength": 7393
+    },
+    {
+      "Path": "NirSoft/shmnview.exe",
+      "Length": 48848,
+      "CompressedLength": 39825
+    },
+    {
+      "Path": "NirSoft/shutdownperformanceview.chm",
+      "Length": 16784,
+      "CompressedLength": 8906
+    },
+    {
+      "Path": "NirSoft/shutdownperformanceview.exe",
+      "Length": 55296,
+      "CompressedLength": 48853
+    },
+    {
+      "Path": "NirSoft/simplecodegenerator.chm",
+      "Length": 16758,
+      "CompressedLength": 8917
+    },
+    {
+      "Path": "NirSoft/simplecodegenerator.exe",
+      "Length": 58880,
+      "CompressedLength": 29524
+    },
+    {
+      "Path": "NirSoft/simpleprogramdebugger.chm",
+      "Length": 15574,
+      "CompressedLength": 7701
+    },
+    {
+      "Path": "NirSoft/simpleprogramdebugger.exe",
+      "Length": 98120,
+      "CompressedLength": 50350
+    },
+    {
+      "Path": "NirSoft/simplewmiview.chm",
+      "Length": 19788,
+      "CompressedLength": 12015
+    },
+    {
+      "Path": "NirSoft/simplewmiview.exe",
+      "Length": 101888,
+      "CompressedLength": 52406
+    },
+    {
+      "Path": "NirSoft/siteshoter.chm",
+      "Length": 18148,
+      "CompressedLength": 10202
+    },
+    {
+      "Path": "NirSoft/siteshoter.exe",
+      "Length": 76288,
+      "CompressedLength": 72687
+    },
+    {
+      "Path": "NirSoft/skypecontactsview.chm",
+      "Length": 15896,
+      "CompressedLength": 8009
+    },
+    {
+      "Path": "NirSoft/skypecontactsview.exe",
+      "Length": 316000,
+      "CompressedLength": 191225
+    },
+    {
+      "Path": "NirSoft/skypelogview.chm",
+      "Length": 16459,
+      "CompressedLength": 8610
+    },
+    {
+      "Path": "NirSoft/skypelogview.exe",
+      "Length": 182368,
+      "CompressedLength": 173989
+    },
+    {
+      "Path": "NirSoft/smsniff.chm",
+      "Length": 20812,
+      "CompressedLength": 12868
+    },
+    {
+      "Path": "NirSoft/smsniff.exe",
+      "Length": 82432,
+      "CompressedLength": 76462
+    },
+    {
+      "Path": "NirSoft/sniffpass.chm",
+      "Length": 15150,
+      "CompressedLength": 7290
+    },
+    {
+      "Path": "NirSoft/sniffpass.exe",
+      "Length": 68608,
+      "CompressedLength": 36405
+    },
+    {
+      "Path": "NirSoft/socketsniff.chm",
+      "Length": 14324,
+      "CompressedLength": 6428
+    },
+    {
+      "Path": "NirSoft/socketsniff.exe",
+      "Length": 46688,
+      "CompressedLength": 39687
+    },
+    {
+      "Path": "NirSoft/soundvolumeview.chm",
+      "Length": 25820,
+      "CompressedLength": 18005
+    },
+    {
+      "Path": "NirSoft/soundvolumeview.exe",
+      "Length": 145408,
+      "CompressedLength": 71428
+    },
+    {
+      "Path": "NirSoft/specialfoldersview.chm",
+      "Length": 15875,
+      "CompressedLength": 8022
+    },
+    {
+      "Path": "NirSoft/specialfoldersview.exe",
+      "Length": 40544,
+      "CompressedLength": 34193
+    },
+    {
+      "Path": "NirSoft/svcl.chm",
+      "Length": 15100,
+      "CompressedLength": 7243
+    },
+    {
+      "Path": "NirSoft/svcl.exe",
+      "Length": 114688,
+      "CompressedLength": 59235
+    },
+    {
+      "Path": "NirSoft/sysexp.chm",
+      "Length": 15972,
+      "CompressedLength": 8094
+    },
+    {
+      "Path": "NirSoft/sysexp.exe",
+      "Length": 45928,
+      "CompressedLength": 37955
+    },
+    {
+      "Path": "NirSoft/tabletextcompare.chm",
+      "Length": 37452,
+      "CompressedLength": 29649
+    },
+    {
+      "Path": "NirSoft/tabletextcompare.exe",
+      "Length": 73824,
+      "CompressedLength": 37960
+    },
+    {
+      "Path": "NirSoft/taskschedulerview.chm",
+      "Length": 19548,
+      "CompressedLength": 11747
+    },
+    {
+      "Path": "NirSoft/taskschedulerview.exe",
+      "Length": 118472,
+      "CompressedLength": 61198
+    },
+    {
+      "Path": "NirSoft/tcpconnectproblemview.chm",
+      "Length": 16750,
+      "CompressedLength": 8885
+    },
+    {
+      "Path": "NirSoft/tcpconnectproblemview.exe",
+      "Length": 95232,
+      "CompressedLength": 48612
+    },
+    {
+      "Path": "NirSoft/tcplogview.chm",
+      "Length": 16800,
+      "CompressedLength": 8939
+    },
+    {
+      "Path": "NirSoft/tcplogview.exe",
+      "Length": 73728,
+      "CompressedLength": 66306
+    },
+    {
+      "Path": "NirSoft/timezonesview.chm",
+      "Length": 16504,
+      "CompressedLength": 8625
+    },
+    {
+      "Path": "NirSoft/timezonesview.exe",
+      "Length": 85712,
+      "CompressedLength": 46046
+    },
+    {
+      "Path": "NirSoft/turnedontimesview.chm",
+      "Length": 18474,
+      "CompressedLength": 10642
+    },
+    {
+      "Path": "NirSoft/turnedontimesview.exe",
+      "Length": 123768,
+      "CompressedLength": 65456
+    },
+    {
+      "Path": "NirSoft/uninstallview.chm",
+      "Length": 21830,
+      "CompressedLength": 13980
+    },
+    {
+      "Path": "NirSoft/uninstallview.exe",
+      "Length": 137216,
+      "CompressedLength": 68272
+    },
+    {
+      "Path": "NirSoft/urlprotocolview.chm",
+      "Length": 14916,
+      "CompressedLength": 7057
+    },
+    {
+      "Path": "NirSoft/urlprotocolview.exe",
+      "Length": 35328,
+      "CompressedLength": 28780
+    },
+    {
+      "Path": "NirSoft/urlstringgrabber.chm",
+      "Length": 14652,
+      "CompressedLength": 6789
+    },
+    {
+      "Path": "NirSoft/urlstringgrabber.exe",
+      "Length": 35840,
+      "CompressedLength": 31674
+    },
+    {
+      "Path": "NirSoft/usbdeview.chm",
+      "Length": 24926,
+      "CompressedLength": 17161
+    },
+    {
+      "Path": "NirSoft/usbdeview.exe",
+      "Length": 132096,
+      "CompressedLength": 64415
+    },
+    {
+      "Path": "NirSoft/usbdrivelog.chm",
+      "Length": 17582,
+      "CompressedLength": 9741
+    },
+    {
+      "Path": "NirSoft/usbdrivelog.exe",
+      "Length": 105472,
+      "CompressedLength": 54264
+    },
+    {
+      "Path": "NirSoft/usblogview.chm",
+      "Length": 14788,
+      "CompressedLength": 6911
+    },
+    {
+      "Path": "NirSoft/usblogview.exe",
+      "Length": 544104,
+      "CompressedLength": 195483
+    },
+    {
+      "Path": "NirSoft/userassistview.chm",
+      "Length": 13755,
+      "CompressedLength": 5860
+    },
+    {
+      "Path": "NirSoft/userassistview.exe",
+      "Length": 31232,
+      "CompressedLength": 27273
+    },
+    {
+      "Path": "NirSoft/userprofilesview.chm",
+      "Length": 14267,
+      "CompressedLength": 6374
+    },
+    {
+      "Path": "NirSoft/userprofilesview.exe",
+      "Length": 39008,
+      "CompressedLength": 32979
+    },
+    {
+      "Path": "NirSoft/vaultpasswordview.chm",
+      "Length": 17704,
+      "CompressedLength": 9859
+    },
+    {
+      "Path": "NirSoft/vaultpasswordview.exe",
+      "Length": 115712,
+      "CompressedLength": 59698
+    },
+    {
+      "Path": "NirSoft/videocacheview.chm",
+      "Length": 22826,
+      "CompressedLength": 14993
+    },
+    {
+      "Path": "NirSoft/videocacheview.exe",
+      "Length": 83456,
+      "CompressedLength": 77820
+    },
+    {
+      "Path": "NirSoft/vncpassview.chm",
+      "Length": 13386,
+      "CompressedLength": 5465
+    },
+    {
+      "Path": "NirSoft/vncpassview.exe",
+      "Length": 54272,
+      "CompressedLength": 27676
+    },
+    {
+      "Path": "NirSoft/volumouse.chm",
+      "Length": 20080,
+      "CompressedLength": 12270
+    },
+    {
+      "Path": "NirSoft/volumouse.exe",
+      "Length": 41984,
+      "CompressedLength": 36663
+    },
+    {
+      "Path": "NirSoft/wakemeonlan.chm",
+      "Length": 20148,
+      "CompressedLength": 12256
+    },
+    {
+      "Path": "NirSoft/wakemeonlan.exe",
+      "Length": 467456,
+      "CompressedLength": 454517
+    },
+    {
+      "Path": "NirSoft/webbrowserbookmarksview.chm",
+      "Length": 17652,
+      "CompressedLength": 9812
+    },
+    {
+      "Path": "NirSoft/webbrowserbookmarksview.exe",
+      "Length": 412160,
+      "CompressedLength": 250417
+    },
+    {
+      "Path": "NirSoft/webbrowserpassview.chm",
+      "Length": 19730,
+      "CompressedLength": 11828
+    },
+    {
+      "Path": "NirSoft/webbrowserpassview.exe",
+      "Length": 491008,
+      "CompressedLength": 272705
+    },
+    {
+      "Path": "NirSoft/webcacheimageinfo.chm",
+      "Length": 17200,
+      "CompressedLength": 9345
+    },
+    {
+      "Path": "NirSoft/webcacheimageinfo.exe",
+      "Length": 74752,
+      "CompressedLength": 68524
+    },
+    {
+      "Path": "NirSoft/webcamimagesave.chm",
+      "Length": 16402,
+      "CompressedLength": 8539
+    },
+    {
+      "Path": "NirSoft/webcamimagesave.exe",
+      "Length": 73216,
+      "CompressedLength": 37502
+    },
+    {
+      "Path": "NirSoft/webcookiessniffer.chm",
+      "Length": 16704,
+      "CompressedLength": 8856
+    },
+    {
+      "Path": "NirSoft/webcookiessniffer.exe",
+      "Length": 138448,
+      "CompressedLength": 69173
+    },
+    {
+      "Path": "NirSoft/websitesniffer.chm",
+      "Length": 143096,
+      "CompressedLength": 135310
+    },
+    {
+      "Path": "NirSoft/websitesniffer.exe",
+      "Length": 152784,
+      "CompressedLength": 77143
+    },
+    {
+      "Path": "NirSoft/webvideocap.chm",
+      "Length": 15650,
+      "CompressedLength": 7787
+    },
+    {
+      "Path": "NirSoft/webvideocap.exe",
+      "Length": 24064,
+      "CompressedLength": 20963
+    },
+    {
+      "Path": "NirSoft/whatinstartup.chm",
+      "Length": 16170,
+      "CompressedLength": 8327
+    },
+    {
+      "Path": "NirSoft/whatinstartup.exe",
+      "Length": 53856,
+      "CompressedLength": 43951
+    },
+    {
+      "Path": "NirSoft/whatishang.chm",
+      "Length": 16636,
+      "CompressedLength": 8788
+    },
+    {
+      "Path": "NirSoft/whatishang.exe",
+      "Length": 91232,
+      "CompressedLength": 45740
+    },
+    {
+      "Path": "NirSoft/whoiscl.chm",
+      "Length": 14762,
+      "CompressedLength": 6892
+    },
+    {
+      "Path": "NirSoft/whoiscl.exe",
+      "Length": 93904,
+      "CompressedLength": 50372
+    },
+    {
+      "Path": "NirSoft/whoisconnectedsniffer.chm",
+      "Length": 18420,
+      "CompressedLength": 10593
+    },
+    {
+      "Path": "NirSoft/whoisconnectedsniffer.exe",
+      "Length": 375296,
+      "CompressedLength": 368352
+    },
+    {
+      "Path": "NirSoft/whoistd.chm",
+      "Length": 17542,
+      "CompressedLength": 9718
+    },
+    {
+      "Path": "NirSoft/whoistd.exe",
+      "Length": 56696,
+      "CompressedLength": 49724
+    },
+    {
+      "Path": "NirSoft/whosip.chm",
+      "Length": 13496,
+      "CompressedLength": 5573
+    },
+    {
+      "Path": "NirSoft/whosip.exe",
+      "Length": 27344,
+      "CompressedLength": 20339
+    },
+    {
+      "Path": "NirSoft/wifichannelmonitor.chm",
+      "Length": 21016,
+      "CompressedLength": 13117
+    },
+    {
+      "Path": "NirSoft/wifichannelmonitor.exe",
+      "Length": 352632,
+      "CompressedLength": 338911
+    },
+    {
+      "Path": "NirSoft/wifidiagnosticsview.chm",
+      "Length": 16862,
+      "CompressedLength": 8982
+    },
+    {
+      "Path": "NirSoft/wifidiagnosticsview.exe",
+      "Length": 107008,
+      "CompressedLength": 53790
+    },
+    {
+      "Path": "NirSoft/wifihistoryview.chm",
+      "Length": 19284,
+      "CompressedLength": 11454
+    },
+    {
+      "Path": "NirSoft/wifihistoryview.exe",
+      "Length": 113664,
+      "CompressedLength": 58971
+    },
+    {
+      "Path": "NirSoft/wifiinfoview.chm",
+      "Length": 87686,
+      "CompressedLength": 79948
+    },
+    {
+      "Path": "NirSoft/wifiinfoview.exe",
+      "Length": 408064,
+      "CompressedLength": 392722
+    },
+    {
+      "Path": "NirSoft/wincrashreport.chm",
+      "Length": 67152,
+      "CompressedLength": 59368
+    },
+    {
+      "Path": "NirSoft/wincrashreport.exe",
+      "Length": 212176,
+      "CompressedLength": 112826
+    },
+    {
+      "Path": "NirSoft/windeflogview.chm",
+      "Length": 16000,
+      "CompressedLength": 8149
+    },
+    {
+      "Path": "NirSoft/windeflogview.exe",
+      "Length": 99840,
+      "CompressedLength": 49981
+    },
+    {
+      "Path": "NirSoft/windefthreatsview.chm",
+      "Length": 17990,
+      "CompressedLength": 10158
+    },
+    {
+      "Path": "NirSoft/windefthreatsview.exe",
+      "Length": 100864,
+      "CompressedLength": 50863
+    },
+    {
+      "Path": "NirSoft/winfontsview.chm",
+      "Length": 14596,
+      "CompressedLength": 6717
+    },
+    {
+      "Path": "NirSoft/winfontsview.exe",
+      "Length": 35328,
+      "CompressedLength": 29796
+    },
+    {
+      "Path": "NirSoft/winlister.chm",
+      "Length": 13782,
+      "CompressedLength": 5869
+    },
+    {
+      "Path": "NirSoft/winlister.exe",
+      "Length": 36048,
+      "CompressedLength": 27114
+    },
+    {
+      "Path": "NirSoft/winlogonview.chm",
+      "Length": 17714,
+      "CompressedLength": 9877
+    },
+    {
+      "Path": "NirSoft/winlogonview.exe",
+      "Length": 101752,
+      "CompressedLength": 54891
+    },
+    {
+      "Path": "NirSoft/winmailpassrec.chm",
+      "Length": 16956,
+      "CompressedLength": 9099
+    },
+    {
+      "Path": "NirSoft/winmailpassrec.exe",
+      "Length": 99840,
+      "CompressedLength": 51636
+    },
+    {
+      "Path": "NirSoft/winprefetchview.chm",
+      "Length": 15858,
+      "CompressedLength": 8004
+    },
+    {
+      "Path": "NirSoft/winprefetchview.exe",
+      "Length": 54648,
+      "CompressedLength": 42808
+    },
+    {
+      "Path": "NirSoft/winsockservicesview.chm",
+      "Length": 15524,
+      "CompressedLength": 7636
+    },
+    {
+      "Path": "NirSoft/winsockservicesview.exe",
+      "Length": 81504,
+      "CompressedLength": 42526
+    },
+    {
+      "Path": "NirSoft/winupdatesview.chm",
+      "Length": 18208,
+      "CompressedLength": 10374
+    },
+    {
+      "Path": "NirSoft/winupdatesview.exe",
+      "Length": 108032,
+      "CompressedLength": 55736
+    },
+    {
+      "Path": "NirSoft/wirelessconnectioninfo.chm",
+      "Length": 16156,
+      "CompressedLength": 8273
+    },
+    {
+      "Path": "NirSoft/wirelessconnectioninfo.exe",
+      "Length": 91136,
+      "CompressedLength": 45884
+    },
+    {
+      "Path": "NirSoft/wirelesskeyview.chm",
+      "Length": 18896,
+      "CompressedLength": 10944
+    },
+    {
+      "Path": "NirSoft/wirelesskeyview.exe",
+      "Length": 198656,
+      "CompressedLength": 106119
+    },
+    {
+      "Path": "NirSoft/wirelessnetconsole.chm",
+      "Length": 13817,
+      "CompressedLength": 5922
+    },
+    {
+      "Path": "NirSoft/wirelessnetconsole.exe",
+      "Length": 19968,
+      "CompressedLength": 14979
+    },
+    {
+      "Path": "NirSoft/wirelessnetview.chm",
+      "Length": 17318,
+      "CompressedLength": 9461
+    },
+    {
+      "Path": "NirSoft/wirelessnetview.exe",
+      "Length": 58576,
+      "CompressedLength": 47013
+    },
+    {
+      "Path": "NirSoft/wnetwatcher.chm",
+      "Length": 27960,
+      "CompressedLength": 20161
+    },
+    {
+      "Path": "NirSoft/wnetwatcher.exe",
+      "Length": 499712,
+      "CompressedLength": 484370
+    },
+    {
+      "Path": "NirSoft/wul.chm",
+      "Length": 14754,
+      "CompressedLength": 6871
+    },
+    {
+      "Path": "NirSoft/wul.exe",
+      "Length": 49360,
+      "CompressedLength": 39883
+    },
+    {
+      "Path": "NirSoft/x64/advancedrun.exe",
+      "Length": 172408,
+      "CompressedLength": 66205
+    },
+    {
+      "Path": "NirSoft/x64/allthreadsview.exe",
+      "Length": 116432,
+      "CompressedLength": 56164
+    },
+    {
+      "Path": "NirSoft/x64/alternatestreamview.exe",
+      "Length": 115528,
+      "CompressedLength": 56889
+    },
+    {
+      "Path": "NirSoft/x64/appaudioconfig.exe",
+      "Length": 131960,
+      "CompressedLength": 64956
+    },
+    {
+      "Path": "NirSoft/x64/appcompatibilityview.exe",
+      "Length": 126464,
+      "CompressedLength": 57334
+    },
+    {
+      "Path": "NirSoft/x64/appnetworkcounter.exe",
+      "Length": 128000,
+      "CompressedLength": 60994
+    },
+    {
+      "Path": "NirSoft/x64/appreadwritecounter.exe",
+      "Length": 128000,
+      "CompressedLength": 61936
+    },
+    {
+      "Path": "NirSoft/x64/batteryinfoview.exe",
+      "Length": 115200,
+      "CompressedLength": 51898
+    },
+    {
+      "Path": "NirSoft/x64/bluescreenview.exe",
+      "Length": 146528,
+      "CompressedLength": 67312
+    },
+    {
+      "Path": "NirSoft/x64/bluetoothleview.exe",
+      "Length": 124416,
+      "CompressedLength": 114102
+    },
+    {
+      "Path": "NirSoft/x64/browseraddonsview.exe",
+      "Length": 459264,
+      "CompressedLength": 243068
+    },
+    {
+      "Path": "NirSoft/x64/browserautofillview.exe",
+      "Length": 438784,
+      "CompressedLength": 238206
+    },
+    {
+      "Path": "NirSoft/x64/browserdownloadsview.exe",
+      "Length": 499712,
+      "CompressedLength": 267342
+    },
+    {
+      "Path": "NirSoft/x64/browsinghistoryview.exe",
+      "Length": 471552,
+      "CompressedLength": 457726
+    },
+    {
+      "Path": "NirSoft/x64/bulkfilechanger.exe",
+      "Length": 133632,
+      "CompressedLength": 62309
+    },
+    {
+      "Path": "NirSoft/x64/bulletspassview.exe",
+      "Length": 98400,
+      "CompressedLength": 47812
+    },
+    {
+      "Path": "NirSoft/x64/chromecookiesview.exe",
+      "Length": 387584,
+      "CompressedLength": 377200
+    },
+    {
+      "Path": "NirSoft/x64/cports.exe",
+      "Length": 216064,
+      "CompressedLength": 105219
+    },
+    {
+      "Path": "NirSoft/x64/credentialsfileview.exe",
+      "Length": 177152,
+      "CompressedLength": 80222
+    },
+    {
+      "Path": "NirSoft/x64/csvfileview.exe",
+      "Length": 282624,
+      "CompressedLength": 134361
+    },
+    {
+      "Path": "NirSoft/x64/dataprotectiondecryptor.exe",
+      "Length": 159744,
+      "CompressedLength": 76779
+    },
+    {
+      "Path": "NirSoft/x64/deviceioview.exe",
+      "Length": 116432,
+      "CompressedLength": 56736
+    },
+    {
+      "Path": "NirSoft/x64/devmanview.exe",
+      "Length": 164864,
+      "CompressedLength": 77760
+    },
+    {
+      "Path": "NirSoft/x64/dhcplogview.exe",
+      "Length": 469504,
+      "CompressedLength": 457063
+    },
+    {
+      "Path": "NirSoft/x64/dllexp.exe",
+      "Length": 114896,
+      "CompressedLength": 57258
+    },
+    {
+      "Path": "NirSoft/x64/dnslookupview.exe",
+      "Length": 133120,
+      "CompressedLength": 63284
+    },
+    {
+      "Path": "NirSoft/x64/dnsquerysniffer.exe",
+      "Length": 249344,
+      "CompressedLength": 118019
+    },
+    {
+      "Path": "NirSoft/x64/driveletterview.exe",
+      "Length": 120680,
+      "CompressedLength": 58723
+    },
+    {
+      "Path": "NirSoft/x64/driverview.exe",
+      "Length": 90624,
+      "CompressedLength": 43788
+    },
+    {
+      "Path": "NirSoft/x64/encryptedregview.exe",
+      "Length": 166400,
+      "CompressedLength": 74586
+    },
+    {
+      "Path": "NirSoft/x64/eventlogchannelsview.exe",
+      "Length": 162000,
+      "CompressedLength": 79517
+    },
+    {
+      "Path": "NirSoft/x64/eventlogsourcesview.exe",
+      "Length": 102496,
+      "CompressedLength": 49030
+    },
+    {
+      "Path": "NirSoft/x64/fileaccesserrorview.exe",
+      "Length": 134656,
+      "CompressedLength": 65405
+    },
+    {
+      "Path": "NirSoft/x64/fileactivitywatch.exe",
+      "Length": 137216,
+      "CompressedLength": 66131
+    },
+    {
+      "Path": "NirSoft/x64/filetypesman.exe",
+      "Length": 171520,
+      "CompressedLength": 77725
+    },
+    {
+      "Path": "NirSoft/x64/firmwaretablesview.exe",
+      "Length": 116552,
+      "CompressedLength": 56850
+    },
+    {
+      "Path": "NirSoft/x64/foldertimeupdate.exe",
+      "Length": 137216,
+      "CompressedLength": 65370
+    },
+    {
+      "Path": "NirSoft/x64/fulleventlogview.exe",
+      "Length": 182784,
+      "CompressedLength": 85092
+    },
+    {
+      "Path": "NirSoft/x64/gdiview.exe",
+      "Length": 110800,
+      "CompressedLength": 53953
+    },
+    {
+      "Path": "NirSoft/x64/guipropview.exe",
+      "Length": 165888,
+      "CompressedLength": 75640
+    },
+    {
+      "Path": "NirSoft/x64/handlecountersview.exe",
+      "Length": 113152,
+      "CompressedLength": 54729
+    },
+    {
+      "Path": "NirSoft/x64/hashmyfiles.exe",
+      "Length": 136704,
+      "CompressedLength": 64294
+    },
+    {
+      "Path": "NirSoft/x64/heapmemview.exe",
+      "Length": 96864,
+      "CompressedLength": 47884
+    },
+    {
+      "Path": "NirSoft/x64/installedappview.exe",
+      "Length": 158720,
+      "CompressedLength": 75156
+    },
+    {
+      "Path": "NirSoft/x64/installedcodec.exe",
+      "Length": 98400,
+      "CompressedLength": 48680
+    },
+    {
+      "Path": "NirSoft/x64/installeddriverslist.exe",
+      "Length": 117760,
+      "CompressedLength": 56665
+    },
+    {
+      "Path": "NirSoft/x64/installedpackagesview.exe",
+      "Length": 126464,
+      "CompressedLength": 59835
+    },
+    {
+      "Path": "NirSoft/x64/livetcpudpwatch.exe",
+      "Length": 177664,
+      "CompressedLength": 85716
+    },
+    {
+      "Path": "NirSoft/x64/loadeddllsview.exe",
+      "Length": 136008,
+      "CompressedLength": 65650
+    },
+    {
+      "Path": "NirSoft/x64/lostmypassword.exe",
+      "Length": 418304,
+      "CompressedLength": 409469
+    },
+    {
+      "Path": "NirSoft/x64/lsasecretsdump.exe",
+      "Length": 19456,
+      "CompressedLength": 9963
+    },
+    {
+      "Path": "NirSoft/x64/lsasecretsview.exe",
+      "Length": 92160,
+      "CompressedLength": 45287
+    },
+    {
+      "Path": "NirSoft/x64/mmcsnapinsview.exe",
+      "Length": 111200,
+      "CompressedLength": 54675
+    },
+    {
+      "Path": "NirSoft/x64/mobilefilesearch.exe",
+      "Length": 165888,
+      "CompressedLength": 77898
+    },
+    {
+      "Path": "NirSoft/x64/mozillahistoryview.exe",
+      "Length": 713080,
+      "CompressedLength": 361850
+    },
+    {
+      "Path": "NirSoft/x64/multimonitortool.exe",
+      "Length": 162816,
+      "CompressedLength": 77228
+    },
+    {
+      "Path": "NirSoft/x64/myeventviewer.exe",
+      "Length": 132816,
+      "CompressedLength": 64254
+    },
+    {
+      "Path": "NirSoft/x64/mzcv.exe",
+      "Length": 103424,
+      "CompressedLength": 48913
+    },
+    {
+      "Path": "NirSoft/x64/netpass.exe",
+      "Length": 140800,
+      "CompressedLength": 62104
+    },
+    {
+      "Path": "NirSoft/x64/networkinterfacesview.exe",
+      "Length": 132608,
+      "CompressedLength": 63142
+    },
+    {
+      "Path": "NirSoft/x64/networklatencyview.exe",
+      "Length": 220160,
+      "CompressedLength": 104210
+    },
+    {
+      "Path": "NirSoft/x64/networkopenedfiles.exe",
+      "Length": 165888,
+      "CompressedLength": 77370
+    },
+    {
+      "Path": "NirSoft/x64/networktrafficview.exe",
+      "Length": 258560,
+      "CompressedLength": 121769
+    },
+    {
+      "Path": "NirSoft/x64/networkusageview.exe",
+      "Length": 159744,
+      "CompressedLength": 78020
+    },
+    {
+      "Path": "NirSoft/x64/nircmd.exe",
+      "Length": 119808,
+      "CompressedLength": 57798
+    },
+    {
+      "Path": "NirSoft/x64/nircmdc.exe",
+      "Length": 118272,
+      "CompressedLength": 57001
+    },
+    {
+      "Path": "NirSoft/x64/nk2edit.exe",
+      "Length": 342736,
+      "CompressedLength": 156124
+    },
+    {
+      "Path": "NirSoft/x64/ntfslinksview.exe",
+      "Length": 93184,
+      "CompressedLength": 44068
+    },
+    {
+      "Path": "NirSoft/x64/officeins.exe",
+      "Length": 90720,
+      "CompressedLength": 45273
+    },
+    {
+      "Path": "NirSoft/x64/offlineregistryfinder.exe",
+      "Length": 155648,
+      "CompressedLength": 72610
+    },
+    {
+      "Path": "NirSoft/x64/offlineregistryview.exe",
+      "Length": 105472,
+      "CompressedLength": 50219
+    },
+    {
+      "Path": "NirSoft/x64/openedfilesview.exe",
+      "Length": 208072,
+      "CompressedLength": 93129
+    },
+    {
+      "Path": "NirSoft/x64/opensavefilesview.exe",
+      "Length": 115016,
+      "CompressedLength": 57858
+    },
+    {
+      "Path": "NirSoft/x64/outlookaccountsview.exe",
+      "Length": 141312,
+      "CompressedLength": 65608
+    },
+    {
+      "Path": "NirSoft/x64/outlookaddressbookview.exe",
+      "Length": 182784,
+      "CompressedLength": 85592
+    },
+    {
+      "Path": "NirSoft/x64/outlookattachview.exe",
+      "Length": 304640,
+      "CompressedLength": 141903
+    },
+    {
+      "Path": "NirSoft/x64/outlookstatview.exe",
+      "Length": 236544,
+      "CompressedLength": 111833
+    },
+    {
+      "Path": "NirSoft/x64/passwordfox.exe",
+      "Length": 502784,
+      "CompressedLength": 251436
+    },
+    {
+      "Path": "NirSoft/x64/passwordscan.exe",
+      "Length": 618496,
+      "CompressedLength": 308033
+    },
+    {
+      "Path": "NirSoft/x64/pinginfoview.exe",
+      "Length": 81920,
+      "CompressedLength": 75914
+    },
+    {
+      "Path": "NirSoft/x64/previousfilesrecovery.exe",
+      "Length": 131960,
+      "CompressedLength": 65504
+    },
+    {
+      "Path": "NirSoft/x64/processactivityview.exe",
+      "Length": 118368,
+      "CompressedLength": 56691
+    },
+    {
+      "Path": "NirSoft/x64/processtcpsummary.exe",
+      "Length": 129024,
+      "CompressedLength": 61574
+    },
+    {
+      "Path": "NirSoft/x64/processthreadsview.exe",
+      "Length": 132816,
+      "CompressedLength": 64252
+    },
+    {
+      "Path": "NirSoft/x64/productkeyscanner.exe",
+      "Length": 129536,
+      "CompressedLength": 62091
+    },
+    {
+      "Path": "NirSoft/x64/produkey.exe",
+      "Length": 212992,
+      "CompressedLength": 92500
+    },
+    {
+      "Path": "NirSoft/x64/propertysystemview.exe",
+      "Length": 148480,
+      "CompressedLength": 69354
+    },
+    {
+      "Path": "NirSoft/x64/regdllview.exe",
+      "Length": 116832,
+      "CompressedLength": 57097
+    },
+    {
+      "Path": "NirSoft/x64/regfromapp.exe",
+      "Length": 96864,
+      "CompressedLength": 47286
+    },
+    {
+      "Path": "NirSoft/x64/registrychangesview.exe",
+      "Length": 174592,
+      "CompressedLength": 78946
+    },
+    {
+      "Path": "NirSoft/x64/regscanner.exe",
+      "Length": 155136,
+      "CompressedLength": 74302
+    },
+    {
+      "Path": "NirSoft/x64/resourcesextract.exe",
+      "Length": 55392,
+      "CompressedLength": 27027
+    },
+    {
+      "Path": "NirSoft/x64/rtmpdumphelper.dll",
+      "Length": 6656,
+      "CompressedLength": 2769
+    },
+    {
+      "Path": "NirSoft/x64/rtmpdumphelper.exe",
+      "Length": 109568,
+      "CompressedLength": 53811
+    },
+    {
+      "Path": "NirSoft/x64/runasdate.exe",
+      "Length": 101704,
+      "CompressedLength": 44531
+    },
+    {
+      "Path": "NirSoft/x64/runfromprocess.exe",
+      "Length": 17408,
+      "CompressedLength": 8234
+    },
+    {
+      "Path": "NirSoft/x64/searchmyfiles.exe",
+      "Length": 236032,
+      "CompressedLength": 113598
+    },
+    {
+      "Path": "NirSoft/x64/serviwin.exe",
+      "Length": 109896,
+      "CompressedLength": 54737
+    },
+    {
+      "Path": "NirSoft/x64/shadowcopyview.exe",
+      "Length": 129024,
+      "CompressedLength": 61084
+    },
+    {
+      "Path": "NirSoft/x64/shexview.exe",
+      "Length": 183184,
+      "CompressedLength": 83337
+    },
+    {
+      "Path": "NirSoft/x64/shman.exe",
+      "Length": 89184,
+      "CompressedLength": 44147
+    },
+    {
+      "Path": "NirSoft/x64/shmnview.exe",
+      "Length": 111312,
+      "CompressedLength": 54990
+    },
+    {
+      "Path": "NirSoft/x64/simpleprogramdebugger.exe",
+      "Length": 133448,
+      "CompressedLength": 64857
+    },
+    {
+      "Path": "NirSoft/x64/simplewmiview.exe",
+      "Length": 145920,
+      "CompressedLength": 69745
+    },
+    {
+      "Path": "NirSoft/x64/smsniff.exe",
+      "Length": 228864,
+      "CompressedLength": 108122
+    },
+    {
+      "Path": "NirSoft/x64/sniffpass.exe",
+      "Length": 98304,
+      "CompressedLength": 48694
+    },
+    {
+      "Path": "NirSoft/x64/soundvolumeview.exe",
+      "Length": 200192,
+      "CompressedLength": 92213
+    },
+    {
+      "Path": "NirSoft/x64/specialfoldersview.exe",
+      "Length": 94816,
+      "CompressedLength": 45670
+    },
+    {
+      "Path": "NirSoft/x64/svcl.exe",
+      "Length": 166400,
+      "CompressedLength": 79066
+    },
+    {
+      "Path": "NirSoft/x64/sysexp.exe",
+      "Length": 104296,
+      "CompressedLength": 51843
+    },
+    {
+      "Path": "NirSoft/x64/taskschedulerview.exe",
+      "Length": 164560,
+      "CompressedLength": 79176
+    },
+    {
+      "Path": "NirSoft/x64/tcplogview.exe",
+      "Length": 180736,
+      "CompressedLength": 87346
+    },
+    {
+      "Path": "NirSoft/x64/uninstallview.exe",
+      "Length": 190464,
+      "CompressedLength": 88903
+    },
+    {
+      "Path": "NirSoft/x64/usbdeview.exe",
+      "Length": 188928,
+      "CompressedLength": 87398
+    },
+    {
+      "Path": "NirSoft/x64/vaultpasswordview.exe",
+      "Length": 175616,
+      "CompressedLength": 79267
+    },
+    {
+      "Path": "NirSoft/x64/videocacheview.exe",
+      "Length": 227328,
+      "CompressedLength": 110849
+    },
+    {
+      "Path": "NirSoft/x64/vlmshlp.dll",
+      "Length": 19552,
+      "CompressedLength": 8235
+    },
+    {
+      "Path": "NirSoft/x64/vlmshlp32.dll",
+      "Length": 18528,
+      "CompressedLength": 7689
+    },
+    {
+      "Path": "NirSoft/x64/volumouse.exe",
+      "Length": 103936,
+      "CompressedLength": 50200
+    },
+    {
+      "Path": "NirSoft/x64/volumouse32.exe",
+      "Length": 14848,
+      "CompressedLength": 5552
+    },
+    {
+      "Path": "NirSoft/x64/wakemeonlan.exe",
+      "Length": 1397248,
+      "CompressedLength": 479979
+    },
+    {
+      "Path": "NirSoft/x64/webcookiessniffer.exe",
+      "Length": 182992,
+      "CompressedLength": 86137
+    },
+    {
+      "Path": "NirSoft/x64/websitesniffer.exe",
+      "Length": 203984,
+      "CompressedLength": 96935
+    },
+    {
+      "Path": "NirSoft/x64/whatinstartup.exe",
+      "Length": 131168,
+      "CompressedLength": 61149
+    },
+    {
+      "Path": "NirSoft/x64/whatishang.exe",
+      "Length": 130144,
+      "CompressedLength": 62381
+    },
+    {
+      "Path": "NirSoft/x64/whoisconnectedsniffer.exe",
+      "Length": 1345536,
+      "CompressedLength": 462568
+    },
+    {
+      "Path": "NirSoft/x64/wifichannelmonitor.exe",
+      "Length": 1160568,
+      "CompressedLength": 422845
+    },
+    {
+      "Path": "NirSoft/x64/wifiinfoview.exe",
+      "Length": 423936,
+      "CompressedLength": 408553
+    },
+    {
+      "Path": "NirSoft/x64/wincrashreport.exe",
+      "Length": 294096,
+      "CompressedLength": 141075
+    },
+    {
+      "Path": "NirSoft/x64/windefthreatsview.exe",
+      "Length": 140800,
+      "CompressedLength": 66817
+    },
+    {
+      "Path": "NirSoft/x64/winlister.exe",
+      "Length": 64720,
+      "CompressedLength": 32263
+    },
+    {
+      "Path": "NirSoft/x64/winmailpassrec.exe",
+      "Length": 139776,
+      "CompressedLength": 66106
+    },
+    {
+      "Path": "NirSoft/x64/winprefetchview.exe",
+      "Length": 115064,
+      "CompressedLength": 55856
+    },
+    {
+      "Path": "NirSoft/x64/winupdatesview.exe",
+      "Length": 147456,
+      "CompressedLength": 71024
+    },
+    {
+      "Path": "NirSoft/x64/wirelesskeyview.exe",
+      "Length": 263168,
+      "CompressedLength": 126071
+    },
+    {
+      "Path": "NirSoft/x64/wnetwatcher.exe",
+      "Length": 1447936,
+      "CompressedLength": 494698
+    }
+  ],
+  "MemberHashesVerified": false,
+  "DecryptionOrExtractionPerformed": true,
+  "PayloadExecuted": false,
+  "CatalogAdmission": false,
+  "Remaining": [
+    "Windows protection blocks member inspection; do not retry blocked files or weaken protection",
+    "Per-utility hashes, versions, architectures, notices and terms",
+    "x64 overlap and optional launcher configuration ownership",
+    "Maintained encrypted-archive deployment and native acceptance"
+  ],
+  "ExtractionToolVersion": "26.04",
+  "ExtractionReportedFiles": 668,
+  "PostExtractionObservedFiles": 667,
+  "MissingAfterExtraction": [
+    "NirSoft/bulletspassview.exe"
+  ],
+  "ReadBlockedMembers": [
+    "NirSoft/chromecookiesview.exe"
+  ],
+  "ReadBlockReason": "Windows reported that the file contains a virus or potentially unwanted software; no bypass, exclusion or re-extraction was attempted",
+  "ExtractionStatus": "IncompleteVerification",
+  "ConfigurationOwnership": "NirLauncher.cfg, NirSoft/nirsoft.nlp and autorun.inf remain inert source; no launcher/autorun activation",
+  "ProtectionReviewStatus": "Blocked; all NirSoft payload inspection stopped",
+  "UserReportedDefenderAlerts": [
+    "NirSoft/chromecookiesview.exe",
+    "NirSoft/bulletspassview.exe"
+  ],
+  "AlertReportDate": "2026-10-17",
+  "ThreatClassification": "Not supplied for these NirSoft alerts; no false-positive determination",
+  "ProtectionChanged": false
+}

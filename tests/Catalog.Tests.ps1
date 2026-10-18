@@ -145,7 +145,9 @@ Describe 'RIDE operation catalog' {
     $operation.States.AesCbc128 | Should -Be 3
     $operation.States.AesCbc256 | Should -Be 4
     $operation.States.WindowsDefault | Should -BeNullOrEmpty
-    $operation.Description | Should -Match 'future drive encryption'
+    $operation.SettingPresentation.Behavior | Should -Be 'Unverified'
+    $operation.Description | Should -Match 'Vista/Windows 7-era'
+    $operation.Description | Should -Match 'not verified as the current Windows 11'
     $defaultProfile = Import-PowerShellDataFile (Join-Path $script:RepositoryRoot 'profiles/default.psd1')
     ($defaultProfile.Operations | Where-Object Id -eq $operation.Id).State | Should -Be 'AesCbc256'
   }

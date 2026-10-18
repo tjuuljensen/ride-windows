@@ -1,0 +1,100 @@
+{
+  "SchemaVersion": 1,
+  "Batch": "B10 offline execution gate",
+  "RecordedDate": "2026-10-17",
+  "SourceFiles": [
+    {
+      "Sha256": "4313df9a9ce6245959058974f2c1b7f5ce477b4ed5fee3e34a77ef167196a6d4",
+      "Path": "ride.ps1"
+    },
+    {
+      "Sha256": "c61a9c9ffbcbb73bca5866a42c0ec26fe664608ff7aae9eebbbb843eb21861f4",
+      "Path": "modules/RIDE.Engine.psm1"
+    },
+    {
+      "Sha256": "fdadeece8dce0fd2c9f42de8437d291d29c2a4766dca613059325715262831eb",
+      "Path": "modules/RIDE-Packages.psm1"
+    },
+    {
+      "Sha256": "865cf275852183dfd0d00bec44d93b4bdc97111eb087691d5ede8cf44d73418f",
+      "Path": "modules/RIDE-PortablePackages.psm1"
+    },
+    {
+      "Sha256": "0d8317f2226820dc00ecad324758a38fb54c7c4d86207cecccdd2268d03c56eb",
+      "Path": "modules/RIDE.OfflineBundle.psm1"
+    },
+    {
+      "Sha256": "6ce97447555d9711a1538148761147df9dbb1b990bd5ea100949b80fb7efd0a9",
+      "Path": "catalog/operations.psd1"
+    },
+    {
+      "Sha256": "efe6642a23f66fbaba742a155e86fd325ff5dbf120dbe341b95c4d6db33803f2",
+      "Path": "tests/OfflineExecution.Tests.ps1"
+    },
+    {
+      "Sha256": "3ac8de239045832239413416918bc3ee60a3320a16a042611f726d55c6ae5efe",
+      "Path": "tests/CliShouldProcess.Tests.ps1"
+    }
+  ],
+  "Checks": [
+    {
+      "PowerShell": "5.1.26100.9711",
+      "Tests": [
+        "OfflineExecution",
+        "CliShouldProcess",
+        "PortableManifest",
+        "ApplicationPackages"
+      ],
+      "Passed": 162,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 162
+    },
+    {
+      "PowerShell": "5.1.26100.9711",
+      "Tests": [
+        "PackageEvidence"
+      ],
+      "Passed": 25,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 25
+    },
+    {
+      "PowerShell": "7.6.5",
+      "Tests": [
+        "OfflineExecution",
+        "CliShouldProcess",
+        "PortableManifest",
+        "ApplicationPackages"
+      ],
+      "Passed": 162,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 162
+    },
+    {
+      "PowerShell": "7.6.5",
+      "Tests": [
+        "PackageEvidence"
+      ],
+      "Passed": 25,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 25
+    }
+  ],
+  "RepositoryValidation": {
+    "Editions": [
+      "5.1.26100.9711",
+      "7.6.5"
+    ],
+    "Groups": 8,
+    "PowerShellFiles": 227,
+    "Operations": 358,
+    "Profiles": 5,
+    "GeneratedDocumentationCurrent": true
+  },
+  "NativeAcceptance": false,
+  "LegacyOutcomesClosed": 0
+}

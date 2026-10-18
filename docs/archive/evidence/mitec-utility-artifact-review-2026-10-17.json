@@ -1,0 +1,174 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "Batch": "Historical MiTeC utilities",
+  "Products": [
+    {
+      "Artifact": {
+        "Product": "DirList",
+        "Archive": "DirList.zip",
+        "DownloadUri": "https://www.mitec.cz/Downloads/DirList.zip",
+        "Length": 1040280,
+        "Sha256": "635e8d311eb99a2730aecff405272e1b0b92636763051e41d451961d3b9c0e26",
+        "Members": [
+          {
+            "Path": "DirList.exe",
+            "Length": 2386944,
+            "Sha256": "e1dc9d150c97739e2678e57c0b3de88d5dff78f5161722577042c4463694749b",
+            "PeMachine": "014c",
+            "FileVersion": "1.3.0.0",
+            "ProductVersion": "1.0.0.0",
+            "CompanyName": "MiTeC",
+            "LegalCopyright": "Copyright (c) 2006-2018, Michal Mutl"
+          }
+        ],
+        "NativeAcceptance": false,
+        "PayloadExecuted": false,
+        "PublisherDigestVerified": false,
+        "LicenseFilePresent": false
+      },
+      "ProductUri": "https://www.mitec.cz/dirlist.html",
+      "ProductPageSha256": "e158fb5eb12b376bf8affaf47b79a03468070034132fca1286387c897af2c28b",
+      "HistoricalIndexVersion": "1.3.0",
+      "LicenseObservation": "Historical product page permits private/commercial use; distribution not established",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "CatalogAdmission": false,
+      "Blockers": [
+        "Reconcile exact historical product terms with current EULA; shared-kit distribution not established",
+        "Implement exact owned-file selection and non-destructive adoption/recovery",
+        "Windows 11 and declared Server functionality not yet accepted; no profile selection"
+      ],
+      "PreparedAcceptance": [
+        "Use a synthetic directory tree; verify listing/export without changing source files",
+        "Preview/install/repeat/remove/restore and preserve unowned export/configuration files"
+      ]
+    },
+    {
+      "Artifact": {
+        "Product": "Network Meter",
+        "Archive": "NetMet.zip",
+        "DownloadUri": "https://www.mitec.cz/Downloads/NetMet.zip",
+        "Length": 1456776,
+        "Sha256": "04e55b066b9a6a598c15e619d99597894b0494bae63d7d8a36df391feae1f360",
+        "Members": [
+          {
+            "Path": "NetMet.exe",
+            "Length": 3607872,
+            "Sha256": "961ef047dd75b4d888aa8e8f247f91926badc6ee75a3c8793e0601cd5b0dc4c0",
+            "PeMachine": "014c",
+            "FileVersion": "2.5.0.0",
+            "ProductVersion": "2.0.0.0",
+            "CompanyName": "MiTeC",
+            "LegalCopyright": "Copyright (c) 2006-2021, Michal Mutl"
+          }
+        ],
+        "NativeAcceptance": false,
+        "PayloadExecuted": false,
+        "PublisherDigestVerified": false,
+        "LicenseFilePresent": false
+      },
+      "ProductUri": "https://www.mitec.cz/netmet.html",
+      "ProductPageSha256": "ad80fbcc6b3abf5ed3b2c5cd3a726847b686e5f39864f3142c780edea61908c2",
+      "HistoricalIndexVersion": "2.5.0",
+      "LicenseObservation": "Historical product page permits private/commercial use; distribution not established",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "CatalogAdmission": false,
+      "Blockers": [
+        "Reconcile exact historical product terms with current EULA; shared-kit distribution not established",
+        "Implement exact owned-file selection and non-destructive adoption/recovery",
+        "Windows 11 and declared Server functionality not yet accepted; no profile selection"
+      ],
+      "PreparedAcceptance": [
+        "Use isolated guest network adapters; inspect counters and export without altering adapter configuration",
+        "Verify settings preservation and exact owned-file recovery"
+      ]
+    },
+    {
+      "Artifact": {
+        "Product": "PhotoView",
+        "Archive": "PhotoView.zip",
+        "DownloadUri": "https://www.mitec.cz/Downloads/PhotoView.zip",
+        "Length": 1611828,
+        "Sha256": "6bcbb3aafd3db71e7cbdfb75d78934101ded79a5792f52fbae600ec16910795c",
+        "Members": [
+          {
+            "Path": "gdiplus.dll",
+            "Length": 1645320,
+            "Sha256": "f1da32183b3da19f75fa4ef0974a64895266b16d119bbb1da9fe63867dba0645",
+            "PeMachine": "014c",
+            "FileVersion": "5.1.3102.1360 (xpsp2.040109-1800)",
+            "ProductVersion": "5.1.3102.1360",
+            "CompanyName": "Microsoft Corporation",
+            "LegalCopyright": "© Microsoft Corporation. All rights reserved."
+          },
+          {
+            "Path": "PhotoView.exe",
+            "Length": 692736,
+            "Sha256": "8f384761ac341e42968cbdc0dedfd2ba11ece8dbc2d00908af78d4a90f8ec5f7",
+            "PeMachine": "014c",
+            "FileVersion": "1.4.0.0",
+            "ProductVersion": "1.0.0.0",
+            "CompanyName": "MiTeC",
+            "LegalCopyright": "Copyright © 2005-2010 Michal Mutl"
+          },
+          {
+            "Path": "Czech.lng",
+            "Length": 5008,
+            "Sha256": "63b8bbdc04fa9083b03f5eaa1f2d39de9eeb1669698e37301f25f6f9f636cfb3",
+            "PeMachine": null,
+            "FileVersion": null,
+            "ProductVersion": null,
+            "CompanyName": null,
+            "LegalCopyright": null
+          },
+          {
+            "Path": "Polish.lng",
+            "Length": 4872,
+            "Sha256": "a7220ece3f637aef3a49950db536dd293e4c39ce69950faec8accf374ca50829",
+            "PeMachine": null,
+            "FileVersion": null,
+            "ProductVersion": null,
+            "CompanyName": null,
+            "LegalCopyright": null
+          },
+          {
+            "Path": "Greek.lng",
+            "Length": 5482,
+            "Sha256": "e8a02402df670b78a91654d6873aed7f4680c177471241429c43047d19dcdb3f",
+            "PeMachine": null,
+            "FileVersion": null,
+            "ProductVersion": null,
+            "CompanyName": null,
+            "LegalCopyright": null
+          }
+        ],
+        "NativeAcceptance": false,
+        "PayloadExecuted": false,
+        "PublisherDigestVerified": false,
+        "LicenseFilePresent": false
+      },
+      "ProductUri": "https://www.mitec.cz/photo.html",
+      "ProductPageSha256": "b019ed6e913148154f151e0d448f75dc4cca6f1f12a8a7e5c28c14c806a360a6",
+      "HistoricalIndexVersion": "1.4.0",
+      "LicenseObservation": "Historical product page permits private/commercial use; distribution not established",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "CatalogAdmission": false,
+      "Blockers": [
+        "Reconcile exact historical product terms with current EULA; shared-kit distribution not established",
+        "Implement exact owned-file selection and non-destructive adoption/recovery",
+        "Windows 11 and declared Server functionality not yet accepted; no profile selection",
+        "Bundled Microsoft gdiplus.dll is x86 version 5.1.3102.1360; redistribution notice/source and supported replacement/omission behavior unresolved",
+        "Three language resources must be deliberately selected or retained; do not silently drop them"
+      ],
+      "PreparedAcceptance": [
+        "Use synthetic images and a disposable output directory",
+        "Verify actual DLL resolution and clean-guest behavior before changing bundled dependency selection",
+        "Preserve original images and unowned settings during removal and restore"
+      ]
+    }
+  ],
+  "PayloadExecuted": false,
+  "NativeAcceptance": false,
+  "FreshUacLaunches": 0,
+  "Inspection": "Bounded ZIP reads and hashes; only exact executable/DLL members staged for FileVersionInfo reads, never loaded or invoked"
+}

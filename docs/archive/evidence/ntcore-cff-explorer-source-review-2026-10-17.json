@@ -1,0 +1,268 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "Archive": "CFF_Explorer.zip",
+  "Length": 2179871,
+  "Sha256": "8e72bcb9c6e83f188f4a259ad039ed3cc37cdf2c3ea12b00f0df8d8b67e96d96",
+  "MemberCount": 23,
+  "ExpandedBytes": 4974006,
+  "Members": [
+    {
+      "Path": "CFF_Explorer/",
+      "Length": 0,
+      "CompressedLength": 0,
+      "Sha256": null,
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "CFF_Explorer/CFF Explorer.exe",
+      "Length": 2803712,
+      "CompressedLength": 1027900,
+      "Sha256": "0f01ca5385bca26ddfb7d335e84d2377d58063290ad8c2f9eef66ca1666e3b5d",
+      "PeMachine": "014c",
+      "FileVersion": "8.0.0.0",
+      "ProductVersion": "8.0.0.0",
+      "LegalCopyright": "© 2012 Daniel Pistelli.  All rights reserved."
+    },
+    {
+      "Path": "CFF_Explorer/Extensions/",
+      "Length": 0,
+      "CompressedLength": 0,
+      "Sha256": null,
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "CFF_Explorer/Extensions/CFF Explorer/",
+      "Length": 0,
+      "CompressedLength": 0,
+      "Sha256": null,
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "CFF_Explorer/Extensions/CFF Explorer/UPX Utility/",
+      "Length": 0,
+      "CompressedLength": 0,
+      "Sha256": null,
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "CFF_Explorer/Extensions/CFF Explorer/UPX Utility/UPX Utility.dll",
+      "Length": 79360,
+      "CompressedLength": 37364,
+      "Sha256": "c3657dad7f0fba5914ec749fe8427efa0d56ea3bc12d3b661febab3e2aa61e8f",
+      "PeMachine": "014c",
+      "FileVersion": "1, 0, 0, 1",
+      "ProductVersion": "1, 0, 0, 1",
+      "LegalCopyright": "© 2006 Daniel Pistelli.  All rights reserved."
+    },
+    {
+      "Path": "CFF_Explorer/Extensions/CFF Explorer/UPX Utility/upx.exe",
+      "Length": 293888,
+      "CompressedLength": 291769,
+      "Sha256": "4d3d363b5b3dcd9fa516b481c92d62c02aed804318bdc4d5e97a68bb6e6d62db",
+      "PeMachine": "014c",
+      "FileVersion": "3.08 (2011-12-12)",
+      "ProductVersion": "3.08 (2011-12-12)",
+      "LegalCopyright": "© 1996-2011 Markus F.X.J. Oberhumer"
+    },
+    {
+      "Path": "CFF_Explorer/Scripts/",
+      "Length": 0,
+      "CompressedLength": 0,
+      "Sha256": null,
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "CFF_Explorer/Scripts/4GBPatch.cff",
+      "Length": 1679,
+      "CompressedLength": 646,
+      "Sha256": "36edcbb51d4ec9a0924385c0f7253f2ad497f73e014c19b4d8b8507b15698b1b",
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "CFF_Explorer/Scripts/DotNETTablesReport.cff",
+      "Length": 3200,
+      "CompressedLength": 1033,
+      "Sha256": "1404ac6983290dbbe62feecb92975dcf30aa953e8115600432363b4ed856e39f",
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "CFF_Explorer/Scripts/ITReport.cff",
+      "Length": 3863,
+      "CompressedLength": 1307,
+      "Sha256": "f19f1e0736c7a4f5f802acc35d0a20542466c2803479585ded3732a80651c30e",
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "CFF_Explorer/SDK/",
+      "Length": 0,
+      "CompressedLength": 0,
+      "Sha256": null,
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "CFF_Explorer/SDK/CFF Explorer Scripting Language.pdf",
+      "Length": 348774,
+      "CompressedLength": 262349,
+      "Sha256": "588b1e9b691d806ec3a527d9f73ff1a260956769f7f9cc5804bd8e19d09475f5",
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "CFF_Explorer/SDK/ExSuiteExtWiz.msi",
+      "Length": 224256,
+      "CompressedLength": 67525,
+      "Sha256": "0ea5e25b12ab314bc9a0569c3ca756f205f40b792119f8e0fc62c874628dfea0",
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "CFF_Explorer/SDK/How-To CFF Extension.pdf",
+      "Length": 273428,
+      "CompressedLength": 209286,
+      "Sha256": "b085d1cdbcb15b6e8e12eb2b8f34d5e900509470bcfd49ab9565663960e2f38a",
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "CFF_Explorer/SDK/Signatures Technical Details.pdf",
+      "Length": 22304,
+      "CompressedLength": 14794,
+      "Sha256": "37e4a7883be617ad2400e67a773ba10c9cb6545d96dd154ff33cfb84f7f6af38",
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "CFF_Explorer/SDK/UPX_Utility.zip",
+      "Length": 162294,
+      "CompressedLength": 160811,
+      "Sha256": "a317ec979ffd4e7dd2353e3224ca977a3d2d1d68f8d92b10407f65c381fae9fe",
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "CFF_Explorer/Signatures/",
+      "Length": 0,
+      "CompressedLength": 0,
+      "Sha256": null,
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "CFF_Explorer/Signatures/IMAGE_FILE_MACHINE_AMD64.xml",
+      "Length": 1595,
+      "CompressedLength": 287,
+      "Sha256": "dc6b4a0d62ea5bc2633a06b172a5d30a0ae2887ae7dbeda474de2ed07d8ec745",
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "CFF_Explorer/Signatures/IMAGE_FILE_MACHINE_ARM.xml",
+      "Length": 54,
+      "CompressedLength": 54,
+      "Sha256": "cb5d1a3d6d93258cc87e732a7d7f8951ac5759a9323c6a16089e47a7a596212d",
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "CFF_Explorer/Signatures/IMAGE_FILE_MACHINE_I386.xml",
+      "Length": 754095,
+      "CompressedLength": 99868,
+      "Sha256": "a2bba36ebc49c9884c2ddd90f8ce0e93e5daaa7e85681c3b0d6d264ce28b4444",
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "CFF_Explorer/Signatures/IMAGE_FILE_MACHINE_IA64.xml",
+      "Length": 1070,
+      "CompressedLength": 206,
+      "Sha256": "9cbb58cfcda628b8a6b57cdd6d7381d215cb300580ad15df642450e53b8aa422",
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    },
+    {
+      "Path": "CFF_Explorer/Signatures/PLATFORM_INDEPENDENT.xml",
+      "Length": 434,
+      "CompressedLength": 268,
+      "Sha256": "f9c3dea809c8aa1f1f2887dba627ca2197647159b6bcc3c30886f3dbbe2f7a0f",
+      "PeMachine": null,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "LegalCopyright": null
+    }
+  ],
+  "PayloadExecuted": false,
+  "NativeAcceptance": false,
+  "InventoryOnly": false,
+  "ProductUri": "https://ntcore.com/explorer-suite/",
+  "DownloadUri": "https://ntcore.com/files/CFF_Explorer.zip",
+  "SelectedFiles": [
+    "CFF_Explorer/CFF Explorer.exe",
+    "CFF_Explorer/Signatures/IMAGE_FILE_MACHINE_AMD64.xml",
+    "CFF_Explorer/Signatures/IMAGE_FILE_MACHINE_ARM.xml",
+    "CFF_Explorer/Signatures/IMAGE_FILE_MACHINE_I386.xml",
+    "CFF_Explorer/Signatures/IMAGE_FILE_MACHINE_IA64.xml",
+    "CFF_Explorer/Signatures/PLATFORM_INDEPENDENT.xml"
+  ],
+  "OmittedFiles": [
+    "CFF_Explorer/Extensions/CFF Explorer/UPX Utility/UPX Utility.dll",
+    "CFF_Explorer/Extensions/CFF Explorer/UPX Utility/upx.exe",
+    "CFF_Explorer/Scripts/4GBPatch.cff",
+    "CFF_Explorer/Scripts/DotNETTablesReport.cff",
+    "CFF_Explorer/Scripts/ITReport.cff",
+    "CFF_Explorer/SDK/CFF Explorer Scripting Language.pdf",
+    "CFF_Explorer/SDK/ExSuiteExtWiz.msi",
+    "CFF_Explorer/SDK/How-To CFF Extension.pdf",
+    "CFF_Explorer/SDK/Signatures Technical Details.pdf",
+    "CFF_Explorer/SDK/UPX_Utility.zip"
+  ],
+  "PublisherDigestVerified": true,
+  "LicenseEvidence": "Publisher product page describes freeware; archive has no standalone license text. Embedded original copyright strings are retained. No blanket redistribution or personal/company review is asserted."
+}

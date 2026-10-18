@@ -24,6 +24,8 @@
   minutes for evidence and cleanup.
 
 .PARAMETER IntegrationSuite
+  PSScriptTools and OfflineCaffeine use fixed retained archives and PowerShell Direct
+  through the protected FocusedPortableV1 controller, with no per-run UAC prompt.
   ApplicationsBatch1 and ApplicationsBatch2 select installed/portable application migration tests.
   SettingsRemainingBatch1 and SettingsRemainingBatch2 select the two focused migration suites.
   Full (default), SettingsBatch40, SettingsBatch60, or SettingsBatch60Recovery.
@@ -63,8 +65,9 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.5.0
+  Version: 0.6.0
   Changelog:
+    0.6.0: Submit fixed preregistered portable batches with a capability guard.
     0.5.0: Add explicit GitHub PAT selection and credential-safe acceptance boundaries.
     0.4.0: Accept application migration suites in correlated task requests.
   - 0.3.0: Submit either remaining-settings migration batch.
@@ -85,14 +88,14 @@ param(
   [string] $ConfigurationPath,
   [ValidateSet('Local', 'CI')][string] $Source = 'Local',
   [switch] $UnitOnly,
-  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2', 'GitHubAuthentication')][string] $IntegrationSuite = 'Full',
+  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2', 'GitHubAuthentication', 'PSScriptTools', 'OfflineCaffeine')][string] $IntegrationSuite = 'Full',
   [ValidateRange(1, 180)][int] $TimeoutMinutes = 90,
   [string] $ReceiptPath,
   [ValidateSet('Anonymous','PAT')][string] $GuestGitHubAuthentication = 'Anonymous',
   [ValidateSet('Acquire','FailAfterDelivery','WaitForTimeout')][string] $GitHubTestScenario = 'Acquire',
   [switch] $Version
 )
-$script:ScriptVersion = '0.5.0'
+$script:ScriptVersion = '0.6.0'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 if ($UnitOnly -and $IntegrationSuite -ne 'Full') { throw 'IntegrationSuite cannot be selected with UnitOnly.' }
@@ -100,6 +103,10 @@ if ($GitHubTestScenario -ne 'Acquire' -and $IntegrationSuite -ne 'GitHubAuthenti
 Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -Force
 if (-not $ConfigurationPath) { throw '-ConfigurationPath is required.' }
 $config = Read-RideAutomationConfiguration $ConfigurationPath
+if ($IntegrationSuite -in @('PSScriptTools','OfflineCaffeine')) {
+  if ($Source -ne 'Local') { throw 'Focused portable acceptance requires the registered Local source.' }
+  if ('FocusedPortableV1' -notin @($config.Capabilities)) { throw 'One elevated controller refresh is required for FocusedPortableV1; no request was queued and no elevation prompt was opened.' }
+}
 if ($GuestGitHubAuthentication -eq 'PAT') {
   if ($UnitOnly -or $IntegrationSuite -ne 'GitHubAuthentication') { throw 'PAT is initially supported only by the GitHubAuthentication suite.' }
   if ($config.SchemaVersion -ne 2 -or 'GitHubPatGuestV1' -notin @($config.Capabilities) -or -not $config.GuestGitHubCredentialReference) { throw 'Refresh and configure the protected controller before submitting PAT requests.' }

@@ -25,8 +25,9 @@
   Recovery: Follow automatedlab-tasks.md for blocked requests; the fixed worker restores only its
   pinned disposable VM/checkpoint.
   Author: RIDE-Windows maintainers.
-  Version: 0.5.0
+  Version: 0.6.0
   Changelog:
+    0.6.0: Dispatch fixed portable acceptance through the preregistered worker.
     0.5.0: Add explicit GitHub PAT selection and credential-safe acceptance boundaries.
     - 0.4.6: Normalize JSON-parsed queue timestamps before culture-sensitive validation.
     - 0.4.5: Remove host UAC inspection and comparison from controller execution.
@@ -47,7 +48,7 @@
 #>
 
 
-$script:ModuleVersion = '0.5.0'
+$script:ModuleVersion = '0.6.0'
 
 Set-StrictMode -Version 2
 
@@ -618,8 +619,9 @@ function Assert-RideAutomationRequest {
     if ($name -notin @('SchemaVersion','RunId','Source','UnitOnly','IntegrationSuite','TimeoutMinutes','SubmittedAtUtc','GuestGitHubAuthentication','GitHubTestScenario')) { throw 'Request contains an unsupported field; credentials and paths are not accepted in the queue.' }
   }
   if ($Request.PSObject.Properties.Name -contains 'IntegrationSuite') {
-    if ($Request.IntegrationSuite -notin @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2', 'GitHubAuthentication')) { throw 'Invalid request IntegrationSuite.' }
+    if ($Request.IntegrationSuite -notin @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2', 'GitHubAuthentication', 'PSScriptTools', 'OfflineCaffeine')) { throw 'Invalid request IntegrationSuite.' }
     if ($Request.UnitOnly -and $Request.IntegrationSuite -ne 'Full') { throw 'IntegrationSuite cannot be selected with UnitOnly.' }
+    if ($Request.IntegrationSuite -in @('PSScriptTools','OfflineCaffeine') -and $Request.Source -ne 'Local') { throw 'Focused portable acceptance requires the registered Local source.' }
   }
   if ($Request.TimeoutMinutes -lt 1 -or $Request.TimeoutMinutes -gt 180) { throw 'Invalid request timeout.' }
   $null = [datetime]::Parse($Request.SubmittedAtUtc).ToUniversalTime()
@@ -789,6 +791,7 @@ function Invoke-RideAutomationRequest {
   param([object] $Configuration, [object] $Request, [string] $Root)
   Assert-RideAutomationRequest $Request
   $selectedSuite = if ($Request.PSObject.Properties.Name -contains 'IntegrationSuite') { $Request.IntegrationSuite } else { 'Full' }
+  $focusedPortable = $selectedSuite -in @('PSScriptTools','OfflineCaffeine')
   $guestAuthentication = if ($Request.PSObject.Properties.Name -contains 'GuestGitHubAuthentication') { $Request.GuestGitHubAuthentication } else { 'Anonymous' }
   $authenticationContext = $null
   $gitHubScenario = if ($Request.PSObject.Properties.Name -contains 'GitHubTestScenario') { $Request.GitHubTestScenario } else { 'Acquire' }
@@ -804,11 +807,13 @@ function Invoke-RideAutomationRequest {
   try {
     if (Test-Path -LiteralPath (Join-Path $Root 'runtime\blocked.json')) { throw 'VM cleanup is blocked. Follow the recovery runbook before submitting another run.' }
     Assert-RideAutomationHost $Configuration
+    if ($focusedPortable -and ($Configuration.PSObject.Properties.Name -notcontains 'Capabilities' -or 'FocusedPortableV1' -notin @($Configuration.Capabilities))) { throw 'Refresh the protected controller for FocusedPortableV1 before requesting this batch.' }
     if ($guestAuthentication -eq 'PAT') {
       Import-Module (Join-Path $Root 'bin\RIDE.GitHubVmAuthentication.psm1') -ErrorAction Stop
       $authenticationContext = Get-RideVmGitHubContext $Configuration
     }
-    $null = Import-RideAutomationLab $Configuration
+    $target = Import-RideAutomationLab $Configuration
+    if ($focusedPortable -and $target.VM.State -ne 'Off') { throw 'Focused acceptance requires the pinned VM to be Off before dispatch.' }
     if (([datetime]::UtcNow - [datetime]::Parse($Request.SubmittedAtUtc).ToUniversalTime()).TotalMinutes -ge $Request.TimeoutMinutes) { throw 'Request expired while waiting in the queue.' }
     $source = if ($Request.Source -eq 'CI') { $Configuration.CIRepositoryPath } else { $Configuration.LocalRepositoryPath }
     $snapshotPath = Join-Path $runDirectory 'snapshot\ride-windows'
@@ -817,11 +822,15 @@ function Invoke-RideAutomationRequest {
     if ($selectedSuite -eq 'GitHubAuthentication' -and (Test-Path -LiteralPath (Join-Path $snapshotPath 'tests\integration\settings-validation.fixture.psd1'))) { throw 'Use an isolated reviewed authentication source without the active settings fixture.' }
     if (([datetime]::UtcNow - [datetime]::Parse($Request.SubmittedAtUtc).ToUniversalTime()).TotalMinutes -ge $Request.TimeoutMinutes) { throw 'Request expired while staging the checkout.' }
     $touchedVm = $true
-    Reset-RideAutomationVm $Configuration
-    Start-VM -VM (Get-VM -Id ([guid]$Configuration.VMId) -ErrorAction Stop) -ErrorAction Stop | Out-Null
-    $arguments = "-NoLogo -NoProfile -ExecutionPolicy Bypass -NonInteractive -WindowStyle Hidden -File `"$(Join-Path $Root 'bin\Invoke-RideVmTest.ps1')`" -Transport AutomatedLab -LabName `"$($Configuration.LabName)`" -VMName `"$($Configuration.VMName)`" -RepositoryPath `"$snapshotPath`" -GuestRepositoryPath `"$($Configuration.GuestRepositoryPath)`" -ResultDirectory `"$runDirectory`" -RunId $($Request.RunId)"
-    if ($Request.UnitOnly) { $arguments += ' -UnitOnly' }
-    else { $arguments += " -IntegrationSuite $selectedSuite" }
+    if ($focusedPortable) {
+      $arguments = "-NoLogo -NoProfile -ExecutionPolicy Bypass -NonInteractive -WindowStyle Hidden -File `"$(Join-Path $Root 'bin\Invoke-RidePortableVmAcceptance.ps1')`" -ConfigurationPath `"$(Join-Path $Root 'configuration.json')`" -ControllerRunId $($Request.RunId) -Batch $selectedSuite -TimeoutMinutes $([math]::Min(60,$Request.TimeoutMinutes))"
+    } else {
+      Reset-RideAutomationVm $Configuration
+      Start-VM -VM (Get-VM -Id ([guid]$Configuration.VMId) -ErrorAction Stop) -ErrorAction Stop | Out-Null
+      $arguments = "-NoLogo -NoProfile -ExecutionPolicy Bypass -NonInteractive -WindowStyle Hidden -File `"$(Join-Path $Root 'bin\Invoke-RideVmTest.ps1')`" -Transport AutomatedLab -LabName `"$($Configuration.LabName)`" -VMName `"$($Configuration.VMName)`" -RepositoryPath `"$snapshotPath`" -GuestRepositoryPath `"$($Configuration.GuestRepositoryPath)`" -ResultDirectory `"$runDirectory`" -RunId $($Request.RunId)"
+      if ($Request.UnitOnly) { $arguments += ' -UnitOnly' }
+      else { $arguments += " -IntegrationSuite $selectedSuite" }
+    }
     if ($selectedSuite -eq 'GitHubAuthentication') { $arguments += " -GuestGitHubAuthentication $guestAuthentication -GitHubTestScenario $gitHubScenario" }
     if ($guestAuthentication -eq 'PAT') {
       $deadline = ([datetime]::Parse($Request.SubmittedAtUtc).ToUniversalTime()).AddMinutes($Request.TimeoutMinutes).ToString('o')
@@ -845,6 +854,11 @@ function Invoke-RideAutomationRequest {
     $process.Refresh()
     if ($null -eq $process.ExitCode) { throw 'Could not read the test controller exit code. See controller logs.' }
     if ($process.ExitCode -ne 0) { throw "Test controller exited with code $($process.ExitCode). See controller-errors.log." }
+    if ($focusedPortable) {
+      $focused = Get-Content -LiteralPath (Join-Path $runDirectory 'focused/result.json') -Raw -ErrorAction Stop | ConvertFrom-Json
+      if ($focused.RunId -cne $Request.RunId -or $focused.Batch -cne $selectedSuite -or $focused.Status -ne 'Passed' -or $focused.Cleanup -ne 'ResetAndOff' -or $focused.EvidenceCollected -ne $true -or $focused.ToolExecuted -ne $false) { throw 'Focused result is missing, mismatched, incomplete or unsuccessful.' }
+      $summary.FocusedResult = $focused
+    } else {
     $guest = Get-Content -LiteralPath (Join-Path $runDirectory 'guest\summary.json') -Raw -ErrorAction Stop | ConvertFrom-Json
     if ($guest.RunId -ne $Request.RunId -or $guest.Status -ne 'Passed' -or $guest.Pester.Total -lt 1 -or $guest.Pester.Failed -ne 0 -or -not $guest.ValidationPassed -or (-not $Request.UnitOnly -and -not $guest.IntegrationPassed)) { throw 'Guest result is missing, mismatched, incomplete or unsuccessful.' }
     if (-not $Request.UnitOnly -and ($guest.PSObject.Properties.Name -notcontains 'IntegrationSuite' -or $guest.IntegrationSuite -ne $selectedSuite)) { throw 'Guest integration suite does not match the requested suite.' }
@@ -852,12 +866,13 @@ function Invoke-RideAutomationRequest {
     if ($selectedSuite -eq 'GitHubAuthentication' -and $guest.GitHubTestScenario -ne $gitHubScenario) { throw 'Guest authentication scenario does not match the request.' }
     if ($guestAuthentication -eq 'PAT' -and $guest.CredentialCleanupVerified -ne $true) { throw 'Guest credential cleanup evidence is missing.' }
     if (-not (Test-Path -LiteralPath (Join-Path $runDirectory 'guest\pester.xml') -PathType Leaf)) { throw 'Guest Pester XML is missing.' }
+    }
     $summary.Status = 'Passed'
   }
   catch { $summary.Error = $_.Exception.Message }
   finally {
     if ($touchedVm) {
-      if ($summary.Status -ne 'Passed') {
+      if ($summary.Status -ne 'Passed' -and -not $focusedPortable) {
         try { Save-RideAutomationFailureEvidence -Root $Root -RunId $Request.RunId -ResultDirectory $runDirectory }
         catch { $summary.CollectionError = $_.Exception.Message }
       }

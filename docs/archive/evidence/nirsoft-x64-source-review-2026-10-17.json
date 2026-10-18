@@ -1,0 +1,891 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "ProductUri": "https://www.nirsoft.net/x64_download_package.html",
+  "DownloadUri": "https://www.nirsoft.net/packages/x64tools.zip",
+  "Length": 2105172,
+  "Sha256": "305556bfa9796fd5320ffe4f87ccc66a1fca6dad5fed7d5653bc21ac5df2806b",
+  "PublisherDigestVerified": false,
+  "ExpandedBytes": 4193382,
+  "FileCount": 49,
+  "Members": [
+    {
+      "Path": "cports.chm",
+      "Length": 21684,
+      "Sha256": "96d152f596deb3d069c2733f0977510f8cf5198431cee1ace51c8f8361dcaba4",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/cports.chm",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "cports.exe",
+      "Length": 215552,
+      "Sha256": "d99d31fe1b454c5dac448469204c801949447f27d1961ad2550f26f318c50a7c",
+      "PeMachine": "8664",
+      "FileVersion": "2.77",
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/cports.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        },
+        {
+          "Path": "NirSoft/x64/cports.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "dllexp.chm",
+      "Length": 16552,
+      "Sha256": "3f8a5ed806013d82e45f5b2205c83d7dc99344c3a7921d83e27bbc2223d3c4fa",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/dllexp.chm",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "dllexp.exe",
+      "Length": 114896,
+      "Sha256": "721c14e332532b2f2abe1dcb8954c96d882525837b8468da9da26710292928fd",
+      "PeMachine": "8664",
+      "FileVersion": "1.66",
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/dllexp.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        },
+        {
+          "Path": "NirSoft/x64/dllexp.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "driverview.chm",
+      "Length": 14796,
+      "Sha256": "790a7e897320ba0049528feb9b506160454e837ca791ec013a31617a076e17af",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/driverview.chm",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "DriverView.exe",
+      "Length": 90624,
+      "Sha256": "863a7072b728dba1bf33d48ca525cbdf87ba463f90d7e93ad3696ce15e3780ec",
+      "PeMachine": "8664",
+      "FileVersion": "1.51",
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/driverview.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        },
+        {
+          "Path": "NirSoft/x64/driverview.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "FileTypesMan.chm",
+      "Length": 19149,
+      "Sha256": "667d050faead41540fe6d9a547b44989eaa6a6b5f851689f47743a8c04fbcda1",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/filetypesman.chm",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "FileTypesMan.exe",
+      "Length": 171008,
+      "Sha256": "813e89e6b52cde6f9dd2ab2d65e13f4d9934c2021ea18a40cd07dff75cd5df5b",
+      "PeMachine": "8664",
+      "FileVersion": "2.00",
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/filetypesman.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        },
+        {
+          "Path": "NirSoft/x64/filetypesman.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "GDIView.chm",
+      "Length": 15910,
+      "Sha256": "003d78c369fabc8595c41766700d4e83b7a553f720e55a4c6d4580ef70e35479",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/gdiview.chm",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "GDIView.exe",
+      "Length": 110800,
+      "Sha256": "c49560f7a206b6b55d89c205a4631dfedd2b4a78ab81fea8706989a5627f95a1",
+      "PeMachine": "8664",
+      "FileVersion": "1.26",
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/gdiview.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        },
+        {
+          "Path": "NirSoft/x64/gdiview.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "heapmemview.chm",
+      "Length": 14536,
+      "Sha256": "90577244141727ee6efc863c4631fbff88f6b2057a6f6d1677197cc6e362587a",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/heapmemview.chm",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "HeapMemView.exe",
+      "Length": 96864,
+      "Sha256": "4ceb3cadc9abaca022e62ecfa6d4ee69b79e4aabdca70bcd6230a0f4f38f2f0a",
+      "PeMachine": "8664",
+      "FileVersion": "1.05",
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/heapmemview.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        },
+        {
+          "Path": "NirSoft/x64/heapmemview.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "netpass.chm",
+      "Length": 17048,
+      "Sha256": "60724a25dd319ec57b77e16c52e52a09c7b82ed4ea38dab6d6c2e880dcebb439",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/netpass.chm",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "netpass.exe",
+      "Length": 140800,
+      "Sha256": "17fb52476016677db5a93505c4a1c356984bc1f6a4456870f920ac90a7846180",
+      "PeMachine": "8664",
+      "FileVersion": "1.57",
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/netpass.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        },
+        {
+          "Path": "NirSoft/x64/netpass.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "NetworkTrafficView.chm",
+      "Length": 22100,
+      "Sha256": "53e2dff600d7241fa72a534e2eac3cdeedf61e887213c108eb71b8a2d389a3d6",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/networktrafficview.chm",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "NetworkTrafficView.exe",
+      "Length": 266056,
+      "Sha256": "1a25def5b2204e5632762c80876d4d4a2ba8011a9b4797d2f964d09137ce2e5e",
+      "PeMachine": "8664",
+      "FileVersion": "2.50",
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/networktrafficview.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        },
+        {
+          "Path": "NirSoft/x64/networktrafficview.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "OpenedFilesView.chm",
+      "Length": 18526,
+      "Sha256": "9ab03fc5a5f7e67873600735899f3e3f044e87a9ea42522ac3f85b66699a9cd5",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/openedfilesview.chm",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "OpenedFilesView.exe",
+      "Length": 208072,
+      "Sha256": "bfb1a374772cccc06440ee3def14d6556d3b51c9e6de95b69917798b235e733b",
+      "PeMachine": "8664",
+      "FileVersion": "1.91",
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/openedfilesview.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        },
+        {
+          "Path": "NirSoft/x64/openedfilesview.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "ProcessActivityView.chm",
+      "Length": 15612,
+      "Sha256": "e9e8ba13983643d268f8d3395aeae2896c3613affdf5382efa08fde60eae55d0",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/processactivityview.chm",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "ProcessActivityView.exe",
+      "Length": 118368,
+      "Sha256": "5709f63fbc119f93e6d86090a6156bda3179a7d2ed74345600e288acb9567962",
+      "PeMachine": "8664",
+      "FileVersion": "1.16",
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/processactivityview.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        },
+        {
+          "Path": "NirSoft/x64/processactivityview.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "ProcessThreadsView.chm",
+      "Length": 57518,
+      "Sha256": "e977208bf439fac8b2561ecda4eaf47e56072ed73042acf53b970b6f339367e6",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/processthreadsview.chm",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "ProcessThreadsView.exe",
+      "Length": 132816,
+      "Sha256": "0cb3de81ae063b9cf252b560bf0ef054b85b037dc4db0e71db8bffa20bbb3951",
+      "PeMachine": "8664",
+      "FileVersion": "1.29",
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/processthreadsview.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        },
+        {
+          "Path": "NirSoft/x64/processthreadsview.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "ProduKey.chm",
+      "Length": 18338,
+      "Sha256": "674a2d862580b1a8b05fcff0404f3b9c43bfe778ffacc9947ff555188a50f9fe",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/produkey.chm",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "ProduKey.exe",
+      "Length": 212992,
+      "Sha256": null,
+      "PeMachine": null,
+      "FileVersion": null,
+      "Status": "ReadUnavailable",
+      "ErrorType": "System.IO.IOException",
+      "NirLauncherMatches": []
+    },
+    {
+      "Path": "RegDllView.chm",
+      "Length": 16002,
+      "Sha256": "f60cd60238605f7abc9f18c5664488073d3ad0b5e88d07fe69040b9ab74db2f8",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/regdllview.chm",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "RegDllView.exe",
+      "Length": 116832,
+      "Sha256": "52d52b59561c3ddba7998cfdc82263846691cca7bcca70016ba2e6216e3b5683",
+      "PeMachine": "8664",
+      "FileVersion": "1.60",
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/regdllview.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        },
+        {
+          "Path": "NirSoft/x64/regdllview.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "RegFromApp.chm",
+      "Length": 15335,
+      "Sha256": "72336f3128f5287aefd47302b9ef9c1b7ea4aae70e0a69d2254c033ea406fe97",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/regfromapp.chm",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "RegFromApp.exe",
+      "Length": 96864,
+      "Sha256": "a745831032340b3f68d3171c150e3f176a59cd6c633d90d843de8d205e426e71",
+      "PeMachine": "8664",
+      "FileVersion": "1.33",
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/regfromapp.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        },
+        {
+          "Path": "NirSoft/x64/regfromapp.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "regscanner.chm",
+      "Length": 19032,
+      "Sha256": "193caeda51f203251d32f95379093161ffd32f4dfdaafdd549a8f71c2658c80b",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/regscanner.chm",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "RegScanner.exe",
+      "Length": 155136,
+      "Sha256": "544e5be03c0722bd98df17ef795967e94bbeb4aa14ae981fa1537fccef0649a9",
+      "PeMachine": "8664",
+      "FileVersion": "2.75",
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/regscanner.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        },
+        {
+          "Path": "NirSoft/x64/regscanner.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "RunAsDate.chm",
+      "Length": 16068,
+      "Sha256": "a77f4a42cde6fbd01633e487be62741ace723b68269970b9b77130f4e973c817",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/runasdate.chm",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "RunAsDate.exe",
+      "Length": 101704,
+      "Sha256": "0a6696db24b9f6b6d5919b6a85574ec93e1f658299a81e3df7252ecfb824db0d",
+      "PeMachine": "8664",
+      "FileVersion": "1.41",
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/runasdate.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        },
+        {
+          "Path": "NirSoft/x64/runasdate.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "shexview.chm",
+      "Length": 19458,
+      "Sha256": "b43f60bc3d1aed458816c7a5098159ac49f8e84de14af43c708ef63a1a51db9f",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/shexview.chm",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "shexview.exe",
+      "Length": 183184,
+      "Sha256": "c388af0018fa47383090a6fe112aabaf59ab2fc8579c814f66b71879c397d957",
+      "PeMachine": "8664",
+      "FileVersion": "2.01",
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/shexview.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        },
+        {
+          "Path": "NirSoft/x64/shexview.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "shmnview.chm",
+      "Length": 15243,
+      "Sha256": "260bbb5d39b7552f81d313de6bbaf8a2f8819f0aea2d26ddb089a4310d73233b",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/shmnview.chm",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "shmnview.exe",
+      "Length": 111312,
+      "Sha256": "681d9d7a1793cf0bce7743f0edd2724691df270b80867477a5ec3217a57ae634",
+      "PeMachine": "8664",
+      "FileVersion": "1.41",
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/shmnview.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        },
+        {
+          "Path": "NirSoft/x64/shmnview.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "SpecialFoldersView.chm",
+      "Length": 15875,
+      "Sha256": "e2629b6fd70f5e38e619d1f40286c05df2d5b737556174498bd3ea7ccb1d62aa",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/specialfoldersview.chm",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "SpecialFoldersView.exe",
+      "Length": 94816,
+      "Sha256": "9911e0e65221485e2a2f6d439ca2f0187d23e829327797fdaee55f8751e32849",
+      "PeMachine": "8664",
+      "FileVersion": "1.26",
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/specialfoldersview.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        },
+        {
+          "Path": "NirSoft/x64/specialfoldersview.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "sysexp.chm",
+      "Length": 15972,
+      "Sha256": "f6e74319d9cdf98832a87441f6a74a8a741df5feb4e8e7862b3ad2dd67fea3a2",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/sysexp.chm",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "sysexp.exe",
+      "Length": 104296,
+      "Sha256": "ba0d713bfe319df63b7145f2952ff6c81c35aad0ff1676d9e467dfe3ae443b17",
+      "PeMachine": "8664",
+      "FileVersion": "1.77",
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/sysexp.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        },
+        {
+          "Path": "NirSoft/x64/sysexp.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "vlmshlp.dll",
+      "Length": 13312,
+      "Sha256": "9d3971b3f3bac8b0cf77e09e1907e8b58a2b6c7cdcf6636892b9ff0ee219ea80",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/x64/vlmshlp.dll",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "volumouse.chm",
+      "Length": 20060,
+      "Sha256": "c3577e730a29a9ae1a6a2f7bca268bdc788ddc19f7b0223a18591d0f1f671674",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/volumouse.chm",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "volumouse.exe",
+      "Length": 103424,
+      "Sha256": "e7c56acdc422826d88eb1b09d78d9b337ad6a1c58d74154141ce665ebdec76c3",
+      "PeMachine": "8664",
+      "FileVersion": "2.20",
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/volumouse.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        },
+        {
+          "Path": "NirSoft/x64/volumouse.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "WebCookiesSniffer.chm",
+      "Length": 16704,
+      "Sha256": "d12485440e38970c3c33042a2a2d174a85ae4d156a5476b7277b8a8e3e66accf",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/webcookiessniffer.chm",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "WebCookiesSniffer.exe",
+      "Length": 182992,
+      "Sha256": "849a391f2c1832d380ba19b22486c9acc1066b40ec4a7ddd122f4e4d34c82f44",
+      "PeMachine": "8664",
+      "FileVersion": "1.30",
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/webcookiessniffer.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        },
+        {
+          "Path": "NirSoft/x64/webcookiessniffer.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "WebSiteSniffer.chm",
+      "Length": 143096,
+      "Sha256": "a461e7f24e0217ba54b4cc05e1747cc438af5c8f5fde4e51b570f1b7368a263c",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/websitesniffer.chm",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "WebSiteSniffer.exe",
+      "Length": 203984,
+      "Sha256": "8dba456d2bc6634909e79320fae988f588a10458e15bbd9165d883f96d28b6cb",
+      "PeMachine": "8664",
+      "FileVersion": "1.51",
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/websitesniffer.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        },
+        {
+          "Path": "NirSoft/x64/websitesniffer.exe",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "WirelessKeyView.chm",
+      "Length": 18896,
+      "Sha256": "5d17e9dd54752bf9071caeccace27123897fe33de26db8c6f3e544abd11f7cb2",
+      "PeMachine": null,
+      "FileVersion": null,
+      "NirLauncherMatches": [
+        {
+          "Path": "NirSoft/wirelesskeyview.chm",
+          "SameSha256": null,
+          "PeMachine": null,
+          "FileVersion": null
+        }
+      ]
+    },
+    {
+      "Path": "WirelessKeyView.exe",
+      "Length": 263168,
+      "Sha256": null,
+      "PeMachine": null,
+      "FileVersion": null,
+      "Status": "ReadUnavailable",
+      "ErrorType": "System.IO.IOException",
+      "NirLauncherMatches": []
+    }
+  ],
+  "ExtractionToolVersion": "26.04",
+  "PayloadExecuted": false,
+  "CatalogAdmission": false,
+  "OverlapDisposition": "Keep both source identities. NirLauncher member hashes remain unavailable after protection failures; matching names do not establish equivalent versions or authorize replacement.",
+  "Remaining": [
+    "Per-product licensing/notices and current-target compatibility",
+    "Resolve unavailable source-member evidence without silent replacement or protection bypass",
+    "Maintained encrypted-archive lifecycle",
+    "Optional launcher entries and custom configuration ownership"
+  ],
+  "ProtectionReviewStatus": "Blocked; all NirSoft payload inspection stopped",
+  "UserReportedDefenderAlerts": [
+    "ProduKey.exe",
+    "WirelessKeyView.exe"
+  ],
+  "AlertReportDate": "2026-10-17",
+  "ThreatClassification": "Not supplied for these NirSoft alerts; no false-positive determination",
+  "ProtectionChanged": false,
+  "VerifiedMemberHashCount": 47,
+  "UnavailableMemberCount": 2,
+  "CompleteMemberVerification": false
+}

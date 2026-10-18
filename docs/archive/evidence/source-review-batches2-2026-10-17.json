@@ -1,0 +1,154 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "Kind": "ThreeAuthorizedSourceReviewBatches",
+  "Requests": [
+    {
+      "Product": "Database Documentation/Code Generator",
+      "Uri": "https://www.mitec.cz/Downloads/DDG_IBFB.zip",
+      "Name": "DDG_IBFB.zip",
+      "Kind": "Artifact",
+      "Status": "200",
+      "Length": 2006098,
+      "Sha256": "2626cd8b9395ff43bfb414f9e2b67ab47125e9022fe7504794f4e0813ee0b341",
+      "Error": null
+    },
+    {
+      "Product": "Database Documentation/Code Generator",
+      "Uri": "https://www.mitec.cz/Downloads/DDG_MSSQL.zip",
+      "Name": "DDG_MSSQL.zip",
+      "Kind": "Artifact",
+      "Status": "200",
+      "Length": 2444694,
+      "Sha256": "fde2433729fc5b9f8ac1008276d8c829e06a5cedb882191018683d11ecf6cbd6",
+      "Error": null
+    },
+    {
+      "Product": "MSA Query",
+      "Uri": "https://www.mitec.cz/Downloads/MSAQuery.zip",
+      "Name": "MSAQuery.zip",
+      "Kind": "Artifact",
+      "Status": "200",
+      "Length": 1021739,
+      "Sha256": "9382e37ba54cfea34078239f058d1dbb51a3cb7a42048a9b8747cc005e1ecd1d",
+      "Error": null
+    },
+    {
+      "Product": "ADO Query",
+      "Uri": "https://www.mitec.cz/Downloads/ADOQuery.zip",
+      "Name": "ADOQuery.zip",
+      "Kind": "Artifact",
+      "Status": "200",
+      "Length": 1127362,
+      "Sha256": "a412293b10ad00b0a94509cd48ad389c4f609b96fa504ccbbb2501742e3ad96d",
+      "Error": null
+    },
+    {
+      "Product": "DirList",
+      "Uri": "https://www.mitec.cz/Downloads/DirList.zip",
+      "Name": "DirList.zip",
+      "Kind": "Artifact",
+      "Status": "200",
+      "Length": 1040280,
+      "Sha256": "635e8d311eb99a2730aecff405272e1b0b92636763051e41d451961d3b9c0e26",
+      "Error": null
+    },
+    {
+      "Product": "Network Meter",
+      "Uri": "https://www.mitec.cz/Downloads/NetMet.zip",
+      "Name": "NetMet.zip",
+      "Kind": "Artifact",
+      "Status": "200",
+      "Length": 1456776,
+      "Sha256": "04e55b066b9a6a598c15e619d99597894b0494bae63d7d8a36df391feae1f360",
+      "Error": null
+    },
+    {
+      "Product": "PhotoView",
+      "Uri": "https://www.mitec.cz/Downloads/PhotoView.zip",
+      "Name": "PhotoView.zip",
+      "Kind": "Artifact",
+      "Status": "200",
+      "Length": 1611828,
+      "Sha256": "6bcbb3aafd3db71e7cbdfb75d78934101ded79a5792f52fbae600ec16910795c",
+      "Error": null
+    },
+    {
+      "Product": "VirtualReg Manager",
+      "Uri": "https://ntcore.com/files/VirtualRegManager.zip",
+      "Name": "VirtualRegManager.zip",
+      "Kind": "Artifact",
+      "Status": "200",
+      "Length": 32709,
+      "Sha256": "7e807d1106e91c898733a00da01dfa860e468fb14bbe3852fea9892a377d5fa6",
+      "Error": null
+    },
+    {
+      "Product": "ScreenWriter",
+      "Uri": "https://ntcore.com/files/ScreenWriter.msi",
+      "Name": "ScreenWriter.msi",
+      "Kind": "Artifact",
+      "Status": "200",
+      "Length": 435200,
+      "Sha256": "e1bae80b9f7934c14d498a827bb15f8fb963a6fe9de9d7d18223049fb62563ab",
+      "Error": null
+    },
+    {
+      "Product": "VirtualReg Manager",
+      "Uri": "https://ntcore.com/virtualreg-manager/",
+      "Name": "virtualreg-manager.html",
+      "Kind": "Page",
+      "Status": "200",
+      "Length": 41029,
+      "Sha256": "faebf2a9fdd7de0eafcad334e645b735d6d327e1656581e7eb8132cc3db11394",
+      "Error": null
+    },
+    {
+      "Product": "ScreenWriter",
+      "Uri": "https://ntcore.com/screenwriter/",
+      "Name": "screenwriter.html",
+      "Kind": "Page",
+      "Status": "200",
+      "Length": 41228,
+      "Sha256": "0c6faf6eae3db4937d89841f04e9fb8067af7fbcc08d75736feb94a1214837b4",
+      "Error": null
+    }
+  ],
+  "Artifacts": 9,
+  "ZipArchives": 8,
+  "MsiArtifacts": 1,
+  "ProductIdentities": 8,
+  "ZipMembers": 16,
+  "MsiCabinetMembers": 5,
+  "TotalPayloadMembers": 21,
+  "Evidence": [
+    "mitec-utility-artifact-review-2026-10-17.json",
+    "mitec-database-artifact-review-2026-10-17.json",
+    "ntcore-managed-utility-source-review-2026-10-17.json"
+  ],
+  "DefenderBlockedToolsIncluded": false,
+  "DefenderConfigurationChanged": false,
+  "VmRuns": 0,
+  "FreshUacLaunches": 0,
+  "ControllerModified": false,
+  "PayloadExecuted": false,
+  "CatalogChanged": false,
+  "NewWholeLegacyClosures": 0,
+  "NewRetirements": 0,
+  "NewExclusions": 0,
+  "Deferred": [
+    "All new native selections/controller refresh requiring UAC",
+    "Guest framework/database-provider prerequisites",
+    "B03 and interactive Store/settings workflows",
+    "Existing Defender exclusions, Zimmerman pin, 4GB Patch grant, SSView and personal resource/profile deferrals"
+  ],
+  "Ranges": [
+    "38-58",
+    "56-71",
+    "20-25",
+    "25-35",
+    "8-12"
+  ],
+  "RoundedTotal": "145-200/about 175",
+  "Validation": "All nine input pins, eight exact ZIP member sets, staged PE hashes, MSI database File/custom-action counts and five cabinet sizes checked; final evidence/hash/link checks recorded in ledger"
+}

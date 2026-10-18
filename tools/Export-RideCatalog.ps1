@@ -6,7 +6,7 @@
   Reads resolved catalog operations, target defaults, and ordered groups. Check compares the
   generated content without writing; otherwise writes UTF-8 with LF line endings. The default
   output is docs/OPERATIONS.md; external libraries require a separate explicit OutputPath.
-  Explains experimental names and the distinction between feature references and value mappings.
+  Explains experimental names, feature references versus value mappings, and exact portable ZIP selections.
 
 .PARAMETER Check
   Compare generated text with the selected output file and throw when missing or stale; no write occurs.
@@ -47,8 +47,9 @@
   generated.
   Recovery: Regenerate from the reviewed catalog. Check mode is read-only.
   Author: RIDE-Windows maintainers.
-  Version: 0.15.2
+  Version: 0.16.0
   Changelog:
+    0.16.0: Render exact reviewed portable ZIP member selections.
     0.15.2: Distinguish user-bin startup PATH from color-only metadata.
     0.15.1: Keep Store app registrations outside reversible setting presentation.
     0.15.0: Render bounded local maximum-age day choices and SAM authority.
@@ -83,7 +84,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.15.2'
+$script:ScriptVersion = '0.16.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 if ($Help) { Get-Help -Name $PSCommandPath -Full; return }
 $ErrorActionPreference = 'Stop'
@@ -236,6 +237,24 @@ foreach ($package in $catalog.Operations | Where-Object { $_.Kind -eq 'Package' 
     foreach ($field in $package.Variants[$key].Keys) { $variant[$field] = $package.Variants[$key][$field] }
     $targets = if ($variant.PendingAcceptance) { 'None (awaiting VM acceptance)' } else { $variant.SupportedTargets -join ', ' }
     $lines.Add("| $($package.Id) | $($package.DefaultVariant) | $key | $($variant.InstallerType) | $($variant.Scope) | $($variant.DownloadProvider) | $($variant.Rollback) | $targets |")
+  }
+}
+$lines.Add('')
+$lines.Add('## Selected portable ZIP members')
+$lines.Add('')
+$lines.Add('PortableMembers is an exact allowlist bound to the archive SHA-256. Only these files are deployed; other archive contents remain omitted. Required notices must be included. Packages without this field retain whole-archive behavior. These lists do not establish native acceptance or redistribution approval.')
+$lines.Add('')
+$lines.Add('| Product ID | Variant | Selected files |')
+$lines.Add('| --- | --- | --- |')
+foreach ($package in $catalog.Operations | Where-Object { $_.Kind -eq 'Package' } | Sort-Object { $_.Id }) {
+  $keys = if ($package.Variants) { @($package.Variants.Keys | Sort-Object) } else { @('installed') }
+  foreach ($key in $keys) {
+    $variant = $package.Clone()
+    if ($package.Variants) { foreach ($field in $package.Variants[$key].Keys) { $variant[$field] = $package.Variants[$key][$field] } }
+    if ($variant.PortableMembers) {
+      $members = (@($variant.PortableMembers | ForEach-Object { '`' + ($_ -replace '\|', '\|') + '`' }) -join '; ')
+      $lines.Add("| $($package.Id) | $key | $members |")
+    }
   }
 }
 $lines.Add('')

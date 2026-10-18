@@ -1,0 +1,164 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-17",
+  "Kind": "CollectionContinuationSourceAndValidation",
+  "Checkout": "Windows filesystem; Windows-native PowerShell validation",
+  "CatalogComparison": {
+    "SettingPresentations": 279,
+    "CurrentOperations": 360,
+    "OtherCatalogSemanticsUnchanged": true,
+    "PendingPackageCandidates": 18,
+    "Packages": 58,
+    "PreviousOperations": 358,
+    "Added": [
+      "package.ntcore-cff-explorer",
+      "package.ntcore-pe-detective"
+    ],
+    "PendingCountScopeCorrection": "18 describes continuation candidates; full pending package count at this baseline was 31, including 13 Artcraft candidates. Corrected by named-collections-continuation-2026-10-17.json."
+  },
+  "SourceFiles": [
+    {
+      "Path": "catalog/operations.psd1",
+      "Sha256": "1ca33a0b028f3f892298a5bf3fc5dbc4d6b1689e5a11d81c42e7aad5638e3940"
+    },
+    {
+      "Path": "modules/RIDE-PortablePackages.psm1",
+      "Sha256": "c0756f4b63c6a3752a73b7716960d919f83754194d7d7d05c4e48a542090b798"
+    },
+    {
+      "Path": "modules/RIDE.CatalogValidation.psm1",
+      "Sha256": "ab654f5050cdd98f2028ea158290186a7169b9ba4d2f319e6a4b26a46ab5c1a3"
+    },
+    {
+      "Path": "tools/Export-RideCatalog.ps1",
+      "Sha256": "1edd7992ed04eeb45f884f091461ce5046732dace7b7858035059d8aa960550d"
+    },
+    {
+      "Path": "tests/PortableSelection.Tests.ps1",
+      "Sha256": "0936d2a23e2352b13264b3c52acef7396e8d44e166acbfd6f1dc1bf77e10880c"
+    },
+    {
+      "Path": "tests/NtcorePackages.Tests.ps1",
+      "Sha256": "5df24883adda1c918b2e51c432ad47cf0cf5debd7ae09a76172616492c04d2f3"
+    },
+    {
+      "Path": "docs/OPERATIONS.md",
+      "Sha256": "74309b82c9dc1e6a543d5c142c3a7efa76e94b2c71cc95ba4b17b76d67c4eb91"
+    }
+  ],
+  "Validation": [
+    {
+      "PowerShell": "5.1.26100.9711",
+      "InitialCombined": {
+        "Passed": 100,
+        "Failed": 13,
+        "Log": ".local/collection-selection-5.log",
+        "Cause": "New fixture repository-root/case-root variable collision, corrected"
+      },
+      "CorrectedPortableSelection": {
+        "Passed": 21,
+        "Failed": 0,
+        "Log": ".local/collection-selection-retry-5.log"
+      },
+      "RetainedOtherCombinedPasses": 92,
+      "NtcoreAndCatalog": {
+        "ExcludedIntegration": 1,
+        "Passed": 78,
+        "Failed": 0,
+        "Log": ".local/ntcore-final-5.log",
+        "RetainedActualNtcoreArchives": true
+      },
+      "DistinctFinalPasses": 191,
+      "Validation": {
+        "Log": ".local/collection-validation-5.log",
+        "Groups": 8,
+        "Operations": 360,
+        "PowerShellFiles": 229,
+        "Passed": true,
+        "GeneratedDocumentationCurrent": true,
+        "Profiles": 5
+      }
+    },
+    {
+      "PowerShell": "7.6.5",
+      "InitialCombined": {
+        "Passed": 100,
+        "Failed": 13,
+        "Log": ".local/collection-selection-7.log",
+        "Cause": "New fixture repository-root/case-root variable collision, corrected"
+      },
+      "CorrectedPortableSelection": {
+        "Passed": 21,
+        "Failed": 0,
+        "Log": ".local/collection-selection-retry-7.log"
+      },
+      "RetainedOtherCombinedPasses": 92,
+      "NtcoreAndCatalog": {
+        "ExcludedIntegration": 1,
+        "Passed": 78,
+        "Failed": 0,
+        "Log": ".local/ntcore-final-7.log",
+        "RetainedActualNtcoreArchives": true
+      },
+      "DistinctFinalPasses": 191,
+      "Validation": {
+        "Log": ".local/collection-validation-7.log",
+        "Groups": 8,
+        "Operations": 360,
+        "PowerShellFiles": 229,
+        "Passed": true,
+        "GeneratedDocumentationCurrent": true,
+        "Profiles": 5
+      }
+    }
+  ],
+  "SourceEvidence": [
+    "ntcore-pe-detective-source-review-2026-10-17.json",
+    "ntcore-cff-explorer-source-review-2026-10-17.json",
+    "ntcore-4gb-patch-source-review-2026-10-17.json",
+    "nirlauncher-source-inventory-2026-10-17.json",
+    "nirsoft-x64-source-review-2026-10-17.json",
+    "collection-continuation-blockers-2026-10-17.json"
+  ],
+  "NirSoft": {
+    "X64Unavailable": 2,
+    "ProtectionChanged": false,
+    "X64RecordedMemberHashes": 47,
+    "NirLauncherCompleteMemberHashes": false,
+    "Status": "Inspection stopped after protection alerts",
+    "NirLauncherEntries": 668,
+    "X64Files": 49,
+    "OverlapEquivalenceEstablished": false,
+    "PayloadExecuted": false,
+    "CatalogAdmission": false
+  },
+  "NativeAcceptance": {
+    "TargetExpansion": false,
+    "Reason": "Previously denied non-elevated Hyper-V CIM access",
+    "Status": "Blocked",
+    "RetryOrControllerChanges": false
+  },
+  "LegacyOutcomes": {
+    "Retired": 0,
+    "Resolved": 0,
+    "Deferred": [
+      "New deployment profiles",
+      "BitLocker/recovery resource setup"
+    ],
+    "RoundedTotal": "145-200",
+    "Excluded": 0,
+    "Partial": [
+      "Collection source/member/ownership and native acceptance",
+      "Components source/dependencies/durable recovery"
+    ],
+    "Rationale": "Source candidates and file fixtures do not close whole legacy feature/product outcomes",
+    "PlanningMidpoint": 175,
+    "Ranges": [
+      "38-58",
+      "56-71",
+      "20-25",
+      "25-35",
+      "8-12"
+    ]
+  }
+}
