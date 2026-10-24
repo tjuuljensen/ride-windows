@@ -1,0 +1,34 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-23T13:54:15Z",
+  "Batch": "B06 client-component captured-state restore recovery gate",
+  "Change": {
+    "File": "modules/RIDE.ClientComponentLifecycle.psm1",
+    "Version": "0.3.1",
+    "Behavior": "Restore now refuses transitions to Capability NotPresent or OptionalFeature DisabledWithPayloadRemoved because those transitions remove/discard payloads and the candidate has no validated matching recovery-source evidence. The saved snapshot is retained. Restore to OptionalFeature Disabled remains supported without removing payload."
+  },
+  "Validation": {
+    "Pester": {
+      "Files": [
+        "tests/ClientComponentLifecycle.Tests.ps1",
+        "tests/ClientComponentPreparation.Tests.ps1"
+      ],
+      "Passed": 42,
+      "Failed": 0,
+      "Skipped": 0,
+      "TestRegistry": "Disabled",
+      "TemporaryRoot": "Fresh repository-local .local directory, removed after the run",
+      "Coverage": "Blocks unverified OpenSSH removal and Telnet payload removal during Restore; preserves snapshots and state on refusal; permits restoring Telnet to Disabled while retaining payload."
+    },
+    "NativeDISM": "Not run; all servicing calls are mocked.",
+    "VM": "Read-only Get-VM inventory for RIDE-Win11-Test and RIDE-Srv2025Test at 2026-10-23T13:56:53Z failed with Hyper-V CIM access denied before checkpoint inspection.",
+    "RepositoryValidation": "Passed after the code/evidence update: 393 operations, 8 groups, 5 profiles, 257 PowerShell files; generated operation documentation current."
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Resolved": "Captured-state Restore can no longer bypass the approved recovery-source removal gate.",
+    "Deferred": "Source identity/completeness/dependency/network validation, engine/catalog registration, native apply/repeat/restore acceptance, Windows target support."
+  },
+  "Safety": "No DISM, VM, package, Defender state, or Windows component was changed.",
+  "LatestVmRecheckUtc": "2026-10-23T13:56:53Z"
+}

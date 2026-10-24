@@ -40,8 +40,9 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.3.0
+  Version: 0.4.0
   Changelog:
+    0.4.0: Refresh the protected controller for ImageMagick synthetic feature acceptance.
     0.3.0: Install fixed focused-acceptance runner and capability for queued batches.
     0.2.0: Add explicit GitHub PAT selection and credential-safe acceptance boundaries.
     - 0.1.3: Remove UAC observations from registration evidence; keep administrator elevation required.
@@ -64,7 +65,7 @@ param(
   [ValidateSet('Register', 'Remove')][string] $Action = 'Register',
   [switch] $Version
 )
-$script:ScriptVersion = '0.3.0'
+$script:ScriptVersion = '0.4.0'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -Force

@@ -1,0 +1,66 @@
+{
+  "SchemaVersion": 1,
+  "RunDate": "2026-10-22",
+  "Batch": "NTCore",
+  "Target": "Windows 11 Enterprise Evaluation build 26300",
+  "Runs": [
+    {
+      "RunId": "abd3f2e12f124bdb9780f2c2dd964f77",
+      "Status": "Failed",
+      "PassedScenarios": 2,
+      "ExpectedScenarios": 3,
+      "Finding": "4GB Patch patched the synthetic target when its .Backup path contained a collision sentinel; the test initially did not retain sufficient collision diagnostics."
+    },
+    {
+      "RunId": "bf8c4d208194456697a136f88037c962",
+      "Status": "Failed",
+      "PassedScenarios": 2,
+      "ExpectedScenarios": 3,
+      "Finding": "Confirmed exit code 0, target mutation and no second original-byte backup when .Backup was occupied."
+    },
+    {
+      "RunId": "1edf0da98ac742919d3b75d2913b3087",
+      "Status": "Failed",
+      "PassedScenarios": 2,
+      "ExpectedScenarios": 3,
+      "FunctionalAcceptance": "Failed",
+      "FunctionalEvidence": {
+        "ToolSha256": "980bf5eb62d30c749e5fbf7593e9d25094a4d849a959aa2b7b3fc979b1c93b5a",
+        "Fixture": "Generated, non-runnable PE32 x86 file",
+        "OriginalSha256": "dc326b14394c0805a4d95f62a2826c42cde19ef2cf54e12ed776522df6a527f6",
+        "PatchedSha256": "9d4cb8de580503390d248c1036eff1ea7c235b73fe0362c4d78b3162cadf9614",
+        "CollisionExitCode": 0,
+        "CollisionSentinelPreserved": true,
+        "CollisionTargetSha256": "9d4cb8de580503390d248c1036eff1ea7c235b73fe0362c4d78b3162cadf9614",
+        "CollisionBackupFiles": [],
+        "CollisionBehavior": "PatchedTargetWithoutRecoverableBackup",
+        "RecoveryAfterRejectedBehavior": "Exact original bytes restored from the in-memory fixture"
+      }
+    }
+  ],
+  "OtherScenarios": {
+    "package.ntcore-pe-detective": "Passed focused portable lifecycle checks",
+    "package.ntcore-cff-explorer": "Passed focused portable lifecycle checks"
+  },
+  "ControllerSummary": {
+    "Status": "Failed",
+    "Completed": 3,
+    "Passed": 2,
+    "ToolExecuted": true,
+    "FunctionalAcceptance": "Failed"
+  },
+  "FinalVmState": "Off; clean checkpoint restored",
+  "Disposition": "Keep package.ntcore-4gb-patch unsupported and pending. The vendor utility fails the backup-collision data-preservation gate; package staging alone does not execute it. License and redistribution review remains NeedsReview.",
+  "LegacyOutcomeAccounting": {
+    "WholeLegacyOutcomesResolved": [],
+    "RetiredOutcomes": [],
+    "ExcludedOutcomes": [],
+    "MappingNote": "No whole legacy outcome is closed by this candidate test."
+  },
+  "EstimatedRemainingWork": {
+    "GroupRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactRangeEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateReason": "The unsafe functional result leaves the unsupported package and legacy mapping unresolved."
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-22",
+  "Batch": "HashCheck 2.6.3 publisher artifact acquisition retry",
+  "PublisherRelease": {
+    "Uri": "https://github.com/idrassi/HashCheck/releases/tag/v2.6.3",
+    "Version": "2.6.3",
+    "PublishedOn": "2026-10-07"
+  },
+  "PublisherAssetLead": {
+    "Uri": "https://github.com/idrassi/HashCheck/releases/download/v2.6.3/HashCheckSetup-v2.6.3.0.exe",
+    "SourceOfLead": "https://community.chocolatey.org/packages/hashcheck/2.6.3",
+    "ReportedSha256": "CD890774839177B234A1165FD459DDEB830274EF7D81B289DDB70D43AE5983FA",
+    "Disposition": "Lead only; digest is not independently verified against publisher bytes and is not used as a catalog pin."
+  },
+  "AcquisitionAttempt": {
+    "Method": "Windows curl.exe, direct HTTPS request to the publisher GitHub release URL",
+    "CurlExitCode": 6,
+    "Error": "Could not resolve host: github.com",
+    "DownloadedBytes": false,
+    "OutputFileCreated": false,
+    "Sha256Measured": false,
+    "AuthenticodeChecked": false
+  },
+  "Disposition": {
+    "License": "BSD-3-Clause; no license blocker is inferred for RIDE download/install.",
+    "PackageOperationAdded": false,
+    "SupportedTargets": [],
+    "VmRun": false,
+    "LegacyOutcomeClosed": false,
+    "NextStep": "Retry acquisition from the exact publisher release URL when GitHub name resolution is available; measure the downloaded digest and signature before package metadata or target acceptance."
+  },
+  "EstimateEffect": {
+    "GroupRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactRangeEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "Reason": "No bytes, package operation, supported target or legacy outcome was added."
+  }
+}

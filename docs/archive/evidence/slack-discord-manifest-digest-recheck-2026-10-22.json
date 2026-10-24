@@ -1,0 +1,53 @@
+{
+  "Date": "2026-10-22",
+  "Batch": "Slack and Discord candidate manifest digest recheck",
+  "Sources": {
+    "SlackManifest": "https://raw.githubusercontent.com/microsoft/winget-pkgs/master/manifests/s/SlackTechnologies/Slack/4.52.182/SlackTechnologies.Slack.installer.yaml",
+    "DiscordManifest": "https://raw.githubusercontent.com/microsoft/winget-pkgs/master/manifests/d/Discord/Discord/1.0.9264/Discord.Discord.installer.yaml"
+  },
+  "Slack": {
+    "Version": "4.52.182",
+    "InstallerUrl": "https://downloads.slack-edge.com/desktop-releases/windows/x64/4.52.182/SlackSetup.exe",
+    "ManifestDigest": "E42DBA9622A297106F16A11F148C86E08BEEEEA6FE5BFD63DE4C606B513AB184",
+    "ManifestDigestLength": 64,
+    "CatalogPinCorrected": true,
+    "ArtifactBytesRetrieved": false
+  },
+  "Discord": {
+    "Version": "1.0.9264",
+    "InstallerUrl": "https://stable.dl2.discordapp.net/distro/app/stable/win/x64/1.0.9264/DiscordSetup.exe",
+    "ManifestDigest": "2C79A8ECCF972709DC04E014A9ED36D8DCCC4CE84179741EB1424E022D4C3625C",
+    "ManifestDigestLength": 65,
+    "CatalogExpectedSha256": null,
+    "AcquisitionBlocked": true,
+    "BlockReason": "The matching Microsoft WinGet manifest value is not a valid SHA-256 length. No artifact bytes were retrieved to independently compute the digest."
+  },
+  "Tests": {
+    "FocusedSuite": "tests/ChatPackagePins.Tests.ps1",
+    "WindowsPowerShell51": "3 passed, 0 failed",
+    "PowerShell7": "3 passed, 0 failed"
+  },
+  "Outcomes": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["Slack and Discord package candidates"],
+    "Deferred": [
+      "Slack Windows 11 package lifecycle and saved-run recovery acceptance",
+      "Discord valid artifact digest and Windows 11 package lifecycle acceptance"
+    ]
+  },
+  "Estimates": {
+    "Groups": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactTotal": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged; no legacy outcome closed."
+  },
+  "SystemState": {
+    "ArtifactDownload": false,
+    "InstallerExecution": false,
+    "VmRun": false,
+    "DefenderChange": false,
+    "Uac": false
+  }
+}

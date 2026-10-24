@@ -1,0 +1,22 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-23T16:36:00Z",
+  "Test": "tests/LicenseReviews.Tests.ps1",
+  "PowerShellVersion": "7.6.5",
+  "PesterVersion": "5.7.1",
+  "Passed": 21,
+  "Failed": 0,
+  "Skipped": 0,
+  "TestRegistryEnabled": false,
+  "TemporaryDirectory": ".local/pester-temp",
+  "CoveredPackage": "package.mitec-interbase-query",
+  "ReviewVersion": "9.5.0",
+  "ReviewStatus": "NeedsReview",
+  "ReviewOwner": "Unassigned",
+  "InstallPlanningBlocked": false,
+  "ReviewDisposition": "Informational owner-specific status; package planning remains available",
+  "PayloadExecuted": false,
+  "VmRuns": 0,
+  "FreshUacPrompts": 0,
+  "DefenderBlockedFilesTouched": false
+}

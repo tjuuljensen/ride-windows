@@ -1,0 +1,59 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "ObservedAtUtc": "2026-10-23T06:09:30Z",
+  "Batch": "Microsoft Visual C++ v14 x64 candidate target metadata correction",
+  "Operation": {
+    "Id": "package.vcredist-v14-x64",
+    "PackageVersion": "14.51.36247.0",
+    "CandidateTargets": [
+      "Windows 11"
+    ],
+    "SupportedTargets": [],
+    "PendingAcceptance": true
+  },
+  "Change": "Added the required explicit candidate target after validation reported that this pending package lacked CandidateTargets. The package remains unsupported pending its own acceptance.",
+  "Validation": {
+    "RepositoryValidator": "Passed",
+    "PowerShellEditions": [
+      "Windows PowerShell 5.1",
+      "PowerShell 7.6.5"
+    ],
+    "Operations": 376,
+    "Packages": 71,
+    "PendingPackages": 41,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 247,
+    "OperationDocumentation": "Current",
+    "DiffCheck": "Passed"
+  },
+  "Scope": {
+    "VmAcceptanceRun": false,
+    "InstallerExecuted": false,
+    "WindowsStateChanged": false
+  },
+  "Outcome": {
+    "Resolved": [
+      "Catalog candidate-target validation for the separately managed ImageMagick runtime prerequisite"
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Visual C++ runtime install, repeat, removal impact, recovery and target acceptance"
+    ],
+    "Partial": [
+      "Runtime package remains a pending Windows 11 candidate and ImageMagick prerequisite"
+    ],
+    "LegacyOutcomesClosed": [],
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-10-23T18:18:16Z",
+  "Topic": "Sysinternals package migration license scope",
+  "UserDecision": "The prior RIDE v2 license-specialist review approved Sysinternals for RIDE. RIDE downloads the products directly from Microsoft and installs them on supported devices; it does not publish Sysinternals or provide a shared redistribution bundle. The user states there are no legal issues for this workflow and directs that generalized redistribution reasoning must not block migration.",
+  "LicenseDisposition": "Settled; no additional license review or license acceptance gate for RIDE direct download and install.",
+  "VersionRecords": "All ten exact Suite/product versions remain Reviewed.",
+  "SeparateExclusions": "Keep the four user-reported Defender-detected tools excluded from acquisition, staging and acceptance until the user reviews them. Defender findings are not a licensing issue.",
+  "RemainingBlockers": [
+    "Windows lifecycle and exact saved-state recovery acceptance",
+    "Supported-target acceptance on disposable Windows VMs; current host VM/checkpoint access is unavailable"
+  ],
+  "MigrationOutcomes": {
+    "Deferred": [
+      "Technical package lifecycle, recovery and target acceptance"
+    ],
+    "Resolved": [
+      "Sysinternals licensing rationale and migration disposition"
+    ],
+    "Partial": [
+      "Sysinternals package migration remains technically partial; no legacy product outcome closed"
+    ],
+    "Excluded": [
+      "Four Defender-detected tools, independently of license status"
+    ],
+    "Retired": []
+  },
+  "Estimate": {
+    "Rationale": "This clarification resolves no additional legacy product outcome and does not change technical acceptance scope.",
+    "RoundedTotal": "145-200/about 170",
+    "ExactTotal": "142-196",
+    "Changed": false,
+    "Groups": "38-58 / 52-67 / 19-24 / 25-35 / 8-12"
+  },
+  "EvidenceBasis": [
+    "User clarification in this conversation, 2026-10-23",
+    "RIDE v2 license-specialist approval as previously recorded",
+    "Existing version-specific local Reviewed records for the ten package versions"
+  ]
+}

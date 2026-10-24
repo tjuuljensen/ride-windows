@@ -1,0 +1,43 @@
+{
+  "Date": "2026-10-22",
+  "Batch": "B03 UserBinPath local prerequisite runner preparation",
+  "Scenario": "UserBinPath",
+  "Changes": [
+    "Checkpoint-backed host runner now accepts optional existing local PowerShell MSI acquisition JSON for UserBinPath.",
+    "Guest preparation validates run-local artifact paths, official PowerShell release URI, SHA-256 and Microsoft Authenticode signer before quiet local installation.",
+    "No network acquisition or guest UAC policy change is performed; existing checkpoint reboot, evidence collection and recovery remain in the outer runner."
+  ],
+  "VerifiedArtifact": {
+    "Version": "7.6.6",
+    "Uri": "https://github.com/PowerShell/PowerShell/releases/download/v7.6.6/PowerShell-7.6.6-win-x64.msi",
+    "Sha256": "958838ff55091e1c8705d89efed0cc7e8245a3a6ef6c0ccfae20015227108ad8",
+    "HashMatches": true,
+    "AuthenticodeStatus": "Valid",
+    "Signer": "Microsoft Corporation",
+    "Installed": false
+  },
+  "Validation": {
+    "PowerShellParser": "Three edited PowerShell files parsed with no errors.",
+    "Pester": "UserBinProfile, ProfileSettings and ProfileAcceptanceAutomation focused suites passed 65/65; TestRegistry plugin disabled."
+  },
+  "VM": {
+    "Name": "RIDE-Win11-Test",
+    "Run": "Not run",
+    "Reason": "Host Hyper-V CIM access denied and protected controller queue is not writable in this session.",
+    "State": "Unverified; no VM or checkpoint mutation attempted."
+  },
+  "Outcomes": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["B03 UserBinPath startup behavior and native acceptance"],
+    "Deferred": ["Run the prepared scenario on the existing checkpoint when controller access is available."]
+  },
+  "Estimates": {
+    "Groups": ["38-58", "54-69", "20-25", "25-35", "8-12"],
+    "ExactTotal": "145-199",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged because runner preparation establishes no native behavior or whole legacy outcome."
+  },
+  "DefenderBlockedTools": "Excluded; none were restored, allowed, extracted or run."
+}

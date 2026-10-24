@@ -18,6 +18,10 @@
 
 .PARAMETER IntegrationSuite
   ApplicationsBatch1 and ApplicationsBatch2 select installed/portable application migration tests.
+  ApplicationsBatch4 selects the Slack and Discord current-user EXE lifecycle tests.
+  ApplicationsBatch6 selects the twelve Artcraft machine-scope MSI applications.
+  ApplicationsBatch7 selects the current-user ArtCraft Launcher MSI without launching it.
+  ApplicationsBatch8 selects four side-by-side Microsoft OpenJDK packages on Server 2025.
   SettingsRemainingBatch1 and SettingsRemainingBatch2 select the two focused migration suites.
   Full (default) runs all integration scenarios. SettingsBatch40 runs only the
   forty-setting registry migration suite, without package downloads. SettingsBatch60 runs the sixty-setting suite.
@@ -56,8 +60,12 @@
   File/environment inputs: Staged checkout; RIDE_TEST_GUEST must be 1.
   Recovery: The host controller restores the clean disposable-VM checkpoint.
   Author: RIDE-Windows maintainers.
-  Version: 0.8.6
+  Version: 1.2.0
   Changelog:
+    1.2.0: Run package dependency planning regressions alongside each application acceptance batch.
+    1.1.0: Add Server 2025 ApplicationsBatch8 and its pinned OpenJDK package checks.
+    1.0.0: Select the ArtCraft Launcher ApplicationsBatch7 acceptance tests and runner.
+    0.9.0: Add focused current-user Slack and Discord application lifecycle acceptance.
     0.8.6: Select isolated Store desktop Plan regression with no app mutations.
     0.8.5: Select focused Store desktop resource-probe regression.
     0.8.4: Select Store app preflight regression without mutation or package suites.
@@ -81,7 +89,7 @@
 param(
   [string] $GuestPath,
   [switch] $Integration,
-  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2', 'GitHubAuthentication')][string] $IntegrationSuite = 'Full',
+  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'GitHubAuthentication')][string] $IntegrationSuite = 'Full',
   [string] $ResultsPath,
   [ValidateSet('Anonymous','PAT')][string] $GuestGitHubAuthentication = 'Anonymous',
   [ValidateSet('Acquire','FailAfterDelivery','WaitForTimeout')][string] $GitHubTestScenario = 'Acquire',
@@ -89,7 +97,7 @@ param(
   [ValidatePattern('^[0-9a-f]{32}$')][string] $ResultRunId,
   [switch] $Version
 )
-$script:ScriptVersion = '0.8.6'
+$script:ScriptVersion = '1.0.0'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 if ($env:RIDE_TEST_GUEST -ne '1') { throw 'Use the disposable-VM host runner; this entry point must not run on a developer workstation.' }
@@ -147,7 +155,9 @@ try {
   } elseif ($IntegrationSuite -eq 'GitHubAuthentication') {
     @('.\tests\GitHubAuthentication.Tests.ps1', '.\tests\GitHubReleaseDiscovery.Tests.ps1', '.\tests\GitHubVmAuthentication.Tests.ps1', '.\tests\PackageEvidence.Tests.ps1', '.\tests\CliShouldProcess.Tests.ps1', '.\tests\TestAutomation.Tests.ps1')
   } elseif ($IntegrationSuite -like 'ApplicationsBatch*') {
-    @('.\tests\ApplicationPackages.Tests.ps1', '.\tests\Catalog.Tests.ps1', '.\tests\PackageEvidence.Tests.ps1', '.\tests\TestAutomation.Tests.ps1')
+    $selectedTests=@('.\tests\ApplicationPackages.Tests.ps1', '.\tests\ChatPackagePins.Tests.ps1', '.\tests\Catalog.Tests.ps1', '.\tests\PackageDependencyPlanning.Tests.ps1', '.\tests\PackageEvidence.Tests.ps1', '.\tests\TestAutomation.Tests.ps1')
+    if($IntegrationSuite -in @('ApplicationsBatch6','ApplicationsBatch7')){$selectedTests+= '.\tests\ArtcraftPackages.Tests.ps1'}
+    $selectedTests
   } else { @('.\tests') }
   $summary['PesterSelection'] = if ($fixture) { 'Focused fixture contract, catalog, preview and selected handler regression' } elseif ($IntegrationSuite -like 'ApplicationsBatch*') { 'Application lifecycle, catalog, acquisition and controller regression' } else { 'Full repository regression' }
   if ($ResultsPath) {
@@ -187,6 +197,13 @@ try {
     elseif ($IntegrationSuite -eq 'SettingsRemainingBatch2') { & .\tests\integration\Invoke-RideRemainingSettings.ps1 -Batch 2 }
     elseif ($IntegrationSuite -eq 'ApplicationsBatch1') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 1 }
     elseif ($IntegrationSuite -eq 'ApplicationsBatch2') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 2 }
+    elseif ($IntegrationSuite -eq 'ApplicationsBatch3') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 3 }
+    elseif ($IntegrationSuite -eq 'ApplicationsBatch3AllUsers') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 3 -Variant all-users }
+    elseif ($IntegrationSuite -eq 'ApplicationsBatch4') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 4 }
+    elseif ($IntegrationSuite -eq 'ApplicationsBatch5') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 5 }
+    elseif ($IntegrationSuite -eq 'ApplicationsBatch6') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 6 }
+    elseif ($IntegrationSuite -eq 'ApplicationsBatch7') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 7 }
+    elseif ($IntegrationSuite -eq 'ApplicationsBatch8') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 8 }
     else { & .\tests\integration\Invoke-RideVmSuite.ps1 }
     $summary['IntegrationSuite'] = $IntegrationSuite
     $summary.IntegrationPassed = $true

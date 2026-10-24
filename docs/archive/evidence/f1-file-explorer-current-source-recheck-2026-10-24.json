@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "reviewedAtUtc": "2026-10-24T11:58:00Z",
+  "topic": "File Explorer F1 Help behavior source recheck for D05",
+  "sources": [
+    {
+      "title": "Windows keyboard tips and tricks",
+      "publisher": "Microsoft Support",
+      "url": "https://support.microsoft.com/en-us/windows/hardware/input-devices/windows-keyboard-tips-and-tricks",
+      "checkedAtUtc": "2026-10-24T11:56:00Z",
+      "finding": "Lists F1 as Help under common app shortcuts and warns that common shortcuts might not work in every app.",
+      "limitation": "Does not identify File Explorer or confirm its behavior on Windows 11 build 26300."
+    },
+    {
+      "title": "F1 Opening browser help tabs that use to never do so",
+      "publisher": "Microsoft Community (independent advisor answer)",
+      "url": "https://learn.microsoft.com/en-us/answers/questions/4322101/f1-opening-browser-help-tabs-that-use-to-never-do",
+      "checkedAtUtc": "2026-10-24T11:56:00Z",
+      "finding": "A 2022 answer reports that pressing F1 in File Explorer opens a help page in a browser.",
+      "limitation": "Community answer is not current product documentation and does not establish behavior on the target build."
+    }
+  ],
+  "targetVerification": {
+    "target": "Authorized disposable Windows 11 Pro target, build 26300 if available",
+    "status": "Pending",
+    "requiredObservations": [
+      "Pressing F1 with File Explorer active opens or does not open Help, recording the actual foreground window/process and URL if opened.",
+      "F1 behavior in at least one unrelated application remains unchanged by any proposed setting.",
+      "The proposed native TypeLib mapping is tested only after baseline behavior is recorded, with exact prior-state capture and restore."
+    ]
+  },
+  "disposition": "Official guidance and community reports justify a targeted observation, but do not close current Windows 11 File Explorer behavior. Do not create a catalog operation or add it to the default profile until target behavior and an exact-restore implementation are verified.",
+  "migrationOutcome": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "D05 current File Explorer F1 behavior on Windows 11 Pro",
+      "Safe exact-restore implementation and unrelated-application F1 collateral check"
+    ],
+    "partial": [
+      "Source review only; no catalog, profile or Windows state change"
+    ],
+    "estimateRangesUnchanged": true,
+    "estimates": {
+      "settings": "38-58",
+      "packages": "52-67",
+      "components": "19-24",
+      "accountsConfigurationAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "142-196",
+      "roundedTotal": "145-200/about 170"
+    }
+  }
+}

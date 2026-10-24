@@ -1,0 +1,38 @@
+{
+  "RecordedAtUtc": "2026-10-24T03:28:00Z",
+  "Scope": "B03 UserBinPath candidate and user PATH lifecycle",
+  "Environment": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "TempRoot": ".local/b03-user-bin-regression-20261024"
+  },
+  "InitialAttempt": {
+    "Result": "Failed before test execution because Pester TestRegistry attempted to create HKCU\\Software\\Pester and the sandbox denied registry access.",
+    "TestsExecuted": false
+  },
+  "CorrectedAttempt": {
+    "Suites": [
+      "tests/UserBinProfile.Tests.ps1",
+      "tests/UserPathEngine.Tests.ps1",
+      "tests/UserPathPreparation.Tests.ps1",
+      "tests/ProfileAcceptanceAutomation.Tests.ps1"
+    ],
+    "Discovered": 84,
+    "Passed": 84,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0
+  },
+  "RuntimeAndRecovery": {
+    "GuestRunnerExecuted": false,
+    "VMUsed": false,
+    "WindowsStateChanged": false,
+    "NativeStartupAcceptance": "Deferred; both registered VM queries fail at CIM before checkpoint inspection."
+  },
+  "Disposition": {
+    "Resolved": "Current local mocked lifecycle, user-bin profile handling, persistent user PATH preparation and runner-boundary regression.",
+    "LegacyOutcomeClosed": false,
+    "EstimateImpact": "No change; the implementation and native acceptance remain partial."
+  }
+}

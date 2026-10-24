@@ -1,0 +1,85 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-21",
+  "Batch": "NTCore Phoenix Protector custom-action identity and license follow-up",
+  "Installer": {
+    "Path": ".local/remaining-collections-20261017/Phoenix_Protector.msi",
+    "DownloadUri": "https://ntcore.com/files/Phoenix_Protector.msi",
+    "Length": 1357312,
+    "Sha256": "15a7dbbf90ce66fb302a322c6809fafd897808096069dfecededf78e51b16369",
+    "MatchesFrozenEvidence": true,
+    "MsiProductVersion": "1.7.1",
+    "FrameworkProperties": {
+      "VSDFrameworkVersion": "2.0.50727",
+      "VSDAllowLaterFrameworkVersions": "False"
+    }
+  },
+  "BinaryTableStream": {
+    "Name": "MSVBDPCADLL",
+    "Path": ".local/remaining-collections-20261017/phoenix-cab-review/binary-review/MSVBDPCADLL.bin",
+    "Length": 227320,
+    "Sha256": "ba56a2fa13e5dae48b6d74a8fa40f2f44473b386e71ba1e7ec2ded90ad56bb8b",
+    "Extraction": "Windows Installer database opened read-only with MsiOpenDatabase mode 0; selected Binary.Name/Data and read the stream with MsiRecordReadStream; bounded to 32 MiB; no installer session or payload execution",
+    "FileVersion": "9.0.21022.8 built by: RTM",
+    "ProductVersion": "9.0.21022.8",
+    "CompanyName": "Microsoft Corporation",
+    "ProductName": "Microsoft Visual Studio 2008",
+    "OriginalFilename": "DPCA.DLL",
+    "InternalName": "CustomActions",
+    "Description": "Microsoft (R) Visual Studio UrlConvert custom action",
+    "AuthenticodeStatus": "Valid",
+    "Signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "SignerThumbprint": "D57FAC60F1A8D34877AEB350E83F46F6EFC9E5F1",
+    "TimestampSigner": "CN=Microsoft Timestamping Service, OU=nCipher DSE ESN:27F4-D440-54F3, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Imports": [
+      "ADVAPI32.dll",
+      "KERNEL32.dll",
+      "OLEAUT32.dll",
+      "ole32.dll",
+      "USER32.dll",
+      "SHELL32.dll",
+      "msi.dll"
+    ],
+    "BoundedStrings": [
+      "CheckFX",
+      "VsdLaunchConditions",
+      "VSDFrameworkVersion",
+      "VSDAllowLaterFrameworkVersions",
+      "Trying 32 bit version of 'aspnet_regiis.exe'..."
+    ],
+    "Limits": "File identity, signature, imports and bounded strings do not establish the exact runtime predicate or side effects of the CheckFX and VsdLaunchConditions exports. A string mentioning aspnet_regiis.exe is not proof that this action launches it."
+  },
+  "BundledLicense": {
+    "MsiFileName": "Phoenix License.rtf",
+    "Path": ".local/remaining-collections-20261017/phoenix-cab-review/files/_400FC4EDCFD64FB1ABD8BB1D97BD1472",
+    "Length": 21821,
+    "Sha256": "19359dcf7a10c7a0d2be9d02e2ccdf10c09e276ba2fe7b8b2db24511cc46c525",
+    "ObservedTerms": [
+      "The grant is personal, nonexclusive, nontransferable and limited to an individual using a reasonable number of copies on computers on the individual's premises for designing, developing and testing software products.",
+      "The agreement reserves ungranted rights and says component parts may not be separated.",
+      "Section 3 prohibits reverse engineering, decompilation and disassembly except where applicable law expressly permits it.",
+      "The agreement prohibits rental, lending and commercial hosting, and does not grant software transfer rights."
+    ],
+    "Interpretation": "The current publisher page calls Phoenix Protector freeware and lists version 1.8.0.1, but does not state that this page replaces the MSI's bundled EULA. Product-page, MSI and executable versions differ (1.8.0.1, 1.7.1 and 1.9.0.1). Intended-user entitlement, redistribution, applicability of the bundled terms and compatibility of further binary review with section 3 remain unresolved."
+  },
+  "PublisherPage": {
+    "Uri": "https://ntcore.com/phoenix-protector/",
+    "CurrentVersion": "1.8.0.1",
+    "Summary": "Publisher describes Phoenix Protector as freeware and as a .NET assembly obfuscation utility with name, string and control-flow obfuscation plus an ILMerge interface."
+  },
+  "Blockers": [
+    "Do not run the MSI or application on the host. The exact custom-action runtime behavior and .NET framework presence/later-version cases remain unverified.",
+    "Pause further Phoenix binary/code inspection pending a rights review of the bundled EULA's section 3 and the user's applicable license. The review process's compatibility with that clause is unresolved.",
+    "Resolve the mismatch between the publisher's freeware statement and the bundled EULA, plus intended-user entitlement and redistribution before selecting or distributing the package.",
+    "Prepare isolated install, repeat, uninstall, exact restore and synthetic project/input recovery checks only after the licensing and rights gates are resolved."
+  ],
+  "ResolvedWholeLegacyOutcomes": 0,
+  "RetiredWholeLegacyOutcomes": 0,
+  "ExcludedWholeLegacyOutcomes": 0,
+  "PayloadExecuted": false,
+  "InstallerSessionStarted": false,
+  "VmOrControllerChanged": false,
+  "FreshUacLaunches": 0,
+  "DefenderStateChanged": false,
+  "Inspection": "Rechecked the frozen MSI hash; read MSI tables and extracted one Binary-table stream through read-only Windows Installer database APIs with a size cap; inspected PE version/signature/import metadata and bounded strings; read the bundled RTF text and current official product page. No MSI session, executable, DLL, database, framework installer or network operation ran. Binary review stopped after the bundled reverse-engineering restriction was identified."
+}

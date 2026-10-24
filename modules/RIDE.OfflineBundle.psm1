@@ -10,8 +10,9 @@
   and prior versions. Preflight functions are read-only.
 .NOTES
   Compatibility: Native Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Version: 0.7.1.
-  Changelog: 0.7.1: Recognize catalog-neutral portable archives during target preflight.
+  Version: 0.7.2.
+  Changelog: 0.7.2: Clarify byte-bound install/apply preflight consumption.
+    0.7.1: Recognize catalog-neutral portable archives during target preflight.
     0.7.0: Optionally gate assembly on byte-bound selected-profile coverage.
     0.6.0: Compare explicit catalog download sources during package coverage.
     0.5.0: Reverify all staged files after copying and before commit metadata.
@@ -223,7 +224,8 @@ function Test-RideOfflineBundle {
   .NOTES
     Never falls back to network, executes bundled code or changes target state.
     Declared content completeness is not dependency discovery or native eligibility.
-    The main install/apply commands do not yet consume this preflight.
+    Explicit offline install/apply consume the byte-bound whole-plan preflight;
+    normal online commands do not use this bundle preflight.
   .PARAMETER CatalogFileId
     Optional Engine file ID containing the pinned catalog. Enables byte-bound
     comparison against the selected bundled profile using trusted local parsers.

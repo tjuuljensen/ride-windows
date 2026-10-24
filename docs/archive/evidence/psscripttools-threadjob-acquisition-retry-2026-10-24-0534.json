@@ -1,0 +1,57 @@
+{
+  "SchemaVersion": 1,
+  "Batch": "PSScriptTools ThreadJob exact package acquisition recheck",
+  "StartedAtUtc": "2026-10-24T05:31:54Z",
+  "FinishedAtUtc": "2026-10-24T05:34:05Z",
+  "PublisherSource": {
+    "PackagePage": "https://www.powershellgallery.com/packages/Microsoft.PowerShell.ThreadJob/2.2.0",
+    "ExactPackageEndpoint": "https://www.powershellgallery.com/api/v2/package/Microsoft.PowerShell.ThreadJob/2.2.0",
+    "Version": "2.2.0",
+    "MinimumPowerShellVersion": "5.1",
+    "Author": "Microsoft Corporation",
+    "DeclaredDependencies": [],
+    "ListedFiles": [
+      "Microsoft.PowerShell.ThreadJob.nuspec",
+      "LICENSE",
+      "Microsoft.PowerShell.ThreadJob.dll",
+      "Microsoft.PowerShell.ThreadJob.psd1",
+      "ThirdPartyNotices.txt",
+      "en-us/Microsoft.PowerShell.ThreadJob.dll-Help.xml",
+      ".signature.p7s"
+    ],
+    "Repository": "https://github.com/PowerShell/ThreadJob",
+    "RepositoryLicense": "MIT"
+  },
+  "AcquisitionAttempt": {
+    "Status": "FailedBeforeTransfer",
+    "Transport": "HTTPS",
+    "Failure": "DNS resolution failed: No such host is known (www.powershellgallery.com:443).",
+    "PartialFilePresent": false,
+    "PackageBytes": 0,
+    "PackageSha256": null,
+    "SignatureInspected": false,
+    "ArchiveMembersInspected": false
+  },
+  "Disposition": {
+    "LicenseBlocker": false,
+    "PackageOperationAdded": false,
+    "DependencyOwnership": "RIDE-managed remains selected",
+    "NextEvidenceRequired": [
+      "Exact official Gallery nupkg bytes",
+      "Package hash and signature verification",
+      "Retained LICENSE and ThirdPartyNotices.txt inventory"
+    ],
+    "LegacyOutcomeClosure": [],
+    "EstimateChange": "None"
+  },
+  "VmAccess": {
+    "Targets": [
+      "RIDE-Win11-Test",
+      "RIDE-Srv2025Test"
+    ],
+    "Status": "Blocked",
+    "Reason": "Read-only host VM and checkpoint inventory was denied at CIM.",
+    "ElevationRequested": false,
+    "VmOrGuestStateChanged": false
+  }
+}

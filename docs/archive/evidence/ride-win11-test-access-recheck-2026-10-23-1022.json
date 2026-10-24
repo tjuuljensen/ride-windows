@@ -1,0 +1,37 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "ObservedAtUtc": "2026-10-23T10:22:10Z",
+  "Target": "RIDE-Win11-Test",
+  "Operation": "Read-only Get-VM metadata query",
+  "Result": "Access to a CIM resource was not available to the client.",
+  "VmState": "Unknown",
+  "CheckpointState": "Unknown",
+  "AuthorizedBatchAction": "None",
+  "WindowsStateChanged": false,
+  "DefenderChanged": false,
+  "UacPromptRequested": false,
+  "Outcome": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Prepared package, setting and component guest acceptance remains deferred until the existing Hyper-V/registered-controller access path is available."
+    ],
+    "Partial": [
+      "Read-only recheck confirms the existing VM access blocker; no checkpoint or guest state was inspected."
+    ]
+  },
+  "Estimate": {
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged because no migration outcome was accepted."
+  }
+}

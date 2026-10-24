@@ -1,0 +1,42 @@
+{
+  "RecordedAtUtc": "2026-10-24T03:41:02Z",
+  "Scope": "Official PowerShell Gallery manual download attempt for Microsoft.PowerShell.ThreadJob 2.2.0",
+  "PublisherPage": "https://www.powershellgallery.com/packages/Microsoft.PowerShell.ThreadJob/2.2.0",
+  "Package": "Microsoft.PowerShell.ThreadJob",
+  "Version": "2.2.0",
+  "Observations": {
+    "PageDisplayedExactPackageVersion": true,
+    "ManualDownloadControlVisible": true,
+    "ManualDownloadProducedFile": false,
+    "DirectOfficialPackageApiNavigation": "BlockedByBrowserClient: net::ERR_BLOCKED_BY_CLIENT",
+    "DownloadedBytes": false,
+    "DigestVerified": false,
+    "PartialFileProduced": false
+  },
+  "SideEffects": {
+    "PackageExtracted": false,
+    "PackageInstalled": false,
+    "ModuleImportedOrRun": false,
+    "VmOrWindowsStateChanged": false
+  },
+  "Disposition": {
+    "Resolved": ["Official package page and exact version remain identified."],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Acquire and verify exact publisher nupkg bytes and signature/content.",
+      "Run dependency-present Windows PowerShell 5.1 and PowerShell 7 checks.",
+      "Complete disposable Windows target acceptance."
+    ],
+    "Partial": ["No PSScriptTools legacy outcome closed."],
+    "EstimateRangesUnchanged": {
+      "Settings": "38-58",
+      "Packages": "52-67",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "142-196",
+      "RoundedTotal": "145-200/about 170"
+    }
+  }
+}

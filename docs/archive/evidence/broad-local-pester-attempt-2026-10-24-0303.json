@@ -1,0 +1,64 @@
+{
+  "RunId": "broad-local-pester-attempt-2026-10-24-0303",
+  "RecordedAtUtc": "2026-10-24T03:03:00Z",
+  "Repository": "RIDE-Windows",
+  "Environment": {
+    "OperatingSystem": "Windows",
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "TemporaryRoot": ".local/pester-all-6de42117950e4df0b65f09f434d15e97"
+  },
+  "Discovery": {
+    "TestCount": 3165,
+    "TestFileCount": 115
+  },
+  "Outcome": "InterruptedWithoutFinalSummary",
+  "Reason": "The synthetic 360-file PSScriptTools package archive test stopped producing progress for several hours; the run was interrupted. No aggregate pass count is claimed.",
+  "ObservedFailure": {
+    "TestFile": "tests/Catalog.Tests.ps1",
+    "Test": "captures and exactly restores registry subtree values, kinds, and security descriptors",
+    "Error": "SecurityException: Requested registry access is not allowed",
+    "Interpretation": "Environment permission failure while attempting to inspect a registry security descriptor; no registry change was made."
+  },
+  "LastTestFileReached": "tests/PSScriptToolsPackage.Tests.ps1",
+  "PriorCompletedRegression": {
+    "TestCount": 204,
+    "Passed": 204,
+    "Evidence": "local-cross-group-package-settings-components-regression-2026-10-23-1828.json"
+  },
+  "RepositoryValidation": {
+    "Result": "Passed",
+    "Operations": 405,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 264,
+    "CatalogExport": "Current",
+    "DiffCheck": "Passed"
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Final broad local Pester summary",
+      "Registry security-descriptor test requiring permitted Windows registry access"
+    ],
+    "Partial": [],
+    "EstimateRangesUnchanged": {
+      "Settings": "38-58",
+      "Packages": "52-67",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "142-196",
+      "RoundedTotal": "145-200/about 170"
+    }
+  },
+  "SideEffects": {
+    "InstallerRun": false,
+    "VmAcceptanceRun": false,
+    "WindowsStateChanged": false,
+    "DefenderBlockedToolsSelected": false
+  }
+}

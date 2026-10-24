@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-24T12:45:00Z",
+  "scope": "Connect current-user packaged Windows Terminal selection to the guarded JSONC profile writer",
+  "implementation": {
+    "module": "modules/RIDE.TerminalJsonc.psm1",
+    "moduleVersion": "0.4.0",
+    "exportedFunction": "Set-RideTerminalInstalledInstanceDefaultProfile",
+    "selectionRule": "Requery current-user AppX registrations and require one exact documented Stable, Preview or Canary package name with its documented family identity.",
+    "writeRule": "Require an existing settings.json and declared visible profile; delegate to the identity-bound exclusive writer and durable snapshot/recovery path.",
+    "safety": [
+      "Synthetic inventory injection is not exposed by the write command and cannot authorize instance selection.",
+      "ShouldProcess and WhatIf prevent settings and snapshot writes when declined or previewed.",
+      "ProfileAvailabilityVerified remains false; package registration and a declared profile do not prove launchability.",
+      "Unpackaged/portable paths continue through the explicit-path writer."
+    ]
+  },
+  "validation": {
+    "focusedSuite": {
+      "path": "tests/TerminalJsonc.Tests.ps1",
+      "discovered": 57,
+      "passed": 57,
+      "failed": 0,
+      "skipped": 0,
+      "powershell": "7.6.5",
+      "pester": "5.7.1",
+      "testRegistryEnabled": false,
+      "appxResponses": "Mocked synthetic package records",
+      "fileData": "Synthetic files under Pester TestDrive",
+      "cases": [
+        "Selection by exact package identity and guarded apply followed by exact byte restore",
+        "WhatIf writes neither settings nor a recovery snapshot",
+        "Missing settings files are refused without creation",
+        "Missing or ambiguous package selections are refused"
+      ]
+    },
+    "windowsPowerShell51Parser": "Passed for module and test file.",
+    "repositoryValidation": {
+      "status": "Passed",
+      "operationDocumentation": "Current",
+      "operations": 408,
+      "groups": 8,
+      "profiles": 5,
+      "powershellFiles": 272
+    }
+  },
+  "sideEffects": {
+    "liveAppxInventoryQueried": false,
+    "terminalLaunched": false,
+    "profileLaunched": false,
+    "settingsChanged": false,
+    "snapshotCreatedOutsideTestDrive": false,
+    "vmUsed": false,
+    "windowsStateChanged": false
+  },
+  "remainingAcceptance": [
+    "Exercise actual current-user Get-AppxPackage discovery on the selected disposable Windows instance.",
+    "Verify profile availability and new-tab launch behavior in the selected Stable/Preview/Canary installation.",
+    "Accept exact settings apply/recovery and GUI-visible behavior on a disposable Windows VM.",
+    "Consider catalog integration only after native behavior and target support are established."
+  ],
+  "migrationAccounting": {
+    "legacyOutcomesClosed": 0,
+    "estimateRangesUnchanged": true,
+    "ranges": {
+      "settings": "38-58",
+      "packages": "52-67",
+      "components": "19-24",
+      "accountsConfigurationAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "142-196",
+      "roundedTotal": "145-200/about 170"
+    }
+  },
+  "concurrentVmRequest": {
+    "requestId": "24dae5ea55034a84b42cb6a0260d9c3c",
+    "stateAtCheck": "Queue entry remained under queue/running and the run result directory contained snapshot, controller log, controller error log and staged inputs but no result.json. Controller log last write was 2026-10-24T11:54:20Z, controller error log was empty, and the owner task remained active at 12:45 UTC. No other batch was submitted."
+  }
+}

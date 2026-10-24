@@ -1,0 +1,81 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T08:16:00Z",
+  "Topic": "OpenSSH Server explicit activation and literal restore candidate",
+  "Candidate": {
+    "Module": "modules/RIDE.OpenSshServerLifecycle.psm1",
+    "PublicCommands": [
+      "Invoke-RideOpenSshServerActivation",
+      "Restore-RideOpenSshServerActivation"
+    ],
+    "Registered": false,
+    "CatalogOperationAdded": false,
+    "SupportedTargetsAdded": false,
+    "CapabilityServicing": "Not implemented by this candidate; OpenSSH.Server~~~~0.0.1.0 must already be Installed.",
+    "TargetGuard": "Native Windows 11 or Windows Server 2025 candidate build; no support declaration."
+  },
+  "Boundary": {
+    "Service": "Requires existing administrator session and no pending servicing restart; explicitly starts sshd and sets caller-selected Manual or Automatic startup.",
+    "Firewall": "Caller chooses Keep, Enabled or Disabled. Only the exact existing local OpenSSH-Server-In-TCP inbound TCP/22 rule can be changed; no rule is created.",
+    "HostKeysAndConfiguration": "No private key contents are read or copied. First-start data changes are reported and retained during restore; exact data recovery is unsupported.",
+    "SavedState": "Pre-change literal service and firewall state is stored before mutation under ProgramData/RIDE/State/OpenSshServerActivation with a protected machine ACL; restore checks target identity, servicing revision and live-state drift.",
+    "Recovery": "Restores service State/StartMode and firewall Enabled when they match saved/requested literals; refuses unrelated drift."
+  },
+  "FocusedPester": {
+    "Suites": [
+      "OpenSshServerObservation.Tests.ps1",
+      "OpenSshServerLifecycle.Tests.ps1"
+    ],
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "Discovered": 18,
+    "Passed": 18,
+    "Failed": 0,
+    "Skipped": 0,
+    "TestRegistryPlugin": "Disabled; no registry tests needed",
+    "NativeProviders": "Mocked; no service, firewall, capability or server-data changes."
+  },
+  "WindowsPowerShell51Parser": "Passed for module and test file.",
+  "RepositoryValidation": "Passed: 407 operations, 8 groups, 5 profiles, 271 PowerShell files.",
+  "VmAcceptance": {
+    "Deferred": "Native activation/restore acceptance not run.",
+    "ReadOnlyAccessRecheckAtUtc": "2026-10-24T08:16:34Z",
+    "Result": "Get-VM for RIDE-Win11-Test and RIDE-Srv2025Test failed with VirtualizationException: Access to a CIM resource was not available to the client; denied before VM/checkpoint inspection.",
+    "ElevationRequested": false,
+    "VmOrCheckpointChanged": false,
+    "ProtectedQueueWriteRetried": false
+  },
+  "RuntimeStateChanged": false,
+  "LegacyOutcomeClosed": false,
+  "Migration": {
+    "Resolved": [
+      "Local activation/restore candidate with protected prior-state snapshot, explicit firewall intent, conflict refusal and retained host-key/configuration boundary."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Capability install/removal and matching Features on Demand source/recovery.",
+      "Native first-start, service/firewall behavior, exact literal restore, host-key/config effects, and Windows 11/Server 2025 acceptance."
+    ],
+    "Partial": [
+      "OpenSSH Server remains an unregistered candidate; no component or legacy outcome closes."
+    ]
+  },
+  "Estimates": {
+    "Groups": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Reason": "Candidate implementation and mocked regression reduce preparation uncertainty but close no legacy component outcome; ranges remain unchanged."
+  },
+  "References": [
+    "https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse",
+    "https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_keymanagement",
+    "https://learn.microsoft.com/en-us/powershell/module/dism/add-windowscapability?view=windowsserver2025-ps"
+  ]
+}

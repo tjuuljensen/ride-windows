@@ -1,0 +1,180 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T17:15:23.2872684Z",
+  "Controller": "RIDEWin11Test",
+  "Target": "RIDE-Win11-Test",
+  "Checkpoint": {
+    "Name": "RIDE-clean-test-base",
+    "CleanupError": null,
+    "BlockedMarkerPresent": false,
+    "Id": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+    "ResetInvokedInControllerFinally": true
+  },
+  "Request": {
+    "CollectionError": null,
+    "Status": "Passed",
+    "CleanupError": null,
+    "EvidenceExportError": null,
+    "Suite": "ApplicationsBatch6",
+    "RunId": "f7b20b6524bf4f99a80a1f19962b7cfd",
+    "FinishedAtUtc": "2026-10-24T17:15:23.2872684Z",
+    "StartedAtUtc": "2026-10-24T16:51:55.2186599Z",
+    "Error": null
+  },
+  "Guest": {
+    "PesterTotal": 348,
+    "Version": "10.0.26300",
+    "PesterVersion": "5.7.1",
+    "ValidationPassed": true,
+    "ValidatedOperations": 410,
+    "PowerShell": "5.1.26100.9444",
+    "OS": "Microsoft Windows 11 Enterprise Evaluation",
+    "Profiles": 5,
+    "PowerShellFiles": 273,
+    "PesterPassed": 347,
+    "Groups": 8,
+    "IntegrationPassed": true,
+    "Build": "26300",
+    "PesterFailed": 0
+  },
+  "Packages": [
+    {
+      "Id": "package.photocraft",
+      "Version": "0.7.0",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "Status": "Passed",
+      "Recovery": true
+    },
+    {
+      "Id": "package.vectorcraft",
+      "Version": "0.9.0",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "Status": "Passed",
+      "Recovery": true
+    },
+    {
+      "Id": "package.filmcraft",
+      "Version": "0.6.0",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "Status": "Passed",
+      "Recovery": true
+    },
+    {
+      "Id": "package.lightcraft",
+      "Version": "0.6.0",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "Status": "Passed",
+      "Recovery": true
+    },
+    {
+      "Id": "package.pdfcraft",
+      "Version": "0.6.0",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "Status": "Passed",
+      "Recovery": true
+    },
+    {
+      "Id": "package.effectcraft",
+      "Version": "0.8.0",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "Status": "Passed",
+      "Recovery": true
+    },
+    {
+      "Id": "package.designcraft",
+      "Version": "0.6.0",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "Status": "Passed",
+      "Recovery": true
+    },
+    {
+      "Id": "package.wordcraft",
+      "Version": "0.5.0",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "Status": "Passed",
+      "Recovery": true
+    },
+    {
+      "Id": "package.soundcraft",
+      "Version": "0.5.0",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "Status": "Passed",
+      "Recovery": true
+    },
+    {
+      "Id": "package.deckcraft",
+      "Version": "0.5.0",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "Status": "Passed",
+      "Recovery": true
+    },
+    {
+      "Id": "package.cadcraft",
+      "Version": "0.5.0",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "Status": "Passed",
+      "Recovery": true
+    },
+    {
+      "Id": "package.gridcraft",
+      "Version": "0.5.0",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "Status": "Passed",
+      "Recovery": true
+    }
+  ],
+  "LifecycleCoverage": {
+    "TargetDisposition": "Keep Windows 11 as CandidateTargets with PendingAcceptance true until the corrected full lifecycle run passes.",
+    "NotCovered": [
+      "Removal preview and uninstall",
+      "Repeat removal",
+      "Saved removal recovery",
+      "Application functional launch/activation"
+    ],
+    "Verified": [
+      "Preview does not mutate package state",
+      "RIDE-managed install",
+      "Pinned package version reported",
+      "Repeat-install idempotence",
+      "Saved install-run restore to original absence"
+    ]
+  },
+  "RunnerSnapshotVersion": "0.14.3",
+  "RunnerCoverageCorrection": {
+    "NextUpdatedRequest": "6a896d6621304fdfbbb89e702488239f",
+    "CurrentVersion": "0.14.4",
+    "PowerShellParser": "Passed",
+    "FocusedPester": {
+      "Failed": 0,
+      "Skipped": 2,
+      "Suites": [
+        "ArtcraftPackages.Tests.ps1",
+        "TestAutomation.Tests.ps1"
+      ],
+      "Tests": 120,
+      "Passed": 118
+    }
+  },
+  "NextQueueState": {
+    "OlderSnapshotRequest": "9f6bec44b84c4855917bd6913b0b792f",
+    "RuntimeBlockedMarkerPresent": false,
+    "Status2": "Pending",
+    "UpdatedRunnerRequest": "6a896d6621304fdfbbb89e702488239f",
+    "Status": "Running"
+  },
+  "DefenderDisposition": "All twelve Artcraft machine-scope packages are outside the separately excluded Defender-detected NirSoft/x64 utility set.",
+  "LegacyOutcomesClosed": 0,
+  "EstimateRanges": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170"
+}

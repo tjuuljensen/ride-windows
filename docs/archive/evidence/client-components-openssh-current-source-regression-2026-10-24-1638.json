@@ -1,0 +1,49 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T16:38:35Z",
+  "Batch": "Client components and OpenSSH Server current-source local lifecycle regression",
+  "Suites": [
+    "tests/ClientComponentPreparation.Tests.ps1",
+    "tests/ClientComponentLifecycle.Tests.ps1",
+    "tests/OpenSshServerObservation.Tests.ps1",
+    "tests/OpenSshServerLifecycle.Tests.ps1"
+  ],
+  "Runner": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "WindowsIntegrationExcluded": true,
+    "VmUsed": false,
+    "TempRoot": ".local/component-pester-20261024-1640"
+  },
+  "Result": {
+    "Passed": 65,
+    "Failed": 0,
+    "Skipped": 0,
+    "Total": 65,
+    "Status": "Passed"
+  },
+  "AttemptNotes": [
+    "The initial invocation left Pester's unused TestRegistry plugin enabled; sandbox registry denial prevented test setup. No test body ran. The same suites passed after disabling the plugin."
+  ],
+  "Boundaries": {
+    "ComponentProviderCallsMocked": true,
+    "WindowsFeatureServicing": false,
+    "CapabilityAcquired": false,
+    "OpenSshServiceChanged": false,
+    "FirewallChanged": false,
+    "RegistryChanged": false,
+    "VmAcceptance": false,
+    "WindowsTargetSupportDeclared": false
+  },
+  "Disposition": {
+    "Resolved": ["Current-source client component preparation/lifecycle and OpenSSH Server observation/lifecycle local regressions."],
+    "Deferred": [
+      "Native component servicing, exact recovery and Windows 11/Server 2025 acceptance.",
+      "OpenSSH Server service/firewall lifecycle and recovery on disposable Windows targets."
+    ],
+    "LegacyOutcomesClosed": 0,
+    "EstimateRangesUnchanged": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170"
+  },
+  "ConcurrentVmState": "RIDE-Win11-Test queue still contains ApplicationsBatch5 request 929ea539ce89404d8ed0d50a8fbbac52 submitted at 2026-10-24T16:28:40Z; no guest result was accessible at this check, so no overlapping request was submitted."
+}

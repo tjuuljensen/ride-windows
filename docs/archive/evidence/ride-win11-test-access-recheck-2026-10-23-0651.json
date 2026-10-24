@@ -1,0 +1,11 @@
+{
+  "SchemaVersion": 1,
+  "ObservedAtUtc": "2026-10-23T06:51:25Z",
+  "Target": "RIDE-Win11-Test",
+  "Command": "Get-VM -Name RIDE-Win11-Test",
+  "Result": "Blocked",
+  "Error": "Access to a CIM resource was not available to the client.",
+  "CheckpointQueryIssued": false,
+  "QueueSubmission": false,
+  "VmOrGuestStateChanged": false
+}

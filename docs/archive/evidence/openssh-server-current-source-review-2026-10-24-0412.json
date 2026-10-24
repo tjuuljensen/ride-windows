@@ -1,0 +1,88 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T04:12:00Z",
+  "Batch": "OpenSSH Server current Microsoft behavior review and VM access recheck",
+  "Sources": [
+    {
+      "Uri": "https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse",
+      "Findings": [
+        "Capability identity is OpenSSH.Server~~~~0.0.1.0.",
+        "OpenSSH is installed by default beginning with Windows Server 2025.",
+        "Installing OpenSSH Server creates and enables OpenSSH-Server-In-TCP for inbound TCP port 22.",
+        "Starting sshd and making it automatic are separate configuration steps."
+      ]
+    },
+    {
+      "Uri": "https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh-server-configuration",
+      "Findings": [
+        "Server configuration is read from %ProgramData%\\ssh\\sshd_config by default.",
+        "sshd reads configuration at service startup; changes require service restart."
+      ]
+    },
+    {
+      "Uri": "https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_keymanagement",
+      "Findings": [
+        "First use of sshd automatically generates host key pairs.",
+        "Service host keys are stored under C:\\ProgramData\\ssh."
+      ]
+    }
+  ],
+  "ComponentDecision": {
+    "Capability": "OpenSSH.Server~~~~0.0.1.0",
+    "SeparateFromOpenSshClient": true,
+    "IndividuallySelected": true,
+    "OffByDefault": true,
+    "NoSupportedTargetsAdded": true,
+    "ImplementationContract": [
+      "Do not start sshd or set automatic startup during capability install.",
+      "Capture service and exact firewall rule state independently.",
+      "Disable only an inbound rule newly created by RIDE's install action.",
+      "Preserve pre-existing service/firewall state and refuse removal after drift.",
+      "Never copy private host keys into RIDE state or delete host keys/configuration during generic cleanup.",
+      "Require matching feature source/recovery before removal; observe Server 2025 preinstalled capability as a no-op."
+    ]
+  },
+  "VmAccess": [
+    {
+      "Name": "RIDE-Win11-Test",
+      "Result": "Get-VM failed with CIM access denied before VM/checkpoint inspection."
+    },
+    {
+      "Name": "RIDE-Srv2025Test",
+      "Result": "Get-VM failed with CIM access denied before VM/checkpoint inspection."
+    }
+  ],
+  "SideEffects": {
+    "ElevationRequested": false,
+    "VmOrCheckpointChanged": false,
+    "WindowsStateChanged": false,
+    "ServiceStarted": false,
+    "FirewallChanged": false,
+    "HostKeyOrConfigRead": false
+  },
+  "Migration": {
+    "Resolved": [
+      "Current Microsoft capability identity and Server 2025 default installation behavior.",
+      "Install firewall side effect and first-start host-key/configuration behavior."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Service/firewall/host-key/configuration inventory and exact ownership.",
+      "Matching Features on Demand source validation and exact recovery.",
+      "Guarded lifecycle implementation and Windows 11/Server 2025 acceptance."
+    ],
+    "Partial": [
+      "No OpenSSH Server component or legacy outcome closes."
+    ],
+    "EstimateRanges": {
+      "Settings": "38-58",
+      "Packages": "52-67",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "142-196",
+      "RoundedTotal": "145-200/about 170"
+    }
+  }
+}

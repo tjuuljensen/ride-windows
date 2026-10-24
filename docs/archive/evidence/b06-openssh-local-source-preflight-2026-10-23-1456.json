@@ -1,0 +1,70 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "RecordedAtUtc": "2026-10-23T14:56:22Z",
+  "Batch": "B06 OpenSSH Client LocalSource identity preflight",
+  "Candidate": {
+    "Path": "modules/RIDE.ClientComponentLifecycle.psm1",
+    "Version": "0.3.3",
+    "Registered": false,
+    "SupportedTargets": [],
+    "Preflight": [
+      "Accepts LocalSource only for the OpenSSH.Client~~~~0.0.1.0 capability.",
+      "Requires the direct-child OpenSSH-Client-Package CAB for native architecture.",
+      "Reads exactly one CAB package identity and requires its architecture and Windows build to match the target.",
+      "Records package identity, architecture and CAB SHA-256 in saved state; restore to Present repeats validation and requires the same identity and hash.",
+      "Telnet LocalSource apply and restore remain blocked."
+    ],
+    "Limitations": [
+      "Configured servicing-source fallback is not inspected; NetworkBoundaryVerified remains false.",
+      "Exact servicing dependencies, payload recovery and guest Windows behavior remain unverified.",
+      "OpenSSH removal remains blocked until a matching recovery source and exact recovery are accepted."
+    ]
+  },
+  "Validation": {
+    "Pester": {
+      "File": "tests/ClientComponentLifecycle.Tests.ps1",
+      "Passed": 18,
+      "Failed": 0,
+      "Skipped": 0,
+      "PowerShell": "7.6.5",
+      "TestRegistry": "Disabled because sandbox registry access is denied",
+      "NativeServicingCalls": "Mocked; DISM was not called"
+    }
+  },
+  "Outcome": {
+    "Resolved": [
+      "LocalSource apply and restore-to-Present now require an identity, architecture and build-matched OpenSSH Client CAB whose hash remains unchanged from saved state."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Telnet LocalSource source validation.",
+      "Configured-source fallback and network-boundary verification.",
+      "Dependency and exact-payload recovery acceptance.",
+      "Windows 11 VM acceptance; latest host Get-VM access failed at CIM before checkpoint inspection."
+    ],
+    "Partial": [
+      "B06 remains an unregistered local lifecycle candidate; no legacy component outcome or Windows state transition was accepted."
+    ]
+  },
+  "Estimate": {
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged; this source-preflight improvement closes no legacy outcome or Windows acceptance."
+  },
+  "Boundaries": {
+    "DISMCalled": false,
+    "PackageSourceAcquired": false,
+    "VmUsed": false,
+    "DefenderChanged": false,
+    "WindowsStateChanged": false
+  }
+}

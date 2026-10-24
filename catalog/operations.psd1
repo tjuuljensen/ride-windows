@@ -1086,14 +1086,110 @@
       }
     }
     @{
+      Id = 'windows.user-bin-persistent-path'
+      Name = 'Add existing user-bin directory to persistent user PATH'
+      Kind = 'UserPath'
+      Category = 'Windows settings / Accounts and configuration'
+      Description = 'Enabled appends the current user''s absolute UserProfile/bin directory to the literal HKCU Environment Path value when no equivalent entry exists. It preserves other text and registry value kind. It does not alter machine/process PATH, PowerShell startup profiles, create or remove the directory, or install tools. No environment broadcast or effective-path behavior is claimed; exact saved-run restore removes only the entry added by that run. Windows 11 lifecycle acceptance is pending.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_environment_variables'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'UserPath'
+      UserPathSetting = 'AppendUserBin'
+      States = @{ Enabled = 'AppendUserBin' }
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      MigrationBatch = 'Q08PersistentUserPathCandidate'
+      LegacySelectors = @('AddUserBinToPath')
+      SettingPresentation = @{
+        AppliesTo = 'Current user; persistent Environment/Path value'
+        Behavior = 'Preference'
+        GuiEffect = 'Requests that newly created user processes can discover tools in an existing user-bin directory after Windows propagates the updated environment; effective behavior and refresh timing remain unverified.'
+        GuiPath = 'User environment variables; Environment/Path'
+        Requirements = @('Interactive native Windows PowerShell session for the intended user', 'Existing user-profile bin directory; provisioning and contents are separate', 'Windows 11 registry lifecycle, process refresh and recovery acceptance pending')
+        OtherSupportedChoices = @('Enabled adds only a missing equivalent entry; restore recovers the captured previous value or removes the exact RIDE-owned token after unrelated edits', 'PowerShell startup PATH, machine PATH, directory provisioning and WindowsApps remain independent choices', 'No Baseline or Unset state; restore a saved run to remove the entry RIDE added')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_environment_variables', 'https://learn.microsoft.com/en-us/dotnet/api/microsoft.win32.registrykey.getvalue')
+      }
+    }
+    @{
+      Id = 'windows.python-manager-automatic-install'
+      Name = 'Disable Python manager implicit runtime installs (candidate)'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Accounts and configuration'
+      Description = 'Disabled writes the current user Environment value PYTHON_MANAGER_AUTOMATIC_INSTALL=false, which the Python install manager reads to prevent automatic runtime installation through py exec and its no-runtime launch path. Explicit py install commands remain available for selected pinned runtimes. WindowsDefault removes only this override; exact saved-run restore recovers the previous literal value/type. Existing processes may retain stale environment data until restarted or refreshed. This does not install/update the manager or a runtime, change PATH/aliases, or disable the manager''s own update behavior. Windows 11/Server acceptance remains pending.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_environment_variables'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKCU:\Environment'
+      ValueName = 'PYTHON_MANAGER_AUTOMATIC_INSTALL'
+      ValueType = 'String'
+      States = @{ Disabled = 'false'; WindowsDefault = $null }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      MigrationBatch = 'PythonManagerAutomaticInstallPolicyCandidate'
+      LegacySelectors = @('InstallPython')
+      SettingPresentation = @{
+        AppliesTo = 'Current user; environment inherited by new Python install-manager processes'
+        Behavior = 'Configuration'
+        GuiEffect = 'False disables manager automatic installs in new processes; explicit selected-tag install commands remain available. Existing shells may keep stale environment data.'
+        GuiPath = 'User environment variables; PYTHON_MANAGER_AUTOMATIC_INSTALL'
+        Requirements = @('Python install manager; Windows 11/Server 2025 integration, process refresh and exact restore acceptance pending', 'Conflicting or policy-managed environment values must be previewed before writes')
+        OtherSupportedChoices = @('WindowsDefault removes only the user override and returns to the manager default/configuration hierarchy', 'This setting does not select or install a runtime, update the manager, change PATH, or alter existing Python aliases', 'Saved-run restore recovers prior literal value/type/absence; already-running processes are not rewritten')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_environment_variables')
+      }
+    }
+    @{
+      Id = 'windows.click-to-do-policy'
+      Name = 'Control Click to Do availability (candidate)'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Privacy'
+      Description = 'Blocked writes the current-user DisableClickToDo policy as 1, which removes Click to Do and its entry points. Allowed writes 0, which permits Click to Do but does not force the user''s own Click to Do Settings toggle on; a conflicting device policy may still control the result. WindowsDefault removes only this policy override and leaves the user preference to Windows. Exact saved-run restore recovers the prior literal value/type/absence. This policy is independent of Recall and other Copilot features. The Policy CSP currently lists Insider Preview applicability; ordinary Windows 11 policy behavior and the visible effect remain pending acceptance. No default profile selects this candidate.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai#disableclicktodo'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKCU:\SOFTWARE\Policies\Microsoft\Windows\WindowsAI'
+      ValueName = 'DisableClickToDo'
+      ValueType = 'DWord'
+      States = @{ Blocked = 1; Allowed = 0; WindowsDefault = $null }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      MigrationBatch = 'WindowsAiClickToDoCandidate20261024'
+      SettingPresentation = @{
+        AppliesTo = 'Current user; Click to Do policy availability on eligible Windows devices'
+        Behavior = 'EnforcedPolicy'
+        GuiEffect = 'Blocked removes the Click to Do component and entry points. Allowed permits the feature while leaving the user''s local Click to Do toggle intact; hardware, device policy and current-build applicability also affect the visible result.'
+        GuiPath = 'Settings > Privacy & security > Click to Do'
+        Requirements = @('Windows 11 Copilot+ PC or eligible Cloud PC; the feature requires supported NPU, memory, processor and storage', 'The WindowsAI Policy CSP lists Insider Preview applicability; verify the current target build, per-user policy precedence and visible entry points before support', 'No Copilot, Recall, app-actions or screen-capture setting is included')
+        OtherSupportedChoices = @('Blocked=1, Allowed=0, and WindowsDefault override removal have distinct semantics; Allowed is not a forced-on user preference', 'A conflicting device policy and the user-facing Settings toggle are outside this per-user operation', 'Saved-run restore recovers the captured previous registry type/data/absence; it does not restore unrelated policy or app state')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai#disableclicktodo', 'https://learn.microsoft.com/en-us/windows/client-management/manage-click-to-do')
+      }
+    }
+    @{
       Id = 'powershell.windows-powershell51-terminal-colors'
       Name = 'Windows PowerShell 5.1 session colors'
       Kind = 'ProfileSetting'
       Category = 'Profile settings / PowerShell'
       Description = 'Manage a current-user ConsoleHost startup block. Recommended applies Campbell in normal Windows Terminal sessions and Campbell PowerShell blue when the actual shell token is elevated. AdminBlue changes only elevated sessions. Default removes only this RIDE block; restore recovers captured profile content. Does not edit Terminal settings, PATH, execution policy or tab titles. Existing sessions and other shells are unaffected.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_profiles'
-      SupportedTargets = @('Windows 11', 'Windows Server 2025')
-      PendingAcceptance = $false
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
       Scope = 'User'
       RequiresAdmin = $false
       Actions = @('Get', 'Test', 'Set', 'Restore')
@@ -5982,6 +6078,36 @@
       Rollback = 'Exact'
     }
     @{
+      Id = 'windows.proxy-auto-detect'
+      Name = 'Automatically detect proxy settings'
+      Kind = 'UserProxy'
+      Category = 'Windows settings / Network'
+      Description = 'Enable or disable automatic proxy detection for the current interactive user on the default/LAN WinINet connection. Other proxy flags, manual server/bypass values, setup-script address, named VPN connections and WinHTTP settings remain unchanged. Windows 11 lifecycle and effective behavior are pending native acceptance.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/wininet/setting-and-retrieving-internet-options'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'UserProxy'
+      ProxySetting = 'AutomaticDetection'
+      States = @{ Enabled = 'Enabled'; Disabled = 'Disabled' }
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      MigrationBatch = 'B04DefaultLanProxyCandidate'
+      LegacySelectors = @('EnableIEProxyAutoconfig', 'DisableIEProxyAutoconfig')
+      SettingPresentation = @{
+        AppliesTo = 'Current interactive user; WinINet default/LAN connection options'
+        Behavior = 'Configuration'
+        GuiPath = 'Settings > Network & internet > Proxy > Automatically detect settings; Internet Options > LAN settings'
+        GuiEffect = 'Enabled or Disabled changes only the automatic-detection flag. It does not prove which proxy is selected, whether a PAC script is fetched, or which applications use WinINet.'
+        Requirements = @('Run as the intended interactive user; Windows 11 acceptance and effective application behavior remain unverified', 'Documented proxy policy conflicts refuse writes; named RAS/VPN connections, WinHTTP and other application proxy configuration are separate')
+        OtherSupportedChoices = @('Saved-run restore recovers the previous owned flag while preserving unrelated flags and strings', 'Setup-script address and enablement are a separate control; no PAC retrieval or discovery is performed')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/wininet/setting-and-retrieving-internet-options')
+      }
+    }
+    @{
       Id = 'windows.proxy-autoconfig-url'
       Name = 'Automatic proxy configuration URL'
       Kind = 'RegistryValue'
@@ -7445,6 +7571,120 @@
       Rollback = 'Exact'
     }
     @{
+      Id = 'windows.sha256-certutil-context-menu'
+      Name = 'SHA-256 with Certutil context menu'
+      Kind = 'RegistryValueSet'
+      Category = 'Windows settings / Explorer'
+      Description = 'Adds an optional per-user SHA-256 shortcut-menu command that runs Windows Certutil for a selected file. Menu visibility, icon rendering, filename quoting, repeat apply and restore remain pending Windows 11 acceptance.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/shell/context-menu-handlers'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MigrationBatch = '2026-10-10-remaining-settings-1'
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValueSet'
+      Rollback = 'Exact'
+      RegistryValues = @(
+        @{ Key = 'Menu'; RegistryPath = 'HKCU:\Software\Classes\*\shell\RIDE.Sha256Certutil'; ValueName = 'Icon'; ValueType = 'String' }
+        @{ Key = 'Command'; RegistryPath = 'HKCU:\Software\Classes\*\shell\RIDE.Sha256Certutil\command'; ValueName = ''; ValueType = 'String' }
+      )
+      States = @{
+        Enabled = @{
+          Menu = 'shell32.dll,-152'
+          Command = 'cmd.exe /k certutil -hashfile "%1" SHA256'
+        }
+        WindowsDefault = @{ Menu = $null; Command = $null }
+      }
+      BaselineState = 'WindowsDefault'
+      SettingPresentation = @{
+        AppliesTo = 'Current user: static file context menu for all file types'
+        Behavior = 'Configuration'
+        GuiPath = 'File Explorer > Show more options > SHA-256 with Certutil (Windows 11 candidate)'
+        GuiEffect = 'Adds one command to the selected file menu. Selecting it opens a Command Prompt, runs Windows Certutil to calculate that file''s SHA-256 hash, and leaves the output visible until the user closes the console.'
+        Requirements = @('The menu registration is per-user and does not require elevation; Certutil runs only after the user selects the command.', 'The command passes the Explorer-selected path as a quoted %1 argument, but percent-expansion, unusual filenames, menu placement and visible output require Windows 11 acceptance.', 'Microsoft lists Certutil and -hashfile for Windows 11, while cautioning that Certutil is not recommended for production code and does not guarantee live-site or application compatibility; treat this menu as an interactive convenience, not production integrity enforcement.', 'Only the selected file is read by Certutil. RIDE writes no file contents, hashes or errors to disk.')
+        OtherSupportedChoices = @('WindowsDefault removes only the declared context-menu values; exact saved-run restore recovers prior values and registry-key existence.', 'No modern-menu integration or automatic hashing is claimed; the command window stays open until closed.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/shell/context-menu-handlers', 'https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/certutil')
+      }
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValue = 'PlatformDefined'; EffectiveDefault = 'No RIDE menu registration.' }
+      }
+      Notes = 'Optional single-command example. The console stays open until the user closes it. The corrected authoring example and source attachment remain separate from supported Windows behavior.'
+    }
+    @{
+      Id = 'windows.hash-value-context-menu'
+      Name = 'Hash value file context menu'
+      Kind = 'RegistryValueSet'
+      Category = 'Windows settings / Explorer'
+      Description = 'Adds a per-user Hash value submenu for selected files in File Explorer. Uses Windows PowerShell 5.1 and the owned RIDE helper to compute the seven requested algorithms or show all results in one message box. Explorer placement and unusual-name behavior remain pending Windows 11 acceptance.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/shell/context-menu-handlers'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MigrationBatch = '2026-10-10-remaining-settings-1'
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValueSet'
+      ValueTokens = @('RIDE_ROOT', 'WINDOWS_POWERSHELL_5_1')
+      RegistryValues = @(
+        @{ Key = 'MenuLabel'; RegistryPath = 'HKCU:\Software\Classes\*\shell\RIDE.HashValue'; ValueName = 'MUIVerb'; ValueType = 'String' }
+        @{ Key = 'VerbMD5'; RegistryPath = 'HKCU:\Software\Classes\*\shell\RIDE.HashValue\ExtendedSubCommandsKey\shell\MD5'; ValueName = 'MUIVerb'; ValueType = 'String' }
+        @{ Key = 'CommandMD5'; RegistryPath = 'HKCU:\Software\Classes\*\shell\RIDE.HashValue\ExtendedSubCommandsKey\shell\MD5\command'; ValueName = ''; ValueType = 'String' }
+        @{ Key = 'VerbSHA1'; RegistryPath = 'HKCU:\Software\Classes\*\shell\RIDE.HashValue\ExtendedSubCommandsKey\shell\SHA1'; ValueName = 'MUIVerb'; ValueType = 'String' }
+        @{ Key = 'CommandSHA1'; RegistryPath = 'HKCU:\Software\Classes\*\shell\RIDE.HashValue\ExtendedSubCommandsKey\shell\SHA1\command'; ValueName = ''; ValueType = 'String' }
+        @{ Key = 'VerbSHA256'; RegistryPath = 'HKCU:\Software\Classes\*\shell\RIDE.HashValue\ExtendedSubCommandsKey\shell\SHA256'; ValueName = 'MUIVerb'; ValueType = 'String' }
+        @{ Key = 'CommandSHA256'; RegistryPath = 'HKCU:\Software\Classes\*\shell\RIDE.HashValue\ExtendedSubCommandsKey\shell\SHA256\command'; ValueName = ''; ValueType = 'String' }
+        @{ Key = 'VerbSHA384'; RegistryPath = 'HKCU:\Software\Classes\*\shell\RIDE.HashValue\ExtendedSubCommandsKey\shell\SHA384'; ValueName = 'MUIVerb'; ValueType = 'String' }
+        @{ Key = 'CommandSHA384'; RegistryPath = 'HKCU:\Software\Classes\*\shell\RIDE.HashValue\ExtendedSubCommandsKey\shell\SHA384\command'; ValueName = ''; ValueType = 'String' }
+        @{ Key = 'VerbSHA512'; RegistryPath = 'HKCU:\Software\Classes\*\shell\RIDE.HashValue\ExtendedSubCommandsKey\shell\SHA512'; ValueName = 'MUIVerb'; ValueType = 'String' }
+        @{ Key = 'CommandSHA512'; RegistryPath = 'HKCU:\Software\Classes\*\shell\RIDE.HashValue\ExtendedSubCommandsKey\shell\SHA512\command'; ValueName = ''; ValueType = 'String' }
+        @{ Key = 'VerbMACTripleDES'; RegistryPath = 'HKCU:\Software\Classes\*\shell\RIDE.HashValue\ExtendedSubCommandsKey\shell\MACTripleDES'; ValueName = 'MUIVerb'; ValueType = 'String' }
+        @{ Key = 'CommandMACTripleDES'; RegistryPath = 'HKCU:\Software\Classes\*\shell\RIDE.HashValue\ExtendedSubCommandsKey\shell\MACTripleDES\command'; ValueName = ''; ValueType = 'String' }
+        @{ Key = 'VerbRIPEMD160'; RegistryPath = 'HKCU:\Software\Classes\*\shell\RIDE.HashValue\ExtendedSubCommandsKey\shell\RIPEMD160'; ValueName = 'MUIVerb'; ValueType = 'String' }
+        @{ Key = 'CommandRIPEMD160'; RegistryPath = 'HKCU:\Software\Classes\*\shell\RIDE.HashValue\ExtendedSubCommandsKey\shell\RIPEMD160\command'; ValueName = ''; ValueType = 'String' }
+        @{ Key = 'VerbShowAll'; RegistryPath = 'HKCU:\Software\Classes\*\shell\RIDE.HashValue\ExtendedSubCommandsKey\shell\ShowAll'; ValueName = 'MUIVerb'; ValueType = 'String' }
+        @{ Key = 'CommandShowAll'; RegistryPath = 'HKCU:\Software\Classes\*\shell\RIDE.HashValue\ExtendedSubCommandsKey\shell\ShowAll\command'; ValueName = ''; ValueType = 'String' }
+      )
+      States = @{
+        Enabled = @{
+          MenuLabel = 'Hash value'
+          VerbMD5 = 'MD5'
+          CommandMD5 = '"{WINDOWS_POWERSHELL_5_1}" -NoLogo -NoProfile -STA -WindowStyle Hidden -File "{RIDE_ROOT}\tools\Get-RideHashValue.ps1" -LiteralPath "%1" -Algorithm MD5'
+          VerbSHA1 = 'SHA1'
+          CommandSHA1 = '"{WINDOWS_POWERSHELL_5_1}" -NoLogo -NoProfile -STA -WindowStyle Hidden -File "{RIDE_ROOT}\tools\Get-RideHashValue.ps1" -LiteralPath "%1" -Algorithm SHA1'
+          VerbSHA256 = 'SHA256'
+          CommandSHA256 = '"{WINDOWS_POWERSHELL_5_1}" -NoLogo -NoProfile -STA -WindowStyle Hidden -File "{RIDE_ROOT}\tools\Get-RideHashValue.ps1" -LiteralPath "%1" -Algorithm SHA256'
+          VerbSHA384 = 'SHA384'
+          CommandSHA384 = '"{WINDOWS_POWERSHELL_5_1}" -NoLogo -NoProfile -STA -WindowStyle Hidden -File "{RIDE_ROOT}\tools\Get-RideHashValue.ps1" -LiteralPath "%1" -Algorithm SHA384'
+          VerbSHA512 = 'SHA512'
+          CommandSHA512 = '"{WINDOWS_POWERSHELL_5_1}" -NoLogo -NoProfile -STA -WindowStyle Hidden -File "{RIDE_ROOT}\tools\Get-RideHashValue.ps1" -LiteralPath "%1" -Algorithm SHA512'
+          VerbMACTripleDES = 'MACTripleDES'
+          CommandMACTripleDES = '"{WINDOWS_POWERSHELL_5_1}" -NoLogo -NoProfile -STA -WindowStyle Hidden -File "{RIDE_ROOT}\tools\Get-RideHashValue.ps1" -LiteralPath "%1" -Algorithm MACTripleDES'
+          VerbRIPEMD160 = 'RIPEMD160'
+          CommandRIPEMD160 = '"{WINDOWS_POWERSHELL_5_1}" -NoLogo -NoProfile -STA -WindowStyle Hidden -File "{RIDE_ROOT}\tools\Get-RideHashValue.ps1" -LiteralPath "%1" -Algorithm RIPEMD160'
+          VerbShowAll = 'Show all'
+          CommandShowAll = '"{WINDOWS_POWERSHELL_5_1}" -NoLogo -NoProfile -STA -WindowStyle Hidden -File "{RIDE_ROOT}\tools\Get-RideHashValue.ps1" -LiteralPath "%1" -Algorithm ShowAll'
+        }
+        WindowsDefault = @{
+          MenuLabel = $null; VerbMD5 = $null; CommandMD5 = $null; VerbSHA1 = $null; CommandSHA1 = $null; VerbSHA256 = $null; CommandSHA256 = $null; VerbSHA384 = $null; CommandSHA384 = $null; VerbSHA512 = $null; CommandSHA512 = $null; VerbMACTripleDES = $null; CommandMACTripleDES = $null; VerbRIPEMD160 = $null; CommandRIPEMD160 = $null; VerbShowAll = $null; CommandShowAll = $null
+        }
+      }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      SettingPresentation = @{
+        AppliesTo = 'Current user: static file context menu for all file types'
+        Behavior = 'Configuration'
+        GuiPath = 'File Explorer > Show more options > Hash value (Windows 11)'
+        GuiEffect = 'Adds eight submenu items: seven individual algorithms and Show all. Results appear in a single Windows Forms message box; no console is held open.'
+        Requirements = @('Uses the RIDE helper under the current RIDE installation root and the Windows PowerShell 5.1 executable for algorithms that PowerShell 7 does not expose.', 'Windows 11 modern/classic menu placement, Shell argument substitution for unusual file names, hash output and restore behavior require disposable-VM acceptance. No supported target is declared before that acceptance.', 'Only the selected file is read. No file contents, hashes or errors are written to disk.')
+        OtherSupportedChoices = @('WindowsDefault removes only the declared menu values; exact saved-run restore recovers prior values and registry-key existence.', 'The menu appears under Show more options by default on Windows 11; no modern-menu integration is claimed.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/shell/how-to-create-cascading-menus-with-the-extendedsubcommandskey-registry-entry', 'https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-filehash?view=powershell-5.1')
+      }
+    }
+    @{
       Id = 'package.7zip'
       Name = '7-Zip'
       Kind = 'Package'
@@ -7471,6 +7711,77 @@
       LicenseUri = 'https://www.7-zip.org/license.txt'
       InstallerArguments = '/S'
       UninstallerArguments = '/S'
+      Rollback = 'Compensating'
+    }
+    @{
+      Id = 'package.imagemagick-portable-q16'
+      Name = 'ImageMagick portable Q16'
+      Kind = 'Package'
+      Category = 'Software / Imaging'
+      Description = 'Stage the official ImageMagick 7.1.2-34 portable Win64 static Q16 archive from its pinned 7z source (SHA-256 52cc6a441c7884f5ff4274b410c9b90c4b7d54245dcdf4d32988bb4e4df4e5d1). The Microsoft Visual C++ v14 x64 Redistributable supplies VCOMP140.DLL at version 14.50.35710 or later. RIDE adds package.vcredist-v14-x64 to the install plan when the DLL is absent or outdated. The RIDE runtime package is pending Windows acceptance and has no supported targets yet, so an affected plan cannot be applied until that acceptance passes; install the runtime directly from Microsoft as a temporary workaround. Removing ImageMagick leaves the shared runtime installed; RIDE refuses explicit runtime removal while a catalog-tracked dependent remains installed. Windows 11 lifecycle, exact recovery and bounded synthetic PNG feature acceptance passed on build 26300; Windows 11 is supported. The exact archive and detached signature were acquired from the official release; detached signature verification remains optional. Owner-specific licensing assessments are stored separately and do not assert entitlement. Staging does not execute ImageMagick, alter PATH or registry, add Defender exclusions, or select integrations. Server acceptance and activation remain open.'
+      SupportedTargets = @('Windows 11')
+      PendingAcceptance = $false
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' }
+      }
+      PackageId = 'imagemagick-portable-q16'
+      InstallerType = 'Portable'
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+      DisplayNamePattern = '^ImageMagick portable Q16$'
+      DownloadUri = 'https://github.com/ImageMagick/ImageMagick/releases/download/7.1.2-34/ImageMagick-7.1.2-34-portable-Q16-x64.7z'
+      DownloadProvider = 'DirectHttps'
+      AssetName = 'ImageMagick-7.1.2-34-portable-Q16-x64.7z'
+      PackageVersion = '7.1.2-34'
+      Architecture = 'x64'
+      ExpectedSha256 = '52cc6a441c7884f5ff4274b410c9b90c4b7d54245dcdf4d32988bb4e4df4e5d1'
+      ProductUri = 'https://imagemagick.org/download/#windows'
+      License = 'ImageMagick License; retain the license copy and attribution notices'
+      LicenseUri = 'https://imagemagick.org/license/'
+      PortableFormat = 'SevenZip'
+      RequiredFiles = @('magick.exe')
+      PrerequisiteSystemFiles = @('vcomp140.dll')
+      PrerequisiteSystemFileMinimumVersions = @{ 'vcomp140.dll' = '14.50.35710.0' }
+      PrerequisitePackageId = 'package.vcredist-v14-x64'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'package.vcredist-v14-x64'
+      Name = 'Microsoft Visual C++ v14 Redistributable (x64)'
+      Kind = 'Package'
+      MigrationBatch = 'ApplicationsBatch5'
+      Category = 'Software / Runtimes'
+      Description = 'Install or remove the pinned Microsoft Visual C++ v14 x64 shared runtime 14.51.36247.0. This cumulative runtime supports applications built with Visual Studio 2017 through 2026. RIDE expands this package into plans for catalog-tracked consumers such as ImageMagick; a sufficient installed runtime is inspected and skipped. Explicit removal is refused while a catalog-tracked dependent remains installed. The Windows 11 lifecycle, minimum registered version, System32 vcomp140.dll and recovery checks passed on build 26300; Server support remains undeclared.'
+      SupportedTargets = @('Windows 11')
+      PendingAcceptance = $false
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' } }
+      PackageId = 'vcredist-v14-x64'
+      InstallerType = 'Exe'
+      DisplayNamePattern = '^Microsoft Visual C\+\+ v14 Redistributable \(x64\) - .+$'
+      MinimumInstalledVersion = '14.50.35710.0'
+      DownloadUri = 'https://aka.ms/vc14/vc_redist.x64.exe'
+      DownloadProvider = 'DirectHttps'
+      AssetName = 'vc_redist.x64.exe'
+      PackageVersion = '14.51.36247.0'
+      Architecture = 'x64'
+      ExpectedSha256 = '843068991daaa1f73ad9f6239bce4d0f6a07a51f18c37ea2a867e9beca71295c'
+      InstallerArguments = '/install /quiet /norestart'
+      UninstallerArguments = '/uninstall /quiet /norestart'
+      SuccessExitCodes = @(0, 3010)
+      ProductUri = 'https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist'
+      License = 'Microsoft Visual Studio license terms for Visual C++ Redistributable files'
+      LicenseUri = 'https://visualstudio.microsoft.com/license-terms/'
+      TermsUri = 'https://learn.microsoft.com/en-us/cpp/windows/redistributing-visual-cpp-files'
       Rollback = 'Compensating'
     }
     @{
@@ -7532,6 +7843,53 @@
       Rollback = 'Compensating'
     }
     @{
+      Id = 'package.docker-desktop'
+      Name = 'Docker Desktop'
+      Kind = 'Package'
+      Category = 'Software / Development Tools'
+      Description = 'Candidate to install or remove official x64 Docker Desktop on vendor-supported Windows 11 editions, either per-user without elevation or for all users with elevation. RIDE lifecycle and recovery acceptance for both variants is pending; no Windows target is supported yet. All-users mode adds the publisher privileged service and supports Windows containers; per-user mode is the recommended Linux-container setup. Removal uses the publisher keep-data option to preserve Docker resources. Requires Windows 11 Enterprise, Pro, or Education version 23H2 (build 22631) or later, WSL 2 version 2.1.5 or later, hardware virtualization, SLAT, and at least 8 GB RAM. RIDE does not install or update WSL, enable Windows features, choose a container backend, accept Docker terms, start Docker Desktop, or provision containers. Docker Desktop is not supported on Windows Server.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      InstallerArguments = 'install --user --quiet'
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'docker-desktop'
+      InstallerType = 'Exe'
+      DisplayNamePattern = '^Docker Desktop(?: .+)?$'
+      DownloadUri = 'https://desktop.docker.com/win/main/amd64/243774/Docker%20Desktop%20Installer.exe'
+      DownloadProvider = 'DirectHttps'
+      PackageVersion = '4.96.0'
+      AssetName = 'Docker-Desktop-Installer-4.96.0.exe'
+      ExpectedSha256 = '3f75d46a07ff7c7adcc42e55b2bab862e25a459351723ac2633de9ad22a5b4b6'
+      Architecture = 'x64'
+      ProductUri = 'https://www.docker.com/products/docker-desktop/'
+      License = 'Docker Subscription Service Agreement; bundled open-source components have separate licenses and notices'
+      LicenseUri = 'https://docs.docker.com/subscription-billing/desktop-license/'
+      TermsUri = 'https://www.docker.com/legal/docker-subscription-service-agreement/'
+      UninstallerArguments = 'uninstall --keep-data'
+      Rollback = 'Compensating'
+      RequiresDesktopExperience = $true
+      MigrationBatch = 'ApplicationsBatch3'
+      DefaultVariant = 'per-user'
+      Variants = @{
+        'per-user' = @{
+          Scope = 'User'
+          RequiresAdmin = $false
+          RequiresUnelevatedUser = $true
+          InstallerArguments = 'install --user --quiet'
+        }
+        'all-users' = @{
+          Scope = 'Machine'
+          RequiresAdmin = $true
+          InstallerArguments = 'install --quiet'
+        }
+      }
+    }
+    @{
       Id = 'artifact.sysmon-swift-config'
       Name = 'SwiftOnSecurity Sysmon configuration'
       Kind = 'Artifact'
@@ -7555,6 +7913,99 @@
       ProductUri = 'https://github.com/SwiftOnSecurity/sysmon-config'
       License = 'CC-BY-4.0 (declared in the XML header)'
       LicenseUri = 'https://github.com/SwiftOnSecurity/sysmon-config/blob/master/sysmonconfig-export.xml'
+      Rollback = 'None'
+    }
+    @{
+      Id = 'artifact.sysmon-modular-balanced-15-21'
+      Name = 'Sysmon Modular Balanced configuration for Sysmon 15.21'
+      Kind = 'Artifact'
+      Category = 'Software / Security'
+      Description = 'Download the pinned Sysmon Modular Balanced configuration for Sysmon 15.21 from signed release configs-a45dedb13a43. It omits FileDelete archiving. Review and tune it for the endpoint before any separate Sysmon configuration apply; download never changes Sysmon or Windows state.'
+      MigrationBatch = 'SysmonModularProfiles'
+      SupportedTargets = @('Windows 11', 'Windows Server 2025')
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Download')
+      Handler = 'Artifact'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValue = 'DownloadOnly'; EffectiveDefault = 'A downloaded configuration file does not change Sysmon or Windows state' }
+        'Windows Server 2025' = @{ DefaultValue = 'DownloadOnly'; EffectiveDefault = 'A downloaded configuration file does not change Sysmon or Windows state' }
+      }
+      ArtifactId = 'sysmon-modular-balanced-15-21'
+      DownloadProvider = 'GitHubReleaseAssetApi'
+      Repository = 'olafhartong/sysmon-modular'
+      ReleaseTag = 'configs-a45dedb13a43'
+      PackageVersion = 'a45dedb13a43'
+      TargetSysmonVersion = '15.21'
+      AssetName = 'sysmonconfig.xml'
+      DownloadUri = 'https://github.com/olafhartong/sysmon-modular/releases/download/configs-a45dedb13a43/sysmonconfig.xml'
+      ChecksumUri = 'https://github.com/olafhartong/sysmon-modular/releases/download/configs-a45dedb13a43/SHA256SUMS'
+      Architecture = 'neutral'
+      ProductUri = 'https://github.com/olafhartong/sysmon-modular'
+      License = 'MIT License; retain the upstream license and configuration notices'
+      LicenseUri = 'https://github.com/olafhartong/sysmon-modular/blob/master/license.md'
+      Rollback = 'None'
+    }
+    @{
+      Id = 'artifact.sysmon-modular-balanced-filedelete-15-21'
+      Name = 'Sysmon Modular Balanced with FileDelete configuration for Sysmon 15.21'
+      Kind = 'Artifact'
+      Category = 'Software / Security'
+      Description = 'Download the pinned Sysmon Modular Balanced with FileDelete configuration for Sysmon 15.21 from signed release configs-a45dedb13a43. It enables FileDelete collection and file archiving, which requires planning for archive disk use. Review and tune it before any separate Sysmon configuration apply; download never changes Sysmon or Windows state.'
+      MigrationBatch = 'SysmonModularProfiles'
+      SupportedTargets = @('Windows 11', 'Windows Server 2025')
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Download')
+      Handler = 'Artifact'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValue = 'DownloadOnly'; EffectiveDefault = 'A downloaded configuration file does not change Sysmon or Windows state' }
+        'Windows Server 2025' = @{ DefaultValue = 'DownloadOnly'; EffectiveDefault = 'A downloaded configuration file does not change Sysmon or Windows state' }
+      }
+      ArtifactId = 'sysmon-modular-balanced-filedelete-15-21'
+      DownloadProvider = 'GitHubReleaseAssetApi'
+      Repository = 'olafhartong/sysmon-modular'
+      ReleaseTag = 'configs-a45dedb13a43'
+      PackageVersion = 'a45dedb13a43'
+      TargetSysmonVersion = '15.21'
+      AssetName = 'sysmonconfig-with-filedelete.xml'
+      DownloadUri = 'https://github.com/olafhartong/sysmon-modular/releases/download/configs-a45dedb13a43/sysmonconfig-with-filedelete.xml'
+      ChecksumUri = 'https://github.com/olafhartong/sysmon-modular/releases/download/configs-a45dedb13a43/SHA256SUMS'
+      Architecture = 'neutral'
+      ProductUri = 'https://github.com/olafhartong/sysmon-modular'
+      License = 'MIT License; retain the upstream license and configuration notices'
+      LicenseUri = 'https://github.com/olafhartong/sysmon-modular/blob/master/license.md'
+      Rollback = 'None'
+    }
+    @{
+      Id = 'artifact.sysmon-modular-excludes-only-15-21'
+      Name = 'Sysmon Modular Excludes only configuration for Sysmon 15.21'
+      Kind = 'Artifact'
+      Category = 'Software / Security'
+      Description = 'Download the pinned Sysmon Modular Excludes only configuration for Sysmon 15.21 from signed release configs-a45dedb13a43. This very verbose profile can produce substantial event volume and must be tuned before deployment. Review it before any separate Sysmon configuration apply; download never changes Sysmon or Windows state.'
+      MigrationBatch = 'SysmonModularProfiles'
+      SupportedTargets = @('Windows 11', 'Windows Server 2025')
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Download')
+      Handler = 'Artifact'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValue = 'DownloadOnly'; EffectiveDefault = 'A downloaded configuration file does not change Sysmon or Windows state' }
+        'Windows Server 2025' = @{ DefaultValue = 'DownloadOnly'; EffectiveDefault = 'A downloaded configuration file does not change Sysmon or Windows state' }
+      }
+      ArtifactId = 'sysmon-modular-excludes-only-15-21'
+      DownloadProvider = 'GitHubReleaseAssetApi'
+      Repository = 'olafhartong/sysmon-modular'
+      ReleaseTag = 'configs-a45dedb13a43'
+      PackageVersion = 'a45dedb13a43'
+      TargetSysmonVersion = '15.21'
+      AssetName = 'sysmonconfig-excludes-only.xml'
+      DownloadUri = 'https://github.com/olafhartong/sysmon-modular/releases/download/configs-a45dedb13a43/sysmonconfig-excludes-only.xml'
+      ChecksumUri = 'https://github.com/olafhartong/sysmon-modular/releases/download/configs-a45dedb13a43/SHA256SUMS'
+      Architecture = 'neutral'
+      ProductUri = 'https://github.com/olafhartong/sysmon-modular'
+      License = 'MIT License; retain the upstream license and configuration notices'
+      LicenseUri = 'https://github.com/olafhartong/sysmon-modular/blob/master/license.md'
       Rollback = 'None'
     }
     @{
@@ -9406,9 +9857,8 @@
       Name = 'Google Chrome'
       Kind = 'Package'
       Category = 'Software / Browsers'
-      Description = 'Install or remove the official stable x64 enterprise MSI, pinned to inspected bytes; preserve browser profiles. Browser language and policy configuration are separate choices.'
+      Description = 'Install or remove the official stable x64 enterprise MSI version 156.0.8078.48, pinned to inspected bytes and accepted on Windows 11 and Windows Server 2025; preserve browser profiles. Browser language and policy configuration are separate choices.'
       SupportedTargets = @('Windows 11', 'Windows Server 2025')
-      PendingAcceptance = $false
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
@@ -9419,9 +9869,9 @@
       DisplayNamePattern = '^Google Chrome$'
       DownloadUri = 'https://dl.google.com/dl/chrome/install/googlechromestandaloneenterprise64.msi'
       DownloadProvider = 'DirectHttps'
-      PackageVersion = '155.0.8059.40'
-      AssetName = 'GoogleChrome-155.0.8059.40-x64.msi'
-      ExpectedSha256 = '32ba438dea18f0fed1ec621bfb274a2669adec67be2aa91d96b3cc6c64779276'
+      PackageVersion = '156.0.8078.48'
+      AssetName = 'GoogleChrome-156.0.8078.48-x64.msi'
+      ExpectedSha256 = 'a31bd8a4746069a128bf3beefdaa246c792af5f15bbf06af0259abc895c9609b'
       Architecture = 'x64'
       ProductUri = 'https://chromeenterprise.google/download/'
       License = 'Google Chrome executable terms; bundled open-source component notices'
@@ -9656,6 +10106,76 @@
       RequiresDesktopExperience = $true
     }
     @{
+      Id = 'package.tmog'
+      Name = 'Task Manager TMOG Free (Windows x64 candidate)'
+      Kind = 'Package'
+      Category = 'Software / System Utilities'
+      Description = 'Install the publisher-linked Windows x64 free edition of Task Manager TMOG 1.0.1. The pinned installer includes TMOG.scr and upstream license/notice files. Windows 11 lifecycle, silent uninstall, exact recovery and screensaver behavior remain pending acceptance. The package does not activate PRO or select a screensaver.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MigrationBatch = 'ApplicationsBatch1'
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'tmog'
+      InstallerType = 'Exe'
+      UninstallerType = 'Exe'
+      DisplayNamePattern = '^Task Manager TMOG$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://tmog.org/rtm/downloads/TMOG-Task-Manager-Setup-1.0.1-0-x64-b4edf70fa040.exe'
+      AssetName = 'TMOG-Task-Manager-Setup-1.0.1-0-x64-b4edf70fa040.exe'
+      PackageVersion = '1.0.1'
+      ExpectedSha256 = 'b4edf70fa040968958c662ffb09feeeb0eeca07759e6ed7742606bcc39f29fc6'
+      Architecture = 'x64'
+      ProductUri = 'https://tmog.org/rtm/'
+      License = 'Proprietary free-edition license embedded in the exact installer; grants personal evaluation and ordinary monitoring use, restricts public redistribution, and labels itself a release-candidate document requiring publisher approval before public distribution.'
+      LicenseUri = 'https://tmog.org/rtm/'
+      InstallerArguments = '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-'
+      UninstallerArguments = '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART'
+      SuccessExitCodes = @(0)
+      Rollback = 'Compensating'
+      RequiresDesktopExperience = $true
+    }
+    @{
+      Id = 'package.phoenix-protector'
+      Name = 'Phoenix Protector (Pinned MSI candidate)'
+      Kind = 'Package'
+      Category = 'Software / Development Tools'
+      Description = 'Candidate for the publisher-linked Phoenix Protector MSI 1.7.1, pinned by SHA-256 because the publisher page lists 1.8.0.1 and the contained executable reports 1.9.0.1. The publisher page calls the product freeware, while the MSI bundles an individual on-premises development/testing license with restrictions; the version-specific review is informational for migration planning. Before acquisition, RIDE checks for the shared .NET Framework 3.5 feature that supplies the CLR 2.0 runtime; it does not enable that feature. Native MSI, prerequisite, offline, and recovery acceptance remain pending.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MigrationBatch = 'ApplicationsBatch1'
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'phoenix-protector'
+      InstallerType = 'Msi'
+      UninstallerType = 'Msi'
+      DisplayNamePattern = '^Phoenix Protector$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://ntcore.com/files/Phoenix_Protector.msi'
+      AssetName = 'Phoenix_Protector.msi'
+      PackageVersion = '1.7.1'
+      ExpectedSha256 = '15a7dbbf90ce66fb302a322c6809fafd897808096069dfecededf78e51b16369'
+      Architecture = 'x86'
+      ProductUri = 'https://ntcore.com/phoenix-protector/'
+      License = 'Bundled individual-use Phoenix License.rtf; the publisher page also calls the product freeware, and the relationship and applicable user scope remain under review'
+      LicenseUri = 'https://ntcore.com/phoenix-protector/'
+      InstallerArguments = '/qn /norestart ALLUSERS=1'
+      UninstallerArguments = '/qn /norestart'
+      SuccessExitCodes = @(0, 3010)
+      Rollback = 'Compensating'
+      RequiresDesktopExperience = $true
+      PrerequisiteDotNetFramework35 = $true
+    }
+
+    @{
       Id = 'package.psscripttools'
       Name = 'PSScriptTools (Pinned source candidate)'
       Kind = 'Package'
@@ -9695,7 +10215,7 @@
       Name = 'Hex2text (Pinned Python source)'
       Kind = 'Package'
       Category = 'Software / Forensics'
-      Description = 'Stage the pinned upstream script, README and GPL license without running code or installing Python. The script prompts for hexadecimal text, strips literal spaces and converts complete four-hex-digit groups to characters; it is not a general byte-to-UTF-8 decoder and ignores incomplete trailing groups. Python 3 syntax checked; runtime, input handling and native file-lifecycle acceptance remain pending.'
+      Description = 'Stage the pinned upstream script, README and GPL license without installing Python. Static review and five synthetic-input probes confirm four-digit code-point conversion, ignored incomplete suffixes, uncaught invalid-group errors, control-character output and strict UTF-8 failure for an isolated surrogate. It is not a UTF-8 byte decoder. Windows console encoding and native file-lifecycle acceptance remain pending.'
       SupportedTargets = @()
       CandidateTargets = @('Windows 11')
       PendingAcceptance = $true
@@ -9730,7 +10250,7 @@
       Name = 'ChromeSyncParser (Pinned Python source)'
       Kind = 'Package'
       Category = 'Software / Forensics'
-      Description = 'Stage the complete pinned ChromeSyncParser source with README and MIT license. Does not scan browser profiles, open SQLite databases, execute the parser, install Python or change associations. Uses Python standard-library sqlite3 and historical SyncData/metas assumptions; syntax compatibility does not establish modern Chrome support or forensic correctness. Runtime and disposable source-file lifecycle acceptance remain pending.'
+      Description = 'Stage the complete pinned ChromeSyncParser source with README and MIT license. RIDE does not scan browser profiles, open SQLite databases, execute the parser, install Python or change associations. Static review found default Windows discovery branches only for Windows 7/XP, a writable SQLite connection and an -f output opened with truncation before database access; passing the same input and output path can destroy the input. Do not execute against live profiles or evidence. Historical SyncData/metas assumptions and syntax compatibility do not establish current Chrome support or forensic correctness. Runtime and disposable source-file lifecycle acceptance remain pending.'
       SupportedTargets = @()
       CandidateTargets = @('Windows 11')
       PendingAcceptance = $true
@@ -10433,6 +10953,417 @@
       Variants = @{ portable = @{} }
     }
     @{
+      Id = 'package.ntcore-4gb-patch'
+      Name = 'NTCore 4GB Patch (portable candidate)'
+      Kind = 'Package'
+      Category = 'Software / Analysis utilities'
+      Description = 'Stage the pinned x86 patch utility; installation does not open or modify target executables. Direct invocation is unsafe when its .Backup path is occupied. Use the RIDE guarded launcher, which creates an exact original-byte backup before execution, refuses a pre-existing backup, and verifies that only the PE large-address-aware flag changed. Windows 11 acceptance of the guarded workflow remains pending. Retained 2007 copyright metadata says all rights reserved; no product-specific licence grant was found. The exact-version local review is informational and does not block migration.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'ntcore-4gb-patch'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^4GB Patch$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://ntcore.com/files/4gb_patch.zip'
+      AssetName = '4gb_patch.zip'
+      PackageVersion = '1.0.0.1'
+      ExpectedSha256 = '1e13c263dc55e85cf62e3e30c6b2ce936d4c7e16e3bba3e311a5a8bed4be16ca'
+      Architecture = 'x86'
+      AcceptanceNotes = 'Windows 11 build 26300 run 40e269c4d243442eb5cd78a122e58334: NTCore PE Detective and CFF Explorer portable lifecycle scenarios passed; direct 4GB Patch invocation was rejected after an occupied synthetic-file .Backup path was preserved while the target changed without a recoverable backup. A guarded RIDE launcher is prepared; rerun synthetic acceptance through that launcher before target support is declared. SupportedTargets remains empty. SHA-256 pins the retained archive, not a publisher-provided digest.'
+      ProductUri = 'https://ntcore.com/4gb-patch/'
+      License = 'Copyright notice states all rights reserved; no product-specific licence grant found; terms and redistribution rights remain unresolved.'
+      LicenseUri = 'https://ntcore.com/4gb-patch/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('4gb_patch.exe')
+      PortableMembers = @('4gb_patch.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+    }
+    @{
+      Id = 'package.ntcore-driver-list'
+      Name = 'NTCore Driver List (portable candidate)'
+      Kind = 'Package'
+      Category = 'Software / Analysis utilities'
+      Description = 'Stage the pinned x64 driver inventory utility; portable-x86 is available for 32-bit Windows. Staging does not query the system or generate a report. Treat any later loaded-driver report as potentially sensitive and use only the disposable acceptance target.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'ntcore-driver-list'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^DriverList$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://ntcore.com/files/DriverList.zip'
+      AssetName = 'DriverList.zip'
+      PackageVersion = '1.0.2.1'
+      ExpectedSha256 = 'dbc5736808cf7203cf289a269cc27cbcf90a8c69e03eed60ae361ad29da08d28'
+      Architecture = 'x64'
+      ProductUri = 'https://ntcore.com/driver-list/'
+      License = 'No product-specific use or distribution grant was located on the official product page or in the retained archive; intended use and distribution remain under review.'
+      LicenseUri = 'https://ntcore.com/driver-list/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('DriverList_x64.exe')
+      PortableMembers = @('DriverList_x64.exe')
+      DefaultVariant = 'portable'
+      Variants = @{
+        portable = @{}
+        'portable-x86' = @{
+          Architecture = 'x86'
+          RequiredFiles = @('DriverList_x86.exe')
+          PortableMembers = @('DriverList_x86.exe')
+        }
+      }
+      AcceptanceNotes = 'The official page reports version 1.0.2; selected x64/x86 members carry file version 1.0.2.1. The archive SHA-256 is measured from the retained publisher archive, not a publisher digest. IA64 is Itanium and is intentionally not selected. Defer report generation unless an explicitly reviewed disposable-VM scenario can avoid retaining system inventory.'
+    }
+    @{
+      Id = 'package.ntcore-rebelnet'
+      Name = 'NTCore Rebel.NET (portable candidate)'
+      Kind = 'Package'
+      Category = 'Software / Analysis utilities'
+      Description = 'Stage the pinned x86 assembly analysis/rebuild utility and its format header. Installation does not open or rewrite assemblies. Any functional acceptance must use an owned synthetic .NET assembly and a separate output, never a third-party or production target.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'ntcore-rebelnet'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^Rebel\.NET$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://ntcore.com/files/RebelDotNET.zip'
+      AssetName = 'RebelDotNET.zip'
+      PackageVersion = '1.6.0.1'
+      ExpectedSha256 = '7bd01e9cb15426642c74f8f3cab45cf7005f7525ab7cb8abc5a32973f383af32'
+      Architecture = 'x86'
+      ProductUri = 'https://ntcore.com/rebel-net/'
+      License = 'The official guide says commercial use goes against the product terms; exact applicability and redistribution rights remain under review.'
+      LicenseUri = 'https://ntcore.com/files/rebelnet.htm'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('RebelDotNET.exe', 'RebelDotNET.h')
+      PortableMembers = @('RebelDotNET.exe', 'RebelDotNET.h')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+      AcceptanceNotes = 'The executable file version and architecture were verified from the retained archive; the publisher page advertises 1.6.0.1. The archive SHA-256 is measured from the retained publisher archive, not a publisher digest. Functional behavior, exact recovery and Windows support remain pending. Any functional test must use an owned synthetic .NET assembly and a separate output; do not create or rebuild against third-party assemblies.'
+    }
+    @{
+      Id = 'package.mitec-mail-viewer'
+      Name = 'MiTeC Mail Viewer'
+      Kind = 'Package'
+      Category = 'Software / Email tools'
+      Description = 'Stage the pinned Mail Viewer executable and its selected localization files. Package staging does not open mail stores, messages or attachments, or extract addresses. Any behavior test must use isolated synthetic mail data; Windows target and behavior acceptance remain pending.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-mail-viewer'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^MiTeC Mail Viewer$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/MailView.zip'
+      AssetName = 'MailView.zip'
+      PackageVersion = '2.5.1.0'
+      ExpectedSha256 = 'c2590633a9b13cc9d46a41a2980347057c84d8788a4597b83ffcc057ffd5b774'
+      Architecture = 'neutral'
+      ProductUri = 'https://www.mitec.cz/wp/mmv/'
+      License = 'MiTeC freeware terms list private, educational and non-commercial use; exact-version owner review is recorded locally and does not block package migration.'
+      LicenseUri = 'https://www.mitec.cz/wp/support/'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-mitec-data-viewers'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('MailView.exe')
+      PortableMembers = @('MailView.exe','MailViewer.cs.lng','MailViewer.de.lng','MailViewer.en.lng','MailViewer.fr.lng','MailViewer.pl.lng','MailViewer.zh.lng','MailViewer.es.lng','Localization.txt','MailViewer.it.lng','MailViewer.pt_br.lng','MailViewer.hu.lng','MailViewer.sv.lng','MailViewer.nl.lng','MailViewer.sk.lng','MailViewer.ru.lng','MailViewer.tr.lng','MailViewer.zh-tw.lng','MailViewer.el.lng','MailViewer.lv.lng','MailViewer.pt_pt.lng','MailViewer.lt.lng','MailViewer.sr.lng')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+      AcceptanceNotes = 'The retained publisher ZIP and all 23 member hashes were rechecked; no publisher checksum was found. Do not open personal mailboxes, messages or attachments. Any product behavior check must use synthetic mail stores and verify source immutability, output ownership and cleanup.'
+    }
+    @{
+      Id = 'package.mitec-email-history-browser'
+      Name = 'MiTeC E-mail History Browser'
+      Kind = 'Package'
+      Category = 'Software / Email tools'
+      Description = 'Stage the pinned E-mail History Browser executable only. Staging does not inspect communication data. The publisher page omits message bodies and attachments but exposes communication metadata; use synthetic data only in later behavior tests.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-email-history-browser'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^MiTeC E-mail History Browser$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/EHB.zip'
+      AssetName = 'EHB.zip'
+      PackageVersion = '1.2.0'
+      ExpectedSha256 = '6ecc87d4a0061cedc13ccc398eb66009c39c5e36931737bb1841a373de22c363'
+      Architecture = 'x86'
+      ProductUri = 'https://www.mitec.cz/ehb.html'
+      License = 'MiTeC product page says free for private and commercial users; general support EULA has separate unregistered-use wording. Exact-version owner review is recorded locally and does not block migration.'
+      LicenseUri = 'https://www.mitec.cz/wp/support/'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-mitec-data-viewers'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('EHB.exe')
+      PortableMembers = @('EHB.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+      AcceptanceNotes = 'The retained publisher ZIP and executable hash were rechecked; no publisher checksum was found. The product page lists Windows targets only through Windows 10. Commercial-use and distribution wording remains an owner review item, not a package migration gate. Use isolated synthetic mail stores only; verify source immutability and cleanup.'
+    }
+    @{
+      Id = 'package.mitec-internet-history-browser'
+      Name = 'MiTeC Internet History Browser'
+      Kind = 'Package'
+      Category = 'Software / Privacy tools'
+      Description = 'Stage the pinned Internet History Browser executable and its selected SQLite library. Staging does not open browser profiles or history. Any behavior test must use isolated synthetic browser stores and must verify that source files remain unchanged.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-internet-history-browser'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^MiTeC Internet History Browser$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/IHB.zip'
+      AssetName = 'IHB.zip'
+      PackageVersion = '2.5.0'
+      ExpectedSha256 = '94d513e5507e871b7d87246676f1072a92386e0b352ef7e02473a5812fd292db'
+      Architecture = 'neutral'
+      ProductUri = 'https://www.mitec.cz/ihb.html'
+      License = 'MiTeC freeware terms list private, educational and non-commercial use; exact-version owner review is recorded locally and does not block package migration.'
+      LicenseUri = 'https://www.mitec.cz/wp/support/'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-mitec-data-viewers'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('IHB.exe','IHB.dll')
+      PortableMembers = @('IHB.exe','IHB.dll')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+      AcceptanceNotes = 'The retained publisher ZIP and both member hashes were rechecked; no publisher checksum was found. The product page lists target systems through Windows 10 and Server 2019. The renamed SQLite library is version 3.35.5; exact binary provenance is unverified. Use disposable synthetic browser stores only and verify source immutability, output ownership and cleanup.'
+    }
+    @{
+      Id = 'package.mitec-instant-messaging-history-browser'
+      Name = 'MiTeC Instant Messaging History Browser'
+      Kind = 'Package'
+      Category = 'Software / Privacy tools'
+      Description = 'Stage the pinned Instant Messaging History Browser executable and its selected SQLite library. Staging does not open chat, call or transfer histories. Any behavior test must use isolated synthetic message databases and must verify that source files remain unchanged.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-instant-messaging-history-browser'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^MiTeC Instant Messaging History Browser$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/IMHB.zip'
+      AssetName = 'IMHB.zip'
+      PackageVersion = '1.2.1'
+      ExpectedSha256 = '107dd1bc31e4493a93f2a213934a976a0f1901d6eecd8ed203216d1765bba7a8'
+      Architecture = 'neutral'
+      ProductUri = 'https://www.mitec.cz/imhb.html'
+      License = 'MiTeC product page says free for private and commercial users; general support EULA has separate unregistered-use wording. Exact-version owner review is recorded locally and does not block migration.'
+      LicenseUri = 'https://www.mitec.cz/wp/support/'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-mitec-data-viewers'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('IMHB.exe','IMHB.dll')
+      PortableMembers = @('IMHB.exe','IMHB.dll')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+      AcceptanceNotes = 'The retained publisher ZIP and both member hashes were rechecked; no publisher checksum was found. The product page lists Windows targets only through Windows 10. Its renamed SQLite library is version 3.8.10.2; exact binary provenance is unverified. Commercial-use and distribution wording remains an owner review item, not a migration gate. Use synthetic message databases only.'
+    }
+    @{
+      Id = 'package.mitec-exe-explorer'
+      Name = 'MiTeC EXE Explorer'
+      Kind = 'Package'
+      Category = 'Software / File viewers'
+      Description = 'Stage the pinned x86 and x64 EXE Explorer files. Package staging does not launch the viewer, open or export executable contents, submit files to VirusTotal, configure an API key, or perform network lookups. Synthetic file behavior and Windows target acceptance remain pending.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-exe-explorer'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^MiTeC EXE Explorer$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/EXE.zip'
+      AssetName = 'EXE.zip'
+      PackageVersion = '3.7.5'
+      ExpectedSha256 = '87b3bbf80301de96b871da5f1d4ce742c38182ee2fbc4414a28a2e7133011c78'
+      Architecture = 'neutral'
+      ProductUri = 'https://www.mitec.cz/exe.html'
+      License = 'MiTeC proprietary software EULA; trial or unregistered use and purchased licence tiers have separate conditions. Exact-version owner review is recorded locally and does not block migration.'
+      LicenseUri = 'https://www.mitec.cz/wp/support/'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-mitec-development-tools'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('EXE.exe', 'EXE64.exe')
+      PortableMembers = @('EXE.exe', 'EXE64.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+      AcceptanceNotes = 'The retained publisher ZIP SHA-256 and both member hashes were rechecked; no publisher digest was found. Use synthetic non-sensitive PE files and isolated export destinations for later viewer behavior. Keep VirusTotal, API-key and other network behavior disabled until the request and data handling are explicitly reviewed. No executable or analyzed input was opened during candidate preparation.'
+    }
+    @{
+      Id = 'package.mitec-hexedit'
+      Name = 'MiTeC HexEdit'
+      Kind = 'Package'
+      Category = 'Software / File editors'
+      Description = 'Stage the pinned x86 HexEdit executable. Package staging does not launch the editor, edit files, dump process memory, or read/write raw disks. Synthetic copy editing and exact recovery behavior plus Windows target acceptance remain pending.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-hexedit'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^MiTeC HexEdit$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/HEXEdit.zip'
+      AssetName = 'HEXEdit.zip'
+      PackageVersion = '7.1.0'
+      ExpectedSha256 = 'cfe264a121c560d69e2bb95512be407f374164f2f79d0ddc4ceb7a8d0a09c788'
+      Architecture = 'x86'
+      ProductUri = 'https://www.mitec.cz/wp/mhex/'
+      License = 'MiTeC proprietary software EULA; the product page lists a paid single-user licence. Exact-version owner review is recorded locally and does not block migration.'
+      LicenseUri = 'https://www.mitec.cz/wp/support/'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-mitec-development-tools'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('HEXEdit.exe')
+      PortableMembers = @('HEXEdit.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+      AcceptanceNotes = 'The retained publisher ZIP SHA-256 and selected executable hash were rechecked; no publisher digest was found. Any edit test must use a disposable synthetic file copy and verify exact backup/recovery. Keep live memory and raw-disk features outside acceptance unless a separately isolated target and recovery plan is prepared. No executable, file, memory target or disk target was opened during candidate preparation.'
+    }
+    @{
+      Id = 'package.mitec-dfm-editor'
+      Name = 'MiTeC DFM Editor (Delphi runtime variant)'
+      Kind = 'Package'
+      Category = 'Software / Development tools'
+      Description = 'Stage one pinned MiTeC DFM Editor variant with its matching Delphi runtime packages: delphi-11 selects DFM Editor 8.3.1.0 with Delphi 11 BPLs, and delphi-12 selects 8.4.0.0 with Delphi 12 BPLs. Keep variants isolated. Staging does not launch the editor, open or extract forms, load/register BPLs, or accept terms. Owner-specific use and distribution review is tracked locally and does not block package planning.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-dfm-editor'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^MiTeC DFM Editor$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/DFMEdit.zip'
+      AssetName = 'DFMEdit.zip'
+      PackageVersion = '8.4.0.0'
+      ExpectedSha256 = '189386a7b43e835c936d0858a7e47d0e7840d0031f991d50f4abc55d391783aa'
+      Architecture = 'x86'
+      ProductUri = 'https://www.mitec.cz/wp/mdfme/'
+      License = 'MiTeC proprietary software EULA; trial or unregistered use and purchased licence tiers have separate conditions. Exact-version owner review is recorded locally and does not block migration.'
+      LicenseUri = 'https://www.mitec.cz/wp/support/'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-mitec-development-tools'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('Delphi 12/DFMEdit.exe')
+      PortableMembers = @(
+        'Delphi 12/DFMEdit.exe'
+        'Delphi 12/bindengine290.bpl'
+        'Delphi 12/rtl290.bpl'
+        'Delphi 12/vcl290.bpl'
+        'Delphi 12/vclactnband290.bpl'
+        'Delphi 12/vclimg290.bpl'
+        'Delphi 12/vclwinx290.bpl'
+        'Delphi 12/vclx290.bpl'
+        'Delphi 12/xmlrtl290.bpl'
+      )
+      DefaultVariant = 'delphi-12'
+      Variants = @{
+        'delphi-11' = @{
+          PackageVersion = '8.3.1.0'
+          RequiredFiles = @('Delphi 11/DFMEdit.exe')
+          PortableMembers = @(
+            'Delphi 11/DFMEdit.exe'
+            'Delphi 11/bindengine280.bpl'
+            'Delphi 11/rtl280.bpl'
+            'Delphi 11/vcl280.bpl'
+            'Delphi 11/vclactnband280.bpl'
+            'Delphi 11/vclimg280.bpl'
+            'Delphi 11/vclwinx280.bpl'
+            'Delphi 11/vclx280.bpl'
+            'Delphi 11/xmlrtl280.bpl'
+          )
+        }
+        'delphi-12' = @{}
+      }
+      AcceptanceNotes = 'The retained publisher ZIP SHA-256 and all 18 member hashes were rechecked locally; the archive has no publisher digest. Delphi 11 and Delphi 12 binaries are disjoint alternatives with matching 280 and 290 runtime families. Use synthetic DFM files, a synthetic PE and disposable package fixtures for later functional acceptance. Never load/register a BPL or open personal/project files during package lifecycle checks. Windows target and runtime behavior remain pending.'
+    }
+    @{
       Id = 'package.mitec-json-viewer'
       Name = 'MiTeC JSON Viewer (portable)'
       Kind = 'Package'
@@ -10517,6 +11448,606 @@
           PortableMembers = @('XMLView.exe')
         }
       }
+    }
+    @{
+      Id = 'package.mitec-uuid-generator'
+      Name = 'MiTeC UUID Generator (portable candidate)'
+      Kind = 'Package'
+      Category = 'Software / Utilities'
+      Description = 'Stage the pinned MiTeC UUID Generator executable as a managed portable file. The tool generates and decodes UUID v4/v7, ULID and Snowflake values, and can display persistent UEFI, SMBIOS, machine and device identifiers. Staging does not launch it or query host identifiers. Native acceptance must use synthetic values only and must not capture, log or export live identifiers; activation and target support remain pending.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-uuid-generator'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^UUID Generator$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/UUID.zip'
+      AssetName = 'UUID.zip'
+      PackageVersion = '1.0.0'
+      ExpectedSha256 = '0795838486e6a0ce15edeaeaeed978e09d510ffa9478f9f040122a4583914c80'
+      Architecture = 'x86'
+      ProductUri = 'https://www.mitec.cz/wp/uuid/'
+      License = 'MiTeC calls it freeware for private, educational and non-commercial use; the general support EULA also defines non-commercial use and separate paid tiers. Local entitlement and redistribution remain unresolved.'
+      LicenseUri = 'https://www.mitec.cz/wp/uuid/'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      AcceptanceNotes = 'Archive SHA-256 is pinned from the retained 2026-10-17 source and is not publisher-provided. Only UUID.exe is selected. Do not inspect live host identifiers; exercise generation and decoding with synthetic values only.'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('UUID.exe')
+      PortableMembers = @('UUID.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+    }
+    @{
+      Id = 'package.mitec-task-manager-deluxe'
+      Name = 'MiTeC Task Manager DeLuxe (portable candidate)'
+      Kind = 'Package'
+      Category = 'Software / System tools'
+      Description = 'Stage the pinned x86 or x64 Task Manager DeLuxe and Desktop Explorer executables without launching them or querying live processes, services, accounts, sessions, network state, or reputation services. Product behavior and Windows target acceptance remain pending.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-task-manager-deluxe'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^MiTeC Task Manager DeLuxe$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/TMX.zip'
+      AssetName = 'TMX.zip'
+      PackageVersion = '5.1.1'
+      ExpectedSha256 = '3dd111519325ecf18ed9202649c4f8740a2c195382cd4337fc701056d2234f3b'
+      Architecture = 'x64'
+      ProductUri = 'https://www.mitec.cz/wp/tmx/'
+      License = 'MiTeC lists a lifetime single-user license and publishes a software EULA.'
+      LicenseUri = 'https://www.mitec.cz/wp/support/'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-mitec-utilities'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('TMX64.exe','DeskExp64.exe')
+      PortableMembers = @('TMX64.exe','DeskExp64.exe')
+      DefaultVariant = 'x64'
+      Variants = @{
+        x64 = @{
+          RequiredFiles = @('TMX64.exe','DeskExp64.exe')
+          PortableMembers = @('TMX64.exe','DeskExp64.exe')
+        }
+        x86 = @{
+          Architecture = 'x86'
+          RequiredFiles = @('TMX.exe','DeskExp.exe')
+          PortableMembers = @('TMX.exe','DeskExp.exe')
+        }
+      }
+      AcceptanceNotes = 'The retained ZIP SHA-256 is measured locally, not publisher-provided. TMX executables report FileVersion 5.1.1.0 and ProductVersion 5.0.0.0; DeskExp executables report 2.0.0.0. Each variant selects its matching pair only. Staging does not launch either executable. Any later behavior acceptance requires a disposable Windows guest and synthetic process fixtures. Do not terminate processes, change services, create dumps, export account/session/journal data, query VirusTotal, configure an API key, or enable update/network lookups. Publisher OS claims do not establish RIDE support.'
+    }
+    @{
+      Id = 'package.mitec-interbase-query'
+      Name = 'MiTeC Interbase Query (portable candidate)'
+      Kind = 'Package'
+      Category = 'Software / Database tools'
+      Description = 'Stage the pinned Interbase Query executable and publisher localization files for the selected x86 or x64 variant. Staging does not launch the utility, connect to a database, or touch database files; behavior and Windows target acceptance remain pending.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-interbase-query'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^MiTeC Interbase Query$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/IBQ.zip'
+      AssetName = 'IBQ.zip'
+      PackageVersion = '9.5.0'
+      ExpectedSha256 = '6ce815ac089ff38afc0e4ed3eda4f3255f61a9e46611b55619dbdcfbb1688478'
+      Architecture = 'x64'
+      ProductUri = 'https://www.mitec.cz/wp/mibq/'
+      License = 'MiTeC lists single-user, team and site license tiers.'
+      LicenseUri = 'https://www.mitec.cz/wp/support/'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-mitec-utilities'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('IBQ64.exe')
+      PortableMembers = @('IBQ64.exe','Localization.txt','IBQ.en.lng','IBQ.de.lng','IBQ.es.lng','IBQ.fr.lng','IBQ.cs.lng','IBQ.hu.lng')
+      DefaultVariant = 'x64'
+      Variants = @{
+        x64 = @{
+          RequiredFiles = @('IBQ64.exe')
+          PortableMembers = @('IBQ64.exe','Localization.txt','IBQ.en.lng','IBQ.de.lng','IBQ.es.lng','IBQ.fr.lng','IBQ.cs.lng','IBQ.hu.lng')
+        }
+        x86 = @{
+          Architecture = 'x86'
+          RequiredFiles = @('IBQ.exe')
+          PortableMembers = @('IBQ.exe','Localization.txt','IBQ.en.lng','IBQ.de.lng','IBQ.es.lng','IBQ.fr.lng','IBQ.cs.lng','IBQ.hu.lng')
+        }
+      }
+      AcceptanceNotes = 'The retained ZIP SHA-256 is measured locally, not publisher-provided. Both executables report FileVersion 9.5.0.0 and ProductVersion 9.0.0.0. Staging selects one executable and common localization files only. Do not connect to any database or service during package lifecycle checks. Later behavior acceptance must use isolated synthetic disposable databases, exact backups/recovery, and synthetic accounts; no real database, credentials, privilege changes, SQL writes, exports of real data, or service controls. Publisher OS claims do not establish RIDE support.'
+    }
+    @{
+      Id = 'package.mitec-network-scanner'
+      Name = 'MiTeC Network Scanner (portable candidate)'
+      Kind = 'Package'
+      Category = 'Software / Network tools'
+      Description = 'Stage the pinned x86 or x64 Network Scanner executable without launching it or scanning any network. The utility can query hosts, ports, services, shares, directory data and other potentially sensitive system details. Any later behavior check requires an isolated owned test network with synthetic endpoints, explicit traffic bounds and disposable results.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-network-scanner'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^MiTeC Network Scanner$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/NetScanner.zip'
+      AssetName = 'NetScanner.zip'
+      PackageVersion = '6.1.0'
+      ExpectedSha256 = '02fbf13ffcc8bfd3b3ef907b265cc4d2338309e99039f1384f2c6cd370995c66'
+      Architecture = 'x64'
+      ProductUri = 'https://www.mitec.cz/wp/mns/'
+      License = 'MiTeC lists paid license tiers and describes unregistered use as freeware for non-commercial use.'
+      LicenseUri = 'https://www.mitec.cz/wp/support/'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-mitec-utilities'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('NetScanner64.exe')
+      PortableMembers = @('NetScanner.exe','NetScanner64.exe')
+      DefaultVariant = 'x64'
+      Variants = @{
+        x64 = @{
+          RequiredFiles = @('NetScanner64.exe')
+          PortableMembers = @('NetScanner64.exe')
+        }
+        x86 = @{
+          Architecture = 'x86'
+          RequiredFiles = @('NetScanner.exe')
+          PortableMembers = @('NetScanner.exe')
+        }
+      }
+      AcceptanceNotes = 'The retained ZIP SHA-256 is measured locally, not publisher-provided. Both selected executables report FileVersion 6.1.0.0 and ProductVersion 6.0.0.0. Staging selects only the requested architecture and must not launch the utility. Never scan the development host, detected local range, a directory/SAM, production endpoints or credentials, or use the VirusTotal link. Later network behavior testing requires an isolated owned network, synthetic endpoints/accounts, explicit port/traffic bounds and disposable CSV results. Publisher OS claims do not establish RIDE support.'
+    }
+    @{
+      Id = 'package.mitec-ssview'
+      Name = 'MiTeC Structured Storage Viewer'
+      Kind = 'Package'
+      Category = 'Software / File viewers'
+      Description = 'Stage the pinned Structured Storage Viewer executable only. This package does not stage or load the optional codec, Delphi source, or bundled sample. Later behavior checks must use separately created synthetic files and preserve exact recovery; activation and Windows target acceptance remain pending.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-ssview'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^MiTeC Structured Storage Viewer$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/SSView.zip'
+      AssetName = 'SSView.zip'
+      PackageVersion = '4.1.2'
+      ExpectedSha256 = 'e9d05067745a4f114b22dc798c7fa99017302b39bc8798853ed1bfd4c44d27ab'
+      Architecture = 'x86'
+      ProductUri = 'https://www.mitec.cz/wp/mssv/'
+      License = 'MiTeC describes unregistered use as freeware for non-commercial use and lists paid license tiers. The checkout-local exact-version review is informational and does not block direct-download package planning.'
+      LicenseUri = 'https://www.mitec.cz/wp/support/'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('SSView.exe')
+      PortableMembers = @('SSView.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+      AcceptanceNotes = 'The retained publisher ZIP SHA-256 is locally measured, not publisher-provided; SSView.exe is version 4.1.2.0 (x86). Only the viewer executable is selected. The archive also contains an optional ZLib codec, Delphi source, and test.ss sample; do not stage, load, build, or use them. Functional checks must use a separately generated synthetic structured-storage file, prove byte-exact recovery, and preserve unowned activation/configuration/plugins. Publisher OS claims do not establish RIDE support.'
+    }
+    @{
+      Id = 'package.mitec-certificate-generator'
+      Name = 'MiTeC Certificate Generator (portable candidate)'
+      Kind = 'Package'
+      Category = 'Software / Security utilities'
+      Description = 'Stage the pinned Certificate Generator executable as a managed portable file. The product generates self-signed X.509 certificates in PEM/CER or PKCS#12 PFX formats; staging creates no keys or certificates, changes no trust store, and opens no files. Acceptance must use a disposable test key/certificate and verify exact output cleanup.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-certificate-generator'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^Certificate Generator$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/CG.zip'
+      AssetName = 'CG.zip'
+      PackageVersion = '1.0.0'
+      ExpectedSha256 = 'dab3421d6ca9629c938b86e267ce139d4f2ce54758f1125008bf7da158f28666'
+      Architecture = 'x64'
+      ProductUri = 'https://www.mitec.cz/wp/cg/'
+      License = 'MiTeC calls it freeware for private, educational and non-commercial use; the general support EULA defines unregistered freeware as non-commercial and provides separate paid license types. Local entitlement and redistribution remain unresolved.'
+      LicenseUri = 'https://www.mitec.cz/wp/cg/'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      AcceptanceNotes = 'Archive SHA-256 is pinned from the retained 2026-10-17 source and is not publisher-provided. Acceptance must generate only disposable test keys/certificates, must not import into a trust store, and must verify exact output cleanup.'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('CG.exe')
+      PortableMembers = @('CG.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+    }
+    @{
+      Id = 'package.mitec-certificate-information'
+      Name = 'MiTeC Certificate Information (portable candidate)'
+      Kind = 'Package'
+      Category = 'Software / Security utilities'
+      Description = 'Stage the pinned Certificate Information executable as a managed portable file. The product reads certificate files and signed executables, MSI, XML and PDF files, and can export a displayed certificate as PEM or DER; staging opens no files or certificate stores and exports nothing. Acceptance must use synthetic certificates, a disposable test-only PFX, and signed public fixtures; never open or export a production private key.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-certificate-information'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^Certificate Information$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/CertInfo.zip'
+      AssetName = 'CertInfo.zip'
+      PackageVersion = '1.5.0'
+      ExpectedSha256 = '6183172dc2277111b3019460716b4f57ad5b5f09d3bf3584620bdaff033e7c7b'
+      Architecture = 'x86'
+      ProductUri = 'https://www.mitec.cz/wp/mci/'
+      License = 'MiTeC calls it freeware for private, educational and non-commercial use; the general support EULA defines unregistered freeware as non-commercial and provides separate paid license types. Local entitlement and redistribution remain unresolved.'
+      LicenseUri = 'https://www.mitec.cz/wp/mci/'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      AcceptanceNotes = 'Archive SHA-256 is pinned from the retained 2026-10-17 source and is not publisher-provided. Acceptance must use synthetic certificates and disposable signed fixtures only; never inspect or export a real private key.'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('CertInfo.exe')
+      PortableMembers = @('CertInfo.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+    }
+    @{
+      Id = 'package.mitec-sqlite-query'
+      Name = 'MiTeC SQLite Query (portable candidate)'
+      Kind = 'Package'
+      Category = 'Software / Database tools'
+      Description = 'Stage the pinned MiTeC SQLite Query executable with its bundled SQLite DLL and command-line tool as managed portable files. Staging opens or changes no database and runs no SQL. Acceptance must use disposable synthetic database copies, verify SQL/edit/import/export/history behavior and exact recovery, and must never open personal or production databases.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-sqlite-query'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^SQLite Query$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/SQLiteQ.zip'
+      AssetName = 'SQLiteQ.zip'
+      PackageVersion = '3.2.0'
+      ExpectedSha256 = '7f979a622de9e97b9682dc09a5156a1bd872139a9dd56ba60616fb824e77ab16'
+      Architecture = 'x86'
+      ProductUri = 'https://www.mitec.cz/wp/msqliteq/'
+      License = 'MiTeC SQLite Query is subject to MiTeC non-commercial and separate paid-license terms; local entitlement and redistribution remain unresolved. The bundled SQLite 3.35.5 deliverables are identified with SQLite public-domain terms; the retained application archive contains no license or notice file.'
+      LicenseUri = 'https://www.mitec.cz/wp/msqliteq/'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      AcceptanceNotes = 'The retained archive pin is local evidence, not a publisher-provided digest. The three exact members are SQLiteQuery.exe, sqlite3.dll and sqlite3.exe. SQLiteQuery.exe reports FileVersion 3.2.0.0 and ProductVersion 3.0.0.0; preserve this metadata distinction. The two bundled SQLite 3.35.5 binaries embed the official release source ID and different compile options, which do not prove a reproducible MiTeC build. Retain applicable SQLite notices in any redistribution; see https://www.sqlite.org/copyright.html. Use only synthetic disposable databases for functional acceptance.'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('SQLiteQuery.exe', 'sqlite3.dll', 'sqlite3.exe')
+      PortableMembers = @('SQLiteQuery.exe', 'sqlite3.dll', 'sqlite3.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+    }
+    @{
+      Id = 'package.mitec-ole-com-explorer'
+      Name = 'MiTeC OLE/COM Object Explorer (portable candidate)'
+      Kind = 'Package'
+      Category = 'Software / Development utilities'
+      Description = 'Stage the pinned OLE/COM Object Explorer executable without activating COM objects or changing registration. It explores registered OLE/COM objects and type libraries; any later behavior check must use an inert synthetic fixture and verify that inspection does not activate servers or modify registration.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-ole-com-explorer'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^OLE/COM Object Explorer$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/OLExp.zip'
+      AssetName = 'OLExp.zip'
+      PackageVersion = '1.4.0.0'
+      ExpectedSha256 = '322a2d03c31b9bb995a7b176a95aa3bbfba9ba155dd9770a0e55d88fc1085769'
+      Architecture = 'x86'
+      ProductUri = 'https://www.mitec.cz/wp/molexp/'
+      License = 'The MiTeC product page describes freeware for private, educational and non-commercial use; record the exact intended use in local review.'
+      LicenseUri = 'https://www.mitec.cz/wp/molexp/'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      AcceptanceNotes = 'The page does not state a release number; 1.4.0.0 is the selected OLExp.exe FileVersion and 1.0.0.0 its ProductVersion. The retained archive SHA-256 is measured locally, not publisher-provided. Do not activate arbitrary registered COM servers or change user/machine COM registration; use a synthetic inert fixture and verify inspection effects.'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('OLExp.exe')
+      PortableMembers = @('OLExp.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+    }
+    @{
+      Id = 'package.mitec-windows-registry-recovery'
+      Name = 'MiTeC Windows Registry Recovery (portable candidate)'
+      Kind = 'Package'
+      Category = 'Software / Forensic utilities'
+      Description = 'Stage the pinned x86/x64 registry-hive viewers without opening a hive, creating a backup or exporting registry data. Real hives may reveal product keys, SIDs, accounts, startup entries, services, drivers, network/firewall settings and Outlook Express configuration; later checks must use synthetic offline hive fixtures only.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-windows-registry-recovery'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^Windows Registry Recovery$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/WRR.zip'
+      AssetName = 'WRR.zip'
+      PackageVersion = '3.1.3'
+      ExpectedSha256 = 'bc0785fbf3184a5f1c83d791bb759363d58d47fe249e77e54ef41e5fc7cb6aa9'
+      Architecture = 'neutral'
+      ProductUri = 'https://www.mitec.cz/wp/mwrr/'
+      License = 'The MiTeC product page lists EUR 30 single-user and EUR 150 site lifetime licenses; exact user/use administration remains in the local review store.'
+      LicenseUri = 'https://www.mitec.cz/wp/mwrr/'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      AcceptanceNotes = 'The retained archive SHA-256 is measured locally, not publisher-provided. Selected members are WRR.exe and WRR64.exe, both FileVersion 3.1.3.0 and ProductVersion 3.0.0.0. Do not open host/guest real hives or retain reports containing secrets or personal/system data; use synthetic offline hives and a disposable output directory only.'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('WRR.exe', 'WRR64.exe')
+      PortableMembers = @('WRR.exe', 'WRR64.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+    }
+    @{
+      Id = 'package.mitec-smbios-explorer'
+      Name = 'MiTeC SMBIOS Explorer (portable candidate)'
+      Kind = 'Package'
+      Category = 'Software / System information'
+      Description = 'Stage the pinned x86/x64 SMBIOS viewers and x86 helper without querying firmware, WMI, registry or system APIs. SMBIOS data can contain serial numbers, asset tags, UUIDs and hardware details; later acceptance must use synthetic SMBIOS files with live collection disabled.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-smbios-explorer'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^SMBIOS Explorer$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/SMBE.zip'
+      AssetName = 'SMBE.zip'
+      PackageVersion = '1.8.0'
+      ExpectedSha256 = '7297b844b5fa0c4b84bd514f06e635e90f75541b5e38422bd0bed2d3c4db8f68'
+      Architecture = 'neutral'
+      ProductUri = 'https://www.mitec.cz/wp/smbe/'
+      License = 'The MiTeC product page offers a 14-day trial and lists a EUR 30 lifetime single-user license; exact user/use administration remains in the local review store.'
+      LicenseUri = 'https://www.mitec.cz/wp/smbe/'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      AcceptanceNotes = 'The retained archive SHA-256 is measured locally, not publisher-provided. Selected members are SMBE.exe and SMBE64.exe (FileVersion 1.8.0.0) plus SMBIOS.exe (FileVersion 1.0.0.0). Do not capture live serials, asset numbers, UUIDs or firmware data; any behavior acceptance must use synthetic SMBIOS files and disabled live collection.'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('SMBE.exe', 'SMBE64.exe', 'SMBIOS.exe')
+      PortableMembers = @('SMBE.exe', 'SMBE64.exe', 'SMBIOS.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+    }
+    @{
+      Id = 'package.mitec-windows-file-analyzer'
+      Name = 'MiTeC Windows File Analyzer (portable candidate)'
+      Kind = 'Package'
+      Category = 'Software / Forensic utilities'
+      Description = 'Stage the pinned Windows File Analyzer executable without opening files or collecting artifacts. The tool can display thumbnail caches, Prefetch, shortcut, browser-history and Recycle Bin data, including personal activity and deleted-file names. Any behavior check must use synthetic disposable artifacts only; never inspect or print a real profile or host evidence.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-windows-file-analyzer'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^Windows File Analyzer$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/Downloads/WFA.zip'
+      AssetName = 'WFA.zip'
+      PackageVersion = '2.10.0'
+      ExpectedSha256 = '57acae30ea14576e06822703c6211c8f0c675286c989ee0cdafec23578e7a9c6'
+      Architecture = 'x86'
+      ProductUri = 'https://www.mitec.cz/wfa.html'
+      License = 'The MiTeC product page describes free use for private, educational and non-commercial purposes and requires a commercial license for other use; record the exact intended use in local review.'
+      LicenseUri = 'https://www.mitec.cz/wfa.html'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      AcceptanceNotes = 'The retained archive SHA-256 is measured locally, not publisher-provided. Only WFA.exe is selected (FileVersion 2.10.0.0; ProductVersion 2.0.0.0). Use only narrow synthetic artifact fixtures; preserve source bytes and verify output cleanup. The publisher target list ends at Windows 10; RIDE Windows 11 support remains pending.'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('WFA.exe')
+      PortableMembers = @('WFA.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+    }
+    @{
+      Id = 'package.mitec-icon-explorer'
+      Name = 'MiTeC Icon Explorer (portable candidate)'
+      Kind = 'Package'
+      Category = 'Software / Graphics utilities'
+      Description = 'Stage the pinned Icon Explorer executable without scanning paths or writing extracted icons. The tool can recursively browse and search icon resources, extract images and create icon libraries. Later checks must use a narrow synthetic input directory and a separate disposable output directory, preserving inputs and verifying collision and cleanup behavior.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-icon-explorer'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^Icon Explorer$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/Downloads/IconExplorer.zip'
+      AssetName = 'IconExplorer.zip'
+      PackageVersion = '5.3.0'
+      ExpectedSha256 = 'b7f71cee4664638a7ee24ee1091e8c604283adb3781e39ee2d5514cf1a0458f0'
+      Architecture = 'x86'
+      ProductUri = 'https://www.mitec.cz/iconex.html'
+      License = 'The MiTeC product page describes free use for private, educational and non-commercial purposes; record the exact intended use in local review.'
+      LicenseUri = 'https://www.mitec.cz/iconex.html'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      AcceptanceNotes = 'The retained archive SHA-256 is measured locally, not publisher-provided. Only IconExplorer.exe is selected (FileVersion 5.3.0.0; ProductVersion 5.0.0.0). Use narrow synthetic icon-bearing files, a separate output directory and exact collision/cleanup checks. The publisher target list ends at Windows 10; RIDE Windows 11 support remains pending.'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('IconExplorer.exe')
+      PortableMembers = @('IconExplorer.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+    }
+    @{
+      Id = 'package.mitec-system-information'
+      Name = 'MiTeC System Information eXtra (portable candidate)'
+      Kind = 'Package'
+      Category = 'Software / System information'
+      Description = 'Stage the pinned x86/x64 report tools without launching them, collecting host information, or creating a report. Any report may contain device, storage, process, service, event-log, security or SMBIOS details; report field review, redaction, storage and cleanup require a disposable target.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-system-information'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^MiTeC System Information eXtra$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/MSIX.zip'
+      AssetName = 'MSIX.zip'
+      PackageVersion = '16.0.0'
+      ExpectedSha256 = 'a7ae03e7172afa128565b2f8e148869678b3e543c65ba16f219ff87139986976'
+      Architecture = 'neutral'
+      ProductUri = 'https://www.mitec.cz/wp/msix/'
+      License = 'MiTeC calls System Information eXtra freeware for private, educational and non-commercial use; the local intended-use and redistribution review remains open.'
+      LicenseUri = 'https://www.mitec.cz/wp/msix/'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      AcceptanceNotes = 'The retained publisher archive SHA-256 is measured locally, not publisher-provided. Exact selected members are MSIX.exe and GetSys.exe (x86), plus MSIX64.exe and GetSys64.exe (x64), all file version 16.0.0.0. Do not create, save, load or retain reports from the development host or a real profile. Review report fields/redaction and exact cleanup using synthetic fixtures in a disposable Windows 11 VM.'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('MSIX.exe', 'GetSys.exe', 'MSIX64.exe', 'GetSys64.exe')
+      PortableMembers = @('MSIX.exe', 'GetSys.exe', 'MSIX64.exe', 'GetSys64.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+    }
+    @{
+      Id = 'package.mitec-tapi-monitor'
+      Name = 'MiTeC TAPI Monitor (portable candidate)'
+      Kind = 'Package'
+      Category = 'Software / Telephony tools'
+      Description = 'Stage the pinned x86 TAPI Monitor executable without enumerating or controlling phone lines, providers, active calls or call history. Any later behavior check requires a simulated non-production TAPI provider and synthetic calls.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-tapi-monitor'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^MiTeC TAPI Monitor$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/TAPIMon.zip'
+      AssetName = 'TAPIMon.zip'
+      PackageVersion = '1.2.0'
+      ExpectedSha256 = '3abfb30f19f3c22dec5440416fcd006a828e73dd660ea2bf59b8f2e7a5898914'
+      Architecture = 'x86'
+      ProductUri = 'https://www.mitec.cz/wp/mtapimon/'
+      License = 'MiTeC offers TAPI Monitor under private/educational/non-commercial terms and lists a EUR 30 lifetime single-user commercial license; local entitlement and redistribution review remain open.'
+      LicenseUri = 'https://www.mitec.cz/wp/mtapimon/'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      AcceptanceNotes = 'The retained publisher archive SHA-256 is measured locally, not publisher-provided. TAPIMon.exe is the only selected member; its file version is 1.2.0.0 and ProductVersion is 1.0.0.0. Do not use real telephone lines, TSP providers, calls or call history. Use only a simulated provider and synthetic calls on a disposable Windows 11 VM.'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('TAPIMon.exe')
+      PortableMembers = @('TAPIMon.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
     }
     @{
       Id = 'package.putty'
@@ -10801,15 +12332,16 @@
       Name = 'PhotoCraft'
       Kind = 'Package'
       Category = 'Software / Artcraft'
-      Description = 'Pinned standalone x64 MSI for image editing, with an embedded application payload. Early release; Windows 11 lifecycle acceptance is pending.'
-      SupportedTargets = @()
-      PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      Description = 'Pinned standalone x64 MSI for image editing, with an embedded application payload. Windows 11 install, uninstall, pinned-version, idempotence and saved-run recovery acceptance passed on build 26300.'
+      SupportedTargets = @('Windows 11')
+      MigrationBatch = 'ApplicationsBatch6'
+      PendingAcceptance = $false
+      CandidateTargets = @()
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' } }
       PackageId = 'photocraft'
       InstallerType = 'Msi'
       Architecture = 'x64'
@@ -10834,15 +12366,16 @@
       Name = 'VectorCraft'
       Kind = 'Package'
       Category = 'Software / Artcraft'
-      Description = 'Pinned standalone x64 MSI for vector illustration, with an embedded application payload. Early release; Windows 11 lifecycle acceptance is pending.'
-      SupportedTargets = @()
-      PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      Description = 'Pinned standalone x64 MSI for vector illustration, with an embedded application payload. Windows 11 install, uninstall, pinned-version, idempotence and saved-run recovery acceptance passed on build 26300.'
+      SupportedTargets = @('Windows 11')
+      MigrationBatch = 'ApplicationsBatch6'
+      PendingAcceptance = $false
+      CandidateTargets = @()
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' } }
       PackageId = 'vectorcraft'
       InstallerType = 'Msi'
       Architecture = 'x64'
@@ -10867,15 +12400,16 @@
       Name = 'FilmCraft'
       Kind = 'Package'
       Category = 'Software / Artcraft'
-      Description = 'Pinned standalone x64 MSI for video editing, with an embedded application payload. Early release; Windows 11 lifecycle acceptance is pending.'
-      SupportedTargets = @()
-      PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      Description = 'Pinned standalone x64 MSI for video editing, with an embedded application payload. Windows 11 install, uninstall, pinned-version, idempotence and saved-run recovery acceptance passed on build 26300.'
+      SupportedTargets = @('Windows 11')
+      MigrationBatch = 'ApplicationsBatch6'
+      PendingAcceptance = $false
+      CandidateTargets = @()
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' } }
       PackageId = 'filmcraft'
       InstallerType = 'Msi'
       Architecture = 'x64'
@@ -10900,15 +12434,16 @@
       Name = 'LightCraft'
       Kind = 'Package'
       Category = 'Software / Artcraft'
-      Description = 'Pinned standalone x64 MSI for photo library management and RAW development, with an embedded application payload. Early release; Windows 11 lifecycle acceptance is pending.'
-      SupportedTargets = @()
-      PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      Description = 'Pinned standalone x64 MSI for photo library management and RAW development, with an embedded application payload. Windows 11 install, uninstall, pinned-version, idempotence and saved-run recovery acceptance passed on build 26300.'
+      SupportedTargets = @('Windows 11')
+      MigrationBatch = 'ApplicationsBatch6'
+      PendingAcceptance = $false
+      CandidateTargets = @()
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' } }
       PackageId = 'lightcraft'
       InstallerType = 'Msi'
       Architecture = 'x64'
@@ -10933,15 +12468,16 @@
       Name = 'PdfCraft'
       Kind = 'Package'
       Category = 'Software / Artcraft'
-      Description = 'Pinned standalone x64 MSI for PDF reading and editing, with an embedded application payload. Early release; Windows 11 lifecycle acceptance is pending.'
-      SupportedTargets = @()
-      PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      Description = 'Pinned standalone x64 MSI for PDF reading and editing, with an embedded application payload. Windows 11 install, uninstall, pinned-version, idempotence and saved-run recovery acceptance passed on build 26300.'
+      SupportedTargets = @('Windows 11')
+      MigrationBatch = 'ApplicationsBatch6'
+      PendingAcceptance = $false
+      CandidateTargets = @()
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' } }
       PackageId = 'pdfcraft'
       InstallerType = 'Msi'
       Architecture = 'x64'
@@ -10966,15 +12502,16 @@
       Name = 'EffectCraft'
       Kind = 'Package'
       Category = 'Software / Artcraft'
-      Description = 'Pinned standalone x64 MSI for motion graphics and visual effects, with an embedded application payload. Early release; Windows 11 lifecycle acceptance is pending.'
-      SupportedTargets = @()
-      PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      Description = 'Pinned standalone x64 MSI for motion graphics and visual effects, with an embedded application payload. Windows 11 install, uninstall, pinned-version, idempotence and saved-run recovery acceptance passed on build 26300.'
+      SupportedTargets = @('Windows 11')
+      MigrationBatch = 'ApplicationsBatch6'
+      PendingAcceptance = $false
+      CandidateTargets = @()
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' } }
       PackageId = 'effectcraft'
       InstallerType = 'Msi'
       Architecture = 'x64'
@@ -10999,15 +12536,16 @@
       Name = 'DesignCraft'
       Kind = 'Package'
       Category = 'Software / Artcraft'
-      Description = 'Pinned standalone x64 MSI for page layout and publishing, with an embedded application payload. Early release; Windows 11 lifecycle acceptance is pending.'
-      SupportedTargets = @()
-      PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      Description = 'Pinned standalone x64 MSI for page layout and publishing, with an embedded application payload. Windows 11 install, uninstall, pinned-version, idempotence and saved-run recovery acceptance passed on build 26300.'
+      SupportedTargets = @('Windows 11')
+      MigrationBatch = 'ApplicationsBatch6'
+      PendingAcceptance = $false
+      CandidateTargets = @()
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' } }
       PackageId = 'designcraft'
       InstallerType = 'Msi'
       Architecture = 'x64'
@@ -11032,15 +12570,16 @@
       Name = 'WordCraft'
       Kind = 'Package'
       Category = 'Software / Artcraft'
-      Description = 'Pinned standalone x64 MSI for word processing, with an embedded application payload. Early release; Windows 11 lifecycle acceptance is pending.'
-      SupportedTargets = @()
-      PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      Description = 'Pinned standalone x64 MSI for word processing, with an embedded application payload. Windows 11 install, uninstall, pinned-version, idempotence and saved-run recovery acceptance passed on build 26300.'
+      SupportedTargets = @('Windows 11')
+      MigrationBatch = 'ApplicationsBatch6'
+      PendingAcceptance = $false
+      CandidateTargets = @()
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' } }
       PackageId = 'wordcraft'
       InstallerType = 'Msi'
       Architecture = 'x64'
@@ -11065,15 +12604,16 @@
       Name = 'SoundCraft'
       Kind = 'Package'
       Category = 'Software / Artcraft'
-      Description = 'Pinned standalone x64 MSI for audio recording and editing, with an embedded application payload. Early release; Windows 11 lifecycle acceptance is pending.'
-      SupportedTargets = @()
-      PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      Description = 'Pinned standalone x64 MSI for audio recording and editing, with an embedded application payload. Windows 11 install, uninstall, pinned-version, idempotence and saved-run recovery acceptance passed on build 26300.'
+      SupportedTargets = @('Windows 11')
+      MigrationBatch = 'ApplicationsBatch6'
+      PendingAcceptance = $false
+      CandidateTargets = @()
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' } }
       PackageId = 'soundcraft'
       InstallerType = 'Msi'
       Architecture = 'x64'
@@ -11098,15 +12638,16 @@
       Name = 'DeckCraft'
       Kind = 'Package'
       Category = 'Software / Artcraft'
-      Description = 'Pinned standalone x64 MSI for presentations, with an embedded application payload. Early release; Windows 11 lifecycle acceptance is pending.'
-      SupportedTargets = @()
-      PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      Description = 'Pinned standalone x64 MSI for presentations, with an embedded application payload. Windows 11 install, uninstall, pinned-version, idempotence and saved-run recovery acceptance passed on build 26300.'
+      SupportedTargets = @('Windows 11')
+      MigrationBatch = 'ApplicationsBatch6'
+      PendingAcceptance = $false
+      CandidateTargets = @()
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' } }
       PackageId = 'deckcraft'
       InstallerType = 'Msi'
       Architecture = 'x64'
@@ -11131,15 +12672,16 @@
       Name = 'CADCraft'
       Kind = 'Package'
       Category = 'Software / Artcraft'
-      Description = 'Pinned standalone x64 MSI for computer-aided design and drafting, with an embedded application payload. Early release; Windows 11 lifecycle acceptance is pending.'
-      SupportedTargets = @()
-      PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      Description = 'Pinned standalone x64 MSI for computer-aided design and drafting, with an embedded application payload. Windows 11 install, uninstall, pinned-version, idempotence and saved-run recovery acceptance passed on build 26300.'
+      SupportedTargets = @('Windows 11')
+      MigrationBatch = 'ApplicationsBatch6'
+      PendingAcceptance = $false
+      CandidateTargets = @()
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' } }
       PackageId = 'cadcraft'
       InstallerType = 'Msi'
       Architecture = 'x64'
@@ -11164,15 +12706,16 @@
       Name = 'GridCraft'
       Kind = 'Package'
       Category = 'Software / Artcraft'
-      Description = 'Pinned standalone x64 MSI for spreadsheets, with an embedded application payload. Early release; Windows 11 lifecycle acceptance is pending.'
-      SupportedTargets = @()
-      PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      Description = 'Pinned standalone x64 MSI for spreadsheets, with an embedded application payload. Windows 11 install, uninstall, pinned-version, idempotence and saved-run recovery acceptance passed on build 26300.'
+      SupportedTargets = @('Windows 11')
+      MigrationBatch = 'ApplicationsBatch6'
+      PendingAcceptance = $false
+      CandidateTargets = @()
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' } }
       PackageId = 'gridcraft'
       InstallerType = 'Msi'
       Architecture = 'x64'
@@ -11196,6 +12739,7 @@
       Id = 'package.artcraft-launcher'
       Name = 'ArtCraft Launcher'
       Kind = 'Package'
+      MigrationBatch = 'ApplicationsBatch7'
       Category = 'Software / Artcraft'
       Description = 'Pinned current-user x64 MSI containing the complete launcher. The launcher downloads apps and updates separately when used; use the individual app packages for offline installers. Windows 11 lifecycle acceptance is pending.'
       SupportedTargets = @()
@@ -11224,6 +12768,327 @@
       UninstallerArguments = '/qn /norestart'
       SuccessExitCodes = @(0, 3010)
       Rollback = 'Compensating'
+    }
+    @{
+      Id = 'package.slack'
+      Name = 'Slack (current-user desktop app)'
+      Kind = 'Package'
+      Category = 'Software / Communication'
+      Description = 'Pinned current-user x64 Slack desktop EXE. Windows 11 build 26300 lifecycle acceptance passed; the vendor uninstaller preserved an existing Roaming profile fixture. Slack requires Windows 11 version 23H2 or later and recommends MSIX for managed deployment; RIDE has no MSIX handler.'
+      MigrationBatch = 'ApplicationsBatch4'
+      SupportedTargets = @('Windows 11')
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' } }
+      PackageId = 'slack'
+      InstallerType = 'Exe'
+      DisplayNamePattern = '^Slack$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://downloads.slack-edge.com/desktop-releases/windows/x64/4.52.182/SlackSetup.exe'
+      PackageVersion = '4.52.182'
+      AssetName = 'SlackSetup.exe'
+      ExpectedSha256 = 'e42dba9622a297106f16a11f148c86e08beeeea6fe5bfd63de4c606b513ab184'
+      Architecture = 'x64'
+      ProductUri = 'https://slack.com/downloads/windows'
+      License = 'Proprietary; use subject to Slack User Terms of Service'
+      LicenseUri = 'https://slack.com/terms-of-service/user'
+      TermsUri = 'https://slack.com/terms-of-service'
+      InstallerArguments = '--silent'
+      UninstallerArguments = '--silent'
+      Rollback = 'Compensating'
+      AllowedDownloadHosts = @('downloads.slack-edge.com')
+      RequiresDesktopExperience = $true
+    }
+    @{
+      Id = 'package.discord'
+      Name = 'Discord (current-user desktop app)'
+      Kind = 'Package'
+      Category = 'Software / Communication'
+      Description = 'Pinned current-user x64 Discord desktop EXE. Windows 11 build 26300 lifecycle acceptance passed; the vendor uninstaller preserved an existing Roaming profile fixture. The publisher installer supports silent mode.'
+      MigrationBatch = 'ApplicationsBatch4'
+      SupportedTargets = @('Windows 11')
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' } }
+      PackageId = 'discord'
+      InstallerType = 'Exe'
+      DisplayNamePattern = '^Discord$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://stable.dl2.discordapp.net/distro/app/stable/win/x64/1.0.9264/DiscordSetup.exe'
+      PackageVersion = '1.0.9264'
+      AssetName = 'DiscordSetup.exe'
+      ExpectedSha256 = '2c79a8eccf972709dc04e014a9ed36d8dcc4ce84179741eb1424e022d4c3625c'
+      Architecture = 'x64'
+      ProductUri = 'https://discord.com/download'
+      License = 'Proprietary; use subject to Discord Terms of Service'
+      LicenseUri = 'https://discord.com/terms'
+      TermsUri = 'https://discord.com/terms'
+      InstallerArguments = '--silent'
+      UninstallerArguments = '--uninstall'
+      Rollback = 'Compensating'
+      AllowedDownloadHosts = @('stable.dl2.discordapp.net')
+      RequiresDesktopExperience = $true
+    }
+    @{
+      Id = 'package.microsoft-openjdk'
+      Name = 'Microsoft Build of OpenJDK 25 (x64)'
+      Kind = 'Package'
+      Category = 'Software / Development'
+      Description = 'Install Microsoft Build of OpenJDK 25.0.4.1 LTS side-by-side in its dedicated RIDE directory. The MSI installs only FeatureMain; JAVA_HOME, PATH and .jar associations are preserved. Exact Microsoft checksum metadata is fetched and validated before acquisition. Native install, repeat, removal and recovery acceptance remain pending.'
+      MigrationBatch = 'OpenJDKCompatibility'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'microsoft-openjdk-25'
+      InstallerType = 'Msi'
+      DisplayNamePattern = '^Microsoft Build of OpenJDK 25(?:\s|$)'
+      DownloadProvider = 'MicrosoftOpenJdk'
+      DownloadUri = 'https://aka.ms/download-jdk/microsoft-jdk-25.0.4.1-windows-x64.msi'
+      ExpectedSha256Uri = 'https://aka.ms/download-jdk/microsoft-jdk-25.0.4.1-windows-x64.msi.sha256sum.txt'
+      PackageVersion = '25.0.4.1'
+      AssetName = 'microsoft-jdk-25.0.4.1-windows-x64.msi'
+      InstallDirectory = 'C:\Program Files\Microsoft\RIDE\OpenJDK\jdk-25'
+      Architecture = 'x64'
+      ProductUri = 'https://learn.microsoft.com/en-us/java/openjdk/download'
+      License = 'GNU General Public License version 2 with the Classpath Exception; preserve Microsoft package notices'
+      LicenseUri = 'https://openjdk.org/legal/gplv2+ce.html'
+      InstallerArguments = 'ADDLOCAL=FeatureMain INSTALLDIR="C:\Program Files\Microsoft\RIDE\OpenJDK\jdk-25" /qn /norestart'
+      UninstallerArguments = '/qn /norestart'
+      Rollback = 'Compensating'
+    }
+    @{
+      Id = 'package.microsoft-openjdk-21'
+      Name = 'Microsoft Build of OpenJDK 21 (x64)'
+      Kind = 'Package'
+      Category = 'Software / Development'
+      Description = 'Install Microsoft Build of OpenJDK 21.0.12.1 LTS side-by-side in its dedicated RIDE directory. The MSI installs only FeatureMain; JAVA_HOME, PATH and .jar associations are preserved. Exact Microsoft checksum metadata is fetched and validated before acquisition. Native install, repeat, removal and recovery acceptance remain pending.'
+      MigrationBatch = 'OpenJDKCompatibility'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'microsoft-openjdk-21'
+      InstallerType = 'Msi'
+      DisplayNamePattern = '^Microsoft Build of OpenJDK 21(?:\s|$)'
+      DownloadProvider = 'MicrosoftOpenJdk'
+      DownloadUri = 'https://aka.ms/download-jdk/microsoft-jdk-21.0.12.1-windows-x64.msi'
+      ExpectedSha256Uri = 'https://aka.ms/download-jdk/microsoft-jdk-21.0.12.1-windows-x64.msi.sha256sum.txt'
+      PackageVersion = '21.0.12.1'
+      AssetName = 'microsoft-jdk-21.0.12.1-windows-x64.msi'
+      InstallDirectory = 'C:\Program Files\Microsoft\RIDE\OpenJDK\jdk-21'
+      Architecture = 'x64'
+      ProductUri = 'https://learn.microsoft.com/en-us/java/openjdk/download'
+      License = 'GNU General Public License version 2 with the Classpath Exception; preserve Microsoft package notices'
+      LicenseUri = 'https://openjdk.org/legal/gplv2+ce.html'
+      InstallerArguments = 'ADDLOCAL=FeatureMain INSTALLDIR="C:\Program Files\Microsoft\RIDE\OpenJDK\jdk-21" /qn /norestart'
+      UninstallerArguments = '/qn /norestart'
+      Rollback = 'Compensating'
+    }
+    @{
+      Id = 'package.microsoft-openjdk-17'
+      Name = 'Microsoft Build of OpenJDK 17 (x64)'
+      Kind = 'Package'
+      Category = 'Software / Development'
+      Description = 'Install Microsoft Build of OpenJDK 17.0.20.1 LTS side-by-side in its dedicated RIDE directory. The MSI installs only FeatureMain; JAVA_HOME, PATH and .jar associations are preserved. Exact Microsoft checksum metadata is fetched and validated before acquisition. Native install, repeat, removal and recovery acceptance remain pending.'
+      MigrationBatch = 'OpenJDKCompatibility'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'microsoft-openjdk-17'
+      InstallerType = 'Msi'
+      DisplayNamePattern = '^Microsoft Build of OpenJDK 17(?:\s|$)'
+      DownloadProvider = 'MicrosoftOpenJdk'
+      DownloadUri = 'https://aka.ms/download-jdk/microsoft-jdk-17.0.20.1-windows-x64.msi'
+      ExpectedSha256Uri = 'https://aka.ms/download-jdk/microsoft-jdk-17.0.20.1-windows-x64.msi.sha256sum.txt'
+      PackageVersion = '17.0.20.1'
+      AssetName = 'microsoft-jdk-17.0.20.1-windows-x64.msi'
+      InstallDirectory = 'C:\Program Files\Microsoft\RIDE\OpenJDK\jdk-17'
+      Architecture = 'x64'
+      ProductUri = 'https://learn.microsoft.com/en-us/java/openjdk/download'
+      License = 'GNU General Public License version 2 with the Classpath Exception; preserve Microsoft package notices'
+      LicenseUri = 'https://openjdk.org/legal/gplv2+ce.html'
+      InstallerArguments = 'ADDLOCAL=FeatureMain INSTALLDIR="C:\Program Files\Microsoft\RIDE\OpenJDK\jdk-17" /qn /norestart'
+      UninstallerArguments = '/qn /norestart'
+      Rollback = 'Compensating'
+    }
+    @{
+      Id = 'package.microsoft-openjdk-11'
+      Name = 'Microsoft Build of OpenJDK 11 (x64)'
+      Kind = 'Package'
+      Category = 'Software / Development'
+      Description = 'Install Microsoft Build of OpenJDK 11.0.32.1 LTS side-by-side in its dedicated RIDE directory. The MSI installs only FeatureMain; JAVA_HOME, PATH and .jar associations are preserved. Exact Microsoft checksum metadata is fetched and validated before acquisition. Native install, repeat, removal and recovery acceptance remain pending.'
+      MigrationBatch = 'OpenJDKCompatibility'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'microsoft-openjdk-11'
+      InstallerType = 'Msi'
+      DisplayNamePattern = '^Microsoft Build of OpenJDK 11(?:\s|$)'
+      DownloadProvider = 'MicrosoftOpenJdk'
+      DownloadUri = 'https://aka.ms/download-jdk/microsoft-jdk-11.0.32.1-windows-x64.msi'
+      ExpectedSha256Uri = 'https://aka.ms/download-jdk/microsoft-jdk-11.0.32.1-windows-x64.msi.sha256sum.txt'
+      PackageVersion = '11.0.32.1'
+      AssetName = 'microsoft-jdk-11.0.32.1-windows-x64.msi'
+      InstallDirectory = 'C:\Program Files\Microsoft\RIDE\OpenJDK\jdk-11'
+      Architecture = 'x64'
+      ProductUri = 'https://learn.microsoft.com/en-us/java/openjdk/download'
+      License = 'GNU General Public License version 2 with the Classpath Exception; preserve Microsoft package notices'
+      LicenseUri = 'https://openjdk.org/legal/gplv2+ce.html'
+      InstallerArguments = 'ADDLOCAL=FeatureMain INSTALLDIR="C:\Program Files\Microsoft\RIDE\OpenJDK\jdk-11" /qn /norestart'
+      UninstallerArguments = '/qn /norestart'
+      Rollback = 'Compensating'
+    }
+    @{
+      Id = 'package.winpmem'
+      Name = 'WinPmem signed production acquisition executable (x64 candidate)'
+      Kind = 'Package'
+      Category = 'Software / Forensics'
+      Description = 'Stage the pinned official signed WinPmem Go executable as an owned file without launching it. Driver loading and memory capture are explicit operator actions and are not package installation behavior. Exact local bytes, Authenticode signer, driver lifecycle/recovery and Windows target behavior remain pending acceptance.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MigrationBatch = '2026-10-24-user-required-tools'
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'winpmem'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^WinPmem$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://github.com/Velocidex/WinPmem/releases/download/v4.1.dev1/go-winpmem_amd64_1.0-rc2_signed.exe'
+      AssetName = 'go-winpmem_amd64_1.0-rc2_signed.exe'
+      PackageVersion = '1.0-rc2'
+      ExpectedSha256 = '86691bb4af2c17dd9ec4834c04a99ad51e04f780a07d1b05bc382a5d1892e0c4'
+      Architecture = 'x64'
+      ProductUri = 'https://github.com/Velocidex/WinPmem'
+      License = 'Apache-2.0; retain the upstream license and notices'
+      LicenseUri = 'https://github.com/Velocidex/WinPmem/blob/master/LICENSE'
+      AcceptanceNotes = 'The publisher marks the 4.1 development drivers as test-signed and directs production users to this separate signed Go executable with the older drivers. The release asset page publishes the pinned SHA-256, but local acquisition failed because github.com did not resolve; the bytes and Authenticode signer are not locally verified. Test only on disposable Windows guests. Driver loading, service cleanup, reboot recovery and memory capture must remain explicit and separately accepted; no Windows target is supported by this candidate.'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      PortableFormat = 'File'
+      PortableFileName = 'go-winpmem_amd64_1.0-rc2_signed.exe'
+      RequiredFiles = @('go-winpmem_amd64_1.0-rc2_signed.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+    }
+    @{
+      Id = 'package.exiftool'
+      Name = 'ExifTool metadata utility (x64 portable candidate)'
+      Kind = 'Package'
+      Category = 'Software / Media and metadata tools'
+      Description = 'Stage the pinned ExifTool 13.59 x64 Windows archive as an unsupported portable candidate. Preserve the publisher folder and notices, and create the documented exiftool.exe command-line name as an owned copy of exiftool(-k).exe. Installing the utility does not read or modify user media. Version 13.59 is labeled a development release by the publisher; Windows behavior and exact archive inspection remain pending.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'exiftool'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^ExifTool(?:\s|$)'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://sourceforge.net/projects/exiftool/files/exiftool-13.59_64.zip/download'
+      AssetName = 'exiftool-13.59_64.zip'
+      PackageVersion = '13.59'
+      ExpectedSha256 = '44b512b25af500724ba579d0a53c8fc5851628b692dd5e5d94ae4a15c2cba9ec'
+      Architecture = 'x64'
+      ProductUri = 'https://exiftool.sourceforge.net/'
+      License = 'Free software under the same terms as Perl itself: GNU GPL or Artistic License; retain upstream license and bundled notices.'
+      LicenseUri = 'https://exiftool.sourceforge.net/#license'
+      AcceptanceNotes = 'The SourceForge page reports the pinned archive SHA-256; it has not yet been computed locally. The publisher labels 13.59 a development release and 13.55 latest production. Keep exiftool(-k).exe beside exiftool_files and create an owned exiftool.exe copy for command-line use. Verify exact archive members, notices, Windows 11 behavior and byte-exact recovery. Use synthetic media fixtures only for behavior checks; never modify original evidence implicitly.'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('exiftool-13.59_64/exiftool(-k).exe', 'exiftool-13.59_64/exiftool.exe')
+      PortableCopies = @(@{ Source = 'exiftool-13.59_64/exiftool(-k).exe'; Destination = 'exiftool-13.59_64/exiftool.exe' })
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+    }
+    @{
+      Id = 'package.gpg4win'
+      Name = 'Gpg4win command line and Kleopatra'
+      Kind = 'Package'
+      Category = 'Software / Security'
+      Description = 'Install the official current-user Gpg4win package with GnuPG command-line tools and Kleopatra only. Explorer, Outlook, browser and other optional integrations are disabled. Preserve the current user GnuPG key/configuration directory across install, removal and recovery. Windows lifecycle and recovery acceptance remain pending.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MigrationBatch = 'ApplicationsBatch1'
+      Scope = 'User'
+      RequiresAdmin = $false
+      RequiresUnelevatedUser = $true
+      LocalAppDataInstallDirectory = 'Gpg4win'
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'gpg4win'
+      InstallerType = 'Exe'
+      DisplayNamePattern = '^Gpg4win \(5\.1\.1\)$'
+      ConflictingDisplayNamePattern = '^(?:GnuPG(?:\s|$)|Gpg4win(?:\s|\())'
+      OwnedConflictingInstallPath = '../GnuPG'
+      PreserveRoamingDirectory = 'gnupg'
+      PreserveRoamingDirectoryOnInstall = $true
+      PreservationProcessNames = @('dirmngr', 'gpg', 'gpg-agent', 'gpgsm', 'kleopatra')
+      DownloadUri = 'https://files.gpg4win.org/gpg4win-5.1.1.exe'
+      DownloadProvider = 'DirectHttps'
+      PackageVersion = '5.1.1'
+      AssetName = 'gpg4win-5.1.1.exe'
+      ExpectedSha256 = 'ed19c0c89ec42fe32c52a7abd6e3da5f491752700546b9eed7ddf82fd303cddf'
+      Architecture = 'x64'
+      ProductUri = 'https://www.gpg4win.org/'
+      License = 'GPL-family licenses and separate component notices; retain the publisher license and notice files'
+      LicenseUri = 'https://www.gpg4win.org/license.html'
+      InstallerArguments = '/S /CurrentUser /C="{InstallerConfigurationPath}" /D="{InstallDirectory}"'
+      InstallerConfigurationSection = 'gpg4win'
+      InstallerConfiguration = @{
+        inst_kleopatra = $true
+        inst_okular = $false
+        inst_gpgpass = $false
+        inst_gpgoljs = $false
+        inst_gpgol = $false
+        inst_gpgex = $false
+        inst_paperkey = $false
+        inst_browser = $false
+        inst_start_menu = $true
+        inst_desktop = $false
+      }
+      UninstallerArguments = '/S'
+      SuccessExitCodes = @(0)
+      Rollback = 'Compensating'
+      DefaultVariant = 'installed'
+      Variants = @{ installed = @{} }
+      RequiresDesktopExperience = $true
     }
   )
   Groups = @(
@@ -11281,7 +13146,7 @@
       Id = 'solution.artcraft-apps'
       Name = 'Artcraft creative apps'
       Category = 'Software / Groups'
-      Description = 'The twelve standalone Crafting Apps, without the optional online launcher. Individual x64 MSI packages remain pending Windows 11 lifecycle acceptance.'
+      Description = 'The twelve standalone Crafting Apps, without the optional online launcher. Individual x64 MSI packages passed Windows 11 build 26300 install, uninstall and saved-run recovery acceptance.'
       Members = @('package.photocraft', 'package.vectorcraft', 'package.filmcraft', 'package.lightcraft', 'package.pdfcraft', 'package.effectcraft', 'package.designcraft', 'package.wordcraft', 'package.soundcraft', 'package.deckcraft', 'package.cadcraft', 'package.gridcraft')
       Actions = @('Install', 'Uninstall')
       Rollback = 'Compensating'

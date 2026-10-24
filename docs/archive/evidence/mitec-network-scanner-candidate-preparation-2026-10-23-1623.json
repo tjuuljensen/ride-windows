@@ -1,0 +1,63 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-23T16:23:00Z",
+  "PackageId": "package.mitec-network-scanner",
+  "PackageVersion": "6.1.0",
+  "ProductUri": "https://www.mitec.cz/wp/mns/",
+  "DownloadUri": "https://www.mitec.cz/wp/files/NetScanner.zip",
+  "LicenseUri": "https://www.mitec.cz/wp/support/",
+  "RetainedArchive": ".local/remaining-collections-20261017/NetScanner.zip",
+  "ArchiveLength": 11317163,
+  "ArchiveSha256": "02fbf13ffcc8bfd3b3ef907b265cc4d2338309e99039f1384f2c6cd370995c66",
+  "PublisherDigestVerified": false,
+  "ArchiveSha256RecheckedThisRun": true,
+  "SelectedMembersRecheckedFromZipStreamsThisRun": true,
+  "Variants": {
+    "x64": {
+      "Path": "NetScanner64.exe",
+      "Length": 6973512,
+      "Sha256": "9c8972abab5984478c7d4eda4a96fbcdbce1eea04af6b9187d6d7c9cee90ca06",
+      "Architecture": "x64",
+      "FileVersion": "6.1.0.0",
+      "ProductVersion": "6.0.0.0"
+    },
+    "x86": {
+      "Path": "NetScanner.exe",
+      "Length": 5080296,
+      "Sha256": "b6a0f814d10719da2a5e2f7b6a39c61742118cfc509acdd9e0e7649e3680eaa4",
+      "Architecture": "x86",
+      "FileVersion": "6.1.0.0",
+      "ProductVersion": "6.0.0.0"
+    }
+  },
+  "LicenseDisposition": "Exact-version local NeedsReview is informational and does not block direct-download package planning. MiTeC lists a paid license tier and describes unregistered use as non-commercial freeware; this record does not decide owner-specific entitlement.",
+  "CandidateState": {
+    "DefaultVariant": "x64",
+    "SupportedTargets": [],
+    "CandidateTargets": ["Windows 11"],
+    "PendingAcceptance": true
+  },
+  "PayloadExtractedOrExecuted": false,
+  "NetworkScanned": false,
+  "HostOrDirectoryInformationQueried": false,
+  "VirusTotalUsed": false,
+  "FreshUacPrompts": 0,
+  "VmRuns": 0,
+  "DefenderBlockedFilesTouched": false,
+  "Outcomes": {
+    "WholeLegacyOutcomesResolved": 0,
+    "RetiredOutcomes": 0,
+    "NewExclusions": 0,
+    "PartialCandidateOutcomes": 1
+  },
+  "Ranges": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+  "ExactRangeEndpoints": "142-196",
+  "RoundedTotal": "145-200/about 170",
+  "Remaining": [
+    "Offline variant-specific staging, repeat and exact recovery regression",
+    "Isolated owned network behavior acceptance with explicit port/traffic bounds",
+    "Synthetic endpoints/accounts and disposable exported results",
+    "Credential, result privacy, UI and activation behavior",
+    "Windows 11 lifecycle acceptance on an accessible registered VM"
+  ]
+}

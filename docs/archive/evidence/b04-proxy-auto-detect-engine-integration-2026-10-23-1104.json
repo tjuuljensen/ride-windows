@@ -1,0 +1,47 @@
+{
+  "SchemaVersion": 1,
+  "RunUtc": "2026-10-23T11:04:37Z",
+  "Batch": "B04 default/LAN automatic proxy detection engine integration",
+  "Outcome": "Partial; the independent automatic-detection setting is catalogued and connected to the engine lifecycle, pending native Windows acceptance.",
+  "Operation": {
+    "Id": "windows.proxy-auto-detect",
+    "Kind": "UserProxy",
+    "States": [
+      "Enabled",
+      "Disabled"
+    ],
+    "Scope": "User",
+    "CandidateTargets": [
+      "Windows 11"
+    ],
+    "SupportedTargets": [],
+    "PendingAcceptance": true,
+    "OwnedValue": "Default/LAN WinINet automatic-detection flag only"
+  },
+  "Implementation": [
+    "Read-only current-user observation is dispatched through the WinINet inventory handler.",
+    "Plans expose Enabled and Disabled while preserving other flags and proxy strings.",
+    "The engine captures the versioned preparation snapshot and intended machine, user SID and session before writes.",
+    "Saved-run restore calls conflict-aware recovery for the captured owned flag.",
+    "Apply remains blocked because SupportedTargets is empty."
+  ],
+  "Validation": {
+    "CatalogValidator": "Passed: 379 operations, 8 groups, 5 profiles and 251 PowerShell files.",
+    "CatalogAndProxyInventoryPreparationPester": "162 passed, 0 failed, 1 not run.",
+    "CatalogExport": "Current."
+  },
+  "NoRuntimeActions": {
+    "WinINetQueryOrSetter": false,
+    "RegistryQueryOrWrite": false,
+    "VMOrCheckpoint": false,
+    "DefenderChange": false,
+    "WindowsStateChange": false
+  },
+  "Deferred": [
+    "Disposable Windows 11 lifecycle and exact restore acceptance.",
+    "Complete effective-policy coverage and controlled PAC-consumer behavior.",
+    "Setup-script enablement with an explicitly supplied PAC address remains a separate setting."
+  ],
+  "EstimateEffect": "No legacy outcome closed; ranges remain 38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196, rounded 145-200/about 170.",
+  "EvidenceLimit": "All tests use supplied observations and mocked native boundaries; they do not prove Windows behavior or support eligibility."
+}

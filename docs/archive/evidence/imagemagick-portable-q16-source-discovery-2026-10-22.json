@@ -1,0 +1,73 @@
+{
+  "Date": "2026-10-22",
+  "Batch": "Q16/R01 ImageMagick portable Q16 source discovery",
+  "Publisher": "ImageMagick Studio LLC",
+  "OfficialReferences": {
+    "WindowsDownloads": "https://imagemagick.org/download/#windows",
+    "ArchiveIndex": "https://download.imagemagick.org/archive/binaries/",
+    "License": "https://imagemagick.org/license/"
+  },
+  "ListedArtifact": {
+    "Version": "7.1.2-34",
+    "FileName": "ImageMagick-7.1.2-34-portable-Q16-x64.7z",
+    "Description": "Portable Win64 static",
+    "PublisherListedSize": "11 MB",
+    "SignatureSidecar": "ImageMagick-7.1.2-34-portable-Q16-x64.7z.asc",
+    "CycloneDxSidecar": "ImageMagick-7.1.2-34-portable-Q16-x64.cdx.json"
+  },
+  "LicenseSummary": "Official license page allows personal, internal and commercial use; redistribution requires a license copy and attribution notices.",
+  "VerificationRecheck": {
+    "Date": "2026-10-22",
+    "OfficialPageStatus": "The current ImageMagick download page still lists version 7.1.2-34 and links the exact portable Q16 x64 7z as a GitHub release asset. The official license page permits personal, internal and commercial use and requires a copy of the license and attribution when redistributing.",
+    "ShellRetrievalAttempts": [
+      {
+        "Host": "download.imagemagick.org",
+        "Result": "DNS resolution failed: No such host is known."
+      },
+      {
+        "Host": "github.com",
+        "Result": "DNS resolution failed: No such host is known."
+      }
+    ],
+    "WebAssetFetch": "The official-page link resolved to the exact GitHub release URL, but the web fetch returned Cache miss; no artifact bytes were obtained.",
+    "BytesOrSignatureVerified": false
+  },
+  "Acquisition": {
+    "AttemptedOfficialPublisherRetrieval": true,
+    "Result": "No such host is known",
+    "ArtifactAcquired": false,
+    "SidecarsAcquired": false,
+    "Sha256": null,
+    "DetachedSignatureVerified": false,
+    "Extraction": false,
+    "Execution": false
+  },
+  "RepositorySupport": {
+    "PortableLifecycleFormats": ["Zip", "File"],
+    "SevenZipSupported": false,
+    "CatalogPackageAdded": false
+  },
+  "OtherActions": {
+    "DefenderChange": false,
+    "VmRun": false,
+    "Uac": false,
+    "PathChange": false
+  },
+  "Outcomes": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["Q16/R01 ImageMagick portable distribution"],
+    "Deferred": [
+      "Exact publisher artifact acquisition and digest/signature verification",
+      "Safe 7z extraction, ownership and exact saved-state recovery",
+      "Actual archive feature verification and native target acceptance"
+    ]
+  },
+  "Estimates": {
+    "Groups": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactTotal": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged; no package was added and no legacy outcome closed."
+  }
+}

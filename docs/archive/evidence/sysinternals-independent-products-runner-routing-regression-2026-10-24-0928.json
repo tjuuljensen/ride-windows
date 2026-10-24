@@ -1,0 +1,66 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T09:28:00Z",
+  "Batch": "Independent Sysinternals product portable acceptance runner-routing regression",
+  "Tests": {
+    "Paths": [
+      "tests/PortableAcceptanceAutomation.Tests.ps1",
+      "tests/TestAutomation.Tests.ps1"
+    ],
+    "DiscoveredAndExecuted": 143,
+    "Passed": 141,
+    "Failed": 0,
+    "Skipped": 2,
+    "Inconclusive": 0,
+    "NotRun": 0,
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "TemporaryStorage": "Repository-local .local path; run-specific data cleaned after the test"
+  },
+  "Coverage": [
+    "Exactly nine pinned independent Sysinternals products selected.",
+    "Defender-detected NirSoft, ProduKey, WirelessKeyView and BulletsPassView excluded.",
+    "Fixed batch selection and routing through portable acceptance and VM acceptance entry points verified.",
+    "Sysinternals licensing gate remains settled under prior RIDE v2 specialist approval for direct Microsoft download-and-install."
+  ],
+  "Boundaries": {
+    "PublisherPayloadAcquired": false,
+    "ExternalNetwork": false,
+    "SysinternalsUtilityExecuted": false,
+    "InstallerExecuted": false,
+    "EulaAccepted": false,
+    "VmUsed": false,
+    "DefenderChanged": false,
+    "WindowsStateChanged": false
+  },
+  "Outcome": {
+    "Resolved": [
+      "Portable acceptance selection and runner routing for the nine independent products pass focused regression."
+    ],
+    "Retired": [],
+    "Excluded": [
+      "Defender-detected tools remain separately excluded from the selected batch."
+    ],
+    "Deferred": [
+      "Pinned local payload manifest and Windows file-lifecycle acceptance.",
+      "Utility behavior and target support."
+    ],
+    "Partial": [
+      "No legacy outcome closes; no Windows target is added."
+    ]
+  },
+  "Blockers": [
+    "Windows acceptance not run while a separate Phoenix VM diagnostic request remains active; previous read-only Get-VM recheck failed at host CIM access before checkpoint inspection."
+  ],
+  "Estimates": {
+    "Settings": "38-58",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged: local runner-routing regression closes no legacy outcome or Windows target."
+  }
+}

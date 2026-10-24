@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-23T17:21:04Z",
+  "batch": "Gpg4win accepted-scope disposition reconciliation",
+  "authoritativeDecision": {
+    "source": "docs/migrations/application-review-rounds-2026-10-12.md#confirmed-first-round-choices",
+    "date": "2026-10-12",
+    "choices": [
+      "Current-user scope",
+      "GnuPG command line and Kleopatra",
+      "No Explorer or Outlook integration"
+    ]
+  },
+  "correction": "Updated the install-programs disposition that incorrectly described these already-confirmed choices as pending.",
+  "stillOpen": [
+    "Verify that the outer Gpg4win and nested GnuPG installers both honor current-user scope.",
+    "Verify explicit inclusion of GnuPG and Kleopatra and exclusion of other optional integrations.",
+    "Resolve ownership and coexistence of nested GnuPG, including safe upgrade/removal behavior.",
+    "Preserve existing GnuPG keys and user configuration during install, removal, and recovery.",
+    "Run complete package lifecycle and acceptance on disposable Windows targets."
+  ],
+  "sourceEvidence": {
+    "installerVersion": "5.1.1",
+    "installerSha256": "ed19c0c89ec42fe32c52a7abd6e3da5f491752700546b9eed7ddf82fd303cddf",
+    "installerSignature": "Valid; g10 Code GmbH signer matched the recorded publisher certificate reference.",
+    "sourceArchiveSha256": "b486d80ae235dcc1aab72c276291a989bcc1ee947055565f5bae8842cfe8d907",
+    "inspection": "Retained publisher NSIS sources show multiuser support, component sections, a required nested GnuPG installer, and outer-uninstaller behavior that queries and invokes registered GnuPG uninstallers. No installer or product was executed."
+  },
+  "outcome": "Decision record reconciled only. No catalog operation, package behavior, support target, or legacy outcome changed.",
+  "estimates": {
+    "settings": "38-58",
+    "packages": "52-67",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "142-196",
+    "roundedTotal": "145-200/about 170"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "RecordedAtUtc": "2026-10-23T07:18:41Z",
+  "PackageId": "package.mitec-uuid-generator",
+  "ProductVersion": "1.0.0",
+  "Purpose": "Bounded static interface-string follow-up for synthetic-only acceptance planning",
+  "RetainedArtifact": {
+    "Path": ".local/remaining-collections-20261017/UUID.zip",
+    "Length": 1615754,
+    "Sha256": "0795838486e6a0ce15edeaeaeed978e09d510ffa9478f9f040122a4583914c80",
+    "ExpectedSha256": "0795838486e6a0ce15edeaeaeed978e09d510ffa9478f9f040122a4583914c80"
+  },
+  "Member": {
+    "Path": "UUID.exe",
+    "Length": 3959880,
+    "Sha256": "36508b19dec5f4ff521322ddffc278e1cbba69f75d733eb1fcee1ba94ab6137f",
+    "ExpectedSha256": "36508b19dec5f4ff521322ddffc278e1cbba69f75d733eb1fcee1ba94ab6137f"
+  },
+  "Method": "Read the pinned ZIP member into memory and scan bounded ASCII and UTF-16LE printable strings. No extraction or process launch.",
+  "Findings": [
+    "Hashes still match the recorded archive and member pins.",
+    "Static strings include MiTeC firmware/SMBIOS type names, VSoft.UUIDv7 and VSoft.Ulid references; they do not reveal a clear command-line test interface or safe UI automation contract.",
+    "This scan does not establish runtime behavior, privacy behavior, or absence of a command-line interface."
+  ],
+  "Safety": {
+    "PayloadExtracted": false,
+    "PayloadExecuted": false,
+    "HostIdentifiersQueried": false,
+    "IdentifiersCapturedOrExported": false,
+    "DefenderBlockedToolsTouched": false,
+    "HostOrVmChanged": false
+  },
+  "Disposition": {
+    "Resolved": ["Archive/member pin rechecked; static string review adds no safe synthetic functional invocation path."],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["UUID/ULID/Snowflake generation and decode behavior remain unverified."],
+    "Deferred": ["Use synthetic identifiers in a disposable Windows VM and avoid capturing any live UEFI, SMBIOS, machine or device identifiers."]
+  },
+  "EstimateRanges": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+  "ExactTotal": "142-196",
+  "RoundedTotal": "145-200/about 170",
+  "EstimateReason": "No legacy outcome is closed; the candidate remains partial and its local NeedsReview license marker remains informational rather than an implementation blocker."
+}

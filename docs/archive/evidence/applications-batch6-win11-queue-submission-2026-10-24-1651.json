@@ -1,0 +1,49 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T16:51:53Z",
+  "Controller": "RIDEWin11Test",
+  "Target": "RIDE-Win11-Test",
+  "Request": {
+    "RunId": "f7b20b6524bf4f99a80a1f19962b7cfd",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "ApplicationsBatch6",
+    "TimeoutMinutes": 90,
+    "StatusAtCapture": "Running",
+    "SubmittedAtUtc": "2026-10-24T16:51:53.4691509Z"
+  },
+  "Registration": {
+    "RegisteredHostAccountMatchesCurrentSession": true,
+    "ExistingControllerCapabilities": ["GitHubPatGuestV1", "FocusedPortableV1"],
+    "CheckpointName": "RIDE-clean-test-base",
+    "CheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+    "RuntimeBlockedMarkerPresent": false,
+    "FreshUacPromptRequested": false
+  },
+  "PackageIds": [
+    "package.photocraft",
+    "package.vectorcraft",
+    "package.filmcraft",
+    "package.lightcraft",
+    "package.pdfcraft",
+    "package.effectcraft",
+    "package.designcraft",
+    "package.wordcraft",
+    "package.soundcraft",
+    "package.deckcraft",
+    "package.cadcraft",
+    "package.gridcraft"
+  ],
+  "DefenderDisposition": "The 12-package Artcraft batch contains none of the separately recorded Defender-detected NirSoft/x64 utilities; those exclusions remain intact.",
+  "Dispatch": {
+    "Method": "Existing registered task through tests/integration/Invoke-RideVmTestTask.ps1",
+    "InitialSandboxedQueueWrite": "Denied before a request was created; no VM state changed.",
+    "Retry": "Same command succeeded with sandbox approval; no UAC elevation was performed."
+  },
+  "Disposition": {
+    "Resolved": ["Next distinct authorized Windows 11 machine-scope package batch is queued through the existing controller."],
+    "Deferred": ["Guest validation, package lifecycle results and post-run checkpoint recovery."],
+    "LegacyOutcomesClosed": 0,
+    "EstimateRangesUnchanged": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170"
+  }
+}

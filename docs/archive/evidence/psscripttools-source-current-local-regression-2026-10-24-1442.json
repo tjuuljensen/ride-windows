@@ -1,0 +1,31 @@
+{
+  "RecordedAtUtc": "2026-10-24T14:42:00Z",
+  "Suite": "tests/PSScriptToolsPackage.Tests.ps1",
+  "Source": "Current working checkout",
+  "PowerShell": "7.6.5",
+  "Pester": "5.7.1",
+  "TestRegistryPluginEnabled": false,
+  "WindowsIntegrationTagExcluded": true,
+  "TemporaryRoot": ".local/psscripttools-source-current-20261024-1418/temp",
+  "TestFileSha256": "2F9231698B8BC81B839E5BB18C40A14E030B9EF6D617074612A5E6685340F221",
+  "Passed": 7,
+  "Failed": 0,
+  "Skipped": 0,
+  "Total": 7,
+  "DurationSeconds": 1332.4,
+  "Result": "Passed",
+  "CoverageBoundary": "Current-source local mocked package file lifecycle/recovery only. Does not import/activate the PSScriptTools module or establish ThreadJob/System.Drawing runtime behavior, Windows guest package acceptance, or target support.",
+  "NoWindowsOrVmStateChanged": true,
+  "ActiveVmRequest": "ac22583d29ea463c82727bf2c4a62c83",
+  "SerializedSuccessor": "ddf032acbdbd4843b519d42877baa49f",
+  "MigrationOutcomeClosed": false,
+  "Estimate": {
+    "Settings": "37-57",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "141-195",
+    "RoundedTotal": "140-195/about 170"
+  }
+}

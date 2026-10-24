@@ -1,0 +1,77 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-22",
+  "Batch": "Phoenix Protector retained MSI installation-boundary review",
+  "Artifact": {
+    "Path": ".local/remaining-collections-20261017/Phoenix_Protector.msi",
+    "ProductVersion": "1.7.1",
+    "ExpectedSha256": "15a7dbbf90ce66fb302a322c6809fafd897808096069dfecededf78e51b16369",
+    "MeasuredSha256": "15a7dbbf90ce66fb302a322c6809fafd897808096069dfecededf78e51b16369",
+    "AuthenticodeStatus": "NotSigned",
+    "MsiDatabaseOpenMode": "ReadOnly"
+  },
+  "MetadataFindings": {
+    "ProductCode": "{32A1C684-C199-4DD2-9F89-8F44C655D4EC}",
+    "Manufacturer": "NTCore",
+    "ProductName": "Phoenix Protector",
+    "UpgradeCode": "{E81A3A03-083D-418F-BD99-415CBB7D1564}",
+    "FrameworkVersion": "2.0.50727",
+    "AllowsLaterFrameworkVersions": false,
+    "InstallDirectoryTemplate": "[ProgramFilesFolder][Manufacturer]\\[ProductName]",
+    "Files": [
+      {"Name":"Phoenix License.rtf","Size":21821},
+      {"Name":"Phoenix Protector Help.chm","Size":409399},
+      {"Name":"Phoenix Merger.exe","Version":"1.0.0.0","Size":32768},
+      {"Name":"Phoenix Top.bmp","Size":103556},
+      {"Name":"Phoenix Protector.exe","Version":"1.9.0.1","Size":1254912}
+    ],
+    "Shortcuts": [
+      "Phoenix Protector on Desktop",
+      "Phoenix Protector in Start Menu",
+      "Phoenix Protector Help in Start Menu"
+    ],
+    "ServiceInstallRows": 0,
+    "ServiceControlRows": 0,
+    "RegistryRows": 0,
+    "LaunchConditionRows": 0,
+    "CustomActions": [
+      {"Action":"DIRCA_CheckFX","Sequence":1,"Target":"CheckFX"},
+      {"Action":"VSDCA_VsdLaunchConditions","Sequence":399,"Target":"VsdLaunchConditions"}
+    ],
+    "InstallUiSequenceHasAllUsersFolderAction": true
+  },
+  "ImplementationChange": {
+    "PreviousInstallerArguments": "/qn /norestart",
+    "InstallerArguments": "/qn /norestart ALLUSERS=1",
+    "Reason": "The catalog declares machine scope and requires elevation; the quiet command must explicitly request the MSI's all-users context because its folder selection is in the UI sequence.",
+    "RuntimeVerified": false
+  },
+  "Validation": {
+    "PhoenixPackagePester": "Passed 3/3 on PowerShell 7.6.5 with Pester 5.7.1; TestRegistry disabled.",
+    "MsiArgumentDispatch": "Mocked Install-RidePackage and verified it passes /i <retained MSI path> /qn /norestart ALLUSERS=1 to Invoke-RidePackageInstallerProcess with System32\\msiexec.exe; no process or MSI was launched.",
+    "CatalogExport": "Generated docs/OPERATIONS.md from the updated catalog.",
+    "CatalogValidator": "Passed: 374 operations, 8 groups, 5 profiles, 244 PowerShell files.",
+    "DiffCheck": "Passed."
+  },
+  "Boundaries": {
+    "MsiExecuted": false,
+    "CustomActionsRun": false,
+    "PayloadsExtracted": false,
+    "WindowsStateChanged": false,
+    "VmRun": false,
+    "Uac": false,
+    "DefenderChange": false
+  },
+  "Disposition": {
+    "SupportedTargets": [],
+    "CandidateTargets": ["Windows 11"],
+    "PendingAcceptance": true,
+    "LicenseReview": "Version-specific NeedsReview marker remains separate; it does not block technical migration work.",
+    "RemainingAcceptance": [
+      "Verify quiet machine install and exact install path on the disposable Windows 11 VM.",
+      "Verify desktop/Start Menu shortcuts, .NET 2.0.50727 launch behavior, repeat install, uninstall cleanup, recovery and reboot reporting."
+    ],
+    "LegacyOutcomeClosed": false,
+    "EstimateRangesUnchanged": "38-58 / 53-68 / 20-25 / 25-35 / 8-12; exact 144-198; rounded 145-200/about 170"
+  }
+}

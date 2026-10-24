@@ -1,0 +1,31 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-23T16:52:00Z",
+  "Test": "tests/PSScriptToolsPackage.Tests.ps1",
+  "PowerShellVersion": "7.6.5",
+  "PesterVersion": "5.7.1",
+  "Passed": 7,
+  "Failed": 0,
+  "Skipped": 0,
+  "ElapsedSeconds": 733.41,
+  "TestRegistryEnabled": false,
+  "WindowsPowerShell51Parser": "Passed for the current portable-package module, PSScriptTools test, Interbase Query test, and catalog data file",
+  "TemporaryDirectory": ".local/pester-temp",
+  "FixtureSource": "Generated inert ZIP containing 360 reviewed member paths; RIDE_PSSCRIPTTOOLS_FIXTURE_ARCHIVE was unset",
+  "Coverage": [
+    "Pinned source metadata and required license/README/module files",
+    "Incomplete archive refusal before package writes",
+    "360-file repeat staging and manifest/hash consistency",
+    "Snapshot, uninstall and restore preserving unowned analyst output",
+    "Modified owned source refusal and recovery",
+    "Unowned destination collision refusal",
+    "Offline mode does not inspect signature/network state"
+  ],
+  "UpstreamCodeImportedOrExecuted": false,
+  "DependenciesInstalled": false,
+  "NetworkUsed": false,
+  "FreshUacPrompts": 0,
+  "VmRuns": 0,
+  "DefenderBlockedFilesTouched": false,
+  "Outcome": "Current offline package file lifecycle regression passes; dependency-present runtime and Windows acceptance remain pending"
+}

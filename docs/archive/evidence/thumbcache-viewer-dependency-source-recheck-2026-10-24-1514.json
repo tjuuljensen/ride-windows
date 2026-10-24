@@ -1,0 +1,68 @@
+{
+  "RecordedAtUtc": "2026-10-24T15:14:00Z",
+  "Subject": "Thumbcache Viewer publisher dependency and release-source recheck",
+  "Publisher": {
+    "ProductUri": "https://thumbcacheviewer.github.io/",
+    "RepositoryUri": "https://github.com/thumbcacheviewer/thumbcacheviewer",
+    "License": "GNU General Public License v3 or later, declared in release source",
+    "PublisherSupportedWindows": ["Windows Vista", "Windows 7", "Windows 8", "Windows 8.1", "Windows 10", "Windows 11"]
+  },
+  "Releases": [
+    {
+      "Edition": "GUI x64",
+      "Version": "1.0.4.0",
+      "Tag": "v1.0.4.0",
+      "ReleaseCommit": "4e6317d",
+      "AssetName": "thumbcache_viewer_64.zip",
+      "DownloadUri": "https://github.com/thumbcacheviewer/thumbcacheviewer/releases/download/v1.0.4.0/thumbcache_viewer_64.zip"
+    },
+    {
+      "Edition": "Command line x64",
+      "Version": "1.0.2.1",
+      "Tag": "v1.0.2.1",
+      "ReleaseCommit": "a9b0aa4",
+      "AssetName": "thumbcache_viewer_cmd_64.zip",
+      "DownloadUri": "https://github.com/thumbcacheviewer/thumbcacheviewer/releases/download/v1.0.2.1/thumbcache_viewer_cmd_64.zip"
+    }
+  ],
+  "Dependencies": {
+    "VisualCRuntime": "Publisher requires the Visual C++ 2008 runtime for both programs. Exact architecture/package handling remains open; do not silently install an unpinned redistributable.",
+    "WindowsSearchSqliteMapping": "Publisher documentation says Windows 11 Windows.db mapping can run on Windows 11 or use sqlite3.dll from SQLite.org.",
+    "TaggedGuiSourceImplementation": "GUI v1.0.4.0 source calls LoadLibrary for sqlite3.dll first and falls back to SearchIndexerCore.dll (commented as native to Windows 11); it resolves sqlite3_open_v2, sqlite3_exec, sqlite3_free and sqlite3_close. This is a runtime mapping dependency, not a mandatory package-install dependency for basic thumbcache extraction.",
+    "StandaloneSqlitePackageSelected": false
+  },
+  "AcquisitionAttempt": {
+    "RequestedAssets": 2,
+    "Result": "Both exact official GitHub release URLs failed hostname resolution before transfer.",
+    "PartialFiles": false,
+    "LocalSha256Available": false,
+    "ArchiveMembersInspected": false,
+    "ReleaseDigestMetadataVerified": false
+  },
+  "Disposition": {
+    "NoLicenseMigrationBlocker": true,
+    "NoPackageCandidateAdded": true,
+    "Deferred": [
+      "Acquire exact GUI and command-line ZIP bytes and record local SHA-256/member inventories",
+      "Determine the publisher-required Visual C++ 2008 runtime package and architecture handling",
+      "Confirm command-line release's SQLite/runtime behavior from its exact tagged source or archive",
+      "Test on disposable Windows targets with synthetic thumbcache and Windows Search databases"
+    ],
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "52-67",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "141-195",
+      "RoundedTotal": "140-195/about 170"
+    }
+  },
+  "References": [
+    "https://thumbcacheviewer.github.io/",
+    "https://github.com/thumbcacheviewer/thumbcacheviewer/releases/tag/v1.0.4.0",
+    "https://github.com/thumbcacheviewer/thumbcacheviewer/releases/tag/v1.0.2.1",
+    "https://raw.githubusercontent.com/thumbcacheviewer/thumbcacheviewer/v1.0.4.0/thumbcache_viewer/lite_sqlite3.cpp"
+  ]
+}

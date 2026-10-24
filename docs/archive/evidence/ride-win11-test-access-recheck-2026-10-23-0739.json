@@ -1,0 +1,13 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "CheckedAtUtc": "2026-10-23T07:39:14Z",
+  "VM": "RIDE-Win11-Test",
+  "Action": "Read-only Get-VM query",
+  "Result": "AccessDenied",
+  "Error": "Access to a CIM resource was not available to the client.",
+  "CheckpointQueried": false,
+  "QueueSubmitted": false,
+  "GuestRun": false,
+  "VmStateChanged": false
+}

@@ -1,0 +1,59 @@
+{
+  "SchemaVersion": 1,
+  "RunUtc": "2026-10-23T11:23:30Z",
+  "Batch": "Cross-group catalog, package, component, settings and proxy regression",
+  "Validation": {
+    "RepositoryValidator": "Passed: 379 operations, 8 groups, 5 profiles, 251 PowerShell files",
+    "FocusedPester": "428 passed, 0 failed, 1 not run across 429 discovered tests",
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "DurationSeconds": 219.98,
+    "TestRegistryEnabled": false,
+    "WindowsIntegrationExcluded": true,
+    "TemporaryDirectory": "Repository-local .local/pester-temp",
+    "Suites": [
+      "tests/Catalog.Tests.ps1",
+      "tests/ApplicationPackages.Tests.ps1",
+      "tests/PackageEvidence.Tests.ps1",
+      "tests/ClientComponentPreparation.Tests.ps1",
+      "tests/ClientComponentLifecycle.Tests.ps1",
+      "tests/LicenseReviews.Tests.ps1",
+      "tests/RemainingSettings.Tests.ps1",
+      "tests/UserProxyInventory.Tests.ps1",
+      "tests/UserProxyPreparation.Tests.ps1",
+      "tests/UserProxyLifecycle.Tests.ps1"
+    ],
+    "NotRunReason": "One WindowsIntegration registry round-trip test was excluded because this sandbox denies HKCU write access."
+  },
+  "SystemEffects": {
+    "VmRun": false,
+    "InstallerCalls": 0,
+    "NetworkCalls": 0,
+    "WinINetCalls": 0,
+    "DefenderChanges": 0,
+    "WindowsStateChanged": false
+  },
+  "Outcomes": {
+    "Resolved": [
+      "Current local catalog/package/component/settings/proxy regressions pass across the selected focused suites."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Disposable Windows acceptance remains pending for package, component and pending-target settings; Hyper-V/CIM access remains unavailable."
+    ],
+    "Partial": [
+      "No legacy product, package, setting or component outcome closed by this regression."
+    ],
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateAdjustment": "Unchanged because test coverage and implementation validation do not close legacy outcomes."
+  }
+}

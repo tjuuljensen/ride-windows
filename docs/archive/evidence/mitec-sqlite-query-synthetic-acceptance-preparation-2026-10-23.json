@@ -1,0 +1,135 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "Batch": "MiTeC SQLite Query synthetic GUI acceptance preparation",
+  "Package": {
+    "Id": "package.mitec-sqlite-query",
+    "Version": "3.2.0",
+    "SupportedTargets": [],
+    "PendingAcceptance": true,
+    "LocalLicenseReview": "NeedsReview; informational and separate from technical acceptance"
+  },
+  "PinnedArchive": {
+    "Path": ".local/remaining-collections-20261017/SQLiteQ.zip",
+    "Length": 3791645,
+    "Sha256": "7f979a622de9e97b9682dc09a5156a1bd872139a9dd56ba60616fb824e77ab16",
+    "PinMatches": true,
+    "ArchiveExtracted": false,
+    "BinaryLoadedOrExecuted": false,
+    "DatabaseOpenedOrCreated": false,
+    "SqlExecuted": false
+  },
+  "StaticReview": {
+    "Method": "Read the pinned SQLiteQuery.exe ZIP member into memory and scan printable ASCII/UTF-16 strings; no binary loading or execution.",
+    "ObservedFormIdentifiers": [
+      "TWND_SQLQ_BLOBEDIT",
+      "TWND_SQLQ_EXPORT",
+      "TWND_SQLQ_HISTORY",
+      "TWND_SQLQ_IMPORT",
+      "TWND_SQLQ_TRIGGER"
+    ],
+    "ObservedStrings": [
+      "SQLite Query",
+      "Administration tool for databases compatible with SQLite3",
+      "Import",
+      "Export"
+    ],
+    "Limitation": "Static strings corroborate resource/module names only; they do not establish runtime behavior or complete feature coverage."
+  },
+  "PublisherFeatureClaims": {
+    "Uri": "https://www.mitec.cz/wp/msqliteq/",
+    "VersionHistory": "3.2.0 dated 2021-05-18; includes MRU management, online update check, commercial licensing, fixes and visual changes.",
+    "Modules": [
+      "SQL Editor",
+      "Table Editor",
+      "Trigger Explorer",
+      "SQL History"
+    ],
+    "TransferFormats": [
+      "CSV",
+      "XML",
+      "SQL"
+    ],
+    "DataImport": [
+      "CSV",
+      "XML DataPacket 2.0"
+    ],
+    "ScopeNote": "These are publisher statements, not RIDE acceptance results."
+  },
+  "FixtureValidation": {
+    "Status": "Passed",
+    "Environment": "Python 3.12 standard-library sqlite3; SQLite 3.49.1",
+    "Database": "In-memory only; no database file created",
+    "Checks": [
+      "SQL schema and seed script executes",
+      "Unicode, quoted text, NULL versus empty string and BLOB sentinels match expectations",
+      "Synthetic update trigger records old and new labels",
+      "CSV parser preserves quoted comma/text and empty field; three rows insert successfully"
+    ],
+    "MiTeCExecutableLoadedOrExecuted": false,
+    "VmUsed": false
+  },
+  "PreparedFixtures": [
+    "tests/fixtures/mitec-sqlite-query/synthetic-acceptance.sql",
+    "tests/fixtures/mitec-sqlite-query/synthetic-import.csv",
+    "tests/fixtures/mitec-sqlite-query/README.md"
+  ],
+  "AcceptancePlan": [
+    "Create a new run-owned database with synthetic schema, index, trigger, Unicode, NULL/empty and BLOB sentinels.",
+    "Exercise SQL read/write, trigger and history behavior in the GUI.",
+    "Exercise Table Editor edits and CSV import/export using only the fixture files.",
+    "Exercise SQL and XML exports in the run-owned directory.",
+    "Close the application, restore the original synthetic database bytes and verify SHA-256."
+  ],
+  "Boundaries": {
+    "PersonalOrProductionDatabaseUsed": false,
+    "NetworkUsedByCandidate": false,
+    "VmUsed": false,
+    "DefenderBlockedToolsTouched": false,
+    "UserDataTouched": false,
+    "LicenseStatusChanged": false
+  },
+  "Outcome": {
+    "Resolved": [
+      "Mapped publisher-documented feature claims to deterministic fixtures; validated their SQL and CSV semantics in an in-memory SQLite database."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Database behavior and GUI results on disposable Windows",
+      "Exact database-file restore in the VM",
+      "SQLite build provenance, compile options and upstream notice handling",
+      "Owner-specific MiTeC entitlement and Windows 11 target acceptance"
+    ],
+    "Partial": [
+      "Pinned portable candidate remains unsupported; no legacy package outcome closed."
+    ],
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateAdjustment": "Unchanged; preparation adds no verified legacy outcome."
+  },
+  "LocalPester": {
+    "PowerShell7": {
+      "Version": "7.6.5",
+      "Pester": "5.7.1",
+      "Passed": 2,
+      "Failed": 0,
+      "Skipped": 0,
+      "TestRegistryEnabled": false,
+      "TestResultEnabled": false
+    },
+    "WindowsPowerShell51": {
+      "Result": "Blocked before tests",
+      "Reason": "Pester format files failed AuthorizationManager validation during module import.",
+      "ParserValidation": "Not established by this run."
+    },
+    "InitialSandboxAttempt": "Pester TestRegistry preflight failed because the sandbox denied HKCU access; rerun with the unused TestRegistry plugin disabled passed."
+  }
+}

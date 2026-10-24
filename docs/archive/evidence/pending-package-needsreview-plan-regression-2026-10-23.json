@@ -1,0 +1,56 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "RecordedAtUtc": "2026-10-23T07:27:08Z",
+  "Batch": "Pending package planning with local NeedsReview records",
+  "Scope": "Every catalog Package operation with PendingAcceptance=true",
+  "CatalogPendingPackages": 41,
+  "PlanCheck": {
+    "ReviewedWithSyntheticLocalNeedsReviewRecord": 41,
+    "InstallPlanAvailable": 41,
+    "DesiredState": "Present",
+    "PendingAcceptancePreserved": true,
+    "Failures": 0
+  },
+  "Tests": {
+    "PowerShell7": {
+      "Version": "7.6.5",
+      "Pester": "5.7.1",
+      "Passed": 21,
+      "Failed": 0,
+      "Skipped": 0,
+      "TestRegistryPlugin": "Disabled"
+    },
+    "WindowsPowerShell51": {
+      "Version": "5.1.26100.9711",
+      "ParserErrors": 0,
+      "PesterRun": "Not run; Pester 5.7.1 module import was blocked by host AuthorizationManager validation of its format files."
+    }
+  },
+  "LicenseGateAudit": {
+    "PackageEngineReadsLocalLicenseReviewStatus": false,
+    "Matches": "LicenseReviewStatus appears in catalog validation only to keep local review fields out of shared catalog data and variant overrides.",
+    "Disposition": "NeedsReview remains local metadata and does not block install planning. Technical PendingAcceptance remains unchanged."
+  },
+  "Boundaries": {
+    "ReviewStore": "Unique synthetic workspace-local test fixture; removed after each case.",
+    "PackageDownloaded": false,
+    "InstallerExecuted": false,
+    "WindowsStateChanged": false,
+    "VmUsed": false,
+    "DefenderChanged": false
+  },
+  "Outcomes": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Package install, recovery and target acceptance remain governed by technical acceptance, source and target requirements."],
+    "Partial": ["Install planning remains available for all 41 catalog-pending package operations when synthetic local NeedsReview metadata is present."]
+  },
+  "Estimate": {
+    "GroupRanges": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "No whole legacy package outcome closed; estimates remain unchanged."
+  }
+}

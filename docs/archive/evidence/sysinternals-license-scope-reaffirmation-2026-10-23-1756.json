@@ -1,0 +1,72 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "RecordedAtUtc": "2026-10-23T17:56:32Z",
+  "Batch": "Sysinternals migration license rationale correction",
+  "ProductIds": [
+    "package.sysinternals-suite",
+    "package.sysinternals-process-explorer",
+    "package.sysinternals-autoruns",
+    "package.sysinternals-tcpview",
+    "package.sysinternals-procmon",
+    "package.sysinternals-rammap",
+    "package.sysinternals-disk2vhd",
+    "package.sysinternals-sigcheck",
+    "package.sysinternals-strings",
+    "package.sysinternals-handle"
+  ],
+  "UserDecision": "The prior RIDE v2 license-specialist assessment approved Sysinternals. There are no legal issues using Sysinternals in RIDE; do not use strict or generalized redistribution reasoning to block package migration.",
+  "ApprovedWorkflow": "RIDE downloads Sysinternals directly from Microsoft and installs it on devices supported by the user. RIDE does not transfer or publish Sysinternals copies.",
+  "MigrationDisposition": "The prior specialist approval applies to RIDE's download-and-install workflow. Licensing is settled and is not a package migration blocker; no additional license review or distribution gate is required for this migration.",
+  "ReviewStatus": "Reviewed",
+  "RemainingBlockers": [
+    "Technical Windows package lifecycle acceptance",
+    "Exact package recovery acceptance",
+    "Target Windows acceptance; current VM/checkpoint access remains unavailable"
+  ],
+  "DefenderBlockedFiles": {
+    "Disposition": "Excluded from package selection and execution",
+    "Files": [
+      "chromecookiesview.exe",
+      "bulletspassview.exe",
+      "ProduKey.exe",
+      "WirelessKeyView.exe",
+      "PowerISO9-x64.exe"
+    ]
+  },
+  "Outcome": {
+    "Resolved": [
+      "Clarified that the prior RIDE v2 specialist approval governs RIDE's direct download-and-install workflow; licensing is not a migration blocker."
+    ],
+    "Retired": [],
+    "Excluded": [
+      "Defender-detected executables remain excluded from selection and execution."
+    ],
+    "Deferred": [
+      "Technical Windows lifecycle, exact recovery and target acceptance pending VM/checkpoint access."
+    ],
+    "Partial": [
+      "No legacy runtime outcome closes in this decision-only update."
+    ]
+  },
+  "Estimate": {
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged: this corrects the recorded licensing rationale and closes no technical acceptance outcome."
+  },
+  "Boundaries": {
+    "PackageDownloaded": false,
+    "InstallerExecuted": false,
+    "SysinternalsToolExecuted": false,
+    "VmUsed": false,
+    "DefenderChanged": false,
+    "WindowsStateChanged": false
+  }
+}

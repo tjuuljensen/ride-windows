@@ -1,0 +1,64 @@
+{
+  "RecordedAtUtc": "2026-10-24T14:40:00Z",
+  "ProductUri": "https://thumbcacheviewer.github.io/",
+  "RepositoryUri": "https://github.com/thumbcacheviewer/thumbcacheviewer",
+  "LicenseUri": "https://www.gnu.org/licenses/gpl-3.0.html",
+  "License": "GNU General Public License v3 or later, declared in the publisher source",
+  "LicenseMigrationBlocker": false,
+  "PublisherSupportedWindows": [
+    "Windows Vista",
+    "Windows 7",
+    "Windows 8",
+    "Windows 8.1",
+    "Windows 10",
+    "Windows 11"
+  ],
+  "Products": [
+    {
+      "Edition": "GUI",
+      "Version": "1.0.4.0",
+      "ReleaseDate": "2023-10-25",
+      "DownloadUri": "https://github.com/thumbcacheviewer/thumbcacheviewer/releases/download/v1.0.4.0/thumbcache_viewer_64.zip",
+      "Purpose": "Read thumbcache_*.db and iconcache_*.db; display, export thumbnails, export CSV, verify CRC-64",
+      "Windows11SearchMappingDependency": "Matching SQLite library is required for Windows.db mapping."
+    },
+    {
+      "Edition": "Command-line",
+      "Version": "1.0.2.1",
+      "ReleaseDate": "2023-07-14",
+      "DownloadUri": "https://github.com/thumbcacheviewer/thumbcacheviewer/releases/download/v1.0.2.1/thumbcache_viewer_cmd_64.zip",
+      "Purpose": "Batch extraction and HTML/CSV reporting"
+    }
+  ],
+  "Dependencies": [
+    "Visual C++ 2008 runtime"
+  ],
+  "Verification": {
+    "ExactArchiveBytesAcquired": false,
+    "Sha256Verified": false,
+    "ArchiveMembersInspected": false,
+    "NativeLifecycleAcceptance": false
+  },
+  "RunDisposition": {
+    "ResolvedLegacyOutcomes": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Acquire exact publisher archives and verify hashes/members",
+      "Determine Visual C++ 2008 runtime handling and SQLite library pin",
+      "Test modern Windows 11 fixtures and native package lifecycle"
+    ],
+    "Partial": [
+      "Source review only; no whole legacy outcome closes"
+    ],
+    "MigrationEstimates": {
+      "Settings": "37-57",
+      "Packages": "52-67",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "141-195",
+      "RoundedTotal": "140-195/about 170"
+    }
+  }
+}

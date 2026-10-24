@@ -1,0 +1,80 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-21",
+  "Scope": "Static publisher-page, version, licensing and sensitive-data review of MiTeC Windows Registry Recovery and SMBIOS Explorer; no payload executed and no host hive, WMI or firmware data read",
+  "TermsPage": {
+    "Uri": "https://www.mitec.cz/wp/support/",
+    "Snapshot": ".local/collection-inventory-20261017/mitec-support.html",
+    "Sha256": "00c55ee6e356a5b3422234dc74a92ffef09f83d655d4cd4965dcffbc3f2b066b",
+    "Observation": "MiTeC's current support EULA says unregistered/trial applications are freeware for non-commercial use and lists separate license types. Product-page terms, local entitlement and distribution rights remain distinct."
+  },
+  "Products": [
+    {
+      "Name": "MiTeC Windows Registry Recovery",
+      "ProductUri": "https://www.mitec.cz/wp/mwrr/",
+      "ProductPageSnapshot": ".local/collection-inventory-20261017/mitec-product-mwrr.html",
+      "ProductPageSha256": "a2ce40437c264a40bffea95ab08877c51ba5fab7b448c3e9481ee9498c88e383",
+      "PageVersion": "3.1.3, dated 2025-01-17",
+      "PublishedBehavior": "Reads Windows registry hive files and exports REGEDIT4. The page lists hive views for file metadata/checksums, security records, SAM machine SID/part of SYSKEY/local users/groups, Windows product/name/ID/key and installed software, user Start menu, hardware/device maps, startup entries, services/drivers, network configuration, firewall rules, environment, shell folders, Outlook Express account settings and raw registry data. It also has a Registry Backup tool in version history.",
+      "LicensePagePriceObservation": "The page lists EUR 30 single-user and EUR 150 site lifetime licenses on the review date; local entitlement and distribution are unresolved.",
+      "Archive": ".local/remaining-collections-20261017/WRR.zip",
+      "DownloadUri": "https://www.mitec.cz/wp/files/WRR.zip",
+      "ArchiveLength": 5593684,
+      "ArchiveSha256": "bc0785fbf3184a5f1c83d791bb759363d58d47fe249e77e54ef41e5fc7cb6aa9",
+      "Members": [
+        {"Path":"WRR.exe","Length":2436656,"Sha256":"2585f37fea169883e5340c111a77dc96763f6546ba79d4ff1651067372c1ef14","Architecture":"x86","FileVersion":"3.1.3.0","ProductVersion":"3.0.0.0"},
+        {"Path":"WRR64.exe","Length":3485520,"Sha256":"cd11e0630e46539f8d6ad485f58b8dc58132afad75d465efb9199bc3a984aa2e","Architecture":"x64","FileVersion":"3.1.3.0","ProductVersion":"3.0.0.0"}
+      ],
+      "Acceptance": "Use only synthetic offline hive fixtures. Do not open host/guest real hives or export keys/reports containing product keys, SYSKEY material, SIDs, accounts, network/firewall settings, Outlook Express configuration or other personal/system data. If testing backup/export, constrain output to a disposable folder and verify exact cleanup."
+    },
+    {
+      "Name": "MiTeC SMBIOS Explorer",
+      "ProductUri": "https://www.mitec.cz/wp/smbe/",
+      "ProductPageSnapshot": ".local/collection-inventory-20261017/mitec-product-smbe.html",
+      "ProductPageSha256": "40c595d22da25dd1246ed30269a6942d7de3f980ed7cb84cdff9ea7721ffde04",
+      "PageVersion": "1.8.0, dated 2026-04-15",
+      "PublishedBehavior": "Reads SMBIOS through registry, WMI, ROM memory or API, displays hex/decoded data and system summary, searches files for SMBIOS tables, and saves plain/compressed captures. Its identification overview collects serial and asset numbers; the version history says system serial and UUID were added to the overview. SMBIOS helper SMBIOS.exe is a separate x86 1.0.0.0 executable, not the main application version.",
+      "LicensePageObservation": "The page offers a 14-day trial, says its unregistered version permits basic hex/interpreter/search plus save/load after expiration, and lists a EUR 30 lifetime single-user license. Local entitlement and redistribution remain unresolved.",
+      "Archive": ".local/remaining-collections-20261017/SMBE.zip",
+      "DownloadUri": "https://www.mitec.cz/wp/files/SMBE.zip",
+      "ArchiveLength": 9212025,
+      "ArchiveSha256": "7297b844b5fa0c4b84bd514f06e635e90f75541b5e38422bd0bed2d3c4db8f68",
+      "Members": [
+        {"Path":"SMBE.exe","Length":3553088,"Sha256":"4384dfa9ea81a4f870df55c270d08e81e9172857c4d995182291e8179e987f74","Architecture":"x86","FileVersion":"1.8.0.0","ProductVersion":"1.0.0.0"},
+        {"Path":"SMBE64.exe","Length":4952656,"Sha256":"5fdbd6cafe3bb56172bff18bd29238fbcd12de34bf813dae494353ab888c8842","Architecture":"x64","FileVersion":"1.8.0.0","ProductVersion":"1.0.0.0"},
+        {"Path":"SMBIOS.exe","Length":1380088,"Sha256":"358113343a4b8d52536466e8ddeb88cd00a9fe98b0b8b7288bd74d2986956a12","Architecture":"x86","FileVersion":"1.0.0.0","ProductVersion":"1.0.0.0"}
+      ],
+      "Acceptance": "Use only a synthetic SMBIOS file/image and keep registry/WMI/ROM/API collection disabled. Do not query, capture, log, screenshot or export real serials, asset tags, UUIDs or firmware tables. Test only the decoder and file search using synthetic fixture data."
+    }
+  ],
+  "SafetyAndAcceptance": {
+    "FrozenArchivePageAndMemberHashesMatch": true,
+    "PayloadsExecuted": false,
+    "HostRegistryHivesOpened": false,
+    "HostRegistryBackupCreated": false,
+    "WmiRegistryOrRomSmbiosQueried": false,
+    "SensitiveDataExported": false,
+    "FreshUacPrompts": 0,
+    "VmRuns": 0,
+    "DefenderBlockedToolsTouched": false,
+    "HostOrControllerChanged": false,
+    "DefenderChanged": false
+  },
+  "MigrationDisposition": {
+    "WholeLegacyOutcomesClosed": 0,
+    "RetiredOutcomes": 0,
+    "NewExclusions": 0,
+    "Resolved": "Current versions, x86/x64 variants and helper-version distinction, published hive/SMBIOS data sources and sensitive fields are recorded.",
+    "Partial": "Local entitlements, exact output redaction/retention, live-data access behavior, registry backup effects, UI and activation remain unverified.",
+    "Deferred": [
+      "Owner-specific application use and archive distribution assessment",
+      "No real registry hives, product keys, SYSKEY, accounts, network settings, Outlook settings, SMBIOS serials, asset tags or UUIDs in acceptance",
+      "Future checks limited to synthetic offline hives and synthetic SMBIOS files; verify output cleanup",
+      "Windows target, UI and activation behavior through an approved guest workflow"
+    ],
+    "EstimateRanges": ["38-58", "56-71", "20-25", "25-35", "8-12"],
+    "ExactTotal": "147-201",
+    "RoundedTotal": "145-200/about 175",
+    "EstimateReason": "Sensitive data sources, export paths and distinct helper version are clearer, but rights and complete runtime/recovery outcomes remain open; no estimate deduction is justified."
+  }
+}

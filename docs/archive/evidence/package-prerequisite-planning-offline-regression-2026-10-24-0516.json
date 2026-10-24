@@ -1,0 +1,49 @@
+{
+  "RecordedAtUtc": "2026-10-24T05:16:00Z",
+  "Scope": "Catalog-driven package prerequisite expansion, removal ordering, mutation guard, offline package coverage and lifecycle regression",
+  "Validation": {
+    "FocusedPester": {
+      "Result": "Passed",
+      "Passed": 244,
+      "Failed": 0,
+      "Files": [
+        "tests/PackageDependencyPlanning.Tests.ps1",
+        "tests/CatalogDependencyValidation.Tests.ps1",
+        "tests/OfflineExecution.Tests.ps1",
+        "tests/OfflineProfileCoverage.Tests.ps1",
+        "tests/PackageEvidence.Tests.ps1",
+        "tests/ApplicationPackages.Tests.ps1"
+      ],
+      "PesterVersion": "5.7.1",
+      "PowerShellVersion": "7.6.5",
+      "TestRegistryPlugin": "Disabled"
+    },
+    "WindowsPowerShell51Parser": {
+      "Result": "Passed",
+      "Files": 9
+    },
+    "RepositoryValidation": {
+      "Result": "Passed",
+      "Operations": 407,
+      "Groups": 8,
+      "Profiles": 5,
+      "PowerShellFiles": 267,
+      "GeneratedOperationDocumentation": "Current"
+    }
+  },
+  "VerifiedBehavior": [
+    "Declared prerequisites expand before consumers with a reason and deduplicate with explicit profile selections.",
+    "Unsatisfied registered prerequisites fail closed; dependent packages uninstall before prerequisites, and installed dependents block prerequisite removal.",
+    "A hand-built consumer-only mutation plan is rejected before snapshot creation or handler dispatch.",
+    "Offline profile coverage and execution preflight accept explicitly selected catalog prerequisite artifacts when ordered before consumers; artifact-level dependency installer actions remain unsupported.",
+    "Unsupported prerequisite candidates are allowed only when an already-installed package satisfies the declared state; pending candidates remain unavailable for new installation."
+  ],
+  "Safety": {
+    "InstallerOrPackageExecuted": false,
+    "NetworkAcquisitionPerformed": false,
+    "WindowsStateChanged": false,
+    "VMAccessed": false
+  },
+  "EnvironmentLimit": "Pester's TestRegistry plugin was disabled because the sandbox denies HKCU test-registry writes. Portable lifecycle fixtures used unique, validated .local scratch paths because sandbox AppContainer temporary paths deny atomic manifest moves.",
+  "EstimateImpact": "No legacy outcome closed, retired or excluded. Estimates remain settings 38-58, packages 52-67, components 19-24, files/assets 25-35, maintenance 8-12; exact 142-196, rounded 145-200/about 170. V14 runtime target acceptance and migration outcomes remain open."
+}

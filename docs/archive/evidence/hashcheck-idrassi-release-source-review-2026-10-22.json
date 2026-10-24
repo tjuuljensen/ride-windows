@@ -1,0 +1,59 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-22",
+  "Kind": "PackageSourceReview",
+  "PackageCandidate": {
+    "Name": "HashCheck - idrassi fork",
+    "PackageId": "idrassi.HashCheckShellExtension",
+    "Version": "2.6.3",
+    "OfficialRepository": "https://github.com/idrassi/HashCheck",
+    "OfficialRelease": "https://github.com/idrassi/HashCheck/releases/tag/v2.6.3",
+    "OfficialLicense": "BSD-3-Clause",
+    "OfficialLicenseUri": "https://github.com/idrassi/HashCheck/blob/master/license.txt",
+    "ReportedPublisherAssetUri": "https://github.com/idrassi/HashCheck/releases/download/v2.6.3/HashCheckSetup-v2.6.3.0.exe",
+    "ReportedSha256": "CD890774839177B234A1165FD459DDEB830274EF7D81B289DDB70D43AE5983FA",
+    "ReportedDigestSource": "Third-party Chocolatey package page for 2.6.3; not used as a verified package pin.",
+    "DigestVerifiedAgainstBytes": false,
+    "AuthenticodeVerified": false,
+    "SupportedTargets": []
+  },
+  "SourceFindings": [
+    "The official upstream release page identifies v2.6.3, released 2026-10-07, and describes checksum creation, verification, and Explorer integration changes.",
+    "The official README identifies the WinGet package as idrassi.HashCheckShellExtension and declares a standard 3-Clause BSD license.",
+    "The official release page did not expose downloadable asset bytes through the available browser retrieval. A third-party Chocolatey record reports the version-specific GitHub release URL and SHA-256; these are leads only until independently retrieved and verified.",
+    "The local shell could not resolve github.com during the official asset retrieval attempt. No installer bytes were saved or executed."
+  ],
+  "Validation": {
+    "OfficialReleasePageRead": true,
+    "OfficialRepositoryRead": true,
+    "OfficialAssetRetrieval": "Failed before transfer: host name resolution failed.",
+    "InstallerExecuted": false,
+    "DefenderBlockedToolsTouched": false,
+    "DefenderChanged": false,
+    "VmOrCheckpointTouched": false,
+    "FreshUacPrompts": 0
+  },
+  "Outcomes": {
+    "Resolved": [
+      "Current official release identity and version",
+      "Publisher-reported package identity and license family"
+    ],
+    "Partial": [
+      "Candidate-specific publisher asset URL and independent reported digest lead"
+    ],
+    "Deferred": [
+      "Retrieve and pin exact publisher bytes; verify SHA-256 and Authenticode signer",
+      "Inspect installer silent switches, install/uninstall behavior, shell-extension registration and recovery",
+      "Disposable Windows 11 acceptance; evaluate each Windows Server target independently",
+      "Owner-specific license review and distribution assessment"
+    ],
+    "Retired": [],
+    "Excluded": []
+  },
+  "Estimates": {
+    "GroupRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "ReasonUnchanged": "Source identity research without verified installer bytes, lifecycle, recovery or target acceptance does not resolve a package outcome."
+  }
+}

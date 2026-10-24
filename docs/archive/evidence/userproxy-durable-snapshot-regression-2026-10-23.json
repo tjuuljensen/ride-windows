@@ -1,0 +1,81 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "TimeUtc": "08:39:03",
+  "Batch": "B04 durable user-proxy lifecycle snapshot candidate",
+  "Module": "modules/RIDE.UserProxyLifecycle.psm1",
+  "Version": "0.2.0",
+  "Implementation": {
+    "StatePath": "%LOCALAPPDATA%/RIDE/State/UserProxy/<RunId>.json",
+    "WriteMode": "CreateNew UTF-8 JSON record; flushed before native setter",
+    "Apply": [
+      "Persists the validated pre-change snapshot after ShouldProcess approval and before the WinINet setter.",
+      "Returns RunId and SnapshotPath with the lifecycle result.",
+      "WhatIf creates no state directory or snapshot.",
+      "A snapshot-store failure stops before any native setter call."
+    ],
+    "Restore": "Restore-RideUserProxyConfigurationSnapshot accepts an in-memory Snapshot or a RunId; saved records are size/path/schema and machine/SID/session checked before live observation.",
+    "Boundaries": [
+      "State is user-writable and schema-validated, not authenticated.",
+      "No completed-run ledger or RIDE engine/catalog integration.",
+      "WinINet compare/write is not atomic against other applications.",
+      "No complete effective-policy, PAC consumer, or native acceptance evidence."
+    ]
+  },
+  "Validation": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "FocusedSuites": [
+      "tests/UserProxyInventory.Tests.ps1",
+      "tests/UserProxyPreparation.Tests.ps1",
+      "tests/UserProxyLifecycle.Tests.ps1"
+    ],
+    "Discovered": 100,
+    "Passed": 100,
+    "Failed": 0,
+    "Skipped": 0,
+    "KeyCases": [
+      "Saved record exists before the mocked native setter.",
+      "Restore by RunId restores owned state for the matching machine/SID/session.",
+      "A different user identity is refused before native setter.",
+      "WhatIf creates no durable record.",
+      "Snapshot-store failure prevents the native setter.",
+      "Existing drift, policy, readback, notification, and compensation cases remain passing."
+    ],
+    "NativeWinInetCalls": 0,
+    "RegistryCalls": 0,
+    "WindowsStateChanged": false
+  },
+  "VmAcceptance": {
+    "Run": false,
+    "Reason": "Fresh Get-VM access was previously denied; this local regression uses mocked native boundaries.",
+    "SupportedTargetsUnchanged": true
+  },
+  "Outcomes": {
+    "Resolved": [
+      "B04 candidate now durably stores pre-change proxy state in user scope before its native writer and can load it by saved run ID."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "RIDE engine/catalog operation and restore-completion integration.",
+      "Snapshot authenticity and restore completion tracking.",
+      "Cross-process compare/write boundary, complete effective-policy coverage, controlled PAC consumer testing, Windows 11 native acceptance and supported-target decision."
+    ],
+    "Partial": [
+      "Unregistered candidate only; no legacy component behavior accepted and no supported target added."
+    ],
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateAdjustment": "Unchanged; lifecycle preparation closes no legacy outcome."
+  }
+}

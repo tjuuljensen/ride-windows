@@ -1,0 +1,57 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-22",
+  "ReviewType": "SyntheticInputRuntimeProbe",
+  "Package": {
+    "Id": "package.hex2text",
+    "PackageVersion": "source-9715c6c26824",
+    "Revision": "9715c6c26824ef05039228f16e0c47620c52fe79",
+    "ArchiveSha256": "aa0083da094a3320db9a97eb22c499a420187c208ed92376a662243678f083c3",
+    "ScriptSha256": "016ac1ca471de179aa908eb71eb7ea068a53f0d04e6761a5f0e27ca95e682047"
+  },
+  "Environment": {
+    "Interpreter": "Python 3.12.14",
+    "InterpreterSource": "Bundled local workspace runtime",
+    "PythonIOEncoding": "utf-8",
+    "Target": "Local Windows host process; not a disposable VM"
+  },
+  "LocalPester": {
+    "File": "tests/SourceScriptPackages.Tests.ps1",
+    "PesterVersion": "5.7.1",
+    "Result": "Passed",
+    "Passed": 8,
+    "Failed": 0,
+    "Skipped": 0,
+    "TestRegistryPluginEnabled": false,
+    "WindowsIntegrationExcluded": true,
+    "TemporaryDirectory": ".local/pester-hex2text-runtime",
+    "Note": "The initial default invocation failed before assertions because the optional HKCU TestRegistry fixture was denied by sandbox policy; the isolated rerun disabled that fixture and passed."
+  },
+  "Cases": [
+    { "Name": "basic-groups", "Input": "00410042", "ExpectedExitCode": 0, "ActualExitCode": 0, "Observed": "AB", "Passed": true },
+    { "Name": "spaces-and-incomplete-suffix", "Input": "0041 0042XYZ", "ExpectedExitCode": 0, "ActualExitCode": 0, "Observed": "AB; trailing XYZ ignored", "Passed": true },
+    { "Name": "invalid-complete-group", "Input": "00G0", "ExpectedExitCode": 1, "ActualExitCode": 1, "Observed": "ValueError", "Passed": true },
+    { "Name": "control-codepoint", "Input": "00410001", "ExpectedExitCode": 0, "ActualExitCode": 0, "Observed": "U+0001 emitted after A", "Passed": true },
+    { "Name": "isolated-surrogate", "Input": "D800", "ExpectedExitCode": 1, "ActualExitCode": 1, "Observed": "UnicodeEncodeError under strict UTF-8 stdout", "Passed": true }
+  ],
+  "SecurityAndScope": {
+    "Inputs": "Synthetic strings supplied directly to stdin only",
+    "UserFilesReadOrWritten": false,
+    "NetworkUsed": false,
+    "WindowsStateChanged": false,
+    "UpstreamCodeModified": false,
+    "SupportedTargetsChanged": false,
+    "DefenderConfigurationChanged": false
+  },
+  "Disposition": {
+    "Resolved": ["Basic pinned-source runtime input behavior on this Python 3.12.14 local process"],
+    "Deferred": ["Windows console/code-page behavior", "Disposable-VM managed-file lifecycle and recovery"],
+    "Partial": ["package.hex2text remains an unsupported candidate; local synthetic probes do not establish Windows target acceptance or retire the legacy outcome"]
+  },
+  "EstimateEffect": {
+    "GroupRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactRangeEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "Reason": "No legacy outcome was closed; this run adds bounded source-runtime evidence only."
+  }
+}

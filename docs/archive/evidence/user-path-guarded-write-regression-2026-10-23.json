@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-23",
+  "operation": "B03 persistent user PATH guarded write preparation",
+  "implementation": {
+    "module": "modules/RIDE.UserPathPreparation.psm1",
+    "version": "0.2.0",
+    "writer": "Set-RideUserPathValue",
+    "status": "Internal helper; not dispatched by the RIDE engine",
+    "scope": "Current interactive user's HKCU Environment\\Path value only",
+    "guards": [
+      "Explicit expected computer, user SID, profile directory and session",
+      "Current interactive native-user identity validation",
+      "Literal current-value comparison before write",
+      "ShouldProcess confirmation boundary",
+      "Preserve captured String or ExpandString registry kind",
+      "Literal post-write read-back verification"
+    ],
+    "excluded": [
+      "Machine PATH",
+      "Process PATH",
+      "Environment broadcast or refresh",
+      "Bin directory creation or deletion",
+      "Durable engine run-state ownership and restore dispatch"
+    ]
+  },
+  "tests": {
+    "path": "tests/UserPathPreparation.Tests.ps1",
+    "pesterVersion": "5.7.1",
+    "testRegistryPlugin": "Disabled; its optional HKCU fixture is denied by the sandbox",
+    "powerShell7": {
+      "passed": 50,
+      "failed": 0,
+      "skipped": 0
+    },
+    "windowsPowerShell51": {
+      "passed": 50,
+      "failed": 0,
+      "skipped": 0
+    },
+    "registryBoundary": "Mocked registry handles only; no actual registry write or PATH change"
+  },
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "status": "Partial",
+    "deferred": [
+      "Engine catalog and lifecycle integration",
+      "Authenticated durable snapshot and exact restore",
+      "Interruption and external-writer conflict recovery",
+      "Environment refresh and effective-path verification",
+      "Disposable Windows acceptance"
+    ],
+    "estimateRangesUnchanged": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+    "exactTotalUnchanged": "142-196",
+    "roundedTotalUnchanged": "145-200/about 170"
+  }
+}

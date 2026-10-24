@@ -1,0 +1,67 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "RecordedAtUtc": "2026-10-23T07:45:17Z",
+  "Batch": "B04 default/LAN WinINet native write-boundary candidate",
+  "Implementation": {
+    "Module": "modules/RIDE.UserProxyInventory.psm1",
+    "Version": "0.2.0",
+    "WriteOptions": [
+      "INTERNET_PER_CONN_FLAGS",
+      "INTERNET_PER_CONN_AUTOCONFIG_URL only when owned"
+    ],
+    "RefreshNotifications": [
+      "INTERNET_OPTION_SETTINGS_CHANGED",
+      "INTERNET_OPTION_REFRESH"
+    ],
+    "Guards": [
+      "Expected current computer, user SID and interactive session",
+      "ShouldProcess"
+    ],
+    "LifecycleState": "Candidate only; no engine/catalog integration, durable prior state, policy refusal, atomic compare-and-set, post-write readback, partial-failure compensation or live restore."
+  },
+  "Tests": {
+    "PowerShell7": "7.6.5",
+    "Pester": "5.7.1",
+    "Paths": [
+      "tests/UserProxyInventory.Tests.ps1",
+      "tests/UserProxyPreparation.Tests.ps1"
+    ],
+    "Passed": 80,
+    "Failed": 0,
+    "Skipped": 0,
+    "TestRegistryPlugin": "Disabled",
+    "NativeWinInetCalled": false,
+    "RealProxyStateChanged": false
+  },
+  "ParserChecks": {
+    "PowerShell7": {"Files": 4, "Errors": 0},
+    "WindowsPowerShell51": {"Files": 4, "Errors": 0}
+  },
+  "VmAccess": {
+    "VM": "RIDE-Win11-Test",
+    "CheckedAtUtc": "2026-10-23T07:39:14Z",
+    "Result": "AccessDenied",
+    "Error": "Access to a CIM resource was not available to the client.",
+    "CheckpointQueried": false,
+    "GuestRun": false,
+    "VmStateChanged": false
+  },
+  "Outcomes": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Fresh compare-and-set, managed-policy handling, durable recovery, post-write readback, partial-failure recovery, engine integration and Windows acceptance."
+    ],
+    "Partial": [
+      "Default/LAN native WinINet write boundary implemented and tested through a fake API; no legacy proxy setting outcome closed."
+    ]
+  },
+  "Estimate": {
+    "GroupRanges": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "No legacy outcome closed; estimates remain unchanged."
+  }
+}

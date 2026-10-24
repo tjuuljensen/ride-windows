@@ -1,0 +1,46 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-22",
+  "Supersedes": "sysinternals-license-review-2026-10-22.json",
+  "DecisionSource": "User reconfirmation of the prior RIDE v2 license-specialist assessment",
+  "Decision": "The license specialist approved Sysinternals for RIDE v2. RIDE obtains Sysinternals directly from Microsoft and downloads/installs it on devices supported by the user. RIDE does not publish or transfer Sysinternals copies.",
+  "MigrationDisposition": "No license blocker for Sysinternals use or package migration in RIDE's approved download-and-install scope.",
+  "OriginalReviewerIdentity": "Not retained",
+  "OriginalApprovalDate": "Not retained",
+  "ReconfirmedByUserOn": "2026-10-22",
+  "ReconciledAtUtc": "2026-10-22T14:14:46.6505629Z",
+  "MicrosoftReferences": {
+    "TermsUri": "https://learn.microsoft.com/en-us/sysinternals/license-terms",
+    "FaqUri": "https://learn.microsoft.com/en-us/sysinternals/license-faq",
+    "ScopeNote": "The terms allow installation/use on supported devices. Their restrictions on publishing/transferring copies concern a distribution model outside RIDE's current direct-download-and-install workflow."
+  },
+  "LocalReviewStore": {
+    "Path": ".local/license-reviews.json",
+    "ReviewOwner": "Unassigned",
+    "StatusForAllListedVersions": "Reviewed",
+    "OriginalNeedsReviewCount": 35,
+    "CurrentNeedsReviewCount": 25,
+    "Rows": [
+      {"Id":"package.sysinternals-suite","ReviewedVersion":"snapshot-20261017-e1e75de5"},
+      {"Id":"package.sysinternals-process-explorer","ReviewedVersion":"17.2"},
+      {"Id":"package.sysinternals-autoruns","ReviewedVersion":"14.3"},
+      {"Id":"package.sysinternals-tcpview","ReviewedVersion":"4.19"},
+      {"Id":"package.sysinternals-procmon","ReviewedVersion":"4.12"},
+      {"Id":"package.sysinternals-rammap","ReviewedVersion":"1.63"},
+      {"Id":"package.sysinternals-disk2vhd","ReviewedVersion":"2.02"},
+      {"Id":"package.sysinternals-sigcheck","ReviewedVersion":"2.93"},
+      {"Id":"package.sysinternals-strings","ReviewedVersion":"2.54"},
+      {"Id":"package.sysinternals-handle","ReviewedVersion":"5.0"}
+    ],
+    "ReviewNotes": "Each exact version now records prior RIDE v2 specialist approval, user reconfirmation on the reconciliation date, and that publication/transfer by RIDE is not in scope. The original specialist identity and approval date are not represented as known."
+  },
+  "ScopeBoundary": "RIDE's Sysinternals workflow downloads from Microsoft and installs on devices supported by the user. The user confirms that the prior RIDE v2 license-specialist approval covers this use; no legal issue or licensing blocker remains for Sysinternals use or migration in RIDE.",
+  "Outcome": {
+    "Resolved": ["Sysinternals license review for RIDE download/install"],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Native package lifecycle and checkpoint acceptance remain open for technical reasons."],
+    "Partial": ["Sysinternals package migration remains incomplete pending technical acceptance."]
+  },
+  "EstimateEffect": "No migration estimate range changes because the package lifecycle acceptance remains incomplete."
+}

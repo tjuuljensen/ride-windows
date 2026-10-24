@@ -1,0 +1,84 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "ReconciledAtUtc": "2026-10-23T07:39:14Z",
+  "Batch": "B06 guarded OpenSSH Client and Telnet Client lifecycle candidate",
+  "Repository": "RIDE-Windows",
+  "Scope": [
+    "OpenSSH.Client~~~~0.0.1.0 capability",
+    "TelnetClient optional feature"
+  ],
+  "Implementation": {
+    "Module": "modules/RIDE.ClientComponentLifecycle.psm1",
+    "State": "Unregistered source candidate; no catalog operation or supported target added",
+    "Controls": [
+      "Fresh local component inventory and expected computer/build/edition checks",
+      "Domain-controller and pending-reboot refusal",
+      "Explicit Online or Offline source mode",
+      "CreateNew machine-scope prior-state snapshot before DISM transition",
+      "ShouldProcess gate, no automatic restart, and literal post-state readback",
+      "Restore refusal on target revision or component-state drift"
+    ],
+    "RecoveryLimit": "Literal servicing state only; payload bytes and version are not captured and exact payload recovery is unsupported.",
+    "SourceLimit": "Offline path existence only; source identity/completeness and complete no-network boundary remain unverified."
+  },
+  "Validation": {
+    "PowerShell7": "7.6.5",
+    "Pester": "5.7.1",
+    "FocusedTests": {
+      "Path": "tests/ClientComponentLifecycle.Tests.ps1",
+      "Passed": 10,
+      "Failed": 0,
+      "Skipped": 0,
+      "RegistryPluginEnabled": false,
+      "SystemServicingInvoked": false
+    },
+    "SafetyCases": [
+      "Server installation is refused until a server target is declared.",
+      "A modified saved provider/name identity is refused before restore servicing.",
+      "Restore is refused when the target servicing revision changes after capture.",
+      "WhatIf restore invokes no servicing and retains the saved state."
+    ],
+    "WindowsPowerShellParser": {
+      "Version": "5.1.26100.9711",
+      "FilesParsed": 3,
+      "Errors": 0,
+      "RunResult": "Parsed three candidate files through powershell.exe -Command; no source script execution was required."
+    },
+    "PowerShell7Parser": {
+      "Version": "7.6.5",
+      "FilesParsed": 3,
+      "Errors": 0
+    },
+    "UpdatedAtUtc": "2026-10-23T07:39:14Z",
+    "FocusedRegression": "10/10 passed; restore servicing-revision drift and WhatIf restore boundaries added.",
+    "NativeServicing": false,
+    "VMRun": false
+  },
+  "VmAccess": {
+    "Name": "RIDE-Win11-Test",
+    "CheckedAtUtc": "2026-10-23T07:39:14Z",
+    "Result": "AccessDenied",
+    "Error": "Access to a CIM resource was not available to the client.",
+    "CheckpointQueried": false
+  },
+  "Outcomes": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Matching offline source, servicing/network-source boundary, policy and dependency acceptance",
+      "Disposable Windows VM apply/repeat/status/restore and target behavior",
+      "Exact payload/version recovery and supported-target declaration"
+    ],
+    "Partial": [
+      "Local guarded lifecycle implementation and mocked regression only; no legacy component outcome closed"
+    ]
+  },
+  "EstimateDisposition": {
+    "Groups": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Reason": "The new candidate adds no supported target and closes no legacy outcome; ranges remain unchanged."
+  }
+}

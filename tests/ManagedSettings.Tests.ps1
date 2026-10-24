@@ -14,6 +14,14 @@ BeforeAll {
   Import-Module (Join-Path $PSScriptRoot '../modules/RIDE-ManagedSettings.psm1') -Force
   Import-Module (Join-Path $PSScriptRoot '../modules/RIDE-ScheduledTasks.psm1') -Force
   Import-Module (Join-Path $PSScriptRoot '../modules/RIDE-SystemPreferences.psm1') -Force
+  InModuleScope RIDE-SystemPreferences {
+    if (-not (Get-Command Get-MpPreference -ErrorAction SilentlyContinue)) {
+      function script:Get-MpPreference { throw 'Defender preference must be mocked in this test.' }
+    }
+    if (-not (Get-Command Set-MpPreference -ErrorAction SilentlyContinue)) {
+      function script:Set-MpPreference { throw 'Defender preference must be mocked in this test.' }
+    }
+  }
 }
 Describe 'Exact scheduled-task target' {
   BeforeEach {

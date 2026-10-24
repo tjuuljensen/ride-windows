@@ -1,0 +1,49 @@
+{
+  "RecordedAtUtc": "2026-10-24T15:10:00Z",
+  "Subject": "ExifTool portable package candidate implementation",
+  "PackageId": "package.exiftool",
+  "CatalogCandidate": {
+    "Version": "13.59",
+    "Architecture": "x64",
+    "CandidateTargets": ["Windows 11"],
+    "SupportedTargets": [],
+    "PendingAcceptance": true,
+    "DownloadUri": "https://sourceforge.net/projects/exiftool/files/exiftool-13.59_64.zip/download",
+    "SourceForgeReportedSha256": "44b512b25af500724ba579d0a53c8fc5851628b692dd5e5d94ae4a15c2cba9ec",
+    "PublisherReleaseTrack": "13.59 is labeled development; 13.55 is latest production.",
+    "PortableCopy": "exiftool-13.59_64/exiftool(-k).exe to exiftool-13.59_64/exiftool.exe"
+  },
+  "Implementation": {
+    "PortableCopiesMetadataAndValidation": "Added bounded, path-validated copy mapping for an archive-provided launcher to a distinct owned command name.",
+    "Ownership": "The generated file is included in the portable install manifest and saved-run recovery.",
+    "Tests": [
+      "Synthetic inert ZIP stages the publisher launcher and retained notice, installs the command alias, uninstalls and restores owned files.",
+      "Refuses when the command-copy destination already exists in the archive."
+    ]
+  },
+  "Validation": {
+    "RepositoryValidation": "Passed: 409 operations, 8 groups, 5 profiles, 272 PowerShell files.",
+    "ApplicationPackagesPester": "Passed: 105/105 with Pester TestRegistry disabled and temporary files under .local.",
+    "PowerShellParser": "Passed: 4/4 focused files.",
+    "DiffCheck": "Passed."
+  },
+  "AcquisitionAndAcceptance": {
+    "NativeArchiveAcquired": false,
+    "LocalArchiveSha256Computed": false,
+    "ExactArchiveMembersInspected": false,
+    "NativeTransferBlocker": "SourceForge hostname resolution failed locally before transfer; no partial archive was created.",
+    "Windows11Acceptance": "Pending",
+    "UtilityExecuted": false,
+    "UserMediaOpenedOrChanged": false
+  },
+  "MigrationEstimate": {
+    "Settings": "37-57",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "141-195",
+    "RoundedTotal": "140-195/about 170",
+    "LegacyOutcomesClosed": 0
+  }
+}

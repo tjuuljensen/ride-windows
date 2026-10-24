@@ -1,0 +1,73 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-23T18:21:23Z",
+  "Batch": "OpenJDK official source-reference and Windows test-VM access recheck",
+  "OpenJdk": {
+    "OfficialPage": "https://learn.microsoft.com/en-us/java/openjdk/download",
+    "Finding": "Microsoft Learn still lists versioned x64 MSI and SHA-256 sidecar links for each selected release. The web reader followed the links to download.visualstudio.microsoft.com but could not access sidecar bytes. No checksum or MSI bytes were acquired. Third-party checksum leads were not substituted for publisher sidecars.",
+    "Releases": [
+      {
+        "Version": "25.0.4.1",
+        "Msi": "microsoft-jdk-25.0.4.1-windows-x64.msi",
+        "Sidecar": "microsoft-jdk-25.0.4.1-windows-x64.msi.sha256sum.txt"
+      },
+      {
+        "Version": "21.0.12.1",
+        "Msi": "microsoft-jdk-21.0.12.1-windows-x64.msi",
+        "Sidecar": "microsoft-jdk-21.0.12.1-windows-x64.msi.sha256sum.txt"
+      },
+      {
+        "Version": "17.0.20.1",
+        "Msi": "microsoft-jdk-17.0.20.1-windows-x64.msi",
+        "Sidecar": "microsoft-jdk-17.0.20.1-windows-x64.msi.sha256sum.txt"
+      },
+      {
+        "Version": "11.0.32.1",
+        "Msi": "microsoft-jdk-11.0.32.1-windows-x64.msi",
+        "Sidecar": "microsoft-jdk-11.0.32.1-windows-x64.msi.sha256sum.txt"
+      }
+    ]
+  },
+  "VmAccess": {
+    "WindowsStateChanged": false,
+    "CheckpointInspected": false,
+    "Command": "Get-VM -Name RIDE-Win11-Test,RIDE-Srv2025Test",
+    "ElevationRequested": false,
+    "Result": "Access to a CIM resource was not available to the client.",
+    "VmChanged": false
+  },
+  "Migration": {
+    "Estimates": {
+      "Reason": "Recheck produced source-link identities only and no VM acceptance or closed legacy outcome.",
+      "Changed": false,
+      "Rounded": "145-200/about 170",
+      "Exact": "142-196",
+      "Groups": [
+        "38-58",
+        "52-67",
+        "19-24",
+        "25-35",
+        "8-12"
+      ]
+    },
+    "Excluded": [],
+    "Retired": [],
+    "Resolved": [
+      "Reconfirmed current official OpenJDK versioned MSI and sidecar link identities"
+    ],
+    "Partial": [
+      "No OpenJDK legacy outcome closed; package candidates remain unsupported"
+    ],
+    "Deferred": [
+      "Publisher checksum bytes and exact MSI acquisition; Windows 11 and Server 2025 package lifecycle acceptance",
+      "All VM acceptance requiring inaccessible Hyper-V/CIM checkpoint inspection"
+    ]
+  },
+  "Boundaries": {
+    "MsiDownloaded": false,
+    "NetworkBypassUsed": false,
+    "PackageInstalled": false,
+    "MsiExecuted": false,
+    "DefenderChanged": false
+  }
+}

@@ -2,9 +2,12 @@
 .SYNOPSIS
   Verify pinned source-script package notice requirements and file ownership.
 .DESCRIPTION
-  Builds inert archives from all 360 reviewed source members. Optionally reads
+  Uses compact inert archives for failure-boundary tests and builds one full
+  archive from all 360 reviewed members for lifecycle coverage. Optionally reads
   RIDE_PSSCRIPTTOOLS_FIXTURE_ARCHIVE for the retained, hash-pinned publisher ZIP.
-  All deployment paths stay in TestDrive. Does not run/import upstream code or
+  Product install and backup destinations stay in TestDrive; archive extraction
+  uses the process TEMP directory. Uses offline staging to prevent
+  certificate-provider network checks. Does not run/import upstream code or
   installers, install dependencies, or inspect editor/session data.
 .EXAMPLE
   Invoke-Pester .\tests\PSScriptToolsPackage.Tests.ps1
@@ -42,14 +45,8 @@ Describe 'Pinned source package <Id>' -ForEach @(@{Id='package.psscripttools'}) 
     $null=New-Item -ItemType Directory -Path $CaseRoot
     $Operation.SelectedVariant='portable';$Operation.ResolvedToolsDirectory=$CaseRoot
     $Operation.InstallDirectory=Join-Path $CaseRoot $Operation.PackageId
-    if($env:RIDE_PSSCRIPTTOOLS_FIXTURE_ARCHIVE){
-      $path=[IO.Path]::GetFullPath($env:RIDE_PSSCRIPTTOOLS_FIXTURE_ARCHIVE)
-      $hash=(Get-FileHash -LiteralPath $path).Hash.ToLowerInvariant()
-      if($hash -cne $SourceReview.Sha256 -or $hash -cne $Operation.ExpectedSha256){throw 'Retained source differs from the reviewed/catalog pin.'}
-      $script:Artifact=[pscustomobject]@{Path=$path;Version=$Operation.PackageVersion;Sha256=$hash}
-    }else{
-      $script:Artifact=New-InertSourceArchive (Join-Path $CaseRoot 'psscripttools.zip') $SourceMembers $Operation.PackageVersion
-    }
+    $script:FixtureMembers=@(@($Operation.RequiredFiles)+@($SourceMembers[0])|Select-Object -Unique)
+    $script:Artifact=New-InertSourceArchive (Join-Path $CaseRoot 'psscripttools-fixture.zip') $FixtureMembers $Operation.PackageVersion
   }
   It 'declares complete pinned source and notices without runtime activation' {
     $Operation.PendingAcceptance | Should -BeTrue
@@ -69,14 +66,25 @@ Describe 'Pinned source package <Id>' -ForEach @(@{Id='package.psscripttools'}) 
     Test-Path -LiteralPath $Operation.InstallDirectory | Should -BeFalse
   }
   It 'stages, repeats and restores source while preserving unowned analyst output' {
-    Install-RidePortablePayload $Operation $Artifact
+    if($env:RIDE_PSSCRIPTTOOLS_FIXTURE_ARCHIVE){
+      $path=[IO.Path]::GetFullPath($env:RIDE_PSSCRIPTTOOLS_FIXTURE_ARCHIVE)
+      $hash=(Get-FileHash -LiteralPath $path).Hash.ToLowerInvariant()
+      if($hash -cne $SourceReview.Sha256 -or $hash -cne $Operation.ExpectedSha256){throw 'Retained source differs from the reviewed/catalog pin.'}
+      $Artifact=[pscustomobject]@{Path=$path;Version=$Operation.PackageVersion;Sha256=$hash}
+    }else{
+      $Artifact=New-InertSourceArchive (Join-Path $CaseRoot 'psscripttools-full-fixture.zip') $SourceMembers $Operation.PackageVersion
+    }
+    Install-RidePortablePayload $Operation $Artifact -Offline
     $installed=Get-RidePortableState $Operation
     $installed.Files.Count | Should -Be 360
     @((Compare-Object ($SourceMembers|Sort-Object) ($installed.Files.RelativePath|Sort-Object))).Count | Should -Be 0
+    $scriptFiles=@($installed.Manifest.Files|Where-Object {$_.RelativePath -match '\.ps1$'})
+    $scriptFiles.Count | Should -BeGreaterThan 0
+    @($scriptFiles|Where-Object {$_.AuthenticodeStatus -ne 'NotInspectedOffline'}).Count | Should -Be 0
     $originalHashes=@($installed.Files|Sort-Object RelativePath|ForEach-Object { $_.RelativePath+'='+$_.ActualSha256 })
     $output=Join-Path $Operation.InstallDirectory 'analyst-output.txt'
     [IO.File]::WriteAllText($output,'operator output')
-    Install-RidePortablePayload $Operation $Artifact
+    Install-RidePortablePayload $Operation $Artifact -Offline
     @((Compare-Object $originalHashes @((Get-RidePortableState $Operation).Files|Sort-Object RelativePath|ForEach-Object {$_.RelativePath+'='+$_.ActualSha256}))).Count | Should -Be 0
     $snapshot=Save-RidePortableSnapshot $Operation (Join-Path $CaseRoot 'backup') | ConvertTo-Json -Depth 12 | ConvertFrom-Json
     Uninstall-RidePortablePayload $Operation
@@ -88,11 +96,11 @@ Describe 'Pinned source package <Id>' -ForEach @(@{Id='package.psscripttools'}) 
     [IO.File]::ReadAllText($output) | Should -BeExactly 'operator output'
   }
   It 'refuses replacing operator-modified source and preserves it on removal' {
-    Install-RidePortablePayload $Operation $Artifact
+    Install-RidePortablePayload $Operation $Artifact -Offline
     $source=Join-Path $Operation.InstallDirectory @($Operation.RequiredFiles|Where-Object {$_ -like '*/PSScriptTools.psm1'})[0]
     [IO.File]::WriteAllText($source,'operator source edit')
     $snapshot=Save-RidePortableSnapshot $Operation (Join-Path $CaseRoot 'backup')
-    {Install-RidePortablePayload $Operation $Artifact} | Should -Throw '*modified*'
+    {Install-RidePortablePayload $Operation $Artifact -Offline} | Should -Throw '*modified*'
     Uninstall-RidePortablePayload $Operation -WarningAction SilentlyContinue
     [IO.File]::ReadAllText($source) | Should -BeExactly 'operator source edit'
     Restore-RidePortableSnapshot $Operation $snapshot
@@ -103,21 +111,21 @@ Describe 'Pinned source package <Id>' -ForEach @(@{Id='package.psscripttools'}) 
     $path=Join-Path $Operation.InstallDirectory $SourceMembers[0]
     $null=New-Item -ItemType Directory -Path (Split-Path -Parent $path) -Force
     [IO.File]::WriteAllText($path,'unowned source')
-    {Install-RidePortablePayload $Operation $Artifact} | Should -Throw '*collision*'
+    {Install-RidePortablePayload $Operation $Artifact -Offline} | Should -Throw '*collision*'
     [IO.File]::ReadAllText($path) | Should -BeExactly 'unowned source'
     @(Get-ChildItem -LiteralPath $Operation.InstallDirectory -File -Recurse -Force).Count | Should -Be 1
   }
   It 'refuses changed recovery bytes before removing the installed source' {
-    Install-RidePortablePayload $Operation $Artifact
+    Install-RidePortablePayload $Operation $Artifact -Offline
     $snapshot=Save-RidePortableSnapshot $Operation (Join-Path $CaseRoot 'backup')
     [IO.File]::WriteAllText((Join-Path $snapshot.BackupDirectory $snapshot.Files[0].RelativePath),'changed backup')
     {Restore-RidePortableSnapshot $Operation $snapshot} | Should -Throw '*recovery bytes are unavailable*'
     (Get-RidePortableState $Operation).Healthy | Should -BeTrue
-    (Get-RidePortableState $Operation).Files.Count | Should -Be 360
+    (Get-RidePortableState $Operation).Files.Count | Should -Be $FixtureMembers.Count
   }
   It 'restores prior absence while preserving unowned content' {
     $snapshot=Save-RidePortableSnapshot $Operation (Join-Path $CaseRoot 'backup')
-    Install-RidePortablePayload $Operation $Artifact
+    Install-RidePortablePayload $Operation $Artifact -Offline
     $output=Join-Path $Operation.InstallDirectory 'custom.txt';[IO.File]::WriteAllText($output,'custom')
     Restore-RidePortableSnapshot $Operation $snapshot
     (Get-RidePortableState $Operation).Present | Should -BeFalse

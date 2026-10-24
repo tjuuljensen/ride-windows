@@ -17,9 +17,11 @@ RIDE mappings use the [catalog](../catalog/operations.psd1),
 [confirmed review choices](migrations/application-review-rounds-2026-10-12.md),
 [migration plan](MIGRATION-PLAN.md), [task list](../TODO.md) and
 [supplemental candidates](candidate-tools.md). Pending review is not a committed
-package implementation. This reference adds no packages or migration outcomes;
-the existing [package pause and deployment decisions](migrations/package-deployment-decisions.md)
-remain in effect.
+package implementation. Slack and Discord were added as current-user EXE
+candidates by user direction on 2026-10-22; native acceptance remains pending.
+Other comparison gaps are not new backlog commitments. The existing
+[package pause and deployment decisions](migrations/package-deployment-decisions.md)
+remain in effect for unrelated products.
 
 ## Existing RIDE packages
 
@@ -40,6 +42,13 @@ and the [application guide](application-packages.md) for distribution behavior.
 | PuTTY | `package.putty` | RIDE manages the standalone x64 executable. |
 | Visual Studio Code | `package.vscode` | Existing catalog package. |
 
+## New package candidates
+
+| Ninite app | RIDE ID | Current boundary |
+| --- | --- | --- |
+| Slack | `package.slack` | Current-user x64 EXE 4.52.182; Slack's direct EXE is now labeled legacy, and Windows 11 lifecycle acceptance is pending. |
+| Discord | `package.discord` | Current-user x64 EXE 1.0.9264; silent/default launch and Windows 11 lifecycle acceptance are pending. |
+
 ## Pending reviews and related work
 
 These rows distinguish intended product review from adjacent settings,
@@ -55,7 +64,7 @@ not commands supported by the new engine.
 | Java (AdoptOpenJDK): x64 8, unqualified 8, x64 11, x64 17, x64 21, x64 25; JDK (AdoptOpenJDK): x64 8, unqualified 8, x64 11, x64 17, x64 21, x64 25; JDK (Amazon Corretto): x64 8, unqualified 8, x64 11, x64 17, x64 21, x64 25; JRE (Amazon Corretto): x64 8, unqualified 8 | Related runtime family: `InstallOpenJDK` | RIDE's review is for **Microsoft JDK 11 x64 MSI**. Neither the publisher nor all the major versions match Ninite; no automatic substitution is planned. "Unqualified" means the picker label omits an architecture. |
 | Teams | Related Office/Teams configuration and removal review | Office's bundled Teams effects, autostart, Store registration and machine-wide installer removal are tracked. This is not a planned standalone Teams installation package. |
 | Edge | Related browser settings | Edge settings are tracked; no standalone Edge installation package was identified. |
-| Docker Desktop | Related BloodHound container-host decision | Current BloodHound CE is selected, but its container deployment is a separate review. This does not select Docker Desktop as a RIDE package or establish Windows Server support. |
+| Docker Desktop | Ready for physical-machine review as Windows 11 package `package.docker-desktop`, with per-user and all-users variants. The user reports that the latest WinGet installation succeeded on a physical computer; RIDE lifecycle acceptance remains pending. | The all-users variant requires elevation and enables publisher-supported machine-wide features; WSL provisioning, backend configuration, BloodHound deployment, and Windows Server support remain outside this package. |
 | Opera | Explicitly excluded | User decision dated 2026-10-11 removes Opera from future migration scope. Its Ninite listing does not reopen that decision. |
 
 ## Remaining Ninite apps without a RIDE package mapping
@@ -68,7 +77,7 @@ omitted here to avoid duplicate entries.
 | Ninite category | Remaining apps or selectable variants |
 | --- | --- |
 | Web Browsers | Brave; Vivaldi |
-| Messaging | Zoom; Discord; Slack; Telegram; WhatsApp; Pidgin; Trillian |
+| Messaging | Zoom; Telegram; WhatsApp; Pidgin; Trillian |
 | Media | iTunes; VLC; AIMP; foobar2000; Winamp; MusicBee; Audacity; K-Lite Codecs; Spotify; CCCP; MediaMonkey; HandBrake; OBS Studio |
 | .NET | .NET 4.8.1; .NET Desktop Runtime 8, 9 and 10, each in x64, arm64 and an architecture-unqualified picker entry; ASP.NET Core Runtime 8, 9 and 10, each in x64, arm64 and an architecture-unqualified picker entry; VSTO Runtime |
 | Imaging | Krita; Blender; Paint.NET; GIMP; IrfanView; XnView; Inkscape; FastStone; Greenshot |

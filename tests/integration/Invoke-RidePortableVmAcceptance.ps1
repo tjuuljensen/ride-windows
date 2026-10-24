@@ -13,8 +13,15 @@
 .PARAMETER OutputDirectory
   Existing caller-owned directory for a fresh correlated run directory.
 .PARAMETER Batch
-  MiTeCViewers, NTCore, AllReviewed, PSScriptTools or OfflineCaffeine.
-  AllReviewed retains six viewer cases; additional batches are explicit.
+  MiTeCViewers, NTCore, AllReviewed, PSScriptTools, OfflineCaffeine, SQLiteQuery,
+  MiTeCUtilityFiles, SysinternalsSuite, SysinternalsProducts or ImageMagick. ImageMagick selects the exact
+  pinned portable Q16 7z and runs only a synthetic 1x1 PNG encode/identify check.
+  SysinternalsSuite is limited to the exact 164-file archive lifecycle.
+  SysinternalsProducts checks only the nine fixed independent product archives;
+  it does not launch tools, accept EULAs or include Defender-blocked collections.
+  NTCore stages three x86 packages and tests 4GB Patch only against a synthetic PE.
+  AllReviewed includes both viewer architectures and the fixed NTCore candidates.
+  Additional batches are explicit.
 .PARAMETER TimeoutMinutes
   Maximum guest check execution time, excluding staging and recovery.
 .PARAMETER ControllerRunId
@@ -33,17 +40,22 @@
   Prerequisites: Idle disposable controller and its existing guest credential.
   Effects: Only the pinned VM is reset, started, tested and reset to Off again.
   Recovery: Finally restores the pinned checkpoint even after guest failure.
-  Author: RIDE-Windows maintainers. Version: 0.3.0.
-  Changelog: 0.3.0: Support fixed preregistered batches under the existing worker lock.
+  Author: RIDE-Windows maintainers. Version: 0.5.0.
+  Changelog: 0.5.0: Add the pinned ImageMagick portable Q16 acceptance batch.
+    0.4.0: Add the isolated Sysinternals Suite snapshot lifecycle batch.
+    0.3.3: Add isolated MiTeC utility file-lifecycle acceptance.
+    0.3.2: Add the file-lifecycle-only SQLiteQuery batch.
+    0.3.1: Collect synthetic-file 4GB Patch functional evidence.
+    0.3.0: Support fixed preregistered batches under the existing worker lock.
     0.2.0: Add explicit source and disconnected offline guest batches.
     0.1.1: Supply the loaded lab to the existing guest credential accessor.
     0.1.0: Add focused MiTeC/NTCore checkpoint-backed acceptance.
 #>
 [CmdletBinding(SupportsShouldProcess=$true)]
 param([string]$ConfigurationPath,[string]$ArtifactManifestPath,[string]$OutputDirectory,
-  [ValidateSet('MiTeCViewers','NTCore','AllReviewed','PSScriptTools','OfflineCaffeine')][string]$Batch='AllReviewed',
+  [ValidateSet('MiTeCViewers','NTCore','AllReviewed','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick')][string]$Batch='AllReviewed',
   [ValidateRange(1,60)][int]$TimeoutMinutes=20,[string]$ControllerRunId,[switch]$Version)
-if($Version){'0.3.0';return}
+if($Version){'0.5.0';return}
 $ErrorActionPreference='Stop'
 if(-not $ConfigurationPath -or (-not $ControllerRunId -and (-not $ArtifactManifestPath -or -not $OutputDirectory))){throw 'ConfigurationPath, ArtifactManifestPath and OutputDirectory are required for standalone execution.'}
 Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -Force
@@ -52,7 +64,7 @@ $config=Read-RideAutomationConfiguration $ConfigurationPath
 $root=Split-Path -Parent ([IO.Path]::GetFullPath($ConfigurationPath))
 $repo=Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 if($ControllerRunId){
-  if($ControllerRunId -cnotmatch '^[a-f0-9]{32}$' -or $Batch -notin @('PSScriptTools','OfflineCaffeine') -or $ArtifactManifestPath -or $OutputDirectory){throw 'Invalid fixed controller invocation.'}
+  if($ControllerRunId -cnotmatch '^[a-f0-9]{32}$' -or $Batch -notin @('NTCore','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick') -or $ArtifactManifestPath -or $OutputDirectory){throw 'Invalid fixed controller invocation.'}
   $protectedRoot=Get-RideAutomationRoot $config.Name
   if($root -ine $protectedRoot -or [IO.Path]::GetFullPath($PSScriptRoot) -ine (Join-Path $protectedRoot 'bin') -or 'FocusedPortableV1' -notin @($config.Capabilities)){throw 'Focused acceptance requires the refreshed protected controller.'}
   $request=Get-Content -LiteralPath (Join-Path $root ('queue/running/'+$ControllerRunId+'.json')) -Raw|ConvertFrom-Json
@@ -79,7 +91,7 @@ if(-not $ControllerRunId){$null=New-Item -ItemType Directory -Path $output}
 $root=Split-Path -Parent ([IO.Path]::GetFullPath($ConfigurationPath))
 $guestBase='C:\RIDE\PortableAcceptance\'+$runId
 $guestEvidence=Join-Path $guestBase 'evidence'
-$result=[ordered]@{RunId=$runId;Batch=$Batch;VM=$config.VMName;VMId=$config.VMId;CheckpointId=$config.CheckpointId;ExpectedCases=$cases.Count;Status='Failed';Error=$null;Cleanup='NotStarted';EvidenceCollected=$false;ToolExecuted=$false}
+$result=[ordered]@{RunId=$runId;Batch=$Batch;VM=$config.VMName;VMId=$config.VMId;CheckpointId=$config.CheckpointId;ExpectedCases=$cases.Count;Status='Failed';Error=$null;Cleanup='NotStarted';EvidenceCollected=$false;ToolExecuted=$false;FunctionalAcceptance='Pending'}
 $lock=$null;$session=$null;$job=$null;$touched=$false
 try{
   Assert-RideAutomationHost $config
@@ -147,6 +159,8 @@ try{
   $null=Receive-Job $job -ErrorAction Stop
   $summary=Invoke-Command -Session $session -ArgumentList $guestEvidence {param($Evidence) Get-Content -LiteralPath (Join-Path $Evidence 'summary.json') -Raw|ConvertFrom-Json}
   if($summary.Status -ne 'Passed' -or $summary.Passed -ne $cases.Count){throw 'Guest summary does not establish all selected lifecycle cases.'}
+  $result.ToolExecuted=[bool]$summary.ToolExecuted
+  $result.FunctionalAcceptance=[string]$summary.FunctionalAcceptance
   $result.Status='Passed'
 }catch{$result.Error=$_.Exception.Message}
 finally{
@@ -156,6 +170,13 @@ finally{
       if(Invoke-Command -Session $session -ArgumentList $guestEvidence {param($Path) Test-Path -LiteralPath $Path}){
         Copy-Item -LiteralPath $guestEvidence -Destination $output -FromSession $session -Recurse
         $result.EvidenceCollected=$true
+        $guestSummary=Join-Path $output 'summary.json'
+        if(-not (Test-Path -LiteralPath $guestSummary)){$guestSummary=Join-Path $output 'evidence/summary.json'}
+        if(Test-Path -LiteralPath $guestSummary){
+          $partialSummary=Get-Content -LiteralPath $guestSummary -Raw|ConvertFrom-Json
+          $result.ToolExecuted=[bool]$partialSummary.ToolExecuted
+          $result.FunctionalAcceptance=[string]$partialSummary.FunctionalAcceptance
+        }
       }
     }
   }catch{$result.Status='Failed';$result.Error=[string]$result.Error+'; Collection: '+$_.Exception.Message}

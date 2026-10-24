@@ -20,6 +20,8 @@ BeforeDiscovery {
   Import-Module (Join-Path $root 'modules/RIDE.CatalogData.psm1') -Force
 }
 BeforeAll {
+  Import-Module (Join-Path (Split-Path -Parent $PSScriptRoot) 'modules/RIDE-Packages.psm1') -Force
+  Import-Module (Join-Path (Split-Path -Parent $PSScriptRoot) 'modules/RIDE.CatalogData.psm1') -Force
   $script:WiresharkOperation=(Import-RideCatalogData -Path (Join-Path (Split-Path -Parent $PSScriptRoot) 'catalog/operations.psd1')).Operations|Where-Object Id -eq package.wireshark
 }
 Describe 'Wireshark machine MSI candidate' {

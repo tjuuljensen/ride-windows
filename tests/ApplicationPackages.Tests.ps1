@@ -8,6 +8,12 @@ BeforeDiscovery {
   Import-Module (Join-Path $root 'modules/RIDE.CatalogData.psm1') -Force
 }
 
+BeforeAll {
+  $root = Split-Path -Parent $PSScriptRoot
+  Import-Module (Join-Path $root 'modules/RIDE.CatalogData.psm1') -Force
+  Import-Module (Join-Path $root 'modules/RIDE.CatalogValidation.psm1') -Force
+}
+
 Describe 'Package variant selection' {
   InModuleScope RIDE.PackageSelection {
     BeforeEach {
@@ -40,6 +46,12 @@ Describe 'Package variant selection' {
       (Resolve-RidePackageSelection @{Kind='Package';Id='package.old';InstallerType='Exe'}).SelectedVariant | Should -Be 'installed'
     }
     It 'rejects package variants on settings' { { Resolve-RidePackageSelection @{Kind='RegistryValue'} portable } | Should -Throw '*package ID*' }
+
+    It 'matches test target eligibility against supported and candidate target metadata' {
+      Test-RidePackageTargetEligibility @{SupportedTargets=@('Windows 11');CandidateTargets=@()} 'Windows 11' | Should -BeTrue
+      Test-RidePackageTargetEligibility @{SupportedTargets=@();CandidateTargets=@('Windows 11')} 'Windows 11' | Should -BeTrue
+      Test-RidePackageTargetEligibility @{SupportedTargets=@();CandidateTargets=@('Windows 11')} 'Windows Server 2025' | Should -BeFalse
+    }
     It 'resolves the user destination and installer arguments during planning' {
       $product.Scope='User';$product.LocalAppDataInstallDirectory='Mozilla Thunderbird'
       $product.InstallerArguments='/S /InstallDirectoryPath="{InstallDirectory}"'
@@ -60,12 +72,24 @@ Describe 'Package variant selection' {
 Describe 'Managed portable lifecycle' {
   InModuleScope RIDE-PortablePackages {
     BeforeEach {
-      $caseRoot = Join-Path $TestDrive ([guid]::NewGuid().ToString('N'))
+      $fixtureBase=[IO.Path]::GetFullPath((Join-Path (Get-Location).Path '.local/application-package-tests'))
+      $null=New-Item -ItemType Directory -Path $fixtureBase -Force
+      $script:PackageFixtureRoot=Join-Path $fixtureBase ([guid]::NewGuid().ToString('N'))
+      $caseRoot = $script:PackageFixtureRoot
       New-Item -ItemType Directory -Path $caseRoot | Out-Null
       $operation = @{Id='package.app';PackageId='app';Name='App';InstallerType='Portable';SelectedVariant='portable';ResolvedToolsDirectory=$caseRoot;InstallDirectory=(Join-Path $caseRoot 'app');PortableFormat='File';PortableFileName='app.exe';RequiredFiles=@('app.exe')}
       $payload = Join-Path $caseRoot 'payload.exe'
       [IO.File]::WriteAllText($payload, 'version one')
       $artifact = [pscustomobject]@{Path=$payload;Version='1.0';Sha256=(Get-FileHash -LiteralPath $payload).Hash.ToLowerInvariant()}
+    }
+    AfterEach {
+      $fixtureBase=[IO.Path]::GetFullPath((Join-Path (Get-Location).Path '.local/application-package-tests'))
+      $fixturePath=[IO.Path]::GetFullPath($script:PackageFixtureRoot)
+      $separator=[IO.Path]::DirectorySeparatorChar
+      if (-not $fixturePath.StartsWith($fixtureBase.TrimEnd('\','/')+$separator,[StringComparison]::OrdinalIgnoreCase)) {
+        throw "Refusing to clean portable-package fixture outside '$fixtureBase'."
+      }
+      if (Test-Path -LiteralPath $fixturePath) { Remove-Item -LiteralPath $fixturePath -Recurse -Force }
     }
     It 'does not adopt arbitrary existing files' {
       New-Item -ItemType Directory -Path $operation.InstallDirectory | Out-Null
@@ -83,6 +107,53 @@ Describe 'Managed portable lifecycle' {
       (Get-RidePortableState $operation).Present | Should -BeFalse
       Test-Path -LiteralPath (Join-Path $operation.InstallDirectory 'user.json') | Should -BeTrue
       Test-Path -LiteralPath $caseRoot | Should -BeTrue
+    }
+    It 'creates an owned portable command copy and restores both upstream files exactly' {
+      Add-Type -AssemblyName System.IO.Compression.FileSystem
+      Add-Type -AssemblyName System.IO.Compression
+      $zipPath=Join-Path $caseRoot 'command-copy.zip'
+      $zip=[IO.Compression.ZipFile]::Open($zipPath,[IO.Compression.ZipArchiveMode]::Create)
+      try {
+        foreach($entry in @(@('exiftool-13.59_64/exiftool(-k).exe','inert launcher bytes'),@('exiftool-13.59_64/exiftool_files/LICENSE','upstream notice fixture'))) {
+          $writer=[IO.StreamWriter]::new($zip.CreateEntry($entry[0]).Open());try{$writer.Write($entry[1])}finally{$writer.Dispose()}
+        }
+      } finally { $zip.Dispose() }
+      $operation.PortableFormat='Zip'
+      $operation.RequiredFiles=@('exiftool-13.59_64/exiftool(-k).exe','exiftool-13.59_64/exiftool.exe')
+      $operation.PortableCopies=@(@{Source='exiftool-13.59_64/exiftool(-k).exe';Destination='exiftool-13.59_64/exiftool.exe'})
+      $operation.ExpectedSha256=(Get-FileHash -LiteralPath $zipPath -Algorithm SHA256).Hash.ToLowerInvariant()
+      $artifact.Path=$zipPath;$artifact.Sha256=$operation.ExpectedSha256
+
+      Install-RidePortablePayload $operation $artifact
+      $original=Join-Path $operation.InstallDirectory 'exiftool-13.59_64/exiftool(-k).exe'
+      $command=Join-Path $operation.InstallDirectory 'exiftool-13.59_64/exiftool.exe'
+      (Get-Content -LiteralPath $original -Raw) | Should -Be 'inert launcher bytes'
+      (Get-Content -LiteralPath $command -Raw) | Should -Be 'inert launcher bytes'
+      (Get-RidePortableState $operation).Files.Count | Should -Be 3
+
+      $snapshot=Save-RidePortableSnapshot $operation (Join-Path $caseRoot 'command-backup')
+      Uninstall-RidePortablePayload $operation
+      Restore-RidePortableSnapshot $operation $snapshot
+      (Get-RidePortableState $operation).Healthy | Should -BeTrue
+      (Get-Content -LiteralPath $command -Raw) | Should -Be 'inert launcher bytes'
+    }
+    It 'refuses portable command-copy destinations already present in the pinned archive' {
+      Add-Type -AssemblyName System.IO.Compression.FileSystem
+      Add-Type -AssemblyName System.IO.Compression
+      $zipPath=Join-Path $caseRoot 'command-copy-collision.zip'
+      $zip=[IO.Compression.ZipFile]::Open($zipPath,[IO.Compression.ZipArchiveMode]::Create)
+      try {
+        foreach($name in @('exiftool-13.59_64/exiftool(-k).exe','exiftool-13.59_64/exiftool.exe')) {
+          $writer=[IO.StreamWriter]::new($zip.CreateEntry($name).Open());try{$writer.Write('archive file')}finally{$writer.Dispose()}
+        }
+      } finally { $zip.Dispose() }
+      $operation.PortableFormat='Zip'
+      $operation.RequiredFiles=@('exiftool-13.59_64/exiftool(-k).exe','exiftool-13.59_64/exiftool.exe')
+      $operation.PortableCopies=@(@{Source='exiftool-13.59_64/exiftool(-k).exe';Destination='exiftool-13.59_64/exiftool.exe'})
+      $operation.ExpectedSha256=(Get-FileHash -LiteralPath $zipPath -Algorithm SHA256).Hash.ToLowerInvariant()
+      $artifact.Path=$zipPath;$artifact.Sha256=$operation.ExpectedSha256
+      { Install-RidePortablePayload $operation $artifact } | Should -Throw '*copy destination already exists*'
+      Test-Path -LiteralPath $operation.InstallDirectory | Should -BeFalse
     }
     It 'preserves modified content and refuses overwrite during upgrades' {
       Install-RidePortablePayload $operation $artifact
@@ -200,6 +271,47 @@ Describe 'Managed portable lifecycle' {
       (Get-RidePortableState $operation).Files.Count | Should -Be 2
       Test-Path -LiteralPath (Join-Path $operation.InstallDirectory 'LICENSE.txt') | Should -BeTrue
     }
+    It 'extracts a 7z archive through signed Windows inbox tar and restores its exact file set' -Skip:(-not (Test-Path -LiteralPath (Join-Path $env:ProgramFiles '7-Zip\7z.exe') -PathType Leaf)) {
+      $src=Join-Path $caseRoot 'seven-source';New-Item -ItemType Directory -Path (Join-Path $src 'sub') -Force | Out-Null
+      [IO.File]::WriteAllText((Join-Path $src 'app.exe'),'synthetic executable bytes')
+      [IO.File]::WriteAllText((Join-Path $src 'LICENSE.txt'),'upstream notice fixture')
+      [IO.File]::WriteAllText((Join-Path $src 'sub/readme.txt'),'nested fixture')
+      $archive=Join-Path $caseRoot 'safe.7z';$sevenZip=Join-Path $env:ProgramFiles '7-Zip\7z.exe'
+      Push-Location $src
+      try { & $sevenZip a -t7z -mx=1 $archive '*' | Out-Null; if($LASTEXITCODE -ne 0){throw 'Could not create the synthetic 7z test archive.'} }
+      finally { Pop-Location }
+      $operation.PortableFormat='SevenZip';$operation.RequiredFiles=@('app.exe');$artifact.Path=$archive;$artifact.Sha256=(Get-FileHash -LiteralPath $archive).Hash
+      Install-RidePortablePayload $operation $artifact
+      $snapshot=Save-RidePortableSnapshot $operation (Join-Path $caseRoot 'backup')
+      $state=Get-RidePortableState $operation
+      $state.Healthy | Should -BeTrue
+      $state.Files.Count | Should -Be 3
+      Get-Content -LiteralPath (Join-Path $operation.InstallDirectory 'LICENSE.txt') -Raw | Should -Be 'upstream notice fixture'
+      Uninstall-RidePortablePayload $operation
+      Restore-RidePortableSnapshot $operation $snapshot
+      (Get-RidePortableState $operation).Healthy | Should -BeTrue
+    }
+    It 'rejects unsafe 7z paths before invoking extraction' {
+      $archive=Join-Path $caseRoot 'unsafe.7z';[IO.File]::WriteAllText($archive,'fixture')
+      $operation.PortableFormat='SevenZip';$artifact.Path=$archive;$artifact.Sha256=(Get-FileHash -LiteralPath $archive).Hash
+      Mock Invoke-RidePortableTar { '../escape.exe' }
+      { Install-RidePortablePayload $operation $artifact } | Should -Throw '*Unsafe portable member*'
+      Assert-MockCalled Invoke-RidePortableTar -Times 0 -ParameterFilter { $Action -eq 'Extract' }
+      Test-Path -LiteralPath $operation.InstallDirectory | Should -BeFalse
+    }
+    It 'rejects 7z links and oversized members before extraction' -TestCases @(
+      @{Mode='lrwxrwxrwx';Size='4';Expected='links and special files'},
+      @{Mode='-rw-r--r--';Size='536870913';Expected='512 MiB'}
+    ) {
+      param($Mode,$Size,$Expected)
+      $archive=Join-Path $caseRoot 'bounded.7z';[IO.File]::WriteAllText($archive,'fixture')
+      $operation.PortableFormat='SevenZip';$artifact.Path=$archive;$artifact.Sha256=(Get-FileHash -LiteralPath $archive).Hash
+      $verboseLine="$Mode  0 0 0 $Size Jan 01 00:00:00 app.exe"
+      Mock Invoke-RidePortableTar { param($Action) if($Action -eq 'List'){ 'app.exe' } elseif($Action -eq 'ListVerbose') { $verboseLine } else { throw 'Unexpected archive extraction.' } }
+      { Install-RidePortablePayload $operation $artifact } | Should -Throw "*$Expected*"
+      Assert-MockCalled Invoke-RidePortableTar -Times 0 -ParameterFilter { $Action -eq 'Extract' }
+      Test-Path -LiteralPath $operation.InstallDirectory | Should -BeFalse
+    }
     It 'rejects a file where an archive needs a parent directory before product writes' {
       $src=Join-Path $caseRoot 'source';New-Item -ItemType Directory -Path (Join-Path $src 'sub') -Force | Out-Null
       [IO.File]::WriteAllText((Join-Path $src 'app.exe'),'binary')
@@ -217,12 +329,22 @@ Describe 'Managed portable lifecycle' {
     }
     It 'keeps a journal after failed copying and can recover original absence' {
       $snapshot=Save-RidePortableSnapshot $operation (Join-Path $caseRoot 'backup')
+      Add-Type -AssemblyName System.IO.Compression.FileSystem
+      Add-Type -AssemblyName System.IO.Compression
+      $members=@(1..24|ForEach-Object { 'member-{0:D2}.txt' -f $_ })
+      $zipPath=Join-Path $caseRoot 'multi-file.zip'
+      $zip=[IO.Compression.ZipFile]::Open($zipPath,[IO.Compression.ZipArchiveMode]::Create)
+      try { foreach($member in $members){$writer=[IO.StreamWriter]::new($zip.CreateEntry($member).Open());try{$writer.Write('inert '+$member)}finally{$writer.Dispose()}} } finally {$zip.Dispose()}
+      $operation.PortableFormat='Zip';$operation.PortableMembers=$members;$operation.RequiredFiles=@($members[0]);$operation.ExpectedSha256=(Get-FileHash -LiteralPath $zipPath -Algorithm SHA256).Hash.ToLowerInvariant()
+      $artifact.Path=$zipPath;$artifact.Sha256=$operation.ExpectedSha256
       Mock Copy-Item { throw 'simulated copy failure' } -ParameterFilter { $Destination -like ($operation.InstallDirectory+'*') }
       { Install-RidePortablePayload $operation $artifact } | Should -Throw '*simulated copy failure*'
       $state=Get-RidePortableState $operation
       $state.Present | Should -BeTrue
       $state.Healthy | Should -BeFalse
       $state.Manifest.Status | Should -Be 'Installing'
+      $state.Manifest.Files.Count | Should -Be 24
+      @($state.Files|Where-Object Missing).Count | Should -Be 24
       Restore-RidePortableSnapshot $operation $snapshot
       (Get-RidePortableState $operation).Present | Should -BeFalse
     }
@@ -482,6 +604,7 @@ Describe 'Engine package variant integration' {
     It 'rejects a pending package before any installation' {
       Mock Install-RidePackage { throw 'Must not install.' }
       $operation=@{Id='package.pending';Kind='Package';Name='Pending';PendingAcceptance=$true;SupportedTargets=@();RequiresAdmin=$false}
+      Mock Get-RideInstalledPackage { [pscustomobject]@{Present=$false} }
       { Assert-RidePlanAllowed @([pscustomobject]@{Operation=$operation;State='Present'}) } | Should -Throw '*does not support*'
       Should -Invoke Install-RidePackage -Exactly 0
     }
@@ -515,6 +638,20 @@ Describe 'Engine package variant integration' {
       Restore-RideRun -RunId $runId -Confirm:$false | Out-Null
       Should -Invoke Uninstall-RidePackage -Exactly 1 -ParameterFilter { $Operation.Name -eq 'Saved edition' -and $Operation.SelectedVariant -eq 'installed' }
     }
+    It 'retains an upgraded shared runtime when the captured prior version is below the required minimum' {
+      Mock Get-RidePlatform { 'Windows 11' }
+      Mock Get-RideStateRoot { Join-Path $TestDrive $Scope }
+      Mock Get-RideCatalog { @{Operations=@(@{Id='package.runtime';Kind='Package';Scope='Machine';SupportedTargets=@('Windows 11')})} }
+      Mock Get-RideInstalledPackage { [pscustomobject]@{Present=$true;DisplayVersion='14.51.36247.0'} }
+      Mock Uninstall-RidePackage { throw 'Must retain the working shared runtime.' }
+      $runId='22345678901234567890123456789012'
+      $directory=Join-Path (Join-Path $TestDrive Machine) $runId
+      $null=New-Item -ItemType Directory -Path $directory -Force
+      $saved=@{Id='package.runtime';Name='Microsoft Visual C++ v14 Redistributable (x64)';Kind='Package';Scope='Machine';InstallerType='Exe';SelectedVariant='installed';MinimumInstalledVersion='14.50.35710.0';SupportedTargets=@('Windows 11')}
+      @{SchemaVersion=3;OperationId='package.runtime';Kind='Package';Scope='Machine';PackageSelection=$saved;Snapshot=@{Present=$false;Version='14.40.33810.0'}} | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $directory 'package.runtime.json') -Encoding UTF8
+      { Restore-RideRun -RunId $runId -Confirm:$false -WarningAction SilentlyContinue } | Should -Not -Throw
+      Should -Invoke Uninstall-RidePackage -Exactly 0
+    }
     It 'filters default status using the recorded variant target rather than the product default' {
       Mock Get-RidePlatform { 'Windows Server 2025' }
       $base=@{Id='package.sample';Name='Sample';Category='Software / Sample';Kind='Package';Scope='Machine';SupportedTargets=@('Windows 11')}
@@ -543,6 +680,171 @@ Describe 'Saved selection access by scope' {
   }
 }
 
+Describe 'Microsoft OpenJDK pinned checksum provider' {
+  InModuleScope RIDE-Packages {
+    BeforeEach {
+      $version='21.0.12.1'
+      $fileName="microsoft-jdk-$version-windows-x64.msi"
+      $downloadUri="https://aka.ms/download-jdk/$fileName"
+      $operation=@{PackageId='microsoft-openjdk-21';ProductUri='https://learn.microsoft.com/en-us/java/openjdk/download';PackageVersion=$version;Architecture='x64';InstallerType='Msi';AssetName=$fileName;DownloadUri=$downloadUri;ExpectedSha256Uri="$downloadUri.sha256sum.txt";DownloadProvider='MicrosoftOpenJdk'}
+      Mock Invoke-WebRequest { [pscustomobject]@{Content=(('a'*64)+'  '+$fileName)} }
+    }
+    It 'binds the exact pinned MSI and publisher checksum before artifact download' {
+      $artifact=Resolve-RidePackageArtifact -Operation $operation
+      $artifact.Version | Should -BeExactly '21.0.12.1'
+      $artifact.Architecture | Should -BeExactly 'x64'
+      $artifact.FileName | Should -BeExactly $fileName
+      $artifact.Uri | Should -BeExactly $downloadUri
+      $artifact.SourceUri | Should -BeExactly $operation.ExpectedSha256Uri
+      $artifact.ProviderDigest | Should -Be ('sha256:'+('a'*64))
+      $artifact.ChecksumUris | Should -Contain $operation.ExpectedSha256Uri
+      Should -Invoke Invoke-WebRequest -Exactly 1 -ParameterFilter {$Uri -ceq $operation.ExpectedSha256Uri}
+    }
+    It 'rejects a checksum record naming a different file' {
+      Mock Invoke-WebRequest { [pscustomobject]@{Content=(('a'*64)+'  microsoft-jdk-21.0.12.1-windows-arm64.msi')} }
+      {Resolve-RidePackageArtifact -Operation $operation} | Should -Throw '*different file*'
+    }
+    It 'rejects source URLs that do not match the exact versioned asset' {
+      $operation.DownloadUri=$downloadUri.Replace('21.0.12.1','21.0.12.0')
+      {Resolve-RidePackageArtifact -Operation $operation} | Should -Throw '*exact pinned versioned x64 MSI*'
+      Should -Invoke Invoke-WebRequest -Exactly 0
+    }
+  }
+}
+
+Describe 'Sysmon Modular pinned download-only profile artifacts' {
+  InModuleScope RIDE-Packages {
+    BeforeEach {
+      $release='a45dedb13a43'
+      $asset='sysmonconfig-with-filedelete.xml'
+      $url="https://github.com/olafhartong/sysmon-modular/releases/download/configs-$release/$asset"
+      $operation=@{Id='artifact.sysmon-modular-balanced-filedelete-15-21';Kind='Artifact';ArtifactId='sysmon-modular-balanced-filedelete-15-21';ProductUri='https://github.com/olafhartong/sysmon-modular';Repository='olafhartong/sysmon-modular';ReleaseTag="configs-$release";PackageVersion=$release;TargetSysmonVersion='15.21';AssetName=$asset;DownloadUri=$url;ChecksumUri="https://github.com/olafhartong/sysmon-modular/releases/download/configs-$release/SHA256SUMS";DownloadProvider='GitHubReleaseAssetApi';Architecture='neutral'}
+      Mock Invoke-WebRequest { [pscustomobject]@{Content=((('a'*64)+'  sysmonconfig.xml')+"`n"+(('b'*64)+'  sysmonconfig-with-filedelete.xml')+"`n"+(('c'*64)+'  sysmonconfig-excludes-only.xml'))} }
+    }
+    It 'resolves the selected pinned profile from the exact release checksum manifest' {
+      $artifact=Resolve-RidePackageArtifact -Operation $operation
+      $artifact.Version | Should -BeExactly $release
+      $artifact.FileName | Should -BeExactly $asset
+      $artifact.Uri | Should -BeExactly $url
+      $artifact.ProviderDigest | Should -Be ('sha256:'+('b'*64))
+      $artifact.ChecksumUris | Should -Contain $operation.ChecksumUri
+      Should -Invoke Invoke-WebRequest -Exactly 1 -ParameterFilter {$Uri -ceq $operation.ChecksumUri}
+    }
+    It 'refuses a missing or duplicated selected checksum record' {
+      Mock Invoke-WebRequest { [pscustomobject]@{Content=(('a'*64)+'  sysmonconfig.xml')} }
+      {Resolve-RidePackageArtifact -Operation $operation} | Should -Throw '*exactly one checksum record*'
+      Mock Invoke-WebRequest { [pscustomobject]@{Content=((('b'*64)+'  sysmonconfig-with-filedelete.xml')+"`n"+(('c'*64)+'  sysmonconfig-with-filedelete.xml'))} }
+      {Resolve-RidePackageArtifact -Operation $operation} | Should -Throw '*exactly one checksum record*'
+    }
+    It 'refuses a release, target version or profile outside the pinned choices' {
+      $operation.ReleaseTag='latest'
+      {Resolve-RidePackageArtifact -Operation $operation} | Should -Throw '*exact 15.21 configuration release*'
+      $operation.ReleaseTag='configs-a45dedb13a43';$operation.AssetName='sysmonconfig-research.xml'
+      {Resolve-RidePackageArtifact -Operation $operation} | Should -Throw '*exact 15.21 configuration release*'
+      Should -Invoke Invoke-WebRequest -Exactly 0
+    }
+  }
+  It 'declares the three upstream profiles as download-only Sysmon 15.21 choices' {
+    $catalog=Import-RideCatalogData (Join-Path (Split-Path -Parent $PSScriptRoot) 'catalog/operations.psd1')
+    $profiles=@($catalog.Operations|Where-Object {$_.MigrationBatch -eq 'SysmonModularProfiles'}|Sort-Object AssetName)
+    $profiles.Count | Should -Be 3
+    $profiles.AssetName | Should -Contain 'sysmonconfig.xml'
+    $profiles.AssetName | Should -Contain 'sysmonconfig-with-filedelete.xml'
+    $profiles.AssetName | Should -Contain 'sysmonconfig-excludes-only.xml'
+    foreach($profile in $profiles){
+      $profile.Actions | Should -Be @('Download')
+      $profile.TargetSysmonVersion | Should -BeExactly '15.21'
+      $profile.ReleaseTag | Should -BeExactly 'configs-a45dedb13a43'
+    }
+    (@(Get-RideCatalogValidationErrors -Catalog $catalog) -join ' ') | Should -BeNullOrEmpty
+  }
+}
+
+Describe 'Pinned GitHub release packages' {
+  InModuleScope RIDE-Packages {
+    BeforeEach {
+      $operation = @{
+        PackageId='sharphound'; Repository='SpecterOps/SharpHound'; ReleaseTag='v2.17.0'; PackageVersion='2.17.0'
+        DownloadUri='https://api.github.com/repos/SpecterOps/SharpHound/releases/tags/v2.17.0'
+        DownloadProvider='GitHubReleaseApi'; AssetPattern='^SharpHound_v2\.17\.0_windows_x86\.zip$'
+        AssetName='SharpHound_v2.17.0_windows_x86.zip'; ChecksumAssetName='SharpHound_v2.17.0_windows_x86.zip.sha256'
+        Architecture='x86'; ProductUri='https://github.com/SpecterOps/SharpHound'
+      }
+      $release = [pscustomobject]@{
+        tag_name='v2.17.0'; html_url='https://github.com/SpecterOps/SharpHound/releases/tag/v2.17.0'
+        body=''; assets=@(
+          [pscustomobject]@{name='SharpHound_v2.17.0_windows_x86.zip';browser_download_url='https://github.com/SpecterOps/SharpHound/releases/download/v2.17.0/SharpHound_v2.17.0_windows_x86.zip';digest=$null},
+          [pscustomobject]@{name='SharpHound_v2.17.0_windows_x86.zip.sha256';browser_download_url='https://github.com/SpecterOps/SharpHound/releases/download/v2.17.0/SharpHound_v2.17.0_windows_x86.zip.sha256';digest=$null}
+        )
+      }
+      Mock Get-RideGitHubReleaseMetadata { [pscustomobject]@{Release=$release;Provenance=[pscustomobject]@{ApiUri=$operation.DownloadUri;AcquisitionKind='Network'}} }
+      Mock Invoke-WebRequest { [pscustomobject]@{Content=(('a'*64)+'  SharpHound_v2.17.0_windows_x86.zip') } }
+    }
+    It 'resolves only the exact tag asset and binds its publisher checksum sidecar' {
+      $artifact=Resolve-RidePackageArtifact -Operation $operation
+      $artifact.Version | Should -BeExactly '2.17.0'
+      $artifact.FileName | Should -BeExactly $operation.AssetName
+      $artifact.Uri | Should -BeExactly 'https://github.com/SpecterOps/SharpHound/releases/download/v2.17.0/SharpHound_v2.17.0_windows_x86.zip'
+      $artifact.PublisherSha256 | Should -Be ('a'*64)
+      $artifact.PublisherChecksumUri | Should -BeExactly 'https://github.com/SpecterOps/SharpHound/releases/download/v2.17.0/SharpHound_v2.17.0_windows_x86.zip.sha256'
+      Should -Invoke Get-RideGitHubReleaseMetadata -Exactly 1 -ParameterFilter {$Uri -ceq $operation.DownloadUri}
+      Should -Invoke Invoke-WebRequest -Exactly 1 -ParameterFilter {$Uri -ceq 'https://github.com/SpecterOps/SharpHound/releases/download/v2.17.0/SharpHound_v2.17.0_windows_x86.zip.sha256'}
+    }
+    It 'rejects a release response whose tag differs from the pinned tag' {
+      $release.tag_name='v2.17.1'
+      {Resolve-RidePackageArtifact -Operation $operation} | Should -Throw '*different release tag*'
+      Should -Invoke Invoke-WebRequest -Exactly 0
+    }
+    It 'rejects malformed, missing, duplicate or wrong-file checksum records' {
+      Mock Invoke-WebRequest { [pscustomobject]@{Content='not a digest'} }
+      {Resolve-RidePackageArtifact -Operation $operation} | Should -Throw '*valid SHA-256 record*'
+      Mock Invoke-WebRequest { [pscustomobject]@{Content=((('a'*64)+'  other.zip')+"`n"+('b'*64)+'  SharpHound_v2.17.0_windows_x86.zip')} }
+      {Resolve-RidePackageArtifact -Operation $operation} | Should -Throw '*one SHA-256 record*'
+      Mock Invoke-WebRequest { [pscustomobject]@{Content=(('a'*64)+'  other.zip')} }
+      {Resolve-RidePackageArtifact -Operation $operation} | Should -Throw '*names a different file*'
+    }
+    It 'refuses unpinned asset, repository or tag endpoints before network access' {
+      $operation.AssetName='other.zip'
+      {Resolve-RidePackageArtifact -Operation $operation} | Should -Throw '*exact repository, tag, asset and checksum asset*'
+      $operation.AssetName='SharpHound_v2.17.0_windows_x86.zip';$operation.Repository='attacker/SharpHound'
+      {Resolve-RidePackageArtifact -Operation $operation} | Should -Throw '*exact repository, tag, asset and checksum asset*'
+      $operation.Repository='SpecterOps/SharpHound';$operation.PackageVersion='2.17.1'
+      {Resolve-RidePackageArtifact -Operation $operation} | Should -Throw '*exact repository, tag, asset and checksum asset*'
+      Should -Invoke Get-RideGitHubReleaseMetadata -Exactly 0
+    }
+  }
+  It 'accepts a portable package pinned to an exact GitHub release and checksum sidecar' {
+    $root=Split-Path -Parent $PSScriptRoot
+    $catalog=Import-RideCatalogData (Join-Path $root 'catalog/operations.psd1')
+    $operation=$catalog.Operations|Where-Object Id -eq 'package.sysinternals-suite'|Select-Object -First 1
+    $operation.DownloadProvider='GitHubReleaseApi'
+    $operation.Repository='SpecterOps/SharpHound'
+    $operation.ReleaseTag='v2.17.0'
+    $operation.PackageVersion='2.17.0'
+    $operation.DownloadUri='https://api.github.com/repos/SpecterOps/SharpHound/releases/tags/v2.17.0'
+    $operation.AssetName='SharpHound_v2.17.0_windows_x86.zip'
+    $operation.ChecksumAssetName='SharpHound_v2.17.0_windows_x86.zip.sha256'
+    $operation.AssetPattern='^SharpHound_v2\.17\.0_windows_x86\.zip$'
+    $operation.Architecture='x86'
+    $operation.ProductUri='https://github.com/SpecterOps/SharpHound'
+    (Get-RideCatalogValidationErrors -Catalog $catalog) | Should -BeNullOrEmpty
+  }
+  It 'rejects GitHub tag and sidecar metadata that drift from the pinned release' {
+    $root=Split-Path -Parent $PSScriptRoot
+    $catalog=Import-RideCatalogData (Join-Path $root 'catalog/operations.psd1')
+    $operation=$catalog.Operations|Where-Object Id -eq 'package.sysinternals-suite'|Select-Object -First 1
+    $operation.DownloadProvider='GitHubReleaseApi';$operation.Repository='SpecterOps/SharpHound';$operation.ReleaseTag='v2.17.0';$operation.PackageVersion='2.17.0'
+    $operation.DownloadUri='https://api.github.com/repos/SpecterOps/SharpHound/releases/tags/v2.17.0'
+    $operation.AssetName='SharpHound_v2.17.0_windows_x86.zip';$operation.ChecksumAssetName='SharpHound_v2.17.0_windows_x86.zip.sha256'
+    $operation.AssetPattern='^SharpHound_v2\.17\.0_windows_x86\.zip$';$operation.Architecture='x86';$operation.ProductUri='https://github.com/SpecterOps/SharpHound'
+    $operation.ChecksumAssetName='other.zip.sha256'
+    (@(Get-RideCatalogValidationErrors -Catalog $catalog) -join ' ') | Should -Match 'Pinned GitHub release package requires'
+    $operation.ChecksumAssetName='SharpHound_v2.17.0_windows_x86.zip.sha256'
+    $operation.DownloadUri+='?token=not-allowed'
+    (@(Get-RideCatalogValidationErrors -Catalog $catalog) -join ' ') | Should -Match 'without credentials, non-default ports, query or fragment'
+  }
+}
+
 Describe 'Current-user Mozilla edition safety' {
   InModuleScope RIDE-Packages {
     BeforeEach {
@@ -557,11 +859,11 @@ Describe 'Current-user Mozilla edition safety' {
       $operation.RequiresUnelevatedUser=$true
       Mock Test-RidePackageAdministrator {$true}
       Mock Save-RidePackageArtifact {throw 'Must not download.'}
-      Mock Invoke-RidePreservingPackageRemoval {throw 'Must not move profile data.'}
+      Mock Invoke-RidePreservingPackageOperation {throw 'Must not move profile data.'}
       {Install-RidePackage -Operation $operation -CacheDirectory $TestDrive} | Should -Throw '*non-elevated*'
       {Uninstall-RidePackage -Operation $operation} | Should -Throw '*non-elevated*'
       Should -Invoke Save-RidePackageArtifact -Exactly 0
-      Should -Invoke Invoke-RidePreservingPackageRemoval -Exactly 0
+      Should -Invoke Invoke-RidePreservingPackageOperation -Exactly 0
     }
     It 'refuses a different language or architecture in user scope' {
       Mock Get-ItemProperty { [pscustomobject]@{DisplayName='Mozilla Thunderbird (x86 en-US)';InstallLocation=$TestDrive} } -ParameterFilter {$Path -like 'HKCU:*'}
@@ -643,5 +945,61 @@ Describe 'Package variant metadata and completion' {
     (@(Get-RideCatalogValidationErrors -Catalog $catalog) -join ' ') | Should -Match 'Pending acceptance requires'
     $package.SupportedTargets=@();$package.CandidateTargets=@('Windows 10')
     (@(Get-RideCatalogValidationErrors -Catalog $catalog) -join ' ') | Should -Match 'explicit candidate targets'
+  }
+  It 'pins Microsoft OpenJDK LTS MSIs side-by-side without changing shared Java defaults' {
+    $catalog=Import-RideCatalogData (Join-Path (Split-Path -Parent $PSScriptRoot) 'catalog/operations.psd1')
+    $packages=@($catalog.Operations|Where-Object {$_.DownloadProvider -eq 'MicrosoftOpenJdk'}|Sort-Object PackageVersion -Descending)
+    $packages.Count | Should -Be 4
+    $packages.PackageVersion | Should -Contain '25.0.4.1'
+    $packages.PackageVersion | Should -Contain '21.0.12.1'
+    $packages.PackageVersion | Should -Contain '17.0.20.1'
+    $packages.PackageVersion | Should -Contain '11.0.32.1'
+    foreach($package in $packages){
+      $package.PendingAcceptance | Should -BeTrue
+      $package.SupportedTargets | Should -BeNullOrEmpty
+      $major=[regex]::Match($package.PackageVersion,'^\d+').Value
+      $package.CandidateTargets | Should -Contain 'Windows Server 2025'
+      $package.MigrationBatch | Should -BeExactly 'OpenJDKCompatibility'
+      $package.InstallDirectory | Should -BeExactly "C:\Program Files\Microsoft\RIDE\OpenJDK\jdk-$major"
+      $package.InstallerArguments | Should -Match 'ADDLOCAL=FeatureMain'
+      $package.InstallerArguments | Should -Not -Match 'FeatureEnvironment|FeatureJarFileRunWith|FeatureJavaHome|INSTALLLEVEL'
+      $package.InstallerArguments | Should -Match "jdk-$([regex]::Match($package.PackageVersion,'^\d+').Value)"
+    }
+    @(Get-RideCatalogValidationErrors -Catalog $catalog).Count | Should -Be 0
+  }
+}
+
+Describe 'NTCore Driver List and Rebel.NET package candidates' {
+  BeforeAll {
+    $root=Split-Path -Parent $PSScriptRoot
+    $catalog=Import-RideCatalogData (Join-Path $root 'catalog/operations.psd1')
+    $script:DriverList=$catalog.Operations|Where-Object Id -ceq 'package.ntcore-driver-list'
+    $script:RebelNet=$catalog.Operations|Where-Object Id -ceq 'package.ntcore-rebelnet'
+  }
+  It 'pins the verified Driver List release and exposes only verified x64 and x86 members' {
+    $DriverList.PackageVersion|Should -BeExactly '1.0.2.1'
+    $DriverList.ExpectedSha256|Should -BeExactly 'dbc5736808cf7203cf289a269cc27cbcf90a8c69e03eed60ae361ad29da08d28'
+    $DriverList.RequiredFiles|Should -Be @('DriverList_x64.exe')
+    $DriverList.Variants['portable-x86'].RequiredFiles|Should -Be @('DriverList_x86.exe')
+    $DriverList.PortableMembers -join ','|Should -Not -Match 'IA64'
+    $DriverList.PendingAcceptance|Should -BeTrue
+    $DriverList.SupportedTargets|Should -BeNullOrEmpty
+  }
+  It 'pins Rebel.NET and states the synthetic-assembly acceptance boundary' {
+    $RebelNet.PackageVersion|Should -BeExactly '1.6.0.1'
+    $RebelNet.ExpectedSha256|Should -BeExactly '7bd01e9cb15426642c74f8f3cab45cf7005f7525ab7cb8abc5a32973f383af32'
+    $RebelNet.RequiredFiles|Should -Contain 'RebelDotNET.exe'
+    $RebelNet.RequiredFiles|Should -Contain 'RebelDotNET.h'
+    $RebelNet.AcceptanceNotes|Should -Match 'owned synthetic \.NET assembly'
+    $RebelNet.PendingAcceptance|Should -BeTrue
+    $RebelNet.SupportedTargets|Should -BeNullOrEmpty
+  }
+  It 'keeps license review data outside the shared catalog while preserving package planning' {
+    foreach($operation in @($DriverList,$RebelNet)){
+      $operation.LicenseReviewStatus|Should -BeNullOrEmpty
+      $operation.DistributionNotes|Should -BeNullOrEmpty
+      $operation.LicenseReviewedAt|Should -BeNullOrEmpty
+      $operation.LicenseUri|Should -Match '^https://ntcore\.com/'
+    }
   }
 }

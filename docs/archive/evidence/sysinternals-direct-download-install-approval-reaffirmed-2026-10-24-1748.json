@@ -1,0 +1,12 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T17:48:28.3732801Z",
+  "Subject": "Sysinternals package migration disposition",
+  "UserDisposition": "The prior RIDE v2 license-specialist review approved RIDE use. RIDE downloads directly from Microsoft for installation on user-supported devices and does not transfer or publish Sysinternals copies. The user states there are no legal issues using Sysinternals in RIDE.",
+  "MigrationGate": "None: do not require another license review or apply generalized redistribution reasoning to block package migration.",
+  "SeparateBlockers": [
+    "Defender-detected individual tools remain excluded from selection.",
+    "Windows lifecycle, recovery and target acceptance remain technical tasks."
+  ],
+  "EstimateImpact": "None"
+}

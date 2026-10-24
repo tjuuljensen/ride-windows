@@ -1,0 +1,67 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-22",
+  "Batch": "QEMU GNOME Boxes guest-tools source follow-up",
+  "UserDecision": "Include VirtIO and SPICE integrations where required for a full GNOME Boxes experience; verify on a matching QEMU guest.",
+  "PublisherFindings": {
+    "VirtioWin": {
+      "Repository": "https://github.com/virtio-win/virtio-win-pkg-scripts",
+      "StableUri": "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso",
+      "LatestGuestToolsUri": "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/latest-virtio/virtio-win-guest-tools.exe",
+      "VersionPinBehavior": "Publisher documentation says stable/latest aliases redirect to versioned files; latest may be pre-release quality. No redirect target or artifact bytes were retrieved in this run.",
+      "SignatureNotes": "Publisher documentation says Windows 10+ drivers use Microsoft attestation signatures, not WHQL. It warns Secure Boot may prevent some drivers from loading.",
+      "KnownVersionIssue": "Official issue tracker reports a virtio-win 0.1.285 SMBus driver signature validation failure on Windows Server 2025; the issue notes viostor/netkvm from that ISO install successfully.",
+      "LicenseDisposition": "Version-specific package/component review may be recorded as NeedsReview after selecting a release; it is administrative metadata and does not block implementation or technical acceptance."
+    },
+    "Spice": {
+      "WindowsGuestToolsUri": "https://www.spice-space.org/download/windows/spice-guest-tools/spice-guest-tools-latest.exe",
+      "VersionPinBehavior": "Mutable latest alias; no version or bytes observed.",
+      "PublisherInstallNote": "Publisher documentation says the installer contains QXL drivers and the SPICE agent, and its /S switch requires running as Local System.",
+      "WebDavVersionedUri": "https://www.spice-space.org/download/windows/spice-webdavd/spice-webdavd-x64-2.4.msi",
+      "WebDavLatestUri": "https://www.spice-space.org/download/windows/spice-webdavd/spice-webdavd-x64-latest.msi",
+      "WebDavIndexObservation": "The official directory lists both x64 2.4 and x64 latest entries at approximately 12 MB, last modified 2020-03-16.",
+      "WebDavRole": "Separate component required for SPICE folder sharing; it is not included in Windows SPICE Guest Tools."
+    },
+    "IntegrationScope": "The official virtio-win guest-tools installer README confirms its MSI combines VirtIO drivers with SPICE guest agent and driver components. SPICE guest-tools also includes QXL and SPICE agent components; avoid blindly installing duplicate bundles. Add separate WebDAV only if GNOME Boxes shared-folder behavior is required. Select driver packages based on the actual guest devices."
+  },
+  "AcquisitionAttempt": {
+    "Artifact": "spice-webdavd-x64-2.4.msi",
+    "Uri": "https://www.spice-space.org/download/windows/spice-webdavd/spice-webdavd-x64-2.4.msi",
+    "Method": "Windows curl.exe direct publisher HTTPS request",
+    "CurlExitCode": 6,
+    "Error": "Could not resolve host: www.spice-space.org",
+    "DownloadedBytes": false,
+    "OutputFileCreated": false,
+    "Sha256Measured": false,
+    "AuthenticodeChecked": false
+  },
+  "RetryAttemptSameDay": {
+    "Artifact": "spice-webdavd-x64-2.4.msi",
+    "Uri": "https://www.spice-space.org/download/windows/spice-webdavd/spice-webdavd-x64-2.4.msi",
+    "Method": "Windows curl.exe direct publisher HTTPS request",
+    "CurlExitCode": 6,
+    "Error": "Could not resolve host: www.spice-space.org",
+    "DownloadedBytes": false,
+    "OutputFileCreated": false
+  },
+  "Boundaries": {
+    "PackageOperationAdded": false,
+    "SupportedTargets": [],
+    "VMRun": false,
+    "DefenderConfigurationChanged": false,
+    "InstallerExecuted": false,
+    "LegacyOutcomeClosed": false
+  },
+  "RemainingAcceptance": [
+    "Resolve the exact GNOME Boxes release and the virtual devices in its Windows guest.",
+    "Acquire version-pinned publisher artifacts and independently measure SHA-256 and Authenticode status.",
+    "Record any owner-specific version review as NeedsReview without blocking implementation or technical acceptance.",
+    "Inspect driver/service effects and run install, repeat, target-device, removal and recovery checks on a matching QEMU guest; do not substitute Hyper-V."
+  ],
+  "EstimateEffect": {
+    "GroupRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactRangeEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "Reason": "Source/packaging evidence was clarified, but no pinned package, tested guest, or whole legacy outcome was added."
+  }
+}

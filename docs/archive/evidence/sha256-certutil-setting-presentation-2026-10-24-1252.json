@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-24T12:52:00Z",
+  "scope": "Complete and enforce user-facing setting presentation metadata for SHA-256 with Certutil context-menu operation",
+  "operationId": "windows.sha256-certutil-context-menu",
+  "change": "Added SettingPresentation describing its per-user all-file context-menu scope, the explicit Certutil command, console behavior, no-elevation/no-file-output boundaries, exact WindowsDefault/recovery semantics and pending filename/menu acceptance. No registry mapping or command value changed.",
+  "officialReferences": {
+    "certutil": "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/certutil",
+    "shellContextMenu": "https://learn.microsoft.com/en-us/windows/win32/shell/context-menu-handlers",
+    "verifiedBehavior": "Microsoft lists Windows 11 applicability and the -hashfile verb. The same reference cautions that Certutil is not recommended for production code and does not guarantee live-site/application compatibility; the catalog describes this as an interactive convenience candidate, not production integrity enforcement."
+  },
+  "catalogCounts": {
+    "operations": 408,
+    "settingAndControlOperations": 281,
+    "packageOperations": 97,
+    "storeAppOperations": 22,
+    "profileSettingOperations": 4,
+    "standaloneArtifactOperations": 4,
+    "groups": 8,
+    "profiles": 5,
+    "pendingSettingCandidates": 21,
+    "pendingPackageOperations": 67
+  },
+  "validation": {
+    "catalogPresentationTest": {
+      "path": "tests/Catalog.Tests.ps1",
+      "selected": 1,
+      "passed": 1,
+      "failed": 0,
+      "assertion": "All 281 setting/control operations contain SettingPresentation metadata."
+    },
+    "catalogExport": "Passed; docs/OPERATIONS.md regenerated.",
+    "repositoryValidation": "Passed: 408 operations, eight groups, five profiles and 272 PowerShell files.",
+    "windowsPowerShell51Parser": "Passed for the catalog, Terminal module and both changed test files."
+  },
+  "acceptanceBoundary": {
+    "supportedTargets": [],
+    "windows11AcceptancePending": true,
+    "menuPlacementAndFilenames": "Still require disposable Windows 11 acceptance.",
+    "systemStateChanged": false,
+    "legacyOutcomesClosed": 0
+  },
+  "migrationAccounting": {
+    "rangesUnchanged": true,
+    "settings": "38-58",
+    "packages": "52-67",
+    "components": "19-24",
+    "accountsConfigurationAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "142-196",
+    "roundedTotal": "145-200/about 170"
+  }
+}

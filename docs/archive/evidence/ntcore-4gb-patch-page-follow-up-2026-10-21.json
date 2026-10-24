@@ -1,0 +1,58 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-21",
+  "Scope": "Current official publisher-page and retained-pin follow-up for NTCore 4GB Patch; no executable or target image execution/modification",
+  "PublisherPage": {
+    "Uri": "https://ntcore.com/4gb-patch/",
+    "CurrentVersion": "1.0.0.1",
+    "Claims": [
+      "Patches x86 executables to set the large-address-aware flag so that 32-bit applications can use up to 4 GB of virtual address space on x64 Windows",
+      "Can be used through a file-selection GUI or command line with an executable path",
+      "Automatically creates a backup copy of the original executable"
+    ],
+    "NotSpecified": [
+      "Backup filename/location and collision behavior",
+      "Whether original signature, checksum or other executable metadata is preserved",
+      "Exact supported Windows builds or behavior when the flag is already set",
+      "Product-specific license or redistribution grant"
+    ]
+  },
+  "RetainedArtifact": {
+    "Archive": ".local/collection-source-review-20261017/4gb_patch.zip",
+    "ArchiveLength": 21464,
+    "ArchiveSha256": "1e13c263dc55e85cf62e3e30c6b2ce936d4c7e16e3bba3e311a5a8bed4be16ca",
+    "Member": "4gb_patch.exe",
+    "MemberLength": 45056,
+    "MemberSha256": "980bf5eb62d30c749e5fbf7593e9d25094a4d849a959aa2b7b3fc979b1c93b5a",
+    "FileVersion": "1.0.0.1",
+    "Architecture": "x86",
+    "CopyrightMetadata": "2007 Daniel Pistelli; all rights reserved"
+  },
+  "RelatedPublisherDocumentation": {
+    "Uri": "https://ntcore.com/files/cffscriptv1.htm",
+    "Observation": "A separate CFF Explorer script example implements the same PE flag change by OR-ing IMAGE_FILE_LARGE_ADDRESS_AWARE into the PE file-header Characteristics field and offers overwrite or Save As. This is documentation for CFF scripting, not a license grant for 4GB Patch."
+  },
+  "LicenseDisposition": "No explicit product-specific use or redistribution grant was located in the reviewed product page or retained single-file archive evidence. Copyright metadata is not permission. Do not admit or distribute pending applicable publisher terms.",
+  "AcceptanceBoundary": "Any later functional check must use a synthetic owned x86 PE, preserve a separately hashed original, verify exact output flag and backup path/content, and prove exact recovery. Do not patch third-party or production executables.",
+  "RunBoundaries": {
+    "ArchiveHashRecomputedAndMatched": true,
+    "MemberHashRecomputedAndMatched": true,
+    "ArchiveExtractedThisBatch": false,
+    "PayloadExecuted": false,
+    "TargetExecutableModified": false,
+    "FreshUacPrompts": 0,
+    "VmRuns": 0,
+    "ControllerChanges": 0,
+    "DefenderChanges": 0,
+    "DefenderBlockedFilesTouched": false
+  },
+  "Outcomes": {
+    "WholeLegacyOutcomesResolved": 0,
+    "RetiredOutcomes": 0,
+    "NewExclusions": 0
+  },
+  "Ranges": ["38-58", "56-71", "20-25", "25-35", "8-12"],
+  "ExactRangeEndpoints": "147-201",
+  "RoundedTotal": "145-200/about 175",
+  "EstimateReason": "The publisher behavior and automatic backup claim are clearer, but backup semantics, product-specific rights and native recovery remain unresolved; no whole legacy outcome closes and ranges remain unchanged."
+}

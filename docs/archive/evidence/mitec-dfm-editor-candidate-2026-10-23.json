@@ -1,0 +1,362 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-10-23T12:58:00Z",
+  "Scope": "Pinned MiTeC DFM Editor archive and exact variant metadata; no executable or BPL was loaded",
+  "Publisher": {
+    "ProductUri": "https://www.mitec.cz/wp/mdfme/",
+    "PublishedVersion": "8.4.0 dated 2024-07-16",
+    "TermsUri": "https://www.mitec.cz/wp/support/",
+    "Behavior": "Edits/creates text and binary DFM files, extracts forms from compiled PE files, previews forms, and can register user packages.",
+    "DownloadUri": "https://www.mitec.cz/wp/files/DFMEdit.zip"
+  },
+  "Archive": {
+    "Length": 16714229,
+    "Path": ".local/remaining-collections-20261017/DFMEdit.zip",
+    "PublisherDigestVerified": false,
+    "Sha256": "189386a7b43e835c936d0858a7e47d0e7840d0031f991d50f4abc55d391783aa",
+    "MemberCount": 18
+  },
+  "Variants": [
+    {
+      "PackageVersion": "8.3.1.0",
+      "RuntimeFamily": "280",
+      "Directory": "Delphi 11",
+      "Name": "delphi-11",
+      "Members": [
+        {
+          "Path": "Delphi 11/DFMEdit.exe",
+          "Length": 1848904,
+          "Sha256": "f4e9ba99c21dd064b1638b9960267b4d6e2f9a176dafee807d8c4ea5dfb53b9d",
+          "FileVersion": "8.3.1.0",
+          "ProductVersion": "8.0.0.0"
+        },
+        {
+          "Path": "Delphi 11/bindengine280.bpl",
+          "Length": 1297824,
+          "Sha256": "a4a20f21e51057be2b10138ceea79fbfed5563f63746bd2d78b545a09067529a",
+          "FileVersion": "28.0.47991.2819",
+          "ProductVersion": "28.0"
+        },
+        {
+          "Path": "Delphi 11/rtl280.bpl",
+          "Length": 13152672,
+          "Sha256": "88ee1956f414d8e41b88b372a5a5a9660d33f1fe7724a08c24f24a53ca5c2bd2",
+          "FileVersion": "28.0.48361.3236",
+          "ProductVersion": "28.0"
+        },
+        {
+          "Path": "Delphi 11/vcl280.bpl",
+          "Length": 4260768,
+          "Sha256": "332631ee642bb72e66bf49e1e2c52cb7dbb874f9718f4e2a0816e7ab28169f7b",
+          "FileVersion": "28.0.47991.2819",
+          "ProductVersion": "28.0"
+        },
+        {
+          "Path": "Delphi 11/vclactnband280.bpl",
+          "Length": 472992,
+          "Sha256": "69459030053d608592733a3d10cc63638775f3ec95b71b091611c71f4874f86f",
+          "FileVersion": "28.0.47991.2819",
+          "ProductVersion": "28.0"
+        },
+        {
+          "Path": "Delphi 11/vclimg280.bpl",
+          "Length": 361888,
+          "Sha256": "da04ecc04737f40408a68705a3ee785eed535cdad91a1f97fa2b45f99531090a",
+          "FileVersion": "28.0.47991.2819",
+          "ProductVersion": "28.0"
+        },
+        {
+          "Path": "Delphi 11/vclwinx280.bpl",
+          "Length": 913824,
+          "Sha256": "f437e8f6faf83922ffe8ec51c00a7ba0142cc45364abb3f17952638042ed0bb2",
+          "FileVersion": "28.0.47991.2819",
+          "ProductVersion": "28.0"
+        },
+        {
+          "Path": "Delphi 11/vclx280.bpl",
+          "Length": 281504,
+          "Sha256": "b0fb25e387dbf92ec6b287ecee2c82a4420794cb5bdf76335f84678ad77a750a",
+          "FileVersion": "28.0.47991.2819",
+          "ProductVersion": "28.0"
+        },
+        {
+          "Path": "Delphi 11/xmlrtl280.bpl",
+          "Length": 2340768,
+          "Sha256": "3409e923cc571d73ed88d28bb6ecc489b82e2bf2ef0404ec0fcecd3ea6800d33",
+          "FileVersion": "28.0.47991.2819",
+          "ProductVersion": "28.0"
+        }
+      ],
+      "ApplicationVersion": "8.3.1.0"
+    },
+    {
+      "PackageVersion": "8.4.0.0",
+      "RuntimeFamily": "290",
+      "Directory": "Delphi 12",
+      "Name": "delphi-12",
+      "Members": [
+        {
+          "Path": "Delphi 12/DFMEdit.exe",
+          "Length": 1866376,
+          "Sha256": "1b86845a39b2382a1a841650be0c07d7aa4d10bb2f772785ffb27f9982c308b2",
+          "FileVersion": "8.4.0.0",
+          "ProductVersion": "8.0.0.0"
+        },
+        {
+          "Path": "Delphi 12/bindengine290.bpl",
+          "Length": 1312240,
+          "Sha256": "adc785fa306d2e3dbf635ba240a2a1c492df7a75a451b2e36af35cfccc667461",
+          "FileVersion": "29.0.51961.7529",
+          "ProductVersion": "29.0"
+        },
+        {
+          "Path": "Delphi 12/rtl290.bpl",
+          "Length": 12734440,
+          "Sha256": "e6b9f5a6075364bc4bfa1502b58ac195b75755ef11a4207c9e7985d19c4036cd",
+          "FileVersion": "29.0.51961.7529",
+          "ProductVersion": "29.0"
+        },
+        {
+          "Path": "Delphi 12/vcl290.bpl",
+          "Length": 4419048,
+          "Sha256": "a429b15a755d2a909f53086a4353efbb2f7e881d556ad6fe0d5a8fa072e8eb4e",
+          "FileVersion": "29.0.51961.7529",
+          "ProductVersion": "29.0"
+        },
+        {
+          "Path": "Delphi 12/vclactnband290.bpl",
+          "Length": 477168,
+          "Sha256": "36421659d74671a04adc9d1c2c1502febd5b92b9d215a98fc9f52e7c0ffe4074",
+          "FileVersion": "29.0.51961.7529",
+          "ProductVersion": "29.0"
+        },
+        {
+          "Path": "Delphi 12/vclimg290.bpl",
+          "Length": 363496,
+          "Sha256": "c458735e4fb9915d8d1cc3bb7caa57e220e1f87dc89b996ab079369a23b3e53e",
+          "FileVersion": "29.0.51961.7529",
+          "ProductVersion": "29.0"
+        },
+        {
+          "Path": "Delphi 12/vclwinx290.bpl",
+          "Length": 946672,
+          "Sha256": "02d2df7beb04fae67c831aa453b5fd5054a7b39c3bdf40a0566c35abef4c7479",
+          "FileVersion": "29.0.51961.7529",
+          "ProductVersion": "29.0"
+        },
+        {
+          "Path": "Delphi 12/vclx290.bpl",
+          "Length": 285680,
+          "Sha256": "8ac114422f55a1967d00fe092d016e8a3de2c5af37c1508991a856d0c4ba9a90",
+          "FileVersion": "29.0.51961.7529",
+          "ProductVersion": "29.0"
+        },
+        {
+          "Path": "Delphi 12/xmlrtl290.bpl",
+          "Length": 2355696,
+          "Sha256": "b0b4192d91cd6e06c46acfbbb8185b5d66fa5e8f871604588c7a7ef76bb99926",
+          "FileVersion": "29.0.51961.7529",
+          "ProductVersion": "29.0"
+        }
+      ],
+      "ApplicationVersion": "8.4.0.0"
+    }
+  ],
+  "Members": [
+    {
+      "Path": "Delphi 11/DFMEdit.exe",
+      "Length": 1848904,
+      "Sha256": "f4e9ba99c21dd064b1638b9960267b4d6e2f9a176dafee807d8c4ea5dfb53b9d",
+      "FileVersion": "8.3.1.0",
+      "ProductVersion": "8.0.0.0"
+    },
+    {
+      "Path": "Delphi 11/bindengine280.bpl",
+      "Length": 1297824,
+      "Sha256": "a4a20f21e51057be2b10138ceea79fbfed5563f63746bd2d78b545a09067529a",
+      "FileVersion": "28.0.47991.2819",
+      "ProductVersion": "28.0"
+    },
+    {
+      "Path": "Delphi 11/rtl280.bpl",
+      "Length": 13152672,
+      "Sha256": "88ee1956f414d8e41b88b372a5a5a9660d33f1fe7724a08c24f24a53ca5c2bd2",
+      "FileVersion": "28.0.48361.3236",
+      "ProductVersion": "28.0"
+    },
+    {
+      "Path": "Delphi 11/vcl280.bpl",
+      "Length": 4260768,
+      "Sha256": "332631ee642bb72e66bf49e1e2c52cb7dbb874f9718f4e2a0816e7ab28169f7b",
+      "FileVersion": "28.0.47991.2819",
+      "ProductVersion": "28.0"
+    },
+    {
+      "Path": "Delphi 11/vclactnband280.bpl",
+      "Length": 472992,
+      "Sha256": "69459030053d608592733a3d10cc63638775f3ec95b71b091611c71f4874f86f",
+      "FileVersion": "28.0.47991.2819",
+      "ProductVersion": "28.0"
+    },
+    {
+      "Path": "Delphi 11/vclimg280.bpl",
+      "Length": 361888,
+      "Sha256": "da04ecc04737f40408a68705a3ee785eed535cdad91a1f97fa2b45f99531090a",
+      "FileVersion": "28.0.47991.2819",
+      "ProductVersion": "28.0"
+    },
+    {
+      "Path": "Delphi 11/vclwinx280.bpl",
+      "Length": 913824,
+      "Sha256": "f437e8f6faf83922ffe8ec51c00a7ba0142cc45364abb3f17952638042ed0bb2",
+      "FileVersion": "28.0.47991.2819",
+      "ProductVersion": "28.0"
+    },
+    {
+      "Path": "Delphi 11/vclx280.bpl",
+      "Length": 281504,
+      "Sha256": "b0fb25e387dbf92ec6b287ecee2c82a4420794cb5bdf76335f84678ad77a750a",
+      "FileVersion": "28.0.47991.2819",
+      "ProductVersion": "28.0"
+    },
+    {
+      "Path": "Delphi 11/xmlrtl280.bpl",
+      "Length": 2340768,
+      "Sha256": "3409e923cc571d73ed88d28bb6ecc489b82e2bf2ef0404ec0fcecd3ea6800d33",
+      "FileVersion": "28.0.47991.2819",
+      "ProductVersion": "28.0"
+    },
+    {
+      "Path": "Delphi 12/DFMEdit.exe",
+      "Length": 1866376,
+      "Sha256": "1b86845a39b2382a1a841650be0c07d7aa4d10bb2f772785ffb27f9982c308b2",
+      "FileVersion": "8.4.0.0",
+      "ProductVersion": "8.0.0.0"
+    },
+    {
+      "Path": "Delphi 12/bindengine290.bpl",
+      "Length": 1312240,
+      "Sha256": "adc785fa306d2e3dbf635ba240a2a1c492df7a75a451b2e36af35cfccc667461",
+      "FileVersion": "29.0.51961.7529",
+      "ProductVersion": "29.0"
+    },
+    {
+      "Path": "Delphi 12/rtl290.bpl",
+      "Length": 12734440,
+      "Sha256": "e6b9f5a6075364bc4bfa1502b58ac195b75755ef11a4207c9e7985d19c4036cd",
+      "FileVersion": "29.0.51961.7529",
+      "ProductVersion": "29.0"
+    },
+    {
+      "Path": "Delphi 12/vcl290.bpl",
+      "Length": 4419048,
+      "Sha256": "a429b15a755d2a909f53086a4353efbb2f7e881d556ad6fe0d5a8fa072e8eb4e",
+      "FileVersion": "29.0.51961.7529",
+      "ProductVersion": "29.0"
+    },
+    {
+      "Path": "Delphi 12/vclactnband290.bpl",
+      "Length": 477168,
+      "Sha256": "36421659d74671a04adc9d1c2c1502febd5b92b9d215a98fc9f52e7c0ffe4074",
+      "FileVersion": "29.0.51961.7529",
+      "ProductVersion": "29.0"
+    },
+    {
+      "Path": "Delphi 12/vclimg290.bpl",
+      "Length": 363496,
+      "Sha256": "c458735e4fb9915d8d1cc3bb7caa57e220e1f87dc89b996ab079369a23b3e53e",
+      "FileVersion": "29.0.51961.7529",
+      "ProductVersion": "29.0"
+    },
+    {
+      "Path": "Delphi 12/vclwinx290.bpl",
+      "Length": 946672,
+      "Sha256": "02d2df7beb04fae67c831aa453b5fd5054a7b39c3bdf40a0566c35abef4c7479",
+      "FileVersion": "29.0.51961.7529",
+      "ProductVersion": "29.0"
+    },
+    {
+      "Path": "Delphi 12/vclx290.bpl",
+      "Length": 285680,
+      "Sha256": "8ac114422f55a1967d00fe092d016e8a3de2c5af37c1508991a856d0c4ba9a90",
+      "FileVersion": "29.0.51961.7529",
+      "ProductVersion": "29.0"
+    },
+    {
+      "Path": "Delphi 12/xmlrtl290.bpl",
+      "Length": 2355696,
+      "Sha256": "b0b4192d91cd6e06c46acfbbb8185b5d66fa5e8f871604588c7a7ef76bb99926",
+      "FileVersion": "29.0.51961.7529",
+      "ProductVersion": "29.0"
+    }
+  ],
+  "CatalogCandidate": {
+    "Id": "package.mitec-dfm-editor",
+    "PendingAcceptance": true,
+    "CandidateTargets": [
+      "Windows 11"
+    ],
+    "SelectedMemberCountPerVariant": 9,
+    "DefaultVariant": "delphi-12",
+    "SupportedTargets": []
+  },
+  "Review": {
+    "LocalStatus": "NeedsReview",
+    "Note": "Track owner-specific use administration and any applicable distribution review without blocking package implementation or planning.",
+    "ReviewOwner": "Unassigned",
+    "Versions": [
+      "8.3.1.0",
+      "8.4.0.0"
+    ],
+    "MigrationBlocking": false
+  },
+  "Safety": {
+    "HostOrControllerChanged": false,
+    "FreshUacPrompts": 0,
+    "BplLoadedOrRegistered": false,
+    "ProductExecuted": false,
+    "DefenderBlockedToolsTouched": false,
+    "DefenderChanged": false,
+    "DfmOrPeOpened": false,
+    "VmRuns": 0
+  },
+  "Disposition": {
+    "Deferred": [
+      "Run inert variant lifecycle tests on both native PowerShell editions",
+      "Use synthetic text/binary DFM, PE and disposable package fixtures for product behavior",
+      "Run Windows 11 package/behavior acceptance on RIDE-Win11-Test after VM access is available"
+    ],
+    "EstimateReason": "Candidate catalog growth does not equal a completed legacy outcome; estimates remain unchanged.",
+    "Resolved": "The two noninterchangeable runtime families are represented as explicit variants in one pinned portable package. Exact archive/member hashes and PE version resources were rechecked.",
+    "RetiredOutcomes": 0,
+    "ExactTotal": "142-196",
+    "NewExclusions": 0,
+    "WholeLegacyOutcomesClosed": 0,
+    "Partial": "Synthetic package lifecycle is locally testable; editor DFM/PE behavior and Windows acceptance remain pending.",
+    "EstimateRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "RoundedTotal": "145-200/about 170"
+  },
+  "Validation": {
+    "Pester": "26 passed, 0 failed",
+    "PesterVersion": "5.7.1",
+    "PowerShell": "7.6.5",
+    "PesterTestRegistry": "Disabled because sandbox HKCU access is denied",
+    "WindowsPowerShell51Parser": "Passed",
+    "RepositoryValidation": "Passed",
+    "OperationCount": 387,
+    "GroupCount": 8,
+    "ProfileCount": 5,
+    "PowerShellFileCount": 255,
+    "CatalogPackageCount": 81,
+    "PendingPackageCount": 51,
+    "GeneratedCatalogDocumentation": "Current",
+    "PesterSuite": "DFM variants, explicit install plans, and license planning",
+    "ExplicitVariantPlans": "Both Delphi variants resolve to their matching package versions and remain PendingAcceptance"
+  }
+}

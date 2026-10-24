@@ -1,0 +1,89 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "RecordedAtUtc": "2026-10-23T10:18:02Z",
+  "Batch": "B06 explicit local servicing-source naming and boundary regression",
+  "Components": [
+    "OpenSSH.Client~~~~0.0.1.0",
+    "TelnetClient"
+  ],
+  "CandidateModules": {
+    "Preparation": {
+      "PreviousVersion": "0.2.0",
+      "CurrentVersion": "0.3.0"
+    },
+    "Lifecycle": {
+      "PreviousVersion": "0.1.0",
+      "CurrentVersion": "0.2.0"
+    }
+  },
+  "SourceMode": {
+    "Name": "LocalSource",
+    "Meaning": "Use an explicit local drive source path for a present-state DISM outline/transition.",
+    "LimitAccessPassed": true,
+    "WindowsUpdateLookupBlocked": true,
+    "ConfiguredSourceFallback": "NotInspected",
+    "SourceValidated": false,
+    "NetworkBoundaryVerified": false,
+    "PolicyOverridesAllowed": false
+  },
+  "Tests": {
+    "PowerShell7": {
+      "PesterVersion": "5.7.1",
+      "PreparationAndLifecycle": {
+        "Passed": 39,
+        "Failed": 0,
+        "Skipped": 0
+      },
+      "TestRegistryPlugin": "Disabled"
+    },
+    "WindowsPowerShell51": {
+      "ParserValidation": "Passed for both candidate modules and both focused test files."
+    }
+  },
+  "Boundaries": {
+    "DismInvoked": false,
+    "WindowsComponentChanged": false,
+    "NetworkRequested": false,
+    "VmUsed": false,
+    "CheckpointChanged": false,
+    "CatalogOperationRegistered": false,
+    "SupportedTargetsAdded": false
+  },
+  "Acceptance": {
+    "Status": "PendingAcceptance",
+    "Remaining": [
+      "Matching build, edition, architecture and language source members",
+      "Configured-source and dependency network-boundary behavior",
+      "Payload/version recovery",
+      "Windows 11 target acceptance; Windows Server acceptance remains separate"
+    ],
+    "LatestVmAccessEvidence": "ride-win11-test-access-recheck-2026-10-23-1008.json",
+    "LatestVmAccessResult": "Hyper-V CIM access denied before checkpoint inspection; VM/checkpoint state unknown."
+  },
+  "Outcome": {
+    "Resolved": [
+      "Source mode naming no longer implies that LimitAccess provides full network isolation."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Windows servicing lifecycle, source-boundary, payload recovery and target acceptance."
+    ],
+    "Partial": [
+      "Unregistered candidate; no legacy component outcome closed."
+    ]
+  },
+  "Estimate": {
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged because the terminology and boundary regression closes no legacy outcome."
+  }
+}

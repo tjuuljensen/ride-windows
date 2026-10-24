@@ -1,0 +1,38 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "Batch": "Package planning with local NeedsReview metadata",
+  "Scenarios": [
+    { "PackageId": "package.phoenix-protector", "ReviewedVersion": "1.7.1", "LicenseReviewStatus": "NeedsReview", "PlanAction": "Install", "PlanState": "Present", "PlanAvailable": true, "PendingAcceptance": true },
+    { "PackageId": "package.ntcore-4gb-patch", "ReviewedVersion": "1.0.0.1", "LicenseReviewStatus": "NeedsReview", "PlanAction": "Install", "PlanState": "Present", "PlanAvailable": true, "PendingAcceptance": true },
+    { "PackageId": "package.mitec-uuid-generator", "ReviewedVersion": "1.0.0", "LicenseReviewStatus": "NeedsReview", "PlanAction": "Install", "PlanState": "Present", "PlanAvailable": true, "PendingAcceptance": true },
+    { "PackageId": "package.mitec-sqlite-query", "ReviewedVersion": "3.2.0", "LicenseReviewStatus": "NeedsReview", "PlanAction": "Install", "PlanState": "Present", "PlanAvailable": true, "PendingAcceptance": true },
+    { "PackageId": "package.wireshark", "ReviewedVersion": "4.6.9", "LicenseReviewStatus": "NeedsReview", "PlanAction": "Install", "PlanState": "Present", "PlanAvailable": true, "PendingAcceptance": true }
+  ],
+  "Tests": {
+    "PesterVersion": "5.7.1",
+    "WindowsPowerShell51": { "Passed": 10, "Failed": 0, "Skipped": 0 },
+    "PowerShell7": { "Passed": 10, "Failed": 0, "Skipped": 0 },
+    "TestRegistryPlugin": "Disabled because the sandbox denies registry access"
+  },
+  "Boundaries": {
+    "InstallerExecuted": false,
+    "PackageDownloaded": false,
+    "WindowsStateChanged": false,
+    "VmUsed": false,
+    "DefenderChanged": false
+  },
+  "Outcome": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Package installation and acceptance remain subject to the package's technical target and source requirements."],
+    "Partial": ["Regression evidence confirms local NeedsReview metadata does not block install planning for five pending package candidates."]
+  },
+  "Estimate": {
+    "GroupRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactRangeEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged; this planning regression closes no whole legacy package outcome."
+  }
+}

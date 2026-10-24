@@ -1,0 +1,84 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "TimeUtc": "09:09:22",
+  "Batch": "Package acquisition rejected-artifact retry handling",
+  "Module": "modules/RIDE-Packages.psm1",
+  "Version": "0.16.0",
+  "Implementation": {
+    "RejectedArtifactName": "<FileName>.rejected-<32-character-guid>",
+    "RejectedArtifactSidecar": "<RejectedArtifactName>.ride.json",
+    "OnValidationFailure": [
+      "Preserve bytes that fail provider digest, publisher checksum, declared archive content/member or Authenticode hash-integrity validation under a unique sibling name.",
+      "Record rejection time, product/version, source URI, rejection reason, SHA-256 and file size in the rejected artifact sidecar.",
+      "Move any prior canonical observation sidecar beside the rejected bytes instead of leaving it to describe a missing or different canonical file.",
+      "Free the canonical package/version/FileName path so the next acquisition downloads a fresh candidate.",
+      "Do not write success observations for rejected bytes.",
+      "Include the retained rejected-artifact path in the validation error when quarantine succeeds."
+    ],
+    "SignaturePolicyBoundary": "Authenticode HashMismatch remains a failure; other signature statuses are evidence rather than a universal install gate. License-review metadata is independent.",
+    "Retention": "Rejected bytes are preserved; no automatic cleanup policy is introduced."
+  },
+  "Validation": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "FocusedSuites": [
+      "tests/PackageEvidence.Tests.ps1",
+      "tests/ApplicationPackages.Tests.ps1"
+    ],
+    "PackageEvidence": {
+      "Discovered": 27,
+      "Passed": 27,
+      "Failed": 0,
+      "Skipped": 0
+    },
+    "ApplicationPackages": {
+      "Discovered": 84,
+      "Passed": 84,
+      "Failed": 0,
+      "Skipped": 0
+    },
+    "WindowsPowerShell51ParserFiles": 2,
+    "WindowsPowerShell51ParserErrors": 0,
+    "RealNetworkCalls": 0,
+    "InstallerCalls": 0,
+    "WindowsStateChanged": false,
+    "KeyCases": [
+      "Publisher checksum mismatch moves failed bytes away from the canonical path without recording success.",
+      "The next acquisition downloads and retains the publisher-matching bytes while the rejected bytes remain available.",
+      "A provider SHA-512 mismatch in an altered cached artifact removes it from the reusable canonical path.",
+      "Authenticode HashMismatch is retained as rejected bytes and never recorded as a successful acquisition.",
+      "Rejected artifact sidecars record the failure, and an old canonical observation is relocated."
+    ]
+  },
+  "Acceptance": {
+    "VmRun": false,
+    "Reason": "This is a local mocked artifact-cache regression; no installer or Windows state transition was invoked."
+  },
+  "Outcomes": {
+    "Resolved": [
+      "Failed integrity candidates no longer occupy the canonical versioned cache path and block future re-acquisition."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Define the complete per-source integrity evidence policy, including when unsigned artifacts are acceptable, and decide a safe retention/review process for rejected bytes.",
+      "Disposable Windows installer lifecycle acceptance remains separate."
+    ],
+    "Partial": [
+      "No legacy package outcome closed by this cache-retry correction."
+    ],
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateAdjustment": "Unchanged; failure-retry handling closes no legacy product outcome."
+  }
+}

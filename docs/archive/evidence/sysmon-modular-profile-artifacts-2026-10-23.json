@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-23T15:17:00Z",
+  "batch": "SysmonModularProfiles",
+  "source": {
+    "repository": "olafhartong/sysmon-modular",
+    "releaseTag": "configs-a45dedb13a43",
+    "commit": "a45dedb13a43",
+    "releaseUri": "https://github.com/olafhartong/sysmon-modular/releases/tag/configs-a45dedb13a43",
+    "releasePageVerification": "GitHub release page reports the tag commit as verified; current page opened 2026-10-23.",
+    "targetSysmonVersion": "15.21",
+    "checksumAsset": "SHA256SUMS",
+    "references": [
+      "https://github.com/olafhartong/sysmon-modular",
+      "https://github.com/olafhartong/sysmon-modular/releases/latest"
+    ]
+  },
+  "artifacts": [
+    { "operationId": "artifact.sysmon-modular-balanced-15-21", "assetName": "sysmonconfig.xml", "profile": "Balanced", "description": "Regular starting configuration; without FileDelete archiving." },
+    { "operationId": "artifact.sysmon-modular-balanced-filedelete-15-21", "assetName": "sysmonconfig-with-filedelete.xml", "profile": "Balanced with FileDelete", "description": "Adds FileDelete collection and file archiving; disk use needs planning." },
+    { "operationId": "artifact.sysmon-modular-excludes-only-15-21", "assetName": "sysmonconfig-excludes-only.xml", "profile": "Excludes only", "description": "Very verbose; expect substantial event volume and tune before deployment." }
+  ],
+  "implementation": {
+    "provider": "GitHubReleaseAssetApi",
+    "artifactActions": ["Download"],
+    "configurationApplied": false,
+    "sysmonInstalled": false,
+    "checksBeforeDownload": "Require the exact repository, tag, target version and selected asset; fetch the pinned release SHA256SUMS and require exactly one valid digest line matching that filename.",
+    "retainedPayloadValidation": "The shared package-artifact path computes SHA-256 and verifies ProviderDigest before recording the retained artifact.",
+    "license": "MIT; retain upstream license and configuration notices"
+  },
+  "validation": {
+    "focusedPester": { "passed": 4, "failed": 0, "notRun": 91, "testRegistryEnabled": false },
+    "cases": [
+      "Selected profile digest resolves from the pinned release manifest",
+      "Missing or duplicated selected checksum lines are rejected",
+      "Changed release tag and unsupported profile asset are refused before request",
+      "Catalog declares the three choices as Download-only artifacts for Sysmon 15.21"
+    ],
+    "repositoryValidation": "Passed: generated operation documentation is current; 400 operations, 8 groups, 5 profiles and 257 PowerShell files.",
+    "windowsPowerShell51Parser": "Passed for modules/RIDE-Packages.psm1, modules/RIDE.CatalogValidation.psm1 and tests/ApplicationPackages.Tests.ps1.",
+    "liveArtifactAcquired": false,
+    "vmAccessed": false,
+    "defenderOrWindowsStateChanged": false
+  },
+  "migrationDisposition": {
+    "resolved": "User-selected profile names, fixed upstream release, Sysmon 15.21 target and checksum-bound artifact metadata",
+    "retired": [],
+    "excluded": [],
+    "deferred": ["Live release/checksum acquisition", "Retained artifact lifecycle and recovery", "User and VM acceptance", "Applying a Sysmon configuration is a separate workflow"],
+    "partial": "Legacy selector has candidate artifact IDs; acquisition and runtime acceptance remain open.",
+    "estimateRanges": {
+      "settings": "38-58",
+      "packages": "52-67",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "142-196",
+      "roundedTotal": "145-200/about 170"
+    }
+  }
+}

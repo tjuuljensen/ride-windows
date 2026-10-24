@@ -1,0 +1,105 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-10-23T13:05:00Z",
+  "Scope": "Pinned MiTeC EXE Explorer and HexEdit candidate packages; static archive/member checks and inert synthetic package lifecycle only",
+  "Products": [
+    {
+      "Id": "package.mitec-exe-explorer",
+      "Name": "MiTeC EXE Explorer",
+      "ProductUri": "https://www.mitec.cz/exe.html",
+      "Version": "3.7.5",
+      "DownloadUri": "https://www.mitec.cz/wp/files/EXE.zip",
+      "ArchiveSha256": "87b3bbf80301de96b871da5f1d4ce742c38182ee2fbc4414a28a2e7133011c78",
+      "Members": [
+        {
+          "Path": "EXE.exe",
+          "Length": 5931048,
+          "Architecture": "x86",
+          "Sha256": "d9deec06c474d8d3ec8a64a8cbc12e9c91fc94ed5871438f658c1fff44762746",
+          "FileVersion": "3.7.5.0"
+        },
+        {
+          "Path": "EXE64.exe",
+          "Length": 7588424,
+          "Architecture": "x64",
+          "Sha256": "25987ef9c3b6d0cb24e887de71120faf958c97d9bd63a323c355c332028649d9",
+          "FileVersion": "3.7.5.0"
+        }
+      ],
+      "PublisherDigestVerified": false,
+      "CurrentPageObservation": "Official page lists version 3.7.5 dated 2026-04-15, Windows XP-11/Server 2003-2025, executable metadata/resource views and a VirusTotal report feature."
+    },
+    {
+      "Id": "package.mitec-hexedit",
+      "Name": "MiTeC HexEdit",
+      "ProductUri": "https://www.mitec.cz/wp/mhex/",
+      "Version": "7.1.0",
+      "DownloadUri": "https://www.mitec.cz/wp/files/HEXEdit.zip",
+      "ArchiveSha256": "cfe264a121c560d69e2bb95512be407f374164f2f79d0ddc4ceb7a8d0a09c788",
+      "Members": [
+        {
+          "Path": "HEXEdit.exe",
+          "Length": 2222048,
+          "Architecture": "x86",
+          "Sha256": "cb782a9d85690487bc4138968f03c9c1e320b55347a76bfa3dc01eb6956144e7",
+          "FileVersion": "7.1.0.0"
+        }
+      ],
+      "PublisherDigestVerified": false,
+      "CurrentPageObservation": "Official page lists version 7.1.0 dated 2021-02-24, Windows XP-11/Server 2003-2025, file comparison/editing, memory dump and raw disk dump features; page lists a EUR 30 lifetime single-user licence."
+    }
+  ],
+  "PublisherTermsUri": "https://www.mitec.cz/wp/support/",
+  "LicenseReview": {
+    "Note": "Version-specific owner review markers support license administration and do not block migration, implementation or package planning.",
+    "Status": "NeedsReview",
+    "MigrationBlocking": false,
+    "Owner": "Unassigned"
+  },
+  "AcceptanceBoundary": {
+    "EXEExplorer": "Use synthetic non-sensitive PE files and isolated output paths; keep VirusTotal/API-key/network behavior disabled until data handling is reviewed.",
+    "HexEdit": "Use disposable synthetic file copies and exact backups; no live memory or raw disk targets."
+  },
+  "Safety": {
+    "DefenderChanged": false,
+    "DefenderBlockedToolsTouched": false,
+    "RealFilesOpened": false,
+    "VmRuns": 0,
+    "HostOrControllerChanged": false,
+    "MemoryOrDiskTargetAccessed": false,
+    "ProductExecuted": false,
+    "FreshUacPrompts": 0,
+    "VirusTotalUsed": false
+  },
+  "Deferred": [
+    "Synthetic EXE Explorer view/resource-export behavior and network-feature review",
+    "HexEdit synthetic file edit, file comparison and exact recovery behavior",
+    "Windows 11 lifecycle and feature acceptance on RIDE-Win11-Test after VM access returns"
+  ],
+  "EstimateRanges": [
+    "38-58",
+    "52-67",
+    "19-24",
+    "25-35",
+    "8-12"
+  ],
+  "ExactTotal": "142-196",
+  "RoundedTotal": "145-200/about 170",
+  "EstimateReason": "Two catalog candidates do not close whole legacy outcomes; existing group estimates remain unchanged.",
+  "Validation": {
+    "Pester": "27 passed, 0 failed",
+    "PesterVersion": "5.7.1",
+    "PowerShell": "7.6.5",
+    "PesterTestRegistry": "Disabled because sandbox HKCU access is denied",
+    "PowerShell51Parser": "Passed",
+    "RepositoryValidation": "Passed",
+    "OperationCount": 389,
+    "GroupCount": 8,
+    "ProfileCount": 5,
+    "PowerShellFileCount": 256,
+    "CatalogPackageCount": 83,
+    "PendingPackageCount": 53,
+    "GeneratedCatalogDocumentation": "Current",
+    "PackagePlanRegression": "Both candidate packages retain Present install plans with PendingAcceptance true"
+  }
+}

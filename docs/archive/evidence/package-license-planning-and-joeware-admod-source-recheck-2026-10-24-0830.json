@@ -1,0 +1,50 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T08:30:13Z",
+  "Scope": "Pending-package license-review planning regression and AdMod source preparation recheck",
+  "Environment": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryPluginEnabled": false,
+    "PesterTempRoot": "Repository-local .local/pester-current; per-test review stores were isolated under .local/pester-license-review"
+  },
+  "Results": {
+    "ApplicationPackagesAndLicenseReviewTests": {
+      "Files": ["tests/ApplicationPackages.Tests.ps1", "tests/LicenseReviews.Tests.ps1"],
+      "Discovered": 124,
+      "Passed": 124,
+      "Failed": 0,
+      "Skipped": 0
+    },
+    "LicenseReviewCoverage": "All pending package install plans remained available when synthetic version-matched NeedsReview records existed; all ten Sysinternals package install plans remained available with technical acceptance pending.",
+    "TestStorage": "Unique synthetic review stores created by this run were removed by the tests; the ignored owner-specific review store was not written. Three older synthetic Planning regression directories dated 2026-10-24 03:48 UTC were observed in the shared .local test root and left untouched.",
+    "JoeWareAdMod": {
+      "ProductPageVersion": "1.29.00",
+      "ProductPageDate": "2026-06-08",
+      "ScriptParse": "Passed",
+      "WhatIfResult": "Metadata lookup failed before download because the shell could not resolve www.joeware.net (No such host is known).",
+      "ArchiveAcquired": false,
+      "ArchiveExtracted": false,
+      "PayloadExecuted": false
+    }
+  },
+  "VMAndSideEffects": {
+    "LatestReadOnlyVmAccessRecheck": "Get-VM for RIDE-Win11-Test and RIDE-Srv2025Test failed with Access to a CIM resource was not available to the client before VM/checkpoint inspection.",
+    "VmChanged": false,
+    "InstallerRun": false,
+    "DefenderChanged": false,
+    "AdFindSelectedOrAcquired": false,
+    "FreshElevationRequested": false
+  },
+  "MigrationAccounting": {
+    "Resolved": ["Local package-planning/license-review regression now passes in the current shell when the Pester TestRegistry plugin is disabled."],
+    "Retired": [],
+    "Excluded": ["AdFind remains out of selected acquisition/acceptance batches due to the separately recorded Defender block."],
+    "Deferred": ["AdMod exact publisher archive acquisition and catalog/package lifecycle integration; Windows package acceptance; VM-based package and component scenarios"],
+    "Partial": ["AdMod current version is reconfirmed and the download-only preparer is parsed, but publisher DNS resolution prevented source acquisition."],
+    "EstimateRangesUnchanged": true,
+    "Ranges": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170"
+  }
+}

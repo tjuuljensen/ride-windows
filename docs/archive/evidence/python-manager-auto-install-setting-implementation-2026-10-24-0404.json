@@ -1,0 +1,66 @@
+{
+  "RecordedAtUtc": "2026-10-24T04:04:10Z",
+  "Scope": "RIDE catalog candidate for disabling Python install-manager implicit runtime installation",
+  "Implementation": {
+    "OperationId": "windows.python-manager-automatic-install",
+    "Kind": "RegistryValue",
+    "RegistryPath": "HKCU:\\Environment",
+    "ValueName": "PYTHON_MANAGER_AUTOMATIC_INSTALL",
+    "ValueType": "String",
+    "DesiredValue": "false",
+    "DefaultState": "WindowsDefault removes the RIDE override",
+    "SupportedTargets": [],
+    "CandidateTargets": ["Windows 11", "Windows Server 2025"],
+    "PendingAcceptance": true,
+    "Rollback": "Exact"
+  },
+  "BehaviorBoundary": {
+    "ExplicitPythonInstallCommandsRemainAvailable": true,
+    "ExistingProcessesMayHaveStaleEnvironment": true,
+    "ManagerOrRuntimeInstalled": false,
+    "PathOrAliasesChanged": false
+  },
+  "Validation": {
+    "FocusedTestFile": "tests/Catalog.Tests.ps1",
+    "Discovered": 79,
+    "Selected": 1,
+    "Passed": 1,
+    "Failed": 0,
+    "Skipped": 0,
+    "RepositoryValidator": "Passed",
+    "OperationCount": 407,
+    "GroupCount": 8,
+    "ProfileCount": 5,
+    "PowerShellFileCount": 264,
+    "PackageCount": 97,
+    "PendingPackageCount": 67
+  },
+  "SideEffects": {
+    "RegistryValueChanged": false,
+    "ManagerInstalledOrRun": false,
+    "RuntimeInstalled": false,
+    "VmUsed": false,
+    "WindowsStateChanged": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Native user environment propagation and Python manager behavior acceptance",
+      "Exact runtime/package artifact acquisition and local digest verification",
+      "Reversible offline-index preparation and runtime lifecycle",
+      "Manager update behavior and existing Python launcher/alias coexistence"
+    ],
+    "Partial": ["InstallPython now has a declarative no-implicit-install setting candidate, but no manager/runtime package candidate or complete lifecycle."],
+    "EstimateRangesUnchanged": {
+      "Settings": "38-58",
+      "Packages": "52-67",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "142-196",
+      "RoundedTotal": "145-200/about 170"
+    }
+  }
+}

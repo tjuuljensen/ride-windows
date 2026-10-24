@@ -1,0 +1,64 @@
+{
+  "SchemaVersion": 1,
+  "Batch": "NTCore 4GB Patch guarded launcher local regression",
+  "StartedAtUtc": "2026-10-24T05:23:00Z",
+  "FinishedAtUtc": "2026-10-24T05:25:36Z",
+  "SourceCommit": "f0f2c4cc4da1bfd121ed967340eff897652231ac",
+  "ContentIdentity": "Working-tree source, catalog, acceptance-runner, documentation and evidence changes",
+  "LocalRegression": {
+    "Status": "Passed",
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "Passed": 4,
+    "Failed": 0,
+    "Checks": [
+      "VersionWithoutTargetAccess",
+      "ExistingBackupRefusalBeforeTargetReadOrToolLaunch",
+      "InvalidPeRefusalWithoutBackupCreation",
+      "WhatIfReadOnlyBehavior"
+    ]
+  },
+  "RepositoryValidation": {
+    "Status": "Passed",
+    "Operations": 407,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 269,
+    "GeneratedOperationDocumentationCurrent": true,
+    "GitDiffCheck": "Passed"
+  },
+  "WindowsPowerShell51Parser": {
+    "Status": "Passed",
+    "Files": [
+      "tools/Invoke-Ride4GbPatch.ps1",
+      "tests/NtCore4GbPatchLauncher.Tests.ps1",
+      "tests/integration/Invoke-Ride4GbPatchFunctionalAcceptance.ps1"
+    ]
+  },
+  "AcceptanceRunner": {
+    "Status": "PreparedNotRun",
+    "Version": "0.3.0",
+    "SyntheticFixtureOnly": true,
+    "ChecksPrepared": [
+      "DirectUtilityCleanFixtureBehavior",
+      "GuardedExistingBackupRefusalWithoutMutation",
+      "GuardedExactBackupAndFlagOnlyPatch",
+      "ExactSyntheticFixtureRecovery"
+    ]
+  },
+  "VmAccess": {
+    "VM": "RIDE-Win11-Test",
+    "Status": "Blocked",
+    "Reason": "Host Get-VM inventory access was denied by CIM; no fresh elevation was requested.",
+    "CheckpointChanged": false,
+    "GuestRunnerExecuted": false
+  },
+  "PackageDisposition": {
+    "SupportedTargets": [],
+    "FunctionalAcceptance": "PendingWindows11Rerun",
+    "LegacyOutcomeClosure": [],
+    "EstimateChange": "None"
+  },
+  "Disposition": "The guarded launcher and local regressions pass. Windows VM functional acceptance remains pending because the host could not access RIDE-Win11-Test through CIM. The package remains unsupported pending the updated synthetic-only guest runner and checkpoint recovery."
+}

@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "kind": "B06ClientComponentLocalSourceValidationGuardRegression",
+  "completedAtUtc": "2026-10-23T14:34:51Z",
+  "target": "Windows 11 client candidate; no live target serviced",
+  "changes": [
+    "LocalSource install transitions that would change component state now fail before snapshot creation and native DISM invocation because the candidate cannot validate the source against target build, edition, architecture, language, required payloads, or configured-source fallback.",
+    "Restore to Present from a legacy LocalSource snapshot is refused because the saved record does not prove source identity or completeness.",
+    "An already-observed desired state remains a no-op after fresh read-only state inspection.",
+    "Component candidate remains unregistered and has no supported Windows targets."
+  ],
+  "validation": {
+    "pester": "5.7.1",
+    "powershell": "7.6.5",
+    "testRegistry": "disabled",
+    "tests": "ClientComponentPreparation.Tests.ps1 and ClientComponentLifecycle.Tests.ps1: 43 passed, 0 failed, 0 skipped",
+    "windowsPowerShell": "5.1 parser accepted the lifecycle module and both focused test files",
+    "repository": "tools/validate.ps1 passed: 393 operations, 8 groups, 5 profiles, 257 PowerShell files; operation documentation current",
+    "diffCheck": "git diff --check passed with core.whitespace=cr-at-eol"
+  },
+  "sideEffects": [
+    "No DISM or installer ran.",
+    "No VM, Defender, Windows state, network or elevation prompt was touched.",
+    "Lifecycle tests mocked the native servicing boundary; the temporary TestDrive was managed by Pester."
+  ],
+  "vmAcceptance": "Deferred. Latest recorded read-only Get-VM checks for RIDE-Win11-Test and RIDE-Srv2025Test returned CIM access denied before checkpoint inspection at 2026-10-23T14:06Z.",
+  "legacyOutcome": "No legacy outcome closed; all estimate ranges remain unchanged.",
+  "estimates": {
+    "settings": "38-58",
+    "packages": "52-67",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "142-196",
+    "roundedTotal": "145-200/about 170"
+  }
+}

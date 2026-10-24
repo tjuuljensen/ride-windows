@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-24T11:31:00Z",
+  "topic": "Sysinternals license administration disposition for RIDE package migration",
+  "userDisposition": "The prior RIDE v2 license-specialist review approved Sysinternals for RIDE's direct download-and-install workflow. RIDE downloads from Microsoft for installation on supported devices and does not transfer or publish copies. The user states there are no legal issues using Sysinternals in RIDE. Do not require another license review or apply generalized redistribution reasoning as a package-migration gate.",
+  "licenseMigrationStatus": "settled; not a blocker",
+  "securityExclusions": {
+    "status": "separate from license disposition",
+    "excludedTools": "Defender-detected utilities remain excluded from acceptance and are not restored, extracted, allowed, or excluded from Defender by this disposition."
+  },
+  "remainingTechnicalBlockers": [
+    "package lifecycle and ownership checks",
+    "exact recovery checks",
+    "selected functional behavior checks",
+    "Windows target acceptance"
+  ],
+  "legacyOutcomesClosed": 0,
+  "estimateRanges": {
+    "settings": "38-58",
+    "packages": "52-67",
+    "components": "19-24",
+    "accountsConfigurationAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "142-196",
+    "roundedTotal": "145-200/about 170"
+  },
+  "queueAtRecordTime": {
+    "runningRequest": "7b0d5560d7104eeb8d9094c6139ac3cb",
+    "pendingRequest": "f89afa96a4154019a66b3413b4e64d71"
+  }
+}

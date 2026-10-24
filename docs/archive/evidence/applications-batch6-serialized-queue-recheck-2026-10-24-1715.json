@@ -1,0 +1,31 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T17:15:03Z",
+  "Controller": "RIDEWin11Test",
+  "Target": "RIDE-Win11-Test",
+  "Queue": {
+    "Pending": [
+      {
+        "Suite": "ApplicationsBatch6",
+        "RunId": "9f6bec44b84c4855917bd6913b0b792f",
+        "SubmittedAtUtc": "2026-10-24T16:53:16.8149392Z"
+      }
+    ],
+    "Running": [
+      {
+        "Suite": "ApplicationsBatch6",
+        "RunId": "f7b20b6524bf4f99a80a1f19962b7cfd",
+        "SubmittedAtUtc": "2026-10-24T16:51:53Z"
+      }
+    ]
+  },
+  "WorkerExclusiveLockHeld": true,
+  "RuntimeBlockedMarkerPresent": false,
+  "FirstRequestGuestResultPresent": false,
+  "PendingRequestResultPresent": false,
+  "ReadOnlyTaskSchedulerInspection": "Unavailable: CIM access denied to current non-elevated session.",
+  "FreshUacPromptRequested": false,
+  "Disposition": "Preserve both same-scope requests and allow the registered worker to drain them serially; do not submit Batch7 until queue and checkpoint are clear.",
+  "LegacyOutcomesClosed": 0,
+  "EstimateRanges": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170"
+}

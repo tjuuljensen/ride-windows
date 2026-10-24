@@ -1,0 +1,23 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-22",
+  "PackageId": "package.wireshark",
+  "ReviewedVersion": "4.6.9",
+  "ReviewOwner": "Unassigned",
+  "LicenseReviewStatus": "NeedsReview",
+  "Finding": "Assess separate Npcap driver terms, exact exception and intended consumers before deployment or redistribution. Wireshark GPL terms do not grant Npcap rights.",
+  "AcceptanceStatus": "Partial; Windows 11 build 26300 absent-to-installed, repeat and saved-run restoration passed; explicit removal, existing-installation transitions, shared runtime/content and exact recovery remain pending.",
+  "Boundaries": {
+    "EntitlementInferred": false,
+    "RedistributionApproved": false,
+    "NpcapInstalledOrChanged": false,
+    "WindowsStateChanged": false,
+    "LegacyOutcomeResolved": false
+  },
+  "EstimatedRemainingWork": {
+    "GroupRanges": ["38-58", "56-71", "20-25", "25-35", "8-12"],
+    "ExactRangeEndpoints": "147-201",
+    "RoundedTotal": "145-200/about 175",
+    "EstimateReason": "A local version-specific review status records the open Npcap terms question; it is neither package acceptance nor a legacy outcome closure."
+  }
+}

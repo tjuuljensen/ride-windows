@@ -1,0 +1,91 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-21",
+  "Scope": "Static printable-string provenance follow-up for the retained MiTeC SQLite Query bundle; no binary load, SQL execution, database open, or extraction",
+  "Sources": [
+    { "Uri": "https://www.sqlite.org/releaselog/3_35_5.html", "Role": "Official SQLite 3.35.5 release date, source ID and sqlite3.c SHA3-256" },
+    { "Uri": "https://www.sqlite.org/copyright.html", "Role": "Official SQLite project copyright/public-domain notice" }
+  ],
+  "UpstreamRelease": {
+    "Version": "3.35.5",
+    "Date": "2021-04-19",
+    "SourceId": "1b256d97b553a9611efca188a3d995a2fff712759044ba480f9a0c9e98fae886",
+    "Sqlite3cSha3_256": "e42291343e8f03940e57fffcf1631e7921013b94419c2f943e816d3edf4e1bbe"
+  },
+  "RetainedArchive": {
+    "Path": ".local/remaining-collections-20261017/SQLiteQ.zip",
+    "Sha256": "7f979a622de9e97b9682dc09a5156a1bd872139a9dd56ba60616fb824e77ab16",
+    "AllThreeMemberHashesMatchPriorInventory": true
+  },
+  "StaticBinaryMetadata": [
+    {
+      "Member": "sqlite3.dll",
+      "Sha256": "e9e45d6db26b5a9a020ca5214f6434bb9796caa9328085e77345ff149bbace84",
+      "EmbeddedVersion": "3.35.5",
+      "SourceIdStringMatchesOfficialRelease": true,
+      "Strings": [
+        "COMPILER=gcc-5.2.0",
+        "THREADSAFE=1",
+        "ENABLE_COLUMN_METADATA",
+        "ENABLE_FTS4",
+        "ENABLE_FTS5",
+        "ENABLE_GEOPOLY",
+        "ENABLE_JSON1",
+        "ENABLE_MATH_FUNCTIONS",
+        "ENABLE_PREUPDATE_HOOK",
+        "ENABLE_RTREE",
+        "ENABLE_SESSION"
+      ]
+    },
+    {
+      "Member": "sqlite3.exe",
+      "Sha256": "01a6c2e43ecffadac3c3c7792c02604a87032d3a6d0f10bba8e7401b83ff3324",
+      "EmbeddedVersion": "3.35.5",
+      "SourceIdStringMatchesOfficialRelease": true,
+      "Strings": [
+        "COMPILER=gcc-5.2.0",
+        "THREADSAFE=0",
+        "ENABLE_BYTECODE_VTAB",
+        "ENABLE_DBSTAT_VTAB",
+        "ENABLE_FTS3",
+        "ENABLE_FTS4",
+        "ENABLE_FTS5",
+        "ENABLE_GEOPOLY",
+        "ENABLE_JSON1",
+        "ENABLE_MATH_FUNCTIONS",
+        "ENABLE_PREUPDATE_HOOK",
+        "ENABLE_RTREE",
+        "ENABLE_SESSION",
+        "ENABLE_STMTVTAB",
+        "ENABLE_UNKNOWN_SQL_FUNCTION"
+      ]
+    }
+  ],
+  "Interpretation": [
+    "Both bundled SQLite artifacts embed the exact 3.35.5 upstream source-ID string published by SQLite.",
+    "The DLL and command-line executable expose different compiler-option strings, including THREADSAFE=1 for the DLL and THREADSAFE=0 for the CLI, and distinct extension sets.",
+    "These strings strengthen release identity and build-configuration evidence but do not prove that all compiled bytes derive only from canonical SQLite source, establish a reproducible build, or identify every local patch. No source archive was matched byte-for-byte to either binary."
+  ],
+  "Remaining": [
+    "Reproducible source/build provenance and local MiTeC modifications remain unverified",
+    "Assess local MiTeC use and archive redistribution rights",
+    "Use only synthetic disposable databases for functional SQL/edit/import/export and exact recovery acceptance",
+    "No VM/controller acceptance attempted because the authorized guest workflow remains blocked"
+  ],
+  "RunBoundaries": {
+    "ArchiveExtractedThisBatch": false,
+    "BinaryExecutedOrLoaded": false,
+    "SqlExecuted": false,
+    "DatabaseOpenedOrModified": false,
+    "FreshUacPrompts": 0,
+    "VmRuns": 0,
+    "ControllerChanges": 0,
+    "DefenderChanges": 0,
+    "DefenderBlockedFilesTouched": false
+  },
+  "Outcomes": { "WholeLegacyOutcomesResolved": 0, "RetiredOutcomes": 0, "NewExclusions": 0 },
+  "Ranges": ["38-58", "56-71", "20-25", "25-35", "8-12"],
+  "ExactRangeEndpoints": "147-201",
+  "RoundedTotal": "145-200/about 175",
+  "EstimateReason": "The exact upstream release source-ID and distinct embedded compile-option strings are now recorded, but reproducible build provenance, license scope and isolated data-integrity acceptance remain; no whole outcome closes."
+}

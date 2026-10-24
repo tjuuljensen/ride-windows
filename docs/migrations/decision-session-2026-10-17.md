@@ -888,7 +888,7 @@ additional user approval gate by itself.
 | Q19 collector compatibility input | Version of the separately managed BloodHound CE backend to match collectors against. Backend deployment automation is deliberately deferred. |
 | Q03 offline installation scope | Meaning of the full external-package set versus a selected profile, included distributions/targets, whether RIDE engine/profiles travel with it, and delivery priority. Dependency completeness and offline behavior need implementation evidence. Toolkit host-folder publication is already accepted. |
 | Deployment-specific configuration | Actual updater package/exclusion lists, allowed sources and schedule; asset files and browser setting values; selected local accounts, Terminal/device/Wi-Fi identities and destinations. These are profile/runtime inputs, not reasons to stop generic source implementation. |
-| D04-D06 acceptance resources/history | Available application/hardware/peer fixtures; historical NumLock conditions and precise F1 intent; disposable TPM/boot recovery setup, off-device recovery destination and responsible recovery verifier. Validation order and deferral of unavailable resources are settled. |
+| D04-D06 acceptance resources/history | Available application/hardware/peer fixtures and historical NumLock/F1 evidence remain specific acceptance inputs. D06 now allows USB or a password manager for recovery-key storage and requires user confirmation that it is retrievable before a recovery-changing step, unless portable storage is procedure-verified. |
 
 Intentionally deferred rather than awaiting immediate approval: standalone
 Neo4j/APOC pending an independent use case; optional BloodHound backend deployment;
@@ -2163,3 +2163,683 @@ remain deferred. Next technical work is exact source pinning and isolated
 acquisition/extraction contract validation, followed by per-member compatibility
 evidence; unresolved runtime checks must stay visibly pending.
 
+## Package licensing and selection decisions, 2026-10-22
+
+The user assigned responsibility for checking applicable package terms to the
+people using the repository. RIDE should provide a clear product/version,
+publisher-reference and licensing-constraints overview to support that review.
+Shared catalog metadata is informational; local user/company review records
+remain the place for exact intended use and review findings. Review status alone
+must not become a general download or unattended-install gate. No RIDE record
+claims legal advice, user entitlement or redistribution approval.
+
+The user explicitly dropped MiTeC Paradox Data Editor, Weather Agent and Mail
+Checker from the candidate set. Do not add or retain them as selectable package
+operations. Their dated evidence remains historical context; do not pursue BDE
+registration or network acceptance for these dropped products. This is a scope
+disposition, not a machine-state action.
+
+Retain Phoenix Protector despite the discrepancy between the publisher page's
+freeware label and the bundled individual-use license. Track the discrepancy
+with a short dated package-description note and keep the publisher license link
+visible. This permits package preparation while the user of each repository
+copy checks applicable terms; it does not resolve entitlement, use scope or
+redistribution, and it does not make the review status a general install gate.
+
+MiTeC JSON Viewer and XML Viewer may remain downloadable even where a paid tier
+is applicable. The package overview and local review notes should say that
+license eligibility may depend on the selected use and may require a paid tier;
+use the existing review-progress values and `DistributionNotes` rather than
+inventing a new `LicenseReviewStatus` value. Downloads remain available, while
+each repository user is responsible for checking current terms for the intended
+use.
+
+Docker Desktop is approved for inclusion under the documented license
+constraints. Its overview must link to the [official Desktop license terms](https://docs.docker.com/subscription-billing/desktop-license/)
+and state the applicable eligibility limits, including personal use, education
+and eligible small businesses. This approval does not assert that every user or
+organization qualifies; local review remains user-specific.
+
+NTCore CFF Explorer's publisher page describes it as freeware. Keep its
+download candidate available with the publisher terms linked, and leave
+product-specific license constraints visible for repository users to assess.
+Do not inherit terms from other NTCore products or infer redistribution rights.
+
+Implementation reconciliation belongs in the implementation ledgers: update
+the candidate list and migration estimates for the three dropped products,
+adjust the Phoenix description, and align the package licensing overview and
+local review notes with these decisions. No native behavior or Windows state
+was changed by this decision.
+
+Evidence context: [Paradox Data Editor BDE follow-up](application-migration-review.md#mitec-paradox-data-editor-bundled-bde-publisher-deployment-follow-up-2026-10-21),
+[Phoenix Protector follow-up](application-migration-review.md#ntcore-phoenix-protector-custom-action-identity-and-license-follow-up-2026-10-21),
+[Weather Agent endpoint review](application-migration-review.md#mitec-weather-agent-openweathermap-endpoint-static-follow-up-2026-10-21),
+[Mail Checker OpenSSL review](application-migration-review.md#mitec-mail-checker-bundled-openssl-static-follow-up-2026-10-21),
+and the [package licensing guide](../package-licensing.md).
+
+## Remaining migration choices, 2026-10-22
+
+The user directed the following dispositions:
+
+- Retire the orphaned preset selectors `EnableInkingAndTypingData` and
+  `RemoveWSLFedora`. Do not invent an enable implementation for the former or
+  a Fedora removal workflow for the latter. Their preset references are
+  reconciled as retired; this does not claim an independently implemented
+  feature or change the legacy outcome estimates.
+- Keep the classic YARA compatibility migration deferred. Preserve the earlier
+  decision selecting YARA-X as the default standalone engine and classic YARA
+  as a separate compatibility option; do not silently substitute engines or
+  select an older classic-YARA binary/build route.
+- Keep `GetSysmonOlafXML` deferred. Do not choose a template or revision until
+  its monitoring policy intent is specified. Configuration acquisition and
+  application remain separate.
+
+These choices close the decision questions only. Any future implementation
+route requires its own source, policy, lifecycle and Windows-target evidence.
+
+## Additional migration dispositions, 2026-10-22
+
+The user set Q16/R01 application review as the next decision batch. Continue from
+the existing application ledger; do not reopen accepted Gpg4win, ImageMagick or
+Wireshark scope choices. Prioritize unresolved product-specific integrations,
+installer options and recovery evidence. Chrome 156.0.8078.48 is the first package
+for the next available registered VM acceptance session; access and queue
+submission remain blocked in the current low-integrity session.
+
+The user authorized package candidate implementation to proceed when license
+entitlement is unresolved, provided the package description states the known
+terms and uncertainty. A version-specific local `NeedsReview` record may also be
+used. Neither note implies user entitlement or distribution permission, and
+native acceptance and shared publication remain separate gates.
+
+Retire Weather Agent and Mail Checker from v3. Preserve their dated source and
+security findings; do not prepare v3 packages or run their network paths. Record
+the two product outcomes as retired from v3 scope in the application ledger and
+remove them from the active remaining-work estimate.
+
+The user authorized package implementation for the Defender-alerted NirSoft
+collections under the same non-restrictive package rules used in v2.x. Defer
+individual file handling to v3.1; if Defender alerts remain when that work
+begins, present them for the user's manual review. This decision does not
+authorize restoring quarantined files or overriding Defender before that review.
+The v2.x default preset separately enabled a broad `C:\Tools` Defender
+exclusion. Carrying that directory-wide behavior into v3 was unresolved at the
+time of this decision and is superseded by the later disposition below.
+
+**Superseded by the user's 2026-10-22 decision:** do not carry the broad
+`C:\Tools` Defender exclusion into v3. Keep the authorized NirSoft whole-collection
+package work separate from individual-file handling; if alerts remain when
+per-file handling resumes in v3.1, present them for manual review. Do not add
+automatic per-file exclusions or allow actions. See the [current System Tools
+disposition](system-tools-dispositions.md#system-tools-selector-reconciliation).
+
+## Deferred-scope confirmation, 2026-10-22
+
+The user confirmed that both `GetSysmonOlafXML` and the BloodHound CE
+backend-version/collector-compatibility choice remain deferred. This scope
+decision was superseded on 2026-10-23: the user selected all three Sysmon Modular
+release profiles and BloodHound CE 9.8.0. The later decision below controls;
+configuration acquisition and application remain separate, and collector
+compatibility still requires technical verification.
+
+
+## Windows component and classic Teams scope decisions, 2026-10-23
+
+The user decided:
+
+- Retire the legacy Windows PowerShell 2 enable/disable outcome. Keep Windows
+  PowerShell ISE separate; its availability does not establish PowerShell 7
+  support.
+- Limit Internet Printing migration scope to the Windows client optional feature
+  selected by the legacy functions. Do not add the Windows Server role or an
+  externally reachable printing service.
+- Retire the classic Teams MSI cleanup outcome. Do not substitute current Teams
+  or infer cleanup of Outlook add-ins or user data.
+
+These choices retire two counted legacy outcomes (Windows PowerShell 2 and the
+classic Teams MSI cleanup). Internet Printing remains one client-feature outcome;
+its Server role is out of scope. No code, package, component, or Windows state
+changed, and no runtime acceptance is implied. The estimate ledger records the
+range adjustment and remaining technical acceptance separately.
+## WSL, .NET 3.5 and QEMU guest integration decisions, 2026-10-23
+
+The user decided:
+
+- Keep Debian, Ubuntu and Kali as separate opt-in WSL distribution outcomes,
+  including Debian when it is available as a WSL distribution. Do not install a
+  distribution or unregister one automatically. The earlier retirement of the
+  unmatched Fedora removal selector remains in effect.
+- Keep .NET Framework 3.5 as an explicit, conditional compatibility outcome.
+  Select the applicable feature or standalone installation route from the exact
+  Windows build. Require a matching local servicing source and fail without
+  network fallback; do not infer equivalence to .NET 2.0.50727.
+- Include SPICE WebDAV as an optional QEMU guest integration for users who select
+  guest folder sharing. Keep it separate from the VirtIO/SPICE guest-tools
+  bundle; do not install it by default.
+
+These choices resolve scope only. Distribution data export/recovery, matching
+.NET source proof, exact QEMU guest/source verification and disposable-target
+lifecycle acceptance remain open. No legacy outcome was resolved, retired or
+excluded by this batch; the estimate ranges are unchanged at **38-58 / 52-67 /
+19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**.
+
+## Deferred package and client-component recovery decisions, 2026-10-23
+
+The user decided to keep NTCore 4GB Patch deferred after its disposable synthetic
+target test showed that an occupied backup path did not prevent modification and
+the tool created no recoverable copy. Do not retire the outcome or implement the
+package on the basis of this failure; reconsider only after a safe recovery path
+is established. See the [functional rejection evidence](../archive/evidence/ntcore-4gb-patch-functional-failure-2026-10-22.json).
+
+The user selected RIDE-managed ownership for the `Microsoft.PowerShell.ThreadJob`
+dependency required by PSScriptTools on Windows PowerShell 5.1. The exact official
+2.2.0 package bytes and digest remain unacquired after publisher DNS failures.
+Do not substitute the copy bundled with the local PowerShell runtime or accept
+PSScriptTools until the official dependency artifact is acquired, pinned and its
+managed lifecycle is accepted.
+
+For OpenSSH Client and Telnet Client, the user approved restricting removal to
+cases with a validated recovery source. Do not offer an `Absent` transition when
+the original payload may be removed and cannot be reliably reacquired and
+restored. Keep the lifecycle candidate unregistered until matching-source,
+no-network, recovery and disposable-target acceptance are complete. These
+decisions change no legacy outcome or estimate range: **38-58 / 52-67 / 19-24 /
+25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**.
+
+
+## Package and profile scope decisions, 2026-10-23
+
+The user selected all three Sysmon Modular release profiles for the
+`GetSysmonOlafXML` migration: **Balanced** (`sysmonconfig.xml`), **Balanced with
+FileDelete** (`sysmonconfig-with-filedelete.xml`) and **Excludes only**
+(`sysmonconfig-excludes-only.xml`). Implement them as explicit profile choices;
+keep downloading/configuration acquisition separate from applying a Sysmon
+configuration. Pin a reviewed upstream release and target Sysmon version during
+implementation. The upstream describes Excludes only as very verbose and
+Balanced with FileDelete as using file archiving; retain those costs in the
+profile descriptions and acceptance plan. This does not authorize applying a
+profile to a machine.
+
+The user selected BloodHound Community Edition backend version **9.8.0**,
+independent of the Java package work below. Keep collectors matched to that
+backend only after publisher compatibility is verified. Backend/container
+provisioning, Docker/WSL/Windows feature changes, data and credential ownership,
+and native recovery remain separate implementation and acceptance work.
+
+For the CCleaner family, the user selected the installed/full and portable
+distribution choices for CCleaner, Defraggler, Recuva and Speccy. Keep the four
+products independently selectable. Offer a portable choice only where that
+product's publisher provides a verified portable distribution; report an
+unavailable requested variant instead of substituting another distribution.
+Preserve the accepted no-automatic-trial/paid-upgrade rule. Exact editions,
+artifacts, ownership and recovery remain to be reviewed.
+
+For JoeWare, the user selected the complete official tools collection, including
+AdFind, for implementation. The user also authorized a Defender exclusion scoped
+to the package's dedicated install directory. Do not exclude the shared
+`ToolsDirectory`, `C:\Tools`, Downloads, or individual files in this v3 work;
+defer file-specific exclusions to v3.1. Pin the reviewed collection and each
+artifact rather than crawling a changing publisher site at install time. The
+publisher-reported AdFind alert remains an observation, not a threat
+classification or false-positive finding. Plan/report the exact directory,
+version, artifact and reason; capture prior exclusion state and remove only the
+exclusion introduced by the RIDE run. This package-specific decision does not
+reverse the separate decision against the broad legacy NirSoft `C:\Tools`
+exclusion.
+
+The user confirmed standalone Java as an independent RIDE package use case,
+unrelated to BloodHound. Carry Microsoft OpenJDK 21, 17 and 11 as explicit
+compatibility choices alongside the previously selected JDK 25 default. Keep
+versions side-by-side, preserve `JAVA_HOME`, `PATH` and `.jar` associations by
+default, and do not switch application runtimes implicitly. Exact patch pins,
+artifact sources, installer/recovery behavior and native acceptance remain
+implementation work.
+
+These are package/profile scope decisions, not completed migrations or runtime
+acceptance. No package, profile, Defender setting or Windows state changed.
+
+## Gpg4win user-data recovery boundary confirmation, 2026-10-23
+
+The user confirmed that Gpg4win implementation may proceed on the previously
+accepted non-elevated current-user scope with GnuPG command-line tools and
+Kleopatra only, excluding Explorer and Outlook integration. Preserve any
+pre-existing `%APPDATA%/gnupg` keys and configuration through install, removal
+and recovery; package removal may remove only package-owned files and must not
+discard that user-data directory. This confirms the recovery boundary without
+authorizing inspection or modification of real user keys/configuration or
+acceptance on the workstation.
+
+No legacy outcome closed. The Gpg4win candidate remains unsupported until its
+outer and nested installer scope, selected components, coexistence checks,
+repeat/remove/recovery behavior and disposable Windows acceptance pass. The
+current Hyper-V CIM access denial remains an acceptance blocker; any elevated
+guest workflow still requires fresh UAC. Estimates remain **38-58 / 52-67 /
+19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**.
+
+## Python RIDE-managed runtime selection reaffirmed, 2026-10-24
+
+The user selected RIDE-managed runtime selection. This reaffirms the
+2026-10-17 policy: prepare explicitly selected, pinned Python runtimes; disable
+implicit downloads when a missing interpreter is invoked; offer automatic
+acquisition only as an explicit online option; and keep runtime updates
+separate. Preserve per-user scope for manager-managed runtimes, including when
+the manager MSI is machine-wide. RIDE must use the selected interpreter
+directly and preserve existing command/association behavior unless the user
+explicitly approves a previewed integration change.
+
+No runtime was acquired, installed, updated or configured, and no legacy
+outcome closed. Exact supported release pins, architecture, manager/runtime
+installer controls, launcher coexistence, offline-bundle evidence, recovery and
+disposable Windows acceptance remain open. Estimates remain **38-58 / 52-67 /
+19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See
+the [earlier runtime-acquisition policy](#python-runtime-acquisition-and-updates)
+and [current Python migration review](application-migration-review.md#python-ride-managed-runtime-selection-reaffirmed-2026-10-24).
+
+## Zimmerman, Arsenal and OpenSSH Server scope decisions, 2026-10-24
+
+The user selected Zimmerman as the next collection for continued product-level
+review. The already accepted 26-member forensic tools list remains the current
+membership; this priority does not add members or replace the pinned-artifact,
+maps/batch and updater-safety requirements. Continue with the remaining source,
+helper and artifact-provenance work for Zimmerman before choosing another
+collection for focused review.
+
+The user expanded Q24/R09 Arsenal scope to all publisher products for which the
+publisher offers a free-use scenario, even if paid editions or activation are
+also available. Keep each eligible product individually selectable and reviewed;
+exclude only products with no free-use scenario (licensed-only). Verify the
+publisher's current product/version terms and exact artifact during product
+review. This supersedes the earlier decision to leave Arsenal open-source
+utilities outside the initial v3 scope. It does not authorize paid activation,
+driver installation, evidence mounting, forensic execution or implicit MEGAcmd
+installation. Keep unavailable or licensed-only products explicit in the
+selection and omission report.
+
+The user added OpenSSH Server as a separate v3 component outcome under Q05.
+Keep it individually selectable and off by default. Its service, firewall rules,
+host keys and configuration require separate ownership, capture and recovery;
+OpenSSH Client selection or acceptance does not imply Server installation.
+
+These choices set review priority and migration scope only. No collection
+membership beyond the existing Zimmerman list was selected, no package or
+component was acquired or installed, and no Windows state changed. No legacy
+outcome closed or retired; estimates remain **38-58 / 52-67 / 19-24 / 25-35 /
+8-12**, exact **142-196**, rounded **145-200/about 170**.
+
+## Explorer F1 preference and acceptance resources, 2026-10-24
+
+The user confirmed that pressing F1 in File Explorer to open Help is unwanted.
+If current Windows behavior is confirmed, provide an option to disable it and
+include that setting in the default profile. This reflects the user's remembered
+behavior and desired default; [Microsoft's current keyboard guidance](https://support.microsoft.com/en-us/Windows/Hardware/Input-Devices/windows-keyboard-tips-and-tricks)
+describes F1 as Help for the active window, but does not establish the behavior of File
+Explorer on the current Windows 11 Pro build. Confirm the actual behavior on an
+authorized Windows 11 target before adding the operation or profile selection.
+If confirmed, give the setting an accurate Explorer-specific description and
+exact recovery semantics. Do not use SendKeys, IFEO or a remapper. The historical
+NumLock setup conditions remain unresolved. See the [remaining settings plan](remaining-settings-plan.md).
+
+The user can provide Windows 11 Pro and a physical Lenovo laptop running
+Windows 11 Pro. Windows Core can be made available if a specific use case needs
+it, and other specific scenarios can be arranged when their evidence need is
+identified. Match acceptance cases to these resources and request additional
+scenarios only as required. This resource offer does not itself authorize a VM
+run, state-changing test, or fresh UAC prompt. Existing VM access denial and
+fresh-elevation requirements remain operational blockers and must be recorded
+separately from product decisions.
+
+Rationale: verify the remembered user-visible behavior before treating it as a
+Windows 11 setting, while making the desired default explicit; align validation
+with the actual Windows 11 Pro and physical-hardware resources the user can
+provide.
+
+Consequence: no catalog, profile, package, or Windows change is authorized by
+this record alone. The default-profile request becomes actionable only after
+current Explorer behavior and a safe, reversible control are established.
+
+Follow-up: verify F1 behavior and an exact restore-capable implementation on an
+authorized Windows 11 target; use Windows Core or other scenarios only when a
+specific acceptance case requires them. Preserve VM access and fresh UAC prompts
+as operational blockers. The System Tools family-priority question is answered
+below; the selected review priority does not resolve these acceptance blockers.
+
+## KAPE Defender compatibility and exclusion decision, 2026-10-24
+
+The user asked for official KAPE guidance and user reports before deciding
+whether to add a Defender exclusion. CISA's KAPE collection procedure instructs
+responders to disable antivirus or host-protection mechanisms only when they
+prevent execution from removable media, and to re-enable them after collection.
+This documents an operational protection-compatibility issue for that KAPE
+workflow. Kroll's KAPE documentation does not claim that Microsoft Defender
+detects KAPE as malware. The reviewed user report for KAPE 1.3.0.2 in Microsoft
+Defender for Endpoint Live Response concerns a community module failing
+validation because `Export Format` is empty; it is not a Defender malware
+detection or quarantine report. No verified KAPE-specific Defender detection
+or false-positive report was found in this review.
+
+Based on the documented risk that antivirus/host protection can block KAPE's
+removable-media execution workflow, the user authorized a Defender exclusion
+only for KAPE's dedicated install directory. Implementation must capture prior
+exclusion state and remove only the exclusion introduced by the RIDE run.
+Defer individual-file exclusions to v3.1. Do not exclude the shared tools root,
+`C:\Tools`, Downloads or other packages; do not create per-file allow actions.
+This is a scoped compatibility decision, not a claim that KAPE is a false
+positive. No Defender setting, package or Windows state changed.
+
+The directory exclusion addresses Microsoft Defender Antivirus scanning of the
+installed KAPE directory only. It does not bypass DLP or removable-media
+controls, other Defender for Endpoint protections, tamper protection, or
+organization-managed policy. If acceptance is blocked by one of those controls,
+record the blocker and do not broaden the exclusion.
+
+Resolved: dedicated-directory Defender policy and v3.1 deferral for
+individual-file exclusions. Retired/excluded: none. Deferred: exact publisher
+artifact/source, pinned definition inventory and dependency checks, file
+ownership and lifecycle, and disposable
+Windows acceptance. No KAPE legacy outcome closes. Estimates remain **38-58 /
+52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about
+170**. See the [application review](application-migration-review.md#kape-defender-compatibility-and-exclusion-decision-2026-10-24-0401-utc),
+[CISA procedure](https://content.govdelivery.com/accounts/USDHSCISA/bulletins/2c5011c),
+[KAPEDocs FAQ](https://github.com/EricZimmerman/KapeDocs/blob/master/Pages/50-Frequently-asked-questions.md),
+[user report](https://github.com/EricZimmerman/KapeFiles/issues/1099) and
+[Microsoft exclusion guidance](https://learn.microsoft.com/en-us/defender-endpoint/navigate-defender-endpoint-antivirus-exclusions).
+
+## JoeWare product review priority, 2026-10-24
+
+The user selected JoeWare as the next System Tools family for focused product-
+level review. This supersedes the 2026-10-24 Zimmerman review priority for
+ordering only; the existing Zimmerman membership decision remains intact. The
+existing JoeWare scope selection remains the complete 41-name official
+collection, including AdFind. This priority does not add products or authorize
+acquisition, installation, execution, or a VM run.
+
+Rationale: JoeWare remains an open exact-source and technical review batch; the
+current AdFind/AdMod releases have advanced since the frozen page snapshot, and
+the retained inventory records a version discrepancy for `rdp-sec-check`.
+
+Consequence: continue the bounded publisher-source and artifact-identity review
+for the selected collection. Preserve the prior JoeWare scope terms and keep any
+Defender-blocked binary an explicit operational acceptance blocker; do not treat
+a collection-level selection or an exclusion record as proof that the blocked
+binary has been accepted. Do not broaden Defender exceptions or add per-file
+allow actions. No legacy outcome closes and no estimate changes.
+
+Follow-up: refresh current publisher versions and exact download-response
+identity for the frozen collection, resolve the `rdp-sec-check` discrepancy,
+and keep AdFind's reported Defender behavior separate from collection-wide
+status. Defer any step requiring unavailable VM access, Defender-blocked payload
+handling, or a fresh UAC prompt until its operational prerequisite is available.
+See the [System Tools dispositions](system-tools-dispositions.md#system-tools-selector-reconciliation)
+and [JoeWare source/terms evidence](../archive/evidence/joeware-internal-use-current-version-review-2026-10-23.json).
+
+## Catalog-driven package prerequisites, 2026-10-24
+
+The user approved catalog-driven prerequisite installation as part of v3 after
+reviewing the ImageMagick Visual C++ runtime dependency. RIDE should resolve
+declared prerequisite packages into ordinary install/profile plans, install them
+before dependent packages, and show the dependency and reason in preview. Each
+step remains a normal catalog operation with its own `ShouldProcess`, source and
+evidence checks, state capture, and partial-failure reporting. Reuse the same
+dependency declaration and ordering in offline bundle preparation and execution.
+
+Shared dependencies must be safe: removing a consumer leaves its runtime
+installed, and an explicit runtime removal is refused while a catalog-tracked
+consumer still requires it. Version-aware detection must distinguish missing,
+sufficient, and outdated prerequisites. Do not treat an outdated installed
+runtime as absent or remove a pre-existing runtime during compensation. Where
+in-place servicing cannot restore the previous version, disclose the recovery
+limit and retain the working runtime.
+
+ImageMagick Q16 is the first dependent package. It requires the x64 v14 runtime
+with `vcomp140.dll` version 14.50.35710.0 or later. The v14 x64 catalog candidate
+has no supported target until RIDE-managed lifecycle and recovery acceptance
+passes on a disposable Windows 11 VM; evaluate other Windows targets separately.
+No legacy product scope or estimate changes. See the [implementation and
+acceptance ledger](application-migration-review.md#catalog-driven-package-prerequisites-approved-for-v3-2026-10-24)
+and [active queue](../../TODO.md#migration-closure-queue).
+
+## Hash submenu, package requirements and QEMU validation targets, 2026-10-24
+
+The user confirmed that the multi-algorithm hash value context-menu setting
+should be retained for v3. Its helper and per-user registry candidate already
+exist; this confirms scope and does not accept pending Windows 11 Explorer,
+repeat, removal or exact-restore behavior.
+
+The user confirmed that package dependencies/requirements support belongs in
+v3. This is already captured by the [catalog-driven prerequisite decision
+above](#catalog-driven-package-prerequisites-2026-10-24); retain its ordering,
+version-aware detection, shared-runtime removal guard, offline reuse and
+recovery requirements.
+
+For QEMU/GNOME Boxes guest-integration verification, use recent 2026H2 Fedora
+44, Debian and Ubuntu environments. Pin the exact available Debian and Ubuntu
+release identifiers and GNOME Boxes build in the acceptance record before a
+matching-guest run. This selects validation environments only; it does not
+claim guest-tools compatibility, add Linux support to RIDE, or accept package
+behavior. VirtIO/SPICE and optional WebDAV remain separate according to the
+[existing guest-integration decision](#wsl-net-35-and-qemu-guest-integration-decisions-2026-10-23).
+
+These answers change no legacy outcome disposition and authorize no runtime
+changes beyond their stated scope. Estimate ranges remain **38-58 / 52-67 /
+19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**.
+
+## Phoenix prerequisite evidence and ImageMagick variant, 2026-10-24
+
+For Phoenix Protector, defer adding a .NET prerequisite until evidence proves
+that the MSI actually requires it. If the requirement is established, add the
+required dependency through the v3 catalog-driven prerequisite mechanism. Do
+not infer that .NET Framework 3.5 is equivalent to the MSI's
+2.0.50727 launch condition; retain the exact Windows build, feature/source and
+recovery gates.
+
+The user also reaffirmed the selected ImageMagick portable candidate: keep the
+static x64 Q16 build. Its Windows 11 package lifecycle and bounded feature
+acceptance are already recorded; this does not imply Server support or close the
+separate v14 runtime package lifecycle/recovery gate. No package behavior ran as
+part of this decision.
+
+Neither answer resolves, retires or excludes a legacy outcome. All five
+estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**,
+rounded **145-200/about 170**. See the [Phoenix static review](application-migration-review.md#ntcore-phoenix-protector-custom-action-identity-and-license-follow-up-2026-10-21)
+and [ImageMagick acceptance record](../archive/evidence/imagemagick-q16-win11-acceptance-2026-10-23.json).
+
+## Package-scoped Defender exclusions and deferred YARA/Sysmon work, 2026-10-24
+
+The user proposed replacing any v2.x-wide `C:\Tools` Defender exclusion with
+separate v3 exclusions for individual package install directories (for example,
+the NirSoft collection directory). The user confirmed this lifecycle: create an
+exclusion only for the RIDE-managed install directory of a selected package;
+capture whether the exact path was already excluded; and on package removal,
+remove the exclusion only when RIDE introduced it. Preserve pre-existing
+exclusions. Use reviewed, package/version-specific compatibility metadata and
+show the exact directory and reason in plans and reports. Never exclude the
+shared `ToolsDirectory` parent, `C:\Tools`, Downloads, or individual files as a
+substitute for package-level review. This supersedes the 2026-10-22 NirSoft
+no-exclusion direction only for reviewed package-directory exclusions. Per-file
+handling remains deferred to v3.1; known Defender alerts still require manual
+review, and this decision does not authorize restoring or re-extracting
+quarantined files or claim a false positive. No Defender setting or package was
+changed in this decision chat.
+
+The user reaffirmed that classic YARA compatibility and the `GetSysmonOlafXML`
+migration remain deferred. Preserve YARA-X as the selected default standalone
+engine, but do not advance classic-YARA acquisition or implementation. This
+re-defers Sysmon Olaf XML work and supersedes the 2026-10-23 selection of three
+Sysmon Modular profiles for active migration; do not proceed with acquisition
+or configuration application under that selection. Retain the prior entry as
+historical scope discussion. No legacy outcome or estimate changed.
+
+The existing package-specific exclusion verification requirements remain: mock
+selected/reviewed versus unselected/unreviewed packages, exact-path deduplication,
+`WhatIf`, preservation of pre-existing exclusions, and removal of only
+RIDE-introduced state; then verify on disposable Windows targets with a
+neighboring unexcluded directory. No Windows or VM state was changed. Estimates
+remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded
+**145-200/about 170**.
+
+### Sysmon Modular decision correction, 2026-10-24
+
+The user corrected the Sysmon deferral: Olaf Hartong's Sysmon Modular profiles
+are not to remain deferred. The 2026-10-23 selection of all three profiles is
+active: Balanced, Balanced with FileDelete, and Excludes only. The catalog
+already contains these as pinned, checksum-verified, download-only artifacts
+for Sysmon 15.21. Continue their acquisition, retained-file recovery, and user
+and VM acceptance work; keep configuration application as a separate workflow.
+Do not infer authorization to install Sysmon, apply or replace a configuration,
+or change Windows state. YARA remains deferred as recorded above. This correction
+supersedes only the Sysmon deferral in this entry; it does not change Defender
+handling or migration estimates.
+
+## JoeWare latest-download and acceptance-resource decisions, 2026-10-24
+
+The user accepts the `rdp-sec-check` discrepancy between JoeWare's current
+product/usage pages and its older `versions.txt` row. Keep both observations
+documented with their source dates and values. Build JoeWare acquisition to
+resolve and fetch the latest artifact offered for each selected product at
+download time. If the resolved page version, download response, or acquired ZIP
+identifies a different version or member set, retain a discrepancy record and
+put a short warning in that package's catalog description. Never map the older
+`V01.00.00` digest to the current `V02.00.00` archive unless the archive bytes
+confirm that identity. This accepts the publisher's latest offered version
+model; it does not authorize tool execution or claim lifecycle/Windows
+acceptance.
+
+For GNOME Boxes guest acceptance, do not pre-pin Debian/Ubuntu releases or the
+GNOME Boxes build. Keep Fedora 44 as the selected Fedora environment. At the
+time of a matching guest run, record the actual Debian and Ubuntu releases and
+installed Boxes version as observations. The latest GNOME Boxes release
+verified during this decision was version 50.0; this is a current-source
+observation, not a required pin ([GNOME Apps](https://apps.gnome.org/Boxes/),
+[Flathub](https://flathub.org/en/apps/org.gnome.Boxes)).
+
+For TPM/boot recovery-changing acceptance, allow the user to save the key to a
+USB drive or a password manager. Before proceeding, ask the user to confirm
+that the key has been saved and can be retrieved, unless the procedure itself
+has verified that it stored the key on a portable drive. Do not require an
+independent verifier or a specific recovery destination as a prerequisite, and
+do not record recovery secrets in repository evidence. Keep acceptance
+deferred until the target laptop and this confirmation are available.
+
+These decisions change no legacy outcome disposition and authorize no package
+installation, tool execution, recovery-key operation, or guest VM mutation.
+The estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact
+**142-196**, rounded **145-200/about 170**.
+
+## Unsigned package eligibility decision, 2026-10-24
+
+The user decided that unsigned packages remain eligible for migration. In
+particular, the observed `NotSigned` status does not disqualify 7-Zip or
+ShareX. Continue to require an identified publisher source and exact version or
+immutable revision, record RIDE's observed SHA-256 and size, validate declared
+archive members, and match every available provider or publisher digest.
+Reject actual digest or pin mismatches and other evidence-integrity failures as
+specified in the [package verification matrix](../package-verification-matrix.md).
+This decision does not claim a publisher signature, alter package-specific
+source review, or imply installation acceptance or target support.
+
+No package or Windows state changed and no legacy outcome closed. The five
+estimate ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact
+**142-196**, rounded **145-200/about 170**.
+
+## Edge Legacy page-prediction retirement, 2026-10-24
+
+The user selected retirement of the legacy `DisableEdgePagePrediction` outcome
+from RIDE v3. It targets Edge Legacy behavior; Microsoft ended Edge Legacy
+support in 2021. Do not substitute the current Edge `NetworkPredictionOptions`
+policy, which is a distinct mapping and would require a separate scope request.
+No catalog operation, profile selection or Windows behavior is implied.
+
+Resolved and retired: one legacy settings outcome. No other legacy outcome,
+operation or supported target changed. Estimates are now settings **37-57**,
+packages **52-67**, components **19-24**, files/assets **25-35**, and
+maintenance **8-12**; exact total **141-195**, rounded **140-195/about 170**.
+
+## NirSoft per-file assessment postponed to v3.1, 2026-10-24
+
+The user confirmed that individual NirSoft file assessment is not part of v3
+and is postponed to v3.1. Keep the four reported alert members out of v3
+per-file assessment and acceptance. This does not change the already authorized
+v3 whole-collection package preparation or reviewed package-directory Defender
+exclusion lifecycle. Do not add per-file exclusions or allow actions, restore or
+re-extract quarantined files, or treat the alerts as classified or false
+positives. Package-directory Defender exclusions and Windows VM acceptance are
+separate matters; this scope decision changes neither. No package, Defender,
+VM, or Windows state changed. No legacy outcome or estimate changed.
+
+## Python Install Manager updates and PingCastle scope, 2026-10-24
+
+The user selected RIDE-controlled explicit updates for the Python Install
+Manager. Do not enable the manager's built-in automatic self-update behavior.
+Manager updates remain a separate, deliberate RIDE action with reviewed
+versions; this does not change Python runtime acquisition or interpreter update
+policy, and it does not enable updates now.
+
+The user selected PingCastle as an optional v3 AD assessment tool. Keep it
+independently selectable and do not make it a dependency of BloodHound or its
+collectors. This scope choice does not settle current licensing, exact
+distribution/version, compatibility, or domain/lab acceptance. No executable
+was acquired or run, and no AD or Windows state changed.
+
+## ADReplStatus remains deferred, 2026-10-24
+
+The user chose to keep ADReplStatus deferred in v3 rather than retire it based
+on the missing latest-release endpoint. Reconsider only after establishing an
+authorized, compatible distribution and completing the applicable domain/lab
+review. The available source repository and its personal .NET Framework 4.8.1
+rebuild description do not authorize that rebuild for RIDE deployment. No
+artifact was acquired or run, and no AD or Windows state changed. No legacy
+outcome or estimate changed.
+
+## Detect It Easy, VMware Workstation and WinPmem scope decisions, 2026-10-24
+
+The user authorized a Defender exclusion for the RIDE-managed install directory
+containing a selected Detect It Easy package and postponed individual-file
+handling to v3.1. Capture whether that exact directory was already excluded and
+remove only an exclusion introduced by the RIDE run. Do not exclude a shared
+tools root, Downloads or individual files. The reported detection for the
+Detect It Easy 3.21 artifact remains a separate security disposition: a
+directory exclusion does not classify it as a false positive, authorize
+restoring quarantined files, or establish artifact or Windows acceptance.
+
+The user retired VMware Workstation from v3. Do not add a replacement virtualizer
+or remove existing installations as part of this disposition. This retires one
+legacy package outcome; no runtime or Windows state changed.
+
+The user reaffirmed that WinPmem is required in v3 because it is an important
+tool. Include the pinned acquisition executable as a deployable tool, while
+keeping driver loading and memory capture explicit actions. Signing,
+Secure-Boot/current-build compatibility, driver cleanup, reboot reporting and
+recovery remain required technical gates. This scope decision does not
+authorize loading a driver or capturing memory.
+
+Resolved: Detect It Easy package-directory exclusion scope and v3.1 individual-
+file deferral; VMware Workstation retirement; WinPmem retention. Retired: one
+legacy package outcome. No package, Defender, VM or Windows state changed. The
+package estimate decreases by one outcome; all other migration groups are
+unchanged. See the [Detect It Easy candidate disposition](custom-ride-dispositions.md#readme-only-candidate-reconciliation),
+[install-program disposition](install-programs-dispositions.md), and
+[WinPmem review](application-migration-review.md).
+
+## ExifTool, Zimmerman Hasher and ShimCacheParser decisions, 2026-10-24
+
+The user chose to keep both ExifTool Windows release tracks open: 13.55 is the
+latest production release, while 13.59 is the publisher-linked Windows ZIP and
+is labeled development. The existing 13.59 catalog entry remains a candidate,
+not a final release-track decision. Do not claim the production and development
+tracks are interchangeable; resolve the intended track and verify exact bytes
+before pinning or accepting the package.
+
+For the selected 26-member Zimmerman collection, hold only Hasher pending
+publisher clarification or exact archive evidence for its framework. The other
+25 members remain in scope for source and artifact review. The Hasher page lists
+it under .NET Framework 4.7.2 but links to `/net/`, which the publisher's
+downloader treats as .NET 10; do not select either runtime based on the page
+label alone.
+
+The user retired the legacy ShimCacheParser outcome from RIDE v3. Preserve the
+historical source and Python 2 review as evidence; do not port, package, install,
+or substitute another parser under this outcome. This retires one package
+legacy outcome. Estimates change from 51-66 to 50-65 packages and from 140-194
+to 139-193 exact total; the rounded total remains 140-195/about 170. These
+decisions changed no package, tool, VM, or Windows state and produced no test
+result.

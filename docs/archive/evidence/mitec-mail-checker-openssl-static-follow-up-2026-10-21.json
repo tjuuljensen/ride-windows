@@ -1,0 +1,129 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-21",
+  "Batch": "MiTeC Mail Checker bundled OpenSSL static follow-up",
+  "SourceInstaller": {
+    "Path": ".local/remaining-collections-20261017/MAILCHECKER_Instal.exe",
+    "Length": 2174711,
+    "Sha256": "da47910bf3eab1efabb6fc7200a6bdfc394c17a24dfb236b0aafb220967c8ce0",
+    "MatchesFrozenEvidence": true
+  },
+  "RetainedPayload": [
+    {
+      "Path": ".local/installer-static-20261017/payload-MAILCHECKER_Instal.exe/app/MAILCHECKER.EXE",
+      "Length": 1222656,
+      "Sha256": "9104f5e92ba0cb0333cc5312fd6e97b944d9ee2da91771b99e19e47ba9d5167f",
+      "FileVersion": "7.2.0.0",
+      "DirectStaticImports": [
+        "KERNEL32.DLL",
+        "advapi32.dll",
+        "comctl32.dll",
+        "comdlg32.dll",
+        "crypt32.dll",
+        "gdi32.dll",
+        "imm32.dll",
+        "msimg32.dll",
+        "ole32.dll",
+        "oleacc.dll",
+        "oleaut32.dll",
+        "shdocvw.dll",
+        "shell32.dll",
+        "URLMON.DLL",
+        "user32.dll",
+        "version.dll",
+        "wininet.dll",
+        "winmm.dll",
+        "winspool.drv",
+        "wsock32.dll"
+      ],
+      "DirectOpenSslStaticImport": false,
+      "AsciiNameScanFoundBundledOpenSslDllNames": false,
+      "Interpretation": "This static inspection does not prove whether the application dynamically loads the included OpenSSL DLLs or uses another network path."
+    },
+    {
+      "Path": ".local/installer-static-20261017/payload-MAILCHECKER_Instal.exe/app/libeay32.dll",
+      "Length": 1178624,
+      "Sha256": "b2f7887ae0bd418724eb32d3449197551a0895f2c764a933a7bd984f187eab78",
+      "FileVersion": "1.0.1e",
+      "ProductVersion": "1.0.1e",
+      "CompanyName": "The OpenSSL Project, http://www.openssl.org/",
+      "FileDescription": "OpenSSL Shared Library",
+      "AuthenticodeStatus": "NotSigned",
+      "StaticImports": [
+        "WS2_32.dll",
+        "GDI32.dll",
+        "ADVAPI32.dll",
+        "USER32.dll",
+        "MSVCR90.dll",
+        "KERNEL32.dll"
+      ],
+      "EmbeddedOpenSslNoticeStrings": [
+        "Eric Young"
+      ]
+    },
+    {
+      "Path": ".local/installer-static-20261017/payload-MAILCHECKER_Instal.exe/app/libssl32.dll",
+      "Length": 269824,
+      "Sha256": "1e6fb714037d30a6809ac7d1a46f63a8bb858bf33c97afaa3dda0d42c337ddec",
+      "FileVersion": "1.0.1e",
+      "ProductVersion": "1.0.1e",
+      "CompanyName": "The OpenSSL Project, http://www.openssl.org/",
+      "FileDescription": "OpenSSL Shared Library",
+      "AuthenticodeStatus": "NotSigned",
+      "StaticImports": [
+        "LIBEAY32.dll",
+        "MSVCR90.dll",
+        "KERNEL32.dll"
+      ],
+      "DuplicateContentWith": "ssleay32.dll"
+    },
+    {
+      "Path": ".local/installer-static-20261017/payload-MAILCHECKER_Instal.exe/app/ssleay32.dll",
+      "Length": 269824,
+      "Sha256": "1e6fb714037d30a6809ac7d1a46f63a8bb858bf33c97afaa3dda0d42c337ddec",
+      "FileVersion": "1.0.1e",
+      "ProductVersion": "1.0.1e",
+      "CompanyName": "The OpenSSL Project, http://www.openssl.org/",
+      "FileDescription": "OpenSSL Shared Library",
+      "AuthenticodeStatus": "NotSigned",
+      "StaticImports": [
+        "LIBEAY32.dll",
+        "MSVCR90.dll",
+        "KERNEL32.dll"
+      ],
+      "DuplicateContentWith": "libssl32.dll"
+    }
+  ],
+  "OpenSslPublisherEvidence": {
+    "ReleaseTimelineUri": "https://www.openssl-library.org/news/timeline/",
+    "Old101ReleasesUri": "https://www.openssl-library.org/source/old/1.0.1/",
+    "Vulnerabilities101Uri": "https://www.openssl-library.org/news/vulnerabilities-1.0.1/index.html",
+    "LicenseUri": "https://openssl-library.org/source/license/index.html",
+    "Observations": [
+      "OpenSSL's release timeline identifies 1.0.1e as released on 2013-02-11.",
+      "The 1.0.1 branch is out of support since 2017-01-01 and no longer receives updates.",
+      "OpenSSL 1.0.1e predates 1.0.1g; the official 1.0.1 vulnerability page says CVE-2014-0160 affected versions before 1.0.1g.",
+      "OpenSSL says all pre-3.0 releases use the dual OpenSSL and SSLeay license, including unsupported historical releases."
+    ],
+    "Limits": "Version/company/banner resources identify an OpenSSL 1.0.1e build but do not prove the DLLs are byte-for-byte official release builds or identify their compiler/source modifications. A source-release listing is not a Windows DLL checksum or provenance record."
+  },
+  "RemainingBlockers": [
+    "The 1.0.1e branch is unsupported and predates fixes including CVE-2014-0160; actual Mail Checker exposure depends on runtime use and protocol behavior, which was not tested.",
+    "Exact binary provenance/build and any modifications are not established; the DLLs are unsigned and no separate upstream LICENSE file appears in the retained app file list.",
+    "The OpenSSL dual-license notice obligations and redistribution compliance for these binaries remain unresolved.",
+    "The application has no direct static import of the bundled OpenSSL DLL names; dynamic loading/use remains unknown.",
+    "Publisher terms, local entitlement, mail-account behavior, send/delete controls and isolated sink acceptance remain open."
+  ],
+  "ResolvedWholeLegacyOutcomes": 0,
+  "RetiredWholeLegacyOutcomes": 0,
+  "ExcludedWholeLegacyOutcomes": 0,
+  "PayloadExecuted": false,
+  "DllLoaded": false,
+  "NetworkRequestMade": false,
+  "MailAccountOrCredentialUsed": false,
+  "MessageSentOrDeleted": false,
+  "FreshUacLaunches": 0,
+  "VmOrControllerChanged": false,
+  "DefenderStateChanged": false,
+  "Inspection": "Recomputed installer and extracted member hashes; read PE imports, version resources, signatures and bounded ASCII strings only. No application or DLL ran, and no network/mail action occurred."
+}

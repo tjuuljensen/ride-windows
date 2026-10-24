@@ -1,0 +1,28 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T08:17:42Z",
+  "Topic": "Sysinternals license rationale correction",
+  "UserDecision": "The prior RIDE v2 license-specialist assessment approved Sysinternals for RIDE. RIDE downloads the tools directly from Microsoft and installs them on user-supported devices; RIDE does not transfer or publish Sysinternals copies. The user states there are no legal issues using Sysinternals in RIDE. Treat this as settled for the existing scope; generalized redistribution analysis must not require a new license review or block package migration.",
+  "Disposition": {
+    "LicenseReviewRequiredForExistingScope": false,
+    "LicenseMigrationBlocker": false,
+    "PriorSpecialistApprovalGoverns": true,
+    "DefenderBlockedUtilitiesRemainSeparatelyExcluded": true
+  },
+  "Acceptance": {
+    "LicenseDisposition": "Settled for RIDE direct download-and-install workflow",
+    "PackageLifecycleRecoveryAndUtilityBehavior": "Technical acceptance remains open",
+    "WindowsTargetAcceptance": "Technical acceptance remains open"
+  },
+  "MigrationAccounting": {
+    "Resolved": ["Sysinternals license disposition for the existing RIDE workflow"],
+    "Retired": [],
+    "Excluded": ["Utilities separately blocked by Defender detections; no licensing exclusion"],
+    "Deferred": ["Remaining technical package and Windows acceptance"],
+    "Partial": ["No additional legacy outcome closes from this rationale correction"],
+    "EstimateRangesUnchanged": true,
+    "Ranges": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170"
+  }
+}

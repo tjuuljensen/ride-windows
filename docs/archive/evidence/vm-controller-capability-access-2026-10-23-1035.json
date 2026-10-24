@@ -1,0 +1,62 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "ObservedAtUtc": "2026-10-23T10:35:32Z",
+  "Batch": "Existing VM/controller access and focused-suite capability recheck",
+  "Controllers": [
+    {
+      "Name": "RIDEWin11Test",
+      "ConfigurationReadable": true,
+      "SchemaVersion": 2,
+      "Capabilities": [
+        "GitHubPatGuestV1",
+        "FocusedPortableV1"
+      ],
+      "FocusedPortableEligible": true,
+      "QueueWrite": "Previous authorized SysinternalsSuite request failed before enqueue with access denied while creating atomic temporary file."
+    },
+    {
+      "Name": "RIDESrv2025Test",
+      "ConfigurationReadable": true,
+      "SchemaVersion": 1,
+      "Capabilities": [],
+      "FocusedPortableEligible": false,
+      "QueueWrite": "Not attempted because controller does not advertise FocusedPortableV1."
+    }
+  ],
+  "HyperV": {
+    "Operation": "Read-only Get-VM inventory query",
+    "Result": "Access to a CIM resource was not available to the client.",
+    "VmState": "Unknown",
+    "CheckpointState": "Unknown"
+  },
+  "UacPromptRequested": false,
+  "ControllerFilesChanged": false,
+  "TaskQueued": false,
+  "TaskStarted": false,
+  "VmChanged": false,
+  "DefenderChanged": false,
+  "WindowsStateChanged": false,
+  "Outcome": {
+    "Resolved": [
+      "RIDEWin11Test advertises FocusedPortableV1 in its current configuration.",
+      "RIDESrv2025Test does not advertise FocusedPortableV1 and cannot serve as the focused portable acceptance alternative."
+    ],
+    "Deferred": [
+      "Focused portable VM acceptance remains pending protected queue access and VM/CIM access."
+    ],
+    "LegacyOutcomesClosed": []
+  },
+  "Estimate": {
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged because no VM or suite run was authorized or submitted."
+  }
+}

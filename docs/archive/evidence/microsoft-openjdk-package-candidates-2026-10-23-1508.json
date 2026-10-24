@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-23T15:08:00Z",
+  "batch": "OpenJDKCompatibility",
+  "decisionSource": "docs/migrations/decision-session-2026-10-17.md#package-and-profile-scope-decisions-2026-10-23",
+  "packages": [
+    { "id": "package.microsoft-openjdk", "version": "25.0.4.1", "architecture": "x64", "role": "default Java package" },
+    { "id": "package.microsoft-openjdk-21", "version": "21.0.12.1", "architecture": "x64", "role": "side-by-side compatibility choice" },
+    { "id": "package.microsoft-openjdk-17", "version": "17.0.20.1", "architecture": "x64", "role": "side-by-side compatibility choice" },
+    { "id": "package.microsoft-openjdk-11", "version": "11.0.32.1", "architecture": "x64", "role": "side-by-side compatibility choice" }
+  ],
+  "sourceReferences": [
+    "https://learn.microsoft.com/en-us/java/openjdk/download",
+    "https://learn.microsoft.com/en-us/java/openjdk/install",
+    "https://openjdk.org/legal/gplv2+ce.html"
+  ],
+  "implementation": {
+    "provider": "MicrosoftOpenJdk",
+    "source": "Exact versioned Microsoft x64 MSI URL and matching .sha256sum.txt endpoint",
+    "checksumBehavior": "Fetches bounded checksum metadata and requires exactly one SHA-256 record; when a filename is present it must match the pinned MSI basename.",
+    "msiFeatures": ["FeatureMain"],
+    "installDirectories": "C:\\Program Files\\Microsoft\\RIDE\\OpenJDK\\jdk-<major>",
+    "preservedDefaults": ["JAVA_HOME", "PATH", ".jar associations"],
+    "supportedTargets": [],
+    "candidateTargets": ["Windows 11", "Windows Server 2025"],
+    "pendingAcceptance": true
+  },
+  "validation": {
+    "focusedPester": { "passed": 4, "failed": 0, "notRun": 87, "testRegistryEnabled": false },
+    "focusedCases": [
+      "Exact pinned MSI and publisher checksum binding",
+      "Refusal of a checksum naming a different file",
+      "Refusal of a URL that does not match the exact pinned version",
+      "Four candidate versions, per-major directories, FeatureMain-only selection and clean catalog validation"
+    ],
+    "repositoryValidation": "Passed: 397 operations, 8 groups, 5 profiles and 257 PowerShell files; generated operation documentation is current.",
+    "windowsPowerShell51Parser": "Passed for modules/RIDE-Packages.psm1, modules/RIDE.CatalogValidation.psm1 and tests/ApplicationPackages.Tests.ps1.",
+    "broaderAttempt": "ApplicationPackages.Tests.ps1 was attempted. The first run stopped because Pester's TestRegistry plugin could not write HKCU. With TestRegistry disabled, unrelated existing portable lifecycle cases failed at temporary-directory manifest rename/write due sandbox access denial; the filtered OpenJDK cases passed.",
+    "msiDownloadedOrExecuted": false,
+    "vmAccessed": false,
+    "windowsStateChanged": false
+  },
+  "migrationDisposition": {
+    "resolved": "Selected package metadata and mocked checksum binding",
+    "retired": [],
+    "excluded": [],
+    "deferred": ["Live Microsoft checksum/source verification", "Windows MSI install/repeat/uninstall/recovery acceptance on Windows 11 and Server 2025"],
+    "partial": "No legacy Java outcome closed",
+    "estimateRanges": {
+      "settings": "38-58",
+      "packages": "52-67",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "142-196",
+      "roundedTotal": "145-200/about 170"
+    }
+  },
+  "sysinternalsDisposition": "The prior RIDE v2 specialist approval governs RIDE's direct download-and-install workflow. Licensing is not a package migration blocker."
+}

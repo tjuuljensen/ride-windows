@@ -1,0 +1,81 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-20",
+  "Scope": "Second-pass static review of the retained SSView ZLib codec source, focused on failure behavior and exact publisher terms; no DLL, viewer, or source execution",
+  "PublisherEvidence": {
+    "ProductPage": {
+      "Uri": "https://www.mitec.cz/wp/mssv/",
+      "Snapshot": ".local/collection-inventory-20261017/mitec-ssv.html",
+      "Sha256": "b1821b87f8c436c3e198618052fae198952d0d2fb30f2d95dbd4e4f4851b12ad"
+    },
+    "TermsPage": {
+      "Uri": "https://www.mitec.cz/wp/support/",
+      "Snapshot": ".local/collection-inventory-20261017/mitec-support.html",
+      "Sha256": "00c55ee6e356a5b3422234dc74a92ffef09f83d655d4cd4965dcffbc3f2b066b"
+    },
+    "ProductPageVersion": "4.1.2, dated 31.10.2022",
+    "PublishedCodecBehavior": "SSView searches its directory for DLLs exporting EncodeIStream and DecodeIStream. The page identifies ZLibCodec source as a sample and says selected encoders/decoders are used when streams are saved or loaded.",
+    "PublishedTerms": "The current support page says trial or unregistered software is freeware for non-commercial usage, identifies purchased named-user/build-machine, team and site license types, and includes a software EULA. No owner-specific entitlement or redistribution determination was made."
+  },
+  "PinnedSource": {
+    "Archive": ".local/collection-inventory-20261017/SSView.zip",
+    "ArchiveSha256": "e9d05067745a4f114b22dc798c7fa99017302b39bc8798853ed1bfd4c44d27ab",
+    "SourceMember": ".local/collection-inventory-20261017/SSView.zip.review/ZLibCodec.dpr",
+    "SourceLength": 2919,
+    "SourceSha256": "a7e1e2d316a07700de5f2e2e233eca4dadd57f2205c85ad63e1963f7337a4d69",
+    "SourceBytesMatchPriorInventory": true
+  },
+  "StaticFindings": [
+    {
+      "Lines": "64-76",
+      "Observation": "Codec exceptions are swallowed. The handler rewinds the input and appends the complete input to the memory output, but does not clear that output first. If encoding or decoding has already written partial output before raising, the returned stream can contain partial output followed by the original input; the caller receives no explicit error from this path.",
+      "Confidence": "Control-flow implication from source; whether the included Delphi ZLib implementation reaches this state for a specific input is unverified without execution."
+    },
+    {
+      "Lines": "58-63",
+      "Observation": "Nil and zero-length input return before assigning an output stream.",
+      "Confidence": "Direct source observation; caller handling is unknown."
+    },
+    {
+      "Lines": "24-31",
+      "Observation": "The sample imports Delphi ZLib and resource units; the archive does not include the referenced ZLibCodec.res file, so a reproducible build and exact dependency/license provenance are not established.",
+      "Confidence": "Direct source/archive inventory observation."
+    },
+    {
+      "Lines": "4-16, 92-94",
+      "Observation": "The source documents same-directory DLL discovery by two export names and confirms that stream transformations can participate in load/save. Review and acceptance must use an isolated viewer directory and disposable structured-storage copies; do not allow unrelated DLLs or user documents into the fixture.",
+      "Confidence": "Direct source observation, consistent with the publisher product page."
+    }
+  ],
+  "Remaining": [
+    "Exact grant and attribution for ZLibCodec.dll and ZLibCodec.dpr, and ownership/terms for test.ss",
+    "MiTeC license-owner review for intended use and any redistribution; publisher terms alone do not establish local entitlement",
+    "Isolated tests for viewer-only opening, valid codec round trip, malformed/partially decoded streams, empty input, save behavior, and exact document preservation",
+    "Native activation/configuration and Windows target acceptance"
+  ],
+  "SafetyAndAcceptance": {
+    "PayloadExecuted": false,
+    "InstallerExecuted": false,
+    "FreshUacPrompts": 0,
+    "VmRuns": 0,
+    "DefenderBlockedToolsTouched": false,
+    "HostOrControllerChanged": false,
+    "DefenderChanged": false
+  },
+  "MigrationDisposition": {
+    "WholeLegacyOutcomesClosed": 0,
+    "RetiredOutcomes": 0,
+    "NewExclusions": 0,
+    "Resolved": "SSView codec error handling and the precise isolated-fixture requirements are now mapped from the pinned sample source.",
+    "Partial": "Source/sample license scope and runtime data-integrity behavior remain unverified.",
+    "Deferred": [
+      "Codec/sample terms, attribution and local owner approval",
+      "SSView viewer-only and codec behavior/recovery on a registered disposable guest",
+      "Docker Desktop per-user and all-users package lifecycles after attended controller refresh"
+    ],
+    "EstimateRanges": ["38-58", "56-71", "20-25", "25-35", "8-12"],
+    "ExactTotal": "147-201",
+    "RoundedTotal": "145-200/about 175",
+    "EstimateReason": "Static source review clarifies a failure path and acceptance design but closes no complete legacy product outcome; no estimate deduction is justified."
+  }
+}

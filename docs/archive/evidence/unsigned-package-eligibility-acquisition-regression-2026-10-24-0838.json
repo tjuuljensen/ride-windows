@@ -1,0 +1,48 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T08:38:41Z",
+  "Scope": "Unsigned package eligibility acquisition regression after the user decision for 7-Zip and ShareX",
+  "DecisionReference": "docs/migrations/decision-session-2026-10-17.md#unsigned-package-eligibility-decision-2026-10-24",
+  "Environment": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryPluginEnabled": false,
+    "Suite": "tests/PackageEvidence.Tests.ps1"
+  },
+  "Results": {
+    "Discovered": 28,
+    "Passed": 28,
+    "Failed": 0,
+    "Skipped": 0,
+    "UnsignedArtifactCase": "A NotSigned artifact with a matching provider SHA-512 was accepted and recorded.",
+    "IntegrityFailureCase": "Altered bytes failed the provider digest check and were moved to rejected-artifact storage before success was recorded.",
+    "PackageSpecificDecision": "7-Zip and ShareX remain eligible when NotSigned; their exact source/version and available digest checks still apply."
+  },
+  "SideEffects": {
+    "ExternalNetwork": false,
+    "PackagePayloadAcquired": false,
+    "InstallerExecuted": false,
+    "WindowsStateChanged": false,
+    "VmUsed": false,
+    "DefenderChanged": false,
+    "TemporaryFixtures": "Pester used mocked HTTP, signatures, and local .local fixtures; no real publisher payload was used."
+  },
+  "HostVmAccessRecheck": {
+    "CheckedAtUtc": "2026-10-24T08:40:48Z",
+    "Command": "Get-VM -Name RIDE-Win11-Test,RIDE-Srv2025Test",
+    "Result": "Access to a CIM resource was not available to the client before VM/checkpoint inspection.",
+    "VmChanged": false,
+    "ElevationRequested": false
+  },
+  "MigrationAccounting": {
+    "Resolved": ["PackageEvidence acquisition regression now verifies NotSigned remains eligible with a matching provider digest and digest mismatches still fail."],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Windows installer/lifecycle and target acceptance remain separate for packages not already accepted on Windows 11."],
+    "Partial": ["The 7-Zip and ShareX eligibility decision is implemented in policy and covered by the shared acquisition regression; this test does not itself provide their current payload or native acceptance."],
+    "EstimateRangesUnchanged": true,
+    "Ranges": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-20",
+  "Scope": "Static publisher-page, version, licensing and network/data-risk review of MiTeC Network Scanner 6.1.0; no payload executed and no network scanned",
+  "PublisherEvidence": {
+    "ProductPage": {
+      "Uri": "https://www.mitec.cz/wp/mns/",
+      "Snapshot": ".local/collection-inventory-20261017/mitec-product-mns.html",
+      "Sha256": "28aa5069785709e8cc638392882086e7e3d784569d1b7756640c9831eed77456",
+      "Version": "6.1.0, dated 2026-04-23",
+      "PublishedBehavior": "Multithreaded ICMP, TCP/UDP port, IP, NetBIOS/NetBT, Active Directory and SNMP scanner; ping sweeps, shares/services, SSDP/UPnP, WS-Discovery and mDNS. Publisher lists data including IP/MAC, device/domain, logged user, OS/BIOS/model/CPU, services, sessions, open files, running processes, terminal sessions, event logs, installed software, SAM accounts and WMI queries. Results can be edited/saved/loaded/exported as CSV; local IP range can be auto-detected; a VirusTotal domain report link is offered.",
+      "OperatingSystems": "Publisher lists Windows XP-11 and Server 2003-2025; this is not RIDE target acceptance.",
+      "LicenseObservation": "The product page lists a paid lifetime single-user license at EUR 30 on the review date. The support EULA separately says trial/unregistered software is freeware for non-commercial usage and lists license types. No local entitlement or redistribution conclusion is inferred."
+    },
+    "TermsPage": {
+      "Uri": "https://www.mitec.cz/wp/support/",
+      "Snapshot": ".local/collection-inventory-20261017/mitec-support.html",
+      "Sha256": "00c55ee6e356a5b3422234dc74a92ffef09f83d655d4cd4965dcffbc3f2b066b",
+      "Observation": "Current publisher EULA and product-page paid license information remain separate; local intended-use rights and redistribution are unresolved."
+    }
+  },
+  "PinnedArtifact": {
+    "Archive": ".local/remaining-collections-20261017/NetScanner.zip",
+    "DownloadUri": "https://www.mitec.cz/wp/files/NetScanner.zip",
+    "Length": 11317163,
+    "Sha256": "02fbf13ffcc8bfd3b3ef907b265cc4d2338309e99039f1384f2c6cd370995c66",
+    "PublisherDigestVerified": false,
+    "Members": [
+      {"Path":"NetScanner.exe","Length":5080296,"Sha256":"b6a0f814d10719da2a5e2f7b6a39c61742118cfc509acdd9e0e7649e3680eaa4","Architecture":"x86","FileVersion":"6.1.0.0","ProductVersion":"6.0.0.0"},
+      {"Path":"NetScanner64.exe","Length":6973512,"Sha256":"9c8972abab5984478c7d4eda4a96fbcdbce1eea04af6b9187d6d7c9cee90ca06","Architecture":"x64","FileVersion":"6.1.0.0","ProductVersion":"6.0.0.0"}
+    ],
+    "ArchiveMemberSet": "Two x86/x64 executable variants; no license, README or notice member recorded by the frozen inventory."
+  },
+  "ReviewFindings": [
+    "The current page and frozen archive/page/member hashes match the inventory. Both executables report FileVersion 6.1.0.0 but ProductVersion 6.0.0.0; preserve this metadata distinction. Hashes and PE metadata do not verify runtime behavior or target support.",
+    "The published scan surface can enumerate hosts and expose account, process, share, service, event-log, installed-software and network details. Exact scan authorization, network destinations/rates, credentials, exported CSV handling and VirusTotal link behavior are not established by the page.",
+    "Future behavior acceptance must be limited to a deliberately isolated, owned test network with disposable synthetic endpoints/accounts and explicit port/traffic bounds. Do not auto-detect or scan the host's real local range, query directory/SAM data, or use production credentials, endpoints or exported results."
+  ],
+  "SafetyAndAcceptance": {
+    "FrozenArchivePageAndMemberHashesMatch": true,
+    "PayloadExecuted": false,
+    "NetworkScanned": false,
+    "HostOrDirectoryInformationQueried": false,
+    "VirusTotalUsed": false,
+    "FreshUacPrompts": 0,
+    "VmRuns": 0,
+    "DefenderBlockedToolsTouched": false,
+    "HostOrControllerChanged": false,
+    "DefenderChanged": false
+  },
+  "MigrationDisposition": {
+    "WholeLegacyOutcomesClosed": 0,
+    "RetiredOutcomes": 0,
+    "NewExclusions": 0,
+    "Resolved": "Current version, separate x86/x64 variants, published scan/export surface and license boundary are recorded.",
+    "Partial": "Local entitlement, scan authorization/traffic, credential handling, CSV sensitivity, VirusTotal behavior, GUI and activation remain unverified.",
+    "Deferred": [
+      "Owner-specific MiTeC use and archive distribution assessment",
+      "No real network, local-range auto-detection, directory/SAM query or production credentials during acceptance",
+      "Any later network behavior test requires isolated owned endpoints, synthetic accounts, explicit port/traffic bounds and disposable CSV outputs",
+      "Windows target, UI and activation behavior through an approved guest workflow"
+    ],
+    "EstimateRanges": ["38-58", "56-71", "20-25", "25-35", "8-12"],
+    "ExactTotal": "147-201",
+    "RoundedTotal": "145-200/about 175",
+    "EstimateReason": "Published feature and data scope is clearer, but rights, network behavior and a complete legacy outcome remain open; no estimate deduction is justified."
+  }
+}

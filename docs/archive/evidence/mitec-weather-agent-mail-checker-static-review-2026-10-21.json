@@ -1,0 +1,71 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-21",
+  "Scope": "Static publisher-page, version, licensing, external-service and installer-opacity review of MiTeC Weather Agent and Mail Checker; no installer extracted or executed and no service/account accessed",
+  "PublisherEvidence": {
+    "WeatherAgent": {
+      "ProductPage": "https://www.mitec.cz/wa.html",
+      "FrozenPageSha256": "3083c3cdae9b14fc791b1818110e46e5398eead264331e32eee750329097c2bd",
+      "FrozenPageVersion": "3.6.0",
+      "OuterInstallerVersion": "WA_Setup.exe has blank FileVersion/ProductVersion fields; PE metadata identifies Michal Mutl and copyright 2013-2021.",
+      "PublishedBehavior": "Current conditions and forecasts up to 16 days, moon phases, sunrise/sunset and user-selected locations; based on MiTeC Weather Forecast component.",
+      "CurrentTargetList": "Windows 2000, XP, 2003, Vista, 7, Server 2008, 8, 8.1 and 10; no Windows 11 claim.",
+      "CurrentPageLicense": "Free for private and commercial users. This conflicts with the general support EULA statement that unregistered freeware is non-commercial; resolve product-specific terms and redistribution before commercial use or bundling.",
+      "Unknowns": "Weather-service endpoint, API-key requirement, location precision, outbound fields, persistence, startup, installer actions, dependencies and removal behavior are not established by the page or outer PE inventory."
+    },
+    "MailChecker": {
+      "ProductPage": "https://www.mitec.cz/mailchecker.html",
+      "FrozenPageSha256": "07a2237ff9c973d5855ebd4752672cb168c9f1d7d500f147dc9d1325fbb5baf0",
+      "FrozenPageVersion": "7.2.0",
+      "OuterInstallerVersion": "MAILCHECKER_Instal.exe has blank product/version metadata; outer PE copyright identifies Michal Mutl, 2001-2013.",
+      "PublishedBehavior": "Checks multiple mailboxes, recognizes spam, can delete messages and display plain-text/HTML mail, supports SSL retrieval from Gmail, includes its own SMTP module for replies/new messages, can run from removable media and records a detailed task/status journal.",
+      "CurrentTargetList": "Windows 2000, XP, 2003, Vista and 7; no current Windows 11 claim.",
+      "CurrentPageLicense": "Free for private and commercial users. This conflicts with the general support EULA statement that unregistered freeware is non-commercial; resolve product-specific terms and redistribution before commercial use or bundling.",
+      "Unknowns": "Exact protocols, OAuth/app-password requirements, send/delete confirmation, message/credential persistence, SMTP recipient controls, outbound data and installer actions are not established."
+    },
+    "TermsPage": {
+      "Uri": "https://www.mitec.cz/wp/support/",
+      "Observation": "General MiTeC support EULA states trial/unregistered freeware is non-commercial. This differs from both product pages' commercial-use claims."
+    }
+  },
+  "PinnedArtifacts": [
+    {"Product":"Weather Agent","Artifact":".local/remaining-collections-20261017/WA_Setup.exe","Length":1516488,"Sha256":"1817767092b85cf2bd843c29747eb8787277f3044962a1169eeff50668831c4e","PriorListing":{"ExitCode":0,"Format":"PE","EntryCount":18},"PayloadExtracted":false},
+    {"Product":"Mail Checker","Artifact":".local/remaining-collections-20261017/MAILCHECKER_Instal.exe","Length":2174711,"Sha256":"da47910bf3eab1efabb6fc7200a6bdfc394c17a24dfb236b0aafb220967c8ce0","PriorListing":{"ExitCode":2,"Formats":[],"EntryCount":-1},"PayloadExtracted":false}
+  ],
+  "ReviewFindings": [
+    "Both outer artifact hashes were recomputed and match the frozen inventory. Weather Agent's prior listing exposes only PE resources; Mail Checker did not parse as a 7-Zip archive. Neither result reveals an installer payload or action list.",
+    "Weather Agent may send a selected location or related fields to an unspecified weather provider. No location, API key or account was entered and no network request was made.",
+    "Mail Checker can expose personal messages and credentials, delete remote mail, send new mail/replies and maintain a journal. Testing requires a disposable isolated mail server/accounts, synthetic messages/recipients, a send sink and verified deletion/recovery controls. No real mailbox or credential may be used.",
+    "Both product pages claim private and commercial freeware, but the general support EULA says unregistered freeware is non-commercial. Treat commercial use and redistribution as unresolved until written product-specific clarification."
+  ],
+  "SafetyAndAcceptance": {
+    "OuterInstallerHashesReverified": true,
+    "InstallersExtracted": false,
+    "InstallersExecuted": false,
+    "NetworkRequestMade": false,
+    "WeatherLocationOrApiKeyUsed": false,
+    "MailAccountOrCredentialUsed": false,
+    "MessageSentOrDeleted": false,
+    "FreshUacPrompts": 0,
+    "VmRuns": 0,
+    "DefenderBlockedToolsTouched": false,
+    "HostOrControllerChanged": false,
+    "DefenderChanged": false
+  },
+  "MigrationDisposition": {
+    "WholeLegacyOutcomesClosed": 0,
+    "RetiredOutcomes": 0,
+    "NewExclusions": 0,
+    "Resolved": "Published features, frozen versions, outer installer pins, platform lists and conflicts between product-page and general EULA terms are recorded.",
+    "Partial": "Installer payload/actions, provider/protocol behavior, credentials and data flow, persistence/removal, local entitlement, current-target support, UI and activation remain unverified.",
+    "Deferred": [
+      "Do not extract or execute either installer during source review; acquire no location, API key, mailbox password, OAuth token or personal message.",
+      "Any Weather Agent test needs a disposable location and reviewed endpoint/data flow. Any Mail Checker test needs an isolated sink with synthetic accounts/messages/recipients and verified no-send/no-delete defaults plus recovery.",
+      "Resolve product-specific use and redistribution terms before commercial use or packaging; do not infer Windows 11 support from legacy publisher target lists."
+    ],
+    "EstimateRanges": ["38-58", "56-71", "20-25", "25-35", "8-12"],
+    "ExactTotal": "147-201",
+    "RoundedTotal": "145-200/about 175",
+    "EstimateReason": "External-service, mail-control, license and opaque-installer gates are clearer, but no whole legacy outcome was accepted, retired or excluded. Estimates remain unchanged."
+  }
+}

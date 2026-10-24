@@ -1,0 +1,77 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-20",
+  "Scope": "Static publisher-page, version, licensing and certificate-data review of MiTeC Certificate Generator and Certificate Information; no payload or certificate opened",
+  "TermsPage": {
+    "Uri": "https://www.mitec.cz/wp/support/",
+    "Snapshot": ".local/collection-inventory-20261017/mitec-support.html",
+    "Sha256": "00c55ee6e356a5b3422234dc74a92ffef09f83d655d4cd4965dcffbc3f2b066b",
+    "Observation": "MiTeC's current support page says trial or unregistered software is freeware for non-commercial usage and describes named-user/build-machine, team, site and trial license types. This does not resolve local intended-use rights or archive redistribution."
+  },
+  "Products": [
+    {
+      "Name": "MiTeC Certificate Generator",
+      "ProductUri": "https://www.mitec.cz/wp/cg/",
+      "ProductPageSnapshot": ".local/collection-inventory-20261017/mitec-product-cg.html",
+      "ProductPageSha256": "8662f550b04b38cbb06a3ff2f9c8c5dc4994a39dea5631e9a5cdfbd13ff3a3be",
+      "PageVersion": "1.0.0, dated 2025-12-30",
+      "PublishedBehavior": "Generates self-signed X.509 certificates in PEM/CER or PKCS#12 PFX formats. The publisher page lists Windows XP-11 and Server 2003-2025; this is not RIDE target acceptance.",
+      "Archive": ".local/remaining-collections-20261017/CG.zip",
+      "DownloadUri": "https://www.mitec.cz/wp/files/CG.zip",
+      "ArchiveLength": 2223981,
+      "ArchiveSha256": "dab3421d6ca9629c938b86e267ce139d4f2ce54758f1125008bf7da158f28666",
+      "PublisherDigestVerified": false,
+      "Members": [
+        {"Path":"CG.exe","Length":6521456,"Sha256":"8cc29d56a0a7fc863ca2e659a66d115a581521767bd8988a5ace504d32cc9c0e","Architecture":"x64","FileVersion":"1.0.0.0","ProductVersion":"1.0.0.0"}
+      ],
+      "LicenseObservation": "The product page calls the tool freeware for private, educational and non-commercial purposes.",
+      "Acceptance": "Use a disposable generated key and certificate only; verify output formats and exact output cleanup. Never inspect or import host keys, use personal certificates, or add a generated certificate to a trust store."
+    },
+    {
+      "Name": "MiTeC Certificate Information",
+      "ProductUri": "https://www.mitec.cz/wp/mci/",
+      "ProductPageSnapshot": ".local/collection-inventory-20261017/mitec-product-mci.html",
+      "ProductPageSha256": "8c6bfd56c7f7ac1430ecf3a3e49a37d82b0a5617babbcd2c9802b4f173b527d2",
+      "PageVersion": "1.5.0, dated 2026-07-14",
+      "PublishedBehavior": "Opens PEM/CRT/CER/P7B/P7C/DER/PFX/P12 certificates, signed portable executables, MSI packages, signed XML and PDF; exports displayed certificates as PEM or DER. The publisher page lists Windows XP-11 and Server 2003-2025; this is not RIDE target acceptance.",
+      "Archive": ".local/remaining-collections-20261017/CertInfo.zip",
+      "DownloadUri": "https://www.mitec.cz/wp/files/CertInfo.zip",
+      "ArchiveLength": 1893898,
+      "ArchiveSha256": "6183172dc2277111b3019460716b4f57ad5b5f09d3bf3584620bdaff033e7c7b",
+      "PublisherDigestVerified": false,
+      "Members": [
+        {"Path":"CertInfo.exe","Length":4859480,"Sha256":"d4d7936b1f9498c2ba03a1a613a06562f447c7f2d1371d9be01e0e6ae407b391","Architecture":"x86","FileVersion":"1.5.0.0","ProductVersion":"1.0.0.0"}
+      ],
+      "LicenseObservation": "The product page calls the tool freeware for private, educational and non-commercial purposes.",
+      "Acceptance": "Use synthetic certificates and signed public fixtures, including a disposable PFX with a test-only key. Verify parsing and export preservation; never open personal/production key containers or export a real private key."
+    }
+  ],
+  "SafetyAndAcceptance": {
+    "FrozenArchiveAndMemberHashesMatch": true,
+    "ProductPageSnapshotHashesMatchFrozenInventory": true,
+    "PayloadsExecuted": false,
+    "CertificatesOpened": false,
+    "CertificateStoresChanged": false,
+    "FreshUacPrompts": 0,
+    "VmRuns": 0,
+    "DefenderBlockedToolsTouched": false,
+    "HostOrControllerChanged": false,
+    "DefenderChanged": false
+  },
+  "MigrationDisposition": {
+    "WholeLegacyOutcomesClosed": 0,
+    "RetiredOutcomes": 0,
+    "NewExclusions": 0,
+    "Resolved": "Current product versions, publisher-described certificate formats/effects, noncommercial terms and frozen archive/member identities are recorded.",
+    "Partial": "Local intended-use entitlement and redistribution, certificate parsing/export behavior, generated-key handling and exact cleanup remain unverified.",
+    "Deferred": [
+      "Owner-specific MiTeC use and archive distribution assessment",
+      "Synthetic-only generation, parsing, export, malformed-input and exact cleanup acceptance",
+      "Windows target, UI and activation behavior through an approved guest workflow"
+    ],
+    "EstimateRanges": ["38-58", "56-71", "20-25", "25-35", "8-12"],
+    "ExactTotal": "147-201",
+    "RoundedTotal": "145-200/about 175",
+    "EstimateReason": "Version, data formats and publisher terms are clearer, but no whole legacy outcome or runtime acceptance is closed; no estimate deduction is justified."
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T08:58:40Z",
+  "Batch": "Independent Sysinternals product current-source inert package regression",
+  "Test": {
+    "Path": "tests/SysinternalsProductPackages.Tests.ps1",
+    "Discovered": 72,
+    "Passed": 72,
+    "Failed": 0,
+    "Skipped": 0,
+    "Inconclusive": 0,
+    "NotRun": 0,
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "TestRoot": "Repository-local .local temporary path; removed after run"
+  },
+  "Coverage": [
+    "Nine separately pinned product candidates: Process Explorer, Autoruns, TCPView, Process Monitor, RAMMap, Disk2vhd, Sigcheck, Strings and Handle.",
+    "Source pins and complete archive member manifests compared with retained source-review evidence.",
+    "Pinned resolution without mutable network discovery.",
+    "Digest mismatch refusal before extraction or success recording.",
+    "Required EULA file checked before destination creation.",
+    "Repeat install, owned-file removal, snapshot restore, user configuration preservation, collision refusal and modified-file retention.",
+    "Independent Suite folder ownership remains unaffected by product removal."
+  ],
+  "Boundaries": {
+    "ArchiveMembers": "Synthetic inert text files only",
+    "PublisherPayloadAcquired": false,
+    "ExternalNetwork": false,
+    "SysinternalsUtilityExecuted": false,
+    "InstallerExecuted": false,
+    "EulaAccepted": false,
+    "VmUsed": false,
+    "DefenderChanged": false,
+    "WindowsStateChanged": false
+  },
+  "Outcome": {
+    "Resolved": [
+      "Current-source inert package lifecycle/recovery regression passed 72/72 for nine independent products."
+    ],
+    "Retired": [],
+    "Excluded": [
+      "Separately Defender-detected binaries remain outside the selected candidates."
+    ],
+    "Deferred": [
+      "Native utility behavior, activation and disposable Windows target acceptance."
+    ],
+    "Partial": [
+      "No whole legacy outcome closes; no supported target added."
+    ]
+  },
+  "Estimates": {
+    "Settings": "38-58",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged: mocked local package lifecycle checks close no full legacy outcome or Windows target."
+  }
+}

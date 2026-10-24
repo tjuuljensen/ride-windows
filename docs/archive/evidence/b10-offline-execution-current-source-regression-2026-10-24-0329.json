@@ -1,0 +1,42 @@
+{
+  "RecordedAtUtc": "2026-10-24T03:29:39Z",
+  "Scope": "B10 byte-bound offline selected-profile execution gate",
+  "Environment": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "TempRoot": ".local/b10-offline-regression-20261024"
+  },
+  "Suites": [
+    "tests/OfflineExecution.Tests.ps1",
+    "tests/OfflineProfileCoverage.Tests.ps1"
+  ],
+  "Discovered": 100,
+  "Passed": 100,
+  "Failed": 0,
+  "Skipped": 0,
+  "NotRun": 0,
+  "CoveredBoundaries": [
+    "Byte-bound selected profile and package coverage",
+    "Whole-plan validation before handler dispatch",
+    "Fail-closed source/target/dependency coverage",
+    "No network fallback for offline install/apply",
+    "Hash-bound portable, EXE and MSI handler dispatch fixtures"
+  ],
+  "RuntimeAndRecovery": {
+    "RealOfflineDeployment": false,
+    "InstallerLaunched": false,
+    "VMUsed": false,
+    "WindowsStateChanged": false
+  },
+  "Disposition": {
+    "Resolved": "Current mocked profile coverage and install/apply preflight regression.",
+    "LegacyOutcomeClosed": false,
+    "Remaining": [
+      "Offline deployment on disposable Windows targets",
+      "Installer-specific dependency and activation acceptance",
+      "Media handoff and recovery acceptance"
+    ],
+    "EstimateImpact": "No change; offline migration and runtime acceptance remain partial."
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T04:13:00Z",
+  "Batch": "Read-only OpenSSH Server observation candidate",
+  "Files": [
+    "modules/RIDE.OpenSshServerObservation.psm1",
+    "tests/OpenSshServerObservation.Tests.ps1"
+  ],
+  "ObservationSurfaces": [
+    "Exact OpenSSH.Server~~~~0.0.1.0 capability identity/state",
+    "sshd service state, start mode and account",
+    "OpenSSH-Server-In-TCP firewall rule, TCP port filter and policy source",
+    "Bounded direct-child %ProgramData%\\ssh file inventory, sizes, timestamps and SHA-256 values"
+  ],
+  "SafetyProperties": {
+    "AllNativeSourcesMockedInTests": true,
+    "ProviderFailuresRemainUnavailable": true,
+    "MismatchedMachineBuildOrEditionRefusedBeforeQueries": true,
+    "PrivateHostKeyBytesReturned": false,
+    "ServiceChanged": false,
+    "FirewallChanged": false,
+    "ServerDataChanged": false,
+    "ReadyForMutation": false,
+    "RecoverySupported": false,
+    "CatalogOrProfileIntegration": false
+  },
+  "Validation": {
+    "FocusedTestFile": "tests/OpenSshServerObservation.Tests.ps1",
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryDisabled": true,
+    "InitialDefaultPesterSetup": "Failed before test execution because HKCU TestRegistry creation was denied.",
+    "Discovered": 4,
+    "Passed": 4,
+    "Failed": 0,
+    "Skipped": 0,
+    "WindowsPowerShell51Parse": "Passed for both new files",
+    "RepositoryValidator": "Passed",
+    "OperationCount": 407,
+    "GroupCount": 8,
+    "ProfileCount": 5,
+    "PowerShellFileCount": 266,
+    "DiffCheck": "Passed"
+  },
+  "VmAccess": {
+    "RIDE-Win11-Test": "Get-VM returned CIM access denied before VM/checkpoint inspection at 2026-10-24T04:12Z.",
+    "RIDE-Srv2025Test": "Get-VM returned CIM access denied before VM/checkpoint inspection at 2026-10-24T04:12Z.",
+    "VmOrCheckpointChanged": false,
+    "ElevationRequested": false
+  },
+  "Migration": {
+    "Resolved": [
+      "Read-only server capability/service/firewall/data observation candidate and mocked failure/identity-boundary regression."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Guarded capability/service/firewall lifecycle and exact ownership/recovery.",
+      "Matching source validation and disposable Windows 11/Server 2025 acceptance.",
+      "Catalog/profile integration and target support declarations."
+    ],
+    "Partial": [
+      "No OpenSSH Server component or legacy outcome closes."
+    ],
+    "EstimateRangesUnchanged": {
+      "Settings": "38-58",
+      "Packages": "52-67",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "142-196",
+      "RoundedTotal": "145-200/about 170"
+    }
+  }
+}

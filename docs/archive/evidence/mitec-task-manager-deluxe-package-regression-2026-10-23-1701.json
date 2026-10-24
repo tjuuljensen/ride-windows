@@ -1,0 +1,32 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-23T17:01:00Z",
+  "Test": "tests/MiTeCTaskManagerDeluxe.Tests.ps1",
+  "PowerShellVersion": "7.6.5",
+  "PesterVersion": "5.7.1",
+  "Passed": 2,
+  "Failed": 0,
+  "Skipped": 0,
+  "TestRegistryEnabled": false,
+  "WindowsPowerShell51Parser": "Passed for the current portable-package module, Task Manager DeLuxe test, and catalog data file",
+  "TemporaryDirectory": ".local/pester-temp",
+  "SourceEvidence": "docs/archive/evidence/mitec-task-manager-deluxe-candidate-preparation-2026-10-23-1659.json",
+  "Variants": ["x64", "x86"],
+  "Coverage": [
+    "Catalog pins and architecture-specific executable pairs",
+    "Repeat offline staging from generated inert ZIPs",
+    "Unselected architecture and unrelated member are excluded",
+    "Snapshot, uninstall and restore preserve an unowned operator note"
+  ],
+  "PayloadExtractedOrExecuted": false,
+  "LiveProcessesOrServicesQueried": false,
+  "ProcessOrServiceChanged": false,
+  "MinidumpCreated": false,
+  "SensitiveDataExported": false,
+  "VirusTotalQueried": false,
+  "NetworkUsed": false,
+  "FreshUacPrompts": 0,
+  "VmRuns": 0,
+  "DefenderBlockedFilesTouched": false,
+  "Outcome": "Local variant-specific file staging/recovery is covered; product behavior and Windows acceptance remain pending"
+}

@@ -1,0 +1,78 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "RecordedAtUtc": "2026-10-23T17:54:50Z",
+  "Batch": "Gpg4win 5.1.1 current-user package candidate implementation",
+  "PackageId": "package.gpg4win",
+  "Disposition": {
+    "AcceptedUserScope": "Current user, launched from non-elevated PowerShell",
+    "SelectedComponents": ["GnuPG command-line tools", "Kleopatra"],
+    "ExcludedOptionalComponents": ["Okular", "GnuPG Password Manager", "GpgOL Web", "GpgOL", "GpgEX", "Paperkey", "browser integration", "desktop shortcut"],
+    "Licensing": "No license gate added; package references publisher's GPL-family and bundled component notices",
+    "PendingAcceptance": true,
+    "CandidateTargets": ["Windows 11"],
+    "SupportedTargets": []
+  },
+  "PublisherArtifact": {
+    "Uri": "https://files.gpg4win.org/gpg4win-5.1.1.exe",
+    "Length": 44831736,
+    "Sha256": "ed19c0c89ec42fe32c52a7abd6e3da5f491752700546b9eed7ddf82fd303cddf",
+    "SignatureStatus": "Valid",
+    "Signer": "g10 Code GmbH",
+    "Thumbprint": "83CC4E382E5E4AF554C66E429E8F66FFE499910D",
+    "ObservedProductName": "Gpg4win (5.1.1)",
+    "RetainedPath": ".local/results/installed-next-samples/gpg4win-5.1.1.exe"
+  },
+  "Implementation": {
+    "Catalog": "Adds a pinned, unsupported current-user EXE candidate with exact version, digest, candidate target, product/license references and explicit optional-component booleans.",
+    "InstallerConfiguration": "Writes the declared Boolean map to a unique ASCII INI under a guarded temporary directory, passes the path through one validated argument token, and removes it after success or failure.",
+    "ConflictPreflight": "Blocks unrelated GnuPG registrations and older/different Gpg4win uninstall registrations before the vendor installer can replace them. Permits the nested sibling GnuPG registration only when the matching Gpg4win 5.1.1 current-user registration and install path are present.",
+    "UserData": "Install and removal temporarily move pre-existing %APPDATA%/gnupg data aside while declared GnuPG/Kleopatra processes are stopped, then restore the exact directory. If the package creates a directory at the same path, it is retained under a unique .ride-created name instead of overwriting either tree. The same boundary applies to package restore through the engine's install/remove actions.",
+    "Files": [
+      "catalog/operations.psd1",
+      "docs/OPERATIONS.md",
+      "modules/RIDE-Packages.psm1",
+      "modules/RIDE.CatalogValidation.psm1",
+      "tests/Gpg4winPackage.Tests.ps1",
+      "tests/PackageEvidence.Tests.ps1",
+      "tests/ApplicationPackages.Tests.ps1"
+    ]
+  },
+  "Validation": {
+    "FocusedPester": {"Passed": 10, "Failed": 0, "Skipped": 0, "PowerShell": "7.6.5", "Pester": "5.7.1", "TestRegistry": "disabled"},
+    "PackageEvidencePester": {"Passed": 27, "Failed": 0, "Skipped": 0, "PowerShell": "7.6.5", "Pester": "5.7.1", "TestRegistry": "disabled"},
+    "PackageAndCatalogPester": {"Passed": 177, "Failed": 0, "Skipped": 0, "NotRun": 1, "Discovered": 178, "WindowsIntegration": "excluded", "PowerShell": "7.6.5", "Pester": "5.7.1", "TestRegistry": "disabled"},
+    "WindowsPowerShell51Parser": {"Status": "Passed", "Files": 5},
+    "RepositoryValidation": {"Status": "Passed", "Operations": 405, "Groups": 8, "Profiles": 5, "PowerShellFiles": 262},
+    "CatalogCounts": {"Packages": 96, "PendingAcceptance": 66},
+    "FollowUp": "The 17:53 UTC package/catalog regression ran after install-time preservation was added; Gpg4win, package evidence and ApplicationPackages/Catalog suites all passed with no test failures."
+  },
+  "AcceptanceBlockers": [
+    "Fresh read-only Get-VM for RIDE-Win11-Test failed with CIM access denied before VM or checkpoint state could be inspected.",
+    "The outer and nested installers have not been run in a disposable Windows guest to verify current-user scope and no elevation.",
+    "Exact native package install/repeat/detection/removal/saved-run recovery and preservation of synthetic GnuPG configuration/key fixtures across install and removal remain untested.",
+    "Confirm that the accepted component set appears and excluded Outlook/Explorer/browser integrations remain absent in the Windows guest."
+  ],
+  "Outcomes": {
+    "Resolved": ["Accepted Gpg4win scope is now represented as a catalog candidate with explicit component config, current-user destination and guarded nested-GnuPG ownership."],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Disposable Windows 11 install/repeat/removal/recovery, nested installer scope, UI/component verification and product activation behavior."],
+    "Partial": ["Gpg4win legacy package migration; no full legacy outcome closes until native acceptance passes."]
+  },
+  "Estimate": {
+    "GroupRanges": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged; candidate preparation and mocked lifecycle checks close no legacy package outcome."
+  },
+  "Boundaries": {
+    "InstallerExecuted": false,
+    "Gpg4winOrGnuPGProcessStarted": false,
+    "KeyOrUserProfileDataAccessed": false,
+    "VmUsed": false,
+    "DefenderChanged": false,
+    "WindowsStateChanged": false,
+    "FreshElevationRequested": false
+  }
+}

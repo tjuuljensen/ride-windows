@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "GuestRuntimeAcceptanceProbePreparation",
+  "ObservedAtUtc": "2026-10-22",
+  "Product": "PSScriptTools",
+  "Version": "3.2.0",
+  "RuntimeExecuted": false,
+  "HostModuleImport": false,
+  "VM": "RIDE-Win11-Test",
+  "VMAccess": "Blocked: Hyper-V CIM access denied; protected registered task queue unavailable.",
+  "Probe": {
+    "IsolatedChildProcesses": true,
+    "PowerShellEditions": [
+      "Windows PowerShell 5.1",
+      "PowerShell 7"
+    ],
+    "DependencyPresent": [
+      "Import exact staged manifest",
+      "Wait for CIM namespace enumeration job",
+      "Exercise System.Drawing color conversion",
+      "Exercise ThreadJob-backed runspace cleanup"
+    ],
+    "DependencyMissing": "Hide modules in a child-local PSModulePath and verify RequiredModules rejection before CIM/TEMP side effects.",
+    "TempIsolation": "Unique run-owned TEMP and TMP beneath correlated PSScriptTools runtime evidence.",
+    "DependencyInstallation": false,
+    "SummaryExcludesCimNamespaceContents": true,
+    "WorkstationExecutionGuard": true,
+    "PartialWhenPowerShell7Unavailable": true
+  },
+  "LocalValidation": {
+    "WindowsPowerShell51Parser": "Passed: portable runner, runtime probe and automation tests.",
+    "PowerShell7Parser": "Passed: portable runner, runtime probe and automation tests.",
+    "FocusedPester": "Passed: 20 tests, 0 failed.",
+    "CatalogExportCheck": "Passed.",
+    "RepositoryValidation": "Passed: 370 operations, 8 groups, 5 profiles and 240 PowerShell files.",
+    "GitDiffCheck": "Passed."
+  },
+  "LegacyOutcomesResolved": 0,
+  "LegacyOutcomesRetired": 0,
+  "LegacyOutcomesExcluded": 0,
+  "Estimates": {
+    "Ranges": [
+      "38-58",
+      "53-68",
+      "20-25",
+      "25-35",
+      "8-12"
+    ],
+    "ExactEndpoints": "144-198",
+    "Rounded": "145-200/about 170",
+    "ReasonUnchanged": "Harness preparation and local regression checks do not establish Windows module runtime behavior or close a legacy outcome."
+  },
+  "Next": "Run the prepared PSScriptTools guest batch on the existing checkpoint when protected controller access is restored; inspect runtime results and recovery, then update dependency ownership and remaining acceptance."
+}

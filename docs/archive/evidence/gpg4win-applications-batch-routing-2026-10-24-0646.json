@@ -1,0 +1,79 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T06:46:30Z",
+  "Batch": "Gpg4win ApplicationsBatch1 acceptance routing preparation",
+  "Package": {
+    "Id": "package.gpg4win",
+    "Version": "5.1.1",
+    "Scope": "User",
+    "CandidateTargets": ["Windows 11"],
+    "SupportedTargets": [],
+    "PendingAcceptance": true,
+    "SelectedComponents": ["GnuPG command-line tools", "Kleopatra"],
+    "MigrationBatch": "ApplicationsBatch1"
+  },
+  "LocalRegression": {
+    "TestPath": "tests/Gpg4winPackage.Tests.ps1",
+    "Status": "Passed",
+    "Passed": 11,
+    "Failed": 0,
+    "Skipped": 0,
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "Attempts": [
+      {
+        "Passed": 10,
+        "Failed": 1,
+        "Reason": "New resolver assertion's fixture omitted the RIDE.PackageSelection module import; no package or Windows state changed."
+      },
+      {
+        "Passed": 11,
+        "Failed": 0,
+        "Reason": "Imported the selection module in BeforeAll and reran the full focused suite."
+      }
+    ]
+  },
+  "Validation": {
+    "CatalogExport": "Passed",
+    "RepositoryValidation": "Passed",
+    "Operations": 407,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 269
+  },
+  "Boundaries": {
+    "InstallerExecuted": false,
+    "GnuPGExecuted": false,
+    "VmUsed": false,
+    "WindowsStateChanged": false,
+    "FreshUacRequested": false
+  },
+  "ExistingAcceptanceRequest": {
+    "RunId": "2e2b9cab185148318a0b29aa690a4501",
+    "Status": "Unresolved; no terminal result or verified live process",
+    "SourceSnapshotStagedAtLocal": "2026-10-24T08:21:59+02:00",
+    "IncludesGpg4winBatchAssignment": false,
+    "Action": "Preserve this request. Schedule Gpg4win only after its terminal state or process state is verified."
+  },
+  "LegacyOutcomesResolved": [],
+  "LegacyOutcomesRetired": [],
+  "LegacyOutcomesExcluded": [],
+  "LegacyOutcomesDeferred": [
+    "Gpg4win Windows 11 install/repeat/remove/recovery acceptance, including selected component visibility and GnuPG configuration preservation."
+  ],
+  "LegacyOutcomesPartial": [
+    "Gpg4win catalog candidate, current-user batch routing and mocked package safeguards; no native acceptance or target promotion."
+  ],
+  "Estimates": {
+    "Settings": "38-58",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "FilesAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Changed": false,
+    "Reason": "Batch routing and local tests enable later acceptance but do not establish a whole legacy package outcome."
+  }
+}

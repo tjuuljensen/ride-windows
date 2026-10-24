@@ -8,7 +8,7 @@
   checkpoint recovery remains the outer boundary if collection cannot complete.
   Restores each captured run in finally; controller recovery resets the VM.
 .PARAMETER Batch
-  1 selects task/policy settings; 2 selects network, Defender, power and sound settings.
+  1 selects task, policy and Explorer registry settings; 2 selects network, Defender, power and sound settings.
 .PARAMETER Version
   Print the version without operational checks.
 .EXAMPLE
@@ -21,12 +21,13 @@
   Compatibility: Windows PowerShell 5.1 in disposable Windows 11.
   Prerequisites: Elevated guest; RIDE_INTEGRATION_VM=1; staged checkout.
   Recovery: Exact saved-run restore in finally and host clean checkpoint recovery.
-  Owner: RIDE-Windows maintainers. Version: 0.1.0.
-  Changelog: 0.1.0: Add two focused remaining-settings acceptance selections.
+  Owner: RIDE-Windows maintainers. Version: 0.2.0.
+  Changelog: 0.2.0: Add the Hash value and Certutil context-menu registry settings to batch 1.
+    0.1.0: Add two focused remaining-settings acceptance selections.
 #>
 [CmdletBinding()]
 param([ValidateSet(1,2)][int]$Batch=1,[switch]$Version)
-$script:ScriptVersion='0.1.0'
+$script:ScriptVersion='0.2.0'
 if($Version){$script:ScriptVersion;return}
 $ErrorActionPreference='Stop'
 if($env:RIDE_INTEGRATION_VM -ne '1'){throw 'Run only inside the disposable VM through its host controller.'}
@@ -35,7 +36,7 @@ if(-not $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrat
 Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE.Engine.psm1') -Force
 if((Get-RidePlatform) -ne 'Windows 11'){throw 'These migrations require a disposable Windows 11 guest.'}
 $operations=@((Get-RideCatalog).Operations | Where-Object MigrationBatch -eq "2026-10-10-remaining-settings-$Batch")
-$expected=if($Batch -eq 1){17}else{19}
+$expected=19
 if($operations.Count -ne $expected){throw 'Remaining-settings batch inventory is incomplete.'}
 # Independent scenarios restore before the next; keep scheme-selection recovery
 # last so a platform-specific scheme failure cannot hide unrelated acceptance.

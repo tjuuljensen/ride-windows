@@ -1,0 +1,53 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "Batch": "B06 Microsoft servicing-source requirement cross-check",
+  "Sources": [
+    {
+      "Uri": "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod?view=windows-11",
+      "Finding": "OpenSSH Client is the OpenSSH.Client~~~~0.0.1.0 Features on Demand capability. Microsoft lists a non-satellite OpenSSH-Client-Package CAB and identifies the Windows 11 Languages and Optional Features ISO as the media for Windows 11; the media should match the Windows image version."
+    },
+    {
+      "Uri": "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-v2--capabilities?view=windows-11",
+      "Finding": "When source content is missing from an explicit source, DISM checks configured Group Policy sources before Windows Update; LimitAccess prevents Windows Update lookup but does not establish that all configured network sources are excluded."
+    },
+    {
+      "Uri": "https://learn.microsoft.com/en-us/troubleshoot/windows-server/system-management-components/cant-install-openssh-features",
+      "Finding": "OpenSSH Client is an optional feature on Windows 11. Microsoft documents administrator requirements, missing-source and policy failure cases, and requires matching Windows version media for offline installation."
+    },
+    {
+      "Uri": "https://learn.microsoft.com/en-us/powershell/dsc/reference/resources/microsoft/windows/optionalfeaturelist/examples/export-optional-features?view=dsc-3.0",
+      "Finding": "TelnetClient is the optional-feature identity for Telnet Client; this reference confirms its identity but does not establish a complete offline source inventory for the target Windows build."
+    }
+  ],
+  "CandidateReview": {
+    "State": "Unregistered; SupportedTargets remains empty",
+    "SourcePathValidation": "The current lifecycle candidate verifies only that a local directory exists. It does not verify ISO/image version, architecture, payload files, dependencies or source precedence.",
+    "OnlineMode": "Intentionally respects configured servicing sources; may use Windows Update or configured policy sources.",
+    "OfflineMode": "Passes an explicit local Source with LimitAccess. LimitAccess blocks Windows Update, but alone does not prove configured Group Policy network sources cannot be used when local source content is missing.",
+    "RequiredNextEvidence": [
+      "Identify and retain the exact Windows 11 Languages and Optional Features media version matching the disposable target.",
+      "Confirm the target-architecture OpenSSH Client CAB and all required content in the local source.",
+      "Establish complete local-source success with Windows Update and configured network fallback unavailable, without changing servicing policy.",
+      "Inventory and validate TelnetClient source requirements independently from OpenSSH capability media.",
+      "Verify dependency, pending-reboot, apply, repeat, status, literal restore and payload-recovery behavior in the disposable VM."
+    ]
+  },
+  "Scope": {
+    "NetworkUsed": false,
+    "DismCalled": false,
+    "SystemChanged": false,
+    "VmUsed": false
+  },
+  "Outcome": {
+    "Resolved": ["Microsoft source-media and source-precedence facts for the B06 review"],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Matching-source, no-network, dependency, payload-recovery and native Windows acceptance"],
+    "Partial": ["B06 remains a candidate without catalog registration or supported targets"],
+    "GroupRanges": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateAdjustment": "Unchanged; source documentation adds no completed legacy outcome."
+  }
+}

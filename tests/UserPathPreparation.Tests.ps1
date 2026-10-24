@@ -194,12 +194,14 @@ Describe 'Read-only intended-user PATH observation' {
 Describe 'Literal registry handle contract' {
   InModuleScope RIDE.UserPathPreparation {
     BeforeEach {
-      $script:fakeKey=[pscustomobject]@{Disposed=$false;Names=@('Path');Raw='%USERPROFILE%\bin';RawKind='ExpandString';Fail=$false;ReceivedOption=$null}
+      $script:fakeKey=[pscustomobject]@{Disposed=$false;Writable=$false;WritableRequests=@();Names=@('Path');Raw='%USERPROFILE%\bin';RawKind='ExpandString';Fail=$false;ReceivedOption=$null}
       $script:fakeKey|Add-Member ScriptMethod GetValueNames {return ,$this.Names}
       $script:fakeKey|Add-Member ScriptMethod GetValueKind {param($name)if($this.Fail){throw 'fixture kind failure'};return $this.RawKind}
       $script:fakeKey|Add-Member ScriptMethod GetValue {param($name,$fallback,$option)$this.ReceivedOption=$option;return $this.Raw}
+      $script:fakeKey|Add-Member ScriptMethod SetValue {param($name,$value,$kind)$this.Names=@('Path');$this.Raw=$value;$this.RawKind=$kind.ToString()}
+      $script:fakeKey|Add-Member ScriptMethod DeleteValue {param($name,$throwOnMissing)$this.Names=@();$this.Raw=$null;$this.RawKind=$null}
       $script:fakeKey|Add-Member ScriptMethod Dispose {$this.Disposed=$true}
-      Mock Open-RideUserPathKey {$script:fakeKey}
+      Mock Open-RideUserPathKey {param([bool]$Writable=$false);$script:fakeKey.Writable=$Writable;$script:fakeKey.WritableRequests+=,$Writable;$script:fakeKey}
     }
     It 'requests literal data and disposes its readonly handle' {
       $result=Read-RideUserPathValue
@@ -221,6 +223,125 @@ Describe 'Literal registry handle contract' {
       {Read-RideUserPathValue}|Should -Throw;$script:fakeKey.Disposed|Should -BeTrue
       $script:fakeKey.Names=@('PATH','Path');{Read-RideUserPathValue}|Should -Throw '*Ambiguous*'
       $script:fakeKey.Names=@('a')*4097;{Read-RideUserPathValue}|Should -Throw '*bound*'
+    }
+    It 'writes the literal type through a writable handle and verifies the stored text' {
+      $expected=[pscustomobject]@{KeyExists=$true;Exists=$true;Kind='ExpandString';Value='%USERPROFILE%\bin'}
+      $desired=[pscustomobject]@{KeyExists=$true;Exists=$true;Kind='ExpandString';Value='%USERPROFILE%\bin;C:\Users\Fixture\bin'}
+      $written=Write-RideUserPathValue -Expected $expected -Desired $desired
+      @($script:fakeKey.WritableRequests|Where-Object {$_}).Count|Should -Be 1
+      $script:fakeKey.RawKind|Should -BeExactly 'ExpandString'
+      $script:fakeKey.Raw|Should -BeExactly $desired.Value
+      $written.Value|Should -BeExactly $desired.Value
+      $script:fakeKey.Disposed|Should -BeTrue
+    }
+    It 'refuses to overwrite a changed value and disposes the writable handle' {
+      $expected=[pscustomobject]@{KeyExists=$true;Exists=$true;Kind='ExpandString';Value='C:\Old'}
+      $desired=[pscustomobject]@{KeyExists=$true;Exists=$true;Kind='ExpandString';Value='C:\New'}
+      {Write-RideUserPathValue -Expected $expected -Desired $desired}|Should -Throw '*changed after it was prepared*'
+      $script:fakeKey.Raw|Should -BeExactly '%USERPROFILE%\bin'
+      $script:fakeKey.Disposed|Should -BeTrue
+    }
+    It 'removes only the PATH value while preserving the Environment key' {
+      $expected=[pscustomobject]@{KeyExists=$true;Exists=$true;Kind='ExpandString';Value='%USERPROFILE%\bin'}
+      $desired=[pscustomobject]@{KeyExists=$true;Exists=$false;Kind=$null;Value=$null}
+      $restored=Write-RideUserPathValue -Expected $expected -Desired $desired
+      $restored.KeyExists|Should -BeTrue
+      $restored.Exists|Should -BeFalse
+      $script:fakeKey.Names.Count|Should -Be 0
+    }
+  }
+}
+
+Describe 'Guarded persistent PATH write boundary' {
+  InModuleScope RIDE.UserPathPreparation {
+    BeforeEach {
+      $script:writeContext=[pscustomobject]@{ComputerName='TEST-VM';UserSid='S-1-5-21-1-2-3-1001';SessionId=1;UserProfile='C:\Users\Fixture';UserInteractive=$true;NativeProcess=$true}
+      $script:writeExpected=[pscustomobject]@{KeyExists=$true;Exists=$true;Kind='ExpandString';Value='C:\Tools'}
+      $script:writeDesired=[pscustomobject]@{KeyExists=$true;Exists=$true;Kind='ExpandString';Value='C:\Tools;C:\Users\Fixture\bin'}
+      $script:writeCurrent=$script:writeExpected
+      Mock Get-RideUserPathContext {$script:writeContext}
+      Mock Read-RideUserPathValue {$script:writeCurrent}
+      Mock Write-RideUserPathValue {$script:writeDesired}
+    }
+    It 'honors WhatIf without calling the registry writer' {
+      $result=Set-RideUserPathValue -Expected $script:writeExpected -Desired $script:writeDesired -ExpectedComputerName TEST-VM -ExpectedUserSid S-1-5-21-1-2-3-1001 -ExpectedUserProfile C:\Users\Fixture -ExpectedSessionId 1 -WhatIf
+      $result.Applied|Should -BeFalse
+      $result.EffectivePathVerified|Should -BeFalse
+      $result.EnvironmentBroadcast|Should -BeFalse
+      Should -Invoke Write-RideUserPathValue -Times 0 -Exactly
+    }
+    It 'rejects a stale expected PATH before requesting a write' {
+      $script:writeCurrent=[pscustomobject]@{KeyExists=$true;Exists=$true;Kind='ExpandString';Value='C:\Other'}
+      {Set-RideUserPathValue -Expected $script:writeExpected -Desired $script:writeDesired -ExpectedComputerName TEST-VM -ExpectedUserSid S-1-5-21-1-2-3-1001 -ExpectedUserProfile C:\Users\Fixture -ExpectedSessionId 1 -Confirm:$false}|Should -Throw '*differs from the caller-supplied expected value*'
+      Should -Invoke Write-RideUserPathValue -Times 0 -Exactly
+    }
+    It 'writes only for the explicitly matching current interactive identity' {
+      $result=Set-RideUserPathValue -Expected $script:writeExpected -Desired $script:writeDesired -ExpectedComputerName TEST-VM -ExpectedUserSid S-1-5-21-1-2-3-1001 -ExpectedUserProfile C:\Users\Fixture -ExpectedSessionId 1 -Confirm:$false
+      $result.Applied|Should -BeTrue
+      $result.Value.Value|Should -BeExactly $script:writeDesired.Value
+      $result.EffectivePathVerified|Should -BeFalse
+      $result.EnvironmentBroadcast|Should -BeFalse
+      Should -Invoke Write-RideUserPathValue -Times 1 -Exactly
+      $script:writeContext.UserSid='S-1-5-21-1-2-3-1002'
+      {Set-RideUserPathValue -Expected $script:writeExpected -Desired $script:writeDesired -ExpectedComputerName TEST-VM -ExpectedUserSid S-1-5-21-1-2-3-1001 -ExpectedUserProfile C:\Users\Fixture -ExpectedSessionId 1 -Confirm:$false}|Should -Throw '*intended*'
+      Should -Invoke Write-RideUserPathValue -Times 1 -Exactly
+      $script:writeContext.UserSid='S-1-5-21-1-2-3-1001';$script:writeContext.UserProfile='D:\Users\Fixture'
+      {Set-RideUserPathValue -Expected $script:writeExpected -Desired $script:writeDesired -ExpectedComputerName TEST-VM -ExpectedUserSid S-1-5-21-1-2-3-1001 -ExpectedUserProfile C:\Users\Fixture -ExpectedSessionId 1 -Confirm:$false}|Should -Throw '*intended*'
+      Should -Invoke Write-RideUserPathValue -Times 1 -Exactly
+    }
+  }
+}
+
+Describe 'Engine-facing persistent PATH mutation wrappers' {
+  It 'rechecks identity and writes only the prepared append through the guarded boundary' {
+    $observation = New-PathObservation -Value 'C:\Tools' -Kind String
+    $patch = New-RideUserBinPathPatch -Observation $observation
+    InModuleScope RIDE.UserPathPreparation -Parameters @{ Observation=$observation; Patch=$patch } {
+      param($Observation,$Patch)
+      $script:wrapperContext=[pscustomobject]@{ComputerName='TEST-VM';UserSid='S-1-5-21-1-2-3-1001';SessionId=1;UserProfile='C:\Users\Fixture';UserInteractive=$true;NativeProcess=$true}
+      $script:wrapperReadQueue=@($Observation.Path,$Observation.Path,$Patch.DesiredValue)
+      $script:wrapperReadIndex=0
+      Mock Get-RideUserPathContext { $script:wrapperContext }
+      Mock Read-RideUserPathValue {
+        $value=$script:wrapperReadQueue[$script:wrapperReadIndex]
+        $script:wrapperReadIndex++
+        $value
+      }
+      Mock Write-RideUserPathValue { param($Expected,$Desired); $Desired }
+
+      $result=Set-RideUserBinPathPatch -Observation $Observation -Confirm:$false
+      $result.Applied|Should -BeTrue
+      $result.Value.Value|Should -BeExactly 'C:\Tools;C:\Users\Fixture\bin'
+      $result.EffectivePathVerified|Should -BeFalse
+      $result.EnvironmentBroadcast|Should -BeFalse
+      Should -Invoke Write-RideUserPathValue -Times 1 -Exactly
+    }
+  }
+
+  It 'restores only the owned entry after unrelated PATH text changes' {
+    $original=New-PathObservation -Value 'C:\Tools' -Kind ExpandString
+    $patch=New-RideUserBinPathPatch -Observation $original
+    $current=New-PathCurrent -Patch $patch
+    $current.Path.Value += ';C:\Unrelated'
+    InModuleScope RIDE.UserPathPreparation -Parameters @{ Observation=$current; Snapshot=$patch.Snapshot } {
+      param($Observation,$Snapshot)
+      $script:wrapperContext=[pscustomobject]@{ComputerName='TEST-VM';UserSid='S-1-5-21-1-2-3-1001';SessionId=1;UserProfile='C:\Users\Fixture';UserInteractive=$true;NativeProcess=$true}
+      $script:wrapperReadQueue=@($Observation.Path,$Snapshot.Original.Path)
+      $script:wrapperReadIndex=0
+      Mock Get-RideUserPathContext { $script:wrapperContext }
+      Mock Read-RideUserPathValue {
+        $value=$script:wrapperReadQueue[$script:wrapperReadIndex]
+        $script:wrapperReadIndex++
+        $value
+      }
+      Mock Write-RideUserPathValue { param($Expected,$Desired); $Desired }
+
+      $result=Set-RideUserBinPathRecovery -Observation $Observation -Snapshot $Snapshot -Confirm:$false
+      $result.Applied|Should -BeTrue
+      $result.Value.Value|Should -BeExactly 'C:\Tools;C:\Unrelated'
+      $result.EffectivePathVerified|Should -BeFalse
+      $result.EnvironmentBroadcast|Should -BeFalse
+      Should -Invoke Write-RideUserPathValue -Times 1 -Exactly
     }
   }
 }

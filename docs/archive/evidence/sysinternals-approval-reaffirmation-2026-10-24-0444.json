@@ -1,0 +1,28 @@
+{
+  "RecordedAtUtc": "2026-10-24T04:44:00Z",
+  "UserCorrection": "The prior RIDE v2 license-specialist review approved Sysinternals. RIDE is a direct download-and-install tool: it downloads from Microsoft and installs on supported devices; it does not transfer or publish Sysinternals. The user states there are no legal issues and generalized redistribution reasoning must not block package migration.",
+  "LicenseDisposition": {
+    "ApprovedForRIDEWorkflow": true,
+    "LicenseMigrationBlocker": false,
+    "AdditionalLicenseReviewGate": false,
+    "RedistributionAnalysisAppliesAsMigrationGate": false
+  },
+  "SeparateSecurityDisposition": {
+    "DefenderDetectedToolsRemainExcluded": true,
+    "LicenseDecisionChangesSecurityDisposition": false
+  },
+  "AcceptanceStatus": {
+    "ExistingRequestId": "a77d0464523c4a85ba4db01e9c7b4b6a",
+    "IntegrationSuite": "SysinternalsSuite",
+    "SubmittedAtUtc": "2026-10-24T04:30:02Z",
+    "GuestResultAvailable": false,
+    "HyperVInventory": "Denied at CIM; VM/checkpoint state not verified",
+    "QueueOrLockClearedOrRestarted": false,
+    "RemainingGates": [
+      "Technical package lifecycle",
+      "Exact recovery",
+      "Windows target acceptance when VM/checkpoint access is available"
+    ]
+  },
+  "EstimateImpact": "No legacy outcome closed; all five migration ranges remain settings 38-58, packages 52-67, components 19-24, files/assets 25-35, maintenance 8-12; exact 142-196, rounded 145-200/about 170."
+}

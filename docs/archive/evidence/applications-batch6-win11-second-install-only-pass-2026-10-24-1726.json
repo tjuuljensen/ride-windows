@@ -1,0 +1,126 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T17:26:24.1909038Z",
+  "Controller": "RIDEWin11Test",
+  "Target": "RIDE-Win11-Test",
+  "Checkpoint": {
+    "ResetInvokedInControllerFinally": true,
+    "CleanupError": null,
+    "Name": "RIDE-clean-test-base",
+    "Id": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+    "BlockedMarkerPresent": false
+  },
+  "Request": {
+    "Error": null,
+    "EvidenceExportError": null,
+    "FinishedAtUtc": "2026-10-24T17:26:24.1909038Z",
+    "Suite": "ApplicationsBatch6",
+    "CollectionError": null,
+    "CleanupError": null,
+    "StartedAtUtc": "2026-10-24T17:15:23.3603708Z",
+    "RunId": "9f6bec44b84c4855917bd6913b0b792f",
+    "Status": "Passed"
+  },
+  "Guest": {
+    "OS": "Microsoft Windows 11 Enterprise Evaluation",
+    "ValidationPassed": true,
+    "Version": "10.0.26300",
+    "PesterVersion": "5.7.1",
+    "PesterPassed": 347,
+    "Build": "26300",
+    "PesterFailed": 0,
+    "IntegrationPassed": true,
+    "PesterTotal": 348,
+    "PowerShell": "5.1.26100.9444"
+  },
+  "RunnerSnapshotVersion": "0.14.3",
+  "Packages": [
+    {
+      "Id": "package.photocraft",
+      "Version": "0.7.0",
+      "Status": "Passed",
+      "Recovery": true
+    },
+    {
+      "Id": "package.vectorcraft",
+      "Version": "0.9.0",
+      "Status": "Passed",
+      "Recovery": true
+    },
+    {
+      "Id": "package.filmcraft",
+      "Version": "0.6.0",
+      "Status": "Passed",
+      "Recovery": true
+    },
+    {
+      "Id": "package.lightcraft",
+      "Version": "0.6.0",
+      "Status": "Passed",
+      "Recovery": true
+    },
+    {
+      "Id": "package.pdfcraft",
+      "Version": "0.6.0",
+      "Status": "Passed",
+      "Recovery": true
+    },
+    {
+      "Id": "package.effectcraft",
+      "Version": "0.8.0",
+      "Status": "Passed",
+      "Recovery": true
+    },
+    {
+      "Id": "package.designcraft",
+      "Version": "0.6.0",
+      "Status": "Passed",
+      "Recovery": true
+    },
+    {
+      "Id": "package.wordcraft",
+      "Version": "0.5.0",
+      "Status": "Passed",
+      "Recovery": true
+    },
+    {
+      "Id": "package.soundcraft",
+      "Version": "0.5.0",
+      "Status": "Passed",
+      "Recovery": true
+    },
+    {
+      "Id": "package.deckcraft",
+      "Version": "0.5.0",
+      "Status": "Passed",
+      "Recovery": true
+    },
+    {
+      "Id": "package.cadcraft",
+      "Version": "0.5.0",
+      "Status": "Passed",
+      "Recovery": true
+    },
+    {
+      "Id": "package.gridcraft",
+      "Version": "0.5.0",
+      "Status": "Passed",
+      "Recovery": true
+    }
+  ],
+  "Coverage": {
+    "NotCovered": [
+      "Uninstall and repeat removal",
+      "Saved removal recovery"
+    ],
+    "Verified": [
+      "Preview install",
+      "RIDE-managed install of pinned version",
+      "Repeat-install idempotence",
+      "Saved install-run recovery to original absence"
+    ]
+  },
+  "Disposition": "Second successful old-runner pass confirms Windows 11 install/repeat/restore only; keep support pending until the corrected full-lifecycle run.",
+  "LegacyOutcomesClosed": 0,
+  "EstimateRanges": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170"
+}

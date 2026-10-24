@@ -1,0 +1,74 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-23T20:55:43Z",
+  "Batch": "PSScriptTools ThreadJob publisher acquisition and VM access recheck",
+  "PublisherMetadata": {
+    "Uri": "https://www.powershellgallery.com/packages/Microsoft.PowerShell.ThreadJob/2.2.0",
+    "MetadataSource": "Official PowerShell Gallery page, rechecked this turn",
+    "Version": "2.2.0",
+    "DeclaredDependencies": [],
+    "MinimumPowerShell": "5.1",
+    "ListedPackageFiles": [
+      "Microsoft.PowerShell.ThreadJob.nuspec",
+      "LICENSE",
+      "Microsoft.PowerShell.ThreadJob.dll",
+      "Microsoft.PowerShell.ThreadJob.psd1",
+      "ThirdPartyNotices.txt",
+      ".signature.p7s"
+    ]
+  },
+  "Acquisition": {
+    "DestinationCreated": false,
+    "Error": "No such host is known (www.powershellgallery.com:443)",
+    "Uri": "https://www.powershellgallery.com/api/v2/package/Microsoft.PowerShell.ThreadJob/2.2.0",
+    "Sha256": null,
+    "Result": "Failed before transfer",
+    "Imported": false,
+    "Installed": false
+  },
+  "VmAccess": {
+    "CheckpointInspected": false,
+    "CheckedAtUtc": "2026-10-23T20:55:43Z",
+    "Targets": [
+      "RIDE-Win11-Test",
+      "RIDE-Srv2025Test"
+    ],
+    "ManagementUiAttempt": "Hyper-V Manager window-state request ended with Computer Use app approval timed out; no VM details were read.",
+    "Result": "Access to a CIM resource was not available to the client"
+  },
+  "Outcomes": {
+    "Resolved": [
+      "Official Gallery package identity, version, minimum PowerShell and declared dependency list reconfirmed"
+    ],
+    "Deferred": [
+      "Exact Gallery package bytes, hash/signature verification and PSScriptTools dependency acceptance",
+      "Windows PowerShell 5.1 module-present probe and PowerShell 7.6 built-in module probe in disposable VMs"
+    ],
+    "Excluded": [],
+    "Partial": [
+      "No PSScriptTools legacy outcome closed; dependency remains unacquired and untested in guests"
+    ],
+    "Retired": []
+  },
+  "Estimate": {
+    "Rounded": "145-200/about 170",
+    "Groups": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "Exact": "142-196",
+    "Reason": "Source metadata did not provide package bytes; guest access remained unavailable; no legacy outcome closed.",
+    "Changed": false
+  },
+  "Boundaries": {
+    "VmChanged": false,
+    "PackageBytesAcquired": false,
+    "WindowsStateChanged": false,
+    "PackageInstalled": false,
+    "ElevationRequested": false,
+    "ModuleImported": false
+  }
+}

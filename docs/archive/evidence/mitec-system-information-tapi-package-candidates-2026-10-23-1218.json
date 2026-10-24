@@ -1,0 +1,201 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-23T12:19:30Z",
+  "Batch": "MiTeC System Information eXtra and TAPI Monitor package candidate preparation",
+  "Publisher": "MiTeC",
+  "SourceReview": "docs/archive/evidence/mitec-system-information-tapi-static-review-2026-10-20.json",
+  "PublisherPages": [
+    {
+      "Product": "MiTeC System Information eXtra",
+      "Uri": "https://www.mitec.cz/wp/msix/",
+      "Version": "16.0.0",
+      "PageObservation": "Publisher page lists version 16.0.0 dated 2026-04-26, broad hardware/software inventory, and text/XML/structured-storage report output."
+    },
+    {
+      "Product": "MiTeC TAPI Monitor",
+      "Uri": "https://www.mitec.cz/wp/mtapimon/",
+      "Version": "1.2.0",
+      "PageObservation": "Publisher page lists version 1.2.0 dated 2025-07-25, TAPI line/provider monitoring and call controls, and a EUR 30 lifetime single-user license."
+    }
+  ],
+  "TermsUri": "https://www.mitec.cz/wp/support/",
+  "TermsBoundary": "Publisher product pages describe freeware/private, educational and non-commercial use for System Information eXtra and a paid single-user license for TAPI Monitor. The current general support terms are recorded separately. Local owner/use administration remains NeedsReview; that marker does not block package migration or technical acceptance preparation and makes no entitlement assertion.",
+  "Products": [
+    {
+      "Name": "MiTeC System Information eXtra",
+      "ProductUri": "https://www.mitec.cz/wp/msix/",
+      "ProductPageSnapshot": ".local/collection-inventory-20261017/mitec-product-msix.html",
+      "ProductPageSha256": "1eaf901096dc8b88347a93bfcfce8437b09b64dabc42711360aade0447f9fdd3",
+      "PageVersion": "16.0.0, dated 2026-04-26",
+      "PublishedBehavior": "Demonstration application based on the MiTeC System Information Component Suite. It provides system information and can save brief text, full XML reports and structured-storage files for later viewing. The published version history includes hardware/device, OS, storage, process, service, event-log, security and SMBIOS areas, but the precise contents/redaction of each report are not stated on the product page.",
+      "LicenseObservation": "The page calls the separate application freeware for private, educational and non-commercial use; this does not grant component-suite development or redistribution rights.",
+      "Archive": ".local/remaining-collections-20261017/MSIX.zip",
+      "DownloadUri": "https://www.mitec.cz/wp/files/MSIX.zip",
+      "ArchiveLength": 10635839,
+      "ArchiveSha256": "a7ae03e7172afa128565b2f8e148869678b3e543c65ba16f219ff87139986976",
+      "Members": [
+        {
+          "Path": "MSIX.exe",
+          "Length": 2794920,
+          "Sha256": "27f17567efbbc6fbd39263f43b97d2d95b0fcf1745789517a589ffbf273716c3",
+          "Architecture": "x86",
+          "FileVersion": "16.0.0.0",
+          "ProductVersion": "16.0.0.0"
+        },
+        {
+          "Path": "GetSys.exe",
+          "Length": 1237256,
+          "Sha256": "80efa6ceee1859d5da5f32d827d88db7569dbd23e161eca8c82a43cae21209dd",
+          "Architecture": "x86",
+          "FileVersion": "16.0.0.0",
+          "ProductVersion": "16.0.0.0"
+        },
+        {
+          "Path": "GetSys64.exe",
+          "Length": 2614344,
+          "Sha256": "9a43a1b1acccf50f9a7902cb8c2e1fa25e1ef662bbaf5fa42b797602df99e85d",
+          "Architecture": "x64",
+          "FileVersion": "16.0.0.0",
+          "ProductVersion": "16.0.0.0"
+        },
+        {
+          "Path": "MSIX64.exe",
+          "Length": 4494440,
+          "Sha256": "3ee0d2031c4b733fcfc2c1f5d87726aa7c9d0557af1525f372774e2775e0841d",
+          "Architecture": "x64",
+          "FileVersion": "16.0.0.0",
+          "ProductVersion": "16.0.0.0"
+        }
+      ],
+      "Acceptance": "Do not create, save, load or share reports from the development host or a real user profile. Any later report check must use a disposable guest with synthetic fixtures and an explicit field inventory; review redaction, storage and cleanup before retaining output."
+    },
+    {
+      "Name": "MiTeC TAPI Monitor",
+      "ProductUri": "https://www.mitec.cz/wp/mtapimon/",
+      "ProductPageSnapshot": ".local/collection-inventory-20261017/mitec-product-mtapimon.html",
+      "ProductPageSha256": "443b6a5166f6532897123b81dfd1632aa5ca5b251118c51e315649d92c417a16",
+      "PageVersion": "1.2.0, dated 2025-07-25",
+      "PublishedBehavior": "Portable monitor for TAPI lines, telephones and TSP providers; displays TAPI messages and active-call details. Basic controls can make, answer, drop, redirect and transfer calls. Version history says 1.1.0 added TSP provider and line/phone configuration management. The publisher says it installs nothing and leaves no traces; this claim is not runtime-verified.",
+      "LicensePagePriceObservation": "The page lists a EUR 30 lifetime single-user license on the review date. The support EULA separately describes non-commercial unregistered use and license types; no local entitlement or redistribution conclusion is inferred.",
+      "Archive": ".local/remaining-collections-20261017/TAPIMon.zip",
+      "DownloadUri": "https://www.mitec.cz/wp/files/TAPIMon.zip",
+      "ArchiveLength": 2015874,
+      "ArchiveSha256": "3abfb30f19f3c22dec5440416fcd006a828e73dd660ea2bf59b8f2e7a5898914",
+      "Members": [
+        {
+          "Path": "TAPIMon.exe",
+          "Length": 2130496,
+          "Sha256": "4eb667fbdf159c44399dac9aae6d68cc30e0857589f284f1cf72f7584ee81df5",
+          "Architecture": "x86",
+          "FileVersion": "1.2.0.0",
+          "ProductVersion": "1.0.0.0"
+        }
+      ],
+      "Acceptance": "No real line, telephone, TSP provider, active call or call history may be inspected or controlled. If later needed, use a simulated non-production provider and synthetic calls; keep line/provider configuration unchanged and test only simulated call lifecycle/recovery."
+    }
+  ],
+  "RecheckedPins": {
+    "ArchiveAndSelectedMemberHashesMatchStaticReview": true,
+    "ArchivesExtractedInThisCheck": false,
+    "ProductsExecuted": false
+  },
+  "LocalLicenseReviews": [
+    {
+      "Id": "package.mitec-system-information",
+      "ReviewedVersion": "16.0.0",
+      "ReviewOwner": "Unassigned",
+      "LicenseReviewStatus": "NeedsReview",
+      "DistributionNotes": "Migration requested a version-specific review marker. Candidate planning proceeds; this record makes no claim about local entitlement. No system report was created."
+    },
+    {
+      "Id": "package.mitec-tapi-monitor",
+      "ReviewedVersion": "1.2.0",
+      "ReviewOwner": "Unassigned",
+      "LicenseReviewStatus": "NeedsReview",
+      "DistributionNotes": "Migration requested a version-specific review marker. Candidate planning proceeds; this record makes no claim about local entitlement. No TAPI provider, line, call, or call history was accessed."
+    }
+  ],
+  "CatalogDisposition": {
+    "SupportedTargets": [],
+    "Packages": 73,
+    "PendingPackages": 43,
+    "CandidateTargets": [
+      "Windows 11"
+    ],
+    "SelectedFiles": [
+      "MSIX.exe",
+      "GetSys.exe",
+      "MSIX64.exe",
+      "GetSys64.exe",
+      "TAPIMon.exe"
+    ],
+    "PendingAcceptance": true,
+    "Candidates": [
+      "package.mitec-system-information",
+      "package.mitec-tapi-monitor"
+    ]
+  },
+  "Validation": {
+    "Groups": 8,
+    "Operations": 381,
+    "Profiles": 5,
+    "GeneratedOperationsDocumentationCurrent": true,
+    "PowerShellFiles": 252,
+    "RepositoryValidation": "Passed"
+  },
+  "FocusedTests": {
+    "Coverage": "Candidate metadata, source pins, repeated inert offline staging, snapshot, owned-file removal/recovery, unowned-file preservation, and informational NeedsReview install-plan availability.",
+    "Command": "Invoke-Pester tests/MiTeCSystemInformationTapiMonitor.Tests.ps1, tests/LicenseReviews.Tests.ps1",
+    "Failed": 0,
+    "Pester": "5.7.1",
+    "Skipped": 0,
+    "Passed": 25,
+    "PowerShell": "7.6.5"
+  },
+  "BroaderRegression": {
+    "Total": 189,
+    "Failure": "Existing Catalog.Tests registry subtree round-trip test cannot access HKCU under the sandbox. Package, candidate and license-review containers passed.",
+    "Failed": 1,
+    "Passed": 188
+  },
+  "SafetyAndAcceptance": {
+    "TapiProviderOrTelephoneAccessed": false,
+    "PayloadsExecuted": false,
+    "FreshUacPrompts": 0,
+    "CallsMadeOrControlled": false,
+    "HostOrControllerChanged": false,
+    "NetworkTransfer": false,
+    "DefenderBlockedToolsTouched": false,
+    "HostIdentifiersOrRecoveryDataQueried": false,
+    "WindowsStateChanged": false,
+    "SystemReportCreated": false,
+    "DefenderChanged": false,
+    "VmRuns": 0
+  },
+  "LegacyOutcomeAccounting": {
+    "Retired": [],
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Partial": [
+      "No user-visible product behavior or whole legacy package outcome accepted"
+    ],
+    "Excluded": [],
+    "Resolved": [
+      "MiTeC source/version/member selection and inert portable file-lifecycle preparation"
+    ],
+    "Deferred": [
+      "System Information eXtra synthetic-guest report field/redaction review",
+      "TAPI behavior against a simulated provider with synthetic calls",
+      "Disposable Windows 11 package acceptance and recovery",
+      "Owner-specific license administration"
+    ],
+    "EstimateRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "EstimateReason": "Both products were already included in the package outcome range. Candidate preparation resolves no legacy outcome and warrants no estimate reduction."
+  }
+}

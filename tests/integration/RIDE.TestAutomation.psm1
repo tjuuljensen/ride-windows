@@ -25,8 +25,14 @@
   Recovery: Follow automatedlab-tasks.md for blocked requests; the fixed worker restores only its
   pinned disposable VM/checkpoint.
   Author: RIDE-Windows maintainers.
-  Version: 0.6.0
+  Version: 1.1.0
   Changelog:
+    1.2.0: Validate and queue Server 2025 OpenJDK ApplicationsBatch8 acceptance.
+    1.1.0: Validate and queue the dedicated ArtCraft Launcher ApplicationsBatch7 suite.
+    1.0.0: Validate and dispatch the pinned ImageMagick Q16 feature batch.
+    0.9.0: Validate and dispatch the fixed MiTeC utility file-lifecycle batch.
+    0.8.0: Validate and dispatch the fixed SQLiteQuery file-lifecycle batch.
+    0.7.0: Validate and dispatch focused Slack and Discord package acceptance.
     0.6.0: Dispatch fixed portable acceptance through the preregistered worker.
     0.5.0: Add explicit GitHub PAT selection and credential-safe acceptance boundaries.
     - 0.4.6: Normalize JSON-parsed queue timestamps before culture-sensitive validation.
@@ -48,7 +54,7 @@
 #>
 
 
-$script:ModuleVersion = '0.6.0'
+$script:ModuleVersion = '1.1.0'
 
 Set-StrictMode -Version 2
 
@@ -619,9 +625,9 @@ function Assert-RideAutomationRequest {
     if ($name -notin @('SchemaVersion','RunId','Source','UnitOnly','IntegrationSuite','TimeoutMinutes','SubmittedAtUtc','GuestGitHubAuthentication','GitHubTestScenario')) { throw 'Request contains an unsupported field; credentials and paths are not accepted in the queue.' }
   }
   if ($Request.PSObject.Properties.Name -contains 'IntegrationSuite') {
-    if ($Request.IntegrationSuite -notin @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2', 'GitHubAuthentication', 'PSScriptTools', 'OfflineCaffeine')) { throw 'Invalid request IntegrationSuite.' }
+    if ($Request.IntegrationSuite -notin @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'GitHubAuthentication', 'NTCore', 'PSScriptTools', 'OfflineCaffeine', 'SQLiteQuery', 'MiTeCUtilityFiles', 'SysinternalsSuite', 'SysinternalsProducts', 'ImageMagick')) { throw 'Invalid request IntegrationSuite.' }
     if ($Request.UnitOnly -and $Request.IntegrationSuite -ne 'Full') { throw 'IntegrationSuite cannot be selected with UnitOnly.' }
-    if ($Request.IntegrationSuite -in @('PSScriptTools','OfflineCaffeine') -and $Request.Source -ne 'Local') { throw 'Focused portable acceptance requires the registered Local source.' }
+    if ($Request.IntegrationSuite -in @('NTCore','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick') -and $Request.Source -ne 'Local') { throw 'Focused portable acceptance requires the registered Local source.' }
   }
   if ($Request.TimeoutMinutes -lt 1 -or $Request.TimeoutMinutes -gt 180) { throw 'Invalid request timeout.' }
   $null = [datetime]::Parse($Request.SubmittedAtUtc).ToUniversalTime()
@@ -791,7 +797,7 @@ function Invoke-RideAutomationRequest {
   param([object] $Configuration, [object] $Request, [string] $Root)
   Assert-RideAutomationRequest $Request
   $selectedSuite = if ($Request.PSObject.Properties.Name -contains 'IntegrationSuite') { $Request.IntegrationSuite } else { 'Full' }
-  $focusedPortable = $selectedSuite -in @('PSScriptTools','OfflineCaffeine')
+  $focusedPortable = $selectedSuite -in @('NTCore','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick')
   $guestAuthentication = if ($Request.PSObject.Properties.Name -contains 'GuestGitHubAuthentication') { $Request.GuestGitHubAuthentication } else { 'Anonymous' }
   $authenticationContext = $null
   $gitHubScenario = if ($Request.PSObject.Properties.Name -contains 'GitHubTestScenario') { $Request.GitHubTestScenario } else { 'Acquire' }
@@ -856,7 +862,8 @@ function Invoke-RideAutomationRequest {
     if ($process.ExitCode -ne 0) { throw "Test controller exited with code $($process.ExitCode). See controller-errors.log." }
     if ($focusedPortable) {
       $focused = Get-Content -LiteralPath (Join-Path $runDirectory 'focused/result.json') -Raw -ErrorAction Stop | ConvertFrom-Json
-      if ($focused.RunId -cne $Request.RunId -or $focused.Batch -cne $selectedSuite -or $focused.Status -ne 'Passed' -or $focused.Cleanup -ne 'ResetAndOff' -or $focused.EvidenceCollected -ne $true -or $focused.ToolExecuted -ne $false) { throw 'Focused result is missing, mismatched, incomplete or unsuccessful.' }
+      $expectedToolExecution = $selectedSuite -in @('ImageMagick','NTCore')
+      if ($focused.RunId -cne $Request.RunId -or $focused.Batch -cne $selectedSuite -or $focused.Status -ne 'Passed' -or $focused.Cleanup -ne 'ResetAndOff' -or $focused.EvidenceCollected -ne $true -or $focused.ToolExecuted -ne $expectedToolExecution) { throw 'Focused result is missing, mismatched, incomplete or unsuccessful.' }
       $summary.FocusedResult = $focused
     } else {
     $guest = Get-Content -LiteralPath (Join-Path $runDirectory 'guest\summary.json') -Raw -ErrorAction Stop | ConvertFrom-Json

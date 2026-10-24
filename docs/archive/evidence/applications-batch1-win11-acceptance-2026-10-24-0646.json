@@ -1,0 +1,59 @@
+{
+  "SchemaVersion": 1,
+  "IntegrationSuite": "ApplicationsBatch1",
+  "RunId": "2e2b9cab185148318a0b29aa690a4501",
+  "StartedAtUtc": "2026-10-24T06:21:08.8027524Z",
+  "FinishedAtUtc": "2026-10-24T06:46:29.1273720Z",
+  "SourceCommit": "f0f2c4cc4da1bfd121ed967340eff897652231ac",
+  "ContentIdentity": "Working-tree source-manifest hashes, including uncommitted changes",
+  "SourceManifestSha256": "2BA9CC711B440F65DDBD2A536BFE682E0471E983AB590421FE6FD4576C63FB1B",
+  "SourceManifestFileCount": 815,
+  "ControllerStatus": "Passed",
+  "CleanupError": null,
+  "CollectionError": null,
+  "EvidenceExportError": null,
+  "VM": "RIDE-Win11-Test",
+  "VMBuild": 26300,
+  "CheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+  "Guest": {
+    "PowerShell": "5.1.26100.9444",
+    "Pester": "5.7.1",
+    "ValidationPassed": true,
+    "IntegrationPassed": true,
+    "PesterTotal": 319,
+    "PesterPassed": 318,
+    "PesterFailed": 0,
+    "PesterSkipped": 1
+  },
+  "Scenarios": [
+    { "Id": "package.thunderbird", "Version": "158.0.1", "Status": "Passed", "Recovery": true, "ProfilePreservation": true },
+    { "Id": "package.vscode", "Version": "1.143.1", "Status": "Passed", "Recovery": true },
+    { "Id": "package.firefox", "Version": "158.0.1", "Status": "Passed", "Recovery": true },
+    { "Id": "package.sqlitebrowser", "Version": "3.13.1", "Status": "Passed", "Recovery": true },
+    { "Id": "package.autopsy", "Version": "4.23.1", "Status": "Passed", "Recovery": true },
+    { "Id": "package.chrome", "Version": "156.0.8078.48", "Status": "Passed", "Recovery": true, "ProfilePreservation": true },
+    { "Id": "package.wireshark", "Version": "4.6.9.0", "Status": "Passed", "Recovery": true },
+    { "Id": "package.signal", "Version": "8.32.0", "Status": "Passed", "Recovery": true, "ProfilePreservation": true }
+  ],
+  "RecoveryLimit": "Compensating presence recovery; restoring a previous package version is unavailable for these installers.",
+  "Deferred": [
+    "Wireshark existing-installation, association/shared-runtime and feature-specific acceptance remain separately tracked.",
+    "No product activation or per-application feature behavior is inferred from package lifecycle.",
+    "No new supported target or legacy outcome was added by this run."
+  ],
+  "PriorRetry": {
+    "RunId": "4b4ab05256884fde810d04d0fb875998",
+    "Status": "Failed before integration because one guest automation test expected NTCore ToolExecuted=false; the mock was corrected and local TestAutomation regression passed 103 tests with 2 existing skips before this successful rerun."
+  },
+  "LegacyOutcomesClosed": 0,
+  "Estimates": {
+    "WindowsSettings": "38-58",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "AccountsConfigurationAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200",
+    "Midpoint": "about 170"
+  }
+}

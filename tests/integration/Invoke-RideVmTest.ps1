@@ -40,7 +40,14 @@
   integration suite.
 
 .PARAMETER IntegrationSuite
-  ApplicationsBatch1 and ApplicationsBatch2 select installed/portable application migration tests.
+  ApplicationsBatch1 and ApplicationsBatch2 select installed/portable application migration tests;
+  ApplicationsBatch3 selects both Docker Desktop installation variants.
+  ApplicationsBatch3AllUsers selects only the elevated Docker Desktop variant.
+  ApplicationsBatch4 selects the Slack and Discord current-user EXE candidates.
+  ApplicationsBatch5 selects the Microsoft Visual C++ v14 runtime lifecycle candidate on Windows 11.
+  ApplicationsBatch6 selects the twelve Artcraft machine-scope MSI applications on Windows 11.
+  ApplicationsBatch7 selects only the current-user ArtCraft Launcher MSI on Windows 11; it does not launch the app.
+  ApplicationsBatch8 selects four side-by-side Microsoft OpenJDK MSIs on Windows Server 2025.
   SettingsRemainingBatch1 and SettingsRemainingBatch2 select the two focused migration suites.
   Full (default) runs all integration scenarios. SettingsBatch40 runs the forty-setting
   registry migration suite without package downloads; SettingsBatch60 selects the sixty-setting suite; cannot be combined with UnitOnly.
@@ -96,8 +103,11 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.11.0
+  Version: 0.14.0
   Changelog:
+    0.14.0: Forward Server 2025 Microsoft OpenJDK side-by-side acceptance.
+    0.13.0: Forward the dedicated ArtCraft Launcher ApplicationsBatch7 suite.
+    0.12.0: Forward the focused Slack and Discord package acceptance suite.
     0.11.0: Add explicit GitHub PAT selection and credential-safe acceptance boundaries.
     0.10.0: Accept application migration suites through the VM runner.
   - 0.9.0: Forward remaining-settings acceptance batches without package downloads.
@@ -129,7 +139,7 @@ param(
   [string] $RepositoryPath,
   [string] $GuestRepositoryPath = 'C:\RIDE\ride-windows',
   [switch] $UnitOnly,
-  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2', 'GitHubAuthentication')][string] $IntegrationSuite = 'Full',
+  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'GitHubAuthentication')][string] $IntegrationSuite = 'Full',
   [string] $ResultDirectory,
   [ValidateSet('Anonymous','PAT')][string] $GuestGitHubAuthentication = 'Anonymous',
   [ValidateSet('Acquire','FailAfterDelivery','WaitForTimeout')][string] $GitHubTestScenario = 'Acquire',
@@ -142,7 +152,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.11.0'
+$script:ScriptVersion = '0.13.0'
 if ($Version) {
   Write-Output $script:ScriptVersion
   return

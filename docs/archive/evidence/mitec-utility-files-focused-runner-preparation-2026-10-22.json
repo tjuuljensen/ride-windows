@@ -1,0 +1,108 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-22",
+  "Kind": "FocusedPortableRunnerPreparation",
+  "Batch": "MiTeCUtilityFiles",
+  "Packages": [
+    {
+      "Id": "package.mitec-uuid-generator",
+      "Version": "1.0.0",
+      "Archive": ".local/remaining-collections-20261017/UUID.zip",
+      "Sha256": "0795838486e6a0ce15edeaeaeed978e09d510ffa9478f9f040122a4583914c80",
+      "SelectedMember": "UUID.exe",
+      "SupportedTargets": [],
+      "LicenseReviewStatus": "NeedsReview"
+    },
+    {
+      "Id": "package.mitec-certificate-generator",
+      "Version": "1.0.0",
+      "Archive": ".local/remaining-collections-20261017/CG.zip",
+      "Sha256": "dab3421d6ca9629c938b86e267ce139d4f2ce54758f1125008bf7da158f28666",
+      "SelectedMember": "CG.exe",
+      "SupportedTargets": [],
+      "LicenseReviewStatus": "NeedsReview"
+    },
+    {
+      "Id": "package.mitec-certificate-information",
+      "Version": "1.5.0",
+      "Archive": ".local/remaining-collections-20261017/CertInfo.zip",
+      "Sha256": "6183172dc2277111b3019460716b4f57ad5b5f09d3bf3584620bdaff033e7c7b",
+      "SelectedMember": "CertInfo.exe",
+      "SupportedTargets": [],
+      "LicenseReviewStatus": "NeedsReview"
+    }
+  ],
+  "LocalAcceptanceInput": {
+    "ManifestPath": ".local/acceptance-input/MiTeCUtilityFiles.json",
+    "ManifestExistedBeforePreparation": false,
+    "ExactlySelectedPackageIds": true,
+    "CatalogDigestPreflightPassed": true
+  },
+  "LocalValidation": {
+    "FocusedTestFiles": [
+      "tests/PortableAcceptanceAutomation.Tests.ps1",
+      "tests/TestAutomation.Tests.ps1"
+    ],
+    "Pester": "5.7.1",
+    "PowerShell7": {"Version": "7.6.5", "Passed": 123, "Failed": 0, "Skipped": 2},
+    "WindowsPowerShell51": {"Version": "5.1", "Passed": 125, "Failed": 0, "Skipped": 0},
+    "TestRegistryDisabled": true,
+    "CatalogExportCheck": "Passed",
+    "RepositoryValidation": {
+      "Status": "Passed",
+      "Operations": 371,
+      "Groups": 8,
+      "Profiles": 5,
+      "PowerShellFiles": 241
+    },
+    "GitDiffCheck": "Passed"
+  },
+  "GuestAcceptanceScope": [
+    "Portable package file lifecycle and repeat",
+    "Remove and saved-state recovery",
+    "Preserve unowned and modified files"
+  ],
+  "ExplicitExclusions": [
+    "Do not run any selected utility",
+    "Do not query live hardware identifiers",
+    "Do not open user files",
+    "Do not create, inspect, import or export certificates",
+    "Do not change certificate trust stores"
+  ],
+  "VmAccess": {
+    "VM": "RIDE-Win11-Test",
+    "CheckedAtUtc": "2026-10-22T12:58:59.1297070Z",
+    "ReadOnlyGetVmResult": "Blocked",
+    "Reason": "Access to a CIM resource was not available to the client.",
+    "ProtectedQueueSubmission": "NotAttempted",
+    "ControllerRefreshRequired": true,
+    "FreshUacPrompts": 0,
+    "VmOrCheckpointTouched": false
+  },
+  "RunBoundaries": {
+    "DefenderBlockedToolsTouched": false,
+    "DefenderChanged": false,
+    "IdentifiersQueried": false,
+    "CertificatesCreatedOrOpened": false,
+    "UserFilesOpened": false,
+    "LegacyOutcomeResolved": false,
+    "LegacyOutcomeRetired": false,
+    "LegacyOutcomeExcluded": false
+  },
+  "Outcomes": {
+    "Partial": ["MiTeC UUID/certificate package lifecycle batch prepared"],
+    "Deferred": [
+      "Guest file-lifecycle and exact recovery acceptance",
+      "Synthetic identifier generation and decoding; never query live identifiers",
+      "Certificate generation and parsing with disposable fixtures",
+      "Version-specific local entitlement and redistribution review",
+      "Windows 11 target support"
+    ]
+  },
+  "Estimates": {
+    "GroupRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "ReasonUnchanged": "Runner and local digest preflight do not establish guest behavior, privacy-safe features, recovery acceptance, Windows support or license entitlement."
+  }
+}

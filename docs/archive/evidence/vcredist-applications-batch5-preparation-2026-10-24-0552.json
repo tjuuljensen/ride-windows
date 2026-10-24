@@ -1,0 +1,41 @@
+{
+  "RecordType": "RIDE focused Windows VM acceptance batch preparation",
+  "Batch": "ApplicationsBatch5 / Microsoft Visual C++ v14 x64 runtime",
+  "RecordedAtUtc": "2026-10-24T05:52:00Z",
+  "Catalog": {
+    "OperationId": "package.vcredist-v14-x64",
+    "MigrationBatch": "ApplicationsBatch5",
+    "CandidateTargets": [
+      "Windows 11"
+    ],
+    "SupportedTargets": [],
+    "PendingAcceptance": true,
+    "MinimumInstalledVersion": "14.50.35710.0"
+  },
+  "AcceptanceContract": [
+    "Windows 11 only; production target support remains empty",
+    "Preserve baseline and record NotApplicable if a sufficient runtime or catalog-dependent package is already installed",
+    "Otherwise verify RIDE install and minimum registry/DLL versions, repeat install, removal, repeat removal, saved removal recovery, and restore original absence or retain a newer shared runtime when exact downgrade is unavailable",
+    "Registered controller restores its existing checkpoint"
+  ],
+  "Regression": {
+    "TestAutomation": "103 passed, 0 failed, 2 skipped",
+    "FocusedCatalogAndRuntime": "2 passed, 0 failed",
+    "WindowsPowerShell51Parser": "7 changed script/test files passed",
+    "RepositoryValidation": "407 operations, 8 groups, 5 profiles, 269 PowerShell files",
+    "DiffCheck": "Passed"
+  },
+  "VmAcceptance": "Not run. Last host inventory recheck on 2026-10-24 at 05:30 UTC was denied at CIM; this turn prepared and validated the batch locally without invoking VM access or requesting elevation.",
+  "InstallerOrWindowsStateChanged": false,
+  "LegacyOutcomesClosed": 0,
+  "Estimates": {
+    "WindowsSettings": "38-58",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "AccountsConfigurationAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200",
+    "Midpoint": "about 170"
+  }
+}

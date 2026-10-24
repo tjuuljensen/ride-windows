@@ -44,17 +44,24 @@ Describe 'PowerShell profile setting files' {
     }
   }
 
-  It 'has separate optional edition settings with accepted targets and explicit defaults' {
+  It 'keeps per-runtime candidate acceptance and defaults explicit' {
     $script:ColorOperations.Count | Should -Be 2
     foreach ($operation in $script:ColorOperations) {
       $operation.Scope | Should -Be User
       $operation.RequiresAdmin | Should -BeFalse
-      $operation.PendingAcceptance | Should -BeFalse
-      $operation.SupportedTargets.Count | Should -Be 2
       foreach ($target in @('Windows 11','Windows Server 2025')) {
-        $operation.SupportedTargets | Should -Contain $target
         $operation.TargetDefaults[$target].DefaultValue | Should -Be Default
         $operation.TargetDefaults[$target].EffectiveDefault | Should -Match 'No RIDE startup override'
+      }
+      if ($operation.ProfileRuntime -eq 'WindowsPowerShell51') {
+        $operation.PendingAcceptance | Should -BeTrue
+        $operation.SupportedTargets | Should -BeNullOrEmpty
+        foreach ($target in @('Windows 11','Windows Server 2025')) { $operation.CandidateTargets | Should -Contain $target }
+      } else {
+        $operation.ProfileRuntime | Should -Be 'PowerShell7'
+        $operation.PendingAcceptance | Should -BeFalse
+        $operation.SupportedTargets.Count | Should -Be 2
+        foreach ($target in @('Windows 11','Windows Server 2025')) { $operation.SupportedTargets | Should -Contain $target }
       }
       $operation.BaselineState | Should -Be Default
       $operation.UnsetState | Should -Be Default

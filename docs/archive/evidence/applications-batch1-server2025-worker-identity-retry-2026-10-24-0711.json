@@ -1,0 +1,53 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T07:11:53Z",
+  "RunId": "fb2befa172e84dd5977c741d551229d0",
+  "IntegrationSuite": "ApplicationsBatch1",
+  "Target": {
+    "VMName": "RIDE-S25-Test",
+    "OS": "Windows Server 2025 Standard Evaluation",
+    "Build": 26100,
+    "PowerShell": "5.1.26100.33438",
+    "Pester": "5.7.1"
+  },
+  "Run": {
+    "StartedAtUtc": "2026-10-24T07:02:46.7352766Z",
+    "FinishedAtUtc": "2026-10-24T07:11:52.7739463Z",
+    "ControllerStatus": "Failed",
+    "ValidationPassed": true,
+    "IntegrationPassed": false,
+    "Pester": { "Passed": 319, "Failed": 0, "Skipped": 1, "Total": 320 },
+    "GuestError": "Limited application evidence identity mismatch.",
+    "CleanupError": null,
+    "CollectionError": null,
+    "CheckpointReset": true,
+    "VmPoweredOff": true
+  },
+  "PartialEvidence": {
+    "Thunderbird": "Install/repeat/remove and compensating presence recovery passed at 158.0.1; profile preservation passed; temporary account and batch-logon-right cleanup passed.",
+    "TargetExclusions": ["package.tmog", "package.gpg4win"],
+    "Cause": "The limited-user child also emitted target-exclusion rows without execution identity fields; the coordinator rejected those rows before accepting its worker result."
+  },
+  "Disposition": "Not accepted. The runner now emits target-exclusion rows only from the coordinator. Focused package tests passed 103/103 before the corrected VM rerun.",
+  "LegacyOutcomesResolved": [],
+  "LegacyOutcomesRetired": [],
+  "LegacyOutcomesExcluded": [],
+  "LegacyOutcomesDeferred": [
+    "Server 2025 ApplicationsBatch1 suite acceptance, pending corrected rerun.",
+    "Windows 11 lifecycle acceptance for Gpg4win, Phoenix Protector and TMOG."
+  ],
+  "LegacyOutcomesPartial": [
+    "Server 2025 Thunderbird lifecycle/recovery passed, but the suite result was rejected by the test harness."
+  ],
+  "Estimates": {
+    "Settings": "38-58",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "FilesAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Changed": false,
+    "Reason": "The harness validation failed after one package worker passed; no whole legacy outcome was closed."
+  }
+}

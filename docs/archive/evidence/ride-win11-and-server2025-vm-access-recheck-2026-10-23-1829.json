@@ -1,0 +1,20 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-23T18:29:30Z",
+  "Queries": [
+    {
+      "CheckpointInspected": false,
+      "Name": "RIDE-Win11-Test",
+      "Result": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "CheckpointInspected": false,
+      "Name": "RIDE-Srv2025Test",
+      "Result": "Access to a CIM resource was not available to the client."
+    }
+  ],
+  "VmChanged": false,
+  "WindowsStateChanged": false,
+  "ElevationRequested": false,
+  "Consequence": "Do not dispatch guest acceptance until host/controller VM access is restored."
+}

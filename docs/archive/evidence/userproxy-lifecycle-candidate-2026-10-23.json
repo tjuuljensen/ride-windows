@@ -1,0 +1,57 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "Batch": "B04 guarded proxy apply/restore lifecycle candidate",
+  "Tests": {
+    "Files": [
+      "tests/UserProxyInventory.Tests.ps1",
+      "tests/UserProxyPreparation.Tests.ps1",
+      "tests/UserProxyLifecycle.Tests.ps1"
+    ],
+    "Discovered": 97,
+    "Passed": 97,
+    "Failed": 0,
+    "Skipped": 0,
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "WindowsPowerShell51Parser": "Clean for three modules and three test files"
+  },
+  "ImplementedCandidateBehavior": [
+    "Reconstructs the preparation record and rejects a mismatched snapshot.",
+    "Checks explicit machine, SID, session and full literal configuration before applying.",
+    "Checks documented policy values and delegates to the ShouldProcess-gated WinINet setter.",
+    "Reads back flags, manual proxy, bypass and PAC URL and reports partial outcomes distinctly.",
+    "Attempts rechecked compensation after notification failure or a setter exception when observed values exactly match the requested write.",
+    "Restores only the prepared flag mask and owned URL while preserving later unowned values.",
+    "Refuses conflicting current values; does not overwrite after repeated readback failure."
+  ],
+  "Scope": {
+    "RegistryQueried": false,
+    "RegistryChanged": false,
+    "WinINetQueried": false,
+    "WinINetSet": false,
+    "NetworkUsed": false,
+    "VmUsed": false,
+    "WindowsStateChanged": false,
+    "SnapshotPersistedToEngine": false,
+    "CatalogOperationAdded": false
+  },
+  "Limitations": [
+    "Pre-write compare and WinINet write are not atomic.",
+    "Preparation snapshots are not authenticated or durably stored by this candidate.",
+    "Effective-policy coverage remains incomplete.",
+    "Engine saved-run integration and native Windows UI/routing acceptance remain open."
+  ],
+  "Outcome": {
+    "Resolved": ["Guarded local apply/readback and conflict-aware restore candidate with compensation for verified notification failures."],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Durable state integration, full policy coverage, concurrent compare/write safety, and disposable Windows 11 acceptance."],
+    "Partial": ["B04 proxy setting migration remains incomplete; no native operation was run."],
+    "GroupRanges": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged; no legacy setting outcome closed."
+  }
+}

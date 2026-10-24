@@ -1,0 +1,52 @@
+{
+  "RecordedAtUtc": "2026-10-24T15:15:00Z",
+  "Subject": "Volatility Workbench symbol and offline-mode source review",
+  "PublisherVersion": "Volatility Workbench 3.0.1017",
+  "FrameworkVersion": "Volatility 3 2.28.2",
+  "PublisherSourceDate": "2026-09-25",
+  "PublisherPackageContents": [
+    "VolatilityWorkbench GUI",
+    "Volatility command-line executable",
+    "Source code"
+  ],
+  "PublisherBehavior": {
+    "WindowsSymbolsFolder": "Symbol table ZIPs are placed in the symbols folder.",
+    "MissingWindowsSymbols": "Queried, downloaded from Microsoft, generated and cached when missing.",
+    "WindowsSymbolPackUri": "https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip",
+    "MemoryDumpConfiguration": "Workbench reads and writes a .CFG containing platform/process-list metadata with the dump.",
+    "OSRequirements": ["Windows 11", "Windows 10", "Windows 7"]
+  },
+  "FrameworkOfflineBehavior": {
+    "OfflineOption": "--offline is documented by Volatility CLI documentation; it prevents online searches for additional JSON files, remote Windows symbol tables and Linux/macOS banner repositories.",
+    "VersionSpecificLimit": "The available CLI manual is for framework 2.28.0/develop, not yet verified against the Workbench's bundled 2.28.2 binary.",
+    "ImplementationBoundary": "Do not claim offline package behavior until the exact archive is inspected and the GUI/CLI path is shown to enforce offline mode without network requests. Use publisher symbol packs as pinned separate inputs if needed."
+  },
+  "MigrationConsequences": {
+    "OfflineBundlePolicy": "Package design must provide deterministic local symbols and no network fallback.",
+    "OutputBoundary": "Acceptance must use a synthetic memory image and disposable output directory; verify source image remains unchanged and generated CFG/report/cache paths are understood.",
+    "PackageCandidateAdded": false,
+    "Reason": "Exact Workbench ZIP hash/member inventory and native download remain unavailable; local DNS failed before transfer in the prior acquisition attempt.",
+    "LicenseReviewIsMigrationBlocker": false
+  },
+  "Deferred": [
+    "Acquire and locally hash the exact 3.0.1017 publisher ZIP; inventory source and notices.",
+    "Verify whether the bundled 2.28.2 executable accepts and honors --offline or an equivalent local configuration.",
+    "Pin the Windows symbol pack and prove selected memory-analysis scenarios require no network fallback.",
+    "Run disposable-VM package lifecycle and synthetic memory-dump acceptance."
+  ],
+  "MigrationEstimate": {
+    "Settings": "37-57",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "141-195",
+    "RoundedTotal": "140-195/about 170",
+    "LegacyOutcomesClosed": 0
+  },
+  "References": [
+    "https://www.osforensics.com/tools/volatility-workbench.html",
+    "https://volatility3.readthedocs.io/en/v2.28.0/vol-cli.html",
+    "https://volatility3.readthedocs.io/en/v2.28.2/symbol-tables.html"
+  ]
+}

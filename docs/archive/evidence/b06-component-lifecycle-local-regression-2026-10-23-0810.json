@@ -1,0 +1,47 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "TimeUtc": "08:10",
+  "Batch": "B06 OpenSSH Client and Telnet Client guarded component lifecycle candidate",
+  "Tests": {
+    "File": "tests/ClientComponentLifecycle.Tests.ps1",
+    "Discovered": 10,
+    "Passed": 10,
+    "Failed": 0,
+    "Skipped": 0,
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false
+  },
+  "WindowsPowerShell51Parser": "Clean for the lifecycle module, preparation module, component inventory module, and test file",
+  "Scope": {
+    "DismCalled": false,
+    "RegistryChanged": false,
+    "WindowsComponentsChanged": false,
+    "NetworkUsed": false,
+    "VmUsed": false
+  },
+  "Coverage": [
+    "Prior-state capture before apply and exact literal state restore",
+    "WhatIf and observed no-change paths",
+    "Pending-reboot refusal",
+    "Server-target refusal",
+    "Explicit offline-source path handling and truthful unverified-boundary reporting",
+    "Telnet payload-removal state preservation",
+    "Restore drift and servicing-revision refusal",
+    "Saved-state identity tamper rejection"
+  ],
+  "Outcome": {
+    "Resolved": ["Fresh local regression for the guarded B06 lifecycle candidate"],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Matching offline sources, complete no-network boundary, dependency/policy review, payload/version recovery, and disposable Windows 11 acceptance"
+    ],
+    "Partial": ["OpenSSH Client and Telnet Client remain unregistered candidate components pending technical acceptance"],
+    "GroupRanges": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateAdjustment": "Unchanged; no legacy component outcome closed."
+  }
+}

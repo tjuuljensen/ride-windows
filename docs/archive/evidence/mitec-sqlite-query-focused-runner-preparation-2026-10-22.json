@@ -1,0 +1,90 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-22",
+  "Kind": "FocusedPortableRunnerPreparation",
+  "Batch": "SQLiteQuery",
+  "PackageId": "package.mitec-sqlite-query",
+  "Version": "3.2.0",
+  "CandidateSupportedTargets": [],
+  "AcceptanceScope": [
+    "Pinned archive and member preflight",
+    "Managed file install and repeat",
+    "Remove and saved-state restoration",
+    "Preserve unowned and modified files"
+  ],
+  "ExplicitExclusions": [
+    "Do not launch SQLite Query",
+    "Do not open or modify a database",
+    "Do not execute SQL",
+    "Does not establish SQLite build provenance or license entitlement"
+  ],
+  "LocalArchive": {
+    "Path": ".local/remaining-collections-20261017/SQLiteQ.zip",
+    "ManifestPath": ".local/acceptance-input/SQLiteQuery.json",
+    "Sha256": "7f979a622de9e97b9682dc09a5156a1bd872139a9dd56ba60616fb824e77ab16",
+    "DigestMatchesCatalogPin": true,
+    "PayloadPreflightPassed": true,
+    "MemberList": ["SQLiteQuery.exe", "sqlite3.dll", "sqlite3.exe"],
+    "ArchiveExtracted": false,
+    "BinaryLoadedOrExecuted": false
+  },
+  "LocalValidation": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "FocusedTestFiles": [
+      "tests/PortableAcceptanceAutomation.Tests.ps1",
+      "tests/TestAutomation.Tests.ps1"
+    ],
+    "PowerShell7": {"Version": "7.6.5", "Passed": 120, "Failed": 0, "Skipped": 2},
+    "WindowsPowerShell51": {"Version": "5.1", "Passed": 122, "Failed": 0, "Skipped": 0},
+    "TestRegistryDisabledInBothRuns": true,
+    "PesterTestRegistryPluginEnabled": false,
+    "TestTempRoots": [
+      ".local/pester-sqlite-runner-temp",
+      ".local/pester-sqlite-runner-temp-ps51"
+    ],
+    "CatalogExportCheck": "Passed",
+    "RepositoryValidation": {
+      "Status": "Passed",
+      "Operations": 371,
+      "Groups": 8,
+      "Profiles": 5,
+      "PowerShellFiles": 241
+    }
+  },
+  "VmAccess": {
+    "VM": "RIDE-Win11-Test",
+    "CheckedAtUtc": "2026-10-22T12:46:25.9945154Z",
+    "ReadOnlyGetVmResult": "Blocked",
+    "Reason": "Access to a CIM resource was not available to the client.",
+    "ProtectedQueueSubmission": "NotAttempted",
+    "ControllerRefreshRequired": true,
+    "FreshUacPrompts": 0,
+    "VmOrCheckpointTouched": false
+  },
+  "RunBoundaries": {
+    "DefenderBlockedToolsTouched": false,
+    "DefenderChanged": false,
+    "DatabaseOpenedOrModified": false,
+    "SqlExecuted": false,
+    "LegacyOutcomeResolved": false,
+    "LegacyOutcomeRetired": false,
+    "LegacyOutcomeExcluded": false
+  },
+  "Outcomes": {
+    "Partial": ["SQLiteQuery portable lifecycle runner prepared"],
+    "Deferred": [
+      "Guest file-lifecycle and exact recovery acceptance",
+      "SQLite Query UI and feature behavior with synthetic databases",
+      "Reproducible provenance and complete bundled SQLite build options",
+      "SQLite upstream notice and owner-specific MiTeC terms review",
+      "Windows 11 target support"
+    ]
+  },
+  "Estimates": {
+    "GroupRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "ReasonUnchanged": "Runner preparation does not verify guest behavior, database recovery, Windows support, build provenance or owner-specific rights."
+  }
+}

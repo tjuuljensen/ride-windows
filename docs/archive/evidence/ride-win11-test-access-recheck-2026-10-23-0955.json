@@ -1,0 +1,38 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "TimeUtc": "09:55:52",
+  "Host": "P52",
+  "VmName": "RIDE-Win11-Test",
+  "Check": "Read-only Get-VM query before checkpoint inspection",
+  "Result": "Denied",
+  "Error": "Access to a CIM resource was not available to the client.",
+  "CheckpointState": "Unknown; query was not reached",
+  "QueueSubmission": false,
+  "DismCalled": false,
+  "DefenderChange": false,
+  "WindowsStateChanged": false,
+  "Outcome": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Prepared disposable-Windows acceptance remains blocked by Hyper-V CIM access."
+    ],
+    "Partial": [
+      "Sysinternals has no licensing blocker; focused suite lifecycle and target acceptance remain technically pending.",
+      "B06 OpenSSH Client/Telnet Client remains an unregistered guarded candidate; source, network-boundary, recovery and native acceptance remain open.",
+      "Other prepared package, settings and component guest batches remain pending their specific acceptance checks."
+    ],
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateAdjustment": "Unchanged; this access recheck closes no legacy outcome."
+  }
+}

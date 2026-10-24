@@ -222,7 +222,7 @@ A path conflicting with the selected scope is refused. Generated catalog metadat
 uses explicit HKCU/HKLM paths, so inspection and saved-run restore use that same
 location. No HKCR drive is created and the merged view is not used for writes.
 
-Choose `RegistryValue` for one value, or `RegistryValueSet` for 2-10 coordinated
+Choose `RegistryValue` for one value, or `RegistryValueSet` for 2-20 coordinated
 values representing one setting. A value set uses `RegistryValues`, with one
 unique `Key`, `RegistryPath`, `ValueName` and `ValueType` per component. Each state
 maps every component key to its desired value. Supported component types are
@@ -388,7 +388,7 @@ API 1 accepts these external operation kinds:
 | Kind | Implementation and required metadata |
 | --- | --- |
 | `RegistryValue` | Built-in registry lifecycle, declared states and value type, baseline, target defaults and scope/elevation. Documentation URL is optional for custom entries. User paths must use HKCU; machine paths must use HKLM. |
-| `RegistryValueSet` | One setting with 2-10 String/DWord components, complete named states, baseline and target defaults. Blank ValueName selects the unnamed value. Paths use explicit scope roots; documentation URL is optional. |
+| `RegistryValueSet` | One setting with 2-20 String/DWord components, complete named states, baseline and target defaults. Blank ValueName selects the unnamed value. Paths use explicit scope roots; documentation URL is optional. |
 | `Package` | Built-in EXE/MSI lifecycle with DirectHttps or GitHubReleaseApi acquisition, declared installer/detection metadata, target defaults, license references and compensating recovery limits. Product URL is optional; source and Download action remain required. |
 
 Metadata uses the existing shared catalog validator, not a separate simplified

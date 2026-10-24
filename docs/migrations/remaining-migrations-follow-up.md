@@ -1,5 +1,5 @@
 # Remaining migration analysis and decisions
-
+Current handoff, 2026-10-17: [all batch dispositions and completion order](remaining-migrations-follow-up.md#archive-handoff-and-closure-order-2026-10-17).
 Latest: [archive handoff and closure order, 2026-10-17](#archive-handoff-and-closure-order-2026-10-17). This supersedes the morning handoff's checkout status and next-work order. The expired overnight automation remains paused; direct continuation is authorized without batch-by-batch approval.
 
 Implementation continuation, 2026-10-17: [B03 startup fixtures](settings-post-migration-review.md#b03-startup-closure-fixture-2026-10-17),
@@ -39,9 +39,9 @@ not the current checkout. This handoff is a documentation-only follow-up.
 | B01 settings | 198/279 setting presentations; 81 remain. Scheduled-task typed observation and readback repaired. Earlier literal/native results retain their original scope. | Finish remaining presentation reviews and user-visible, managed, boot, hardware and recovery evidence per the [30-row settings ledger](remaining-settings-plan.md#complete-remaining-ledger-triage). Presentation is a separate counter, not 198 completed legacy outcomes. |
 | B02 identities | Supplied-data inventories for audio endpoints, adapters, volumes, local users and Wi-Fi are source-ready. | Native provider binding and selected-resource lifecycle; unknown/missing/managed states remain explicit. Inventory alone closes no mutation outcome. |
 | B03 startup / Terminal / PATH | Two pending user-bin startup candidates, Terminal JSONC preparation and persistent user-PATH capture/preparation exist. | Complete one startup outcome first; then separately own Terminal live files and persistent PATH writes/recovery. Do not merge these outcomes or create a bin directory implicitly. |
-| B04 proxy | Default/LAN capture and owned-field edit/recovery preparation exist. | Durable setter, refresh, partial-failure recovery and native/UI/policy evidence; RAS and WinHTTP remain distinct. |
+| B04 proxy | Default/LAN capture/preparation, documented policy refusal, and an unregistered ShouldProcess-gated apply/restore candidate now compare current values, verify readback, preserve unowned values and attempt compensation after verified partial writes. Focused inventory/preparation/lifecycle regression passes 97/97. | Complete effective-policy coverage, durable saved state, atomic concurrency protection, engine/catalog integration and native/UI acceptance. Snapshot persistence is not part of the candidate; RAS and WinHTTP remain distinct. |
 | B05 Store | Five guarded groups implemented; Solitaire basic isolated registration lifecycle accepted. | Clipchamp next when elevation/resources permit; GUI/data, interruption, full intended-user handoff, groups, policy and other targets remain open. News/Weather need usable reinstall sources. |
-| B06 components | Namespace-aware inventory and explicit Online/Offline client transition preparation exist. | OpenSSH Client and Telnet Client durable transitions, source/no-network enforcement and native recovery. No automatic WSL/Docker/Hyper-V provisioning. |
+| B06 components | Namespace-aware inventory, explicit Online/LocalSource preparation and an unregistered guarded lifecycle candidate exist. The latest 2026-10-23 current-code preparation/lifecycle regression passes 47/47 mocked tests; Windows PowerShell 5.1 parses five relevant files; the candidate rejects pre-Windows 11 builds and blocks state-changing Absent transitions until recovery-source validation exists. | Matching-source/no-network proof, servicing-policy/dependency checks, exact payload recovery and disposable Windows acceptance. Hyper-V/CIM access remains blocked; no automatic WSL/Docker/Hyper-V provisioning. |
 | B07 deployments | Named identity, registration/adoption review, logical legacy mapping and owned-file update comparisons exist. Q01-Q04 are settled. | Main CLI/profile integration, original-byte preservation, durable store/index migration, ownership, staged publication and interrupted recovery. Coexistence is approved design, not enabled runtime behavior. |
 | B08 packages | Sixteen new package declarations are pending: six earlier candidates, whole Sysinternals Suite and nine individual Sysinternals products. Exact acquired bytes/notices are recorded. | Per-product lifecycle and functional acceptance. Source archives are not imported/executed; no new native acceptance came from the overnight or resumed batches. |
 | B09 accounts / regional / assets | User/SID, language order/overrides and regional inventories/preparation exist. | Secure credentials, durable writes, exact recovery and native effects; asset source/rights and collision handling remain per deployment. |
@@ -191,7 +191,7 @@ records input hashes, catalog counts, every application review outcome and its
 actual next gate, all 30 settings rows, and selectors in the inventory families.
 It verifies a one-to-one join between the 79 application outcomes and their
 13 review rounds. The 109-row application ledger contains 10 previously migrated,
-19 accepted migration, one excluded, two explicitly retired and 77 pending/partial
+19 accepted migration, one excluded, four explicitly retired and 75 pending/partial
 review outcomes. The original 79-row review map is retained as dated coverage. Its rows
 include configuration and Windows components as well as packages.
 
@@ -212,11 +212,11 @@ These checks establish source/document consistency, not runtime acceptance.
 | Estimate owner | Remaining legacy outcomes | Analysis and next gate |
 | --- | --- | --- |
 | Windows/application settings | 38-58 | All 30 remainder rows and earlier implemented families reviewed; presentation, GUI, managed/default and recovery gaps retained. |
-| Packages/portable tools/artifacts | 56-71 | Two explicit Q17/Q20 retirements reduce the original range by two. Remaining 77 review outcomes include cross-group scope; pending source candidates and deferred Neo4j/backend remain. |
-| Windows components | 20-25 | Store workflows, optional features/capabilities, distributions and printer resources separated; exact build/edition discovery precedes mutation. |
+| Packages/portable tools/artifacts | 52-67 | Q17/Q20 and the 2026-10-22 Paradox Data Editor, Weather Agent and Mail Checker retirements plus the 2026-10-23 classic Teams cleanup retirement reduce this range by six from its original 58-73. The dated 79-item review map includes cross-group scope; pending source candidates and deferred Neo4j/backend remain. |
+| Windows components | 19-24 | The 2026-10-23 PowerShell 2 retirement reduces this range by one; WSL distro scope, NetFx3 compatibility intent and client-only Internet Printing are recorded. Source, data recovery and exact build/edition acceptance remain. |
 | Accounts/configuration/files/assets | 25-35 | User identity, credentials, locale, files, browser preferences and deployment ownership reviewed. |
 | Maintenance/actions | 8-12 | Updates, cleanup, hostname and Sysprep need action-specific preview, recovery and reboot contracts. |
-| Total, rounded | 145-200 | About 175 for planning. Exact summed endpoints 147-201, rounded to nearest five after two explicit package retirements. |
+| Total, rounded | 145-200 | About 170 for planning. Exact summed endpoints 142-196; rounded to nearest five. Six package outcomes and one Windows component outcome are retired. |
 
 The B01 [session visual observation contract](settings-post-migration-review.md#b01-read-only-session-visual-observations-2026-10-17)
 now separates five fixed native GET results from registry and GUI proof. Fake
@@ -301,7 +301,7 @@ just because one legacy function performed them all.
 | B03 | Existing user-bin startup renderer source-ready, 2026-10-16; Terminal file ownership remains | Two optional runtime candidates reuse profile-block recovery and refuse known unmarked legacy writers. Native startup acceptance and directory provisioning remain open. Q08 persistent user PATH now has literal observation and entry-owned append/recovery preparation (44 distinct tests per edition); durable writes/refresh/native acceptance remain. Terminal JSONC root-field byte-preservation/conflict proof is source-ready; live file/instance binding, actual availability, writer and actual per-machine Q09 selection remain open. |
 | B04 | Default/LAN capture and in-memory edit/recovery source-ready | 31 capture and 39 preparation tests per edition preserve manual/bypass/PAC/unknown flags and reject owned-field conflicts. Native/UI/policy, durable setter/refresh/partial-failure recovery and RAS remain open. Keep WinHTTP separate. |
 | B05 | Store acceptance, one app at a time, then group/policy | Solitaire basic native registration lifecycle passed. Report and retain that result; next candidate is Clipchamp when elevation is available. Add interruption, GUI/data and full handoff evidence without rerunning passed cases merely on a wake. |
-| B06 | Read-only component inventory source-ready, 2026-10-16 | Separate optional-feature/capability/Server-feature namespaces, explicit machine/build/edition guards and saved-data lookup implemented. Q05/Q06 now accept separate OpenSSH Client/Telnet Client and explicit Online/Offline source modes. Data-only transition preparation passed 29 tests per edition; native source/network-boundary/recovery acceptance remains pending. See the [batch record](#b06-component-inventory-implementation-2026-10-16). |
+| B06 | Guarded OpenSSH Client/Telnet Client lifecycle source candidate, 2026-10-23 | Separate optional-feature/capability/Server-feature namespaces, explicit machine/build/edition guards and saved-data lookup implemented. Q05/Q06 accept separate clients and explicit Online/Offline modes. The unregistered runner saves prior literal state, gates DISM with ShouldProcess, verifies readback and refuses drift on restore. A fresh mocked suite passes 10/10 and Windows PowerShell 5.1 parses the three candidate modules and test file. Microsoft source review confirms OpenSSH Client is a non-satellite FOD capability and requires matching Windows 11 Languages and Optional Features media; Group Policy source fallback means LimitAccess alone does not prove no-network behavior. The candidate checks only local directory existence. Telnet source inventory, dependencies, exact payload recovery and native VM acceptance remain pending. See the [candidate record](#b06-client-component-guarded-lifecycle-candidate-2026-10-23). |
 | B07 | Explicit deployment identity API source-ready; live migration remains | Q01 names/ambiguity behavior and Q02 adoption/replacement/bulk review accepted. 37 distinct identity/selection/completion checks passed per edition after a completion fix. Read-only per-view registration inventory now supplies a separate Q02 source slice (36 distinct tests per edition); offline matching now exposes per-distribution and cross-product ambiguity (104 relevant checks per edition). Existing records/CLI stay unchanged; native acceptance, durable compatibility and adoption ownership remain. Q03 host-folder/profile publication and Q04 verified staging/modified-file decisions are accepted. Logical legacy selection mapping is source-ready (20 tests per edition); durable byte/store migration remains. Q04 owned-file comparison now reports stage/remove/keep/conflict decisions (37 distinct tests per edition), with live staging/publication still pending. See the [record](application-migration-review.md#b07-explicit-deployment-identity-preparation-2026-10-17). |
 | B08 | Pending portable/source candidates under overnight resumption | Prefer individually reviewed, self-contained tools with immutable file lists and no driver/service or runtime bootstrap. Rufus, RegRipper, Hex2text, ChromeSyncParser, PSScriptTools and Wireshark MSI now have inert candidates. Native/rights/runtime and Q13-Q15 choices remain; no whole-suite acquisition to discover members. |
 | B09 | Accounts, regional configuration and owned assets | Read-only local-user SID and intended-user ordered language capture are source-ready, with separate display/input override observations order-only existing-language priority preparation/recovery, and separate format-culture/home-location/system-locale/time-zone observations. None resolves ownership, viable access or native regional mutation acceptance. Implement mutations independently after credentials, SID ownership, content source and reboot choices are settled. Do not disable a last viable administrator or overwrite shared assets. Q07-Q12. |
@@ -359,13 +359,13 @@ not automatically an accepted installation.
 | --- | --- | --- |
 | App R01 / 4 | Gpg4win; installed and portable ImageMagick; Wireshark | Scope/integration preservation, nested installer behavior, installed/portable coexistence. Npcap is a separate interactive/rights/driver review. Q01, Q16. |
 | App R02 / 5 | Python; YARA; Loki; Volatility 2; Volatility 3 | Preserve selected Python manager/traditional routes; model runtimes/pip/environment ownership. Pin dependencies/rules and separate updates. Volatility 2 explicitly retired by Q17; preserve its historical mapping and existing copies. Q18 accepts pinned dependencies and separate updates. |
-| App R03 / 9 | ADReplStatus; RSAT; OpenJDK; Neo4j/APOC; BloodHound; SharpHound; AzureHound; ImproHound; PingCastle | RSAT is component-owned. CE backend is separately managed; optional deployment deferred. Q20 retires planned ImproHound and defers standalone Neo4j/APOC until an independent use case. Legacy Neo4j was Community ZIP plus matched APOC, unrestricted plugin configuration and service; preserve that analysis rather than inventing a modern compatibility guarantee. Q05/Q19/Q20. |
+| App R03 / 9 | ADReplStatus; RSAT; OpenJDK; Neo4j/APOC; BloodHound; SharpHound; AzureHound; ImproHound; PingCastle | RSAT is component-owned. CE backend is separately managed; optional deployment deferred. The user decided 2026-10-22 to keep standalone OpenJDK deferred pending an independent use case; BloodHound CE alone does not establish one. Q20 retires planned ImproHound and defers standalone Neo4j/APOC until an independent use case. Legacy Neo4j was Community ZIP plus matched APOC, unrestricted plugin configuration and service; preserve that analysis rather than inventing a modern compatibility guarantee. Q05/Q19/Q20. |
 | App R04 / 6 | Office deployment; bundled Teams actions; Teams startup; Store Teams cleanup; classic machine-wide Teams cleanup; Visio | Independent product/channel/license/configuration and destructive cleanup scopes. Installing Office authorizes none of the cleanup actions. Q21. |
-| App R05 / 8 | Sysinternals; JoeWare; MiTeC; NTCore; Zimmerman; Nirsoft launcher, x64 tools and package/config files | Freeze reviewed membership and file ownership; separate launch/configuration and restricted tools. No mutable collection crawl or implicit Defender exclusion. Q13/Q14. |
+| App R05 / 8 | Sysinternals; JoeWare; MiTeC; NTCore; Zimmerman; Nirsoft launcher, x64 tools and package/config files | Freeze reviewed membership and file ownership; separate launch/configuration and restricted tools. No mutable collection crawl or implicit Defender exclusion. Q13/Q14. JoeWare is the latest user-selected next collection for focused review; its existing 41-name membership remains fixed. |
 | App R06 / 4 | PSScriptTools; PartDiagParser; GglCookieCruncher; Sigma | Pinned release/source snapshot versus editable checkout; dependencies, import/execution and rule application are independent actions. Q15/Q18. |
 | App R07 / 4 | OneDrive package; OneDrive sync policy; WinGet; WinGet AutoUpdate | Data and sync account ownership separate from uninstall. WinGet app presence does not implement a package provider. Scheduler/services/configuration and updater policy require separate ownership. Q22. |
-| App R08 / 8 | VMware; its home/Documents directory choices; AutomatedLab; VirtIO; SPICE guest tools; SPICE WebDAV; Lenovo Vantage | Edition/entitlement, host versus guest role, hardware, service/driver and reboot evidence. Configuration is separate from package installation. Q16/Q23. |
-| App R09 / 5 | VeraCrypt installed/portable; Arsenal products; MEGAcmd helper; WinPmem | Coexistence, drivers, mount/encryption ownership and vendor access/license. MEGAcmd helper is not implicit prerequisite approval. Q01/Q16/Q24. |
+| App R08 / 8 | VMware; its home/Documents directory choices; AutomatedLab; VirtIO; SPICE guest tools; SPICE WebDAV; Lenovo Vantage | User wants VirtIO and SPICE integrations when required for a full GNOME Boxes experience, and selected SPICE WebDAV as an optional guest-folder-sharing component on 2026-10-23. Verify devices, exact artifact and lifecycle on a matching QEMU guest; Hyper-V does not validate these. No default installation; configuration is separate from package installation. Q16/Q23. |
+| App R09 / 5 | VeraCrypt installed/portable; Arsenal products; MEGAcmd helper; WinPmem | Coexistence, drivers, mount/encryption ownership and vendor access/license. Q24/R09 now includes all Arsenal publisher products with a free-use scenario; licensed-only products are excluded. MEGAcmd helper is not implicit prerequisite approval. Q01/Q16/Q24. |
 | App R10 / 2 | Hashcat; HashcatLauncher | GPU/runtime/resource discovery and executable identity/quoting; controlled lab acceptance, no cracking job on installation. Q23. |
 | App R11 / 4 | Olaf Sysmon configuration; legacy Edge prediction; Firefox preference files; Chrome preference file | Config source/pin and owner; reconcile current managed/user meanings and preserve unrelated fields. Sysmon download and policy application are separate. Q10/Q25. |
 | App R12 / 9 | KAPE; CCleaner portable; Defraggler; Recuva; Speccy; TMOG; PST viewer; OST viewer; WinHex | Current official access, use terms/edition and supported targets; no product substitution for a stale route. Piriform-family tools are four separate outcomes. Q24. |
@@ -393,7 +393,7 @@ establish dependencies, payload sources or native target acceptance.
 
 | Component/resource family | Plan and recovery boundary |
 | --- | --- |
-| WSL feature and Debian/Ubuntu/Kali/Fedora registrations | Feature enablement, distribution installation and distribution data are separate. Export/retrieval proof precedes unregister; missing Fedora inverse remains a source gap. No implicit distro/package download. |
+| WSL feature and Debian/Ubuntu/Kali/Fedora registrations | Debian, Ubuntu and Kali remain separately selectable opt-in outcomes, including Debian when available as a WSL distribution. Do not install or unregister distributions automatically; prove export/retrieval before unregister. The unmatched Fedora removal selector remains retired. |
 | Store user registrations and device removal policy | Keep accepted inventories/groups/protection rules. Policy consumer and schema need their own sign-in tests; package presence alone is not availability. No AllUsers removal or image deprovisioning in the user groups. |
 | Windows Store itself and repair | Distinguish blocking Store UI, Store registration repair and app removal. Require identified local payload/consumer; never reconstruct protected shared packages from a historical wildcard. |
 | Xbox features/dependencies | Distinguish policy settings, five reviewed gaming apps and shared frameworks/services. Refuse removal when other consumers or protection evidence are unresolved. |
@@ -403,15 +403,15 @@ establish dependencies, payload sources or native target acceptance.
 | Work Folders | Feature/role and configured sync data/credentials have separate lifecycle. Removing the feature does not recover deleted or unsynced files. |
 | Windows Hello Face | Capability, camera/hardware and enrollment are separate; no deletion of existing biometric enrollment through generic recovery. |
 | Math Recognizer | Enumerate availability per build; absent capability stays not applicable. Do not fetch old payloads to emulate an obsolete component. |
-| Windows PowerShell 2 / ISE | Separate features and security/compatibility intent. Retirement review for v2; ISE availability does not establish PowerShell 7 support. |
+| Windows PowerShell 2 / ISE | The 2026-10-23 decision retires the legacy PowerShell 2 enable/disable outcome and tracks ISE separately. ISE availability does not establish PowerShell 7 support. |
 | Hyper-V / Windows Sandbox | Hardware, edition, parent features, restart and existing VM ownership. Sandbox configuration/network/drive exposure is a separate explicit file workflow. |
-| OpenSSH Client / Server | Capabilities separate; Server service, firewall, host keys and configuration have independent capture/ownership. Client first if selected. |
+| OpenSSH Client / Server | OpenSSH Client was selected first; OpenSSH Server is now also in v3 scope as a separate optional outcome. Server service, firewall, host keys and configuration have independent capture/ownership. Neither is selected by default. |
 | Telnet Client | Small conditional feature candidate; no server/service/network-use implication. |
-| .NET 2.0/3.5 legacy selector | Build-specific feature versus installer path; distinguish .NET 4.x/runtime SDK from NetFx3. No automatic servicing download. |
+| .NET 2.0/3.5 legacy selector | Keep .NET Framework 3.5 as an explicit conditional compatibility outcome, selecting feature versus standalone route from exact build with matching local servicing sources and no network fallback. Do not infer equivalence to the Phoenix .NET 2.0.50727 launch condition. |
 | Photo Viewer | Discover consumer; exact Open with registration under intended user, native default-app handoff separately. |
 | Microsoft Print to PDF / XPS | Feature and existing queues/ports/drivers separate; preserve custom queue configuration and refuse deleting unknown resources. |
 | Fax printer / Windows Fax and Scan | Separate queue, feature/service, devices and stored fax data; no assumption that adding a queue restores the prior fax setup. |
-| Internet Printing | Client feature versus Server role and externally reachable service require explicit scope and exposure choice. |
+| Internet Printing | The 2026-10-23 decision limits the outcome to the client optional feature used by the legacy functions; the Server role and externally reachable service are out of scope. Native servicing/recovery acceptance remains. |
 | RSAT | Client capability versus Server management feature; exact subtools from selected role, matching source/edition. Package App R03 points here. |
 | Memory Integrity | VBS/code integrity setting, driver compatibility and reboot evidence; not a generic install/remove feature. |
 
@@ -513,10 +513,9 @@ alias and prospective product review, so those classifications overlap.
 Preserve the actual 23-name list; do not add these counts to the estimates.
 
 The seven [preset reconciliation entries](../MIGRATION-PLAN.md#preset-references-to-reconcile)
-remain traceable. `EnableInkingAndTypingData` has no implementation and Fedora
-removal has no matching legacy function. `RequireAdmin` is a prerequisite
-directive. Resolve source intent or explicitly retire/defer; do not manufacture
-a setter from its name.
+remain traceable. The user retired the unmatched `EnableInkingAndTypingData` and
+`RemoveWSLFedora` selectors on 2026-10-22; no setter or Fedora removal semantics
+are inferred. `RequireAdmin` is a prerequisite directive, not an operation.
 
 ## Questions for the user's return
 
@@ -545,7 +544,7 @@ technical acceptance questions and later explicit deferrals in the settings plan
 | Q10 | Should browser preferences be managed policies or user preferences? | Separate explicit managed policy from user-file preference choices. Import no blanket legacy preference file; preview owned fields per existing profile. |
 | Q11 | Where should fonts/wallpapers/lock-screen assets come from and what scope? | User-supplied reviewed manifest plus official license/source; start per-user where supported. Machine/default-user changes stay separate and collision-refusing. |
 | Q12 | Which Wi-Fi scope and connection behavior? | Explicit current-user profile and interface, import without connecting; machine/all-user provisioning separate. Secure credential entry and recoverable existing profile are prerequisites. |
-| Q13 | Accepted: reviewed collections and later membership decisions | Follow the later Sysinternals, Zimmerman, NirSoft, JoeWare, MiTeC and NTCore scopes in the decision ledger. Pin exact member inventories; new upstream members need review. Launcher/configuration and redistribution remain separate. |
+| Q13 | Accepted: reviewed collections and later membership decisions | Follow the later Sysinternals, Zimmerman, NirSoft, JoeWare, MiTeC and NTCore scopes in the decision ledger. Pin exact member inventories; new upstream members need review. The prior RIDE v2 specialist approval covers Sysinternals in RIDE; the current package migration is not blocked by licensing. |
 | Q14 | Accepted: separate local review, installation and publication | Pending local review alone does not block unattended installation. Keep exact product/version/owner assessments local; publication omits members lacking applicable redistribution review. No catalog approval default. |
 | Q15 | Pinned source snapshot or editable development checkout? | Pinned inert snapshot for deployment; explicitly separate clone/update/import/execute workflows for development tools and rules. |
 | Q16 | Which integrations should drivers/nested installers enable? | Minimum product-specific reviewed integration; service/driver/reboot requirements explicit. Preserve earlier Gpg4win/ImageMagick/Npcap decisions and collect only unresolved installer flags. |
@@ -555,7 +554,7 @@ technical acceptance questions and later explicit deferrals in the settings plan
 | Q20 | Accepted: defer standalone Neo4j/APOC, retire planned ImproHound | Neo4j/APOC remains counted pending an independent use case. Preserve existing installations and data for both. ImproHound is an explicit retired outcome, not implicit CE equivalence. |
 | Q21 | Office/Visio choices accepted; technical acceptance open | Microsoft 365 Apps enterprise, Monthly Enterprise default/Current option; fresh x64/existing match/explicit x86; standard sign-in with activation-pending continuation. Separate 2016 Retail/Plan 2 Visio, en-US/da-DK exception, optional Teams and separate startup/cleanup. Extra-language compatibility and native recovery remain open. [Record](application-migration-review.md#b10-inert-office-configuration-review-2026-10-17). |
 | Q22 | Accepted: OneDrive preservation and opt-in updater | Preserve accounts/sync/files. Updater defaults to an explicit package list; broad eligible-except-exclusions mode is explicit. Approved sources/pins, separate schedule, no automatic reboot or forced app closure. Eligibility, identity and upstream behavior still require implementation. |
-| Q23 | Accepted priority: VMware workstation installation first | Preserve VMs/preferences; directory configuration separate with no relocation. Guest drivers need a selected virtual platform. Edition/source/integrations, hardware/GPU roles and native acceptance remain open. |
+| Q23 | Accepted priority: VMware workstation installation first; GNOME Boxes guest integrations include VirtIO and SPICE when needed for full experience | Preserve VMs/preferences; directory configuration separate with no relocation. Verify which VirtIO drivers, SPICE agent and SPICE WebDAV are required on a matching QEMU guest. Edition/source, hardware/GPU roles and native acceptance remain open; Hyper-V cannot establish QEMU guest behavior. Decision 2026-10-22. |
 | Q24 | Accepted: FTK Imager, then KAPE; eight Arsenal products selected | Later Arsenal/KAPE entries settle scope; MEGAcmd remains deferred unless needed. Artifacts, terms, drivers and functional evidence remain. FTK source inspection found CodeMeter; no installer was executed. |
 | Q25 | Accepted: RIDE owns configuration | ADR 0001 is accepted. LoggingBaseline remains read-only observation/evaluation/reporting, with separate measurement thresholds. Schema-1 desired-reference export is source-ready; consumer/native mapping acceptance pending. Sysmon download and application separate. |
 | Q26 | Accepted: validate existing reviewed Store selection first | Preserve optional uninstall/reinstall groups and separate device policy. Dynamic-list support is deferred to an independently validated extension; no identities or target support expanded. |
@@ -1242,3 +1241,243 @@ existing B01 work, profiles, prior bundle versions, failed staging and saved run
 All five ranges remain **38-58 / 56-71 / 20-25 / 25-35 / 8-12**, rounded
 **145-200/about 175**. No new whole legacy outcome closure, retirement or exclusion
 is inferred from these source improvements.
+
+## B06 client component local regression, 2026-10-22
+
+The current checkout's `ComponentInventory.Tests.ps1` and
+`ClientComponentPreparation.Tests.ps1` passed **49/49** on Windows PowerShell
+**5.1.26100.9711** and **49/49** on PowerShell **7.6.5**. TestRegistry was
+disabled. No DISM, servicing source, elevation, VM, network policy, component or
+reboot operation ran. This confirms local inventory/preparation behavior only;
+matching-source/no-network proof, durable state and exact component recovery, and
+native consumer acceptance remain pending. No legacy outcome was resolved,
+retired or excluded. Current migration estimates remain **38-58 / 53-68 / 20-25 /
+25-35 / 8-12**, exact **144-198**, rounded **145-200/about 170**. See the
+[sanitized run record](../archive/evidence/b06-component-local-regression-2026-10-22.json)
+and [component guide](../windows-component-inventory.md#prepare-the-first-client-components).
+
+## Deferred package and guest-integration decisions, 2026-10-22
+
+The user decided to keep standalone OpenJDK deferred until an independent use
+case is identified; BloodHound CE backend use alone is insufficient. For a full
+GNOME Boxes guest experience, include both VirtIO and SPICE integrations when
+required. Verify the driver, SPICE agent and WebDAV requirements on a matching
+QEMU guest; the available Hyper-V guest cannot validate them. The user also
+rejected carrying the broad legacy `C:\Tools` Defender exclusion into v3; see
+the [System Tools disposition](system-tools-dispositions.md).
+
+No package or component outcome was resolved, retired or excluded by this
+decision run. All five estimates remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**,
+exact **144-198**, rounded **145-200/about 170**. Hyper-V CIM access and
+protected-queue submission remain blocked; QEMU guest acceptance needs its own
+matching VM.
+## QEMU guest integration source review, 2026-10-22
+
+The user's conditional scope now has upstream source evidence: GNOME's documented
+Windows guest path points to spice-guest-tools; SPICE identifies QXL and the
+SPICE agent/driver in that installer, and says spice-webdavd is separate for
+Windows guest folder sharing. The upstream virtio-win guest-tools installer
+bundles VirtIO drivers with SPICE components. Avoid duplicate SPICE installation
+and choose drivers for the virtual devices present in the guest. Confirm the
+GNOME Boxes release because its newer experimental implementation may differ.
+
+This is source review only. No artifacts were retrieved or pinned, and the
+candidate licenses, publisher signature, target devices, install/repeat/remove,
+service behavior and recovery remain unverified. A matching QEMU guest is needed;
+Hyper-V cannot close this acceptance. No legacy outcome was resolved, retired or
+excluded; estimates remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact
+**144-198**, rounded **145-200/about 170**. See the [application review](application-migration-review.md#qemu-guest-integration-source-review-2026-10-22).
+
+## RIDE-Win11-Test access recheck, 2026-10-23
+
+The current read-only `Get-VM -Name RIDE-Win11-Test` call returned CIM access
+denied, so neither the VM nor its checkpoint can be verified or used for the
+prepared batches. No submission, VM/controller/service/Defender change or
+Defender-blocked tool selection occurred. Resume the already authorized guest
+acceptance once the existing Hyper-V and registered-controller access path is
+available. Sysinternals licensing is cleared for RIDE's approved download/install
+workflow; only technical acceptance remains. No legacy outcome changed, and all
+five estimate ranges remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact
+**144-198**, rounded **145-200/about 170**. See [access evidence](../archive/evidence/ride-win11-test-access-recheck-2026-10-23.json).
+
+## User migration decisions, 2026-10-23
+
+The user retired the legacy Windows PowerShell 2 enable/disable outcome, kept
+ISE separate, limited Internet Printing to the client optional feature, and
+retired the classic Teams MSI cleanup outcome. Windows PowerShell 2 and classic
+Teams account for two retired legacy outcomes; Internet Printing remains in scope
+as a client-feature outcome. No component/package code or Windows state changed.
+
+The two retirements reduce the active estimates by one package outcome and one
+Windows-component outcome. The ranges are now **38-58 / 52-67 / 19-24 / 25-35 /
+8-12**, exact **142-196**, rounded **145-200/about 170**. The rounding is
+unchanged. See the [decision record](decision-session-2026-10-17.md#windows-component-and-classic-teams-scope-decisions-2026-10-23).
+## WSL, .NET 3.5 and QEMU guest integration decisions, 2026-10-23
+
+The user kept Debian, Ubuntu and Kali as separate opt-in WSL distribution
+outcomes, including Debian when available as a WSL distribution. No automatic
+distro installation or unregister is authorized; the Fedora removal selector
+remains retired. .NET Framework 3.5 remains a conditional explicit compatibility
+outcome selected by exact Windows build, with matching local servicing sources
+and no network fallback. SPICE WebDAV is included as a separate optional guest
+folder-sharing integration, not a default install. These choices resolve user
+scope but close no legacy outcome. Exact source, data recovery and native guest
+acceptance remain pending. The estimate ranges remain **38-58 / 52-67 / 19-24 /
+25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See the
+[decision record](decision-session-2026-10-17.md#wsl-net-35-and-qemu-guest-integration-decisions-2026-10-23).
+
+## B06 client-component guarded lifecycle candidate, 2026-10-23
+
+Added `RIDE.ClientComponentLifecycle.psm1` as an unregistered source candidate for
+the separately accepted OpenSSH Client and Telnet Client choices. Each transition
+obtains a fresh local component observation, checks computer/build/edition, refuses
+Server installations or a pending servicing reboot, writes a unique prior-state
+snapshot before DISM, requires `ShouldProcess`, and verifies the literal post-state.
+Restore requires the same target and update-build revision and refuses state drift.
+No restart is initiated. Offline mode only checks that the explicitly supplied local
+directory exists; source completeness, matching payload identity, all-network-source
+exclusion and exact payload/version recovery are not proven. The runner adds no
+catalog operation or supported target.
+
+The focused mocked lifecycle suite passed **8/8** on PowerShell **7.6.5** with
+TestRegistry disabled. The preparation module, lifecycle module and tests parsed
+without errors on Windows PowerShell **5.1.26100.9711** and PowerShell **7.6.5**.
+No DISM command, Windows servicing, source acquisition, elevation prompt or guest
+run occurred. The tests reject Server targets until declared and modified saved
+provider/name identity before a restore command. A read-only
+`Get-VM -Name RIDE-Win11-Test` check returned CIM access
+denied; no checkpoint query was made. See the [candidate evidence](../archive/evidence/b06-component-guarded-lifecycle-candidate-2026-10-23.json),
+[latest VM access evidence](../archive/evidence/ride-win11-test-access-recheck-2026-10-23-0705.json)
+and [operator guidance](../windows-component-inventory.md#local-transition-runner-candidate).
+
+Resolved, retired and excluded: none. Deferred: source/no-network and dependency
+acceptance, native apply/repeat/status/restore on a disposable Windows target, exact
+payload recovery and target support declaration. Partial: local guarded source
+candidate only; no legacy outcome closed. Estimates remain **38-58 / 52-67 /
+19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**.
+
+## B06 servicing-source requirement cross-check, 2026-10-23
+
+Microsoft's Windows 11 Features on Demand inventory identifies OpenSSH Client as the non-satellite OpenSSH.Client~~~~0.0.1.0 capability with an OpenSSH-Client-Package CAB and specifies matching Windows 11 Languages and Optional Features media. The official OpenSSH troubleshooting guide documents target-version media, administrator, configured update-source and policy requirements. DISM may check configured Group Policy sources after a supplied source misses content; LimitAccess prevents Windows Update lookup but does not by itself rule out network locations supplied by policy. TelnetClient is confirmed as the optional-feature identity; its complete matching-source inventory remains separate. The current lifecycle candidate checks only local directory existence, so no-network and source-readiness are not proven. No source was acquired, DISM or network used, or system changed. No legacy outcome closed, retired or excluded. Estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured source evidence](../archive/evidence/b06-servicing-source-requirements-2026-10-23.json), [Microsoft FOD inventory](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod?view=windows-11), [Microsoft DISM source order](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-v2--capabilities?view=windows-11), and [B06 preparation and lifecycle instructions](../windows-component-inventory.md#prepare-the-first-client-components).
+
+## Deferred package and client-component recovery decisions, 2026-10-23
+
+The user kept NTCore 4GB Patch deferred after its synthetic-target test showed
+unsafe modification when the backup path was occupied and no recoverable copy
+was created. Reconsider only after establishing safe recovery; see the [functional
+rejection evidence](../archive/evidence/ntcore-4gb-patch-functional-failure-2026-10-22.json).
+The user selected RIDE-managed ownership for PSScriptTools' ThreadJob 2.2.0
+dependency. Exact official package bytes and digest remain unavailable after
+publisher DNS failures; package acquisition, managed lifecycle and dependency-present
+acceptance remain open. The user also approved gating OpenSSH Client and Telnet
+Client removal on a validated recovery source; matching-source/no-network proof,
+payload recovery and disposable Windows acceptance remain open. No legacy outcome
+closed and all five estimate ranges remain **38-58 / 52-67 / 19-24 / 25-35 /
+8-12**, exact **142-196**, rounded **145-200/about 170**. See the [decision
+ledger](decision-session-2026-10-17.md#deferred-package-and-client-component-recovery-decisions-2026-10-23).
+
+## Zimmerman, Arsenal and OpenSSH Server scope decisions, 2026-10-24
+
+The user selected Zimmerman as the next collection for focused review; the
+accepted 26-member list is unchanged. The user's later 2026-10-24 choice of
+JoeWare supersedes this review ordering only. Continue Zimmerman source/helper
+and pinned-artifact provenance work after the prioritized JoeWare review.
+
+Arsenal v3 review now covers every publisher product for which the publisher
+offers a free-use scenario, including products with paid editions; only
+licensed-only products are excluded. Verify current terms and exact artifacts
+per product. The original eight-member selection is retained. MEGAcmd, driver
+changes, AV exceptions and forensic execution are not implicit. No Arsenal
+artifact was acquired or installed.
+
+OpenSSH Server is added to v3 as a separate optional component outcome. Service,
+firewall, host-key and configuration ownership and recovery need their own
+implementation and acceptance. It remains off by default; no component or
+Windows state changed. The existing ranges remain **38-58 / 52-67 / 19-24 /
+25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**; no legacy
+outcome closed or retired. See the [decision record](decision-session-2026-10-17.md#zimmerman-arsenal-and-openssh-server-scope-decisions-2026-10-24).
+
+## Mixed-scope profiles and TPM/boot acceptance, 2026-10-24
+
+The user confirmed mixed-scope profiles are expected and do not need special
+ordering or recovery work merely because they include both user and machine
+settings. A report/analysis feature showing the scopes in a profile is optional
+future work, not a prerequisite. Close the mixed-scope portion of D01 while
+retaining the existing intended-user handoff and identity-safe recovery
+requirements.
+
+For D04, explicitly defer acceptance that depends on unavailable resources and
+continue checks that do not. Request a specific additional setup only when an
+acceptance requirement needs it.
+
+For D06, the user will prepare a standalone Lenovo laptop running Windows 11 Pro
+for the TPM/boot scenario. Treat it as a focused physical-hardware acceptance
+target alongside, not a replacement for, the disposable-VM validation model.
+Prepare the test setup and verification procedure before the run. Remaining
+prerequisite at this point was the recovery-key retrieval plan; the user's later
+clarification below supersedes the destination/verifier requirement. Do not
+place secrets in repository evidence. Keep recovery-changing checks deferred
+until the laptop is ready and the required user confirmation can be obtained.
+
+The latest recorded Hyper-V CIM check in the migration plan failed before VM or
+checkpoint inspection; this decision update did not retry it. Keep VM-based
+acceptance batches deferred behind restored access, while continuing independent
+source and local-preparation work. No test, package, profile, or Windows state
+changed. No legacy outcome closed; all estimate ranges remain unchanged. See the
+[settings decision record](remaining-settings-plan.md#mixed-scope-profiles-and-acceptance-resources-2026-10-24).
+
+### User clarification, 2026-10-24
+
+The user accepts the JoeWare `rdp-sec-check` discrepancy and directs RIDE to
+resolve and download the latest publisher-offered version for each selected
+product at acquisition time. Document page/list/archive differences when
+observed and add a short note to the affected package description. Do not
+reuse the older `V01.00.00` digest for the page's `V02.00.00` release without
+archive evidence. See the [decision ledger](decision-session-2026-10-17.md#joeware-latest-download-and-acceptance-resource-decisions-2026-10-24).
+
+For QEMU/GNOME Boxes acceptance, keep Fedora 44 selected and do not pre-pin
+Debian, Ubuntu, or Boxes versions. Record versions actually available at the
+guest run. GNOME Boxes 50.0 was the latest release verified for this decision;
+it is an observation, not a required version.
+
+For TPM/boot recovery-changing acceptance, either USB storage or a password
+manager is acceptable. Ask the user to confirm that the key was saved and can
+be retrieved before continuing, unless the procedure has verified storage on a
+portable drive. A specific destination or independent verifier is not required.
+Do not record key material in repository evidence. The laptop and confirmation
+remain prerequisites; this decision does not authorize a recovery-changing run.
+## B06 client-source preflight and current-source regression follow-up, 2026-10-24 16:38 UTC
+
+The current OpenSSH Client LocalSource candidate is more specific than the earlier
+2026-10-23 handoff: it checks the exact native-architecture CAB filename, rejects
+empty/reparse CABs, reads one CBS package identity, matches the publisher package
+and Windows build, and records SHA-256. Restore repeats the checks and refuses a
+changed architecture, identity or digest. The current client-component and OpenSSH
+Server mocked preparation/observation/lifecycle suites passed 65/65 on PowerShell
+7.6.5/Pester 5.7.1 with Pester TestRegistry disabled and WindowsIntegration
+excluded. No DISM servicing, capability acquisition, service/firewall/registry
+change, VM run or target support declaration occurred.
+
+Still deferred: policy-configured source fallback and other network paths,
+servicing dependency/completeness validation, Telnet LocalSource validation,
+exact payload/version recovery, and Windows 11/Server 2025 acceptance. The RIDE-
+Win11-Test ApplicationsBatch5 request `929ea539ce89404d8ed0d50a8fbbac52` remains
+in the running queue without an accessible guest result at 16:38 UTC; no overlap
+was submitted. No legacy outcome closed; estimates remain 37-57 / 50-65 / 19-24 /
+25-35 / 8-12, exact 139-193, rounded 140-195/about 170. See the [current-source
+evidence](../archive/evidence/client-components-openssh-current-source-regression-2026-10-24-1638.json)
+and [operator guidance](../windows-component-inventory.md#local-transition-runner-candidate).
+## B06 component inventory current-source regression follow-up, 2026-10-24 16:48 UTC
+
+`tests/ComponentInventory.Tests.ps1` passed **20/20** on PowerShell 7.6.5/Pester
+5.7.1 with Pester TestRegistry disabled and WindowsIntegration excluded. Provider
+calls, host identity and elevation checks were mocked; JSON output used a temporary
+file. No DISM, Server Manager, registry, Windows servicing, VM or supported-target
+state was queried or changed. Together with the separate 65/65 client-component
+and OpenSSH Server lifecycle/observer run, the local component regression evidence
+is 85/85 across five focused suites; it does not establish native behavior or close
+a legacy outcome. Native collection, configured-source fallback, dependency and
+exact recovery validation, and Windows 11/Server 2025 acceptance remain deferred.
+Estimates remain 37-57 / 50-65 / 19-24 / 25-35 / 8-12, exact 139-193, rounded
+140-195/about 170. See the [inventory evidence](../archive/evidence/client-component-inventory-current-source-regression-2026-10-24-1648.json)
+and [earlier lifecycle evidence](../archive/evidence/client-components-openssh-current-source-regression-2026-10-24-1638.json).

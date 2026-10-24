@@ -1,0 +1,71 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-24",
+  "RunId": "a77d0464523c4a85ba4db01e9c7b4b6a",
+  "Batch": "SysinternalsSuite",
+  "PackageId": "package.sysinternals-suite",
+  "Variant": "portable",
+  "Source": "Local working tree including uncommitted changes",
+  "Archive": {
+    "File": "SysinternalsSuite.zip",
+    "Sha256": "e1e75de5cdb12116b0a4eca83725dc7c7a1645266196025cbe5ca6c167161aed",
+    "ReviewedManifestMembers": 164
+  },
+  "Target": {
+    "Name": "Windows 11",
+    "Build": "26300",
+    "Vm": "RIDE-Win11-Test"
+  },
+  "Acceptance": {
+    "Status": "Passed",
+    "ExpectedCases": 1,
+    "Completed": 1,
+    "LifecycleRecovery": "Passed",
+    "Checks": [
+      "InstallPreview",
+      "Install",
+      "ExactMemberSelection",
+      "RepeatInstall",
+      "RemovePreview",
+      "Remove",
+      "RepeatRemove",
+      "RestorePreview",
+      "ExactRemovalRestore",
+      "UnownedPreservation",
+      "OriginalAbsenceRestore",
+      "UnownedCollisionRefusal",
+      "ModifiedReplacementRefusal",
+      "ModifiedRemovalPreservation"
+    ],
+    "CollisionRefusal": "Portable destination collision: accesschk.exe",
+    "ModifiedRefusal": "Portable upgrade would overwrite modified managed files.",
+    "PreservationObservation": "Preserved modified portable file: accesschk.exe",
+    "ToolExecuted": false,
+    "FunctionalAcceptance": "Pending",
+    "RuntimeAcceptance": "NotSelected",
+    "ActivationAcceptance": "Pending"
+  },
+  "Controller": {
+    "Status": "Passed",
+    "StartedAtUtc": "2026-10-24T04:30:05.1832148Z",
+    "FinishedAtUtc": "2026-10-24T04:48:17.4336533Z",
+    "Cleanup": "ResetAndOff",
+    "CleanupError": null,
+    "CollectionError": null,
+    "EvidenceExportError": null,
+    "EvidenceCollected": true,
+    "SavedStateArchiveBytes": 747317753
+  },
+  "Disposition": "Confirms only the pinned package's Windows 11 managed-file lifecycle and saved-run recovery. No Sysinternals utility was executed. Functional behavior, activation and supported-target promotion remain pending; Defender-detected members remain separately excluded.",
+  "LegacyOutcomeAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Sysinternals functional acceptance, activation and supported-target promotion"
+    ],
+    "EstimateRangesUnchanged": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+    "ExactEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170"
+  }
+}

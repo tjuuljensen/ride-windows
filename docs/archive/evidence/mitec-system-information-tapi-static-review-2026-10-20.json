@@ -1,0 +1,80 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-20",
+  "Scope": "Static publisher-page, version, licensing, output-sensitivity and telephony-control review of MiTeC System Information eXtra and TAPI Monitor; no payload executed or host/phone data accessed",
+  "TermsPage": {
+    "Uri": "https://www.mitec.cz/wp/support/",
+    "Snapshot": ".local/collection-inventory-20261017/mitec-support.html",
+    "Sha256": "00c55ee6e356a5b3422234dc74a92ffef09f83d655d4cd4965dcffbc3f2b066b",
+    "Observation": "The current support EULA says unregistered/trial software is freeware for non-commercial use and lists named-user/build-machine, team, site and trial licenses. Product-specific paid options and local rights remain separate."
+  },
+  "Products": [
+    {
+      "Name": "MiTeC System Information eXtra",
+      "ProductUri": "https://www.mitec.cz/wp/msix/",
+      "ProductPageSnapshot": ".local/collection-inventory-20261017/mitec-product-msix.html",
+      "ProductPageSha256": "1eaf901096dc8b88347a93bfcfce8437b09b64dabc42711360aade0447f9fdd3",
+      "PageVersion": "16.0.0, dated 2026-04-26",
+      "PublishedBehavior": "Demonstration application based on the MiTeC System Information Component Suite. It provides system information and can save brief text, full XML reports and structured-storage files for later viewing. The published version history includes hardware/device, OS, storage, process, service, event-log, security and SMBIOS areas, but the precise contents/redaction of each report are not stated on the product page.",
+      "LicenseObservation": "The page calls the separate application freeware for private, educational and non-commercial use; this does not grant component-suite development or redistribution rights.",
+      "Archive": ".local/remaining-collections-20261017/MSIX.zip",
+      "DownloadUri": "https://www.mitec.cz/wp/files/MSIX.zip",
+      "ArchiveLength": 10635839,
+      "ArchiveSha256": "a7ae03e7172afa128565b2f8e148869678b3e543c65ba16f219ff87139986976",
+      "Members": [
+        {"Path":"MSIX.exe","Length":2794920,"Sha256":"27f17567efbbc6fbd39263f43b97d2d95b0fcf1745789517a589ffbf273716c3","Architecture":"x86","FileVersion":"16.0.0.0","ProductVersion":"16.0.0.0"},
+        {"Path":"GetSys.exe","Length":1237256,"Sha256":"80efa6ceee1859d5da5f32d827d88db7569dbd23e161eca8c82a43cae21209dd","Architecture":"x86","FileVersion":"16.0.0.0","ProductVersion":"16.0.0.0"},
+        {"Path":"GetSys64.exe","Length":2614344,"Sha256":"9a43a1b1acccf50f9a7902cb8c2e1fa25e1ef662bbaf5fa42b797602df99e85d","Architecture":"x64","FileVersion":"16.0.0.0","ProductVersion":"16.0.0.0"},
+        {"Path":"MSIX64.exe","Length":4494440,"Sha256":"3ee0d2031c4b733fcfc2c1f5d87726aa7c9d0557af1525f372774e2775e0841d","Architecture":"x64","FileVersion":"16.0.0.0","ProductVersion":"16.0.0.0"}
+      ],
+      "Acceptance": "Do not create, save, load or share reports from the development host or a real user profile. Any later report check must use a disposable guest with synthetic fixtures and an explicit field inventory; review redaction, storage and cleanup before retaining output."
+    },
+    {
+      "Name": "MiTeC TAPI Monitor",
+      "ProductUri": "https://www.mitec.cz/wp/mtapimon/",
+      "ProductPageSnapshot": ".local/collection-inventory-20261017/mitec-product-mtapimon.html",
+      "ProductPageSha256": "443b6a5166f6532897123b81dfd1632aa5ca5b251118c51e315649d92c417a16",
+      "PageVersion": "1.2.0, dated 2025-07-25",
+      "PublishedBehavior": "Portable monitor for TAPI lines, telephones and TSP providers; displays TAPI messages and active-call details. Basic controls can make, answer, drop, redirect and transfer calls. Version history says 1.1.0 added TSP provider and line/phone configuration management. The publisher says it installs nothing and leaves no traces; this claim is not runtime-verified.",
+      "LicensePagePriceObservation": "The page lists a EUR 30 lifetime single-user license on the review date. The support EULA separately describes non-commercial unregistered use and license types; no local entitlement or redistribution conclusion is inferred.",
+      "Archive": ".local/remaining-collections-20261017/TAPIMon.zip",
+      "DownloadUri": "https://www.mitec.cz/wp/files/TAPIMon.zip",
+      "ArchiveLength": 2015874,
+      "ArchiveSha256": "3abfb30f19f3c22dec5440416fcd006a828e73dd660ea2bf59b8f2e7a5898914",
+      "Members": [
+        {"Path":"TAPIMon.exe","Length":2130496,"Sha256":"4eb667fbdf159c44399dac9aae6d68cc30e0857589f284f1cf72f7584ee81df5","Architecture":"x86","FileVersion":"1.2.0.0","ProductVersion":"1.0.0.0"}
+      ],
+      "Acceptance": "No real line, telephone, TSP provider, active call or call history may be inspected or controlled. If later needed, use a simulated non-production provider and synthetic calls; keep line/provider configuration unchanged and test only simulated call lifecycle/recovery."
+    }
+  ],
+  "SafetyAndAcceptance": {
+    "FrozenArchivePageAndMemberHashesMatch": true,
+    "PayloadsExecuted": false,
+    "HostSystemReportCreated": false,
+    "HostIdentifiersOrRecoveryDataQueried": false,
+    "TapiProviderOrTelephoneAccessed": false,
+    "CallControlsUsed": false,
+    "FreshUacPrompts": 0,
+    "VmRuns": 0,
+    "DefenderBlockedToolsTouched": false,
+    "HostOrControllerChanged": false,
+    "DefenderChanged": false
+  },
+  "MigrationDisposition": {
+    "WholeLegacyOutcomesClosed": 0,
+    "RetiredOutcomes": 0,
+    "NewExclusions": 0,
+    "Resolved": "Current versions, x86/x64 viewer/helper membership, report output surface, active call controls and publisher licensing boundaries are recorded.",
+    "Partial": "Report field sensitivity/redaction and component-suite rights remain unknown; TAPI provider/line/configuration effects, local entitlement, runtime and no-trace claims are unverified.",
+    "Deferred": [
+      "Owner-specific MiTeC application/component use and redistribution assessment",
+      "No reports from real profiles; any report test requires synthetic guest data and field/redaction review",
+      "No real TAPI lines/calls/provider changes; later behavior checks require simulated resources",
+      "Windows target, UI and activation behavior through an approved guest workflow"
+    ],
+    "EstimateRanges": ["38-58", "56-71", "20-25", "25-35", "8-12"],
+    "ExactTotal": "147-201",
+    "RoundedTotal": "145-200/about 175",
+    "EstimateReason": "Sensitive output and telephony effects are better bounded, but rights and complete user-visible/runtime outcomes remain open; no estimate deduction is justified."
+  }
+}

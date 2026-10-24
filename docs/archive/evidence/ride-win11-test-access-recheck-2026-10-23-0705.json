@@ -1,0 +1,13 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "CheckedAtUtc": "2026-10-23T07:05:52Z",
+  "VM": "RIDE-Win11-Test",
+  "Action": "Read-only Get-VM query",
+  "Result": "AccessDenied",
+  "Error": "Access to a CIM resource was not available to the client.",
+  "CheckpointQueried": false,
+  "GuestRun": false,
+  "VmStateChanged": false,
+  "Next": "Resume authorized guest acceptance using the existing checkpoint when the current controller has CIM access."
+}

@@ -1,0 +1,92 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "TimeUtc": "09:37:44",
+  "Batch": "Cross-group catalog, package, component and license-review regression",
+  "RepositoryValidation": {
+    "Command": "tools/validate.ps1",
+    "Result": "Passed",
+    "Operations": 376,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 251
+  },
+  "FocusedPester": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "WindowsIntegrationExcluded": true,
+    "TemporaryDirectory": "Repository-local .local/test-temp",
+    "Suites": [
+      "tests/Catalog.Tests.ps1",
+      "tests/ApplicationPackages.Tests.ps1",
+      "tests/PackageEvidence.Tests.ps1",
+      "tests/ClientComponentPreparation.Tests.ps1",
+      "tests/ClientComponentLifecycle.Tests.ps1",
+      "tests/LicenseReviews.Tests.ps1"
+    ],
+    "Discovered": 244,
+    "Passed": 243,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 1,
+    "NotRunReason": "Windows registry integration test excluded from this local run."
+  },
+  "FollowUpPester": {
+    "TimeUtc": "09:42:31",
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "WindowsIntegrationExcluded": true,
+    "Suite": "tests/RemainingSettings.Tests.ps1",
+    "Discovered": 75,
+    "Passed": 75,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "DurationSeconds": 139.5,
+    "OutputVerbosity": "Detailed"
+  },
+  "CombinedFocusedResults": {
+    "Discovered": 319,
+    "Passed": 318,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 1
+  },
+  "BroadSuiteAttempt": {
+    "Discovered": 3072,
+    "Result": "Interrupted without a complete summary",
+    "Details": "After correcting TestRegistry and temporary-directory settings, the full 103-file run reported one stale ImageMagick catalog-description assertion. That assertion was updated to match the current catalog description. At normal output verbosity, the run emitted no output while tests/RemainingSettings.Tests.ps1 was active and was stopped before that file completed. A later standalone detailed run passed all 75 tests in 139.5 seconds. No complete broad-suite result is claimed."
+  },
+  "SystemEffects": {
+    "VmRun": false,
+    "InstallerCalls": 0,
+    "NetworkCalls": 0,
+    "WindowsStateChanged": false
+  },
+  "Outcomes": {
+    "Resolved": [
+      "Updated the ImageMagick catalog-description test to assert the current prerequisite wording; the focused catalog suite passes."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Complete a full non-integration suite run and obtain a complete result summary.",
+      "Disposable VM package, setting and component acceptance remains separate and unavailable in this local run."
+    ],
+    "Partial": [
+      "No legacy product or setting outcome closed."
+    ],
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateAdjustment": "Unchanged; local regression and the corrected test expectation close no legacy outcome."
+  }
+}

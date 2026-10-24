@@ -1,0 +1,53 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "ObservedAtUtc": "2026-10-23T10:29:35Z",
+  "Batch": "Sysinternals Suite preregistered acceptance dispatch",
+  "Target": "RIDE-Win11-Test",
+  "Controller": "RIDEWin11Test",
+  "ControllerConfiguration": "C:/ProgramData/RIDE/TestAutomation/RIDEWin11Test/configuration.json",
+  "AdvertisedCapabilities": [
+    "GitHubPatGuestV1",
+    "FocusedPortableV1"
+  ],
+  "RequestedSuite": "SysinternalsSuite",
+  "Source": "Local",
+  "Preflight": "Passed capability and same-account checks",
+  "DispatchResult": "Failed before task enqueue",
+  "Failure": "Access denied writing the atomic temporary request under C:/ProgramData/RIDE/TestAutomation/RIDEWin11Test/queue/pending",
+  "TaskQueued": false,
+  "TaskStarted": false,
+  "VmQueried": false,
+  "PreviousVmAccessEvidence": "ride-win11-test-access-recheck-2026-10-23-1022.json",
+  "UacPromptRequested": false,
+  "DefenderBlockedToolsSelected": false,
+  "PackageExecuted": false,
+  "WindowsStateChanged": false,
+  "DefenderChanged": false,
+  "SysinternalsLicenseDisposition": "Settled for the prior RIDE v2 specialist-approved direct download-and-install workflow; no licensing blocker",
+  "Outcome": {
+    "Resolved": [
+      "Preregistered controller advertises FocusedPortableV1 for the requested local portable suite."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Sysinternals Windows lifecycle, exact recovery and target acceptance; the unprivileged host cannot write the protected controller queue, and the last VM query was denied by Hyper-V CIM."
+    ],
+    "Partial": [
+      "Dispatch stopped atomically before queue submission; no VM result or guest state was produced."
+    ]
+  },
+  "Estimate": {
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged because the request was not queued and no migration outcome was accepted."
+  }
+}

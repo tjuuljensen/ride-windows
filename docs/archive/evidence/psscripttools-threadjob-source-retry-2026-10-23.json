@@ -1,0 +1,66 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "ObservedAtUtc": "2026-10-23T05:01:33Z",
+  "Batch": "PSScriptTools ThreadJob package acquisition retry",
+  "PublisherPage": "https://www.powershellgallery.com/packages/Microsoft.PowerShell.ThreadJob/2.2.0",
+  "Artifact": {
+    "Name": "Microsoft.PowerShell.ThreadJob",
+    "Version": "2.2.0",
+    "MinimumPowerShell": "5.1",
+    "PublisherApiUri": "https://www.powershellgallery.com/api/v2/package/Microsoft.PowerShell.ThreadJob/2.2.0",
+    "AttemptNumber": 2,
+    "Result": "FailedBeforeTransfer",
+    "Error": "No such host is known. (www.powershellgallery.com:443)",
+    "BytesAcquired": false,
+    "DigestMeasured": false,
+    "LocalPartialFilePreserved": false
+  },
+  "LatestPublisherPageCheck": {
+    "ObservedAtUtc": "2026-10-23T05:52:59Z",
+    "Uri": "https://www.powershellgallery.com/packages/Microsoft.PowerShell.ThreadJob/2.2.0",
+    "Version": "2.2.0",
+    "MinimumPowerShell": "5.1",
+    "DeclaredDependencies": [],
+    "RawPackageLinkResult": "The Gallery manual-download link redirected to Microsoft Learn; the browser retrieval could not fetch the redirected page or package bytes.",
+    "BytesAcquired": false,
+    "DigestMeasured": false
+  },
+  "Scope": {
+    "PSScriptToolsImported": false,
+    "ThreadJobInstalled": false,
+    "CimDataCollected": false,
+    "InstallerExecuted": false,
+    "WindowsStateChanged": false,
+    "UacPrompts": 0
+  },
+  "VmAccess": {
+    "Result": "Blocked",
+    "Error": "Access to a CIM resource was not available to the client.",
+    "VmStateVerified": false,
+    "CheckpointVerified": false
+  },
+  "Outcome": {
+    "Resolved": [
+      "Publisher version and PowerShell 5.1 minimum reconfirmed"
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Acquire and verify exact ThreadJob 2.2.0 bytes",
+      "Probe PSScriptTools import and dependency paths in disposable Windows guest"
+    ],
+    "Partial": [
+      "No exact artifact pin"
+    ],
+    "GroupRanges": [
+      "38-58",
+      "53-68",
+      "20-25",
+      "25-35",
+      "8-12"
+    ],
+    "ExactEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170"
+  }
+}

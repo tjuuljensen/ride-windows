@@ -1,0 +1,101 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T04:08:00Z",
+  "Batch": "JoeWare current publisher source recheck",
+  "Scope": {
+    "FrozenMemberCount": 41,
+    "OfficialIndexStillListsFrozenScope": true,
+    "AcquisitionOrDownloadFormSubmissionAuthorized": false
+  },
+  "Sources": [
+    {
+      "Uri": "https://joeware.net/freetools/",
+      "Finding": "Official index lists the selected tool names, including the frozen 41-member review scope."
+    },
+    {
+      "Uri": "https://joeware.net/freetools/versions.txt",
+      "Finding": "Global header says Updated 2023.05.06, while the AdFind and AdMod rows are both dated 2026.06.08. Publisher MD5/SHA-1 values are observations; the list supplies no SHA-256. The rdp-sec-check row remains 01.00.00 dated 2011.02.11."
+    },
+    {
+      "Uri": "https://www.joeware.net/freetools/tools/adfind/index.htm",
+      "Finding": "Current product page lists AdFind 1.64.00 dated 2026-06-08, publisher-observed AV/PUP blocking, and a password-protected executable ZIP with unprotected password.txt."
+    },
+    {
+      "Uri": "https://joeware.net/freetools/tools/admod/index.htm",
+      "Finding": "Current product page lists AdMod 1.29.00 dated 2026-06-08 and warns that directory modifications can be dangerous."
+    },
+    {
+      "Uri": "https://www.joeware.net/freetools/tools/rdp-sec-check/index.htm",
+      "Finding": "Current product page lists 0.9-beta / JoeWare V02.00.00 dated 2014-11-17, identifies GPLv2 Perl source in the ZIP, Portcullis attribution, and an embedded PerlApp executable."
+    },
+    {
+      "Uri": "https://www.joeware.net/freetools/tools/rdp-sec-check/usage.htm",
+      "Finding": "Publisher usage page confirms V02.00.00 and documents TCP RDP endpoint checks; no live endpoint was contacted."
+    }
+  ],
+  "ReconciledPublisherRows": {
+    "AdFind": {
+      "Version": "1.64.00",
+      "Date": "2026.06.08",
+      "MD5": "597ff8ec08d211a3cbf33a55cf82c737",
+      "SHA1": "2ceac9a1f95220911c2b2d2e1bc600320af2eac1",
+      "ProductPageAgrees": true,
+      "Sha256": null
+    },
+    "AdMod": {
+      "Version": "1.29.00",
+      "Date": "2026.06.08",
+      "MD5": "9bae0e27dc3cf4e50b767b610b674a4f",
+      "SHA1": "f41f7c68e4629ebc80594a9f2d2b9b0bcf5e61ea",
+      "ProductPageAgrees": true,
+      "Sha256": null
+    },
+    "rdp-sec-check": {
+      "VersionsFile": "01.00.00 / 2011.02.11",
+      "ProductPage": "0.9-beta / JoeWare V02.00.00 / 2014-11-17",
+      "MismatchResolved": false,
+      "Sha256": null
+    }
+  },
+  "Boundaries": {
+    "DownloadFormSubmitted": false,
+    "ArchiveAcquired": false,
+    "ArtifactDigestLocallyVerified": false,
+    "AnyExecutableRun": false,
+    "AdEndpointContacted": false,
+    "RdpEndpointContacted": false,
+    "DefenderChanged": false,
+    "VmUsed": false,
+    "WindowsStateChanged": false
+  },
+  "Outcome": {
+    "Resolved": [
+      "Current official AdFind and AdMod product pages agree with the publisher's per-product version rows.",
+      "Current official index still lists the frozen 41-member collection scope."
+    ],
+    "Retired": [],
+    "Excluded": [
+      "Defender-blocked AdFind remains excluded from selection/execution pending separate acceptance."
+    ],
+    "Deferred": [
+      "Exact package bytes and local SHA-256 pins; the public pages use a download form and the task does not authorize submitting it.",
+      "The rdp-sec-check 2011 versions-file row versus 2014 V02.00.00 page/archive identity discrepancy.",
+      "Product member inventories, lifecycle, and isolated functional acceptance."
+    ],
+    "Partial": [
+      "No JoeWare legacy package outcome closes."
+    ]
+  },
+  "Estimate": {
+    "Ranges": {
+      "Settings": "38-58",
+      "Packages": "52-67",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "142-196",
+      "RoundedTotal": "145-200/about 170"
+    },
+    "Adjustment": "Unchanged: source/version confirmation does not establish exact payload identity, lifecycle, or Windows acceptance."
+  }
+}

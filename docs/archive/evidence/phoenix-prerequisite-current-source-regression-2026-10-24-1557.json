@@ -1,0 +1,45 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T15:57:11Z",
+  "Batch": "Phoenix Protector prerequisite current-source regression",
+  "Scope": "Focused mocked package prerequisite and dispatch behavior",
+  "Runner": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "WindowsIntegrationExcluded": true
+  },
+  "Result": {
+    "TestFile": "tests/PhoenixPackage.Tests.ps1",
+    "Passed": 4,
+    "Failed": 0,
+    "Skipped": 0,
+    "Total": 4
+  },
+  "Coverage": [
+    "Catalog declares the exact Phoenix MSI candidate and shared .NET Framework 3.5 prerequisite.",
+    "Missing prerequisite fails before artifact acquisition and installer dispatch.",
+    "Present prerequisite allows the normal mocked installer-dispatch path."
+  ],
+  "Boundaries": {
+    "VMUsed": false,
+    "NativeRegistryQueried": false,
+    "WindowsStateChanged": false,
+    "ArtifactAcquired": false,
+    "InstallerLaunched": false,
+    "FeatureEnabled": false
+  },
+  "AdditionalValidation": {
+    "AttemptedWindowsPowerShell51FocusedRunner": true,
+    "FocusedRunnerResult": "Stopped before Pester output with AuthorizationManager check failed; no focused test result was produced.",
+    "PreviouslyPassedWindowsPowerShell51RepositoryValidation": "409 operations, 8 groups, 5 profiles, 272 PowerShell files; generated operations documentation current."
+  },
+  "MigrationDisposition": {
+    "Resolved": ["The present and missing prerequisite paths remain covered by current-source focused tests."],
+    "Deferred": ["Exact Phoenix MSI launch-condition behavior with the feature enabled on a disposable Windows guest.", "Windows PowerShell 5.1 focused Pester execution in an authorized runner."],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["No whole legacy package outcome closes."],
+    "EstimateImpact": "No scope change; current post-decision baseline is settings 37-57, packages 50-65, components 19-24, files/assets 25-35, maintenance 8-12, exact 139-193, rounded 140-195/about 170."
+  }
+}

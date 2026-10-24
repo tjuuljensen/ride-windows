@@ -1,0 +1,42 @@
+{
+  "RecordedAtUtc": "2026-10-24T03:30:50Z",
+  "Scope": "B06 OpenSSH Client and Telnet Client preparation/lifecycle candidate",
+  "Environment": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "TempRoot": ".local/b06-components-regression-20261024"
+  },
+  "Suites": [
+    "tests/ClientComponentPreparation.Tests.ps1",
+    "tests/ClientComponentLifecycle.Tests.ps1"
+  ],
+  "Discovered": 47,
+  "Passed": 47,
+  "Failed": 0,
+  "Skipped": 0,
+  "NotRun": 0,
+  "CoveredBoundaries": [
+    "Explicit Online versus LocalSource preparation",
+    "OpenSSH Client CAB identity, architecture and target-build preflight",
+    "LimitAccess handling and refusal of unsupported Telnet LocalSource",
+    "Removal and captured-state restoration guards when exact payload recovery is unproven",
+    "Saved LocalSource revalidation before restoring Present"
+  ],
+  "RuntimeAndRecovery": {
+    "DISMInvoked": false,
+    "VMUsed": false,
+    "WindowsStateChanged": false,
+    "NativeAcceptance": "Deferred; both registered VM queries fail at CIM before checkpoint inspection."
+  },
+  "Disposition": {
+    "Resolved": "Current mocked preparation/lifecycle regression for the unregistered component candidate.",
+    "LegacyOutcomeClosed": false,
+    "Remaining": [
+      "Telnet LocalSource exact package identity and completeness",
+      "Configured-source/network boundary and payload recovery evidence",
+      "Disposable Windows 11 acceptance"
+    ],
+    "EstimateImpact": "No change; candidate remains partial and unsupported."
+  }
+}

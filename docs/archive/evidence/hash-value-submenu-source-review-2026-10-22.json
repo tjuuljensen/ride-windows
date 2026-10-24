@@ -1,0 +1,64 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-22",
+  "Kind": "SettingSourceReview",
+  "Candidate": "Hash value context-menu submenu",
+  "Source": {
+    "Author": "Shawn Brink",
+    "Uri": "https://www.elevenforum.com/t/add-hash-value-to-context-menu-of-files-in-windows-11.22212/",
+    "LastUpdated": "2026-09-25",
+    "SupportedClaim": "The tutorial describes a Windows 10/11 all-user file context-menu submenu which requires administrator approval to add or remove and appears under Show more options in Windows 11.",
+    "RetainedSource": "examples/hash-context-menu/Add_Hash_value_to_context_menu.reg.txt",
+    "SourceExecuted": false
+  },
+  "Findings": [
+    "The retained commands echo the shell-substituted path into PowerShell and reconstruct it by stripping presumed quote characters. The upstream thread documents a double-space issue in an earlier command form; the author updated the tutorial. A suggested alternative was then reported to fail with apostrophes. The current retained command's behavior for unusual paths has not been tested through Explorer.",
+    "Each supplied command ends with Start-Sleep 3600, keeping its console alive for one hour.",
+    "The attachment lists MD5, SHA1, SHA256, SHA384, SHA512, MACTripleDES and RIPEMD160. The supplied command invokes powershell, which selects Windows PowerShell 5.1 on the tested Windows host; its Get-FileHash accepts all seven listed algorithms. PowerShell 7.6.5 accepts only MD5, SHA1, SHA256, SHA384 and SHA512 and rejects MACTripleDES and RIPEMD160 at parameter validation.",
+    "A local synthetic file with double spaces, ampersand, percent sign, Unicode and an apostrophe was read via Get-FileHash -LiteralPath in Windows PowerShell 5.1 and PowerShell 7.6.5. This tests cmdlet path handling only; it does not prove Explorer command-line substitution or registry integration.",
+    "The attached Show all command was not executed; no user file was opened."
+  ],
+  "LocalProbe": {
+    "WindowsPowerShell": "5.1.26100.9711",
+    "PowerShell": "7.6.5",
+    "SyntheticFileOnly": true,
+    "WindowsPowerShellAccepted": ["MD5", "SHA1", "SHA256", "SHA384", "SHA512", "MACTripleDES", "RIPEMD160"],
+    "PowerShell7Accepted": ["MD5", "SHA1", "SHA256", "SHA384", "SHA512"],
+    "PowerShell7Rejected": ["MACTripleDES", "RIPEMD160"],
+    "CommandRuntime": "The supplied commands invoke powershell, not pwsh; local Windows PowerShell 5.1 is the relevant default runtime.",
+    "RegistryWritten": false,
+    "AttachedCommandsExecuted": false,
+    "DefenderChanged": false,
+    "VmOrCheckpointTouched": false,
+    "FreshUacPrompts": 0
+  },
+  "ImplementationImplications": [
+    "A RIDE adaptation must pass the selected file path as an argument to an owned helper instead of reconstructing the path from echoed text.",
+    "Do not silently omit MACTripleDES or RIPEMD160; establish supported, maintained implementations or revise the requested submenu scope explicitly.",
+    "Replace the one-hour sleep with a reviewed output interaction.",
+    "Use per-user registry scope for the RIDE setting and verify saved-state restore and Windows 11 classic/Show more options behavior in a disposable guest."
+  ],
+  "Outcomes": {
+    "Resolved": [
+      "Current upstream tutorial menu placement and scope claims",
+      "Get-FileHash algorithm availability on the local Windows PowerShell 5.1 and PowerShell 7.6.5 installations"
+    ],
+    "Partial": [
+      "Upstream command/path failure evidence and safer adaptation requirements"
+    ],
+    "Deferred": [
+      "Owned helper deployment and command quoting across actual Explorer invocation",
+      "A supported implementation for every requested algorithm",
+      "Attribution/reuse terms for adaptation",
+      "Repeat apply, remove, exact saved-state restore, GUI and Windows 11 VM acceptance"
+    ],
+    "Retired": [],
+    "Excluded": []
+  },
+  "Estimates": {
+    "GroupRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "ReasonUnchanged": "This is an additional v3 setting request; static source review and a synthetic cmdlet probe do not complete it or close a legacy migration outcome."
+  }
+}

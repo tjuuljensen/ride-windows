@@ -1,0 +1,263 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T17:38:05.9548549Z",
+  "Controller": "RIDEWin11Test",
+  "Target": "RIDE-Win11-Test",
+  "RunId": "6a896d6621304fdfbbb89e702488239f",
+  "Suite": "ApplicationsBatch6",
+  "Status": "Passed",
+  "Checkpoint": {
+    "Name": "RIDE-clean-test-base",
+    "Id": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+    "Restored": true
+  },
+  "Guest": {
+    "OS": "Windows 11 Enterprise Evaluation",
+    "Build": "26300",
+    "PowerShell": "5.1.26100.9444",
+    "Account": "RIDE-WIN11-TEST\\admin"
+  },
+  "Pester": {
+    "Version": "5.7.1",
+    "Total": 348,
+    "Passed": 347,
+    "Failed": 0,
+    "Skipped": 1
+  },
+  "ControllerErrors": {
+    "Run": null,
+    "Cleanup": null,
+    "Collection": null,
+    "EvidenceExport": null
+  },
+  "Packages": [
+    {
+      "Id": "package.photocraft",
+      "Version": "0.7.0",
+      "Status": "Passed",
+      "Checks": [
+        "RIDEManagedInstall",
+        "PinnedPackageVersion",
+        "RepeatInstall",
+        "RemovalPreview",
+        "RIDERemoval",
+        "RepeatRemoval",
+        "SavedRemovalRecovery",
+        "SavedInstallRecovery"
+      ],
+      "Recovery": true,
+      "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable"
+    },
+    {
+      "Id": "package.vectorcraft",
+      "Version": "0.9.0",
+      "Status": "Passed",
+      "Checks": [
+        "RIDEManagedInstall",
+        "PinnedPackageVersion",
+        "RepeatInstall",
+        "RemovalPreview",
+        "RIDERemoval",
+        "RepeatRemoval",
+        "SavedRemovalRecovery",
+        "SavedInstallRecovery"
+      ],
+      "Recovery": true,
+      "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable"
+    },
+    {
+      "Id": "package.filmcraft",
+      "Version": "0.6.0",
+      "Status": "Passed",
+      "Checks": [
+        "RIDEManagedInstall",
+        "PinnedPackageVersion",
+        "RepeatInstall",
+        "RemovalPreview",
+        "RIDERemoval",
+        "RepeatRemoval",
+        "SavedRemovalRecovery",
+        "SavedInstallRecovery"
+      ],
+      "Recovery": true,
+      "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable"
+    },
+    {
+      "Id": "package.lightcraft",
+      "Version": "0.6.0",
+      "Status": "Passed",
+      "Checks": [
+        "RIDEManagedInstall",
+        "PinnedPackageVersion",
+        "RepeatInstall",
+        "RemovalPreview",
+        "RIDERemoval",
+        "RepeatRemoval",
+        "SavedRemovalRecovery",
+        "SavedInstallRecovery"
+      ],
+      "Recovery": true,
+      "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable"
+    },
+    {
+      "Id": "package.pdfcraft",
+      "Version": "0.6.0",
+      "Status": "Passed",
+      "Checks": [
+        "RIDEManagedInstall",
+        "PinnedPackageVersion",
+        "RepeatInstall",
+        "RemovalPreview",
+        "RIDERemoval",
+        "RepeatRemoval",
+        "SavedRemovalRecovery",
+        "SavedInstallRecovery"
+      ],
+      "Recovery": true,
+      "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable"
+    },
+    {
+      "Id": "package.effectcraft",
+      "Version": "0.8.0",
+      "Status": "Passed",
+      "Checks": [
+        "RIDEManagedInstall",
+        "PinnedPackageVersion",
+        "RepeatInstall",
+        "RemovalPreview",
+        "RIDERemoval",
+        "RepeatRemoval",
+        "SavedRemovalRecovery",
+        "SavedInstallRecovery"
+      ],
+      "Recovery": true,
+      "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable"
+    },
+    {
+      "Id": "package.designcraft",
+      "Version": "0.6.0",
+      "Status": "Passed",
+      "Checks": [
+        "RIDEManagedInstall",
+        "PinnedPackageVersion",
+        "RepeatInstall",
+        "RemovalPreview",
+        "RIDERemoval",
+        "RepeatRemoval",
+        "SavedRemovalRecovery",
+        "SavedInstallRecovery"
+      ],
+      "Recovery": true,
+      "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable"
+    },
+    {
+      "Id": "package.wordcraft",
+      "Version": "0.5.0",
+      "Status": "Passed",
+      "Checks": [
+        "RIDEManagedInstall",
+        "PinnedPackageVersion",
+        "RepeatInstall",
+        "RemovalPreview",
+        "RIDERemoval",
+        "RepeatRemoval",
+        "SavedRemovalRecovery",
+        "SavedInstallRecovery"
+      ],
+      "Recovery": true,
+      "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable"
+    },
+    {
+      "Id": "package.soundcraft",
+      "Version": "0.5.0",
+      "Status": "Passed",
+      "Checks": [
+        "RIDEManagedInstall",
+        "PinnedPackageVersion",
+        "RepeatInstall",
+        "RemovalPreview",
+        "RIDERemoval",
+        "RepeatRemoval",
+        "SavedRemovalRecovery",
+        "SavedInstallRecovery"
+      ],
+      "Recovery": true,
+      "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable"
+    },
+    {
+      "Id": "package.deckcraft",
+      "Version": "0.5.0",
+      "Status": "Passed",
+      "Checks": [
+        "RIDEManagedInstall",
+        "PinnedPackageVersion",
+        "RepeatInstall",
+        "RemovalPreview",
+        "RIDERemoval",
+        "RepeatRemoval",
+        "SavedRemovalRecovery",
+        "SavedInstallRecovery"
+      ],
+      "Recovery": true,
+      "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable"
+    },
+    {
+      "Id": "package.cadcraft",
+      "Version": "0.5.0",
+      "Status": "Passed",
+      "Checks": [
+        "RIDEManagedInstall",
+        "PinnedPackageVersion",
+        "RepeatInstall",
+        "RemovalPreview",
+        "RIDERemoval",
+        "RepeatRemoval",
+        "SavedRemovalRecovery",
+        "SavedInstallRecovery"
+      ],
+      "Recovery": true,
+      "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable"
+    },
+    {
+      "Id": "package.gridcraft",
+      "Version": "0.5.0",
+      "Status": "Passed",
+      "Checks": [
+        "RIDEManagedInstall",
+        "PinnedPackageVersion",
+        "RepeatInstall",
+        "RemovalPreview",
+        "RIDERemoval",
+        "RepeatRemoval",
+        "SavedRemovalRecovery",
+        "SavedInstallRecovery"
+      ],
+      "Recovery": true,
+      "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable"
+    }
+  ],
+  "Support": {
+    "Target": "Windows 11",
+    "SupportedFor": "Twelve ApplicationsBatch6 Artcraft package operations",
+    "ServerTargets": "Not declared",
+    "FunctionalLaunch": "Not tested"
+  },
+  "Estimate": {
+    "Ranges": "37-57 / 50-65 / 19-24 / 25-35 / 8-12",
+    "Exact": "139-193",
+    "Rounded": "140-195/about 170",
+    "LegacyOutcomesClosed": 0
+  },
+  "NextRequest": {
+    "RunId": "2ce98ec80d5c45fe8826c384b81de378",
+    "Suite": "ApplicationsBatch7",
+    "Status": "Running",
+    "RunnerVersion": "0.14.5"
+  },
+  "LocalValidation": {
+    "CatalogValidation": "Passed: 410 operations, 8 groups, 5 profiles, 273 PowerShell files; generated docs current",
+    "ArtcraftPackagePester": "Passed: 6/6",
+    "CombinedFocusedPester": "145 passed, 56 failed, 2 skipped of 203; failures stem from sandbox denied registry access and writes under sandbox AppData temp paths in catalog/controller tests",
+    "VMIntegrationPester": "Passed: 347/348, 0 failed, 1 skipped"
+  }
+}

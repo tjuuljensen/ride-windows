@@ -1,0 +1,94 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-23T13:38:00Z",
+  "Batch": "PSScriptTools large portable package journal performance and recovery regression",
+  "Problem": "A growing ownership manifest was atomically serialized and replaced once per staged member, causing quadratic manifest work for the 360-file PSScriptTools source package.",
+  "Change": {
+    "Module": "modules/RIDE-PortablePackages.psm1",
+    "ModuleVersion": "0.6.0",
+    "Behavior": "Commit the complete, validated Installing ownership/hash journal once before copying any product file, then commit Installed after all copies and obsolete-file cleanup.",
+    "RecoveryInvariant": "On copy interruption the durable manifest lists every intended file/hash. Missing files remain distinguishable from changed files; snapshot restore and modified/unowned-file protection remain enabled."
+  },
+  "Source": {
+    "Archive": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361.zip",
+    "Sha256": "05c86295a0846ae4f51ecfa6f38ef71ba8173be83eb0adc8627525a4c6ee72bd",
+    "ReviewedFiles": 360,
+    "MatchesCatalogPin": true
+  },
+  "Validation": {
+    "LargeSourceLifecycleCase": {
+      "Result": "Passed",
+      "Tests": 1,
+      "ElapsedSeconds": 717.12,
+      "Checks": "Exact retained archive; 360 selected source files; repeat install; snapshot; owned-file removal; restore; unowned analyst output preserved.",
+      "PackageImportedOrExecuted": false
+    },
+    "BoundaryCases": {
+      "Result": "Passed",
+      "Passed": 6,
+      "Failed": 0,
+      "NotRun": 1,
+      "Fixture": "Compact inert ZIPs for each boundary case; actual archive retained for the separate full-source lifecycle case.",
+      "Cases": [
+        "Complete metadata and notices",
+        "Incomplete payload rejection",
+        "Modified source preservation",
+        "Unowned destination collision refusal",
+        "Changed backup refusal before removal",
+        "Prior absence restoration"
+      ]
+    },
+    "PortablePackageRegression": {
+      "Suite": "tests/ApplicationPackages.Tests.ps1",
+      "Passed": 87,
+      "Failed": 0,
+      "Skipped": 0,
+      "TestRegistry": "Disabled because host HKCU registry access is denied"
+    },
+    "WindowsPowerShell51Parser": {
+      "Result": "Passed",
+      "Files": [
+        "modules/RIDE-PortablePackages.psm1",
+        "tests/ApplicationPackages.Tests.ps1",
+        "tests/PSScriptToolsPackage.Tests.ps1"
+      ]
+    },
+    "RepositoryValidator": "Passed: 393 operations, 8 groups, 5 profiles, 257 PowerShell files; catalog documentation current"
+  },
+  "Safety": {
+    "UpstreamCodeImportedOrExecuted": false,
+    "InstallerExecuted": false,
+    "VmRun": false,
+    "WindowsStateChanged": false,
+    "DefenderChanged": false,
+    "NetworkUsed": false
+  },
+  "Outcome": {
+    "Resolved": [
+      "Large-package ownership journaling no longer serializes the growing manifest for every file.",
+      "A copy failure leaves a complete intended hash journal that supports exact recovery and collision protection."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "A single complete invocation of all seven PSScriptTools tests; the large-source lifecycle case passed separately and all six compact boundary cases passed in a focused run.",
+      "Dependency-present Windows PowerShell 5.1 runtime acceptance and exact ThreadJob 2.2.0 package acquisition.",
+      "Windows VM target acceptance while Hyper-V CIM access is denied."
+    ],
+    "Partial": [
+      "PSScriptTools package activation, dependency ownership and whole legacy outcome remain incomplete."
+    ]
+  },
+  "Estimates": {
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged; portable journal performance and recovery improve, but no whole legacy package outcome closes."
+  }
+}

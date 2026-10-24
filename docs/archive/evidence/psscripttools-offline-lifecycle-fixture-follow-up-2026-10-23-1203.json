@@ -1,0 +1,70 @@
+{
+  "SchemaVersion": 1,
+  "RunUtc": "2026-10-23T12:03:03Z",
+  "Batch": "PSScriptTools offline source-lifecycle fixture follow-up",
+  "Source": {
+    "Archive": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361.zip",
+    "Sha256": "05c86295a0846ae4f51ecfa6f38ef71ba8173be83eb0adc8627525a4c6ee72bd",
+    "ReviewedFiles": 360,
+    "MatchesCatalogPin": true
+  },
+  "Changes": [
+    "The PSScriptTools package test now calls Install-RidePortablePayload with -Offline so local source-fixture runs do not perform certificate-provider network checks.",
+    "The full-source lifecycle assertion checks that .ps1 manifest entries report NotInspectedOffline."
+  ],
+  "Validation": {
+    "SelectedPester": "2 passed, 0 failed; 5 not run",
+    "Pester": "5.7.1",
+    "PowerShell": "7.6.5",
+    "TestRegistryEnabled": false,
+    "RepositoryValidator": "Passed: 379 operations, 8 groups, 5 profiles, 251 PowerShell files",
+    "WhitespaceCheck": "Passed"
+  },
+  "FullArchiveAttempt": {
+    "Result": "Interrupted; no full-suite result claimed",
+    "Observed": "The 360-file package stage and ownership journal completed in workspace TestDrive, but the repeat/removal/recovery test did not return within the bounded local run. The process was stopped; no Pester pass is claimed.",
+    "PackageImportedOrExecuted": false,
+    "SystemInstallation": false,
+    "VmRun": false
+  },
+  "PriorAcceptance": {
+    "Windows11RegisteredFileLifecycle": "14 checks passed across 360 files in the 2026-10-22 registered run; retained existing evidence",
+    "RuntimeAcceptance": "Still partial: Windows PowerShell 5.1 dependency missing; exact ThreadJob package acquisition failed DNS before transfer",
+    "Evidence": "psscripttools-registered-rerun-2026-10-22.json"
+  },
+  "Safety": {
+    "InstallerCalls": 0,
+    "DefenderChanges": 0,
+    "RegistryChanges": 0,
+    "WindowsStateChanged": false,
+    "VmRun": false,
+    "NoDirectPackageDownload": true
+  },
+  "Outcome": {
+    "Resolved": [
+      "Offline intent is explicit in the PSScriptTools lifecycle fixture; two selected metadata/incomplete-source tests pass."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Full local 360-file repeat/removal/recovery regression did not complete in this workspace run.",
+      "Dependency-present Windows PowerShell 5.1 runtime acceptance remains blocked until exact ThreadJob 2.2.0 bytes, hash and notices are acquired.",
+      "Disposable-VM acceptance remains unavailable while VM/CIM and protected queue access are denied."
+    ],
+    "Partial": [
+      "PSScriptTools package implementation remains partial; this run closes no legacy outcome."
+    ]
+  },
+  "Estimates": {
+    "Groups": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged; local fixture validation and the incomplete workspace run close no legacy feature outcome."
+  }
+}

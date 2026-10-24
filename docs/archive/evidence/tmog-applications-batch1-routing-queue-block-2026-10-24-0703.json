@@ -1,0 +1,80 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T07:03:09Z",
+  "Scope": "TMOG ApplicationsBatch1 routing and registered acceptance dispatch",
+  "Catalog": {
+    "OperationId": "package.tmog",
+    "PackageVersion": "1.0.1",
+    "MigrationBatch": "ApplicationsBatch1",
+    "CandidateTargets": ["Windows 11"],
+    "SupportedTargets": [],
+    "PendingAcceptance": true,
+    "FocusedCatalogRouteTests": {
+      "Discovered": 80,
+      "Selected": 1,
+      "Passed": 1,
+      "Failed": 0
+    }
+  },
+  "Validation": {
+    "RepositoryValidation": "Passed",
+    "Operations": 407,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 269,
+    "GeneratedOperationDocumentation": "Current",
+    "BroaderCatalogTest": {
+      "Passed": 79,
+      "Failed": 1,
+      "Failure": "Registry-subtree test denied by sandbox registry access"
+    }
+  },
+  "Dispatch": {
+    "Runner": "Registered RIDE-Win11-Test ApplicationsBatch1 task",
+    "Result": "FailedBeforeEnqueue",
+    "Failure": "Access denied creating the temporary request file in queue/pending",
+    "PendingQueueCountAfterAttempt": 0,
+    "RunningQueueCountAfterAttempt": 0,
+    "FinishedRequestCreated": false,
+    "VmChanged": false,
+    "WindowsStateChanged": false,
+    "CheckpointChanged": false,
+    "DefenderChanged": false,
+    "FreshElevationPromptRequested": false
+  },
+  "EarlierAcceptance": {
+    "ApplicationsBatch1CurrentPinRunId": "2e2b9cab185148318a0b29aa690a4501",
+    "PassedPackages": 8,
+    "Gpg4winIncluded": false,
+    "TMOGIncluded": false,
+    "Scope": "The earlier eight-package acceptance remains valid for its selected packages and does not accept subsequently routed packages."
+  },
+  "TechnicalAcceptanceBoundary": {
+    "TMOGLaunch": false,
+    "ScreensaverSelectionChanged": false,
+    "ProActivated": false,
+    "DefenderBlockedToolsSelected": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "TMOG Windows 11 install, repeat, uninstall and recovery acceptance",
+      "Gpg4win Windows 11 native lifecycle and recovery acceptance"
+    ],
+    "Partial": [
+      "TMOG package is routed to ApplicationsBatch1, with native acceptance pending",
+      "Gpg4win package is routed to ApplicationsBatch1, with native acceptance pending"
+    ],
+    "EstimateRangesUnchanged": {
+      "Settings": "38-58",
+      "Packages": "52-67",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "142-196",
+      "RoundedTotal": "145-200/about 170"
+    }
+  }
+}

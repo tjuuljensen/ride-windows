@@ -1,0 +1,68 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T07:08:39Z",
+  "Scope": "Gpg4win package lifecycle regression and local license-review planning regression",
+  "Environment": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryPluginEnabled": false,
+    "PesterTemporaryRoot": "Repository-local .local directory; removed after run"
+  },
+  "Results": {
+    "Gpg4winPackageTests": {
+      "Discovered": 11,
+      "Passed": 11,
+      "Failed": 0
+    },
+    "LicenseReviewTests": {
+      "Discovered": 21,
+      "Passed": 19,
+      "Failed": 2,
+      "Failures": [
+        "Pending-package planning fixture could not atomically replace a temporary review JSON file; the sandbox denied removal of the destination.",
+        "JSON export/import fixture hit the same temporary-file replacement denial."
+      ]
+    },
+    "Combined": {
+      "Discovered": 32,
+      "Passed": 30,
+      "Failed": 2
+    }
+  },
+  "PrivateReviewStore": {
+    "ReadOnlyCheck": "Passed; records for package.gpg4win and package.tmog are present in the ignored local store.",
+    "StoreWrittenByTest": false,
+    "OwnerOrReviewStatusPublished": false
+  },
+  "SideEffects": {
+    "PackageInstallerRun": false,
+    "GnuPGProcessStarted": false,
+    "WindowsStateChanged": false,
+    "VmUsed": false,
+    "QueueWritten": false,
+    "DefenderChanged": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Gpg4win Windows 11 native lifecycle and recovery acceptance",
+      "TMOG Windows 11 install, repeat, uninstall and recovery acceptance",
+      "Two sandbox-blocked temporary-file replacement tests in the local review-store regression"
+    ],
+    "Partial": [
+      "Gpg4win package lifecycle and planning regression passed locally; native acceptance remains unrun.",
+      "TMOG is routed into ApplicationsBatch1; native acceptance remains unrun."
+    ],
+    "EstimateRangesUnchanged": {
+      "Settings": "38-58",
+      "Packages": "52-67",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "142-196",
+      "RoundedTotal": "145-200/about 170"
+    }
+  }
+}

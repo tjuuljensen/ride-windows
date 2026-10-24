@@ -1,0 +1,18 @@
+{
+  "RecordedAtUtc": "2026-10-24T15:35:00Z",
+  "Batch": "JoeWare Unlock exact publisher artifact acquisition",
+  "Product": "Unlock",
+  "Command": "tools/Download-JoeWareCollection.ps1 -Product Unlock -DestinationDirectory .local/joeware-unlock-source-review-20261024 -Confirm:$false",
+  "PublisherSource": "https://joeware.net/freetools/versions.txt",
+  "Result": "BlockedBeforeTransfer",
+  "Error": "Windows PowerShell could not resolve the publisher hostname (No such host is known) while fetching versions.txt.",
+  "DownloadFormSubmitted": false,
+  "ArtifactBytesReceived": false,
+  "SHA256": null,
+  "ArchiveMemberInventory": null,
+  "Destination": { "Path": ".local/joeware-unlock-source-review-20261024", "State": "Created by the bounded tool and empty after failure; retained for retry." },
+  "Safety": { "Extraction": false, "Execution": false, "DirectoryContact": false, "Vm": false, "WindowsStateChanged": false },
+  "Blocker": "Local DNS/network resolution to the publisher; retry the same official source when available, without mirror substitution.",
+  "MigrationDisposition": { "LegacyOutcomeClosed": 0, "LicenseBlocker": false, "EstimateRangesChanged": false },
+  "Estimate": { "Settings": "37-57", "Packages": "52-67", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "ExactTotal": "141-195", "RoundedTotal": "140-195/about 170" }
+}

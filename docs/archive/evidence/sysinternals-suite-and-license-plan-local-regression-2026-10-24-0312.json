@@ -1,0 +1,75 @@
+{
+  "RecordedAtUtc": "2026-10-24T03:12:58Z",
+  "Scope": "Sysinternals reviewed snapshot lifecycle and package license-plan availability",
+  "Repository": "RIDE-Windows",
+  "WindowsEnvironment": {
+    "OperatingSystem": "Windows",
+    "PowerShell7": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "TemporaryDirectories": "Unique directories under .local"
+  },
+  "Tests": [
+    {
+      "File": "tests/SysinternalsSuitePackage.Tests.ps1",
+      "Discovered": 7,
+      "Passed": 7,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 294.42,
+      "Coverage": [
+        "Pinned immutable archive resolution",
+        "All 164 reviewed required members and notices",
+        "Pending acceptance and no supported-target claims",
+        "Inert stage/repeat/remove/snapshot-restore ownership behavior",
+        "Conflict and modified-executable preservation"
+      ]
+    },
+    {
+      "File": "tests/LicenseReviews.Tests.ps1",
+      "Discovered": 21,
+      "Passed": 21,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 66.31,
+      "Coverage": [
+        "Catalog license-review separation",
+        "Install plans remain available while technical acceptance is pending",
+        "Reviewed Sysinternals versions remain selectable"
+      ]
+    }
+  ],
+  "WindowsPowerShell51": {
+    "PesterRun": "Blocked",
+    "Reason": "Import of installed Pester 5.7.1 format data failed AuthorizationManager validation in the user OneDrive module path.",
+    "ExecutionPolicyOrElevationChanged": false
+  },
+  "VmAcceptance": {
+    "Attempted": true,
+    "Targets": ["RIDE-Win11-Test", "RIDE-Srv2025Test"],
+    "Result": "BlockedBeforeVmInspection",
+    "Error": "Access to a CIM resource was not available to the client"
+  },
+  "SideEffects": {
+    "SysinternalsUtilityRun": false,
+    "InstallerRun": false,
+    "WindowsStateChanged": false,
+    "DefenderBlockedFilesSelected": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Sysinternals native lifecycle and Windows target acceptance"],
+    "Partial": ["Sysinternals package migration remains technically partial pending Windows acceptance"],
+    "EstimateRangesUnchanged": {
+      "Settings": "38-58",
+      "Packages": "52-67",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "142-196",
+      "RoundedTotal": "145-200/about 170"
+    }
+  }
+}

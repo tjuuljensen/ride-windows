@@ -613,8 +613,16 @@ default-branch cutover remain separate.
 The finite integration selections include `ApplicationsBatch1` and
 `ApplicationsBatch2`. The general client/VM runner and guest dispatcher share
 those suite selections. With the `FocusedPortableV1` capability, the task client
-also accepts `PSScriptTools` and `OfflineCaffeine` and routes them through the
-protected portable runner, not the general guest dispatcher. See the
+also accepts `NTCore`, `PSScriptTools`, `OfflineCaffeine`, `SQLiteQuery` and
+`MiTeCUtilityFiles` and routes them
+through the protected portable runner, not the general guest dispatcher. The
+NTCore batch includes PE Detective, CFF Explorer and the 4GB Patch candidate.
+It executes 4GB Patch only on a generated synthetic x86 PE in the disposable
+guest and records flag, backup, collision and recovery results. The `SQLiteQuery`
+batch checks only portable file lifecycle and recovery; it never launches the
+application or opens a database. `MiTeCUtilityFiles` selects only the three
+pinned executables and checks portable file lifecycle/recovery; it does not
+query identifiers or create/inspect certificates. See the
 [focused preregistration procedure](README.md#focused-reviewed-portable-packages)
 for its one-time elevated refresh and subsequent unelevated requests. A successful controller result
 must correlate the requested suite with the guest summary. Source snapshots now

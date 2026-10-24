@@ -1,0 +1,69 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-23T14:19:56Z",
+  "Batch": "PSScriptTools complete local source-lifecycle regression",
+  "Package": {
+    "Id": "package.psscripttools",
+    "Version": "3.2.0",
+    "SourceArchive": "PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361.zip",
+    "Sha256": "05c86295a0846ae4f51ecfa6f38ef71ba8173be83eb0adc8627525a4c6ee72bd",
+    "ReviewedFiles": 360
+  },
+  "TestRun": {
+    "File": "tests/PSScriptToolsPackage.Tests.ps1",
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "InvocationCount": 1,
+    "Passed": 7,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "TestRegistry": "Disabled",
+    "TemporaryPath": ".local/psscripttools-suite-20261023-1410",
+    "FullSourceLifecycleElapsedSeconds": 706.06,
+    "BoundaryCasesPassed": [
+      "Complete pinned source metadata and notices",
+      "Incomplete payload rejection",
+      "Repeated staging and snapshot recovery while preserving unowned analyst output",
+      "Modified source preservation on removal",
+      "Unowned destination collision refusal",
+      "Changed recovery bytes refused before removal",
+      "Prior absence restoration while preserving unowned content"
+    ]
+  },
+  "EnvironmentBoundaries": {
+    "UpstreamCodeImportedOrExecuted": false,
+    "InstallerExecuted": false,
+    "NetworkUsed": false,
+    "VmUsed": false,
+    "DefenderChanged": false,
+    "WindowsStateChanged": false
+  },
+  "Outcome": {
+    "Resolved": [
+      "One uninterrupted invocation of the complete seven-test portable source lifecycle suite passes."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Exact Microsoft.PowerShell.ThreadJob 2.2.0 package acquisition after Gallery DNS failure.",
+      "Dependency-present Windows PowerShell 5.1 runtime behavior.",
+      "Windows target acceptance while host Hyper-V/CIM access is denied."
+    ],
+    "Partial": [
+      "PSScriptTools activation, dependency ownership and whole legacy outcome remain open."
+    ]
+  },
+  "Estimate": {
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged; local source lifecycle verification closes no whole legacy outcome."
+  }
+}

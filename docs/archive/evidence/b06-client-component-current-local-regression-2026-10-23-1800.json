@@ -1,0 +1,100 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "RecordedAtUtc": "2026-10-23T18:00:25Z",
+  "Batch": "B06 OpenSSH Client and Telnet Client current-code local regression",
+  "Candidate": {
+    "PreparationModule": "modules/RIDE.ClientComponentPreparation.psm1",
+    "LifecycleModule": "modules/RIDE.ClientComponentLifecycle.psm1",
+    "Registered": false,
+    "SupportedTargets": [],
+    "Readiness": "Mocked preparation and lifecycle only; no candidate is production-ready."
+  },
+  "Validation": {
+    "PowerShell7": {
+      "Version": "7.6.5",
+      "Pester": "5.7.1",
+      "TestRegistry": "Disabled because sandbox registry access is denied",
+      "Files": [
+        "tests/ClientComponentPreparation.Tests.ps1",
+        "tests/ClientComponentLifecycle.Tests.ps1"
+      ],
+      "Discovered": 47,
+      "Passed": 47,
+      "Failed": 0,
+      "Skipped": 0,
+      "NotRun": 0,
+      "NativeServicingCalls": "Mocked; DISM was not called"
+    },
+    "WindowsPowerShell51Parser": {
+      "Version": "5.1.26100.9711",
+      "ParsedFiles": [
+        "modules/RIDE.ClientComponentPreparation.psm1",
+        "modules/RIDE.ClientComponentLifecycle.psm1",
+        "modules/RIDE.ComponentInventory.psm1",
+        "tests/ClientComponentPreparation.Tests.ps1",
+        "tests/ClientComponentLifecycle.Tests.ps1"
+      ],
+      "Errors": 0
+    },
+    "InitialAttempt": {
+      "PowerShell": "7.6.5",
+      "Pester": "5.7.1",
+      "TestRegistry": "Enabled by default; initialization attempted a registry write denied by sandbox",
+      "Discovered": 47,
+      "FailedContainers": 2,
+      "TestsExecuted": false,
+      "Result": "Initial invocation failed during Pester TestRegistry setup before test bodies ran. Rerun explicitly disabled TestRegistry and passed all 47 tests."
+    }
+  },
+  "VmAccess": {
+    "CheckedAtUtc": "2026-10-23T18:00:25Z",
+    "Queries": [
+      {
+        "Name": "RIDE-Win11-Test",
+        "Result": "Access to a CIM resource was not available to the client.",
+        "CheckpointInspected": false
+      },
+      {
+        "Name": "RIDE-Srv2025Test",
+        "Result": "Access to a CIM resource was not available to the client.",
+        "CheckpointInspected": false
+      }
+    ]
+  },
+  "TechnicalReview": {
+    "Resolved": [
+      "Current-code local mocked regression passes for separate OpenSSH Client and Telnet Client preparation/lifecycle guards.",
+      "Windows PowerShell 5.1 parser accepts all five relevant module and test files."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Telnet LocalSource requires exact payload/source identity and completeness validation; current generic Microsoft source documentation does not provide that proof for the candidate input.",
+      "Configured servicing-source fallback, policy, dependencies and exact payload recovery remain unverified.",
+      "Disposable Windows 11 and Server 2025 acceptance remains deferred because host Hyper-V/CIM access is denied before checkpoint inspection."
+    ],
+    "Partial": [
+      "No component legacy outcome closes; candidate remains unregistered with no supported targets."
+    ]
+  },
+  "Estimate": {
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged: current-code mock/parser evidence does not establish a native component lifecycle or close a legacy outcome."
+  },
+  "Boundaries": {
+    "DismCalled": false,
+    "VmChanged": false,
+    "CheckpointInspected": false,
+    "WindowsStateChanged": false,
+    "ElevationRequested": false
+  }
+}

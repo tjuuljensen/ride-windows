@@ -1,0 +1,45 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-22",
+  "Batch": "ImageMagick portable Q16 artifact integrity recheck",
+  "Artifact": {
+    "Uri": "https://github.com/ImageMagick/ImageMagick/releases/download/7.1.2-34/ImageMagick-7.1.2-34-portable-Q16-x64.7z",
+    "LocalPath": ".local/acquisition/imagemagick-7.1.2-34/ImageMagick-7.1.2-34-portable-Q16-x64.7z",
+    "ExpectedSha256": "52cc6a441c7884f5ff4274b410c9b90c4b7d54245dcdf4d32988bb4e4df4e5d1",
+    "MeasuredSha256": "52cc6a441c7884f5ff4274b410c9b90c4b7d54245dcdf4d32988bb4e4df4e5d1",
+    "MatchesCatalogPin": true
+  },
+  "DetachedSignature": {
+    "Uri": "https://download.imagemagick.org/archive/binaries/ImageMagick-7.1.2-34-portable-Q16-x64.7z.asc",
+    "SizeBytes": 833,
+    "VerificationStatus": "Not verified",
+    "Attempt": {
+      "Tool": "Git for Windows gpg.exe",
+      "Command": "--no-options --batch --list-packets",
+      "Result": "The process could not start: NtCreateDirectoryObject(\\BaseNamedObjects\\msys-2.0...): 0xC0000022",
+      "Implication": "No OpenPGP verification occurred; this remains an optional source-confidence follow-up."
+    }
+  },
+  "ExtractedExecutables": {
+    "Count": 8,
+    "AuthenticodeValidCount": 8,
+    "Signer": "ImageMagick Studio LLC",
+    "Names": ["compare.exe", "composite.exe", "conjure.exe", "identify.exe", "magick.exe", "mogrify.exe", "montage.exe", "stream.exe"]
+  },
+  "Boundaries": {
+    "ImageMagickExecuted": false,
+    "VmRun": false,
+    "Uac": false,
+    "DefenderChanged": false,
+    "CatalogChanged": false
+  },
+  "Disposition": {
+    "LicenseReviewStatus": "NeedsReview",
+    "LicenseBlocker": false,
+    "RemainingTechnicalAcceptance": ["Windows 11 package lifecycle", "Exact saved-run recovery", "Feature behavior on disposable VM"],
+    "LegacyOutcomeClosed": false,
+    "EstimateRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170"
+  }
+}

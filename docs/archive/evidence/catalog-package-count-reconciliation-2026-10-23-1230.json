@@ -1,0 +1,20 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-23T12:31:01Z",
+  "Issue": "Migration overview package totals were stale",
+  "PriorOverview": {
+    "Packages": 73,
+    "PendingPackages": 43
+  },
+  "LoaderCountBeforeCandidatePair": {
+    "Packages": 75,
+    "PendingPackages": 45
+  },
+  "LoaderCountAfterCandidatePair": {
+    "Packages": 77,
+    "PendingPackages": 47
+  },
+  "Method": "Imported the complete catalog through Import-RideCatalogData, counted Kind=Package, counted PendingAcceptance=true, then excluded the two newly added candidate IDs to reconstruct the immediately prior count.",
+  "Correction": "The previous 73/43 overview was low by two package operations and two pending package plans. Current total is 77/47.",
+  "MigrationEstimateEffect": "None. The five outcome ranges and rounded total remain unchanged."
+}

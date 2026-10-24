@@ -1,0 +1,47 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "Batch": "Catalog package-dependency and profile-parameter validation",
+  "Implementation": {
+    "Module": "modules/RIDE.CatalogValidation.psm1",
+    "Validation": "Read-only depth-first cycle detection over package prerequisite edges from base operations and every declared variant; strict version-1 profile root and operation-selection fields/types.",
+    "PotentialVariantCombinationsCovered": true,
+    "InstallersOrWindowsStateInvoked": false
+  },
+  "Tests": {
+    "Files": ["tests/CatalogDependencyValidation.Tests.ps1", "tests/CatalogProfileValidation.Tests.ps1"],
+    "PesterVersion": "5.7.1",
+    "TestRegistryEnabled": false,
+    "WindowsPowerShell51": {"Passed": 12, "Failed": 0},
+    "PowerShell7": {"Passed": 12, "Failed": 0},
+    "Cases": [
+      "Acyclic prerequisite chain accepted",
+      "Multi-package cycle rejected with path",
+      "Self dependency rejected",
+      "Variant-only cycle rejected",
+      "Profile root and selection parameters accepted or rejected by schema"
+    ]
+  },
+  "RepositoryValidation": {
+    "Result": "Passed",
+    "Operations": 374,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 246,
+    "GeneratedOperationsDocumentationCurrent": true
+  },
+  "LegacyOutcomeDisposition": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [],
+    "Partial": ["General package dependency-cycle validation capability"]
+  },
+  "Estimates": {
+    "GroupRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "ReasonUnchanged": "Engine validation coverage improved, but no legacy product or setting outcome was accepted."
+  },
+  "Remaining": ["Native package lifecycle and deferred VM acceptance"]
+}

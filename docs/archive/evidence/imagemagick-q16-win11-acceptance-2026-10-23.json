@@ -1,0 +1,70 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "RunId": "d044a9243ddf461b92d035e0cdaf9418",
+  "PackageId": "package.imagemagick-portable-q16",
+  "Batch": "ImageMagick",
+  "Target": {
+    "Name": "Windows 11",
+    "Build": "26300",
+    "Vm": "RIDE-Win11-Test"
+  },
+  "Archive": {
+    "File": "ImageMagick-7.1.2-34-portable-Q16-x64.7z",
+    "Sha256": "52cc6a441c7884f5ff4274b410c9b90c4b7d54245dcdf4d32988bb4e4df4e5d1"
+  },
+  "LocalRegression": {
+    "Command": "Invoke-Pester -Path tests/Catalog.Tests.ps1,tests/CatalogDependencyValidation.Tests.ps1,tests/PackageEvidence.Tests.ps1,tests/PortableAcceptanceAutomation.Tests.ps1",
+    "Passed": 134,
+    "Failed": 0,
+    "Skipped": 0
+  },
+  "Prerequisite": {
+    "Status": "Passed",
+    "Acquisition": "DownloadedFromMicrosoftAndInstalledInDisposableGuest",
+    "InstallerUri": "https://aka.ms/vc14/vc_redist.x64.exe",
+    "InstallerSha256": "843068991daaa1f73ad9f6239bce4d0f6a07a51f18c37ea2a867e9beca71295c",
+    "InstallerSigner": "Microsoft Corporation",
+    "InstallerSignerThumbprint": "1D77A9B9E8FE2075D9AD15123257FB90DB0DA4A1",
+    "InstallerExitCode": 0,
+    "RuntimeFile": "System32/vcomp140.dll",
+    "RuntimeFileVersion": "14.51.36247.0",
+    "RuntimeSha256": "95d4ce4a6802d1e18b5e0e1722cc30ea72ca7e033f83828f05c0b7b993fe7cbf",
+    "RuntimeSigner": "Microsoft Corporation",
+    "RuntimeSignerThumbprint": "2650247AC56048BC7928663C02733D25898A1D6E"
+  },
+  "Acceptance": {
+    "Status": "Passed",
+    "WholeArchiveOwnership": "Passed",
+    "LicenseAndNoticePresent": "Passed",
+    "PublisherSignature": "Passed",
+    "Version": "7.1.2-34",
+    "QuantumDepth": "Q16",
+    "SyntheticPngEncode": "Passed",
+    "SyntheticPngIdentify": "Passed",
+    "SyntheticPngOutput": "PNG 1x1",
+    "LifecycleRecovery": "Passed",
+    "RepeatInstall": "Passed",
+    "RemoveAndRepeatRemove": "Passed",
+    "SavedRunExactRecovery": "Passed",
+    "UnownedFilePreservation": "Passed",
+    "CollisionAndModifiedFileRefusal": "Passed",
+    "PayloadExecution": "ImageMagick executed only against a generated 1x1 PNG; no user image was opened"
+  },
+  "Controller": {
+    "Status": "Passed",
+    "Cleanup": "ResetAndOff",
+    "EvidenceCollected": true,
+    "ToolExecuted": true,
+    "FunctionalAcceptance": "Passed"
+  },
+  "Disposition": "Support Windows 11 based on this acceptance. Keep Windows Server and activation unsupported; detached archive signature verification remains optional. The separate local NeedsReview record does not assert entitlement.",
+  "LegacyOutcomeAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "EstimateRangesUnchanged": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170"
+  }
+}

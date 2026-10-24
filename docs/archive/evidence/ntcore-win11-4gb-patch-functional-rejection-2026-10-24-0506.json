@@ -1,0 +1,264 @@
+{
+  "SchemaVersion": 1,
+  "Batch": "NTCore",
+  "RunId": "40e269c4d243442eb5cd78a122e58334",
+  "StartedAtUtc": "2026-10-24T05:00:49.3903053Z",
+  "FinishedAtUtc": "2026-10-24T05:06:04.0918973Z",
+  "SourceCommit": "f0f2c4cc4da1bfd121ed967340eff897652231ac",
+  "ContentIdentity": "Working-tree source-manifest hashes, including uncommitted changes",
+  "SourceManifestSha256": "5bb88cd4a9b82769800e27e53cd6f721f3064583e0bfc3b8d049d76fcd072535",
+  "SourceManifestFileCount": 798,
+  "ControllerStatus": "Failed",
+  "ControllerError": "Test controller exited with code 1. See controller-errors.log.",
+  "CleanupError": null,
+  "CollectionError": null,
+  "EvidenceExportError": null,
+  "Cleanup": "ResetAndOff",
+  "EvidenceCollected": true,
+  "VM": "RIDE-Win11-Test",
+  "VMBuild": 26300,
+  "CheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+  "ExpectedCases": 3,
+  "PassedCases": 2,
+  "FunctionalStatus": "Failed",
+  "ToolExecuted": true,
+  "Scenarios": [
+    {
+      "Id": "package.ntcore-pe-detective",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Pending",
+      "PrerequisiteAcceptance": "NotSelected",
+      "PrerequisiteEvidence": null,
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "e34482530be24ceface6cbced7aca130",
+        "2d4694c4d51641e8a8f5657e5f1c8214",
+        "09763fb437744f76aba9dffb5f7792b6"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "PE Detective.exe",
+          "Sha256": "353e0cbf62604b5dd2f7d56678ea0554f5bd6bbda46004e03787564dbc52c4ab",
+          "AuthenticodeStatus": "NotSigned",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Signature Explorer.exe",
+          "Sha256": "74854823d553b7f70e9ba20ae56d3a86ed656afdd61c4e279b4da4248382b30f",
+          "AuthenticodeStatus": "NotSigned",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Signatures/IMAGE_FILE_MACHINE_AMD64.xml",
+          "Sha256": "dc6b4a0d62ea5bc2633a06b172a5d30a0ae2887ae7dbeda474de2ed07d8ec745",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Signatures/IMAGE_FILE_MACHINE_ARM.xml",
+          "Sha256": "cb5d1a3d6d93258cc87e732a7d7f8951ac5759a9323c6a16089e47a7a596212d",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Signatures/IMAGE_FILE_MACHINE_I386.xml",
+          "Sha256": "a2bba36ebc49c9884c2ddd90f8ce0e93e5daaa7e85681c3b0d6d264ce28b4444",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Signatures/IMAGE_FILE_MACHINE_IA64.xml",
+          "Sha256": "9cbb58cfcda628b8a6b57cdd6d7381d215cb300580ad15df642450e53b8aa422",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Signatures/PLATFORM_INDEPENDENT.xml",
+          "Sha256": "f9c3dea809c8aa1f1f2887dba627ca2197647159b6bcc3c30886f3dbbe2f7a0f",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.ntcore-pe-detective' failed. Run ID: 8cdd15a39c6a4a59bb830d3cf46bd4a7. Saved state: package.ntcore-pe-detective. Completed operations: <none>. Error: Portable destination collision: Signatures/IMAGE_FILE_MACHINE_AMD64.xml",
+      "ModifiedRefusal": "RIDE operation 'package.ntcore-pe-detective' failed. Run ID: e1228ca42fe542b88b73de2f13423c66. Saved state: package.ntcore-pe-detective. Completed operations: <none>. Error: Portable upgrade would overwrite modified managed files."
+    },
+    {
+      "Id": "package.ntcore-cff-explorer",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Pending",
+      "PrerequisiteAcceptance": "NotSelected",
+      "PrerequisiteEvidence": null,
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "bea8421607414a26bd5fc4c91f6c8f05",
+        "5c367dbf2103491f824c973d542c9f0b",
+        "dcab692fa24b43eca9a67daf7e8b9cee"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "CFF_Explorer/CFF Explorer.exe",
+          "Sha256": "0f01ca5385bca26ddfb7d335e84d2377d58063290ad8c2f9eef66ca1666e3b5d",
+          "AuthenticodeStatus": "NotSigned",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "CFF_Explorer/Signatures/IMAGE_FILE_MACHINE_AMD64.xml",
+          "Sha256": "dc6b4a0d62ea5bc2633a06b172a5d30a0ae2887ae7dbeda474de2ed07d8ec745",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "CFF_Explorer/Signatures/IMAGE_FILE_MACHINE_ARM.xml",
+          "Sha256": "cb5d1a3d6d93258cc87e732a7d7f8951ac5759a9323c6a16089e47a7a596212d",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "CFF_Explorer/Signatures/IMAGE_FILE_MACHINE_I386.xml",
+          "Sha256": "a2bba36ebc49c9884c2ddd90f8ce0e93e5daaa7e85681c3b0d6d264ce28b4444",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "CFF_Explorer/Signatures/IMAGE_FILE_MACHINE_IA64.xml",
+          "Sha256": "9cbb58cfcda628b8a6b57cdd6d7381d215cb300580ad15df642450e53b8aa422",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "CFF_Explorer/Signatures/PLATFORM_INDEPENDENT.xml",
+          "Sha256": "f9c3dea809c8aa1f1f2887dba627ca2197647159b6bcc3c30886f3dbbe2f7a0f",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.ntcore-cff-explorer' failed. Run ID: 1c8527917b3c4c279e5071a850ad07bd. Saved state: package.ntcore-cff-explorer. Completed operations: <none>. Error: Portable destination collision: CFF_Explorer/CFF Explorer.exe",
+      "ModifiedRefusal": "RIDE operation 'package.ntcore-cff-explorer' failed. Run ID: 28e1396066e74cb989f9028f162fea70. Saved state: package.ntcore-cff-explorer. Completed operations: <none>. Error: Portable upgrade would overwrite modified managed files."
+    },
+    {
+      "Id": "package.ntcore-4gb-patch",
+      "Variant": "portable",
+      "Status": "Failed",
+      "Error": "4GB Patch functional acceptance failed: The utility patched the target when its backup path was occupied, without creating a recoverable original-byte backup.",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": false,
+      "FunctionalAcceptance": "Failed",
+      "PrerequisiteAcceptance": "NotSelected",
+      "PrerequisiteEvidence": null,
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection"
+      ],
+      "RunIds": [
+        "456e2657a90243ada8a09d8bc43ed5a9"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "4gb_patch.exe",
+          "Sha256": "980bf5eb62d30c749e5fbf7593e9d25094a4d849a959aa2b7b3fc979b1c93b5a",
+          "AuthenticodeStatus": "NotSigned",
+          "SignerThumbprint": null
+        }
+      ],
+      "FunctionalEvidence": "4gb-patch-functional/result.json"
+    }
+  ],
+  "FourGbPatchFunctionalEvidence": {
+    "Status": "Failed",
+    "ToolSha256": "980bf5eb62d30c749e5fbf7593e9d25094a4d849a959aa2b7b3fc979b1c93b5a",
+    "Fixture": "synthetic-x86.exe",
+    "OriginalSha256": "dc326b14394c0805a4d95f62a2826c42cde19ef2cf54e12ed776522df6a527f6",
+    "PatchedSha256": "9d4cb8de580503390d248c1036eff1ea7c235b73fe0362c4d78b3162cadf9614",
+    "BackupName": "synthetic-x86.exe.Backup",
+    "BackupSha256": "dc326b14394c0805a4d95f62a2826c42cde19ef2cf54e12ed776522df6a527f6",
+    "CollisionBehavior": "PatchedTargetWithoutRecoverableBackup",
+    "CollisionExitCode": 0,
+    "CollisionTargetSha256": "9d4cb8de580503390d248c1036eff1ea7c235b73fe0362c4d78b3162cadf9614",
+    "CollisionSentinelPreserved": true,
+    "CollisionBackupFiles": [],
+    "RecoveryAfterRejectedBehavior": "Exact original bytes restored from in-memory fixture",
+    "Checks": [
+      "SyntheticPe32X86",
+      "InitialFlagClear",
+      "CommandLinePatch",
+      "LargeAddressAwareFlagSet",
+      "ExactOriginalBackup",
+      "ExactSyntheticRecoveryAfterRejectedCollision"
+    ],
+    "ToolExecuted": true,
+    "Error": "The utility patched the target when its backup path was occupied, without creating a recoverable original-byte backup."
+  },
+  "Payloads": [
+    {
+      "Id": "package.ntcore-4gb-patch",
+      "FileName": "4gb_patch.zip",
+      "Sha256": "1e13c263dc55e85cf62e3e30c6b2ce936d4c7e16e3bba3e311a5a8bed4be16ca"
+    },
+    {
+      "Id": "package.ntcore-cff-explorer",
+      "FileName": "CFF_Explorer.zip",
+      "Sha256": "8e72bcb9c6e83f188f4a259ad039ed3cc37cdf2c3ea12b00f0df8d8b67e96d96"
+    },
+    {
+      "Id": "package.ntcore-pe-detective",
+      "FileName": "PE_Detective.zip",
+      "Sha256": "821f4fa1df9d3a39e32f15183126e56af8dacf4690a8fd01bfac6d850ea36263"
+    }
+  ],
+  "Disposition": "PE Detective and CFF Explorer package lifecycle/recovery passed. 4GB Patch set the large-address-aware flag on the synthetic PE and created an exact backup when available, but when the backup path was occupied it patched the target anyway, returned exit code 0, and created no recoverable backup. The test restored the fixture from its in-memory original. Do not promote or run the candidate on real executables until a safe guard/wrapper or corrected upstream behavior is established and reaccepted.",
+  "LegacyOutcomeClosure": []
+}

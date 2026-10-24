@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T16:23:20Z",
+  "Batch": "Sysinternals current-source local package lifecycle regression",
+  "Suites": [
+    "tests/SysinternalsSuitePackage.Tests.ps1",
+    "tests/SysinternalsProductPackages.Tests.ps1"
+  ],
+  "Runner": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "WindowsIntegrationExcluded": true,
+    "VmUsed": false
+  },
+  "InitialAttempt": {
+    "TempRoot": "Pester sandbox AppData temp",
+    "Passed": 40,
+    "Failed": 39,
+    "Skipped": 0,
+    "Failure": "Access denied on atomic file Move operations under the sandbox-generated AppData temp root. No digest assertion or portable-manifest commit could complete for affected cases."
+  },
+  "Rerun": {
+    "TempRoot": ".local/sysinternals-pester-20261024/temp",
+    "Passed": 79,
+    "Failed": 0,
+    "Skipped": 0,
+    "Total": 79,
+    "WholeSuiteDurationSeconds": 475.29,
+    "IndependentProductSuiteDurationSeconds": 172.0
+  },
+  "Coverage": [
+    "Pinned artifact digest mismatch is rejected before success is recorded or a tool is launched.",
+    "Whole-suite and independent-product staging, repeat, removal and recovery lifecycles pass with synthetic payloads.",
+    "Conflicting, modified and independently owned files are preserved according to manifest ownership."
+  ],
+  "Boundaries": {
+    "SysinternalsExecutableLaunched": false,
+    "DefenderExclusionChanged": false,
+    "ArtifactAcquired": false,
+    "NativeRegistryQueried": false,
+    "WindowsStateChanged": false,
+    "WindowsVmAcceptance": false
+  },
+  "Disposition": {
+    "SysinternalsLicenseBlocker": false,
+    "LicenseBasis": "Prior RIDE v2 license-specialist approval covers RIDE's direct-download-and-install workflow; no generalized redistribution gate applies.",
+    "DefenderDetectedTools": "Remain separately excluded from the eligible run scope.",
+    "Resolved": ["Current-source local suite and independent-product package lifecycle regression passed."],
+    "Deferred": ["Windows 11/Server acceptance and utility functional behavior; no Windows target support is inferred."],
+    "LegacyOutcomesClosed": 0,
+    "EstimateRangesUnchanged": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170."
+  }
+}

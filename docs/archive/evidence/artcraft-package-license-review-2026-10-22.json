@@ -1,0 +1,56 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-22",
+  "ReviewOwner": "Unassigned",
+  "LicenseReviewStatus": "NeedsReview",
+  "Store": ".local/license-reviews.json",
+  "PriorMatchingRecords": 0,
+  "AddedRecords": 13,
+  "TotalStoreRecordsAfter": 25,
+  "Packages": [
+    { "Id": "package.photocraft", "Name": "PhotoCraft", "ReviewedVersion": "0.7.0" },
+    { "Id": "package.vectorcraft", "Name": "VectorCraft", "ReviewedVersion": "0.9.0" },
+    { "Id": "package.filmcraft", "Name": "FilmCraft", "ReviewedVersion": "0.6.0" },
+    { "Id": "package.lightcraft", "Name": "LightCraft", "ReviewedVersion": "0.6.0" },
+    { "Id": "package.pdfcraft", "Name": "PDFCraft", "ReviewedVersion": "0.6.0" },
+    { "Id": "package.effectcraft", "Name": "EffectCraft", "ReviewedVersion": "0.8.0" },
+    { "Id": "package.designcraft", "Name": "DesignCraft", "ReviewedVersion": "0.6.0" },
+    { "Id": "package.wordcraft", "Name": "WordCraft", "ReviewedVersion": "0.5.0" },
+    { "Id": "package.soundcraft", "Name": "SoundCraft", "ReviewedVersion": "0.5.0" },
+    { "Id": "package.deckcraft", "Name": "DeckCraft", "ReviewedVersion": "0.5.0" },
+    { "Id": "package.cadcraft", "Name": "CADCraft", "ReviewedVersion": "0.5.0" },
+    { "Id": "package.gridcraft", "Name": "GridCraft", "ReviewedVersion": "0.5.0" },
+    { "Id": "package.artcraft-launcher", "Name": "ArtCraft Launcher", "ReviewedVersion": "0.2.1" }
+  ],
+  "Finding": "The catalog identifies MIT OR Apache-2.0 for code; bundled assets retain their notices; Artcraft branding has separate terms. Owner-specific use/distribution assessment remains pending for bundled assets and brand terms.",
+  "Acceptance": {
+    "CandidateTarget": "Windows 11",
+    "PendingAcceptance": true,
+    "SupportedTargets": [],
+    "LifecycleTested": false,
+    "ReadOnlyVmQuery": "Get-VM for RIDE-Win11-Test failed: Access to a CIM resource was not available to the client."
+  },
+  "Validation": {
+    "RepositoryValidator": "Passed: 371 operations, 8 groups, 5 profiles, 241 PowerShell files",
+    "LicenseReviewPester": "Passed: 9/9 with optional Pester TestRegistry fixture disabled; sandbox denied the fixture's HKCU test-key setup when enabled",
+    "DiffCheck": "Passed"
+  },
+  "Boundaries": {
+    "EntitlementInferred": false,
+    "RedistributionApproved": false,
+    "InstallerExecuted": false,
+    "LauncherStarted": false,
+    "WindowsStateChanged": false,
+    "VmUsed": false,
+    "DefenderChanged": false,
+    "LegacyOutcomeResolved": false,
+    "LegacyOutcomesRetired": [],
+    "LegacyOutcomesExcluded": []
+  },
+  "EstimatedRemainingWork": {
+    "GroupRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactRangeEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateReason": "Local version-specific NeedsReview records document open owner-specific terms questions; they neither complete Windows package lifecycle acceptance nor close a legacy outcome."
+  }
+}

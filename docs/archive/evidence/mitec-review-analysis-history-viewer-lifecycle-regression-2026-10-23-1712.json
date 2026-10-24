@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-23T17:12:40Z",
+  "run": "MiTeC review-data, analysis, historical file-tool, and viewer lifecycle regression",
+  "command": "Invoke-Pester with Pester 5.7.1; TestRegistry disabled; repository-local TEMP/TMP",
+  "environment": {
+    "os": "Windows host checkout",
+    "powershell": "PowerShell 7.6.5",
+    "pester": "5.7.1"
+  },
+  "testFiles": [
+    "tests/MiTeCReviewDataTools.Tests.ps1",
+    "tests/MiTeCAnalysisTools.Tests.ps1",
+    "tests/MiTeCHistoricalFileTools.Tests.ps1",
+    "tests/MitecViewerPackages.Tests.ps1"
+  ],
+  "result": {
+    "passed": 32,
+    "failed": 0,
+    "skipped": 0,
+    "total": 32,
+    "durationSeconds": 47.63
+  },
+  "scope": "Retained archive/member pins, inert synthetic package staging, planning, repeat/remove/recovery, owned-file boundaries, and preservation of operator-owned or modified files.",
+  "notPerformed": [
+    "No upstream executable was launched.",
+    "No COM activation, registry-hive inspection, firmware query, report generation, host-file scanning, process-memory or raw-disk access occurred.",
+    "No Windows VM acceptance, user-data access, network access, or Windows state change occurred."
+  ],
+  "windowsPowerShell51ParserValidation": "Passed for the portable package module, four focused test files, and catalog data file.",
+  "outcome": "Package file-lifecycle regression passed; product behavior and Windows target acceptance remain deferred. No legacy outcome closed.",
+  "estimates": {
+    "settings": "38-58",
+    "packages": "52-67",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "142-196",
+    "roundedTotal": "145-200/about 170"
+  },
+  "blocker": "RIDE-Win11-Test acceptance remains deferred because the latest read-only Hyper-V Get-VM query failed at CIM access before checkpoint inspection; see ride-win11-test-access-recheck-2026-10-23-1706.json."
+}

@@ -136,7 +136,7 @@ function Get-RideCatalogContext {
       }
       if ($operation.Kind -eq 'RegistryValueSet') {
         if ($operation.States -isnot [hashtable] -or $operation.RegistryValues -isnot [array] -or
-            $operation.RegistryValues.Count -lt 2 -or $operation.RegistryValues.Count -gt 10) { throw "External registry value sets require States and 2-10 components: $($operation.Id)" }
+            $operation.RegistryValues.Count -lt 2 -or $operation.RegistryValues.Count -gt 20) { throw "External registry value sets require States and 2-20 components: $($operation.Id)" }
         foreach ($member in $operation.RegistryValues) {
           if ($member -isnot [hashtable] -or $member.ValueName -isnot [string] -or
               $member.RegistryPath -notmatch $(if ($operation.Scope -eq 'User') { '^HKCU:\\' } else { '^HKLM:\\' }) -or

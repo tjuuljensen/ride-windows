@@ -1,0 +1,40 @@
+{
+  "RecordedAtUtc": "2026-10-24T03:21:25Z",
+  "Product": "Exterro FTK Imager",
+  "Version": "8.3.0.27",
+  "Source": {
+    "ReleaseUri": "https://www.exterro.com/ftk-downloads/ftk-imager-8-3",
+    "DownloadUri": "https://d1kpmuwb7gvu1i.cloudfront.net/8.3/Imager/FTK%20Imager%208.3.0.27.zip",
+    "ArchiveSha256": "0f717d0d91c94af94107775ae37c2e330cc2a2312a8eecc91a344c8010e82afe"
+  },
+  "Checks": [
+    {
+      "Action": "Extract outer setup PE with 7-Zip",
+      "Result": "52 PE/resource entries extracted as inert data. The 228420552-byte [0] entry was opaque to 7-Zip archive listing; no MSI or CAB layout was exposed.",
+      "Executed": false
+    },
+    {
+      "Action": "Verify previously recorded member metadata",
+      "Result": "Main setup 8.3.0.27 and bundled CodeMeter Runtime 8.20.6539.500 remain Authenticode Valid under their recorded publishers.",
+      "Executed": false
+    }
+  ],
+  "Disposition": {
+    "LicenseBlocker": false,
+    "CandidateAdded": false,
+    "Reason": "The generic EXE package contract cannot model or verify the InstallShield prerequisite, service/driver and recovery behavior from the retained opaque payload. No silent switch or prerequisite action was inferred.",
+    "Remaining": [
+      "Publisher-documented unattended install and prerequisite behavior",
+      "CodeMeter install/remove and service ownership",
+      "Driver changes, reboot behavior, detection and exact recovery",
+      "Disposable Windows target acceptance"
+    ]
+  },
+  "Runtime": {
+    "InstallerLaunched": false,
+    "ProductLaunched": false,
+    "VMUsed": false,
+    "WindowsStateChanged": false
+  },
+  "EstimateImpact": "No legacy outcome closed; all migration ranges remain unchanged."
+}

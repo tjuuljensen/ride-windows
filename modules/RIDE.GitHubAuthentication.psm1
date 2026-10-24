@@ -203,7 +203,7 @@ function Get-RideGitHubCredentialContext {
 function Assert-RideGitHubApiUri {
   param([string] $Uri)
   $endpoint = $null
-  if (-not [uri]::TryCreate($Uri, [UriKind]::Absolute, [ref]$endpoint) -or $endpoint.Scheme -ne 'https' -or $endpoint.Host -ne 'api.github.com' -or -not $endpoint.IsDefaultPort -or $endpoint.UserInfo -or $endpoint.Query -or $endpoint.Fragment -or $endpoint.AbsolutePath -cnotmatch '^/(user|repos/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(/releases/latest)?)$') { Stop-RideGitHubAuthentication 'InvalidEndpoint' }
+  if (-not [uri]::TryCreate($Uri, [UriKind]::Absolute, [ref]$endpoint) -or $endpoint.Scheme -ne 'https' -or $endpoint.Host -ne 'api.github.com' -or -not $endpoint.IsDefaultPort -or $endpoint.UserInfo -or $endpoint.Query -or $endpoint.Fragment -or $endpoint.AbsolutePath -cnotmatch '^/(user|repos/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:/releases/latest|/releases/tags/[A-Za-z0-9][A-Za-z0-9.+_-]*)?)$') { Stop-RideGitHubAuthentication 'InvalidEndpoint' }
   $endpoint
 }
 
@@ -405,7 +405,7 @@ function Get-RideAuthenticatedGitHubRelease {
   .DESCRIPTION
     Checks public repository visibility, isolates revision caches and shares account backoff.
   .PARAMETER Uri
-    Exact trusted latest-release API endpoint.
+    Exact trusted latest-release or tagged-release API endpoint.
   .PARAMETER CredentialReference
     Enrollment or run-bound guest reference. Never a token.
   .PARAMETER Cache
@@ -421,7 +421,7 @@ function Get-RideAuthenticatedGitHubRelease {
   #>
   [CmdletBinding()] param([Parameter(Mandatory)][string] $Uri, [Parameter(Mandatory)][string] $CredentialReference, [hashtable] $Cache = $script:ReleaseCache)
   $endpoint = Assert-RideGitHubApiUri $Uri
-  if ($endpoint.AbsolutePath -cnotmatch '/releases/latest$') { Stop-RideGitHubAuthentication 'InvalidEndpoint' }
+  if ($endpoint.AbsolutePath -cnotmatch '/releases/(?:latest|tags/[A-Za-z0-9][A-Za-z0-9.+_-]*)$') { Stop-RideGitHubAuthentication 'InvalidEndpoint' }
   $context = Get-RideGitHubCredentialContext $CredentialReference
   try {
     $now = Get-RideGitHubAuthenticationTime
@@ -430,7 +430,7 @@ function Get-RideAuthenticatedGitHubRelease {
     $entry = $Cache[$key]; $kind = 'ProcessCache'
     if ($entry -and $entry.AuthenticationGeneration -ne $script:CacheGeneration) { $Cache.Remove($key); $entry = $null }
     if (-not $entry) {
-      $repository = Invoke-RideGitHubContextRequest ($endpoint.AbsoluteUri -replace '/releases/latest$', '') $context
+      $repository = Invoke-RideGitHubContextRequest ($endpoint.AbsoluteUri -replace '/releases/(?:latest|tags/[A-Za-z0-9][A-Za-z0-9.+_-]*)$', '') $context
       if ($repository.Data.private -isnot [bool] -or $repository.Data.private -ne $false) { Stop-RideGitHubAuthentication 'PublicRepositoryRequired' }
       $result = Invoke-RideGitHubContextRequest $endpoint.AbsoluteUri $context
       if (-not $result.Data.tag_name -or 'assets' -notin $result.Data.PSObject.Properties.Name) { Stop-RideGitHubAuthentication 'InvalidResponse' }

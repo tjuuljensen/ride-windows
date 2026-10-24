@@ -1,0 +1,78 @@
+{
+  "SchemaVersion": 1,
+  "RunDate": "2026-10-22",
+  "IntegrationSuite": "ApplicationsBatch4",
+  "Target": "Windows 11 Enterprise Evaluation build 26300",
+  "Runs": [
+    {
+      "RunId": "13d9a039f2ef4307b31bdf605b84a6de",
+      "Status": "FailedBeforeIntegration",
+      "Pester": { "Passed": 260, "Failed": 25, "Skipped": 1 },
+      "Failure": "The ignored .local fixture root was absent in the staged guest checkout."
+    },
+    {
+      "RunId": "f22dfd9847fb42e4b1e800c0b488e799",
+      "Status": "Failed",
+      "Pester": { "Passed": 285, "Failed": 0, "Skipped": 1 },
+      "Packages": {
+        "slack": "Acquired and installed; removal failed on a recreated Roaming data directory.",
+        "discord": "Not acquired; catalog still had the stale malformed-digest block."
+      }
+    },
+    {
+      "RunId": "bf0e0f310e554dfd89661699391d0184",
+      "Status": "Failed",
+      "Pester": { "Passed": 284, "Failed": 0, "Skipped": 1 },
+      "Packages": {
+        "slack": {
+          "Version": "4.52.182",
+          "Sha256": "e42dba9622a297106f16a11f148c86e08beeeea6fe5bfd63de4c606b513ab184",
+          "AuthenticodeStatus": "Valid",
+          "Signer": "Slack Technologies, LLC",
+          "InstallDetected": true,
+          "RemovalRecovery": "Failed safely: the uninstaller recreated the Roaming data directory; preserved data remained in the RIDE recovery directory."
+        },
+        "discord": {
+          "Version": "1.0.9264",
+          "Sha256": "2c79a8eccf972709dc04e014a9ed36d8dcc4ce84179741eb1424e022d4c3625c",
+          "AuthenticodeStatus": "Valid",
+          "Signer": "Discord Inc.",
+          "InstallDetected": true,
+          "RemovalRecovery": "Failed safely: the uninstaller recreated the Roaming data directory; preserved data remained in the RIDE recovery directory."
+        }
+      }
+    },
+    {
+      "RunId": "e0d0ee2b58eb4bb2ac6d66242020c115",
+      "Status": "Passed",
+      "Pester": { "Passed": 285, "Failed": 0, "Skipped": 1 },
+      "Packages": {
+        "slack": {
+          "Version": "4.52.182",
+          "Sha256": "e42dba9622a297106f16a11f148c86e08beeeea6fe5bfd63de4c606b513ab184",
+          "AuthenticodeStatus": "Valid",
+          "Signer": "Slack Technologies, LLC",
+          "InstallDetected": true,
+          "VendorUninstall": "Passed; operated in place and preserved the existing Roaming profile fixture byte-for-byte.",
+          "RemovalRecovery": "Passed; reinstall recovery returned version 4.52.182.",
+          "ProfilePreservation": true
+        },
+        "discord": {
+          "Version": "1.0.9264",
+          "Sha256": "2c79a8eccf972709dc04e014a9ed36d8dcc4ce84179741eb1424e022d4c3625c",
+          "AuthenticodeStatus": "Valid",
+          "Signer": "Discord Inc.",
+          "InstallDetected": true,
+          "VendorUninstall": "Passed; operated in place and preserved the existing Roaming profile fixture byte-for-byte.",
+          "RemovalRecovery": "Passed; reinstall recovery returned version 1.0.9264.",
+          "ProfilePreservation": true
+        }
+      }
+    }
+  ],
+  "FinalVmState": "Off; clean checkpoint restored",
+  "DefenderEvidence": "No Defender alert was reported in the captured run artifacts. Defender event logs were not exported, so this does not establish that the VM recorded no Defender event.",
+  "CatalogStatus": "Slack and Discord are accepted for Windows 11 only. Vendor uninstallers ran in place and preserved the test Roaming profile data; Windows Server targets remain unsupported.",
+  "LegacyOutcomesClosed": 0,
+  "EstimateRangesUnchanged": "38-58 / 53-68 / 20-25 / 25-35 / 8-12"
+}

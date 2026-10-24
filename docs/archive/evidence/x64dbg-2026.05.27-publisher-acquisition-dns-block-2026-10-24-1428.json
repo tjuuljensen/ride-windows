@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-24T14:28:00Z",
+  "product": "x64dbg",
+  "version": "2026.05.27",
+  "publisherUri": "https://x64dbg.com/",
+  "downloadUri": "https://sourceforge.net/projects/x64dbg/files/snapshots/snapshot_2026-05-27_12-11.zip/download",
+  "acquisition": {
+    "method": "Native PowerShell Invoke-WebRequest to the publisher-linked SourceForge snapshot",
+    "result": "BlockedBeforeTransfer",
+    "error": "No such host is known. (sourceforge.net:443)",
+    "archiveWritten": false,
+    "partialWritten": false,
+    "stagingDirectory": ".local/acquisition-staging/x64dbg-2026.05.27",
+    "stagingDirectoryRemovedAfterConfirmingEmpty": true
+  },
+  "boundaries": {
+    "AlternativeOrThirdPartySourceUsed": false,
+    "ArchiveExecuted": false,
+    "VmOrWindowsStateChanged": false
+  },
+  "nextAction": "Retry the same publisher-declared pinned archive when local DNS is available; then calculate SHA-256 and inspect members, signatures and license notices.",
+  "licenseReviewIsTechnicalBlocker": false,
+  "migrationEstimateRangesUnchanged": true,
+  "estimates": {
+    "settings": "37-57",
+    "packages": "52-67",
+    "components": "19-24",
+    "filesAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "141-195",
+    "roundedTotal": "140-195/about 170"
+  }
+}

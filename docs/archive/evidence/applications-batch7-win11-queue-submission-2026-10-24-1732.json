@@ -1,0 +1,41 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T17:32:53.2094875Z",
+  "Controller": "RIDEWin11Test",
+  "Target": "RIDE-Win11-Test",
+  "Checkpoint": {
+    "Name": "RIDE-clean-test-base",
+    "Id": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9"
+  },
+  "ActiveRequest": {
+    "SnapshotRunnerVersion": "0.14.4",
+    "RunId": "6a896d6621304fdfbbb89e702488239f",
+    "Suite": "ApplicationsBatch6",
+    "Status": "Running"
+  },
+  "QueuedRequest": {
+    "RunId": "2ce98ec80d5c45fe8826c384b81de378",
+    "ExpectedRunnerVersion": "0.14.5",
+    "Status": "Pending",
+    "Suite": "ApplicationsBatch7",
+    "TimeoutMinutes": 180,
+    "SubmittedAtUtc": "2026-10-24T17:32:53.2094875Z"
+  },
+  "Package": {
+    "CandidateTargets": [
+      "Windows 11"
+    ],
+    "SupportedTargets": [],
+    "Id": "package.artcraft-launcher",
+    "Scope": "User",
+    "PendingAcceptance": true,
+    "Name": "ArtCraft Launcher",
+    "MigrationBatch": "ApplicationsBatch7"
+  },
+  "DefenderDisposition": "ArtCraft Launcher is outside the separately excluded NirSoft/x64 utilities.",
+  "SerializedExecution": "The registered worker holds a single exclusive lock and drains requests serially; Batch7 remains pending until Batch6 completes its cleanup.",
+  "FreshUacPromptRequested": false,
+  "RuntimeBlockedMarkerPresent": false,
+  "LegacyOutcomesClosed": 0,
+  "EstimateRanges": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170"
+}

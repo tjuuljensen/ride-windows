@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "Batch": "B04 documented proxy-policy refusal guard",
+  "Tests": {
+    "Files": [
+      "tests/UserProxyInventory.Tests.ps1",
+      "tests/UserProxyPreparation.Tests.ps1"
+    ],
+    "Discovered": 87,
+    "Passed": 87,
+    "Failed": 0,
+    "Skipped": 0,
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "WindowsPowerShell51Parser": "Clean for both modules and both test files"
+  },
+  "PolicySources": [
+    "HKCU/HKLM Software\\Policies\\Microsoft\\Internet Explorer\\Control Panel\\Proxy",
+    "HKLM Software\\Policies\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ProxySettingsPerUser"
+  ],
+  "Assertions": [
+    "A nonzero documented proxy-change restriction is reported as Blocked.",
+    "ProxySettingsPerUser=0 is reported as Blocked for a user-scoped writer.",
+    "Malformed known policy data is reported as Unknown.",
+    "The setter refuses Blocked/Unknown policy status and registry read failures before ShouldProcess or the WinINet setter."
+  ],
+  "Scope": {
+    "RegistryQueried": false,
+    "RegistryChanged": false,
+    "WinINetQueried": false,
+    "WinINetSet": false,
+    "NetworkUsed": false,
+    "VmUsed": false,
+    "WindowsStateChanged": false
+  },
+  "PolicyCoverage": "Checks only the documented registry mappings listed above. Clear is not a complete effective-policy inventory.",
+  "Outcome": {
+    "Resolved": ["The low-level writer now refuses detected documented proxy-change and machine-wide policy, plus unknown or unreadable policy states."],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Fresh observation compare-and-set, durable saved state, post-write readback, partial-failure compensation, conflict-aware recovery, engine/catalog integration and disposable Windows acceptance."],
+    "Partial": ["B04 proxy setting migration remains incomplete; no native setter or user-facing lifecycle is authorized by this candidate."],
+    "GroupRanges": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged; no legacy setting outcome closed."
+  },
+  "MicrosoftReferences": [
+    "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-internetexplorer#disableproxychange",
+    "https://learn.microsoft.com/en-us/windows/client-management/mdm/networkproxy-csp#proxysettingsperuser"
+  ]
+}

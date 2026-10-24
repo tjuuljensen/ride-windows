@@ -1,0 +1,44 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "ObservedAtUtc": "2026-10-23T05:55:39Z",
+  "Batch": "RIDE-Win11-Test read-only access recheck",
+  "Target": "RIDE-Win11-Test",
+  "Command": "Get-VM -Name RIDE-Win11-Test",
+  "Result": "Blocked",
+  "Error": "Access to a CIM resource was not available to the client.",
+  "VmStateVerified": false,
+  "CheckpointVerified": false,
+  "QueueSubmissionAttempted": false,
+  "VmOrCheckpointChanged": false,
+  "InstallerOrPackageRan": false,
+  "DefenderSettingsChanged": false,
+  "AffectedAcceptance": [
+    "B03 UserBinPath startup",
+    "Q08 persistent user PATH",
+    "B08 PSScriptTools runtime",
+    "B10 broad disconnected acceptance",
+    "Sysinternals Suite lifecycle",
+    "NTCore and MiTeC candidate lifecycle"
+  ],
+  "Outcome": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Prepared guest acceptance until authorized VM and controller access is available"
+    ],
+    "Partial": [
+      "Local source and implementation work remains actionable; guest lifecycle and target acceptance remain unverified"
+    ],
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170"
+  }
+}

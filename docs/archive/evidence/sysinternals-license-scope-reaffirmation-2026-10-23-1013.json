@@ -1,0 +1,62 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "RecordedAtUtc": "2026-10-23T10:13:21Z",
+  "Batch": "Sysinternals practical license-scope reaffirmation",
+  "ProductIds": [
+    "package.sysinternals-suite",
+    "package.sysinternals-process-explorer",
+    "package.sysinternals-autoruns",
+    "package.sysinternals-tcpview",
+    "package.sysinternals-procmon",
+    "package.sysinternals-rammap",
+    "package.sysinternals-disk2vhd",
+    "package.sysinternals-sigcheck",
+    "package.sysinternals-strings",
+    "package.sysinternals-handle"
+  ],
+  "UserDecision": "The prior RIDE v2 license-specialist assessment approved Sysinternals for RIDE. There are no legal issues using Sysinternals in RIDE, and strict distribution-focused reasoning must not block package migration.",
+  "ApprovedWorkflow": "RIDE downloads Sysinternals directly from Microsoft and installs it on devices supported by the user. RIDE does not publish or transfer Sysinternals copies.",
+  "MigrationDisposition": "Licensing is settled for the approved RIDE workflow. No additional license review or separate distribution gate is required for this package migration.",
+  "ReviewStatus": "Reviewed",
+  "ReviewOwner": "Prior license-specialist approval, reaffirmed by the user; reviewer identity was not retained.",
+  "TechnicalAcceptanceStillRequired": [
+    "Windows package lifecycle",
+    "Exact package recovery",
+    "Target Windows acceptance"
+  ],
+  "TechnicalAcceptanceBlocker": "The existing RIDE-Win11-Test VM and checkpoint remain inaccessible through the current Hyper-V CIM path.",
+  "Outcome": {
+    "Resolved": [
+      "Sysinternals license scope for RIDE direct download/install; all ten exact versions remain Reviewed and license concerns are not a migration blocker."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Windows lifecycle, exact recovery and target acceptance pending VM/checkpoint access."
+    ],
+    "Partial": [
+      "Package migration remains technically pending; no legacy runtime outcome closes in this decision-only update."
+    ]
+  },
+  "Estimate": {
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged because this reaffirms an existing decision and closes no technical acceptance outcome."
+  },
+  "Boundaries": {
+    "PackageDownloaded": false,
+    "InstallerExecuted": false,
+    "SysinternalsToolExecuted": false,
+    "VmUsed": false,
+    "DefenderChanged": false,
+    "WindowsStateChanged": false
+  }
+}

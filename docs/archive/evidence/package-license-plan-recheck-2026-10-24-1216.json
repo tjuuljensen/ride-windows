@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-24T12:16:00Z",
+  "scope": "Current-source package planning and local license-review marker regression",
+  "environment": {
+    "powershell": "7.6.5",
+    "pester": "5.7.1",
+    "testRegistryEnabled": false,
+    "temporaryRoots": [
+      ".local/pester-sysinternals-plan-recheck-20261024-1210",
+      ".local/pester-sysinternals-plan-focused-20261024-1216"
+    ]
+  },
+  "results": {
+    "combinedRegression": {
+      "files": [
+        "tests/ApplicationPackages.Tests.ps1",
+        "tests/LicenseReviews.Tests.ps1"
+      ],
+      "discovered": 124,
+      "passed": 123,
+      "failed": 1,
+      "skipped": 0,
+      "failure": {
+        "test": "retains exact versions and separate owners and replaces only the selected review",
+        "error": "IOException in Write-ReviewDocument: File.Replace could not remove the existing synthetic review JSON under sandbox permissions.",
+        "hostStateChanged": false,
+        "ownerSpecificReviewStoreWritten": false
+      }
+    },
+    "filteredPlanRegression": {
+      "file": "tests/LicenseReviews.Tests.ps1",
+      "discovered": 21,
+      "selected": 11,
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 10,
+      "coverage": [
+        "Every pending package remains install-plan selectable with an exact-version local NeedsReview record.",
+        "All ten approved Sysinternals Suite/product plans remain selectable while technical acceptance is pending."
+      ]
+    }
+  },
+  "migrationDisposition": {
+    "sysinternalsLicense": "Settled by the prior RIDE v2 license-specialist approval for RIDE's direct download-and-install workflow; not a package-migration gate.",
+    "resolved": [
+      "Current-source filtered package planning confirms NeedsReview remains informational and all ten approved Sysinternals plans remain available."
+    ],
+    "retired": [],
+    "excluded": [
+      "Defender-detected tools remain separately excluded from selected acceptance batches."
+    ],
+    "partial": [
+      "Package planning is locally verified; Windows package runtime and functional acceptance remain pending."
+    ],
+    "deferred": [
+      "The unrelated license-store file-replacement test requires a supported writable test location.",
+      "ApplicationsBatch1 request 24dae5ea55034a84b42cb6a0260d9c3c remained live in the registered queue without a result file at 12:16 UTC; it was not restarted or overlapped.",
+      "Nine independent Sysinternals product Windows lifecycle checks require the saved registered-controller refresh."
+    ],
+    "wholeLegacyOutcomesClosed": 0,
+    "estimateRangesUnchanged": true,
+    "estimates": {
+      "settings": "38-58",
+      "packages": "52-67",
+      "components": "19-24",
+      "accountsConfigurationAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "142-196",
+      "roundedTotal": "145-200/about 170"
+    }
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T17:33:35.9039271Z",
+  "ChangedFile": "tests/integration/Invoke-RideApplicationBatch.ps1",
+  "RunnerVersion": "0.14.5",
+  "Behavior": [
+    "ApplicationsBatch6 and ApplicationsBatch7 check the installed display version against each catalog-pinned PackageVersion.",
+    "Both Artcraft batches test RIDE-managed install, repeat-install idempotence, removal preview, RIDE uninstall, absence, repeat-uninstall idempotence, saved removal recovery to presence, and saved install recovery to original absence.",
+    "Each scenario result records its lifecycle checks."
+  ],
+  "LocalValidation": {
+    "PowerShellParser": "Passed",
+    "Skipped": 2,
+    "Failed": 0,
+    "Warnings": [
+      "Partial evidence unavailable: transcript.log"
+    ],
+    "TemporaryTestDirectoriesRemoved": true,
+    "PesterSuites": [
+      "tests/ArtcraftPackages.Tests.ps1",
+      "tests/TestAutomation.Tests.ps1"
+    ],
+    "Passed": 118,
+    "PesterVersion": "5.7.1",
+    "Total": 120,
+    "VMStateChanged": false
+  },
+  "AcceptanceRequests": [
+    {
+      "CleanupError": null,
+      "Suite": "ApplicationsBatch6",
+      "RunId": "f7b20b6524bf4f99a80a1f19962b7cfd",
+      "SourceSnapshotRunnerVersion": "0.14.3",
+      "StatusAtRecord": "Passed"
+    },
+    {
+      "CleanupError": null,
+      "Suite": "ApplicationsBatch6",
+      "RunId": "9f6bec44b84c4855917bd6913b0b792f",
+      "SourceSnapshotRunnerVersion": "0.14.3",
+      "StatusAtRecord": "Passed"
+    },
+    {
+      "SourceSnapshotCapturedAtUtc": "2026-10-24T17:26:46Z",
+      "Suite": "ApplicationsBatch6",
+      "SourceSnapshotRunnerVersion": "0.14.4",
+      "StatusAtRecord": "Running",
+      "SubmittedAtUtc": "2026-10-24T17:21:04Z",
+      "Checks": [
+        "PinnedPackageVersion",
+        "RepeatInstall",
+        "RemovalPreview",
+        "RIDERemoval",
+        "RepeatRemoval",
+        "SavedRemovalRecovery",
+        "SavedInstallRecovery"
+      ],
+      "RunId": "6a896d6621304fdfbbb89e702488239f"
+    },
+    {
+      "RunId": "2ce98ec80d5c45fe8826c384b81de378",
+      "StatusAtRecord": "Pending",
+      "ExpectedSourceSnapshotRunnerVersion": "0.14.5",
+      "Suite": "ApplicationsBatch7",
+      "TimeoutMinutes": 180,
+      "SubmittedAtUtc": "2026-10-24T17:32:53.2094875Z"
+    }
+  ],
+  "SupportPromotion": "Keep all twelve machine-scope Artcraft packages and the ArtCraft Launcher as Windows 11 candidates with PendingAcceptance until the corrected guest lifecycle runs pass.",
+  "EstimateRanges": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170",
+  "ReportedVersionVerifiedAtUtc": "2026-10-24T17:28:14.7184136Z",
+  "Batch7Coverage": "ApplicationsBatch7 run 2ce98ec80d5c45fe8826c384b81de378 is queued behind corrected Batch6; full lifecycle runner 0.14.5 will be staged when the serialized worker claims it."
+}

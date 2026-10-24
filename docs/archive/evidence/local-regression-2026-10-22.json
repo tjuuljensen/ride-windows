@@ -1,0 +1,61 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-22",
+  "Batch": "Local repository regression after Sysinternals disposition correction",
+  "Environment": {
+    "Platform": "Windows",
+    "PowerShell": "PowerShell 7",
+    "CheckoutType": "Windows filesystem",
+    "VmUsed": false
+  },
+  "Validation": {
+    "CatalogExportCheck": "Passed; operation documentation is current",
+    "RepositoryValidator": "Passed; 371 operations, 8 groups, 5 profiles, 241 PowerShell files",
+    "DiffCheck": "Passed"
+  },
+  "Pester": {
+    "BroadRun": {
+      "Files": 90,
+      "Discovered": 2309,
+      "Passed": 2306,
+      "Failed": 0,
+      "Skipped": 2,
+      "NotRun": 1,
+      "ExcludedSlowFiles": [
+        "PSScriptToolsPackage.Tests.ps1",
+        "OptionalWindowsSettings.Tests.ps1",
+        "RemainingSettings.Tests.ps1",
+        "SixtySettings.Tests.ps1",
+        "SysinternalsProductPackages.Tests.ps1",
+        "SysinternalsSuitePackage.Tests.ps1"
+      ],
+      "ContainerNote": "Pester reported a container-level error for LibraryAuthoring.Tests.ps1 despite completing its test body."
+    },
+    "LibraryAuthoringIsolatedRerun": {
+      "Discovered": 42,
+      "Passed": 42,
+      "Failed": 0,
+      "Skipped": 0,
+      "NotRun": 0,
+      "Result": "Passed"
+    },
+    "TestRegistryPlugin": "Disabled"
+  },
+  "LegacyOutcome": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [],
+    "Partial": ["No migration scope changed; this run is regression verification only."]
+  },
+  "AcceptanceBlockers": [
+    "Hyper-V CIM access was denied; disposable VM state and checkpoint could not be inspected.",
+    "Protected controller queue access still prevents submitting the prepared VM batch."
+  ],
+  "Estimate": {
+    "GroupRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactTotal": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "No legacy outcome or target acceptance changed; ranges remain unchanged."
+  }
+}

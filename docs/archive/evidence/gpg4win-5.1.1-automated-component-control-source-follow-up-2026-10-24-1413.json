@@ -1,0 +1,48 @@
+{
+  "RunId": "gpg4win-5.1.1-automated-component-control-source-follow-up-2026-10-24-1413",
+  "DateUtc": "2026-10-24T14:13:00Z",
+  "PackageId": "package.gpg4win",
+  "PinnedVersion": "5.1.1",
+  "Sources": [
+    {
+      "Uri": "https://gpg4win.org/change-history.html",
+      "Type": "Official publisher release history",
+      "Observation": "The publisher lists 5.1.1, released 2026-09-23, as its latest release on the reviewed page. No newer fixed release is listed there."
+    },
+    {
+      "Uri": "https://forum.gnupg.org/t/issue-with-automated-installation-of-gpg4win-5-0-1/7098",
+      "Type": "GnuPG/Gpg4win community forum issue report",
+      "Observation": "A 2026-09-23 report says the /C INI component controls remain broken in 5.1.1. The reporter traced the behavior to config_fetch_bool returning through SetUserVariableA with incorrect WCHAR pointer arithmetic, causing false component settings to be ignored or misassigned."
+    },
+    {
+      "Uri": "https://www.gpg4win.org/doc/en/gpg4win-compendium_35.html",
+      "Type": "Official unattended installation documentation",
+      "Observation": "Documents /S, /C=<ini> and /D=<path>; it does not document a supported workaround for the reported v5 component-control defect."
+    }
+  ],
+  "ObservedRIDEFailure": {
+    "EvidencePath": "docs/archive/evidence/applications-batch1-win11-pre-fix-path-rerun-2026-10-24-1339.json",
+    "InstallerExitCode": "0xC0000005",
+    "SelectedConfiguration": "Per-user Gpg4win installation with a /C INI intended to install GnuPG and Kleopatra only.",
+    "CauseConfirmed": false,
+    "Assessment": "The upstream component-control defect is relevant to the selected installation method, but available guest evidence does not identify the module or prove that it caused this access violation."
+  },
+  "Disposition": {
+    "LicenseBlocker": false,
+    "MigrationBlockedOn": "Technical validation of the selected per-user component configuration and a successful install/remove/recovery path.",
+    "NextAction": "Do not promote or repeat the same 5.1.1 /C component configuration as an expected passing acceptance. Revisit after a publisher fix or a separately documented and independently tested workaround that preserves the user-approved per-user scope and selected components.",
+    "RejectedWorkaround": "The forum-mentioned HKLM uninstall-key preseed is not adopted; it changes machine-scope state and is not established for this per-user package operation.",
+    "ExcludedTools": "Defender-detected tools remain separate exclusions and are unrelated to Gpg4win."
+  },
+  "TestsOrInstallersRun": false,
+  "WindowsOrVmStateChanged": false,
+  "EstimateRanges": {
+    "Settings": "37-57",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "FilesAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "141-195",
+    "RoundedTotal": "140-195/about 170"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-23T18:28:24Z",
+  "Batch": "Focused package, settings and components cross-group local regression",
+  "Validation": {
+    "Failed": 0,
+    "TestRegistry": "Disabled",
+    "TempRoot": "Repository-local .local/pester-run-<guid>",
+    "Skipped": 0,
+    "PowerShell": "7.6.5",
+    "Discovered": 204,
+    "RetainedFixture": "ApplicationPackages tests reported a fixture-created Signal user-data directory retained under .local by test safety behavior; left untouched.",
+    "NotRun": 0,
+    "Pester": "5.7.1",
+    "Passed": 204,
+    "TestFiles": [
+      "tests/ApplicationPackages.Tests.ps1",
+      "tests/PackageEvidence.Tests.ps1",
+      "tests/LicenseReviews.Tests.ps1",
+      "tests/ClientComponentPreparation.Tests.ps1",
+      "tests/ClientComponentLifecycle.Tests.ps1",
+      "tests/LocalPasswordComplexityCandidate.Tests.ps1"
+    ],
+    "InitialAttempt": "An initial attempt used the sandbox-protected AppData temp directory and failed portable manifest atomic renames. The run was stopped; staged test evidence paths were left untouched. The identical suite was rerun with TEMP/TMP/TMPDIR under repository .local and passed."
+  },
+  "Scope": {
+    "WindowsPolicyRead": false,
+    "WindowsStateChanged": false,
+    "DismCalled": false,
+    "SeceditCalled": false,
+    "ElevationRequested": false,
+    "InstallerExecuted": false,
+    "DefenderChanged": false,
+    "VmUsed": false
+  },
+  "VmStatus": {
+    "LastReadOnlyCheckUtc": "2026-10-23T18:29:30Z",
+    "Targets": [
+      "RIDE-Win11-Test",
+      "RIDE-Srv2025Test"
+    ],
+    "Result": "Both target queries were denied by CIM before checkpoint inspection",
+    "CheckpointInspected": false
+  },
+  "Outcomes": {
+    "Retired": [],
+    "Excluded": [],
+    "Partial": [
+      "No legacy operation outcome closes; B06 and E08 remain unregistered candidates with no supported targets"
+    ],
+    "Resolved": [
+      "Current local cross-group package/settings/component code has no regression in the six selected focused suites"
+    ],
+    "Deferred": [
+      "Windows 11 and Server 2025 package/component/setting native lifecycle and recovery acceptance",
+      "E08 secedit isolation, effective-policy precedence and exact rollback",
+      "OpenJDK publisher sidecar content and MSI acquisition"
+    ]
+  },
+  "Estimate": {
+    "Groups": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "Reason": "The local regression verifies mock/file lifecycles and parsers only; it establishes no native Windows behavior and closes no legacy outcome.",
+    "Rounded": "145-200/about 170",
+    "Changed": false,
+    "Exact": "142-196"
+  }
+}

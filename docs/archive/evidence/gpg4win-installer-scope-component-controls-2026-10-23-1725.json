@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-23T17:25:41Z",
+  "batch": "Gpg4win 5.1.1 installer scope and component-control source review",
+  "retainedArtifacts": {
+    "installer": {
+      "uri": "https://files.gpg4win.org/gpg4win-5.1.1.exe",
+      "length": 44831736,
+      "sha256": "ed19c0c89ec42fe32c52a7abd6e3da5f491752700546b9eed7ddf82fd303cddf",
+      "authenticode": {
+        "status": "Valid",
+        "signer": "E=code@g10code.com, CN=g10 Code GmbH, O=g10 Code GmbH, L=Erkrath, S=Nordrhein-Westfalen, C=DE",
+        "thumbprint": "83CC4E382E5E4AF554C66E429E8F66FFE499910D"
+      }
+    },
+    "sourceArchive": {
+      "uri": "https://files.gpg4win.org/gpg4win-5.1.1.tar.xz",
+      "length": 270321920,
+      "sha256": "b486d80ae235dcc1aab72c276291a989bcc1ee947055565f5bae8842cfe8d907"
+    }
+  },
+  "sourceFindings": [
+    "The outer NSIS installer configures the MultiUser command-line mode and comments that user-mode installation is supported, though system-wide installation is preferred.",
+    "The outer source exposes the component page and loads previously remembered choices before calculating dependencies.",
+    "The 5.1.1 component source reads `inst_kleopatra`, `inst_okular`, `inst_gpgpass`, `inst_gpgoljs`, `inst_gpgol`, `inst_gpgex`, `inst_paperkey` and `inst_browser` boolean values from an explicit configuration file path passed with `/C=<path>`.",
+    "`/MINIMAL=1` explicitly deselects Kleopatra and several other components, then selects Paperkey; it does not implement the user's GnuPG-plus-Kleopatra selection.",
+    "The nested GnuPG installer is required and is launched silently into a directory beside the Gpg4win installation.",
+    "The Gpg4win uninstaller checks GnuPG registrations in both registry views and invokes the registered nested GnuPG uninstallers. An unrelated pre-existing GnuPG registration must not be silently adopted or removed."
+  ],
+  "outcome": "The confirmed user component choices are technically expressible through the explicit config file; package-specific config staging, current-user mode, nested dependency ownership, and removal/key-data preservation still require implementation and Windows acceptance. No installer or product was executed.",
+  "deferred": [
+    "Verify outer and nested current-user scope in the disposable VM.",
+    "Add package-specific generation and cleanup of the component config file, with explicit true/false values for all optional integrations.",
+    "Detect and safely handle existing GnuPG/Gpg4win registrations before install or removal.",
+    "Verify `%APPDATA%/gnupg` and other user-owned key/configuration data survive install, repeat, remove and recovery.",
+    "Run package lifecycle and feature acceptance on supported disposable Windows targets."
+  ],
+  "outcomeCounts": {
+    "resolvedLegacyOutcomes": 0,
+    "retiredLegacyOutcomes": 0,
+    "excludedLegacyOutcomes": 0
+  },
+  "estimates": {
+    "settings": "38-58",
+    "packages": "52-67",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "142-196",
+    "roundedTotal": "145-200/about 170"
+  }
+}

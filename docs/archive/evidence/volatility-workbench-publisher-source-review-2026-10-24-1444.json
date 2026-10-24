@@ -1,0 +1,64 @@
+{
+  "RecordedAtUtc": "2026-10-24T14:44:00Z",
+  "ProductUri": "https://www.osforensics.com/tools/volatility-workbench.html",
+  "DownloadUri": "https://www.osforensics.com/downloads/VolatilityWorkbench.zip",
+  "LicenseUri": "https://volatilityfoundation.org/license/",
+  "License": "Volatility Software License v1.0, as identified by the publisher for Volatility Workbench",
+  "Package": {
+    "Version": "3.0.1017",
+    "ReleaseDate": "2026-09-25",
+    "PublisherListedSize": "21.4 MB",
+    "FrameworkVersion": "Volatility 3 Framework 2.28.2",
+    "PublisherIncludes": [
+      "Volatility Workbench GUI",
+      "Volatility command-line executable",
+      "Source code"
+    ],
+    "PublisherSupportedWindows": [
+      "Windows 11",
+      "Windows 10",
+      "Windows 7"
+    ],
+    "DistinctFromStandaloneVolatilityCli": true
+  },
+  "RuntimeAndNetwork": {
+    "SymbolPacksAreSeparateDownloads": true,
+    "MissingWindowsSymbolsMayBeQueriedDownloadedGeneratedAndCached": true,
+    "OfflineBehaviorVerified": false,
+    "NetworkFallbackMustBeInspected": true
+  },
+  "LicenseDisposition": {
+    "VersionSpecificLocalReviewToRecordAfterArchiveInspection": true,
+    "LicenseReviewBlocksPackageWork": false
+  },
+  "Acquisition": {
+    "NativeResult": "PowerShell could not resolve osforensics.com before transfer.",
+    "ArchiveAcquired": false,
+    "Sha256Verified": false,
+    "MemberInventoryVerified": false,
+    "PartialFileCreated": false
+  },
+  "RunDisposition": {
+    "ResolvedLegacyOutcomes": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Acquire exact publisher ZIP and inspect hash/members",
+      "Verify embedded framework/source commit and all notices",
+      "Verify symbol retrieval/cache behavior and offline acceptance",
+      "Run native package lifecycle and representative dump acceptance"
+    ],
+    "Partial": [
+      "Publisher source review only; no whole legacy outcome closes"
+    ],
+    "MigrationEstimates": {
+      "Settings": "37-57",
+      "Packages": "52-67",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "141-195",
+      "RoundedTotal": "140-195/about 170"
+    }
+  }
+}

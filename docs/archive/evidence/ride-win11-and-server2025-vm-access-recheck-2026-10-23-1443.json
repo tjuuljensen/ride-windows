@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "kind": "RideWindowsVmAccessRecheck",
+  "checkedAtUtc": "2026-10-23T14:43:04Z",
+  "queries": [
+    {
+      "Name": "RIDE-Win11-Test",
+      "Command": "Get-VM -Name RIDE-Win11-Test",
+      "Result": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "Name": "RIDE-Srv2025Test",
+      "Command": "Get-VM -Name RIDE-Srv2025Test",
+      "Result": "Access to a CIM resource was not available to the client."
+    }
+  ],
+  "state": "VM and checkpoint state unknown because access failed before enumeration.",
+  "actions": [
+    "Read-only Get-VM queries only.",
+    "No host service, task queue, controller, VM, checkpoint, guest, Defender or Windows state changed.",
+    "No UAC/elevation prompt was requested."
+  ],
+  "acceptance": "Package, settings and component guest acceptance remains deferred until existing Hyper-V/CIM access is available.",
+  "migrationDisposition": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Disposable-VM package/settings/component acceptance."
+    ],
+    "partial": [
+      "No legacy outcome closed."
+    ],
+    "estimateRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "exactTotal": "142-196",
+    "roundedTotal": "145-200/about 170"
+  }
+}

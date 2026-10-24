@@ -1,0 +1,53 @@
+{
+  "RecordedAtUtc": "2026-10-24T03:37:35Z",
+  "Scope": "Attempted focused Sysinternals package and license-plan regression",
+  "Repository": "RIDE-Windows",
+  "Environment": {
+    "OperatingSystem": "Windows",
+    "PowerShell7": "7.6.5",
+    "Pester": "5.7.1"
+  },
+  "Attempts": [
+    {
+      "TestRegistryEnabled": true,
+      "Result": "FailedBeforeTestExecution",
+      "Reason": "Sandbox denied access to Pester's HKCU TestRegistry fixture."
+    },
+    {
+      "TestRegistryEnabled": false,
+      "Discovered": 28,
+      "Result": "InterruptedWithoutFinalSummary",
+      "ObservedFailures": [
+        "Sysinternals acquisition fixture could not move a temporary file because access was denied.",
+        "Portable package recovery fixture could not move a temporary manifest because access was denied."
+      ],
+      "CompletedTestCount": null,
+      "LicenseReviewsSuiteCompleted": false
+    }
+  ],
+  "LatestCompletedEvidence": "docs/archive/evidence/sysinternals-suite-and-license-plan-local-regression-2026-10-24-0312.json",
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [],
+    "Partial": ["Sysinternals package migration remains technically partial pending native lifecycle/recovery and Windows target acceptance."],
+    "EstimateRangesUnchanged": {
+      "Settings": "38-58",
+      "Packages": "52-67",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "142-196",
+      "RoundedTotal": "145-200/about 170"
+    }
+  },
+  "SideEffects": {
+    "PackageOrUtilityRun": false,
+    "InstallerRun": false,
+    "VmAcceptanceRun": false,
+    "DefenderBlockedToolSelected": false,
+    "WindowsStateChanged": false
+  },
+  "LicensingDisposition": "No license blocker. Prior RIDE v2 license-specialist approval covers RIDE's direct publisher-download-and-install workflow; no additional migration gate is applied."
+}

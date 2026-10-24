@@ -1,0 +1,61 @@
+{
+  "RecordedAtUtc": "2026-10-24T03:50:12Z",
+  "Scope": "TMOG candidate catalog and informational local license-review planning checks",
+  "Environment": {
+    "OS": "Windows",
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "TemporaryDirectory": "Unique workspace-local directory under .local"
+  },
+  "FocusedTests": {
+    "Discovered": 99,
+    "Selected": 2,
+    "Passed": 2,
+    "Failed": 0,
+    "Skipped": 0,
+    "Cases": [
+      "Pins the selected TMOG free-edition package without declaring unverified Windows support",
+      "Keeps NeedsReview records informational across pending package install planning"
+    ]
+  },
+  "BroadCatalogAttempt": {
+    "Result": "InterruptedAfterSandboxRegistryAccessFailure",
+    "Failure": "Requested registry access is not allowed in the catalog registry snapshot test",
+    "FinalSuiteSummaryAvailable": false
+  },
+  "RepositoryValidation": {
+    "Result": "Passed",
+    "Operations": 406,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 264,
+    "Packages": 97,
+    "PendingPackages": 67
+  },
+  "SideEffects": {
+    "InstallerRun": false,
+    "VMUsed": false,
+    "WindowsStateChanged": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "TMOG install/repeat/uninstall, exact recovery, screensaver behavior and Windows 11 acceptance pending VM access"
+    ],
+    "Partial": [
+      "TMOG package candidate is source-ready but has no supported target"
+    ],
+    "EstimateRangesUnchanged": {
+      "Settings": "38-58",
+      "Packages": "52-67",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "142-196",
+      "RoundedTotal": "145-200/about 170"
+    }
+  }
+}

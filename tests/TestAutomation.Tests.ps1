@@ -28,6 +28,7 @@
   Author: RIDE-Windows maintainers.
   Version: Repository test fixture; no independent released version.
   Changelog:
+    2026-10-24: Count decoded JSON-array rows consistently on Windows PowerShell 5.1 and PowerShell 7.
     2026-10-13: Retain valid UTC queue timestamps under Danish culture on both PowerShell editions.
     2026-10-13: Verify controller execution does not inspect host UAC; preserve elevation and recovery checks.
     2026-10-12: Verify controller JSON write failures prevent caller continuation.
@@ -141,7 +142,7 @@ Describe 'Task configuration and read-only watch selection' {
     $client = Get-Command (Join-Path $PSScriptRoot 'integration\Invoke-RideVmTestTask.ps1')
     $setup = Get-Command (Join-Path $PSScriptRoot 'integration\Register-RideVmTestTask.ps1')
     ($client.Parameters.Source.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Local', 'CI')
-    ($client.Parameters.IntegrationSuite.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2', 'GitHubAuthentication', 'PSScriptTools', 'OfflineCaffeine')
+    ($client.Parameters.IntegrationSuite.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'GitHubAuthentication', 'NTCore', 'PSScriptTools', 'OfflineCaffeine', 'SQLiteQuery', 'MiTeCUtilityFiles', 'SysinternalsSuite', 'SysinternalsProducts', 'ImageMagick')
     ($client.Parameters.GuestGitHubAuthentication.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Anonymous','PAT')
     ($setup.Parameters.Action.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Register', 'Remove')
   }
@@ -194,6 +195,7 @@ Describe 'Task configuration and read-only watch selection' {
     @{ Suite='SettingsRemainingBatch2'; Expected='Remaining/2' },
     @{ Suite='ApplicationsBatch1'; Expected='Applications/1' },
     @{ Suite='ApplicationsBatch2'; Expected='Applications/2' },
+    @{ Suite='ApplicationsBatch8'; Expected='Applications/8' },
     @{ Suite='GitHubAuthentication'; Expected='Authentication/Anonymous/Acquire' }
   ) {
     $tokens=$null; $errors=$null
@@ -227,7 +229,7 @@ Describe 'Task configuration and read-only watch selection' {
     finally { $env:RIDE_TEST_GUEST = $previousMarker }
   }
 
-  It 'previews <Suite> guest tests without starting tests or creating evidence' -ForEach @(@{ Suite = 'Full' }, @{ Suite = 'SettingsBatch40' }, @{ Suite = 'SettingsBatch60' }, @{ Suite = 'SettingsBatch60Recovery' }, @{ Suite = 'SettingsRemainingBatch1' }, @{ Suite = 'SettingsRemainingBatch2' }, @{ Suite = 'ApplicationsBatch1' }, @{ Suite = 'ApplicationsBatch2' }) {
+  It 'previews <Suite> guest tests without starting tests or creating evidence' -ForEach @(@{ Suite = 'Full' }, @{ Suite = 'SettingsBatch40' }, @{ Suite = 'SettingsBatch60' }, @{ Suite = 'SettingsBatch60Recovery' }, @{ Suite = 'SettingsRemainingBatch1' }, @{ Suite = 'SettingsRemainingBatch2' }, @{ Suite = 'ApplicationsBatch1' }, @{ Suite = 'ApplicationsBatch2' }, @{ Suite = 'ApplicationsBatch3' }, @{ Suite = 'ApplicationsBatch3AllUsers' }, @{ Suite = 'ApplicationsBatch4' }, @{ Suite = 'ApplicationsBatch5' }, @{ Suite = 'ApplicationsBatch6' }, @{ Suite = 'ApplicationsBatch7' }, @{ Suite = 'ApplicationsBatch8' }) {
     $source = Join-Path $TestDrive 'guest-preview-checkout'
     $null = New-Item -ItemType Directory -Path (Join-Path $source 'tools') -Force
     'throw "Preview must not run validation"' | Set-Content -LiteralPath (Join-Path $source 'tools/validate.ps1')
@@ -290,6 +292,48 @@ Describe 'Task configuration and read-only watch selection' {
       $parameters.Action.Arguments | Should -Match '-NonInteractive -WindowStyle Hidden -File'
       $parameters.Settings.MultipleInstances | Should -Be 'IgnoreNew'
     }
+  }
+}
+
+Describe 'Application batch incremental evidence serialization' {
+  It 'uses the exported engine state reader for prerequisite-dependent package checks' {
+    $path=Join-Path $PSScriptRoot 'integration/Invoke-RideApplicationBatch.ps1'
+    $source=Get-Content -LiteralPath $path -Raw
+    $source | Should -Match '\$installedDependents=@\(\$dependentOperations\|Where-Object \{ \(Get-RideCurrentState \$_\)\.Present \}\)'
+    $source | Should -Not -Match '\$installedDependents=@\(\$dependentOperations\|Where-Object \{ \(Get-RideInstalledPackage'
+  }
+
+  It 'writes each result as a compact valid JSON array without reserializing prior rows' {
+    $path=Join-Path $PSScriptRoot 'integration/Invoke-RideApplicationBatch.ps1'
+    $source=Get-Content -LiteralPath $path -Raw
+    $source | Should -Match '\$workerEvidencePath=\$workerRoot\.Replace'
+    $source | Should -Not -Match '\$evidencePath=\$workerRoot\.Replace'
+    $tokens=$null;$errors=$null
+    $ast=[Management.Automation.Language.Parser]::ParseFile($path,[ref]$tokens,[ref]$errors)
+    $errors | Should -BeNullOrEmpty
+    $helper=@($ast.FindAll({param($node)$node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'Add-RideApplicationBatchResult'},$true))
+    $helper.Count | Should -Be 1
+    $body=@'
+{0}
+$results=New-Object System.Collections.Generic.List[object]
+$jsonRecords=New-Object System.Collections.Generic.List[string]
+$evidencePath=$args[0]
+Add-RideApplicationBatchResult -Results $results -JsonRecords $jsonRecords -Result ([pscustomobject]@{Id='package.first';Status='Passed'}) -EvidencePath $evidencePath
+    $firstJson=Get-Content -LiteralPath $evidencePath -Raw
+    $firstCount=[regex]::Matches($firstJson,'"Id"\s*:').Count
+Add-RideApplicationBatchResult -Results $results -JsonRecords $jsonRecords -Result ([pscustomobject]@{Id='package.second';Status='Failed';Diagnostics=@('line one','line two')}) -EvidencePath $evidencePath
+    $finalJson=Get-Content -LiteralPath $evidencePath -Raw
+    $final=ConvertFrom-Json -InputObject $finalJson
+    $finalIds=@($final | ForEach-Object { $_.Id })
+    $diagnostics=@($final | Where-Object Id -eq 'package.second' | ForEach-Object Diagnostics)
+    [pscustomobject]@{FirstCount=$firstCount;FinalCount=[regex]::Matches($finalJson,'"Id"\s*:').Count;Ids=$finalIds;Diagnostics=$diagnostics}
+'@
+    $script=[scriptblock]::Create($body.Replace('{0}',$helper[0].Extent.Text))
+    $actual=& $script (Join-Path $TestDrive 'applications-batch.json')
+    $actual.FirstCount | Should -Be 1
+    $actual.FinalCount | Should -Be 2
+    $actual.Ids | Should -Be @('package.first','package.second')
+    $actual.Diagnostics | Should -Be @('line one','line two')
   }
 }
 
@@ -362,12 +406,18 @@ Describe 'Correlated execution, failures and VM recovery' {
       Mock Start-VM { }
       Mock Copy-RideAutomationSnapshot { @(@{ Path = 'ride.ps1'; SHA256 = 'abc' }) }
       Mock Start-Process {
-        $guest = Join-Path $script:testRoot "results\$($script:request.RunId)\guest"
-        $null = New-Item -ItemType Directory $guest -Force
         $suite = if ($script:request.PSObject.Properties.Name -contains 'IntegrationSuite') { $script:request.IntegrationSuite } else { 'Full' }
+        if ($suite -in @('SysinternalsSuite','SysinternalsProducts','ImageMagick')) {
+          $focused = Join-Path $script:testRoot "results\$($script:request.RunId)\focused"
+          $null = New-Item -ItemType Directory $focused -Force
+          @{ RunId = $script:request.RunId; Batch = $suite; Status = 'Passed'; Cleanup = 'ResetAndOff'; EvidenceCollected = $true; ToolExecuted = ($suite -eq 'ImageMagick') } | ConvertTo-Json | Set-Content (Join-Path $focused 'result.json')
+        } else {
+          $guest = Join-Path $script:testRoot "results\$($script:request.RunId)\guest"
+          $null = New-Item -ItemType Directory $guest -Force
         $mode = if ($script:request.PSObject.Properties.Name -contains 'GuestGitHubAuthentication') { $script:request.GuestGitHubAuthentication } else { 'Anonymous' }
         @{ RunId = $script:request.RunId; Status = 'Passed'; ValidationPassed = $true; IntegrationPassed = $true; IntegrationSuite = $suite; Pester = @{ Total = 3; Failed = 0 }; GuestGitHubAuthentication = $mode; GitHubTestScenario = 'Acquire'; CredentialCleanupVerified = $true } | ConvertTo-Json | Set-Content (Join-Path $guest 'summary.json')
         '<test-results />' | Set-Content (Join-Path $guest 'pester.xml')
+        }
         $process = [pscustomobject]@{ Handle = [intptr]1; ExitCode = 0; Id = 123 }
         $process | Add-Member ScriptMethod WaitForExit { param($Milliseconds) return $true }
         $process | Add-Member ScriptMethod Refresh { }
@@ -444,13 +494,21 @@ Describe 'Correlated execution, failures and VM recovery' {
       Should -Invoke Start-Process -Times 1 -Exactly -ParameterFilter { $ArgumentList -match ' -IntegrationSuite Full$' }
     }
 
-    It 'forwards <Suite> and correlates its acceptance evidence' -ForEach @(@{ Suite = 'SettingsBatch60Recovery' }, @{ Suite = 'SettingsRemainingBatch1' }, @{ Suite = 'SettingsRemainingBatch2' }, @{ Suite = 'ApplicationsBatch1' }, @{ Suite = 'ApplicationsBatch2' }) {
+    It 'forwards <Suite> and correlates its acceptance evidence' -ForEach @(@{ Suite = 'SettingsBatch60Recovery' }, @{ Suite = 'SettingsRemainingBatch1' }, @{ Suite = 'SettingsRemainingBatch2' }, @{ Suite = 'ApplicationsBatch1' }, @{ Suite = 'ApplicationsBatch2' }, @{ Suite = 'ApplicationsBatch3' }, @{ Suite = 'ApplicationsBatch3AllUsers' }, @{ Suite = 'ApplicationsBatch4' }, @{ Suite = 'ApplicationsBatch5' }, @{ Suite = 'ApplicationsBatch6' }, @{ Suite = 'ApplicationsBatch7' }, @{ Suite = 'ApplicationsBatch8' }, @{ Suite = 'SysinternalsSuite' }, @{ Suite = 'SysinternalsProducts' }, @{ Suite = 'ImageMagick' }) {
       $script:request | Add-Member NoteProperty IntegrationSuite $Suite
+      if ($Suite -in @('SysinternalsSuite','SysinternalsProducts','ImageMagick')) {
+        $script:config | Add-Member NoteProperty Capabilities @('FocusedPortableV1')
+        Mock Import-RideAutomationLab { [pscustomobject]@{ VM = [pscustomobject]@{ State = 'Off' }; Snapshot = 'clean' } }
+      }
       $result = Invoke-RideAutomationRequest $script:config $script:request $script:testRoot
       $result.Status | Should -Be 'Passed'
       $result.IntegrationSuite | Should -Be $Suite
-      Should -Invoke Start-Process -Times 1 -Exactly -ParameterFilter { $ArgumentList.EndsWith(" -IntegrationSuite $Suite") }
-      Should -Invoke Reset-RideAutomationVm -Times 2 -Exactly
+      if ($Suite -in @('SysinternalsSuite','SysinternalsProducts','ImageMagick')) {
+        Should -Invoke Start-Process -Times 1 -Exactly -ParameterFilter { $ArgumentList -match 'Invoke-RidePortableVmAcceptance.ps1' -and $ArgumentList -match "-Batch $Suite" -and $ArgumentList -notmatch ' -IntegrationSuite ' }
+      } else {
+        Should -Invoke Start-Process -Times 1 -Exactly -ParameterFilter { $ArgumentList.EndsWith(" -IntegrationSuite $Suite") }
+      }
+      Should -Invoke Reset-RideAutomationVm -Times $(if ($Suite -in @('SysinternalsSuite','SysinternalsProducts','ImageMagick')) { 1 } else { 2 }) -Exactly
     }
 
     It 'rejects arbitrary suite strings before launching a controller' {
@@ -493,7 +551,7 @@ Describe 'Correlated execution, failures and VM recovery' {
         Mock Start-Process {
           $path=Join-Path $script:testRoot ('results/'+$script:request.RunId+'/focused')
           $null=New-Item -ItemType Directory -Path $path -Force
-          $result=@{RunId=$script:request.RunId;Batch=$script:request.IntegrationSuite;Status='Passed';Cleanup='ResetAndOff';EvidenceCollected=$true;ToolExecuted=$false}
+          $result=@{RunId=$script:request.RunId;Batch=$script:request.IntegrationSuite;Status='Passed';Cleanup='ResetAndOff';EvidenceCollected=$true;ToolExecuted=($script:request.IntegrationSuite -in @('NTCore','ImageMagick'))}
           foreach($key in $script:focusedOverride.Keys){$result[$key]=$script:focusedOverride[$key]}
           $result|ConvertTo-Json|Set-Content -LiteralPath (Join-Path $path 'result.json')
           $process=[pscustomobject]@{Handle=[intptr]1;ExitCode=0;Id=123}
@@ -502,7 +560,7 @@ Describe 'Correlated execution, failures and VM recovery' {
           $process
         }
       }
-      It 'dispatches <Suite> without RunAs or acquiring the worker lock again' -ForEach @(@{Suite='PSScriptTools'},@{Suite='OfflineCaffeine'}) {
+      It 'dispatches <Suite> without RunAs or acquiring the worker lock again' -ForEach @(@{Suite='NTCore'},@{Suite='PSScriptTools'},@{Suite='OfflineCaffeine'},@{Suite='SQLiteQuery'},@{Suite='MiTeCUtilityFiles'}) {
         $script:request.IntegrationSuite=$Suite
         (Invoke-RideAutomationRequest $script:config $script:request $script:testRoot).Status|Should -Be Passed
         Should -Invoke Start-Process -Times 1 -Exactly -ParameterFilter {$ArgumentList -match 'Invoke-RidePortableVmAcceptance.ps1' -and $ArgumentList -match "-ControllerRunId $($script:request.RunId) -Batch $Suite" -and $Verb -ne 'RunAs'}

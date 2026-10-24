@@ -1,0 +1,86 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "Batch": "Docker Desktop and ImageMagick acceptance reconciliation",
+  "Catalog": {
+    "DockerDesktop": {
+      "SupportedTargets": [],
+      "CandidateTargets": [
+        "Windows 11"
+      ],
+      "PendingAcceptance": true,
+      "LicenseReviewIsTechnicalGate": false
+    },
+    "ImageMagickPortableQ16": {
+      "SupportedTargets": [
+        "Windows 11"
+      ],
+      "PendingAcceptance": false,
+      "ServerAndActivationSupported": false,
+      "LocalNeedsReviewBlocksInstall": false
+    }
+  },
+  "Evidence": {
+    "ImageMagickAcceptance": "docs/archive/evidence/imagemagick-q16-win11-acceptance-2026-10-23.json",
+    "VmAccessBlocker": "docs/archive/evidence/ride-win11-test-access-recheck-2026-10-23.json"
+  },
+  "LocalReviewStore": {
+    "NeedsReviewCount": 26,
+    "IndividualOwnerAndNotesIncluded": false
+  },
+  "ThisReconciliation": {
+    "InstallersRun": false,
+    "VmRun": false,
+    "WindowsStateChanged": false
+  },
+  "LegacyOutcomeAccounting": {
+    "Resolved": [
+      "ImageMagick Windows 11 package acceptance"
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Docker Desktop RIDE lifecycle and recovery acceptance",
+      "ImageMagick Server and activation acceptance",
+      "Remaining VM/controller acceptance"
+    ],
+    "Partial": [
+      "Docker Desktop remains a candidate"
+    ],
+    "GroupRanges": [
+      "38-58",
+      "53-68",
+      "20-25",
+      "25-35",
+      "8-12"
+    ],
+    "ExactEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170"
+  },
+  "LocalRegression": {
+    "PesterVersion": "5.7.1",
+    "TestFiles": [
+      "tests/Catalog.Tests.ps1",
+      "tests/CatalogDependencyValidation.Tests.ps1",
+      "tests/CatalogProfileValidation.Tests.ps1",
+      "tests/LicenseReviews.Tests.ps1",
+      "tests/ApplicationPackages.Tests.ps1"
+    ],
+    "WindowsPowerShell51": {
+      "Passed": 189,
+      "Failed": 0,
+      "Skipped": 0,
+      "NotRun": 1
+    },
+    "PowerShell7": {
+      "Passed": 189,
+      "Failed": 0,
+      "Skipped": 0,
+      "NotRun": 1
+    },
+    "WindowsIntegrationTagExcluded": 1,
+    "TestRegistryPlugin": "Disabled",
+    "TempRoot": ".local/pester-temp-2026-10-23",
+    "RepositoryValidation": "Passed: 374 operations, 8 groups, 5 profiles, 246 PowerShell files; generated operation documentation current."
+  }
+}

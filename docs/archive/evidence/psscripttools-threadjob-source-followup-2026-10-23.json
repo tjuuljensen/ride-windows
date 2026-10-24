@@ -1,0 +1,51 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "Batch": "PSScriptTools ThreadJob dependency source follow-up",
+  "Dependency": {
+    "Module": "Microsoft.PowerShell.ThreadJob",
+    "Version": "2.2.0",
+    "PowerShell51Minimum": "5.1",
+    "PowerShell76Behavior": "Built-in under the renamed Microsoft.PowerShell.ThreadJob module",
+    "PublisherPage": "https://www.powershellgallery.com/packages/Microsoft.PowerShell.ThreadJob/2.2.0",
+    "CompatibilityReference": "https://learn.microsoft.com/en-us/powershell/scripting/whats-new/cmdlet-versions?view=powershell-7.6"
+  },
+  "Acquisition": {
+    "Uri": "https://www.powershellgallery.com/api/v2/package/Microsoft.PowerShell.ThreadJob/2.2.0",
+    "Attempts": 1,
+    "Result": "FailedBeforeTransfer",
+    "Error": "No such host is known. (www.powershellgallery.com:443)",
+    "BytesAcquired": false,
+    "DigestMeasured": false,
+    "CatalogOperationAdded": false
+  },
+  "VmAccess": {
+    "Command": "Get-VM -Name RIDE-Win11-Test",
+    "Result": "Blocked",
+    "Error": "Access to a CIM resource was not available to the client.",
+    "VmStateVerified": false,
+    "CheckpointVerified": false
+  },
+  "Boundaries": {
+    "DependencyInstalled": false,
+    "PSScriptToolsImported": false,
+    "CimDataCollected": false,
+    "InstallerExecuted": false,
+    "UacPrompts": 0,
+    "DefenderChanged": false
+  },
+  "NextAction": "When Gallery DNS and VM/controller access are available, acquire and verify the exact 2.2.0 package, then run Windows PowerShell 5.1 dependency-present and PowerShell 7.6 built-in runtime probes in the disposable guest.",
+  "Outcome": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["PSScriptTools runtime behavior, dependency ownership and Windows 11 acceptance"],
+    "Partial": ["Publisher version and edition-specific dependency path are identified; exact artifact remains unpinned."]
+  },
+  "Estimate": {
+    "GroupRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactRangeEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged; no legacy package outcome or runtime acceptance closed."
+  }
+}

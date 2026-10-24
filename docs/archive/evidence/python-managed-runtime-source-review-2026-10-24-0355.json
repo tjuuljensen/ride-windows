@@ -1,0 +1,100 @@
+{
+  "RecordedAtUtc": "2026-10-24T03:55:05Z",
+  "Scope": "Python install manager and official CPython runtime acquisition source review",
+  "PublisherSources": {
+    "WindowsDownloads": "https://www.python.org/downloads/windows/",
+    "ManagerRelease": "https://www.python.org/downloads/release/pymanager-264/",
+    "ManagerDocumentation": "https://docs.python.org/3.15/using/windows.html",
+    "License": "https://docs.python.org/3/license.html"
+  },
+  "InstallManager": {
+    "Version": "26.4",
+    "ReleaseDate": "2026-10-09",
+    "Msix": {
+      "Uri": "https://www.python.org/ftp/python/pymanager/python-manager-26.4.msix",
+      "PublisherSha256": "002cfe4f4b63e322e9c8170cea4d7d97e3e2d18246887325f969bb75f482f4dc",
+      "PublisherPageNotes": "Bundles Python 3.15.0 for x64 and ARM64; official page reports 96.2 MB."
+    },
+    "Msi": {
+      "Uri": "https://www.python.org/ftp/python/pymanager/python-manager-26.4.msi",
+      "PublisherSha256": "ab8c6b8a484525b000e8e9453fde0ed6cdef762dd433622725696a8e1ef2df4e",
+      "PublisherPageNotes": "Official page reports 10.3 MB and says to consult advanced-installation documentation."
+    },
+    "Constraints": [
+      "Publisher recommends Store/MSIX; python.org and Store MSIX variants cannot be installed together.",
+      "MSI is a per-machine installation to Program Files and attempts to modify system PATH.",
+      "Runtimes managed by the manager remain per-user, including when the manager MSI is machine-wide.",
+      "The manager automatically updates within a day of a release; no supported disable control was found in the reviewed documentation.",
+      "The traditional full installer is deprecated since Python 3.14 and will not be produced starting with Python 3.16.",
+      "Manager supports Windows 10 and Windows Server 2022 or later."
+    ]
+  },
+  "RuntimeCandidates": [
+    {
+      "Version": "3.15.1",
+      "ManifestUri": "https://www.python.org/ftp/python/3.15.1/windows-3.15.1.json",
+      "ReleasePage": "https://www.python.org/downloads/release/python-3151/",
+      "Variants": [
+        { "Tag": "3.15.1-64", "Architecture": "x64", "Uri": "https://www.python.org/ftp/python/3.15.1/python-3.15.1-amd64.zip", "PublisherSha256": "cc1448e5dc0e1c5782396ededcaea11dd3966175751ae67857629d1dca20aff5" },
+        { "Tag": "3.15.1-arm64", "Architecture": "ARM64", "Uri": "https://www.python.org/ftp/python/3.15.1/python-3.15.1-arm64.zip", "PublisherSha256": "7576578cc9cef9471fa6b1c61ddc96497542320484d93193af108e000fd5cdc4" },
+        { "Tag": "3.15.1-32", "Architecture": "x86", "Uri": "https://www.python.org/ftp/python/3.15.1/python-3.15.1-win32.zip", "PublisherSha256": "161614ea554e5e8e4cc9b7f8bf20574bb258dbfb949a6bffd9d67f7b0b59ef74" }
+      ]
+    },
+    {
+      "Version": "3.14.9",
+      "ManifestUri": "https://www.python.org/ftp/python/3.14.9/windows-3.14.9.json",
+      "ReleasePage": "https://www.python.org/downloads/release/python-3149/",
+      "Variants": [
+        { "Tag": "3.14.9-64", "Architecture": "x64", "Uri": "https://www.python.org/ftp/python/3.14.9/python-3.14.9-amd64.zip", "PublisherSha256": "874d01bac04b470c6e1422dfccb9e182b9efe90c6a8adc5fc50d66bf84c40191" },
+        { "Tag": "3.14.9-arm64", "Architecture": "ARM64", "Uri": "https://www.python.org/ftp/python/3.14.9/python-3.14.9-arm64.zip", "PublisherSha256": "af32375db223ff01dfbf556e8bce1e48278da917d31385f411e504a5b999e32c" },
+        { "Tag": "3.14.9-32", "Architecture": "x86", "Uri": "https://www.python.org/ftp/python/3.14.9/python-3.14.9-win32.zip", "PublisherSha256": "ce816d11005249c4d753529f5f9065261146ce889dcd738326d47c40f393f50b" }
+      ]
+    },
+    {
+      "Version": "3.13.17",
+      "ManifestUri": "https://www.python.org/ftp/python/3.13.17/windows-3.13.17.json",
+      "ReleasePage": "https://www.python.org/downloads/release/python-31317/",
+      "Variants": [
+        { "Tag": "3.13.17-64", "Architecture": "x64", "Uri": "https://www.python.org/ftp/python/3.13.17/python-3.13.17-amd64.zip", "PublisherSha256": "b26ca4b4ee51e157836049934d2b8eabd55939be296f3130254251b6df96ec2f" },
+        { "Tag": "3.13.17-arm64", "Architecture": "ARM64", "Uri": "https://www.python.org/ftp/python/3.13.17/python-3.13.17-arm64.zip", "PublisherSha256": "43b2c7f1c74bdbe4523e93ff9107d5a4506fb89c9440407323ba39e437ae459f" },
+        { "Tag": "3.13.17-32", "Architecture": "x86", "Uri": "https://www.python.org/ftp/python/3.13.17/python-3.13.17-win32.zip", "PublisherSha256": "e1c2384cb7103639f74a04ded039399351ae1a94287511cb9e7dd7ddc9b86b93" }
+      ]
+    }
+  ],
+  "AcceptedPolicyMechanics": {
+    "DisableImplicitRuntimeInstallation": "Set automatic_install=false in the per-user %AppData%\\Python\\pymanager.json configuration; publisher documentation states the default is true.",
+    "ExplicitRuntimeSelection": "Use exact tags such as 3.15.1-64; the manager supports explicit install commands.",
+    "OfflinePreparation": "Use py install --download to create an offline index, then py install --source=<local index> on the target.",
+    "RuntimeUpdates": "py install --update is an explicit runtime-update command and updates can change installed packages."
+  },
+  "EvidenceLimits": {
+    "ArtifactBytesAcquired": false,
+    "PublisherHashesRecheckedAgainstLocalBytes": false,
+    "AuthenticodeChecked": false,
+    "InstallerOrManagerRun": false,
+    "RuntimeInstalled": false,
+    "WindowsOrVmStateChanged": false,
+    "Consequence": "The SHA-256 values are publisher-manifest values, not locally verified artifact hashes; candidates remain unregistered and unsupported."
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Acquire and rehash pinned manager/runtime artifacts",
+      "Define manager auto-update and conflicting python/py aliases behavior",
+      "Implement exact user config and offline index ownership/recovery",
+      "Test runtime selection, no implicit download, offline installation, separate update, and recovery on disposable Windows"
+    ],
+    "Partial": ["InstallPython retains selected manager and traditional routes; no Python package candidate or runtime policy handler exists."],
+    "EstimateRangesUnchanged": {
+      "Settings": "38-58",
+      "Packages": "52-67",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "142-196",
+      "RoundedTotal": "145-200/about 170"
+    }
+  }
+}

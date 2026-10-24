@@ -1,0 +1,45 @@
+{
+  "Date": "2026-10-22",
+  "Batch": "PSScriptTools isolated runtime-probe cleanup guard",
+  "Scope": [
+    "tests/integration/Invoke-RidePSScriptToolsRuntimeAcceptance.ps1",
+    "tests/PortableAcceptanceAutomation.Tests.ps1"
+  ],
+  "Finding": "The missing-dependency probe previously skipped cleanup of jobs created if the expected import failure did not occur.",
+  "Change": "Snapshot child-process job IDs before either probe mode and stop/remove only jobs created afterward in finally, including failure paths.",
+  "Tests": {
+    "PortableAcceptanceAutomation": "26 passed, 0 failed, 0 skipped",
+    "PesterTestRegistry": "Disabled because the sandbox denies registry access",
+    "RepositoryValidation": "Passed: 371 operations, 8 groups, 5 profiles and 241 PowerShell files",
+    "CatalogExportCheck": "Passed",
+    "GitDiffCheck": "Passed"
+  },
+  "RuntimeExecuted": false,
+  "SystemState": {
+    "ArtifactDownload": false,
+    "ModuleImport": false,
+    "InstallerExecution": false,
+    "VmRun": false,
+    "DefenderChange": false,
+    "Uac": false
+  },
+  "Outcomes": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": [
+      "PSScriptTools probe recovery boundary"
+    ],
+    "Deferred": [
+      "Native PSScriptTools runtime and dependency-ownership acceptance",
+      "RIDE-Win11-Test access through Hyper-V CIM and protected controller queue"
+    ]
+  },
+  "Estimates": {
+    "Groups": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactTotal": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged; local runner cleanup hardening closes no legacy package outcome."
+  },
+  "Next": "Run the prepared PSScriptTools probe on the existing checkpoint when controller access returns; inspect runtime results and recovery before deciding dependency ownership."
+}

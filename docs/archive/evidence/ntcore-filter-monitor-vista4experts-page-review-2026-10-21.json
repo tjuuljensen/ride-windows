@@ -1,0 +1,63 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-21",
+  "Scope": "Current official publisher-page review for two frozen page-only NTCore entries; no payload acquisition or execution",
+  "Products": [
+    {
+      "Name": "Filter Monitor",
+      "PublisherPage": "https://ntcore.com/filter-monitor/",
+      "CurrentPageVersion": "1.1.0",
+      "PublisherClaims": [
+        "Lists and can unregister kernel-mode filters, including registry and process/thread notifications",
+        "x86 and x64 versions; claimed Windows support is Vista RTM through Windows 7 RTM",
+        "Publisher cannot guarantee future Windows versions because the tool relies heavily on system internals",
+        "Its driver is unsigned and the page instructs booting with driver signature enforcement disabled"
+      ],
+      "Disposition": "Remain page-only and excluded from runtime selection. Do not disable driver-signature enforcement or unregister security filters.",
+      "Remaining": [
+        "No current Windows support claim",
+        "No signed-driver or safe current-kernel basis",
+        "Unregister action can alter security/product functionality; no isolated acceptance is authorized",
+        "Product-specific license and distribution grant remain unreviewed"
+      ]
+    },
+    {
+      "Name": "Vista4Experts",
+      "PublisherPage": "https://ntcore.com/vista4experts/",
+      "CurrentPageVersion": "1.2.0.1",
+      "PublisherClaims": [
+        "Describes changes to User Account Control, automatic Windows Defender scanning, automatic updates, and other Vista security settings",
+        "Says changes can be discarded, enabled, or reversed, and also claims the utility works on every platform",
+        "Explicitly acknowledges that many fixes lower Windows Vista's default security"
+      ],
+      "Disposition": "Remain page-only and excluded from runtime selection. No Defender/UAC/update weakening, payload acquisition, or execution.",
+      "Remaining": [
+        "No per-setting mapping, exact before/after state, or restore semantics in the reviewed page",
+        "Broad all-platform statement does not establish current Windows support",
+        "Product-specific license and distribution grant remain unreviewed"
+      ]
+    }
+  ],
+  "PriorEvidenceReconciliation": {
+    "SourceCoverage": "docs/archive/evidence/mitec-ntcore-source-coverage-2026-10-17.json",
+    "Disposition": "Confirms prior page-only status; source-review blocker is resolved to an explicit exclusion rationale, but no legacy behavior is accepted or migrated.",
+    "NewlyResolvedWholeLegacyOutcomes": 0,
+    "RetiredOutcomes": 0,
+    "NewlyExcludedOutcomes": 0
+  },
+  "RunBoundaries": {
+    "PayloadAcquired": false,
+    "PayloadExecuted": false,
+    "DriverOrFilterChanged": false,
+    "DefenderOrUacChanged": false,
+    "FreshUacPrompts": 0,
+    "VmRuns": 0,
+    "ControllerChanges": 0,
+    "DefenderChanges": 0,
+    "DefenderBlockedFilesTouched": false
+  },
+  "Ranges": ["38-58", "56-71", "20-25", "25-35", "8-12"],
+  "ExactRangeEndpoints": "147-201",
+  "RoundedTotal": "145-200/about 175",
+  "EstimateReason": "Current publisher wording makes the existing runtime exclusions explicit, but does not close or retire either whole legacy outcome; estimates remain unchanged."
+}

@@ -1,0 +1,71 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-22",
+  "Batch": "ImageMagick portable Q16 7z lifecycle implementation",
+  "OfficialSource": {
+    "WindowsDownloadPage": "https://imagemagick.org/download/#windows",
+    "ArtifactUri": "https://github.com/ImageMagick/ImageMagick/releases/download/7.1.2-34/ImageMagick-7.1.2-34-portable-Q16-x64.7z",
+    "LicenseUri": "https://imagemagick.org/license/",
+    "Version": "7.1.2-34",
+    "Description": "Portable Win64 static (No installer or registry changes required)",
+    "CurrentPublisherPageRechecked": true,
+    "ArtifactBytesObtained": false,
+    "DetachedSignatureBytesObtained": false,
+    "Sha256": null,
+    "DetachedSignatureVerified": false,
+    "FetchResult": "The official page link resolves to the exact release asset; browser fetch returned Cache miss and prior shell retrieval failed DNS resolution."
+  },
+  "Implementation": {
+    "PortableFormat": "SevenZip",
+    "Extractor": "Microsoft-signed Windows inbox System32\\tar.exe",
+    "Limits": {
+      "Entries": 10000,
+      "IndividualFileBytes": 536870912,
+      "TotalFileBytes": 2147483648,
+      "ProcessTimeoutMilliseconds": 300000,
+      "ListingOutputBytes": 16777216
+    },
+    "Rejects": ["Unsafe and duplicate paths", "Links and special files", "Output differing from validated listing"],
+    "Lifecycle": "Existing managed portable ownership manifest, removal and exact saved-run recovery"
+  },
+  "Validation": {
+    "Synthetic7zHostIntegration": "Passed; 7-Zip created a text-only fixture; inbox tar listed, validated and extracted it; managed file lifecycle and exact restore passed.",
+    "ApplicationPackagesPester": {"Passed": 84, "Failed": 0, "Skipped": 0},
+    "WindowsPowerShell51SevenZipFocusedPester": {"Passed": 4, "Failed": 0, "Skipped": 0, "NotRun": 80},
+    "CatalogPester": {"Passed": 70, "Failed": 1, "Failure": "Unrelated registry security-descriptor test could not create/access its test registry key under sandbox permissions."},
+    "CatalogExport": "Passed",
+    "RepositoryValidator": "Passed; 372 operations, 8 groups, 5 profiles, 241 PowerShell files",
+    "DiffCheck": "Passed"
+  },
+  "Package": {
+    "Id": "package.imagemagick-portable-q16",
+    "SupportedTargets": [],
+    "CandidateTargets": ["Windows 11"],
+    "PendingAcceptance": true,
+    "AcquisitionBlocked": "Exact bytes, SHA-256 and detached signature remain unverified.",
+    "LicenseReviewStatus": "NeedsReview",
+    "ReviewOwner": "Unassigned",
+    "LicenseBlocker": false
+  },
+  "RunBoundaries": {
+    "PublisherArtifactExtracted": false,
+    "ImageMagickExecuted": false,
+    "VmRun": false,
+    "Uac": false,
+    "DefenderChange": false,
+    "PathChange": false
+  },
+  "LegacyOutcome": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Official artifact acquisition and signature verification", "Windows 11 package lifecycle, feature and target acceptance"],
+    "Partial": ["ImageMagick portable package candidate and generic SevenZip portable lifecycle support"]
+  },
+  "Estimate": {
+    "GroupRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged; the candidate and extraction support do not close the legacy outcome or Windows acceptance."
+  }
+}

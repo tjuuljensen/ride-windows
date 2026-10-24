@@ -1,0 +1,68 @@
+{
+  "RecordedAtUtc": "2026-10-24T03:45:14Z",
+  "Scope": "Task Manager TMOG free-edition Windows x64 package candidate preparation",
+  "Publisher": {
+    "ProductPage": "https://tmog.org/rtm/",
+    "ReleaseNotes": "https://tmog.org/rtm/release-notes.html",
+    "LocalReleaseManifest": ".local/results/installed-next-samples/tmog-release-windows.json"
+  },
+  "Artifact": {
+    "Version": "1.0.1",
+    "Build": "0",
+    "ContainedProductFileVersion": "1.0.1.0",
+    "Architecture": "x64",
+    "DownloadUri": "https://tmog.org/rtm/downloads/TMOG-Task-Manager-Setup-1.0.1-0-x64-b4edf70fa040.exe",
+    "FileName": "TMOG-Task-Manager-Setup-1.0.1-0-x64-b4edf70fa040.exe",
+    "Length": 7385192,
+    "PublisherSha256": "b4edf70fa040968958c662ffb09feeeb0eeca07759e6ed7742606bcc39f29fc6",
+    "ObservedSha256": "b4edf70fa040968958c662ffb09feeeb0eeca07759e6ed7742606bcc39f29fc6",
+    "AuthenticodeStatus": "Valid",
+    "Signer": "CN=David Plummer, O=David Plummer, L=Redmond, S=Washington, C=US",
+    "SignerThumbprint": "C1447E88A95D3589F860E4A50B96D8F23C9C2F8F"
+  },
+  "StaticInspection": {
+    "InstallerTechnology": "Inno Setup 6.7.0",
+    "FilesListed": [
+      "app/TMOG.scr",
+      "sys/TMOG.scr",
+      "app/LICENSE.txt",
+      "app/THIRD_PARTY_NOTICES.md",
+      "app/Michroma-OFL.txt",
+      "app/Task Manager.exe"
+    ],
+    "LicenseSummary": "The embedded free-edition license grants personal evaluation and ordinary system-monitoring use, restricts public redistribution, and labels itself a release-candidate document requiring publisher approval before public distribution."
+  },
+  "CatalogDisposition": {
+    "OperationId": "package.tmog",
+    "PackageVersion": "1.0.1",
+    "CandidateTargets": ["Windows 11"],
+    "SupportedTargets": [],
+    "PendingAcceptance": true,
+    "LocalLicenseReviewStatus": "NeedsReview",
+    "LicenseReviewBlocksPackagePlanning": false
+  },
+  "SideEffects": {
+    "InstallerRun": false,
+    "ApplicationLaunched": false,
+    "ScreensaverSelectedOrRun": false,
+    "ProActivated": false,
+    "VmAcceptanceRun": false,
+    "WindowsStateChanged": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Install/repeat/uninstall, exact recovery, screensaver effects, and disposable Windows 11 acceptance."],
+    "Partial": ["TMOG legacy install/remove outcome remains partial until package lifecycle and target acceptance pass."],
+    "EstimateRangesUnchanged": {
+      "Settings": "38-58",
+      "Packages": "52-67",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "142-196",
+      "RoundedTotal": "145-200/about 170"
+    }
+  }
+}

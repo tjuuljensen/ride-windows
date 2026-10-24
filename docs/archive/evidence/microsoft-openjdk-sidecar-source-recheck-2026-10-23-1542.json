@@ -1,0 +1,83 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "CheckedAtUtc": "2026-10-23T15:42:00Z",
+  "Batch": "Microsoft OpenJDK exact-version publisher checksum source recheck",
+  "ProductPage": "https://learn.microsoft.com/en-us/java/openjdk/download",
+  "PageFinding": "Microsoft Learn currently lists x64 Windows MSI and SHA-256 sidecar links for the pinned 25.0.4.1, 21.0.12.1, 17.0.20.1 and 11.0.32.1 releases.",
+  "Packages": [
+    {
+      "Version": "25.0.4.1",
+      "PackageId": "package.microsoft-openjdk",
+      "MsiUri": "https://aka.ms/download-jdk/microsoft-jdk-25.0.4.1-windows-x64.msi",
+      "SidecarUri": "https://aka.ms/download-jdk/microsoft-jdk-25.0.4.1-windows-x64.msi.sha256sum.txt",
+      "ResolvedSidecarUri": "https://download.visualstudio.microsoft.com/download/pr/63897bbf-44cd-4f8f-b320-bc1df6b5c0f5/8f046254849bca1b946b47736b3f1d3f/microsoft-jdk-25.0.4.1-windows-x64.msi.sha256sum.txt",
+      "ShellResult": "DNS resolution failed before HTTP for aka.ms and download.visualstudio.microsoft.com."
+    },
+    {
+      "Version": "21.0.12.1",
+      "PackageId": "package.microsoft-openjdk-21",
+      "MsiUri": "https://aka.ms/download-jdk/microsoft-jdk-21.0.12.1-windows-x64.msi",
+      "SidecarUri": "https://aka.ms/download-jdk/microsoft-jdk-21.0.12.1-windows-x64.msi.sha256sum.txt",
+      "ResolvedSidecarUri": "https://download.visualstudio.microsoft.com/download/pr/f1e5f23f-9d50-4b9f-8ed3-80522ae82bb5/d73b711bc4762450c591f17605cab4cf/microsoft-jdk-21.0.12.1-windows-x64.msi.sha256sum.txt",
+      "ShellResult": "DNS resolution failed before HTTP for aka.ms and download.visualstudio.microsoft.com."
+    },
+    {
+      "Version": "17.0.20.1",
+      "PackageId": "package.microsoft-openjdk-17",
+      "MsiUri": "https://aka.ms/download-jdk/microsoft-jdk-17.0.20.1-windows-x64.msi",
+      "SidecarUri": "https://aka.ms/download-jdk/microsoft-jdk-17.0.20.1-windows-x64.msi.sha256sum.txt",
+      "ResolvedSidecarUri": "https://download.visualstudio.microsoft.com/download/pr/a9672056-0a4d-425d-8488-f481ee56319c/81c6da15d60dcdacdde8239f4b8eebb8/microsoft-jdk-17.0.20.1-windows-x64.msi.sha256sum.txt",
+      "ShellResult": "DNS resolution failed before HTTP for aka.ms and download.visualstudio.microsoft.com."
+    },
+    {
+      "Version": "11.0.32.1",
+      "PackageId": "package.microsoft-openjdk-11",
+      "MsiUri": "https://aka.ms/download-jdk/microsoft-jdk-11.0.32.1-windows-x64.msi",
+      "SidecarUri": "https://aka.ms/download-jdk/microsoft-jdk-11.0.32.1-windows-x64.msi.sha256sum.txt",
+      "ResolvedSidecarUri": "https://download.visualstudio.microsoft.com/download/pr/ec014a7c-c89f-4678-8d0a-5006ec1bc394/81ffd128c9f78142bbf5b1ac7d6bf4a2/microsoft-jdk-11.0.32.1-windows-x64.msi.sha256sum.txt",
+      "ShellResult": "DNS resolution failed before HTTP for aka.ms and download.visualstudio.microsoft.com."
+    }
+  ],
+  "Acquisition": {
+    "ThirdPartyDigestUsed": false,
+    "InstallerExecuted": false,
+    "SidecarContentRetrieved": false,
+    "CatalogChanged": false,
+    "PublisherSha256Recorded": false,
+    "MsiBytesAcquired": false
+  },
+  "WebTool": "Microsoft Learn page and link targets were readable; the reader returned HTTP 500 / not accessible when fetching each redirected sidecar.",
+  "VmAccess": "Get-VM for RIDE-Win11-Test and RIDE-Srv2025Test returned CIM access denied before VM/checkpoint inspection.",
+  "SystemChanges": {
+    "WindowsChanged": false,
+    "DefenderChanged": false,
+    "VmChanged": false,
+    "ElevationPromptRequested": false
+  },
+  "Outcome": {
+    "EstimateAdjustment": "Unchanged; source-link confirmation closes no legacy outcome.",
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Retired": [],
+    "Excluded": [],
+    "Partial": [
+      "All four OpenJDK candidates remain unsupported with no publisher digest or MSI bytes locally acquired."
+    ],
+    "Resolved": [
+      "Confirmed current official versioned package and SHA-256 sidecar links for all four selected x64 MSI candidates.",
+      "Recorded exact Microsoft redirect targets for the sidecars."
+    ],
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "Deferred": [
+      "Acquire exact publisher checksum sidecars and MSI bytes after host DNS/network access returns.",
+      "Inspect signatures and MSI tables; perform install/repeat/uninstall/recovery acceptance on Windows 11 and Server 2025 disposable targets when VM access is available."
+    ]
+  }
+}

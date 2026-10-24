@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "Batch": "Package evidence thresholds and rejected-artifact review",
+  "StartedAtUtc": "2026-10-24T05:28:07Z",
+  "FinishedAtUtc": "2026-10-24T05:31:54Z",
+  "Scope": "Documentation of package acquisition evidence levels and exact rejected-artifact review/cleanup",
+  "Decisions": {
+    "AvailableDigestOrSignatureHashMismatch": "Reject before installer execution",
+    "InvalidArchiveMemberOrPath": "Reject before installer execution",
+    "ReviewedRidePinMismatch": "Reject before installer execution",
+    "MissingPublisherDigestOrSignature": "Record as an evidence limitation; no blanket package migration blocker",
+    "HostingProviderDigest": "Label as provider metadata, not publisher verification",
+    "ObservedHashPin": "Label as RIDE-observed bytes, not publisher verification",
+    "AuthenticodeValid": "Record signed-byte integrity and signer identity; do not infer approved identity",
+    "AuthenticodeStatusesOtherThanHashMismatch": "Record as observation; do not impose a blanket rejection gate",
+    "SensitiveInstallContexts": "May require focused security review independent of license review"
+  },
+  "RejectedArtifactProcedure": {
+    "AutomaticDeletion": false,
+    "AutomaticPromotionToCanonicalCache": false,
+    "ReviewExactFileAndSidecars": true,
+    "CompareSidecarHashAndSize": true,
+    "ExportEvidenceBeforeManualCleanup": true,
+    "WildcardOrCacheTreeCleanup": false,
+    "ExactLiteralPathAndWhatIfPreview": true
+  },
+  "Validation": {
+    "RepositoryValidation": "Passed: 407 operations, 8 groups, 5 profiles, 269 PowerShell files; generated operation documentation current",
+    "CleanupExamplePowerShellParser": "Passed; example was parsed, not executed",
+    "GitDiffCheck": "Passed",
+    "Tests": "No code changed in this documentation-only batch"
+  },
+  "VmAccess": {
+    "Status": "Blocked",
+    "Targets": [
+      "RIDE-Win11-Test",
+      "RIDE-Srv2025Test"
+    ],
+    "Reason": "Read-only Get-VM/Get-VMSnapshot access was denied by CIM for both targets.",
+    "ElevationRequested": false,
+    "VmOrGuestStateChanged": false
+  },
+  "LegacyOutcomeClosure": [],
+  "EstimateRanges": {
+    "WindowsAndApplicationSettings": "38-58",
+    "PackagesPortableToolsAndArtifacts": "52-67",
+    "WindowsComponents": "19-24",
+    "AccountsConfigurationFiles": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170"
+  },
+  "Disposition": "The package evidence and rejected-artifact operator procedure is documented. No package bytes, installer, VM, checkpoint or Windows state changed. Existing VM-dependent acceptance remains deferred by CIM access denial."
+}

@@ -1,0 +1,78 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T15:43:13Z",
+  "Batch": "JoeWare AccExp, ATSN and Auth publisher source review and acquisition retry",
+  "Scope": {
+    "FrozenMemberCount": 41,
+    "ProductsReviewed": ["AccExp", "ATSN", "Auth"],
+    "DownloadOnlyAttempt": true,
+    "Destination": ".local/joeware-source-review-20261024-1543"
+  },
+  "Sources": [
+    {
+      "Uri": "https://joeware.net/freetools/versions.txt",
+      "Findings": [
+        "AccExp 01.01.00 dated 2002-08-04; publisher MD5 3bfa82b554c5803dc809f343999642c1 and SHA-1 7c0300da0049dc756e2ea91754c201d02510261a.",
+        "ATSN 01.00.00 dated 2004-03-27; publisher MD5 430b0d6dc378b112d6669e1dd2c50440 and SHA-1 a1b88b10541ef2a73bd0c08411c314898b9f5303.",
+        "Auth 01.01.00 dated 2001-08-17; publisher MD5 3758b8df84e839c870be1923f790bb99 and SHA-1 a6d1a2a560c74f39145a81be4918890af028b7ff."
+      ],
+      "DigestBoundary": "Publisher MD5/SHA-1 are source-list observations, not locally verified archive hashes."
+    },
+    {
+      "Uri": "https://joeware.net/freetools/tools/accexp/index.htm",
+      "Finding": "Publisher identifies AccExp as a command-line account-expiration reader/modifier; minimum account-operator rights are listed for domain targets and administrator rights for member/standalone targets. Historical platform list ends at Windows XP."
+    },
+    {
+      "Uri": "https://joeware.net/freetools/tools/accexp/usage.htm",
+      "Finding": "Usage distinguishes account expiration from password expiration and supports viewing, setting a date, or setting expiration to NEVER; it may target a named machine."
+    },
+    {
+      "Uri": "https://joeware.net/freetools/tools/atsn/index.htm",
+      "Finding": "Publisher identifies ATSN as an Active Directory query that maps IP addresses to site/subnet and lists Windows 2000, Server 2003 and XP."
+    },
+    {
+      "Uri": "https://joeware.net/freetools/tools/atsn/usage.htm",
+      "Finding": "ATSN accepts IPs or an input file, can target a chosen domain controller, and can write results to an output file. No target was contacted."
+    },
+    {
+      "Uri": "https://joeware.net/freetools/tools/auth/index.htm",
+      "Finding": "Publisher identifies Auth as a credential authentication test, lists Windows NT, 2000, Server 2003 and XP, and notes SE_TCB_NAME is required on Windows 2000 or earlier."
+    }
+  ],
+  "AcquisitionAttempt": {
+    "Command": "tools/Download-JoeWareCollection.ps1 -Product AccExp,ATSN,Auth -DestinationDirectory .local/joeware-source-review-20261024-1543 -Confirm:$false",
+    "Result": "Failed before the source version list was fetched because local DNS could not resolve the JoeWare publisher host.",
+    "FormSubmissionAttempted": false,
+    "FilesReceived": 0,
+    "DestinationDirectoryCreated": true,
+    "DestinationFileCount": 0,
+    "ExtractionOrExecution": false
+  },
+  "Boundaries": {
+    "AdOrEndpointContact": false,
+    "VmUsed": false,
+    "WindowsStateChanged": false,
+    "DefenderChanged": false
+  },
+  "MigrationDisposition": {
+    "LicenseBlocker": false,
+    "Resolved": ["Current publisher version rows and product-purpose/usage details for AccExp, ATSN and Auth."],
+    "Deferred": [
+      "Exact ZIP bytes, local SHA-256 and member inventories.",
+      "Isolated synthetic account-expiration, directory lookup and credential-test acceptance.",
+      "Windows 11 support; the publisher platform claims are historical."
+    ],
+    "Excluded": [],
+    "LegacyOutcomesClosed": 0
+  },
+  "Estimate": {
+    "Settings": "37-57",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "141-195",
+    "RoundedTotal": "140-195/about 170",
+    "Adjustment": "Unchanged; source review and a pre-transfer DNS failure do not establish package bytes, lifecycle or functional acceptance."
+  }
+}

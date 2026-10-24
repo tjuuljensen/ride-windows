@@ -1,0 +1,52 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "ObservedAtUtc": "2026-10-23T10:34:03Z",
+  "Batch": "PSScriptTools ThreadJob 2.2.0 exact publisher package acquisition retry",
+  "PublisherPage": "https://www.powershellgallery.com/packages/Microsoft.PowerShell.ThreadJob/2.2.0",
+  "Artifact": {
+    "Name": "Microsoft.PowerShell.ThreadJob",
+    "Version": "2.2.0",
+    "PublisherApiUri": "https://www.powershellgallery.com/api/v2/package/Microsoft.PowerShell.ThreadJob/2.2.0",
+    "Method": "PowerShell Invoke-WebRequest to exact official package endpoint",
+    "Result": "FailedBeforeTransfer",
+    "Error": "No such host is known. (www.powershellgallery.com:443)",
+    "BytesAcquired": false,
+    "DigestMeasured": false,
+    "PartialFilePresent": false
+  },
+  "Boundaries": {
+    "DependencyInstalled": false,
+    "PSScriptToolsImported": false,
+    "CimDataCollected": false,
+    "InstallerOrPackageRan": false,
+    "VmOrCheckpointChanged": false,
+    "DefenderChanged": false,
+    "WindowsStateChanged": false,
+    "UacPrompts": 0
+  },
+  "Outcome": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Acquire and verify exact Microsoft.PowerShell.ThreadJob 2.2.0 publisher package bytes",
+      "Run dependency-present PSScriptTools probe in disposable Windows guest"
+    ],
+    "Partial": [
+      "The exact PowerShell Gallery source endpoint was retried; DNS failed before transfer. No local runtime copy or mirror was substituted."
+    ]
+  },
+  "Estimate": {
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged because no package bytes were acquired and no legacy outcome closed."
+  }
+}

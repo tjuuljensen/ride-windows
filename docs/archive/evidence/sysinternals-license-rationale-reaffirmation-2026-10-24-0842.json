@@ -1,0 +1,14 @@
+{
+  "RecordedAtUtc": "2026-10-24T08:42:52Z",
+  "Topic": "Sysinternals license rationale reaffirmation",
+  "UserDecision": "The prior RIDE v2 review by a license specialist approved Sysinternals for RIDE. There are no legal issues using Sysinternals in RIDE. RIDE downloads from Microsoft for installation on user-supported devices and does not transfer or publish Sysinternals copies. Do not apply generalized redistribution reasoning or require a new license review to block package migration.",
+  "MigrationDisposition": {
+    "LicenseBlocker": false,
+    "AdditionalLicenseReviewRequired": false,
+    "DirectDownloadAndInstallApprovedForMigration": true,
+    "DefenderDetectedFilesRemainSeparatelyExcluded": true,
+    "TechnicalLifecycleAndWindowsAcceptanceRemainOpen": true
+  },
+  "EstimateEffect": "No legacy outcome or acceptance target closed. All group ranges and the rounded total remain unchanged.",
+  "Evidence": "User reaffirmation in the migration conversation on 2026-10-24; prior RIDE v2 specialist approval as reported by the user."
+}

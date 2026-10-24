@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-24T12:22:00Z",
+  "operation": {
+    "id": "windows.click-to-do-policy",
+    "kind": "RegistryValue",
+    "registryPath": "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI",
+    "valueName": "DisableClickToDo",
+    "valueType": "DWord",
+    "states": {
+      "Blocked": 1,
+      "Allowed": 0,
+      "WindowsDefault": null
+    },
+    "scope": "User",
+    "requiresAdmin": false,
+    "supportedTargets": [],
+    "candidateTargets": ["Windows 11"],
+    "pendingAcceptance": true,
+    "rollback": "Exact",
+    "defaultProfileSelected": false
+  },
+  "sourceReview": {
+    "policyReference": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai#disableclicktodo",
+    "featureReference": "https://learn.microsoft.com/en-us/windows/client-management/manage-click-to-do",
+    "verifiedClaims": [
+      "DisableClickToDo is a DWord policy with 1 disabling Click to Do and 0 leaving it available by policy.",
+      "Microsoft documents both user and device policy scopes and the user-facing Click to Do Settings toggle.",
+      "Click to Do is a Copilot+ PC/eligible Cloud PC feature with published NPU, memory, processor and storage prerequisites.",
+      "The WindowsAI Policy CSP currently lists Insider Preview applicability for DisableClickToDo.",
+      "The policy does not disable Click to Do within Recall."
+    ],
+    "acceptanceStillRequired": [
+      "Current Windows 11 target build policy applicability and precedence between user and device policy.",
+      "Visible entry-point behavior on eligible Copilot+ hardware.",
+      "Exact saved-state apply/recovery on the disposable Windows 11 target."
+    ]
+  },
+  "validation": {
+    "catalogExport": "Passed",
+    "repositoryValidation": {
+      "status": "Passed",
+      "operations": 408,
+      "groups": 8,
+      "profiles": 5,
+      "powershellFiles": 272
+    },
+    "pester": {
+      "version": "5.7.1",
+      "path": "tests/Catalog.Tests.ps1",
+      "selected": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "powershell": "7.6.5",
+      "testRegistryEnabled": false
+    }
+  },
+  "sideEffects": {
+    "vmUsed": false,
+    "registryChanged": false,
+    "profileChanged": false,
+    "windowsStateChanged": false
+  },
+  "migrationAccounting": {
+    "legacyOutcomesClosed": 0,
+    "estimatesUnchanged": true,
+    "ranges": {
+      "settings": "38-58",
+      "packages": "52-67",
+      "components": "19-24",
+      "accountsConfigurationAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "142-196",
+      "roundedTotal": "145-200/about 170"
+    },
+    "deferred": [
+      "Current Windows 11/Copilot+ target applicability and visible behavior.",
+      "User/device policy precedence and exact Windows target recovery."
+    ]
+  }
+}

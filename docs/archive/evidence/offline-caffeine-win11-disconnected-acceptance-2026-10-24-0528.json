@@ -1,0 +1,168 @@
+{
+  "SchemaVersion": 1,
+  "Batch": "OfflineCaffeine",
+  "RunId": "d94d0ff62e224f2b8435df297762b5e2",
+  "StartedAtUtc": "2026-10-24T05:22:55.374943Z",
+  "FinishedAtUtc": "2026-10-24T05:28:23.6854233Z",
+  "SourceCommit": "f0f2c4cc4da1bfd121ed967340eff897652231ac",
+  "ContentIdentity": "Working-tree source-manifest hashes, including uncommitted changes",
+  "SourceManifestSha256": "8c42180b0660d026e04a1e762c9905224e0d168fdd0a1fa448672838e3e81208",
+  "ControllerStatus": "Passed",
+  "CleanupError": null,
+  "CollectionError": null,
+  "EvidenceExportError": null,
+  "Cleanup": "ResetAndOff",
+  "EvidenceCollected": true,
+  "VM": "RIDE-Win11-Test",
+  "VMBuild": 26300,
+  "CheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+  "CaseStatus": "Passed",
+  "Checks": [
+    "DisconnectedAdapters",
+    "MissingPayloadRefused",
+    "CorruptPayloadPinRefused",
+    "OmittedPayloadRefused",
+    "WrongTargetRefused",
+    "InstallPreview",
+    "CliInstall",
+    "OfflineSignatureInspectionSkipped",
+    "RepeatInstall",
+    "InstallAbsenceRestore",
+    "CliProfileApply",
+    "RepeatProfileApply",
+    "Remove",
+    "ExactRemovalRestore",
+    "ProfileAbsenceRestore",
+    "StillDisconnected"
+  ],
+  "RunIds": [
+    "61fe8f89b29d41c89ae702d5d9aeb30f",
+    "51ab6c7499c945a5b824de8e31055a69",
+    "28fba59ddae24f90ac9d2dabad65a7d9"
+  ],
+  "NetworkDisconnected": true,
+  "NetworkBefore": [
+    {
+      "Name": "Teredo Tunneling Pseudo-Interface",
+      "InterfaceDescription": "",
+      "Status": "Not Present"
+    },
+    {
+      "Name": "Ethernet (Kernel Debugger)",
+      "InterfaceDescription": "Microsoft Kernel Debug Network Adapter",
+      "Status": "Not Present"
+    },
+    {
+      "Name": "RIDE-Internet 0",
+      "InterfaceDescription": "Microsoft Hyper-V Network Adapter",
+      "Status": "Up"
+    },
+    {
+      "Name": "Microsoft IP-HTTPS Platform Interface",
+      "InterfaceDescription": "",
+      "Status": "Not Present"
+    },
+    {
+      "Name": "6to4 Adapter",
+      "InterfaceDescription": "",
+      "Status": "Not Present"
+    }
+  ],
+  "NetworkAfter": [
+    {
+      "Name": "Teredo Tunneling Pseudo-Interface",
+      "InterfaceDescription": "",
+      "Status": "Not Present"
+    },
+    {
+      "Name": "Ethernet (Kernel Debugger)",
+      "InterfaceDescription": "Microsoft Kernel Debug Network Adapter",
+      "Status": "Not Present"
+    },
+    {
+      "Name": "RIDE-Internet 0",
+      "InterfaceDescription": "Microsoft Hyper-V Network Adapter",
+      "Status": "Disabled"
+    },
+    {
+      "Name": "Microsoft IP-HTTPS Platform Interface",
+      "InterfaceDescription": "",
+      "Status": "Not Present"
+    },
+    {
+      "Name": "6to4 Adapter",
+      "InterfaceDescription": "",
+      "Status": "Not Present"
+    }
+  ],
+  "PayloadExecution": false,
+  "ToolExecuted": false,
+  "FunctionalAcceptance": "NotTested",
+  "CaffeineFiles": [
+    {
+      "RelativePath": "caffeine32.exe",
+      "Sha256": "327fe70ed4f6502ebf8f3d4c5f890960eb7a357529c14f078999829b6f78fb9d",
+      "AuthenticodeStatus": "NotInspectedOffline",
+      "SignerThumbprint": null
+    },
+    {
+      "RelativePath": "caffeine64.exe",
+      "Sha256": "98c0af01b4257e12679aaba3c148cdc95c9168f95ad17add25287a584d9070bf",
+      "AuthenticodeStatus": "NotInspectedOffline",
+      "SignerThumbprint": null
+    }
+  ],
+  "Bundle": {
+    "BundleId": "caffeine-acceptance",
+    "BundleVersion": "v1",
+    "EngineVersion": "0.13.0",
+    "SourceCommit": "f0f2c4cc4da1bfd121ed967340eff897652231ac",
+    "Profile": {
+      "Id": "acceptance",
+      "FileId": "profile",
+      "EditionId": "EnterpriseEval",
+      "ArtifactIds": [
+        "caffeine"
+      ],
+      "ServicingSourceIds": [],
+      "Architecture": "x64",
+      "Build": 26300,
+      "Target": "Windows 11"
+    },
+    "Artifact": {
+      "Id": "caffeine",
+      "DependencyIds": [],
+      "License": "Publisher freeware, including commercial use; retain supplied notices",
+      "OmissionCode": null,
+      "Variant": "portable",
+      "DownloadUri": "https://www.zhornsoftware.co.uk/caffeine/caffeine.zip",
+      "Targets": [
+        "Windows 11"
+      ],
+      "OfflineCapability": "DeclaredNoNetwork",
+      "Architecture": "neutral",
+      "Version": "1.98",
+      "LicenseUri": "https://www.zhornsoftware.co.uk/",
+      "FileIds": [
+        "payload"
+      ],
+      "Status": "Included",
+      "PackageId": "package.caffeine",
+      "ProductUri": "https://www.zhornsoftware.co.uk/caffeine/"
+    },
+    "CaffeineZip": {
+      "Id": "payload",
+      "RelativePath": "payload/caffeine-1.98.zip",
+      "Role": "Payload",
+      "Length": 316991,
+      "Sha256": "4a259c348e59eb51bbb75aac7fdcc798705496d575892ee1e01fff6970d5ba1c"
+    }
+  },
+  "RetainedPackage": {
+    "Id": "package.caffeine",
+    "FileName": "caffeine-1.98.zip",
+    "Sha256": "4a259c348e59eb51bbb75aac7fdcc798705496d575892ee1e01fff6970d5ba1c"
+  },
+  "Disposition": "Passed the 16 disconnected offline-profile checks for missing/corrupt/omitted payload and wrong target refusals, preview, CLI install/repeat, install absence restore, profile apply/repeat, removal, exact removal restore and profile absence restore. The guest adapter was Up at the original checkpoint, remained Disabled for the run and was restored by checkpoint recovery. Caffeine was staged but never executed. Functional application behavior and broader offline package/dependency/servicing acceptance are not claimed.",
+  "LegacyOutcomeClosure": []
+}

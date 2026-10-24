@@ -1,0 +1,4 @@
+external_id,label,amount,notes
+101,Imported Alpha,1.25,Synthetic import row
+102,"Comma, and quotes ""survive""",0,""
+103,Tokyo / Cafe,-12.5,Null differs from empty

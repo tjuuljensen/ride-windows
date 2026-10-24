@@ -1,0 +1,95 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-20",
+  "Scope": "Static version, dependency, licensing and data-effect review of the frozen MiTeC SQLite Query archive; no payload or database opened",
+  "PublisherEvidence": {
+    "ProductPage": {
+      "Uri": "https://www.mitec.cz/wp/msqliteq/",
+      "Snapshot": ".local/collection-inventory-20261017/mitec-product-msqliteq.html",
+      "Sha256": "27b0e947f6b57a8e75e8869726763a4d0c4f2606c5389c1df616cc29ecac8db4",
+      "Version": "3.2.0, dated 2021-05-18",
+      "PublishedBehavior": "The product page describes SQL execution, table editing, imports, exports, BLOB editing, trigger inspection, and a saved SQL history buffer. It lists Windows 7-11 and Windows Server 2008-2025 as publisher-supported systems; this is not RIDE target acceptance.",
+      "LicenseOptions": "Lifetime Single and Site licenses are listed; no local individual/company entitlement or redistribution review is recorded."
+    },
+    "TermsPage": {
+      "Uri": "https://www.mitec.cz/wp/support/",
+      "Snapshot": ".local/collection-inventory-20261017/mitec-support.html",
+      "Sha256": "00c55ee6e356a5b3422234dc74a92ffef09f83d655d4cd4965dcffbc3f2b066b",
+      "Observation": "The publisher's current page says trial or unregistered software is freeware for non-commercial usage, and its EULA lists named-user/build-machine, team, site and trial license types. Owner-specific use and redistribution remain unresolved."
+    },
+    "SQLiteProject": {
+      "CopyrightUri": "https://sqlite.org/copyright.html",
+      "ReleaseUri": "https://sqlite.org/releaselog/3_35_5.html",
+      "Observation": "The SQLite project states its deliverable SQLite code and documentation are dedicated to the public domain. Its 3.35.5 release is dated 2021-04-19 and lists fixes to potential database corruption involving DROP COLUMN. The publisher binary's identity/build configuration has not been independently bound to the upstream source."
+    }
+  },
+  "PinnedArtifact": {
+    "Archive": ".local/remaining-collections-20261017/SQLiteQ.zip",
+    "DownloadUri": "https://www.mitec.cz/wp/files/SQLiteQ.zip",
+    "Length": 3791645,
+    "Sha256": "7f979a622de9e97b9682dc09a5156a1bd872139a9dd56ba60616fb824e77ab16",
+    "PublisherDigestVerified": false,
+    "ArchiveMembers": [
+      {
+        "Path": "SQLiteQuery.exe",
+        "Length": 2846168,
+        "Sha256": "00bdc0c929a782563ecd3c3cf1d393405432bec9278ebbd7c19987b4d2ba0128",
+        "FileVersion": "3.2.0.0",
+        "ProductVersion": "3.0.0.0",
+        "CompanyName": "MiTeC"
+      },
+      {
+        "Path": "sqlite3.dll",
+        "Length": 1071715,
+        "Sha256": "e9e45d6db26b5a9a020ca5214f6434bb9796caa9328085e77345ff149bbace84",
+        "FileVersion": "3.35.5",
+        "ProductVersion": "3.35.5",
+        "CompanyName": "SQLite Development Team",
+        "CopyrightMetadata": "http://www.sqlite.org/copyright.html"
+      },
+      {
+        "Path": "sqlite3.exe",
+        "Length": 1064448,
+        "Sha256": "01a6c2e43ecffadac3c3c7792c02604a87032d3a6d0f10bba8e7401b83ff3324",
+        "FileVersion": "3.35.5",
+        "ProductVersion": "3.35.5",
+        "CompanyName": "SQLite Development Team",
+        "CopyrightMetadata": "http://www.sqlite.org/copyright.html"
+      }
+    ],
+    "MemberSetObservation": "Archive contains exactly the three listed files. No license, notice, README, changelog or SQLite source member was found by filename."
+  },
+  "ReviewFindings": [
+    "The archive pin and all three member hashes match the frozen inventory. PE version/company metadata is consistent with the recorded app and SQLite versions, but does not prove binary provenance or build options.",
+    "SQLiteQuery.exe reports FileVersion 3.2.0.0 while ProductVersion is 3.0.0.0; the publisher page and version history identify the product as 3.2.0. Preserve this metadata distinction rather than treating the fields as identical.",
+    "The bundled SQLite DLL/CLI metadata points to SQLite 3.35.5. The upstream public-domain statement applies to SQLite deliverables, while the MiTeC application remains under its separate publisher EULA. The archive does not include the SQLite source or an explicit third-party notice.",
+    "Because the tool supports arbitrary SQL, table edits, imports and exports, functional acceptance must use disposable synthetic database copies and verify exact preservation/recovery. Never use production or personal databases as fixtures."
+  ],
+  "SafetyAndAcceptance": {
+    "ArchiveExtractedThisBatch": false,
+    "PayloadExecuted": false,
+    "DatabaseOpened": false,
+    "FreshUacPrompts": 0,
+    "VmRuns": 0,
+    "DefenderBlockedToolsTouched": false,
+    "HostOrControllerChanged": false,
+    "DefenderChanged": false
+  },
+  "MigrationDisposition": {
+    "WholeLegacyOutcomesClosed": 0,
+    "RetiredOutcomes": 0,
+    "NewExclusions": 0,
+    "Resolved": "The frozen archive contains only the app, SQLite DLL and SQLite CLI; recorded member hashes and metadata match. Official SQLite public-domain terms and release 3.35.5 metadata are identified separately from MiTeC's application EULA.",
+    "Partial": "Exact binary-to-upstream provenance/build options, local MiTeC entitlement, archive redistribution, and database behavior/recovery remain unverified.",
+    "Deferred": [
+      "Owner-specific use and distribution assessment for MiTeC SQLite Query",
+      "Confirm exact SQLite build provenance/options and retain applicable notices",
+      "Synthetic-database SQL, edit/import/export, history and exact recovery acceptance",
+      "VM/controller acceptance through the existing approved workflow"
+    ],
+    "EstimateRanges": ["38-58", "56-71", "20-25", "25-35", "8-12"],
+    "ExactTotal": "147-201",
+    "RoundedTotal": "145-200/about 175",
+    "EstimateReason": "Version, bundled dependency identity and publisher license gates are clearer, but no complete legacy feature outcome is closed and runtime/recovery/owner acceptance remain; no estimate deduction is justified."
+  }
+}

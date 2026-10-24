@@ -4,14 +4,562 @@
 
 | Group | Approximate remaining items | Examples / current progress |
 | --- | ---: | --- |
-| Windows and application settings | 38-58 | Rechecked: 279/279 presentations unchanged. This source batch changed no settings; B03 missing guest PowerShell 7 and desktop/managed/recovery acceptance remain deferred. |
-| Packages, portable tools and downloadable artifacts | 56-71 | JoeWare's current rdp-sec-check page clarifies V02.00.00 / 0.9-beta; its 2011 versions-list row is non-current metadata and still lacks artifact correlation. Exact ZIP, binary/source bytes, terms and behavior remain open; 362 operations/60 packages/33 pending unchanged. |
-| Windows components and optional features | 20-25 | BDE core/helper versions remain pinned; exact BDE/BPL rights, registration/coexistence, providers and current-build behavior remain. Official documentation direct access returned 403; no registration or fresh-UAC setup occurred. |
-| Accounts, configuration and deployed files/assets | 25-35 | Phoenix/Explorer installer targets and user-selected project-file effects are recorded. Existing IDE/project contents need disposable fixtures; BDE alias/configuration and output preservation also need them. Broader offline/durable deployment, profiles and BitLocker resources remain deferred. |
-| Maintenance and operational actions | 8-12 | Read-only MSI tables and hashed wizard source reviewed; publisher version/source metadata reconciled without acquiring the package. No installer, payload, UAC, VM, controller/checkpoint or Defender action. Native install/recovery, network-target fixture and generated-project preservation remain deferred. |
-| **Total, rounded** | **145-200** | **About 175 for planning; exact range endpoints 147-201** |
+| Windows and application settings | 37-57 | Rechecked 17:57 UTC; no settings scope changed. Edge Legacy page-prediction remains retired. Click to Do and live Terminal profile availability/GUI acceptance remain pending. E06 selection-to-writer passed 58/58 synthetic checks; B03 UserBinPath/PATH regression remains 84/84; native acceptance is open. All 281 setting/control operations have presentation metadata. |
+| Packages, portable tools and downloadable artifacts | 50-65 | Rechecked 17:57 UTC; VMware Workstation and ShimCacheParser are retired. ExifTool tracks and Zimmerman Hasher remain open. Detect It Easy Defender scope is recorded; WinPmem acquisition/signature and driver acceptance remain open. Twelve Artcraft Batch6 packages passed pinned Windows 11 build 26300 install, uninstall, idempotence and saved-run recovery; Windows 11 support is now declared. ArtCraft Launcher Batch7 failed after MSI success because post-install detection found no installed product; diagnostic retry 1a0ec19a4e8e4517ad800bf3ac9f21dc is running with bounded MSI registration evidence. SysinternalsProducts request ae3bb5af12ee4b329c88cc51ff3d2bc2 is queued behind it; nine exact archives are reverified and zero Defender-detected tools are selected, with licensing cleared. Other Phoenix, Sysinternals and source/archive review items remain in the package ledger. |
+| Windows components and optional features | 19-24 | Rechecked 17:38 UTC; client component preparation/lifecycle and OpenSSH Server observer/lifecycle mocks passed 65/65 locally; ComponentInventory.Tests.ps1 passed 20/20 separately, 85/85 across five focused local suites. The OpenSSH Client preflight checks CAB identity, native architecture, target build and SHA-256, but configured-source fallback and DISM dependency completeness remain unverified. Capability servicing, exact recovery, and Windows 11/Server 2025 acceptance remain open; no target support is declared. |
+| Accounts, configuration and deployed files/assets | 25-35 | Rechecked 17:38 UTC; no file, profile, PATH or account scope changed outside the two package profile-preservation assertions. Terminal selection-to-writer remains 58/58 on synthetic AppX records; live packaged profile availability and GUI behavior remain unverified. Proxy and remaining package data lifecycles remain open. |
+| Maintenance and operational actions | 8-12 | Rechecked 17:38 UTC; no maintenance scope changed. B10 byte-bound offline preflight/no-network checks remain 100/100; OfflineCaffeine passed selected-profile disconnected install/apply/recovery checks without executing Caffeine. Broader offline deployment and interruption recovery remain unverified. |
+| **Total, rounded** | **140-195/about 170** | **Refreshed 2026-10-24 17:33 UTC; ranges are 37-57 / 50-65 / 19-24 / 25-35 / 8-12, exact 139-193. VMware Workstation and ShimCacheParser are retired from v3 (two package outcomes cumulatively); ExifTool's release track remains undecided and Zimmerman Hasher is held pending framework clarification. Detect It Easy directory-exclusion scope and v3.1 file deferral are recorded, and WinPmem is retained as required tool scope. The latest ApplicationsBatch4 run revalidated Slack and Discord on Windows 11 and closed no additional legacy outcome. Client-component/OpenSSH Server mock suites passed 65/65 and component inventory passed 20/20 separately; no Windows acceptance gate closes. ApplicationsBatch5 request 929ea539ce89404d8ed0d50a8fbbac52 passed its Windows 11 Visual C++ v14 lifecycle case. The registered host controller reset the pinned clean checkpoint successfully (Passed, CleanupError null); the final ApplicationsBatch5 run 919bd92ac3ab4b358906230eae728169 passed after the catalog declared Windows 11 support; this adds no legacy outcome closure. The earlier ApplicationsBatch1 run verified nine package rows and recorded Gpg4win and Phoenix failures; all other open acceptance and acquisition gates remain. ApplicationsBatch6 requests f7b20b6524bf4f99a80a1f19962b7cfd and 9f6bec44b84c4855917bd6913b0b792f passed twelve pinned install/repeat/install-recovery rows on Windows 11 build 26300, each with Pester 347/348 and one skip; both used old runner 0.14.3, so neither tested uninstall. Corrected request 6a896d6621304fdfbbb89e702488239f is now running from runner 0.14.4 and covers full Batch6 removal/recovery. Current runner 0.14.5 extends those checks to Batch7; parser and `-Version` passed and focused Pester passed 118, failed 0, skipped 2. Windows 11 support remains pending; Batch7 request 2ce98ec80d5c45fe8826c384b81de378 is queued behind corrected Batch6 for serialized execution. Rounded estimate remains 140-195/about 170. |
 
-Last reviewed: **2026-10-17**. Latest run: [JoeWare rdp-sec-check version/licence follow-up](migrations/application-migration-review.md#joeware-rdp-sec-check-version-and-licence-follow-up-2026-10-17). The official product page explicitly calls the advertised release v0.9-beta / JoeWare V02.00.00 from 2014; the collection index's 01.00.00/2011 row is not current-page version evidence. No exact ZIP was acquired, so archive/SHA-256/source correlation and source/binary licensing remain open. Read-only Hyper-V CIM access to RIDE-Win11-Test was denied; no elevation or VM change was attempted. No UAC, controller/checkpoint, Defender, installer, payload or network scan. No whole legacy outcome closed, retired or newly excluded. All five ranges refreshed unchanged: 38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175; exact endpoints 147-201. Next: preserve and inspect the exact publisher ZIP/source under the established review boundary, reconcile JoeWare distribution with GPL/source notices, and defer network behavior to a disposable isolated RDP endpoint. Phoenix/Explorer static installer gates, BDE terms/provider/configuration, B03, native/UI/activation/Server, offline and resource/profile blockers remain.
+Last reviewed: **2026-10-24 17:57 UTC** (Batch7 first attempt failed at post-install detection; diagnostic retry `1a0ec19a4e8e4517ad800bf3ac9f21dc` is running with runner 0.14.7. SysinternalsProducts `ae3bb5af12ee4b329c88cc51ff3d2bc2` is queued behind it on the same serialized RIDE-Win11-Test worker. Its nine pinned archives match verified hashes, no Defender-detected tools are selected, and prior RIDE v2 specialist approval clears licensing as a migration blocker. Both Windows batches remain pending technical acceptance. No legacy outcome closed; estimates remain 37-57 / 50-65 / 19-24 / 25-35 / 8-12, exact 139-193, rounded 140-195/about 170. See [Batch7 failure](archive/evidence/applications-batch7-win11-full-lifecycle-failure-2026-10-24-1750.json), [diagnostic retry](archive/evidence/applications-batch7-diagnostic-retry-queue-2026-10-24-1755.json), [SysinternalsProducts queue](archive/evidence/sysinternals-products-win11-queue-submission-2026-10-24-1757.json), and [Batch6 acceptance](archive/evidence/applications-batch6-win11-full-lifecycle-acceptance-2026-10-24-1738.json).
+
+## ApplicationsBatch5 Windows 11 acceptance, 2026-10-24 16:49 UTC
+
+The final Windows 11 ApplicationsBatch5 run passed its selected Pester suite
+(342 passed, one skipped) and Microsoft Visual C++ v14 x64 lifecycle. Version
+14.51.36247.0 exceeded the 14.50.35710.0 registered-version minimum, and
+`System32\vcomp140.dll` reported 14.51.36247.0. Repeat install/removal,
+removal preview, saved removal recovery and saved install recovery all passed.
+The final run used the updated catalog after Windows 11 support was accepted.
+Controller cleanup, evidence collection and export completed without errors.
+
+Windows 11 support is resolved for the shared runtime; Server targets remain
+undeclared. No legacy outcome closes. See the [structured run evidence]
+(archive/evidence/applications-batch5-win11-acceptance-2026-10-24-1649.json).
+## ApplicationsBatch4 Windows 11 follow-up, 2026-10-24 16:00 UTC
+
+The Windows 11 ApplicationsBatch4 run passed its selected Pester suite (332
+passed, one skipped) and both current-user package lifecycles. Slack 4.52.182
+and Discord 1.0.9264 were acquired from their direct HTTPS sources, installed,
+uninstalled with their vendor uninstallers operating in place, and reinstalled
+for compensating recovery. The package profile-preservation assertions passed
+for both. The controller reported no run, cleanup, collection or evidence-export
+error.
+
+This revalidates technical Windows 11 behavior; it does not add a legacy outcome
+closure, establish Windows Server support, or close broader release acceptance.
+See the [structured run evidence](archive/evidence/applications-batch4-win11-follow-up-2026-10-24-1600.json).
+
+## User package decisions: Detect It Easy, VMware Workstation and WinPmem, 2026-10-24 15:56 UTC
+
+The user authorized a Defender exclusion scoped to the RIDE-managed install
+directory for a selected Detect It Easy package and deferred individual-file
+handling to v3.1. Preserve any pre-existing exact-path exclusion and remove only
+an exclusion introduced by RIDE. The reported detection remains a separate
+security disposition; the directory exclusion is not a false-positive finding,
+artifact approval or Windows acceptance.
+
+The user retired VMware Workstation from v3. This closes one legacy package
+outcome by retirement; no uninstall, replacement virtualizer or Windows change
+is implied. The package estimate changes from 52-67 to 51-66, reducing the exact
+total from 141-195 to 140-194. Rounded total remains 140-195/about 170 because
+only one outcome was removed and the rounded upper bound is unchanged.
+
+The user reaffirmed that WinPmem is required in v3. Keep acquisition/deployment
+separate from explicit driver loading and memory capture. Signing,
+Secure-Boot/current-build compatibility, driver cleanup, reboot reporting and
+recovery remain acceptance gates. These scope decisions produced no tests and
+changed no package, Defender, VM or Windows state.
+
+## ApplicationsBatch1 Windows 11 follow-up, 2026-10-24 15:43 UTC
+
+The Windows 11 ApplicationsBatch1 run passed its selected Pester suite (332 passed, one skipped) and wrote all eleven package results incrementally. Thunderbird, VS Code, Firefox, DB Browser for SQLite, Autopsy, Chrome, Wireshark, Signal and TMOG passed. User-data fixtures survived Thunderbird, Chrome and Signal removal and recovery checks.
+
+Gpg4win 5.1.1 failed in the limited-user context with exit `0xC0000005`; the cause remains unresolved. Phoenix Protector failed with MSI exit 1603. Its log reports `VSDFrameworkVersion=2.0.50727` and states that .NET Framework 2.0 is required. Catalog-driven prerequisite installation is already approved for v3; implement or explicitly gate this package on the prerequisite before retesting. Do not treat enabling a shared Windows feature as package-owned uninstall state.
+
+Incremental JSON evidence, coordinator/worker output separation and Phoenix diagnostic serialization all worked in this run. The controller reported no cleanup, collection or evidence-export error. No complete legacy package outcome closes from this batch; Windows Server 2025 and remaining deferred package scenarios are still open. The [structured run history](archive/evidence/applications-batch1-win11-follow-up-2026-10-24-1543.json) includes the earlier test-harness failures and timeout.
+## Sysinternals package licensing disposition closed, 2026-10-24 14:33 UTC
+
+The user clarified that the earlier migration reasoning applied an overly strict,
+distribution-focused standard to RIDE's normal deployment use. The prior RIDE v2
+license-specialist review approved Sysinternals for RIDE. RIDE downloads the
+tools directly from Microsoft for installation on user-supported devices; it
+does not transfer or publish copies. Treat licensing as closed for this
+migration. Do not reopen the legal analysis, require a second review, or delay
+package work over distribution scenarios outside RIDE's use. Existing
+version-specific local records are informational administration, not a package
+eligibility gate. Defender detections remain separate exclusions. Remaining
+Sysinternals work is technical lifecycle, selected utility behavior, exact
+recovery and Windows acceptance. No legacy outcome closed; all five estimate
+ranges remain **37-57 / 50-65 / 19-24 / 25-35 / 8-12**, exact **139-193**,
+rounded **140-195/about 170**. See [decision evidence]
+(archive/evidence/sysinternals-license-disposition-2026-10-24-1433.json).
+
+## Sysinternals practical license administration reaffirmed, 2026-10-24 15:05 UTC
+
+The user again corrected the reasoning: RIDE is a direct download-and-install
+tool, the prior RIDE v2 license-specialist review approved Sysinternals, and
+RIDE does not transfer or publish copies. Treat that approval as settled for
+package migration; do not use generalized redistribution analysis or require
+another license review as a migration gate. Defender-detected tools remain
+excluded on the separate security disposition. Only technical lifecycle and
+Windows acceptance remain for eligible Sysinternals packages. No legacy
+outcome closed and all five estimates remain **37-57 / 52-67 / 19-24 / 25-35 /
+8-12**, exact **141-195**, rounded **140-195/about 170**. See [decision
+evidence](archive/evidence/sysinternals-practical-license-administration-reaffirmation-2026-10-24-1505.json).
+
+## HxD and ExifTool publisher source review, 2026-10-24 14:36 UTC
+
+The HxD publisher lists English portable 2.5.0.0, released 2021-02-11, as a
+3.19 MiB download and links SHA-1/SHA-512 signatures. Its portable setup writes
+only to a selected folder and requires no administrator rights. The published
+OS list reaches Windows 10; no Windows 11 support is inferred. The license
+allows private and commercial use and permits distribution of an intact package
+with notices. This does not create a licensing gate for RIDE's direct
+publisher-download/install flow. Native acquisition of the exact publisher ZIP
+failed local DNS before any bytes transferred.
+
+ExifTool remains a useful optional metadata-analysis candidate. Its official
+pages currently conflict: version history calls 13.55 the latest production
+release and later versions development builds, the Windows installation page
+names 13.59 executable ZIPs, and the home page still names 13.58. Its Windows
+distribution requires the executable and adjacent `exiftool_files` directory.
+The publisher describes Perl terms (GPL or Artistic); version-specific local
+license records are administrative and do not block migration. Resolve the
+publisher's exact Windows package/version and inspect its hash and members
+before pinning. Do not infer a hash or substitute a mirror. Both reviews are
+source-level only; no binary, installer, VM or Windows state changed.
+
+Resolved: HxD publisher package identity and license/use metadata; ExifTool
+candidate and distribution shape. Deferred: exact HxD payload/hash, ExifTool
+canonical Windows version/payload/hash, and their native lifecycle/behavior.
+Excluded/retired: none. Partial: no whole legacy outcome closes. All five
+estimate ranges remain **37-57 / 52-67 / 19-24 / 25-35 / 8-12**, exact
+**141-195**, rounded **140-195/about 170**. See [structured source evidence]
+(archive/evidence/hxd-exiftool-publisher-source-review-2026-10-24-1436.json)
+and the [candidate disposition table]
+(migrations/custom-ride-dispositions.md#readme-only-candidate-reconciliation).
+
+## Thumbcache Viewer publisher source review, 2026-10-24 14:40 UTC
+
+The publisher states that Thumbcache Viewer reads Windows Vista through Windows
+11 thumbnail databases, with separate GUI and command-line releases. The GUI
+release is 1.0.4.0 (2023-10-25) and its exact 64-bit ZIP is
+`https://github.com/thumbcacheviewer/thumbcacheviewer/releases/download/v1.0.4.0/thumbcache_viewer_64.zip`.
+The CLI release is separately versioned 1.0.2.1 (2023-07-14) and the publisher
+offers a separate 64-bit ZIP. Do not merge these into one package; the GUI is
+the intended interactive viewer, while the CLI is a distinct batch-export tool.
+Both have a published Visual C++ 2008 runtime dependency. The GUI source declares
+GPL-3.0-or-later. No license review blocks RIDE package migration. Exact ZIP
+hashes, member inventory, bundled dependencies and Windows 11 fixtures remain
+pending before catalog pinning; the publisher's Windows 11 database mapping
+requires a matching SQLite library. No binary, VM, installer or Windows state
+changed.
+
+Resolved: product scope, exact GUI and CLI release identities, official asset
+routes and Windows 11 claim. Deferred: exact payload hashes/member inventory,
+runtime handling, modern Windows fixtures and native lifecycle/behavior
+acceptance. Retired/excluded: none. Partial: no whole legacy outcome closes. All
+five ranges remain **37-57 / 50-65 / 19-24 / 25-35 / 8-12**, exact **139-193**,
+rounded **140-195/about 170**. See [structured evidence]
+(archive/evidence/thumbcache-viewer-publisher-source-review-2026-10-24-1440.json)
+and the [candidate disposition table]
+(migrations/custom-ride-dispositions.md#readme-only-candidate-reconciliation).
+
+## PSScriptTools current-source local lifecycle regression, 2026-10-24 14:42 UTC
+
+`tests/PSScriptToolsPackage.Tests.ps1` passed **7/7**, with zero failures or
+skips, on PowerShell **7.6.5** and Pester **5.7.1**. The run used the current
+checkout, disabled Pester's registry plugin, excluded the WindowsIntegration tag,
+and redirected temporary data to `.local/psscripttools-source-current-20261024-1418`.
+Its 1332.4-second duration reflects the retained 360-file source fixture. The
+test file SHA-256 was
+`2F9231698B8BC81B839E5BB18C40A14E030B9EF6D617074612A5E6685340F221`.
+
+This closes the current-source local mocked file lifecycle/recovery regression
+only. It does not import the module, establish ThreadJob/System.Drawing runtime
+behavior, activate the package, or accept the guest package lifecycle. The
+ApplicationsBatch1 Windows 11 request remains the sole active registered VM
+request; do not overlap its queued successor. No catalog, installer, VM or
+Windows state changed. No whole legacy package outcome closes; resolved/retired/
+excluded: none. Deferred: PSScriptTools native runtime/package acceptance and the
+remaining serialized VM batches. Estimates remain **37-57 / 52-67 / 19-24 /
+25-35 / 8-12**, exact **141-195**, rounded **140-195/about 170**. See
+[structured regression evidence]
+(archive/evidence/psscripttools-source-current-local-regression-2026-10-24-1442.json).
+
+## Volatility Workbench publisher source review, 2026-10-24 14:44 UTC
+
+PassMark lists Volatility Workbench **3.0.1017**, released 2026-09-25, based on
+Volatility 3 Framework **2.28.2**. The official ZIP route is
+`https://www.osforensics.com/downloads/VolatilityWorkbench.zip` (21.4 MB); the
+publisher page says the archive includes source code and a copy of the Volatility
+CLI. The publisher lists Windows 11, 10 and 7. Missing Windows symbols may be
+queried, downloaded, generated and cached; symbol packs also have separate
+publisher links. Keep the GUI package separate from a standalone Volatility CLI.
+
+The product uses the Volatility Software License v1.0. Record a version-specific
+local license review after exact archive inspection, but do not hold package work
+for that record. The shell could not resolve the publisher host, so no ZIP or
+partial file was acquired. Exact archive hash/member list, embedded source commit,
+symbol/network behavior, no-network/offline workflow and native lifecycle remain
+open. No binary, VM or Windows state changed; no legacy outcome closes. All five
+ranges remain **37-57 / 50-65 / 19-24 / 25-35 / 8-12**, exact **139-193**,
+rounded **140-195/about 170**. See [structured evidence]
+(archive/evidence/volatility-workbench-publisher-source-review-2026-10-24-1444.json)
+and the [candidate disposition table]
+(migrations/custom-ride-dispositions.md#readme-only-candidate-reconciliation).
+
+
+## Edge Legacy page-prediction retirement, 2026-10-24 13:02 UTC
+
+The user selected retirement of the legacy `DisableEdgePagePrediction` outcome.
+It targets obsolete Edge Legacy behavior; Microsoft ended support for Edge Legacy in 2021. The current Edge 
+etworkPredictionOptions` policy is a distinct mapping and is not a substitute or authorized new scope.
+No catalog operation, profile selection or Windows behavior is implied. See Microsoft
+[Edge Legacy lifecycle notice](https://learn.microsoft.com/en-us/lifecycle/announcements/edge-legacy-eos-details) and the [separate current policy reference](https://learn.microsoft.com/en-us/deployedge/microsoft-edge-browser-policies/networkpredictionoptions).
+
+Resolved and retired: one legacy settings outcome. Retired: one. Excluded: none.
+Deferred: current Edge policy consideration remains outside scope. Partial: no
+technical acceptance was performed. All five ranges are now **37-57 / 52-67 /
+19-24 / 25-35 / 8-12**, exact **141-195**, rounded **140-195/about 170**. See
+the [authoritative decision record](migrations/decision-session-2026-10-17.md#edge-legacy-page-prediction-retirement-2026-10-24).
+
+## Sysinternals package migration disposition reaffirmed, 2026-10-24 12:37 UTC
+
+The user corrected the migration rationale: the prior RIDE v2 license-specialist
+review approved Sysinternals for RIDE's download-and-install workflow. RIDE
+downloads from Microsoft for installation on user-supported devices and does not
+transfer or publish copies. For this migration, licensing is settled; do not use
+generalized redistribution analysis or request another license review as a
+package-migration gate. Defender-detected tools remain separate security
+exclusions. Remaining blockers are technical lifecycle, exact recovery,
+functional behavior where selected, and Windows target acceptance. No legacy
+outcome closes; estimates remain 38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact
+142-196, rounded 145-200/about 170. See the [decision evidence]
+(archive/evidence/sysinternals-package-migration-disposition-2026-10-24-1237.json).
+
+## Package planning and license-marker regression, 2026-10-24 12:16 UTC
+
+Current-source `ApplicationPackages.Tests.ps1` and `LicenseReviews.Tests.ps1`
+discovered 124 tests: 123 passed and one unrelated license-store replacement
+test failed because sandbox permissions denied `File.Replace` while replacing
+its synthetic JSON store. No owner-specific review store was written. A filtered
+rerun of the decisive plan cases passed **11/11**: every pending package remains
+plan-selectable with a local 
+eedsReview` marker, and the approved Suite plus
+nine independent Sysinternals products remain plan-selectable while technical
+acceptance is pending. This confirms license-review metadata is informational
+for package planning; the prior RIDE v2 specialist approval remains settled for
+Sysinternals direct download/install. Defender exclusions remain separate.
+
+The registered ApplicationsBatch1 request `24dae5ea55034a84b42cb6a0260d9c3c`
+remained in `queue/running` at 12:16 UTC with no `result.json`; the controller
+log had not advanced beyond the guest-command handoff and `controller-errors.log`
+was empty. It was not restarted or overlapped. Resolved: focused planning
+eligibility and informational-review behavior. Retired: none. Excluded:
+separately Defender-detected files remain outside selected batches. Partial:
+package planning is verified but package runtime acceptance remains pending.
+Deferred: the unrelated license-store replace test needs a supported writable
+test location; ApplicationsBatch1 needs its correlated terminal result; the
+nine-product Windows lifecycle batch needs the saved controller refresh. No
+whole legacy outcome closes. All five ranges remain **38-58 / 52-67 / 19-24 /
+25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See the
+[structured regression evidence](archive/evidence/package-license-plan-recheck-2026-10-24-1216.json).
+
+## Click to Do policy candidate implementation, 2026-10-24 12:22 UTC
+
+Added `windows.click-to-do-policy` as a current-user `RegistryValue` candidate
+for Microsoft's documented `DisableClickToDo` policy. `Blocked=1` prevents the
+feature; `Allowed=0` removes that policy block but does not force the user's own
+Settings toggle on; `WindowsDefault` removes the policy override. Exact saved-run
+restore is declared. The candidate is not selected in a default profile, has no
+supported targets and remains pending because the Policy CSP currently lists
+Insider Preview applicability and current-build policy precedence/visible effect
+have not been accepted on Windows 11 Copilot+ hardware. The operation is separate
+from Recall and other Copilot controls.
+
+`Export-RideCatalog.ps1` generated current operation documentation and
+`validate.ps1` passed for 408 operations, eight groups, five profiles and 272
+PowerShell files. The focused catalog Pester case passed 1/1 on PowerShell 7.6.5
+and Pester 5.7.1. No VM was used and no registry/profile/Windows state changed.
+This adds no closed legacy outcome; the five ranges remain **38-58 / 52-67 /
+19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See
+[structured implementation evidence](archive/evidence/click-to-do-policy-candidate-implementation-2026-10-24-1222.json),
+[Microsoft's policy mapping](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai#disableclicktodo)
+and [feature management guidance](https://learn.microsoft.com/en-us/windows/client-management/manage-click-to-do).
+
+## Windows Terminal packaged-instance inventory, 2026-10-24 12:28 UTC
+
+Added read-only `Get-RideTerminalInstalledInstances` discovery for the current
+user's documented Windows Terminal Stable, Preview and Canary package families.
+It derives distinct package-bound `LocalState/settings.json` paths and reads
+existing files only. It reports package-instance identity separately from
+profile availability, and refuses family mismatches, duplicate package records,
+reparse-point settings files and files above the existing 1 MiB JSONC limit.
+Unpackaged/portable instances, other users, dynamic profiles and launchability
+remain outside this inventory. The existing writer still takes an explicit path;
+connecting an inventory choice to that writer and proving actual profile
+availability remain required before catalog integration or target support.
+
+The six focused synthetic discovery cases passed; full
+`TerminalJsonc.Tests.ps1` passed **53/53** on PowerShell 7.6.5/Pester 5.7.1,
+and Windows PowerShell 5.1 parsed the module/test. No live AppX query, VM,
+package, file, registry, profile or Windows state change occurred. This moves
+E06 implementation forward but closes no legacy outcome; all five estimate
+ranges remain unchanged. ApplicationsBatch1 still owns the serialized VM queue
+without a correlated result. See [structured evidence](archive/evidence/terminal-jsonc-packaged-instance-inventory-2026-10-24-1228.json),
+the [implementation contract](terminal-jsonc-preparation.md) and the
+[operator selection guide](windows-terminal-profile.md).
+
+## Terminal inventory final regression and repository validation, 2026-10-24 12:33 UTC
+
+The final current-source run passed the full Terminal JSONC suite **53/53** on
+PowerShell 7.6.5/Pester 5.7.1 after the package-inventory API, test naming and
+module version were finalized. Windows PowerShell 5.1 parsed both the module and
+test file. `tools/validate.ps1` reports current generated operation docs and
+passed for 408 operations, eight groups, five profiles and 272 PowerShell
+files. The six new inventory tests exercise synthetic records only; no live
+AppX query, VM, settings, profile, registry or Windows state changed.
+
+This validates candidate discovery and prior file-writer regressions, but does
+not prove a live package inventory or connect an operator-selected instance to
+the writer. Profile launchability, packaged/unpackaged instance handoff,
+concurrent editing and disposable Windows acceptance remain deferred. No legacy
+outcome closed; estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**,
+exact **142-196**, rounded **145-200/about 170**. ApplicationsBatch1 request
+`24dae5ea55034a84b42cb6a0260d9c3c` remains in the registered running queue
+without a result file. See [updated evidence](archive/evidence/terminal-jsonc-packaged-instance-inventory-2026-10-24-1228.json).
+
+## Sysinternals licensing disposition reaffirmed, 2026-10-24 11:31 UTC
+
+The user reaffirmed the practical deployment scope: RIDE downloads Sysinternals
+directly from Microsoft for installation on supported devices and does not
+transfer or publish copies. The prior RIDE v2 license-specialist approval
+governs this workflow. The user states there are no legal issues using
+Sysinternals in RIDE; do not reopen license review or use generalized
+redistribution reasoning as a migration blocker. Defender-detected tools remain
+separately excluded. The active blockers are technical lifecycle, exact recovery
+and target acceptance. This disposition resolves no additional legacy outcome;
+the five estimate ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact
+**142-196**, rounded **145-200/about 170**. See the [dated application-review
+record](migrations/application-migration-review.md#sysinternals-license-administration-disposition-reaffirmed-2026-10-24-1131-utc)
+and [structured evidence](archive/evidence/sysinternals-license-administration-disposition-2026-10-24-1131.json).
+
+## Sysinternals independent product inert lifecycle regression, 2026-10-24 08:58 UTC
+
+The focused `SysinternalsProductPackages.Tests.ps1` suite discovered and passed
+**72/72** checks across Process Explorer, Autoruns, TCPView, Process Monitor,
+RAMMap, Disk2vhd, Sigcheck, Strings and Handle. PowerShell **7.6.5** and Pester
+**5.7.1** ran with TestRegistry disabled. Synthetic inert ZIP members and mocked
+network/signature calls exercised pin/member reconciliation, digest rejection,
+EULA-file presence, repeat, snapshot recovery, collision refusal and preservation
+of operator-modified or independently owned files. No utility, installer, EULA,
+network, VM, Defender or Windows state was touched. This closes no legacy outcome
+or supported target. Utility behavior and disposable Windows acceptance remain
+open; Defender-detected files remain separate exclusions. Estimates remain
+**38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded
+**145-200/about 170**. See the [migration ledger](migrations/application-migration-review.md#independent-sysinternals-product-inert-lifecycle-regression-2026-10-24-0858-utc)
+and [structured evidence](archive/evidence/sysinternals-independent-products-local-regression-2026-10-24-0858.json).
+## Unsigned package eligibility acquisition regression, 2026-10-24 08:38 UTC
+
+The user confirmed that 7-Zip and ShareX remain eligible when the publisher's installer is NotSigned; available source/version and digest checks still apply. PackageEvidence.Tests.ps1 passed **28/28** on PowerShell **7.6.5** with Pester **5.7.1** and Pester TestRegistry disabled. The suite accepted a synthetic NotSigned artifact with a matching provider SHA-512 and rejected altered bytes before success was recorded. No real publisher payload, installer, network connection, Windows or VM state was used. This verifies the existing acquisition policy and closes no package runtime acceptance or legacy outcome. No estimate range changes; all five remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [decision ledger](migrations/decision-session-2026-10-17.md#unsigned-package-eligibility-decision-2026-10-24), [verification matrix](package-verification-matrix.md), and [test evidence](archive/evidence/unsigned-package-eligibility-acquisition-regression-2026-10-24-0838.json).
+
+## Package planning regression and AdMod source recheck, 2026-10-24 08:30 UTC
+
+ApplicationPackages.Tests.ps1 and LicenseReviews.Tests.ps1 passed **124/124** combined on PowerShell **7.6.5** with Pester **5.7.1**, with Pester's TestRegistry plugin disabled. The focused suites used repository-local temporary storage; per-test synthetic license-review stores were cleaned up, and the ignored owner-specific review store was not written. All pending package plans remained available under synthetic exact-version NeedsReview records; all ten Sysinternals plans remained available with technical acceptance pending.
+
+The AdMod-only download-preparation script parsed successfully. Its -WhatIf invocation failed at publisher metadata lookup because www.joeware.net could not be resolved from this shell. No payload was acquired, extracted or executed. AdFind remained excluded. The read-only Hyper-V query for both test VMs remains denied at host CIM access before checkpoint inspection. No installer, VM, Defender or Windows state changed. Resolved: local license-review planning regression. Retired/excluded: none beyond AdFind's separate Defender disposition. Partial/deferred: AdMod source acquisition and package lifecycle integration, native package/VM acceptance. No legacy outcome closes; all five estimate ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured evidence](archive/evidence/package-license-planning-and-joeware-admod-source-recheck-2026-10-24-0830.json).
+
+Earlier review: **2026-10-24 06:04 UTC** (SQLite Query Windows 11 lifecycle/recovery, following v14 focused acceptance preparation). The SQLite Query candidate passed its single selected-package install/repeat/remove/recovery case on build 26300; the test preserved a deliberately modified managed executable and did not open a database or run SQL. The guest checkpoint reset/off and evidence collection succeeded without errors. ApplicationsBatch1 on Windows 11 passed all eight selected lifecycle/recovery scenarios; validation passed 318/319 with one skip, but exact prior-version recovery and Wireshark feature-specific acceptance remain open. A separate NTCore run showed that the new guarded synthetic patch, checksum validation, collision refusal and exact recovery passed in the guest, but the protected controller marked its run failed because its installed validator still expected NTCore `ToolExecuted=false`; its checkpoint reset/off and evidence collection succeeded. The source validator has been corrected, but the registered controller refresh requires an elevated PowerShell session. These runs close no legacy outcome and add no supported target. Current ranges remain 38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196, rounded 145-200/about 170. See [SQLite Query guest evidence](archive/evidence/mitec-sqlite-query-win11-lifecycle-2026-10-24-0604.json) and [NTCore controller result](archive/evidence/ntcore-win11-guarded-launcher-controller-validation-2026-10-24-0559.json).
+
+Last reviewed: **2026-10-24 17:57 UTC** (Batch7 first attempt failed at post-install detection; diagnostic retry `1a0ec19a4e8e4517ad800bf3ac9f21dc` is running with runner 0.14.7. SysinternalsProducts `ae3bb5af12ee4b329c88cc51ff3d2bc2` is queued behind it on the same serialized RIDE-Win11-Test worker. Its nine pinned archives match verified hashes, no Defender-detected tools are selected, and prior RIDE v2 specialist approval clears licensing as a migration blocker. Both Windows batches remain pending technical acceptance. No legacy outcome closed; estimates remain 37-57 / 50-65 / 19-24 / 25-35 / 8-12, exact 139-193, rounded 140-195/about 170. See [Batch7 failure](archive/evidence/applications-batch7-win11-full-lifecycle-failure-2026-10-24-1750.json), [diagnostic retry](archive/evidence/applications-batch7-diagnostic-retry-queue-2026-10-24-1755.json), [SysinternalsProducts queue](archive/evidence/sysinternals-products-win11-queue-submission-2026-10-24-1757.json), and [Batch6 acceptance](archive/evidence/applications-batch6-win11-full-lifecycle-acceptance-2026-10-24-1738.json).
+
+## Sysinternals license rationale reaffirmed, 2026-10-24 08:42 UTC
+
+The user reaffirmed that the prior RIDE v2 license-specialist assessment
+approved Sysinternals for RIDE's direct download-and-install workflow. RIDE
+downloads from Microsoft for installation on user-supported devices and does not
+transfer or publish Sysinternals. The user states there are no legal issues using
+Sysinternals in RIDE. Do not require another licensing review or apply generalized
+redistribution reasoning as a migration gate. The recorded v2 approval governs
+this scope. Defender-alerted utilities remain separately excluded; the remaining
+work is technical lifecycle, exact recovery, utility behavior and native Windows
+acceptance. No legacy outcome closes and the five estimates remain **38-58 /
+52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about
+170**. See [current decision evidence](archive/evidence/sysinternals-license-rationale-reaffirmation-2026-10-24-0842.json)
+and [prior rationale correction](archive/evidence/sysinternals-license-rationale-correction-2026-10-24-0817.json).
+
+Last reviewed: **2026-10-24 17:57 UTC** (Batch7 first attempt failed at post-install detection; diagnostic retry `1a0ec19a4e8e4517ad800bf3ac9f21dc` is running with runner 0.14.7. SysinternalsProducts `ae3bb5af12ee4b329c88cc51ff3d2bc2` is queued behind it on the same serialized RIDE-Win11-Test worker. Its nine pinned archives match verified hashes, no Defender-detected tools are selected, and prior RIDE v2 specialist approval clears licensing as a migration blocker. Both Windows batches remain pending technical acceptance. No legacy outcome closed; estimates remain 37-57 / 50-65 / 19-24 / 25-35 / 8-12, exact 139-193, rounded 140-195/about 170. See [Batch7 failure](archive/evidence/applications-batch7-win11-full-lifecycle-failure-2026-10-24-1750.json), [diagnostic retry](archive/evidence/applications-batch7-diagnostic-retry-queue-2026-10-24-1755.json), [SysinternalsProducts queue](archive/evidence/sysinternals-products-win11-queue-submission-2026-10-24-1757.json), and [Batch6 acceptance](archive/evidence/applications-batch6-win11-full-lifecycle-acceptance-2026-10-24-1738.json).
+
+## User decision reconciliation, 2026-10-24
+
+### Sysinternals license disposition reaffirmed, 2026-10-24 05:03 UTC
+
+The user clarified again that RIDE is a download-and-install tool for this
+workflow: it obtains Sysinternals directly from Microsoft for installation on
+the user's supported devices. RIDE does not transfer or publish Sysinternals.
+The prior RIDE v2 license-specialist review approved this use, and the user
+confirms there are no legal issues. Do not apply generalized redistribution
+analysis, request another license review, or block the package migration on
+licensing. The ten exact version records remain `Reviewed`. Defender-detected
+tools remain separately excluded; this is a security selection decision, not a
+license condition. Remaining Sysinternals work is technical acceptance only.
+
+This correction closes no additional legacy outcome. Estimates remain **38-58 /
+52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about
+170**. See [decision evidence](archive/evidence/sysinternals-approval-reaffirmation-2026-10-24-0503.json).
+
+### Sysinternals license rationale correction, 2026-10-24 04:44 UTC
+
+The user rejected generalized redistribution concerns as an invalid blocker for
+RIDE's package migration. The prior RIDE v2 license-specialist assessment
+approved Sysinternals; RIDE downloads directly from Microsoft and installs on
+supported devices, without transferring or publishing Sysinternals. The user
+states there are no legal issues for this workflow. Treat licensing as settled:
+no additional review or distribution gate applies to the package migration.
+Defender-detected tools remain excluded on the separate security decision.
+
+The existing protected `SysinternalsSuite` request was submitted at 04:30 UTC
+and still has no guest result at 04:44. Read-only Hyper-V inventory is denied at
+CIM, so technical lifecycle, exact recovery, and Windows acceptance remain
+unverified. The request was not cleared or restarted. No legacy outcome changed;
+all five estimate ranges remain 38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact
+142-196, rounded 145-200/about 170. See [decision evidence](archive/evidence/sysinternals-approval-reaffirmation-2026-10-24-0444.json).
+
+## Sysinternals Suite Windows 11 file-lifecycle acceptance, 2026-10-24 04:48 UTC
+
+The pinned 164-member Sysinternals Suite archive passed **1/1** current-source
+package file-lifecycle/recovery scenario on Windows 11 build 26300. Install,
+repeat, exact member selection, removal, exact recovery, original-absence
+recovery, collision refusal, modified-file refusal and preservation checks
+passed. No Sysinternals utility was executed. The controller restored the
+checkpoint and powered off with no cleanup, evidence collection or export
+errors. Resolved: package file lifecycle and saved-run recovery on Windows 11.
+Retired/excluded: none; Defender-detected members remain separately excluded.
+Deferred: functional behavior, activation and broader supported-target
+acceptance. Partial: no legacy outcome closed. All five estimates remain
+38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196, rounded 145-200/about
+170. Licensing is settled under the prior RIDE v2 specialist review and is not
+a migration blocker. See [guest evidence](archive/evidence/sysinternals-suite-win11-file-lifecycle-2026-10-24.json).
+
+## Version-aware shared-runtime recovery local regression, 2026-10-24 04:49 UTC
+
+Package inspection now retains the detected version and registration metadata
+when a runtime is installed below `MinimumInstalledVersion`. Restore identifies
+a captured older shared runtime and retains a newer working version, warning
+that exact downgrade recovery is unavailable. Focused Pester passed **2/2** on
+PowerShell 7.6.5/Pester 5.7.1 with TestRegistry disabled. Windows PowerShell 5.1
+parsing passed for two modules and two test files; repository validation passed
+for 407 operations, 8 groups, 5 profiles and 266 PowerShell files. The broader
+130-test attempt was interrupted after unrelated portable-package fixtures hit
+sandbox-denied AppContainer temporary-file moves; no aggregate pass count is
+claimed. No installer, package, VM, checkpoint, Defender setting or Windows
+state changed. Resolved: version-aware observation and safe compensation for
+the outdated-runtime case. Retired/excluded: none. Deferred: prerequisite plan
+expansion and ordering, dependent-removal protection, RIDE-managed v14 package
+lifecycle/Windows 11 acceptance, and Server support acceptance. Partial: no
+package or legacy outcome closed. All five estimates remain 38-58 / 52-67 /
+19-24 / 25-35 / 8-12, exact 142-196, rounded 145-200/about 170. See
+[structured evidence](archive/evidence/vcredist-version-aware-recovery-local-regression-2026-10-24-0449.json).
+
+The user retained the hash value context-menu setting in v3, confirmed the
+already approved catalog-driven package dependency/requirements support, and
+selected recent 2026H2 Fedora 44, Debian and Ubuntu environments for QEMU/GNOME
+Boxes guest-integration verification. These decisions resolve requested scope
+and validation-environment selection only. No legacy outcome was resolved,
+retired, excluded or newly deferred, so no estimate endpoints changed. The
+rounded ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**,
+rounded total **145-200/about 170**. Exact Debian/Ubuntu releases and the Boxes
+build must be recorded before guest acceptance; Hyper-V CIM and protected queue
+access remain separate blockers.
+
+## Follow-up user decisions, 2026-10-24 04:20 UTC
+
+The user deferred adding a Phoenix .NET prerequisite until evidence proves it is
+required, with any proven requirement to use catalog-driven v3 support. The
+user reaffirmed the static x64 Q16 ImageMagick candidate, whose Windows 11
+package lifecycle/feature acceptance already passed; the separate Visual C++
+v14 dependency lifecycle and recovery remain open. No legacy outcome changed.
+The five ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact
+**142-196**, rounded **145-200/about 170**. This run adds no estimate reduction:
+the accepted package and the still-pending shared prerequisite are distinct
+acceptance outcomes.
+
+Decision update, 2026-10-24: mixed-scope profiles remain supported; scope reporting is optional future work. Defer checks requiring unavailable resources and proceed with independent acceptance. The user will prepare a standalone Lenovo Windows 11 Pro laptop for TPM/boot acceptance; the off-device recovery destination and independent verifier remain to be assigned. No test ran and no legacy outcome closed. See the [settings decision record](migrations/remaining-settings-plan.md#mixed-scope-profiles-and-acceptance-resources-2026-10-24).
+
+Earlier migration run, 2026-10-24 04:13 UTC: TMOG Free 1.0.1 was added as a Windows 11 candidate after exact publisher SHA-256 and Authenticode verification; its focused candidate test and informational NeedsReview planning test passed 2/2, and repository validation passed for 406 operations, 8 groups, 5 profiles and 264 PowerShell files (97 packages, 67 pending acceptance). No installer ran; lifecycle, recovery and VM acceptance remain open. The broader catalog Pester attempt encountered sandbox denial in an HKCU registry snapshot test and was stopped; the focused checks passed. The latest package source attempt rechecked the official PowerShell Gallery page for Microsoft.PowerShell.ThreadJob 2.2.0. Its manual-download control did not produce a saved package, and direct navigation to the exact official package API was blocked by the browser; no bytes or digest were acquired. The dependency remains deferred pending exact publisher bytes and verification. The 03:37 Sysinternals focused rerun remains interrupted by sandbox fixture file access; its latest completed suites remain 7/7 and 21/21, confirming all ten approved versions selectable without a license gate. The prior RIDE v2 specialist approval remains authoritative, and the user reaffirmed at 04:05 that RIDE's direct download/install workflow has no legal issue; no licensing blocker or separate distribution gate applies. This is the controlling disposition for package migration. At 04:08 UTC, the JoeWare source recheck reconfirmed the frozen 41-name collection and AdFind/AdMod versions 1.64.00/1.29.00; the rdp-sec-check list/page discrepancy and exact payload pins remain open. No JoeWare legacy outcome closed and estimates did not change. See [source evidence](archive/evidence/joeware-current-source-review-2026-10-24-0408.json). At 04:12 UTC, Microsoft source review found that installing OpenSSH Server enables its inbound TCP 22 firewall rule, Server 2025 includes the capability by default, and first `sshd` start creates host keys/config. No service/firewall/VM state changed; both test VM queries again failed at CIM. The server lifecycle remains unimplemented and no legacy outcome closed. See [source and VM evidence](archive/evidence/openssh-server-current-source-review-2026-10-24-0412.json). At 04:13 UTC, an unregistered, read-only OpenSSH Server observation candidate and four mocked tests were added; all four passed, Windows PowerShell 5.1 parsed both files, and repository validation passed. It remains not mutation-ready; no legacy outcome closed. See [candidate evidence](archive/evidence/openssh-server-observation-candidate-2026-10-24-0413.json). Latest completed migration batches remain Python's no-implicit-install setting candidate (focused Pester 1/1), B06 OpenSSH Client/Telnet Client candidate checks (47/47), B10 offline gate checks (100/100) and B03 UserBinPath/user PATH checks (84/84); native acceptance remains deferred. A fresh read-only Get-VM/Get-VMSnapshot recheck for RIDE-Win11-Test and RIDE-Srv2025Test failed at CIM before VM or checkpoint inspection at 04:12 UTC. See [latest VM access evidence](archive/evidence/ride-vm-access-recheck-2026-10-24-0359.json). FTK Imager 8.3.0.27 remains technically unmodeled because its opaque InstallShield payload exposes no documented prerequisite/package layout. Defender-detected tools remain excluded separately. CCleaner exact bytes also remain DNS-blocked. At 03:51 UTC, the user selected RIDE-managed runtime selection, reaffirming preparation of selected pinned Python runtimes, disabled implicit downloads, explicit-only online automatic acquisition and separate updates. The 03:55 source review identifies manager 26.4 and publisher-manifest candidates 3.15.1/3.14.9/3.13.17 across x86, x64 and ARM64; hashes are not locally reverified because no artifact bytes were acquired. `automatic_install=false` and local-index commands support the accepted policy, while manager self-update, MSI PATH changes, aliases, config ownership and recovery require implementation. No Python runtime or Windows state changed; no legacy outcome closed. At 04:02 UTC, official guidance and user reports documented a KAPE execution-blocking risk only for removable-media workflows; no KAPE-specific Defender malware detection was verified. The user authorized a dedicated-install-directory exclusion and deferred individual-file exclusions to v3.1; no Defender setting changed. All five ranges remain settings 38-58, packages 52-67, components 19-24, files/assets 25-35 and maintenance 8-12; exact 142-196, rounded 145-200/about 170. See [Sysinternals approval reaffirmation](archive/evidence/sysinternals-approval-reaffirmation-2026-10-24-0405.json), [Python candidate implementation evidence](archive/evidence/python-manager-auto-install-setting-implementation-2026-10-24-0404.json), [Python managed-runtime source evidence](archive/evidence/python-managed-runtime-source-review-2026-10-24-0355.json), [TMOG candidate evidence](archive/evidence/tmog-package-candidate-2026-10-24-0345.json), [earlier Sysinternals approval record](archive/evidence/sysinternals-approval-reaffirmation-2026-10-24-0350.json), [ThreadJob source retry evidence](archive/evidence/psscripttools-threadjob-browser-source-retry-2026-10-24-0341.json), [Sysinternals rerun evidence](archive/evidence/sysinternals-suite-sandbox-rerun-2026-10-24-0337.json), [latest completed Sysinternals evidence](archive/evidence/sysinternals-suite-and-license-plan-local-regression-2026-10-24-0312.json), [B06 regression evidence](archive/evidence/b06-client-components-current-source-regression-2026-10-24-0330.json), [B10 regression evidence](archive/evidence/b10-offline-execution-current-source-regression-2026-10-24-0329.json), [B03 regression evidence](archive/evidence/b03-user-bin-current-source-regression-2026-10-24-0328.json) and [VM access evidence](archive/evidence/ride-vm-access-recheck-2026-10-24-0323.json).
+
+Official CCleaner version history lists v7.13.1573 (2026-10-21), while the builds page still showed v7.12.1526; its portable link resolves to `https://download.ccleaner.com/portable/ccsetup641.zip`, and official history identifies v6.41.11567 (2026-06-23). The direct exact-URL acquisition attempt failed before transfer because this host cannot resolve `download.ccleaner.com`; no bytes, digest, or member list were acquired. Recuva v1.55.133 and Speccy 1.34.84 are documented as home-use-only and their publisher build pages list installers, not portable builds. Defraggler's page/EOL conflict remains. The publisher EULA identifies CCleaner Free as personal/noncommercial and restricts resale/further distribution. Record exact-version owner-specific 
+eedsReview` when a candidate is registered; that status is informational and does not block the RIDE direct publisher-download/install migration. No catalog candidate was added because the exact archive bytes/member inventory are not yet available, not because of license reasoning. No installer ran. No legacy outcome closed; all five ranges remain 38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196, rounded 145-200/about 170. See [structured evidence](archive/evidence/ccleaner-family-source-recheck-2026-10-24-0316.json).
+
+## ImageMagick Q16 versioned runtime preflight and Windows 11 rerun, 2026-10-24 04:25 UTC
+
+Current-source Windows 11 run `003f55dd7c964d27815ed6f3dea9bf9f` passed **1/1** on build 26300. The guest installed Microsoft's signed x64 v14 redistributable; `System32/vcomp140.dll` reported **14.51.36247.0**, satisfying the **14.50.35710.0** minimum. ImageMagick's bounded 1x1 PNG encode/identify and package lifecycle/recovery checks passed. The controller reported `ResetAndOff`, no cleanup or evidence-export error, and collected evidence. The separate RIDE-managed v14 package lifecycle was not selected, so catalog-driven plan expansion, runtime update/recovery and dependent-removal protection remain untested. Activation and Server support remain pending.
+
+Resolved: current-source ImageMagick Windows 11 package and installed-DLL minimum-version preflight rerun. Retired/excluded: none. Deferred: RIDE-managed v14 package lifecycle/recovery, catalog-driven dependency plans and removal guard, activation, and Server acceptance. Partial: no additional legacy outcome closed. All five estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured run evidence](archive/evidence/imagemagick-q16-versioned-prerequisite-win11-2026-10-24.json) and the [active application review](migrations/application-migration-review.md#imagemagick-q16-versioned-runtime-preflight-and-windows-11-rerun-2026-10-24-0425-utc).
+
+## Sysinternals Suite current-source Windows 11 file-lifecycle acceptance, 2026-10-24 04:48 UTC
+
+Current-source Windows 11 run `a77d0464523c4a85ba4db01e9c7b4b6a` passed **1/1** against the pinned 164-member Sysinternals archive. Install/repeat/remove/repeat-remove, saved-run restore, exact member selection, unowned-file preservation, original-absence recovery, collision refusal and modified-file refusal/preservation checks passed. The `accesschk.exe` collision and modified-file guards behaved as expected; the runner reported preserving a modified `accesschk.exe`. No Sysinternals utility executed (`ToolExecuted: false`), so functional behavior remains pending. Controller cleanup was `ResetAndOff`, evidence was collected, and cleanup/collection/export errors were null.
+
+Resolved: current-source Windows 11 package file-lifecycle and saved-state recovery acceptance. Retired/excluded: none. Deferred: utility functional acceptance, activation and supported-target promotion; Defender-detected members remain excluded. Partial: no additional legacy outcome closed. All five estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured guest evidence](archive/evidence/sysinternals-suite-win11-file-lifecycle-2026-10-24.json) and [prior license/plan evidence](archive/evidence/sysinternals-suite-and-license-plan-regression-2026-10-24-0312.json).
+
+## MiTeC UUID and certificate file-lifecycle Windows 11 acceptance, 2026-10-24 04:56 UTC
+
+Current-source Windows 11 run `28d247d6b29b47919e492e28c95fa0c7` passed **3/3** for UUID Generator 1.0.0, Certificate Generator 1.0.0 and Certificate Information 1.5.0 on build 26300. Synthetic package install/repeat/remove/repeat-remove, exact-member selection, saved-run restore, unowned-file preservation, original-absence recovery, collision refusal and modified-file refusal/preservation checks passed. The runner preserved modified managed `UUID.exe`, `CG.exe` and `CertInfo.exe` files. No utility executed; no UUID/ULID/Snowflake was generated or read, no certificate was generated/parsed/exported, and no certificate store or private key was accessed. The selected archive hashes matched the run manifest. Guest Authenticode observations were `UnknownError` for all three executables, so this run does not claim positive signature validation. The controller completed `ResetAndOff` with no cleanup, collection or export error.
+
+Resolved: current-source Windows 11 file-lifecycle and saved-run recovery for the three package candidates. Retired/excluded: none. Deferred: UUID behavior, certificate behavior and supported-target promotion. Partial: no additional legacy outcome closed. All five estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured evidence](archive/evidence/mitec-uuid-certificate-win11-file-lifecycle-2026-10-24.json) and the [application review](migrations/application-migration-review.md#mitec-uuid-and-certificate-package-file-lifecycle-windows-11-acceptance-2026-10-24-0456-utc).
+
+## Mixed-scope profiles and TPM/boot acceptance decision, 2026-10-24 04:05 UTC
+
+The user confirmed mixed-scope profiles are expected and are not a migration
+blocker. A scope overview/report is optional future work. Acceptance requiring
+unavailable resources is explicitly deferred while independent checks proceed.
+The user will prepare a standalone Lenovo Windows 11 Pro laptop for the TPM/boot
+scenario; prepare its setup and verification procedure before testing. The
+off-device recovery destination and independent verifier remain unassigned.
+Treat this physical laptop as a scoped hardware acceptance case alongside the
+disposable-VM validation model. The latest recorded read-only VM check failed at
+CIM before inspection at 04:12 UTC; this decision review did not retry it. No
+test or Windows state changed and no legacy outcome closed. All five ranges
+remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded
+**145-200/about 170**. See the [settings plan](migrations/remaining-settings-plan.md#mixed-scope-profiles-and-acceptance-resources-2026-10-24)
+and [follow-up record](migrations/remaining-migrations-follow-up.md#mixed-scope-profiles-and-tpm-boot-acceptance-2026-10-24).
+## Sysinternals lifecycle and license-plan regression, 2026-10-24 03:12 UTC
+
+`SysinternalsSuitePackage.Tests.ps1` passed 7/7 on PowerShell 7.6.5/Pester 5.7.1, covering the pinned 164-member manifest, inert owned-file staging/repeat/removal/recovery, and conflict preservation. `LicenseReviews.Tests.ps1` passed 21/21 and confirmed the ten prior-approved Sysinternals versions remain selectable without a license gate. The Windows PowerShell 5.1 run could not import installed Pester 5.7.1 because format-data loading failed AuthorizationManager validation; no execution-policy or elevation change was made. Fresh read-only Get-VM queries for RIDE-Win11-Test and RIDE-Srv2025Test both failed at CIM before VM/checkpoint inspection. No utility, installer, Defender-blocked member or Windows state was touched. This run closes no additional legacy outcome; ranges remain 38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196, rounded 145-200/about 170. See [structured evidence](archive/evidence/sysinternals-suite-and-license-plan-local-regression-2026-10-24-0312.json).
+## Broad local Pester attempt interrupted and Sysinternals decision reaffirmed, 2026-10-24 03:03 UTC
+
+A broad PowerShell 7.6.5/Pester 5.7.1 run discovered 3,165 tests across 115 test files with TestRegistry disabled and temporary data under `.local`. It did not return a final summary after the synthetic 360-file `PSScriptToolsPackage.Tests.ps1` archive fixture stopped producing progress for several hours, so the run was interrupted. An earlier `Catalog.Tests.ps1` test failed while requesting a registry subtree security descriptor because this session lacks registry access. No aggregate pass count is claimed; the latest completed focused regression remains 204/204. No installer, VM acceptance, or Windows state change occurred. This validation attempt resolves, retires, excludes, defers or partially closes no legacy outcome; all five estimate ranges remain 38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196, rounded 145-200/about 170. See [structured evidence](archive/evidence/broad-local-pester-attempt-2026-10-24-0303.json).
+
+At 2026-10-24 03:03 UTC, the user reaffirmed that RIDE is a direct download-and-install tool and does not transfer or publish Sysinternals. The prior RIDE v2 specialist approval covers this workflow, and there are no legal issues or license blockers for migration. Do not apply generalized redistribution concerns to Sysinternals migration. All ten version records remain Reviewed. Defender-detected files stay excluded separately; remaining Sysinternals work is technical lifecycle, exact recovery and Windows acceptance. This decision closes no additional legacy outcome and does not change estimates. See [decision evidence](archive/evidence/sysinternals-license-scope-user-correction-2026-10-24-0303.json).
+
+Previous reconciliation, 2026-10-23 12:36 UTC: Added pinned Windows 11 candidates for MiTeC OLE/COM Object Explorer 1.4.0.0, Windows Registry Recovery 3.1.3 and SMBIOS Explorer 1.8.0; exact local NeedsReview markers remain informational. Retained archive/member hashes were rechecked. The candidate, package-planning and application-package regression passed 114/114; Windows PowerShell 5.1 parser checks passed. Repository validation passed for 386 operations, eight groups, five profiles and 254 PowerShell files; the catalog loader enumerates 80 packages (50 pending). No payload ran, no hive/COM object/firmware data was touched, and no Defender-blocked tool or VM was used. The 12:26 UTC read-only queries for both test VMs failed at CIM before checkpoint inspection. No legacy outcome closed; all five ranges remain 38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196 and rounded 145-200/about 170. Synthetic behavior and Windows acceptance remain deferred. See [candidate evidence](archive/evidence/mitec-review-data-tools-candidates-2026-10-23-1236.json), [VM access evidence](archive/evidence/ride-win11-and-server2025-vm-access-recheck-2026-10-23-1226.json), and [count reconciliation](archive/evidence/catalog-package-count-reconciliation-2026-10-23-1230.json).
+
+Previous reconciliation, 2026-10-23 12:30 UTC: MiTeC Windows File Analyzer 2.10.0 and Icon Explorer 5.3.0 now have pinned Windows 11 candidates. Their exact archive/member hashes were rechecked, local NeedsReview records are informational, and inert offline package staging/snapshot/removal/recovery tests passed. The focused package, license-plan and portable-package regression passed 112/112; repository validation passed for 383 operations, eight groups, five profiles and 253 PowerShell files; the catalog loader reports 77 packages (47 pending). A full catalog recount corrected the prior package totals from 73/43 to 75/45 before these two candidates, and now 77/47. No executable ran, no host forensic data or icons were opened or extracted, and no VM or Defender-blocked tool was used. The 12:26 UTC Get-VM recheck again failed CIM access for both test VMs before checkpoint inspection. No legacy outcome closed; ranges remain 38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196 and rounded 145-200/about 170. Functional artifact handling and Windows acceptance remain deferred. See [candidate evidence](archive/evidence/mitec-file-analyzer-icon-explorer-candidates-2026-10-23-1230.json), [catalog-count correction](archive/evidence/catalog-package-count-reconciliation-2026-10-23-1230.json), and [VM access evidence](archive/evidence/ride-win11-and-server2025-vm-access-recheck-2026-10-23-1226.json).
+
+Previous reconciliation, 2026-10-23: ImageMagick passed Windows 11 lifecycle, recovery and synthetic PNG acceptance on build 26300; its checkpoint was restored. A separately managed Microsoft Visual C++ v14 x64 package (14.51.36247.0) and ImageMagick's minimum `vcomp140.dll` version check were added to v3; the runtime package now declares Windows 11 as a candidate target while SupportedTargets remains empty and PendingAcceptance remains true. RIDE-managed runtime install/remove/recovery acceptance remains pending. Docker Desktop remains a candidate with no supported targets pending RIDE-specific acceptance. The focused catalog/package regression passed 189/189 in both Windows PowerShell 5.1 and PowerShell 7, and repository validation passed for 376 operations, 71 packages (41 pending), eight groups, five profiles and 247 PowerShell files. Q08 now has a pending-acceptance catalog candidate and engine status/plan/apply/saved-run restore wiring through guarded, identity-bound helpers. Focused Pester passed 202 of 203 discovered tests in Windows PowerShell 5.1 and PowerShell 7; one registry integration test was excluded because sandbox registry access is denied. No host registry mutation occurred. Empty SupportedTargets keeps apply blocked until disposable Windows 11 acceptance; refresh and effective-path behavior remain open. The latest read-only Get-VM recheck at 2026-10-23 08:10 UTC again returned CIM access denied before checkpoint inspection; VM/checkpoint state remains unknown. B04 now refuses documented proxy policy blockers before its WinINet writer and has an unregistered guarded apply/restore candidate. Its mocked inventory/preparation/lifecycle regression passed 97/97, with no registry or native query/setter. No legacy setting outcome closed; see [lifecycle evidence](archive/evidence/userproxy-lifecycle-candidate-2026-10-23.json) and [policy evidence](archive/evidence/userproxy-policy-guard-regression-2026-10-23.json). The bundled PowerShell runtime exposes ThreadJob 2.2.0; a fresh exact Gallery acquisition retry at 09:56 UTC failed DNS before transfer, so no publisher bytes or digest were acquired. The Sysinternals Suite package regression passed 7/7 in PowerShell 7.6.5 and 7/7 in Windows PowerShell 5.1 with TEMP/TMP redirected to repository .local after default sandbox temp denied file replacement; no VM or tool ran. See [latest access evidence](archive/evidence/ride-win11-test-access-recheck-2026-10-23-0810.json), [previous access evidence](archive/evidence/ride-win11-and-threadjob-recheck-2026-10-23-0627.json) and [regression evidence](archive/evidence/sysinternals-suite-focused-regression-2026-10-23.json). The Sysinternals user decision remains that the prior RIDE v2 specialist approval covers direct download/install; licensing is not a migration blocker. A fresh license-plan regression passed 20/20 on PowerShell 7; all ten plans remain available while technical acceptance is pending. Focused local Pester passed 134/134. The B06 OpenSSH/Telnet lifecycle candidate fresh local rerun passed 10/10, and Windows PowerShell 5.1 parser validation passed for its three modules and test file; DISM was not called. No legacy outcome closed. All five group ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [ImageMagick acceptance evidence](archive/evidence/imagemagick-q16-win11-acceptance-2026-10-23.json), [Q08 guarded write regression](archive/evidence/user-path-guarded-write-regression-2026-10-23.json) and [Sysinternals plan regression](archive/evidence/sysinternals-install-planning-regression-2026-10-23.json).
+
+Q08 follow-up migration run, 2026-10-23: the persistent user PATH candidate now supports engine status, planning, saved-run capture and entry-owned restore. Repository validation passes for 375 operations/eight groups/five profiles/247 PowerShell files; focused Pester passes 202 of 203 discovered tests in Windows PowerShell 5.1 and PowerShell 7, with one WindowsIntegration test not run because registry access is sandbox-denied. No legacy outcome closed; Q08 remains partial pending target acceptance, process refresh and effective-path checks. Retired/excluded: none. Deferred: disposable Windows 11 acceptance. All five estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [Q08 lifecycle evidence](archive/evidence/user-path-engine-lifecycle-integration-2026-10-23.json) and the [settings ledger](migrations/settings-post-migration-review.md#b03-persistent-user-path-engine-lifecycle-integration-2026-10-23).
+
+Previous reconciliation, 2026-10-22: the Sysinternals Suite selector and fixed local manifest are ready; the retained archive SHA-256 matches its catalog pin, focused automation tests pass 128/128 executed (two host-preflight tests skipped), and VM lifecycle acceptance remains blocked by Hyper-V CIM access and the protected controller refresh. The user reconfirmed the prior RIDE v2 license-specialist approval for direct download/install; ten exact version records are `Reviewed` and the local 
+eedsReview` count is 26. No legacy outcome closes. All five group ranges remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact **144-198**, rounded **145-200/about 170**, because technical package acceptance is still pending. See [corrected license disposition](archive/evidence/sysinternals-license-disposition-correction-2026-10-22.json).
+Follow-on local regression on 2026-10-22: 90 test files discovered 2,309 tests; 2,306 passed, 0 failed, 2 skipped and 1 not run. The reported `LibraryAuthoring.Tests.ps1` container error did not reproduce in isolation (42/42 passed). Six slower files were excluded from this broad run and had passed in the earlier full run. Catalog export check, repository validation and `git diff --check` passed. This review run closes no legacy outcome; estimates remain unchanged. See [regression evidence](archive/evidence/local-regression-2026-10-22.json).
+Follow-on ImageMagick portable SevenZip implementation, 2026-10-22: the official page confirms the exact asset URL, while archive/signature bytes remain unavailable. Bounded signed-inbox-tar staging and the unsupported catalog candidate are implemented. The local review record is NeedsReview/Unassigned, not a license blocker. Portable package Pester passed 84/84; Catalog Pester passed 70/71 with one sandbox registry-descriptor failure. Catalog validation passes at 372 operations, 8 groups, 5 profiles and 241 PowerShell files. No legacy outcome closed; ranges remain unchanged. See [implementation evidence](archive/evidence/imagemagick-portable-q16-sevenzip-implementation-2026-10-22.json).
+Follow-on status reconciliation, 2026-10-22: corrected the active application ledger and closure queue to show bounded 7z extraction and synthetic lifecycle checks as implemented; the remaining ImageMagick gates are exact archive/signature acquisition and disposable-VM lifecycle acceptance. Repository validation passes at 372 operations, 8 groups, 5 profiles and 241 PowerShell files; catalog export and `git diff --check` pass. This documentation correction closes no additional legacy outcome, so all five estimate ranges remain unchanged.
+Follow-on Windows PowerShell 5.1 SevenZip regression, 2026-10-22: the focused `*7z*` selection passed 4/4 with 80 unrelated tests not run. The handler now has focused fixture evidence in both Windows PowerShell editions; this closes no ImageMagick package or legacy outcome, and estimates remain unchanged. See [application evidence](migrations/application-migration-review.md#imagemagick-portable-q16-sevenzip-lifecycle-implementation-2026-10-22) and [structured run evidence](archive/evidence/imagemagick-portable-q16-sevenzip-implementation-2026-10-22.json).
+Follow-on publisher source recheck, 2026-10-22: the official downloads page still links the selected 7.1.2-34 portable Q16 archive and the binary index lists its 11 MB size, 833-byte detached signature and CycloneDX sidecar. A shell download again failed DNS resolution, leaving exact bytes and signature unverified; no extraction or VM run occurred. The local review status is informational and no license blocker applies. No legacy outcome closed, so all five estimates remain unchanged. See [source evidence](archive/evidence/imagemagick-source-acquisition-recheck-2026-10-22.json).
+
+
+Three ApplicationsBatch3 runs were made on the disposable Windows 11 Enterprise
+Evaluation guest (build 26300). Guest validation passed and the final two runs
+passed all 270 Pester checks. The per-user worker acquired the 650 MB Docker
+Desktop installer and verified its Authenticode signature, but the installer
+process did not return within either the 20-minute task limit in run
+`075e5e95eca64e0b89ee67a5482097a0` or the 60-minute limit in run
+`c5ee5ef940e249aaba88bd8aad421caa`. The all-users variant did not run, and no
+completed package lifecycle report was produced. The controller restored the
+VM Off at its clean checkpoint without a cleanup block. The first run,
+`8ad8bb6cc08649088c8322ab63126637`, exposed the missing `ApplicationsBatch3`
+expected value in guest controller tests; the second and third passed Pester.
+No legacy outcome was resolved, retired or excluded, and no package support
+declaration changed. The batch's 60-minute timeout remains; do not extend it
+again until the installer stall is understood. All five estimate ranges remain
+38-58 / 56-71 / 20-25 / 25-35 / 8-12, rounded 145-200/about 175 (exact
+endpoints 147-201). Next: diagnose why the installer process does not return in
+the limited-user guest, then run both package lifecycle, repeat, removal,
+saved-run recovery and Docker resource-preservation checks.
 
 Previous run: [archive reconciliation and successor handoff](#archive-reconciliation-and-successor-handoff-2026-10-17).
 All ten implementation batches and thirteen application review groups now have a
@@ -377,7 +925,9 @@ turn; existing package pauses and acceptance gates remain in force.
 
 This is the batch inventory for migrating the selectable commands in `legacy/v2/default.preset` to the v3 catalog and profiles. It includes active and commented selectors. The original inventory contained **732 distinct legacy function names** across **30 family groups**; **731** remain in the preset after the user-requested Opera exclusion on 2026-10-11. The excluded outcome remains accounted for in the application ledger. Active selectors are marked **default**. Paired legacy commands should become states of one v3 operation only when inspection confirms that they control the same setting or package.
 
-The catalog supports `ScheduledTask`, `AdapterBinding`, `DefenderPreference`, `SmbProtocol`, `PowerScheme`, `NetBios`, `RemoteDesktopFirewall`, `SoundScheme`, `RegistryValue`, `RegistryValueSet`, `RegistryKeySet`, `Package`, `DefenderExclusion`, `WindowsService`, `BackgroundAppOverrides`, `BootConfiguration`, `NetworkProfile`, `PowerSetting`, `ShellFolder`, and `ProfileSetting`. Migration of the other groups requires the minimum additional operation kinds and focused handlers for Windows components, account/configuration changes, files/assets, and system tasks. Each handler must participate in planning, `ShouldProcess`, state capture or declared compensating behavior, status/reporting, and partial-failure reporting.
+The catalog supports `ScheduledTask`, `AdapterBinding`, `DefenderPreference`, `SmbProtocol`, `PowerScheme`, 
+etBios`, `RemoteDesktopFirewall`, `SoundScheme`, `RegistryValue`, `RegistryValueSet`, `RegistryKeySet`, `Package`, `DefenderExclusion`, `WindowsService`, `BackgroundAppOverrides`, `BootConfiguration`, 
+etworkProfile`, `PowerSetting`, `ShellFolder`, and `ProfileSetting`. Migration of the other groups requires the minimum additional operation kinds and focused handlers for Windows components, account/configuration changes, files/assets, and system tasks. Each handler must participate in planning, `ShouldProcess`, state capture or declared compensating behavior, status/reporting, and partial-failure reporting.
 
 The optional [God Mode desktop folder](god-mode.md) uses the focused `ShellFolder`
 handler. It is a separately requested option, not a migrated legacy selector;
@@ -750,6 +1300,27 @@ as absent in a loadable library. The published catalog schema and existing
 library identities remain unchanged; migration estimates remain unchanged.
 
 ## Migration estimate review history
+
+### Detect It Easy, VMware Workstation and WinPmem decisions, 2026-10-24
+
+The user authorized a Defender exclusion for the RIDE-managed install
+directory of a selected Detect It Easy package and deferred individual-file
+handling to v3.1. The directory exclusion preserves exact prior-path state and
+does not classify the reported detection as a false positive or establish
+artifact/Windows acceptance. The user retired VMware Workstation from v3,
+closing one legacy package outcome by retirement. WinPmem remains required v3
+tool scope, with driver loading and capture kept explicit and technical gates
+open. No package, Defender, VM or Windows state changed.
+
+Resolved: Detect It Easy directory-exclusion scope and v3.1 file deferral;
+WinPmem retained. Retired: VMware Workstation (one legacy package outcome).
+Excluded: none newly. Deferred: WinPmem signing, compatibility, driver cleanup,
+reboot and recovery acceptance; Detect It Easy artifact/security and Windows
+acceptance. Partial: no installation, tool, driver or capture behavior accepted.
+Packages decrease from **52-67** to **51-66**; the other four group ranges are
+unchanged at **37-57 / 19-24 / 25-35 / 8-12**. Exact total changes from
+**141-195** to **140-194**. Rounded **140-195/about 170** remains unchanged
+because the one-outcome reduction does not change the nearest-five upper bound.
 
 ### Bridge/controller RC resumption retained, 2026-10-13
 
@@ -2575,7 +3146,8 @@ but unverified effects remain in the separate evaluation backlog.
 | `windows.security-notification-icon` | RegistryValue | `HideDefenderTrayIcon`, `ShowDefenderTrayIcon` | `Hidden`, `Shown`, `WindowsDefault` |
 | `windows.memory-integrity-request` | RegistryValue | `EnableCIMemoryIntegrity`, `DisableCIMemoryIntegrity` | `Disabled`, `Enabled`, `WindowsDefault` |
 | `windows.defender-cloud-membership` | RegistryValue | `DisableDefenderCloud`, `EnableDefenderCloud` | `Disabled`, `Advanced`, `WindowsDefault` |
-| `windows.defender-sample-submission` | RegistryValue | `DisableDefenderCloud`, `EnableDefenderCloud` | `Prompt`, `SafeSamples`, `Never`, `AllSamples`, `WindowsDefault` |
+| `windows.defender-sample-submission` | RegistryValue | `DisableDefenderCloud`, `EnableDefenderCloud` | `Prompt`, `SafeSamples`, 
+ever`, `AllSamples`, `WindowsDefault` |
 | `windows.unidentified-network-category` | RegistryValue | `SetUnknownNetworksPrivate`, `SetUnknownNetworksPublic` | `Private`, `Public`, `WindowsDefault` |
 | `windows.network-device-auto-setup` | RegistryValue | `DisableNetDevicesAutoInst`, `EnableNetDevicesAutoInst` | `Disabled`, `Enabled`, `WindowsDefault` |
 | `windows.connection-sharing-ui` | RegistryValue | `DisableConnectionSharing`, `EnableConnectionSharing` | `Hidden`, `Available`, `WindowsDefault` |
@@ -2613,10 +3185,14 @@ but unverified effects remain in the separate evaluation backlog.
 | `windows.search-indexing-service` | WindowsService | `DisableIndexing`, `EnableIndexing` | `Disabled`, `AutomaticRunning` |
 | `windows.sleep-button-action-ac` | PowerSetting | `DisableSleepButton`, `EnableSleepButton` | `DoNothing`, `Sleep` |
 | `windows.sleep-button-action-dc` | PowerSetting | `DisableSleepButton`, `EnableSleepButton` | `DoNothing`, `Sleep` |
-| `windows.display-idle-timeout-ac` | PowerSetting | `DisableSleepTimeout`, `EnableSleepTimeout` | `Never`, `TenMinutes` |
-| `windows.display-idle-timeout-dc` | PowerSetting | `DisableSleepTimeout`, `EnableSleepTimeout` | `Never`, `FiveMinutes` |
-| `windows.sleep-idle-timeout-ac` | PowerSetting | `DisableSleepTimeout`, `EnableSleepTimeout` | `Never`, `ThirtyMinutes` |
-| `windows.sleep-idle-timeout-dc` | PowerSetting | `DisableSleepTimeout`, `EnableSleepTimeout` | `Never`, `FifteenMinutes` |
+| `windows.display-idle-timeout-ac` | PowerSetting | `DisableSleepTimeout`, `EnableSleepTimeout` | 
+ever`, `TenMinutes` |
+| `windows.display-idle-timeout-dc` | PowerSetting | `DisableSleepTimeout`, `EnableSleepTimeout` | 
+ever`, `FiveMinutes` |
+| `windows.sleep-idle-timeout-ac` | PowerSetting | `DisableSleepTimeout`, `EnableSleepTimeout` | 
+ever`, `ThirtyMinutes` |
+| `windows.sleep-idle-timeout-dc` | PowerSetting | `DisableSleepTimeout`, `EnableSleepTimeout` | 
+ever`, `FifteenMinutes` |
 | `windows.boot-failure-recovery-policy` | BootConfiguration | `DisableBootRecovery`, `EnableBootRecovery` | `IgnoreAllFailures`, `WindowsDefault` |
 | `windows.desktop-folder-shell-policy` | RegistryValueSet | `HideDesktopFromExplorer`, `ShowDesktopInExplorer` | `Hidden`, `Visible`, `WindowsDefault` |
 | `windows.documents-folder-shell-policy` | RegistryValueSet | `HideDocumentsFromExplorer`, `ShowDocumentsInExplorer` | `Hidden`, `Visible`, `WindowsDefault` |
@@ -2628,7 +3204,8 @@ but unverified effects remain in the separate evaluation backlog.
 | `windows.control-panel-view` | RegistryValueSet | `SetControlPanelSmallIcons`, `SetControlPanelLargeIcons`, `SetControlPanelCategories` | `SmallIcons`, `LargeIcons`, `Categories`, `WindowsDefault` |
 | `windows.mouse-pointer-precision` | RegistryValueSet | `DisableEnhPointerPrecision`, `EnableEnhPointerPrecision` | `Disabled`, `Enabled`, `WindowsDefault` |
 | `windows.fullscreen-optimizations` | RegistryValueSet | `DisableFullscreenOptims`, `EnableFullscreenOptims` | `Disabled`, `Enabled`, `WindowsDefault` |
-| `windows.uac-admin-consent` | RegistryValueSet | `SetUACLow`, `SetUACHigh` | `NoPrompt`, `SecureConsent`, `WindowsDefault` |
+| `windows.uac-admin-consent` | RegistryValueSet | `SetUACLow`, `SetUACHigh` | 
+oPrompt`, `SecureConsent`, `WindowsDefault` |
 
 **Validation:** Catalog/parser/generated-document validation passes on native
 Windows PowerShell 5.1 and PowerShell 7 for 234 operations, two groups, four
@@ -2737,7 +3314,8 @@ outside profiles. No Windows Server target is added.
 | service-tweaks | `DisableUpdateMSRT`, `EnableUpdateMSRT` | `windows.msrt-update-offering` | `Disabled=1`, `Allowed=0` |
 | service-tweaks | `DisableUpdateDriver`, `EnableUpdateDriver` | `windows.update-driver-policy` | `Excluded=1`, `Included=0` |
 | service-tweaks | `DisableUpdateDriver`, `EnableUpdateDriver` | `windows.device-metadata-downloads` | `Prevented=1`, `UserChoice=0` |
-| service-tweaks | `DisableUpdateAutoDownload`, `EnableUpdateAutoDownload` | `windows.update-download-mode` | `NotifyDownload=2`, `AutoDownload=3` |
+| service-tweaks | `DisableUpdateAutoDownload`, `EnableUpdateAutoDownload` | `windows.update-download-mode` | 
+otifyDownload=2`, `AutoDownload=3` |
 | service-tweaks | `DisableAutoRestartSignOn`, `EnableAutoRestartSignOn` | `windows.automatic-restart-sign-on` | `Disabled=1`, `Enabled=0` |
 | service-tweaks | `EnableStorageSense`, `DisableStorageSense` | `windows.storage-sense` | `Enabled=1`, `Disabled=0` |
 | service-tweaks | `DisableRecycleBin`, `EnableRecycleBin` | `windows.recycle-bin-policy` | `Bypass=1`, `UseRecycleBin=0` |
@@ -2996,7 +3574,7 @@ library contains observations, not an approval policy or automatic signer gate.
 
 Each group lists exact legacy function names found in the preset. Test demand is required for every batch; complex Windows integration checks are deferred to the later VM phase.
 
-**Batch 1 implemented:** Settings / Privacy configurations migrates `DisableInkingAndTypingData` to `windows.inking-typing-data` and adds it to the workstation default profile. Catalog validation and the Pester 5.7 unit suite pass; the Windows 11 disposable-VM check remains deferred. The reverse `EnableInkingAndTypingData` selector has no legacy implementation and remains unresolved below.
+**Batch 1 implemented:** Settings / Privacy configurations migrates `DisableInkingAndTypingData` to `windows.inking-typing-data` and adds it to the workstation default profile. Catalog validation and the Pester 5.7 unit suite pass; the Windows 11 disposable-VM check remains deferred. The unmatched reverse `EnableInkingAndTypingData` selector is retired by the 2026-10-22 decision; no enable operation is inferred.
 
 **Batch 2 implemented:** Settings / Defender configuration migrates the two active default selectors `ExcludeToolsDirDefender` and `ExcludeBootstrapDirDefender` to `windows.defender-tools-exclusion` and `windows.defender-bootstrap-exclusion`. Both are in the workstation default profile. Catalog validation and the Pester 5.7 mocked unit suite pass; disposable Windows 11 VM verification remains deferred.
 
@@ -3658,10 +4236,10 @@ These selectors do not exactly match a function name in the legacy modules. Reso
 | --- | --- |
 | `DisableAdditionalAuthAtStart` | The library defines `DisableAdditionaAuthAtStart` (missing “l”); verify and correct the intended legacy behavior. |
 | `DisableBrowserServiceView` | The library defines `DisableBrowserSvcView`; verify whether the shortened function is the intended implementation. |
-| `EnableInkingAndTypingData` | No matching function is defined; preserve as unresolved until implementation or removal is decided. |
+| `EnableInkingAndTypingData` | Retired by the 2026-10-22 decision. No matching function is defined; do not infer an enable operation. |
 | `InstallNucleusKernelFATNFTS` | The library defines `InstallNucleusKernelFATNTFS`; reconcile the transposed letters. |
 | `RemoveWinCSP` | The library defines `RemoveWinSCP`; reconcile the preset typo and keep the removal selector with the WinSCP package batch. |
-| `RemoveWSLFedora` | No matching function is defined; the Fedora install selector has no matching removal implementation. |
+| `RemoveWSLFedora` | Retired by the 2026-10-22 decision. No matching removal function is defined; do not invent Fedora removal semantics. |
 | `RequireAdmin` | This is a preset prerequisite directive, not a function. Represent the privilege requirement in operation metadata and profile/run guidance rather than as an operation. |
 
 ## Library functions outside the preset inventory
@@ -4172,11 +4750,11 @@ asset and maintenance progress retain their prior acceptance limits.
 
 | Group reviewed | Remaining range | Effect of this run |
 | --- | ---: | --- |
-| Windows and application settings | 38-58 | B01 remains 279/279 presentations reviewed, including all 77 requested reviews. This run changes no setting; prior checks retained. Unverified mappings, BitLocker/accessibility gaps and denied Hyper-V native/UI/managed/recovery acceptance remain. B03 startup fixtures retain 28 checks per edition. |
-| Packages, portable tools and downloadable artifacts | 56-71 | B11 froze 41 JoeWare, 22 current MiTeC and 16 NTCore entries. MiTeC JSON/XML viewers add two pending candidates with x64/x86 selection; 107 checks pass per edition. Catalog: 362 operations/60 packages, 33 pending packages (20 continuation plus 13 Artcraft). NirSoft Defender, JoeWare artifact/redistribution, SSView codec and native acceptance gates remain. |
-| Windows components and optional features | 20-25 | No servicing/runtime change in this run. Five Store groups implemented; Solitaire basic registration lifecycle accepted, Clipchamp still blocked by VM access. OpenSSH Client/Telnet require matching sources, policy/dependencies and durable recovery. GUI/data/fault/group acceptance and WSL/Hyper-V/Sandbox remain; no target expansion. |
-| Accounts, configuration and deployed files/assets | 25-35 | MiTeC file fixtures preserve synthetic licence/configuration; real activation, live identity/adoption and durable deployment acceptance remain. Existing user/Wi-Fi/regional/PATH/Terminal preparation retained. New profile composition and BitLocker/recovery resource setup stay deferred; no default profile selected. |
-| Maintenance and operational actions | 8-12 | No updater or acquired utility executed. Frozen collection inventories replace mutable review scope, not the runtime acquisition wrappers. Zimmerman immutable pin remains blocked by API quota; no retry. Existing bridge/controller baselines retained, certification at v3 RC and PAT live acceptance pending. Cleanup, Sysprep and action-specific recovery remain. |
+| Windows and application settings | 38-58 | No setting changed in the 03:51 UTC Python runtime-policy decision. E08 retains its inert template/parser and prior 204/204 regression. B03 UserBinPath/user PATH local regression now passes 84/84; no user profile or persistent PATH changed. Native startup, exact restore and Windows 11/Server acceptance remain open because both VM queries failed at CIM at 03:23 UTC. |
+| Packages, portable tools and downloadable artifacts | 50-65 | Rechecked 17:57 UTC; VMware Workstation and ShimCacheParser are retired. ExifTool tracks and Zimmerman Hasher remain open. Detect It Easy Defender scope is recorded; WinPmem acquisition/signature and driver acceptance remain open. Twelve Artcraft Batch6 packages passed pinned Windows 11 build 26300 install, uninstall, idempotence and saved-run recovery; Windows 11 support is now declared. ArtCraft Launcher Batch7 failed after MSI success because post-install detection found no installed product; diagnostic retry 1a0ec19a4e8e4517ad800bf3ac9f21dc is running with bounded MSI registration evidence. SysinternalsProducts request ae3bb5af12ee4b329c88cc51ff3d2bc2 is queued behind it; nine exact archives are reverified and zero Defender-detected tools are selected, with licensing cleared. Other Phoenix, Sysinternals and source/archive review items remain in the package ledger. |
+| Windows components and optional features | 19-24 | No Windows component changed in the 03:51 UTC Python runtime-policy decision. B06 OpenSSH Client/Telnet Client preparation/lifecycle passes 47/47 current-source mocked checks; the candidate remains unregistered and Telnet source completeness is unresolved. DISM did not run. Both VM queries failed at CIM at 03:23 UTC, so disposable-target acceptance remains deferred. |
+| Accounts, configuration and deployed files/assets | 25-35 | No account, configuration or deployed-file outcome changed in the 03:51 UTC Python runtime-policy decision. B03 UserBinPath startup and persistent user PATH have 84/84 current-source mocked regression; user-bin files, profile contents and persistent PATH remain unchanged in testing. Proxy, Terminal JSONC and package-data candidates retain status. Identity, consumer behavior, exact recovery and target acceptance remain deferred by CIM-denied VM access. |
+| Maintenance and operational actions | 8-12 | No maintenance outcome changed in the 03:51 UTC Python runtime-policy decision. The B10 byte-bound offline preflight/no-network gate passed 100/100 focused mocked tests. Offline media handoff, installer activation and target recovery remain unverified. No installer, updater, Defender action, VM or Windows state changed; both test targets remain CIM-denied at 03:23 UTC. |
 | Total, rounded | 150-205 | About 180; no adjustment because documentation work closes no legacy outcome |
 
 Release follow-up: refresh the licensing list against selected releases and
@@ -4266,7 +4844,8 @@ exact captured mixed/custom registry recovery. Existing machine feedback request
 policy ID, states, edition scope and typed recovery remain unchanged.
 
 Resolved implementation scope: accepted interim native frequency guidance.
-`NumberOfSIUFInPeriod`/`PeriodInNanoSeconds` encoding, literal types/units and
+
+umberOfSIUFInPeriod`/`PeriodInNanoSeconds` encoding, literal types/units and
 current dropdown mapping remain deferred. No guessed interval/QWord/truncation,
 Rules reset, all-user writes, task/app/service mutation or profile was added.
 Current GUI/managed/prompt and paired lifecycle evidence remain pending; no
@@ -5581,3 +6160,2357 @@ The initial generic Import-PowerShellDataFile attempt exceeded its catalog data
 evaluation limit; use Import-RideCatalogData for this large catalog. No handler
 was invoked. Status arithmetic, LF endings and the focused diff were reviewed;
 previous passing source tests are retained without repetition.
+
+## Local migration acceptance preflight, 2026-10-22
+
+Regenerated `docs/OPERATIONS.md` from the authoritative catalog after the
+read-only validator reported it stale. Validation then passed for **363
+operations, eight groups, five profiles and 235 PowerShell files**. The
+PSScriptTools, offline execution/bundle/coverage and user-bin focused run
+discovered 210 Pester cases, but all failed before test bodies because Pester
+5.7.1 could not create its temporary `HKCU\Software\Pester` registry fixture
+(`Requested registry access is not allowed`). This is a restricted test-process
+failure, not a code assertion result. A fresh `Get-VM -Name RIDE-Win11-Test`
+check failed with `Access to a CIM resource was not available to the client`;
+no VM, controller, UAC, Defender or package activation action was taken. Five current
+package license questions were separately recorded as 
+eedsReview` in the
+ignored checkout-local `.local/license-reviews.json` store: Docker Desktop
+4.96.0, MiTeC JSON Viewer 3.2.2.0, MiTeC XML Viewer 6.5.0.0, NTCore CFF
+Explorer 8.0.0.0 and PE Detective 1.2.1.1. Their reviewer remains unassigned;
+no individual/company entitlement or redistribution approval is implied.
+
+Resolved: stale generated operation documentation. Retired/excluded: none.
+Partial: existing B03, PSScriptTools and disconnected offline acceptance remain
+as recorded; Docker Desktop remains a Windows 11 candidate without supported targets; prior installer stalls and physical WinGet installation do not establish RIDE acceptance. Deferred:
+native B03 prerequisite/startup, PSScriptTools runtime/dependency ownership,
+offline installer/dependency coverage and Windows acceptance, plus all existing
+VM/controller/elevation and source/license blockers. No legacy outcome closed.
+
+All five ranges remain **38-58 / 56-71 / 20-25 / 25-35 / 8-12**, exact
+**147-201**, rounded **145-200/about 175**. The validation repair closes only a
+generated-document consistency issue, and the Pester/VM attempts establish no
+feature or target behavior, so no range adjustment is warranted. Next: continue
+source-ready implementation and use the registered disposable-VM path when
+non-elevated access returns; do not extend the Docker installer timeout again
+until its stall is diagnosed.
+
+## Registered PSScriptTools acceptance rerun, 2026-10-22
+
+The existing preregistered `PSScriptTools` suite completed request
+`8c0b33994d28476e852735c78e89170f` on RIDE-Win11-Test, Windows 11 build 26300.
+All 14 portable-package lifecycle checks passed across the exact 360-file
+selection, including repeat install/removal, exact saved-state restoration,
+original-absence recovery, unowned-file preservation, and refusal to overwrite or
+remove modified files. Seven saved-state ZIPs and complete file observations
+were collected. The acceptance runner reports `ToolExecuted=false`;
+functional-compatibility and activation acceptance remain pending. The VM was
+reset to checkpoint `a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9` and left Off. No fresh
+UAC prompt or controller refresh was used. Raw evidence remains under
+`%ProgramData%/RIDE/TestAutomation/RIDEWin11Test/results/8c0b33994d28476e852735c78e89170f/`;
+the [sanitized summary](archive/evidence/psscripttools-registered-rerun-2026-10-22.json)
+records the request, checks, recovery and limits.
+
+Resolved: PSScriptTools registered portable file-lifecycle subgate. Retired,
+excluded and deferred legacy outcomes are unchanged; no whole legacy outcome
+closed. Partial: PSScriptTools runtime/function compatibility and dependency
+ownership remain open; the separate local Pester fixture failure and B03/B10,
+Docker Desktop, licensing, source and native acceptance blockers remain as
+listed above. All five ranges remain **38-58 / 56-71 / 20-25 / 25-35 / 8-12**,
+exact **147-201**, rounded **145-200/about 175**. This focused package subgate
+does not justify estimate reduction.
+
+## Phoenix Protector package candidate preparation, 2026-10-22
+
+Added `package.phoenix-protector` as a Windows 11 candidate for the retained
+publisher-linked MSI 1.7.1, pinned to the recorded SHA-256
+`15a7dbbf90ce66fb302a322c6809fafd897808096069dfecededf78e51b16369`. The
+catalog distinguishes publisher page 1.8.0.1, MSI 1.7.1 and contained
+executable 1.9.0.1 rather than silently substituting versions. The local review
+store marks this MSI 
+eedsReview` with owner Unassigned and captures the
+publisher-freeware/bundled-individual-license difference; it does not decide
+rights or block routine catalog preparation.
+
+The generated operation reference and operator package guide were refreshed.
+Windows-native validation passes for **364 operations, eight groups, five
+profiles and 235 PowerShell files**; the catalog has **62 packages and 34
+pending**. No MSI, DLL or executable was run and no payload was newly acquired.
+The offline engine now accepts MSI artifacts only when they are hash-bound,
+marked `DeclaredNoNetwork`, have one payload and no prerequisite/dependency
+actions, and the package has completed native target acceptance. Thirty-one
+focused offline execution tests pass, including the MSI preflight and handler
+path. The focused VM registration does not include MSI execution. Therefore
+Phoenix remains `PendingAcceptance`, has no supported production target, and
+offline installer behavior, framework checks, repeat/removal/recovery and
+activation await a dedicated disconnected guest suite. Fresh controller/UAC
+changes remain saved for an attended session.
+
+Resolved: exact MSI source/version identity, pinned candidate metadata and
+private 
+eedsReview` record. Partial: package/offline support, applicable
+individual terms and native acceptance. Retired, excluded and deferred legacy
+outcomes otherwise remain unchanged; no whole legacy outcome closed. All five
+ranges remain **38-58 / 56-71 / 20-25 / 25-35 / 8-12**, exact **147-201**,
+rounded **145-200/about 175**. A version-pinned package candidate without
+verified runtime, offline or recovery behavior does not justify reducing the
+remaining migration estimate.
+
+## Offline EXE/MSI execution support, 2026-10-22
+
+Extended offline plan preflight and package dispatch to accept one verified EXE
+or MSI payload only when its manifest capability is `DeclaredNoNetwork`; portable
+payload behavior remains. The selected profile must still match the actual
+catalog target and have completed native acceptance. Prerequisite and dependency
+actions, other installer types, multiple payloads, unverified/network-required
+artifacts and any network fallback remain refused before mutation. The package
+handler passes hash-bound local EXE paths to their declared process arguments and
+local MSI paths to `msiexec`; it does not acquire payloads or perform online
+certificate checks.
+
+The focused `OfflineExecution.Tests.ps1` suite discovered 37 tests. After
+disabling Pester's unused TestRegistry plugin, the full suite exposed one
+environment-dependent portable deployment failure: its atomic manifest move was
+denied under the sandbox temporary directory. The eight EXE/MSI whole-plan gating, engine-dispatch, mocked local-install and fail-closed integrity tests passed. Rerunning the remaining selection
+passed **36/36**, excluding only that temp-ACL-dependent test. The separate
+`OfflineBundle.Tests.ps1` process passed **43/43**. Earlier broader isolated
+regressions covered OfflineProfileCoverage, ApplicationPackages and Catalog;
+the repository validator also passed after this change. These are local unit and
+static checks only: no EXE or MSI ran, and installer-internal networking remains
+unproven. The earlier combined multi-file Pester invocation's two data-only test
+failures remain test-process isolation evidence, not native installer evidence.
+Phoenix remains a candidate with no supported target; disconnected native
+installer, framework, repeat/removal/recovery and activation tests require a
+dedicated VM suite and later attended controller registration. No Defender or
+host change occurred.
+
+Resolved: generic declared-no-network EXE/MSI execution support for eligible,
+already-accepted catalog packages. Partial: dependency/installer coverage and
+native disconnected behavior. No whole legacy outcome was resolved, retired or
+excluded. All five ranges remain **38-58 / 56-71 / 20-25 / 25-35 / 8-12**,
+exact **147-201**, rounded **145-200/about 175**; the Phoenix package remains
+pending acceptance and this engine capability does not close a product outcome.
+
+## ApplicationsBatch1 VM acceptance, 2026-10-22
+
+The registered controller ran ApplicationsBatch1 on RIDE-Win11-Test at pinned
+Windows 11 Enterprise Evaluation build 26300. Guest validation passed 272/272
+Pester tests; seven of eight package scenarios passed: Thunderbird 158.0.1,
+VS Code 1.143.0, Firefox 158.0.1, DB Browser for SQLite 3.13.1, Autopsy 4.23.1,
+Wireshark 4.6.9.0 and Signal 8.32.0. Chrome 155.0.8059.40 failed before
+installer launch because the current provider SHA-256 did not match the
+catalog's pinned digest. The collected observation records a valid Google LLC
+signature and 169,652,224-byte MSI, but did not retain the actual digest. Do not
+update the pin from the version label or signature alone. Wireshark's clean-
+absence lifecycle path passed, but separately required existing-installation,
+association/shared-runtime and recovery coverage remains; its target stays
+pending.
+
+The controller finalized the failed suite without cleanup/collection errors,
+collection omissions or a blocked marker. It resolved no whole legacy outcome;
+Wireshark remains partial and Chrome's refreshed current-source runtime
+acceptance remains deferred. All five ranges remain **38-58 / 56-71 / 20-25 /
+25-35 / 8-12**, exact **147-201**, rounded **145-200/about 175**. See the sanitized
+[batch evidence](archive/evidence/applications-batch1-acceptance-2026-10-22.json)
+and [application review](migrations/application-migration-review.md#applicationsbatch1-vm-acceptance-2026-10-22).
+
+## Chrome stable MSI pin refresh, 2026-10-22
+
+The current official Google stable enterprise MSI was inspected without
+execution: Chrome 156.0.8078.48, ProductCode
+`{FC681062-00FC-3E42-98D1-2B1A9AF642A3}`, 170,979,328 bytes, SHA-256
+`a31bd8a4746069a128bf3beefdaa246c792af5f15bbf06af0259abc895c9609b`, with
+valid Google LLC Authenticode. Updated the catalog pin and marked `package.chrome`
+pending Windows 11 and Server 2025 acceptance; see [sanitized pin evidence](archive/evidence/chrome-enterprise-msi-pin-2026-10-22.json).
+
+The existing RIDE-Win11-Test controller files matched the checkout and its
+pending/running queues were empty, but submission failed before dispatch because
+this unelevated session could not write the protected pending queue. No VM task
+or guest test ran. No whole legacy outcome was resolved, retired or excluded.
+All five estimate ranges remain 38-58 / 56-71 / 20-25 / 25-35 / 8-12, exact
+147-201, rounded 145-200/about 175.
+
+## ApplicationsBatch1 current-pin Windows 11 rerun, 2026-10-22
+
+Run `3e0dee246f2e48c5af664890887afe47` passed on the registered disposable
+Windows 11 Enterprise Evaluation VM, build 26300, after the Chrome MSI pin was
+refreshed. Guest validation passed 285 Pester tests with 0 failures and 1 skip.
+All eight package scenarios passed: Thunderbird 158.0.1, VS Code 1.143.0,
+Firefox 158.0.1, DB Browser for SQLite 3.13.1, Autopsy 4.23.1, Chrome
+156.0.8078.48, Wireshark 4.6.9.0 and Signal 8.32.0. Chrome's exact MSI digest
+and Google LLC signature matched the pin; Chrome profile preservation and
+compensating recovery passed. The other scenarios completed their declared
+install/repeat/remove/recovery coverage. Wireshark's existing-installation,
+association/shared-runtime and broader recovery cases remain pending, so its
+status remains partial. The controller restored the clean checkpoint and left
+the VM Off.
+
+This adds current-pin Windows 11 evidence and closes no whole legacy outcome.
+The paired Server 2025 run follows below. Wireshark-specific existing-install,
+association/shared-runtime and broader recovery cases remain open. All five
+current ranges remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact
+**144-198**, rounded **145-200/about 170**. See the [sanitized batch
+evidence](archive/evidence/applications-batch1-acceptance-2026-10-22.json).
+
+## ApplicationsBatch1 current-pin Server 2025 rerun, 2026-10-22
+
+Run `91190a3b18f14c0f9830d62d024556a9` passed on RIDE-S25-Test, Windows Server
+2025 Standard Evaluation build 26100. Guest validation passed 285 Pester tests
+with 0 failures and 1 skip; all eight package scenarios passed at the same
+versions as the Windows 11 run. Chrome 156.0.8078.48 matched its pinned
+SHA-256 and valid Google LLC Authenticode signature; install/repeat/removal,
+profile preservation and compensating recovery passed. The controller restored
+the clean checkpoint and left the VM Off.
+
+Chrome is now accepted on Windows 11 and Windows Server 2025. The other six
+packages already declare both targets, which the paired runs confirm. Wireshark
+remains pending because the suite does not cover its existing-installation
+transition, association/shared-runtime preservation or broader recovery. No
+whole legacy outcome closed; estimates remain **38-58 / 53-68 / 20-25 / 25-35 /
+8-12**, exact **144-198**, rounded **145-200/about 170**. See the [sanitized
+batch evidence](archive/evidence/applications-batch1-acceptance-2026-10-22.json).
+
+## NTCore 4GB Patch candidate preparation, 2026-10-22
+
+Added `package.ntcore-4gb-patch` as a Windows 11 candidate, pinned to the
+retained 1.0.0.1 archive (21,464 bytes; SHA-256
+`1e13c263dc55e85cf62e3e30c6b2ce936d4c7e16e3bba3e311a5a8bed4be16ca`). The
+mutable publisher URL was not re-downloaded, and the retained digest is not
+publisher-provided. The local license store records version 1.0.0.1 as
+
+eedsReview`, owner Unassigned, based on the missing product-specific grant and
+2007 all-rights-reserved executable metadata. This advances package preparation
+per the user's priority without asserting entitlement or distribution rights.
+
+The package has empty supported targets. Portable staging, repeat/removal/exact
+restore, synthetic x86 PE flag/backup behavior and recovery remain untested. No
+binary or target executable ran. The existing controller queue is inaccessible
+at this session's low integrity level, so no VM request dispatched. No stable
+legacy selector mapping was found and no whole outcome was resolved, retired or
+excluded. The catalog validator passed 365 operations; `Catalog.Tests.ps1`
+passed 70/71, with its registry-subtree case denied by the test environment.
+`LicenseReviews.Tests.ps1` passed 8/9; the remaining atomic-replacement case
+failed inside Pester's temporary TestDrive. The actual private-store Set and
+Get both succeeded, but rerun these two framework cases in Windows CI. These
+tests do not establish package lifecycle or utility behavior. The source NTCore
+selection and registered-task dispatch now include the candidate; its three
+archive hashes were checked into a host-local manifest and the focused selection
+suite passes 16/16. Protected controller copies still need an attended refresh,
+and low-integrity queue submission remains unavailable. All five estimates
+remain **38-58 / 56-71 / 20-25 / 25-35 / 8-12**,
+exact **147-201**, rounded **145-200/about 175**. See the [source review](migrations/application-migration-review.md#ntcore-4gb-patch-candidate-preparation-2026-10-22),
+[license guidance](package-licensing.md#local-usercompany-reviews), [candidate evidence](archive/evidence/ntcore-4gb-patch-candidate-preparation-2026-10-22.json) and [sanitized source evidence](archive/evidence/ntcore-4gb-patch-page-follow-up-2026-10-21.json).
+
+## B03 UserBinPath local prerequisite runner preparation, 2026-10-22
+
+The UserBinPath guest runner can now install missing PowerShell 7 from the
+already pinned local MSI evidence staged by the outer checkpoint-backed runner.
+The guest checks run-local paths, official release URI, SHA-256 and Microsoft
+signature before quiet installation; it has no online acquisition path and does
+not change UAC. The three edited PowerShell files parsed, the local PowerShell
+7.6.6 MSI matched its recorded SHA-256 and Microsoft Authenticode signature, and
+the focused UserBinPath lifecycle, profile metadata and runner boundary suites
+passed 65/65. Hyper-V CIM access and protected queue write access remain
+unavailable, so no VM run occurred and startup behavior remains pending.
+No whole legacy outcome was resolved, retired or excluded. All five estimates
+remain **38-58 / 54-69 / 20-25 / 25-35 / 8-12**, exact **145-199**, rounded
+**145-200/about 170**. See the [settings evidence](migrations/settings-post-migration-review.md#b03-user-bin-local-prerequisite-runner-preparation-2026-10-22)
+and [sanitized record](archive/evidence/user-bin-local-prerequisite-runner-preparation-2026-10-22.json).
+
+## MiTeC product retirement and estimate reconciliation, 2026-10-22
+
+By user decision, retire Paradox Data Editor, Weather Agent and Mail Checker from
+v3. Preserve their source, endpoint, BDE and dependency evidence as historical
+review; do not prepare these packages, pursue their BDE registration or run their
+network paths. This closes no runtime or Windows-target acceptance.
+
+The original 79 application review outcomes now have five retirements: the
+previous Q17/Q20 decisions plus these three products. The ledger records 19
+accepted migrations, one exclusion, five retirements and 74 pending/partial
+outcomes. Reduce the package estimate from 56-71 to 53-68; leave the other four
+group estimates unchanged. Exact total endpoints are 144-198, rounded to
+145-200/about 170. The historical 79-item review map remains intact.
+
+The same decision batch sets Q16/R01 as the next application review priority,
+with Chrome 156.0.8078.48 first in the next available registered VM session.
+NirSoft whole-collection implementation is authorized without automatic
+Defender changes; individual file handling is deferred to v3.1, and remaining
+alerts require manual user review. Candidate packages may proceed with known
+license uncertainty stated in their descriptions and optional local review
+records; no entitlement or redistribution approval follows.
+
+No catalog operation, package count, test result or VM acceptance changed in
+this decision run. B03 startup and all other native acceptance remain pending.
+
+## B06 client component local regression, 2026-10-22
+
+Reran the component inventory and client-preparation suites against the current
+checkout using native Windows PowerShell **5.1.26100.9711** and PowerShell
+**7.6.5**. Each edition passed **49/49** tests. Pester's unused TestRegistry
+plugin was disabled; no live DISM query, source inspection, elevation, servicing,
+network-policy change, VM run or reboot occurred. This confirms the existing
+read-only inventory and data-only preparation boundaries only. OpenSSH/Telnet
+source matching, no-network enforcement, dependency and pending-reboot handling,
+durable prior-state capture, component-specific recovery and native consumer
+acceptance remain partial/deferred. No legacy outcome was resolved, retired or
+excluded. All five ranges remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**,
+exact **144-198**, rounded **145-200/about 170**. See the
+[sanitized run record](archive/evidence/b06-component-local-regression-2026-10-22.json)
+and [B06 implementation ledger](migrations/remaining-migrations-follow-up.md#b06-client-component-local-regression-2026-10-22).
+
+## Package evidence fixture regression, 2026-10-22
+
+The package evidence suite now passes **25/25** on Windows PowerShell 5.1 and
+**25/25** on PowerShell 7 with Pester's unused `TestRegistry` plugin disabled.
+Fixtures that need filesystem moves are uniquely scoped under repository `.local`;
+cleanup verifies the direct parent, generated name and non-reparse-point root.
+The earlier failure was the sandbox's denied registry access under the plugin,
+not a remaining package evidence failure. No legacy outcome was resolved, retired
+or excluded. All five groups remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**,
+exact **144-198**, rounded **145-200/about 170**. See the [application ledger](migrations/application-migration-review.md#package-evidence-fixture-regression-2026-10-22)
+and [sanitized evidence](archive/evidence/package-evidence-fixture-regression-2026-10-22.json).
+
+## Discord artifact digest recheck, 2026-10-22
+
+The exact Discord 1.0.9264 Microsoft WinGet manifest still publishes a
+65-character SHA-256 value. The versioned publisher artifact host did not resolve
+from this session and the browser fetch tool could not retrieve the installer;
+no artifact bytes or signature were verified. Removed the unsupported 64-character
+catalog pin and restored a fail-closed acquisition reason. Focused source-pin and
+no-network tests pass **4/4** on Windows PowerShell 5.1 and **4/4** on PowerShell 7.
+Slack retains its valid matching manifest pin. No legacy outcome was resolved,
+retired or excluded. All five groups remain **38-58 / 53-68 / 20-25 / 25-35 /
+8-12**, exact **144-198**, rounded **145-200/about 170**. See the [application
+ledger](migrations/application-migration-review.md#discord-artifact-digest-recheck-2026-10-22)
+and [sanitized evidence](archive/evidence/discord-artifact-pin-recheck-2026-10-22.json).
+This acquisition blocker was superseded by the later [ApplicationsBatch4 run](#slack-and-discord-applicationsbatch4-windows-11-acceptance-2026-10-22), which independently measured and signature-verified the publisher artifact; lifecycle acceptance remains pending.
+
+## ImageMagick portable Q16 source discovery, 2026-10-22
+
+The official ImageMagick page lists portable Q16 x64 static 7.1.2-34 as an
+11 MB `.7z`, alongside detached-signature and CycloneDX sidecars. Official
+license terms allow personal/internal/commercial use and require a license copy
+plus attribution notices for redistribution. Retrieval failed because the
+publisher host did not resolve in this session; no archive, sidecar, or SHA-256
+was obtained. No catalog package was added. RIDE's current portable lifecycle
+supports ZIP and loose-file payloads, not `.7z`, so safe extraction, ownership
+and exact saved-state recovery remain implementation blockers. No extraction,
+execution, Defender action, UAC, VM or PATH change occurred. No legacy outcome
+was resolved, retired or excluded. All five ranges remain **38-58 / 53-68 /
+20-25 / 25-35 / 8-12**, exact **144-198**, rounded **145-200/about 170**. See
+the [application ledger](migrations/application-migration-review.md#imagemagick-portable-q16-source-discovery-2026-10-22)
+and [sanitized record](archive/evidence/imagemagick-portable-q16-source-discovery-2026-10-22.json).
+
+## NTCore 4GB Patch licence metadata clarification, 2026-10-22
+
+The catalog and generated operations reference now describe the known 2007
+all-rights-reserved notice and absence of a found product-specific licence
+grant. The version-specific local review remains 
+eedsReview`, owner
+Unassigned. The package remains unsupported pending source verification and
+Windows 11 lifecycle/synthetic-file acceptance. The current VM access check
+returned CIM access denied; no task, VM, utility, or system state changed. No
+legacy outcome was resolved, retired, or excluded. All five ranges remain
+**38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact **144-198**, rounded
+**145-200/about 170**. See the [application ledger](migrations/application-migration-review.md#ntcore-4gb-patch-licence-metadata-clarification-2026-10-22).
+
+## MiTeC UUID Generator candidate preparation, 2026-10-22
+
+Added a pinned, review-marked portable candidate for publisher version 1.0.0.
+The retained archive and member hashes were rechecked without extraction or
+execution. Candidate acceptance is synthetic-only because the tool can display
+persistent host identifiers; live values must not be captured or exported. The
+catalog has **366 operations, 8 groups, 5 profiles, 237 PowerShell files, 64
+packages and 37 pending packages**. Focused inert-file lifecycle tests passed
+2/2 on Windows PowerShell 5.1 and 2/2 on PowerShell 7. License wording remains
+unresolved in the ignored local 
+eedsReview` store; supported targets remain
+empty. No legacy outcome was resolved, retired or excluded. All five ranges
+remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact **144-198**, rounded
+**145-200/about 170**. See the [application record](migrations/application-migration-review.md#mitec-uuid-generator-candidate-preparation-2026-10-22)
+and [sanitized evidence](archive/evidence/mitec-uuid-generator-candidate-preparation-2026-10-22.json).
+
+## MiTeC certificate tools candidate preparation, 2026-10-22
+
+Added Certificate Generator 1.0.0 and Certificate Information 1.5.0 as pinned
+portable candidates. Their retained archive/member hashes were rechecked without
+extracting or executing either product. Both remain unsupported pending native
+acceptance and have separate local 
+eedsReview` records for unresolved local
+entitlement and redistribution terms. Focused inert-fixture lifecycle tests
+passed 4/4 on Windows PowerShell 5.1 and 4/4 on PowerShell 7; no certificate,
+private key, or trust-store behavior was exercised. The catalog now has **368
+operations, 8 groups, 5 profiles, 238 PowerShell files, 66 packages and 39
+pending packages**. No legacy outcome was resolved, retired or excluded. All five
+ranges remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact **144-198**, rounded
+**145-200/about 170**. See the [application record](migrations/application-migration-review.md#mitec-certificate-tools-candidate-preparation-2026-10-22)
+and [sanitized evidence](archive/evidence/mitec-certificate-tools-candidate-preparation-2026-10-22.json).
+
+## Slack and Discord package candidates, 2026-10-22
+
+Added the user-requested Slack and Discord current-user EXE package candidates,
+with pinned official URLs, versions and SHA-256 values. Both have no supported
+targets pending Windows 11 install, repeat, detection, removal, data-preservation
+and saved-run recovery acceptance. No installer was run. These are new package
+catalog entries, not legacy migration outcomes, so all five legacy ranges remain
+**38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact **144-198**, rounded
+**145-200/about 170**. The catalog now contains **370 operations, eight groups,
+five profiles, 238 PowerShell files, 68 packages and 41 pending packages**. See
+the [application record](migrations/application-migration-review.md#slack-and-discord-current-user-package-candidates-2026-10-22).
+
+## ImageMagick Q16 portable source-verification recheck, 2026-10-22
+
+The official publisher download and license pages still identify the 7.1.2-34
+Q16 x64 portable static 7z and require a license copy plus attribution for
+redistribution. Direct shell retrieval failed DNS resolution for both the
+publisher archive and its GitHub release host; the web fetch returned a cache
+miss. No artifact/sidecar bytes, digest, or signature were verified, and no
+catalog candidate was added. Safe 7z extraction/recovery and native target
+acceptance remain deferred. No legacy outcome was resolved, retired or excluded.
+All five group ranges and examples were reviewed: **38-58 / 53-68 / 20-25 /
+25-35 / 8-12**, exact **144-198**, rounded **145-200/about 170**. See the
+[application record](migrations/application-migration-review.md#imagemagick-q16-portable-source-verification-recheck-2026-10-22)
+and [sanitized evidence](archive/evidence/imagemagick-portable-q16-source-discovery-2026-10-22.json).
+
+## Slack and Discord manifest digest recheck, 2026-10-22
+
+Corrected Slack 4.52.182 to the valid 64-character digest in its matching
+Microsoft WinGet manifest. The Discord 1.0.9264 manifest currently publishes a
+65-character digest; no installer bytes were available, so acquisition is now
+blocked before network access until a valid digest is verified. Both candidates
+remain unsupported pending Windows 11 lifecycle and recovery acceptance. The
+focused source-pin/fail-closed suite passed **3/3** on Windows PowerShell 5.1
+and PowerShell 7. The repository validator passed **370 operations, 8 groups,
+5 profiles, and 239 PowerShell files**; generated operations documentation is
+current. No legacy outcome was resolved, retired or excluded. All five ranges
+remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact **144-198**, rounded
+**145-200/about 170**. See the [application record](migrations/application-migration-review.md#slack-and-discord-manifest-digest-recheck-2026-10-22)
+and [sanitized evidence](archive/evidence/slack-discord-manifest-digest-recheck-2026-10-22.json).
+## Deferred package and guest-integration decisions, 2026-10-22
+
+The user decided not to carry the broad legacy `C:\Tools` Defender exclusion
+into the NirSoft migration. The 2026-10-24 decision now permits reviewed, package/version-specific exclusions scoped to selected packages' RIDE-managed install directories, with captured prior state and removal only of RIDE-introduced exclusions. NirSoft whole-collection preparation remains in scope; per-file handling remains deferred to v3.1, and alerted members still require manual review. Standalone OpenJDK remains deferred until an independent use case
+is identified; BloodHound CE backend use alone is insufficient. For a full
+GNOME Boxes experience, include both VirtIO and SPICE integrations when needed,
+with the required driver, agent and WebDAV set to be verified on a matching
+QEMU guest.
+
+No catalog or Windows state changed, and no legacy outcome was resolved, retired
+or excluded. Hyper-V CIM access remains denied and the protected VM queue remains
+unavailable; Hyper-V cannot verify QEMU guest integration. The QEMU/SPICE
+acceptance blocker is a matching guest. All five group ranges remain **38-58 /
+53-68 / 20-25 / 25-35 / 8-12**, exact **144-198**, rounded **145-200/about 170**.
+See the [application decision record](migrations/application-migration-review.md#user-decisions-on-deferred-packages-and-guest-integrations-2026-10-22)
+and [component follow-up](migrations/remaining-migrations-follow-up.md#deferred-package-and-guest-integration-decisions-2026-10-22).
+## QEMU guest integration source review, 2026-10-22
+
+Primary upstream documentation confirms that GNOME's documented Windows guest
+integration uses spice-guest-tools. SPICE says that installer includes QXL and
+the SPICE agent/driver; spice-webdavd is separate and needed for Windows guest
+folder sharing. The upstream virtio-win guest-tools installer combines VirtIO
+drivers with SPICE agent/driver, so avoid duplicate installs and select drivers
+for the guest's actual virtual devices. GNOME's newer experimental Boxes rewrite
+may differ; identify the target Boxes release before treating the older SPICE
+path as universal.
+
+No installer was acquired, pinned or executed. Exact publisher artifacts,
+Authenticode status and matching-QEMU-guest lifecycle/recovery remain open.
+Version-specific license markers may be 
+eedsReview`; they do not block
+implementation or technical acceptance.
+No legacy outcome was resolved, retired or excluded. Hyper-V CIM access and the
+protected VM queue remain blocked; Hyper-V cannot validate QEMU guest behavior.
+All five ranges remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact
+**144-198**, rounded **145-200/about 170**. See the [application review](migrations/application-migration-review.md#qemu-guest-integration-source-review-2026-10-22).
+
+## QEMU guest-tools source and acquisition follow-up, 2026-10-22
+
+The official virtio-win installer README confirms the combined VirtIO driver,
+SPICE guest agent and driver bundle. SPICE guest tools include QXL and the
+SPICE agent; WebDAV remains a separate optional component for guest folder
+sharing. The versioned SPICE WebDAV 2.4 MSI is listed by its publisher, but a
+second direct acquisition attempt failed DNS resolution (curl exit 6), leaving
+no bytes, measured hash or Authenticode result. No mutable latest alias was
+treated as a pin. License review status is metadata, not a migration gate; mark
+the selected exact version 
+eedsReview` if appropriate and continue.
+
+No package operation or supported target was added. No VM or installer ran and
+no legacy outcome closed. Matching QEMU guest acceptance remains required;
+Hyper-V cannot substitute. Estimates remain **38-58 / 53-68 / 20-25 / 25-35 /
+8-12**, exact **144-198**, rounded **145-200/about 170**. See the [application
+review](migrations/application-migration-review.md#qemu-guest-tools-source-and-acquisition-follow-up-2026-10-22)
+and [source evidence](archive/evidence/qemu-guest-tools-source-followup-2026-10-22.json).
+## PSScriptTools runtime dependency static review, 2026-10-22
+
+The pinned 3.2.0 archive was scanned read-only: the manifest requires
+Microsoft.PowerShell.Threadjob and System.Drawing for import. Start-ThreadJob
+is used in CimMember.ps1 and Utilities.ps1; System.Drawing.ColorTranslator is
+used in Convert-HTMLtoANSI.ps1. Import dot-sources functions and sets global
+variables, with conditional editor integration. No code was imported or run.
+
+Static dependency locations are resolved, but runtime behavior, dependency
+ownership and manifest import acceptance are not. RIDE installs neither
+requirement. Next test import with dependencies present/absent and representative
+functions on disposable Windows 11 in both PowerShell editions. No legacy outcome
+was resolved, retired or excluded. Hyper-V and protected-queue access remain
+blocked. All five ranges remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact
+**144-198**, rounded **145-200/about 170**. See the [application review](migrations/application-migration-review.md#psscripttools-runtime-dependency-static-review-2026-10-22)
+and [sanitized evidence](archive/evidence/psscripttools-runtime-dependency-static-review-2026-10-22.json).
+
+## MiTeC SQLite Query focused runner preparation, 2026-10-22
+
+Added an explicit `SQLiteQuery` selection to the reviewed portable acceptance
+runner and preregistered request routing. The batch contains only
+`package.mitec-sqlite-query` and inherits the exact archive/member pin checks,
+managed-file install/repeat/remove checks, saved-state capture/restore and
+unowned/modified-file preservation checks. It does not launch SQLite Query,
+open or modify a database, execute SQL, or prove SQLite build provenance or
+licensing. The candidate remains unsupported.
+
+Focused Pester passed 120 tests with two skipped in PowerShell 7 and 122/122 in
+Windows PowerShell 5.1 across the portable-selection and task-automation suites.
+The selected local archive passed its pinned SHA-256 and exact package-selection
+preflight, the operation export check passed, and repository validation passed
+for 371 operations, eight groups, five profiles and 241 PowerShell files. The
+batch has not run. A read-only `Get-VM` recheck at 2026-10-22 12:46 UTC failed
+with CIM access denied. The protected `RIDE-Win11-Test` controller needs an idle
+attended registration refresh before it includes the new suite, and this
+session cannot write its protected queue. No fresh UAC prompt was opened, no VM
+or checkpoint was touched, and no Defender-blocked tool was used. No legacy
+outcome was resolved, retired or excluded. The existing exact estimate remains
+**38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact **144-198**, rounded
+**145-200/about 170**; adding a runner does not close the database-feature or
+recovery outcome. See the focused [runner procedure](../tests/integration/README.md#focused-reviewed-portable-packages).
+See the [sanitized run evidence](archive/evidence/mitec-sqlite-query-focused-runner-preparation-2026-10-22.json).
+
+## ImageMagick portable Q16 format and source follow-up, 2026-10-22
+
+Rechecked the publisher's Windows download page and its release index. The page
+still labels `ImageMagick-7.1.2-34-portable-Q16-x64.7z` as portable Win64 static
+with no installer or registry changes. The official index lists the 7z at
+9.7 MB and its detached `.asc` at 833 bytes. Both direct browser fetches returned
+cache misses; prior shell acquisition was blocked by DNS resolution. No archive
+or signature bytes, digest or verification result were obtained.
+
+The same official index also lists a 16 MB `ImageMagick-7.1.2-34.zip` and a
+detached signature, but the download page does not describe that generic ZIP as
+the portable binary. It is not a verified substitute. No catalog package or
+artifact pin was added. The 7z extraction/lifecycle gap, source-byte verification
+and actual feature acceptance remain. No legacy outcome was resolved, retired
+or excluded. All five ranges stay **38-58 / 53-68 / 20-25 / 25-35 / 8-12**,
+exact **144-198**, rounded **145-200/about 170**. See the [application review](migrations/application-migration-review.md#imagemagick-portable-q16-format-and-source-follow-up-2026-10-22)
+and [sanitized evidence](archive/evidence/imagemagick-portable-q16-format-follow-up-2026-10-22.json).
+
+## MiTeC UUID and certificate utility file-lifecycle runner preparation, 2026-10-22
+
+Added a distinct `MiTeCUtilityFiles` selection for the pinned UUID Generator,
+Certificate Generator and Certificate Information portable candidates. Each
+selection contains only its exact executable from the catalog; the guarded
+portable runner checks package files, repeat/remove behavior, saved-state
+recovery and unowned/modified-file preservation. It never starts the utilities,
+queries live hardware identifiers, creates or inspects certificates, opens user
+files, or changes a trust store. The three candidates remain unsupported and
+their version-specific local license records remain 
+eedsReview`.
+
+All three retained archives match their catalog SHA-256 pins. The exact local
+three-ID manifest passed the runner's digest and payload-selection preflight.
+Focused portable-selection/task-automation Pester passed **123 tests with two
+skipped in PowerShell 7** and **125/125 in Windows PowerShell 5.1**. Catalog
+export check, `git diff --check`, and repository validation passed; validation
+covers 371 operations, 8 groups, 5 profiles and 241 PowerShell files. The
+registered guest batch has not run: the installed controller requires an idle attended refresh, and this
+session lacks Hyper-V CIM and protected-queue access. No UAC prompt, task,
+utility, VM, or checkpoint was touched. No legacy outcome was resolved, retired
+or excluded. All five estimates remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**,
+exact **144-198**, rounded **145-200/about 170**; file-runner preparation does
+not establish privacy-safe feature behavior or Windows support. See the
+[focused runner procedure](../tests/integration/README.md#focused-reviewed-portable-packages)
+and [sanitized evidence](archive/evidence/mitec-utility-files-focused-runner-preparation-2026-10-22.json).
+## HashCheck idrassi 2.6.3 release source review, 2026-10-22
+
+The official idrassi release page lists v2.6.3 as Latest, published 2026-10-07,
+with four assets, and the upstream README names the
+`idrassi.HashCheckShellExtension` WinGet identity and a
+BSD-3-Clause license. A third-party Chocolatey record reports a versioned
+publisher GitHub installer URL and SHA-256, but shell DNS prevented retrieving
+the installer and the available browser path did not expose the asset bytes.
+The reported digest is not used as a package pin. No package operation or
+target support was added; signature, install/remove, Explorer registration,
+recovery, and VM acceptance remain open. No legacy outcome was resolved,
+retired or excluded. All five ranges remain **38-58 / 53-68 / 20-25 / 25-35 /
+8-12**, exact **144-198**, rounded **145-200/about 170**. See the [application
+review](migrations/application-migration-review.md#hashcheck-idrassi-263-release-source-review-2026-10-22)
+and [sanitized evidence](archive/evidence/hashcheck-idrassi-release-source-review-2026-10-22.json).
+## Hash value context-menu source follow-up, 2026-10-22
+
+The current upstream tutorial and its forum thread document a double-space
+issue in an earlier command form and an apostrophe regression in a suggested
+workaround; the author updated the tutorial. The retained commands still
+reconstruct paths from echoed input, and Explorer behavior for unusual file
+names remains unverified. Windows PowerShell 5.1 accepted
+all seven listed algorithms in the synthetic-file probe; PowerShell 7.6.5
+accepted five and rejected MACTripleDES and RIPEMD160. The supplied command
+invokes `powershell`, which selected Windows PowerShell 5.1 on the tested host.
+The commands also keep the console alive for one hour. No
+attached command, registry import, user file or VM was used. The source remains
+unaltered; RIDE implementation needs an owned helper with argument-based paths,
+an explicit runtime choice, finite output lifetime, and disposable Windows 11
+recovery/GUI acceptance. No legacy
+outcome was resolved, retired or excluded. All five ranges remain
+**38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact **144-198**, rounded
+**145-200/about 170**. See the [settings review](migrations/settings-post-migration-review.md#hash-value-context-menu-source-follow-up-2026-10-22)
+and [sanitized evidence](archive/evidence/hash-value-submenu-source-review-2026-10-22.json).
+
+## Artcraft package license reviews recorded, 2026-10-22
+
+Recorded checkout-local version-specific 
+eedsReview` entries for all 13
+Artcraft packages and launcher: PhotoCraft 0.7.0, VectorCraft 0.9.0,
+FilmCraft 0.6.0, LightCraft 0.6.0, PDFCraft 0.6.0, EffectCraft 0.8.0,
+DesignCraft 0.6.0, WordCraft 0.5.0, SoundCraft 0.5.0, DeckCraft 0.5.0,
+CADCraft 0.5.0, GridCraft 0.5.0 and ArtCraft Launcher 0.2.1. The records
+flag owner-specific review of bundled assets and Artcraft brand terms; they do
+not establish use entitlement or redistribution rights. The packages remain
+pending Windows 11 lifecycle acceptance. The repository validator passed
+(371 operations, eight groups, five profiles, 241 PowerShell files), and the
+license-review suite passed 9/9 with Pester's optional registry fixture
+disabled after sandbox policy denied HKCU test-key setup. A fresh read-only
+`Get-VM` query failed with `Access to a CIM resource was not available to the
+client`; no VM or installer was used. No legacy outcome was resolved, retired
+or excluded. All five ranges remain
+38-58 / 53-68 / 20-25 / 25-35 / 8-12, exact 144-198, rounded
+145-200/about 170. The adjustment is zero because local review bookkeeping
+does not complete package acceptance or close a legacy outcome. See the
+[application review](migrations/application-migration-review.md#artcraft-package-license-reviews-recorded-2026-10-22)
+and [sanitized evidence](archive/evidence/artcraft-package-license-review-2026-10-22.json).
+
+## ChromeSyncParser static source safety review, 2026-10-22
+
+Static review of the retained pinned Python source found that default Windows
+database discovery has only Windows 7/XP branches, its SQLite connection is
+not read-only, and `-f` truncates its output before the database is opened,
+allowing an input/output path collision to destroy the input. The package stays
+unsupported; do not execute it against live profiles or evidence. No script,
+database, browser profile, VM, or Windows state was accessed. Repository
+validation and the generated-operation check passed. Focused package-evidence
+Pester passed 24/25; an unrelated shared-observation test could not replace its
+fixture under the sandbox because `File.Replace` could not remove the existing
+target. No legacy outcome
+was resolved, retired, or excluded. All five ranges remain
+38-58 / 53-68 / 20-25 / 25-35 / 8-12, exact 144-198, rounded
+145-200/about 170: the new source-safety blocker does not change a package
+disposition or close a whole legacy outcome. See the [application review](migrations/application-migration-review.md#chromesyncparser-static-source-safety-review-2026-10-22)
+and [sanitized evidence](archive/evidence/chromesyncparser-static-source-safety-review-2026-10-22.json).
+
+## Hex2text static behavior review, 2026-10-22
+
+Static review of the pinned script confirms that it strips literal spaces,
+converts each complete four-digit hexadecimal group to one code point, silently
+ignores an incomplete suffix and leaves invalid complete groups to raise an
+uncaught `ValueError`. It is not a UTF-8 byte decoder. Unicode/surrogate and
+console behavior, input acceptance, and disposable Windows 11 file-lifecycle
+acceptance remain open; the source was not executed. No legacy outcome was
+resolved, retired or excluded. All five ranges remain 38-58 / 53-68 / 20-25 /
+25-35 / 8-12, exact 144-198, rounded 145-200/about 170. Static clarification
+does not close runtime or package acceptance. See the [application review](migrations/application-migration-review.md#hex2text-static-behavior-review-2026-10-22)
+and [sanitized evidence](archive/evidence/hex2text-static-behavior-review-2026-10-22.json).
+
+## Package evidence fixture recheck, 2026-10-22
+
+`tests/PackageEvidence.Tests.ps1` passed **25/25** on PowerShell **7.6.5** with
+Pester's TestRegistry plugin disabled because the sandbox denies registry access.
+An unconfigured attempt could not create Pester's registry fixture; no product
+tests ran in that attempt. The configured run validates package evidence and
+fixture handling locally only. It made no downloads, installer calls, VM runs,
+Defender changes or UAC changes. No legacy outcome was resolved, retired,
+excluded or deferred by this test rerun. All five ranges remain **38-58 / 53-68 /
+20-25 / 25-35 / 8-12**, exact **144-198**, rounded **145-200/about 170**; no
+estimate adjustment is warranted. VM acceptance and package-specific evidence
+gates remain open. See the [sanitized regression evidence](archive/evidence/package-evidence-fixture-regression-2026-10-22.json).
+
+## PSScriptTools runtime-probe cleanup guard, 2026-10-22
+
+The isolated guest probe previously cleaned module jobs only in its dependency-
+present mode. If the missing-dependency check unexpectedly imported the module,
+its failure path could leave the module's CIM job running. The probe now records
+the child-process job baseline before either mode and stops/removes only
+subsequently created jobs in `finally`. A focused regression test verifies that
+pre-existing jobs remain untouched and new running/completed jobs are cleaned.
+The portable-acceptance automation suite passed **26/26** on PowerShell **7.6.5**;
+repository validation and catalog export check passed. Pester TestRegistry was
+disabled because the sandbox denies registry access.
+
+No package source was imported, no runtime probe or VM ran, and no Windows or
+Defender state changed. This closes no legacy outcome; PSScriptTools runtime,
+dependency ownership and native acceptance remain partial. All five ranges
+remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact **144-198**, rounded
+**145-200/about 170**. See the [sanitized evidence](archive/evidence/psscripttools-runtime-probe-cleanup-2026-10-22.json).
+
+## Sysinternals license review markers, 2026-10-22
+
+**Superseded for RIDE's direct download-and-install workflow by the correction
+below.** This entry records an interim 
+eedsReview` count and is retained only as
+history; its distribution-focused analysis was too strict for the actual RIDE
+deployment model and is not a current license blocker or migration gate. RIDE
+downloads Sysinternals from Microsoft for installation on the user's supported
+devices; it does not publish or transfer copies. The prior RIDE v2 specialist
+approval, reaffirmed by the user, controls this migration decision.
+
+At the time, the suite snapshot and nine individual catalog versions had
+exact-version checkout-local 
+eedsReview` records with owner Unassigned. Those
+markers and the associated legal inference have since been superseded: all ten
+versions are `Reviewed` for RIDE's direct-download/install scope. Do not apply
+the publication restriction to this workflow or use it to block implementation.
+The license-review suite passed **9/9**, and a catalog join verified all ten
+exact package/version records and **35** total local records; Pester TestRegistry
+was disabled because the sandbox denies registry access.
+No artifact was acquired or executed, and no VM, Defender, UAC or Windows state
+changed. No legacy outcome was resolved, retired or excluded. The local review
+store now contains **35 
+eedsReview` records**. All five estimates remain
+**38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact **144-198**, rounded
+**145-200/about 170**; license bookkeeping closes no product outcome. See the
+[application review](migrations/application-migration-review.md#sysinternals-license-review-markers-2026-10-22),
+[package licensing guide](package-licensing.md#sysinternals-package-review-markers-2026-10-22),
+and [sanitized evidence](archive/evidence/sysinternals-license-review-2026-10-22.json).
+
+
+## Sysinternals Suite focused runner preparation, 2026-10-22
+
+The exact 164-member Suite snapshot now has a fixed portable-acceptance selection and a local manifest pointing to the previously retained archive; its SHA-256 matches the catalog pin. The focused Pester suites passed 128 tests, failed none, and skipped two host-preflight cases. Get-VM still returns CIM access denied, and the protected controller needs an idle FocusedPortableV1 refresh before submission. No task or VM run occurred. This preparation resolves, retires, excludes, or defers no new legacy product outcome and changes no estimate range. See the [application review](migrations/application-migration-review.md#sysinternals-suite-focused-runner-preparation-2026-10-22) and [sanitized evidence](archive/evidence/sysinternals-suite-focused-runner-preparation-2026-10-22.json).
+
+## Sysinternals RIDE v2 license disposition correction, 2026-10-22
+
+The user clarified that RIDE v2 received license-specialist approval for Sysinternals and reconfirmed that the approved workflow is direct publisher download and installation on devices supported by the user; RIDE does not publish or transfer the tools. The ten exact suite/product versions are now Reviewed in the checkout-local store. Licensing is not a blocker for RIDE Sysinternals migration. The previous general publication restriction was over-applied to this workflow and is superseded for this scope. The local NeedsReview count is 25. Technical package lifecycle and VM acceptance remain open, so no legacy package outcome or estimate range closes. See [corrected evidence](archive/evidence/sysinternals-license-disposition-correction-2026-10-22.json) and [application review](migrations/application-migration-review.md#sysinternals-ride-v2-license-specialist-approval-2026-10-22).
+
+## Sysinternals migration decision reaffirmed, 2026-10-23
+
+The user reaffirmed the prior RIDE v2 license-specialist approval and stated that there are no legal issues using Sysinternals in RIDE's direct download-and-install workflow. RIDE does not publish or transfer Sysinternals copies; license concerns must not block its package migration. The earlier distribution-focused license reasoning was too strict for this deployment model and is superseded. All ten exact version records remain `Reviewed`. A fresh PowerShell 7 regression passed 20/20 and confirms all ten install plans remain available with technical acceptance pending. Technical lifecycle, recovery and target acceptance remain open, so no further legacy outcome closes and the five estimates remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact **144-198**, rounded **145-200/about 170**. See [dated evidence](archive/evidence/sysinternals-license-reaffirmation-2026-10-23.json), [plan regression](archive/evidence/sysinternals-install-planning-regression-2026-10-23.json) and the [application review](migrations/application-migration-review.md#sysinternals-migration-decision-reaffirmed-2026-10-23).
+
+## Package license-review marker disposition, 2026-10-22
+
+Per user direction, unresolved package-license questions remain 
+eedsReview` entries in the checkout-local store and are tracked separately from migration progress. They do not automatically block source review, implementation, local tests or acceptance preparation, and the marker does not claim rights clearance. Concrete publisher acquisition restrictions, security alerts, source-integrity failures and technical acceptance gaps remain separate blockers. No product outcome is resolved, retired, excluded, deferred or newly partial by this documentation clarification; estimates remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact **144-198**, rounded **145-200/about 170**. See the [application migration review](migrations/application-migration-review.md#package-license-review-markers-and-migration-blockers-2026-10-22).
+Latest reconciliation, 2026-10-22: cross-edition tests for the Hash value and Certutil context-menu candidates passed 50 tests with one skip on PowerShell 7 and 51/51 on Windows PowerShell 5.1, after placing Pester temp files inside the writable workspace. An initial combined run using Windows Temp failed 11 tests on sandbox HKCU and temp-file ACLs; `Catalog.Tests.ps1` remains incomplete. No GUI or VM test ran; all candidates remain unsupported. No legacy outcome closed; ranges stay 38-58 / 53-68 / 20-25 / 25-35 / 8-12, exact 144-198, rounded 145-200/about 170. See [cross-edition regression evidence](archive/evidence/context-menu-candidate-cross-edition-regression-2026-10-22.json) and the [latest source retry](archive/evidence/imagemagick-source-acquisition-recheck-2026-10-22.json).
+
+## Certutil SHA-256 context-menu candidate, 2026-10-22
+
+The catalog now includes `windows.sha256-certutil-context-menu` as an optional
+Windows 11 candidate with user scope, two HKCU values, exact saved-state restore,
+and no supported target. The existing authoring example and corrected `.reg`
+remain source material. The focused suite passed 7/7 executed tests in PowerShell
+7 (one unsupported-algorithm case skipped) and 8/8 in Windows PowerShell 5.1;
+validation passed for 374 operations, eight groups, five profiles and 243
+PowerShell files. A fresh `Get-VM` request returned CIM access denied, so menu,
+icon, filename, repeat/unset and restore checks did not run. No registry or
+command was changed on the host.
+
+Resolved: catalog candidate and handler coverage. Retired/excluded: none.
+Partial: optional new v3 setting. Deferred: native Windows 11 Explorer and exact
+registry lifecycle acceptance. No legacy outcome closed, so all estimates remain
+38-58 / 53-68 / 20-25 / 25-35 / 8-12, exact 144-198, rounded 145-200/about 170;
+the legacy presentation count remains 279/279. See the [settings review](migrations/settings-post-migration-review.md#certutil-sha-256-context-menu-candidate-implementation-2026-10-22) and [sanitized evidence](archive/evidence/certutil-context-menu-candidate-implementation-2026-10-22.json).
+
+## ImageMagick portable Q16 source retry, 2026-10-22
+
+A current official-page check still identifies 7.1.2-34 as latest stable and
+calls `ImageMagick-7.1.2-34-portable-Q16-x64.7z` Portable Win64 static with no
+installer or registry changes. The live publisher `/archive/binaries/` index
+lists that exact 11 MB asset, its 833-byte `.asc` detached signature and a 23 KB
+CycloneDX sidecar. Shell requests to both `download.imagemagick.org` and the
+publisher-linked GitHub release host fail DNS resolution. Browser page/index
+inspection confirms publisher identity and metadata only; no archive or
+signature bytes, digest or cryptographic verification were obtained. No
+artifact was extracted or executed, and no Defender, PATH, registry, VM or UAC
+change occurred.
+
+Resolved: current exact publisher asset/version/listing. Retired/excluded: none.
+Partial: unsupported ImageMagick candidate and bounded 7z staging implementation.
+Deferred: exact source acquisition, SHA-256/signature verification, Windows 11
+file lifecycle and ImageMagick feature checks. No legacy outcome closed; all
+five ranges remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact
+**144-198**, rounded **145-200/about 170**. See the [sanitized acquisition
+evidence](archive/evidence/imagemagick-source-acquisition-recheck-2026-10-22.json).
+
+## Context-menu candidate cross-edition regression, 2026-10-22
+
+The focused ExampleLibrary, CustomRegistryAuthoring and HashValueContextMenu
+suites passed 50 tests with one skip in PowerShell 7 and 51/51 in Windows
+PowerShell 5.1. Pester's optional TestRegistry plugin was disabled, and TEMP/TMP
+were rooted under `.local/pester-temp` in the writable repository. These tests
+cover example parsing, custom-library authoring and mock handler capture for both
+context-menu candidates; they do not exercise Explorer UI or write Windows
+registry values.
+
+An initial 122-test combined run that included `Catalog.Tests.ps1` used the
+sandbox's protected Windows Temp path: 110 passed, 11 failed and one skipped.
+Failures were environment errors for HKCU security-descriptor access, package
+artifact fixture writes and atomic library moves. The isolated rerun did not
+include `Catalog.Tests.ps1`; full catalog Pester acceptance therefore remains
+open even though catalog export and repository validation pass. No legacy
+outcome was closed. All five ranges remain 38-58 / 53-68 / 20-25 / 25-35 /
+8-12, exact 144-198, rounded 145-200/about 170. See [sanitized test evidence](archive/evidence/context-menu-candidate-cross-edition-regression-2026-10-22.json).
+## Application package and installer-inspection local regression, 2026-10-22
+
+`ApplicationPackages.Tests.ps1` and `InstallerInspection.Tests.ps1` passed 99/99 on PowerShell 7.6.5 with Pester 5.7.1 after disabling the sandbox-blocked TestRegistry fixture and redirecting TEMP/TMP under `.local`. Initial configuration attempts hit HKCU and OS-temp ACL denials; the controlled rerun passed. No installer, Windows state change or VM run occurred. This resolves only the local regression slice: no legacy product outcome closed, and all five ranges remain 38-58 / 53-68 / 20-25 / 25-35 / 8-12, exact 144-198, rounded 145-200/about 170. See the [application review](migrations/application-migration-review.md#application-package-and-installer-inspection-local-regression-2026-10-22) and [sanitized evidence](archive/evidence/application-package-installer-focused-regression-2026-10-22.json).
+## Phoenix Protector MSI machine-scope correction, 2026-10-22
+
+The retained MSI SHA-256 matches its catalog pin. Read-only table review found a Program Files target, five files, three shortcuts, no service or Registry rows, and custom launch actions for .NET 2.0.50727. The MSI is unsigned. Because the candidate declares machine scope and its all-users folder action is in the UI sequence, `InstallerArguments` now explicitly includes `ALLUSERS=1`; the candidate metadata test passes and a new mocked handler-dispatch check proves the installer arguments reach `msiexec` without launching it. `PhoenixPackage.Tests.ps1` passes 3/3. Catalog export and validation pass for 374 operations, 8 groups, 5 profiles and 244 PowerShell files. No MSI ran and no legacy outcome closed. Estimates remain 38-58 / 53-68 / 20-25 / 25-35 / 8-12, exact 144-198, rounded 145-200/about 170. See the [application review](migrations/application-migration-review.md#phoenix-protector-msi-argument-dispatch-regression-2026-10-22) and [sanitized evidence](archive/evidence/phoenix-msi-static-install-boundary-2026-10-22.json).
+
+## Phoenix Protector MSI argument-dispatch regression, 2026-10-22
+
+Extended `PhoenixPackage.Tests.ps1` with a mocked `Install-RidePackage` call. It
+proves the pinned candidate sends its retained MSI path and `/qn /norestart
+ALLUSERS=1` to `%SystemRoot%\System32\msiexec.exe` through the package process
+boundary. The focused suite passes 3/3 on PowerShell 7.6.5 with Pester 5.7.1;
+no process or MSI was launched. This strengthens local handler evidence but
+closes no legacy outcome. VM acceptance remains pending, so all five estimates
+remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact **144-198**, rounded
+**145-200/about 170**. See the [application review](migrations/application-migration-review.md#phoenix-protector-msi-argument-dispatch-regression-2026-10-22)
+and [sanitized evidence](archive/evidence/phoenix-msi-static-install-boundary-2026-10-22.json).
+
+## Slack and Discord ApplicationsBatch4 Windows 11 acceptance, 2026-10-22
+
+Three earlier runs recorded the initial fixture and vendor-uninstaller failures.
+For run `e0d0ee2b58eb4bb2ac6d66242020c115`, RIDE's Roaming-directory move-aside
+metadata was removed so the vendor uninstallers could operate in place. Guest
+Pester passed 285 tests with one skip. On Windows 11 Enterprise Evaluation build
+26300, both pinned current-user EXEs were acquired at their expected SHA-256
+values and had valid publisher Authenticode signatures. Installation,
+repeat-install, vendor removal, repeat-removal and compensating recovery passed
+for Slack 4.52.182 and Discord 1.0.9264. The VM scenario verified that each
+preexisting Roaming-profile marker retained its original bytes through vendor
+uninstall and recovery. Both packages are now supported on Windows 11 only;
+Windows Server support is not inferred. The controller restored the clean VM
+checkpoint and left it Off. No Defender alert was reported in captured
+artifacts; Defender event logs were not exported. No legacy outcome closed, so
+all five ranges remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact
+**144-198**, rounded **145-200/about 170**. See [application review](migrations/application-migration-review.md#slack-and-discord-applicationsbatch4-windows-11-acceptance-2026-10-22)
+and [sanitized batch evidence](archive/evidence/applications-batch4-acceptance-2026-10-22.json).
+## Hex2text synthetic input runtime probe, 2026-10-22
+
+Verified the retained archive and script hashes against the pinned catalog candidate, then exercised five synthetic stdin cases with Python 3.12.14: ordinary code-point conversion; literal-space removal and ignored incomplete suffix; `ValueError` for an invalid group; U+0001 control-character output; and `UnicodeEncodeError` for an isolated surrogate under strict UTF-8 stdout. All five expected outcomes were observed. `SourceScriptPackages.Tests.ps1` passed 8/8 after disabling Pester TestRegistry, whose default fixture could not create its HKCU key under sandbox policy; TEMP/TMP were confined to `.local`. No user files, network or Windows state were accessed. This local process run does not establish Windows console/code-page behavior or VM package lifecycle/recovery; Hex2text remains unsupported.
+
+No whole legacy outcome closed, so all five estimates remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact **144-198**, rounded **145-200/about 170**. See [sanitized runtime evidence](archive/evidence/hex2text-synthetic-input-runtime-2026-10-22.json) and the [application review](migrations/application-migration-review.md#hex2text-synthetic-input-runtime-probe-2026-10-22).
+## HashCheck publisher download retry, 2026-10-22
+
+Retried the exact v2.6.3 publisher URL. Windows `curl.exe` returned exit 6 because the host could not resolve `github.com`; no output file or bytes were produced. The third-party SHA-256 remains an unverified lead, and no package metadata or pin was added. BSD-3-Clause creates no license blocker for RIDE's download/install workflow.
+
+No package or VM outcome was added or accepted, and no legacy outcome closed. All five ranges remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact **144-198**, rounded **145-200/about 170**. See [application review](migrations/application-migration-review.md#hashcheck-publisher-download-retry-2026-10-22) and [sanitized evidence](archive/evidence/hashcheck-publisher-download-retry-2026-10-22.json).
+
+## HashCheck publisher download retry, 2026-10-23
+
+The official v2.6.3 release page confirms the current release and feature notes,
+but its asset list was unavailable through the current retrieval path. Retrying
+the exact publisher download URL with Windows `curl.exe` again failed before
+transfer (`exit 6`, unable to resolve `github.com`); no bytes or output file
+were produced. The third-party reported digest remains unverified and no package
+pin or operation was added. BSD-3-Clause is not a migration blocker.
+
+The read-only `Get-VM -Name RIDE-Win11-Test` check returned CIM access denied,
+so guest lifecycle/recovery acceptance did not run. No legacy outcome closed,
+retired or excluded. The five ranges remain **38-58 / 53-68 / 20-25 / 25-35 /
+8-12**, exact **144-198**, rounded **145-200/about 170**. See [application
+review](migrations/application-migration-review.md#hashcheck-publisher-download-retry-2026-10-23)
+and [sanitized evidence](archive/evidence/hashcheck-publisher-download-retry-2026-10-23.json).
+
+## ImageMagick portable Q16 artifact integrity recheck, 2026-10-22
+
+The retained official 7.1.2-34 portable Q16 archive still matches its pinned
+SHA-256. Read-only Authenticode checks of all eight extracted executables
+returned valid ImageMagick Studio LLC signatures. No executable ran. Git for
+Windows `gpg.exe` could not start in this host sandbox, so detached `.asc`
+verification remains an optional confidence follow-up; it is not an
+implementation or license gate. 
+eedsReview` remains owner-specific license
+metadata. The package still needs Windows 11 VM lifecycle, recovery and feature
+acceptance. No catalog metadata or VM state changed and no legacy outcome
+closed; estimates remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact
+**144-198**, rounded **145-200/about 170**. See the [application review](migrations/application-migration-review.md#imagemagick-portable-q16-artifact-integrity-recheck-2026-10-22)
+and [sanitized evidence](archive/evidence/imagemagick-artifact-integrity-recheck-2026-10-22.json).
+
+## ApplicationsBatch1 Chrome acceptance submit retry, 2026-10-22
+
+The registered client was retried for Chrome 156.0.8078.48 using the existing
+RIDE-Win11-Test configuration. It failed before submission when `Set-Content`
+could not write the temporary request in the protected pending queue. No UAC
+prompt appeared, no guest result returned, and no VM/checkpoint/controller state
+changed. The read-only VM query remains CIM-blocked; the VM and checkpoint are
+unverified. Chrome Windows 11 acceptance and all Server claims remain pending.
+No legacy outcome closed; all five ranges remain **38-58 / 53-68 / 20-25 /
+25-35 / 8-12**, exact **144-198**, rounded **145-200/about 170**. See the
+[application review](migrations/application-migration-review.md#applicationsbatch1-chrome-acceptance-submit-retry-2026-10-22)
+and [sanitized evidence](archive/evidence/ride-win11-test-applicationsbatch1-submit-retry-2026-10-22.json).
+
+The preceding queue-denied retry was superseded by the successful current-pin
+ApplicationsBatch1 runs on Windows 11 and Server 2025 recorded above.
+
+## ApplicationsBatch2 Server 2025 acceptance rerun, 2026-10-22
+
+Run `19f6e52b9e284ee5ac16b466eceaf90a` passed on the registered RIDE-S25-Test
+VM, Windows Server 2025 Standard Evaluation build 26100. Guest validation
+passed 285 Pester tests, failed 0 and skipped 1. All 12 portable scenarios
+passed: ShareX 21.0.0, Chainsaw 2.17.1, Hindsight 2026.06, CyberChef 11.5.0,
+PuTTY 0.85, SRUM Dump 3.2, SrumMonkey 1.0.0, dejsonlz4 1.1, CyLR 2.2.0,
+Caffeine 1.98, WinSCP 6.5.7 and NetworkMiner 3.2. Each reported exact
+owned-file recovery. WinSCP's synthetic session survived removal; WinSCP.exe
+and WinSCP.com had valid signatures with the expected common publisher
+thumbprint. The clean checkpoint was restored and the VM left Off.
+
+All packages already declare Windows 11 and Server 2025, so the run adds Server
+evidence without changing target metadata or closing a whole legacy outcome.
+The five current estimates remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**,
+exact **144-198**, rounded **145-200/about 170**. See the [sanitized run
+evidence](archive/evidence/applications-batch2-server2025-acceptance-2026-10-22.json).
+## NTCore 4GB Patch Windows 11 functional rejection, 2026-10-22
+
+The focused NTCore VM suite ran on Windows 11 Enterprise Evaluation build
+26300. PE Detective and CFF Explorer passed their portable lifecycle checks.
+4GB Patch functional acceptance failed in controller run
+1edf0da98ac742919d3b75d2913b3087, following reproduction in
+bf8c4d208194456697a136f88037c962 and the initial failure
+abd3f2e12f124bdb9780f2c2dd964f77.
+
+The synthetic x86 PE test verified that the tool sets the large-address-aware
+flag and creates an exact .Backup for the initial patch. With a sentinel
+occupying that backup path, the tool returned exit code 0, patched the target,
+preserved the sentinel, and created no second copy of the original bytes. The
+runner restored its generated fixture from an in-memory original before
+recording the rejected behavior. No real executable was opened or changed.
+The corrected controller summary reports FunctionalAcceptance: Failed;
+the clean checkpoint was restored and the VM left Off.
+
+Keep package.ntcore-4gb-patch unsupported and pending. The package remains
+under separate NeedsReview licensing and distribution review. No whole
+legacy outcome was resolved, retired or excluded. All five ranges remain
+38-58 / 53-68 / 20-25 / 25-35 / 8-12, exact 144-198, rounded
+145-200/about 170. See the [sanitized acceptance
+evidence](archive/evidence/ntcore-4gb-patch-functional-failure-2026-10-22.json).
+
+
+## Catalog package-dependency and profile-parameter validation, 2026-10-23
+
+Catalog validation now rejects prerequisite cycles among packages, including self-dependencies, multi-package cycles, and cycles introduced through any declared package variant. It also validates the version-1 profile root fields and operation selection fields/types. Twelve focused synthetic tests passed on both Windows PowerShell 5.1 and PowerShell 7 with Pester TestRegistry disabled. This adds engine validation but closes no legacy package outcome; deferred package lifecycle and VM acceptance remain. The five estimate ranges remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact **144-198**, rounded **145-200/about 170**. See [implementation evidence](archive/evidence/package-dependency-cycle-validation-2026-10-23.json).
+
+## RIDE-Win11-Test access recheck, 2026-10-23
+
+The read-only `Get-VM -Name RIDE-Win11-Test` check returned `Access to a CIM resource was not available to the client`. VM and checkpoint state therefore remain unverified. No queue submission, VM/controller/service/Defender change, or Defender-blocked tool selection occurred. Prepared package and component acceptance remains deferred until the authorized Hyper-V/controller path is available. Sysinternals has no licensing blocker for RIDE's previously specialist-approved direct download-and-install workflow; its remaining blockers are technical acceptance only. This recheck closes, retires, excludes or newly defers no legacy outcome. All five ranges remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact **144-198**, rounded **145-200/about 170**. See [sanitized access evidence](archive/evidence/ride-win11-test-access-recheck-2026-10-23.json).
+
+## Package planning remains available with 
+eedsReview`, 2026-10-23
+
+Added a regression proving that version-specific local 
+eedsReview` records remain visible while `Get-RideSingleOperationPlan` still returns install plans for Phoenix Protector, NTCore 4GB Patch, MiTeC UUID Generator, MiTeC SQLite Query and Wireshark. Each plan still reports pending technical acceptance. `tests/LicenseReviews.Tests.ps1` passed **10/10** on Windows PowerShell 5.1 and **10/10** on PowerShell 7 with Pester's TestRegistry plugin disabled. No package was downloaded or installed and no Windows state changed. This confirms the informational review design; it does not resolve package-specific source, security or target acceptance. No legacy package outcome closes; all five estimate ranges remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact **144-198**, rounded **145-200/about 170**. See [structured evidence](archive/evidence/license-review-package-plan-regression-2026-10-23.json) and the [package licensing guide](package-licensing.md#local-usercompany-reviews).
+
+## PSScriptTools ThreadJob dependency source follow-up, 2026-10-23
+
+The official PowerShell Gallery lists `Microsoft.PowerShell.ThreadJob` 2.2.0 for Windows PowerShell 5.1; Microsoft documents it as built-in under the renamed module in PowerShell 7.6. One exact package request failed DNS resolution before transfer, so no bytes or digest were acquired and no dependency operation was added. `Get-VM -Name RIDE-Win11-Test` also remains blocked by CIM access; no runtime probe or guest state change occurred. PSScriptTools remains partial pending source acquisition, dependency ownership and runtime/Windows acceptance. This closes no legacy outcome; all five estimates remain **38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact **144-198**, rounded **145-200/about 170**. See [source follow-up evidence](archive/evidence/psscripttools-threadjob-source-followup-2026-10-23.json) and the [application record](migrations/application-migration-review.md#psscripttools-threadjob-dependency-source-follow-up-2026-10-23).
+
+## User migration decisions, 2026-10-23
+
+The user retired the Windows PowerShell 2 enable/disable outcome and classic Teams
+MSI cleanup, retained ISE as a separate component, and limited Internet Printing
+to the client optional feature. These choices retire one component outcome and
+one package outcome; Internet Printing remains a client-feature outcome. No code
+or Windows state changed. The package and component ranges each decrease by one;
+settings and other ranges are unchanged. The total exact range is now **142-196**
+(38-58 / 52-67 / 19-24 / 25-35 / 8-12); rounded planning remains **145-200/about
+170**. See the [decision record](migrations/decision-session-2026-10-17.md#windows-component-and-classic-teams-scope-decisions-2026-10-23) and [migration reconciliation](migrations/remaining-migrations-follow-up.md#user-migration-decisions-2026-10-23).
+## Docker Desktop and ImageMagick package acceptance reconciliation, 2026-10-23
+
+The current catalog and dated guest evidence were reconciled. A fresh read-only `Get-VM -Name RIDE-Win11-Test` check at 2026-10-23 04:59:04 UTC again returned `Access to a CIM resource was not available to the client`; VM/checkpoint state remains unverified and no queue submission or state change occurred. Docker Desktop 4.96.0
+remains an unsupported Windows 11 candidate (`CandidateTargets` only,
+`PendingAcceptance = true`) because RIDE's per-user and all-users lifecycle,
+repeat, detection, removal and recovery scenarios have not passed. Prior guest
+installer stalls and a physical-machine WinGet install do not establish RIDE
+acceptance. Its local 
+eedsReview` record is not a migration gate. ImageMagick
+portable Q16 7.1.2-34 now supports Windows 11: the disposable guest passed pinned
+archive ownership, signed runtime prerequisite, version/Q16 checks, synthetic PNG
+encode/identify, repeat install, removal, exact recovery and unowned-file
+preservation. Windows Server and activation remain unsupported; detached
+archive-signature verification is optional. Its separate local 
+eedsReview`
+marker is informational and does not block installation.
+
+Resolved: ImageMagick Windows 11 package acceptance and estimate-table alignment. The focused five-file Pester run passed 189/189 tests in PowerShell 7 and 189/189 in Windows PowerShell 5.1; one WindowsIntegration-tagged test was excluded, and the TestRegistry plugin was disabled. Repository validation passed for 374 operations, eight groups, five profiles and 247 PowerShell files; generated operation documentation is current.
+Retired/excluded: none. Partial: Docker Desktop package implementation remains a
+candidate. Deferred: Docker Desktop lifecycle/recovery on Windows 11, ImageMagick
+Server/activation, and all other recorded VM/controller acceptance. This
+reconciliation did not run an installer or change Windows state. No additional
+legacy product outcome closed; estimates remain **38-58 / 53-68 / 20-25 / 25-35 /
+8-12**, exact **144-198**, rounded **145-200/about 170**. The checkout-local
+review store has 26 
+eedsReview` entries; individual owner-specific review
+details remain private. See [ImageMagick guest
+evidence](archive/evidence/imagemagick-q16-win11-acceptance-2026-10-23.json),
+[VM access blocker](archive/evidence/ride-win11-test-access-recheck-2026-10-23.json),
+and [application review](migrations/application-migration-review.md#docker-desktop-and-imagemagick-package-acceptance-reconciliation-2026-10-23).
+## PSScriptTools ThreadJob package acquisition retry, 2026-10-23
+
+The official PowerShell Gallery page identifies Microsoft.PowerShell.ThreadJob
+2.2.0 with minimum PowerShell 5.1 support and no package dependencies. A second
+exact request to the publisher API endpoint failed before transfer because this
+host could not resolve `www.powershellgallery.com`. A 05:52 UTC page recheck
+confirmed the metadata, but the raw-package link redirected to a Microsoft Learn
+page unavailable through the browser retrieval. No artifact bytes, digest,
+extraction or installation resulted. PSScriptTools and ThreadJob were not
+imported or executed; no CIM data or Windows state was touched.
+
+Resolved: current publisher metadata reconfirmed. Retired/excluded: none. Partial:
+the dependency version and runtime role are identified, but no exact artifact pin
+is available. Deferred: acquire and verify the official 2.2.0 package, then probe
+Windows PowerShell 5.1 with the module and PowerShell 7.6 with its built-in
+module in the disposable guest. The read-only `Get-VM -Name RIDE-Win11-Test` check at 2026-10-23 05:03 UTC again returned CIM access denied; VM/checkpoint state remains unverified and no queue submission occurred.
+No legacy outcome closed and the five estimates remain **38-58 / 53-68 / 20-25 /
+25-35 / 8-12**, exact **144-198**, rounded **145-200/about 170**. See [source
+retry evidence](archive/evidence/psscripttools-threadjob-source-retry-2026-10-23.json),
+[PowerShell Gallery package page](https://www.powershellgallery.com/packages/Microsoft.PowerShell.ThreadJob/2.2.0),
+and the [application review](migrations/application-migration-review.md#psscripttools-threadjob-package-acquisition-retry-2026-10-23).
+
+## WSL, .NET 3.5 and QEMU guest integration decisions, 2026-10-23
+
+The user kept Debian, Ubuntu and Kali as separate opt-in WSL outcomes, including
+Debian when available; no automatic install/unregister is authorized, and the
+Fedora removal selector remains retired. .NET Framework 3.5 remains a conditional
+explicit compatibility outcome selected by exact build, with matching local
+servicing sources and no network fallback. SPICE WebDAV is a separate optional
+QEMU guest-folder integration, not a default install. These choices resolve scope
+only; no legacy outcome closed, no estimate changed, and source/recovery/native
+acceptance remains pending. All five ranges remain **38-58 / 52-67 / 19-24 /
+25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See the
+[decision record](migrations/decision-session-2026-10-17.md#wsl-net-35-and-qemu-guest-integration-decisions-2026-10-23).
+
+## VM access and Defender alert reconciliation, 2026-10-23
+
+The read-only `Get-VM -Name RIDE-Win11-Test` again returned CIM access denied,
+so the checkpoint query was not issued and VM/checkpoint state remains unknown. The bundled PowerShell
+runtime contains Microsoft.PowerShell.ThreadJob 2.2.0, but the exact Gallery
+package bytes and digest remain unavailable; the bundled module is not treated as
+publisher source. The active NirSoft blocker list now matches the frozen evidence:
+
+irSoft/chromecookiesview.exe`, 
+irSoft/bulletspassview.exe`, `ProduKey.exe`
+and `WirelessKeyView.exe` are user-reported Defender alerts with no recorded
+threat classification or false-positive determination. Keep them out of selected
+file-level review/acceptance batches pending manual review. No package, installer,
+VM, checkpoint, controller or Defender setting was changed. No whole legacy
+outcome closed; estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact
+**142-196**, rounded **145-200/about 170**. See [structured evidence](archive/evidence/ride-win11-and-threadjob-recheck-2026-10-23-0627.json)
+and the [dated review](migrations/application-migration-review.md#vm-access-and-defender-alert-reconciliation-2026-10-23).
+
+## PSScriptTools ThreadJob exact package retry, 2026-10-23
+
+The official PowerShell Gallery confirms Microsoft.PowerShell.ThreadJob 2.2.0,
+PowerShell 5.1 minimum, and no declared dependencies. The exact official package
+endpoint again failed DNS before transfer (curl exit 6); the official manual
+download link redirected to an inaccessible Microsoft Learn page. The bundled
+runtime copy is not accepted as the publisher package. No payload, digest,
+dependency install or module import resulted. No legacy outcome closed; all five
+estimate ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact
+**142-196**, rounded **145-200/about 170**. See [retry evidence](archive/evidence/psscripttools-threadjob-source-retry-2026-10-23-0633.json)
+and the [application review](migrations/application-migration-review.md#psscripttools-threadjob-exact-package-retry-2026-10-23).
+
+## B03 Terminal JSONC guarded file writer and recovery candidate, 2026-10-23
+
+Added explicit-path, current-computer/SID-bound apply and restore functions for
+the root Terminal `defaultProfile` JSONC edit. Apply locks the selected file,
+saves full original/expected bytes first, honors `ShouldProcess`, verifies the
+flushed result and attempts original-byte rollback on write failure. Restore
+validates identity/hashes, preserves unrelated edits and refuses a changed owned
+value. Pester passed 47/47 synthetic tests on PowerShell 7.6.5. The Windows
+PowerShell 5.1 parser reported zero errors, but its installed Pester 5.7.1 could
+not load because format files were rejected by the host AuthorizationManager.
+A read-only `Get-VM -Name RIDE-Win11-Test` recheck returned CIM access denied at
+06:51 UTC; no checkpoint query or guest run occurred. No live Terminal file,
+catalog operation or supported target was touched.
+
+Resolved: guarded writer and byte recovery candidate. Partial: Terminal default
+profile setting. Deferred: installed-instance/path and profile-availability proof;
+disposable Windows 11 preview/apply/repeat, editor-lock, concurrent-edit,
+failure-rollback, restore and new-tab checks. No legacy setting outcome closed.
+All five ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact
+**142-196**, rounded **145-200/about 170**. See [candidate evidence](archive/evidence/terminal-jsonc-file-writer-candidate-2026-10-23.json),
+[VM access recheck](archive/evidence/ride-win11-test-access-recheck-2026-10-23-0651.json)
+and the [settings review](migrations/settings-post-migration-review.md#b03-terminal-jsonc-guarded-file-writer-and-recovery-candidate-2026-10-23).
+
+## B06 restore-guard regression, 2026-10-23
+
+Expanded the unregistered OpenSSH Client/Telnet Client lifecycle candidate's
+focused suite from 8 to 10 tests. New cases verify that restore refuses a changed
+Windows servicing revision and that `-WhatIf` restore neither invokes servicing
+nor consumes the saved snapshot. PowerShell 7.6.5 Pester passed 10/10; both native PowerShell parsers accepted
+all three candidate files. No catalog operation, target support, DISM call or
+Windows state changed. The 07:39 UTC VM access recheck remains CIM-denied, so
+native component acceptance is deferred. No legacy outcome closed; estimates
+remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded
+**145-200/about 170**. See [candidate evidence](archive/evidence/b06-component-guarded-lifecycle-candidate-2026-10-23.json)
+and [VM access evidence](archive/evidence/license-review-and-vm-access-recheck-2026-10-23-0731.json).
+## B04 default/LAN WinINet writer boundary, 2026-10-23
+
+Added a ShouldProcess-gated low-level WinINet writer for selected proxy flags and
+an owned PAC URL. It requires the expected current computer/SID/session and
+reports configuration set, settings-changed notification and refresh separately.
+Fake API Pester passed 80/80 across the proxy inventory and preparation suites;
+both native PowerShell parsers passed for four files. No native proxy setting or
+Windows state changed. Policy checks, fresh compare-and-set, durable recovery,
+partial-failure compensation, engine integration and Windows acceptance remain
+open. No legacy outcome closed; all five estimate ranges remain 38-58 / 52-67 /
+19-24 / 25-35 / 8-12, exact 142-196, rounded 145-200/about 170. See structured
+evidence at archive/evidence/userproxy-native-write-boundary-2026-10-23-0745.json.
+## RIDE-Win11-Test access recheck, 2026-10-23 07:49 UTC
+
+Read-only `Get-VM -Name RIDE-Win11-Test` again returned CIM access denied on host
+P52 before checkpoint inspection. VM and checkpoint state remain unknown; no
+queue submission or VM state change occurred. Sysinternals lifecycle, exact
+recovery and target acceptance remain deferred for this technical access reason;
+its prior RIDE v2 specialist-approved direct download/install scope has no license
+blocker. No legacy outcome changed; all ranges remain **38-58 / 52-67 / 19-24 /
+25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [access
+evidence](archive/evidence/ride-win11-test-access-recheck-2026-10-23-0810.json).
+
+## B04 documented proxy-policy refusal guard, 2026-10-23
+
+RIDE.UserProxyInventory 0.3.0 now checks documented proxy-change and
+per-user/machine-wide policy values before its low-level writer. Detected
+restrictions, machine-wide scope, malformed known values and policy read failures
+refuse before ShouldProcess or WinINet. The focused UserProxyInventory and
+UserProxyPreparation suites passed **87/87** on PowerShell 7.6.5; Windows
+PowerShell 5.1 parsed both modules and both test files cleanly. Policy reads were
+mocked; no registry or WinINet query/setter occurred. Complete effective-policy
+coverage, fresh compare-and-set, durable state, post-write readback,
+partial-failure compensation, conflict-aware restore, engine/catalog integration
+and disposable Windows acceptance remain deferred. No legacy outcome closed;
+all ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**,
+rounded **145-200/about 170**. See [focused evidence](archive/evidence/userproxy-policy-guard-regression-2026-10-23.json)
+and [B04 review](migrations/settings-post-migration-review.md#b04-documented-proxy-policy-refusal-guard-2026-10-23).
+## B04 guarded proxy apply/restore lifecycle candidate, 2026-10-23
+
+Added an unregistered identity-bound proxy lifecycle module. Apply reconstructs
+the preparation, compares a fresh full literal observation, checks documented
+policy values, delegates to the ShouldProcess-gated writer, then verifies the
+readback. Restore checks the snapshot's owned bit mask and URL and preserves
+unowned values. Verified notification failures and setter exceptions trigger a
+rechecked compensation attempt; conflicts or repeated readback failure do not
+cause an overwrite. The pre-write compare is not atomic, and this candidate does
+not persist or authenticate snapshots in the RIDE engine.
+
+The combined inventory, preparation and lifecycle Pester run passed **97/97** on
+PowerShell 7.6.5; Windows PowerShell 5.1 parsed all three source modules and
+three test files. All registry, observation, policy and native setter boundaries
+were mocked. No WinINet or registry operation ran. Durable engine integration,
+complete effective-policy coverage, concurrent write protection and disposable
+Windows UI/routing acceptance remain deferred. No legacy outcome closed; ranges
+remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded
+**145-200/about 170**. See [structured evidence](archive/evidence/userproxy-lifecycle-candidate-2026-10-23.json)
+and the [B04 lifecycle guide](user-proxy-inventory.md#guarded-apply-and-restore-candidate).
+
+## RIDE-Win11-Test access recheck, 2026-10-23 08:10 UTC
+
+Read-only Get-VM -Name RIDE-Win11-Test again returned Access to a CIM resource was not available to the client before checkpoint inspection. VM/checkpoint state remains unknown; no controller refresh, queue submission, Defender change or guest mutation occurred. Sysinternals license approval remains settled for direct download/install; package lifecycle and target acceptance remain technically deferred. Other prepared package, setting and component guest batches remain deferred while host CIM access is denied. This access check resolved, retired or excluded no legacy outcome; all five estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [sanitized access evidence](archive/evidence/ride-win11-test-access-recheck-2026-10-23-0810.json).
+
+## B06 OpenSSH Client and Telnet Client local lifecycle regression, 2026-10-23 08:10 UTC
+
+The fresh ClientComponentLifecycle.Tests.ps1 run passed **10/10** on PowerShell 7.6.5 with Pester 5.7.1 and TestRegistry disabled. Windows PowerShell 5.1 parsed the lifecycle, preparation and inventory modules plus the test file without errors. Tests use synthetic observations, TestDrive snapshots and a mocked native transition; no DISM command, Windows component, network or VM was used. The candidate remains unregistered with unsupported targets. Source matching, no-network proof, dependency/policy review, payload/version recovery and disposable Windows 11 acceptance remain deferred. No legacy outcome closed; all five ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured evidence](archive/evidence/b06-component-lifecycle-local-regression-2026-10-23-0810.json) and [component candidate evidence](archive/evidence/b06-component-guarded-lifecycle-candidate-2026-10-23.json).
+
+## B06 Windows servicing source requirements, 2026-10-23
+
+Microsoft's current Windows 11 Features on Demand inventory identifies OpenSSH Client as a non-satellite capability with an OpenSSH-Client-Package CAB and says the Windows 11 Languages and Optional Features media must match the target image version. Microsoft's OpenSSH guidance also documents admin, update-source and management-policy failure cases. DISM source order checks an explicit source, then configured Group Policy sources, then Windows Update unless limited; therefore the current Offline path's LimitAccess is insufficient proof of a no-network boundary if the supplied local source is incomplete. TelnetClient is confirmed as an optional-feature identity, but its complete source inventory remains target-specific. RIDE's candidate validates only directory existence and remains unregistered. Matching media/CAB inventory, architecture, dependencies, complete offline behavior and payload recovery remain acceptance blockers. No Windows or network operation occurred. No legacy outcome closed; all ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [source evidence](archive/evidence/b06-servicing-source-requirements-2026-10-23.json), [operator guide](windows-component-inventory.md#prepare-the-first-client-components), and [B06 lifecycle evidence](archive/evidence/b06-component-lifecycle-local-regression-2026-10-23-0810.json).
+
+## MiTeC SQLite Query synthetic GUI acceptance preparation, 2026-10-23
+
+Prepared deterministic synthetic SQL/CSV fixtures and a Windows VM GUI acceptance procedure for the pinned SQLite Query 3.2.0 candidate. The procedure covers publisher-documented query/table/trigger/history and export/import behaviors, with exact SHA-256 verification after restoring the run-owned database. XML DataPacket import remains deferred pending a documented fixture contract. No MiTeC executable, on-disk database or VM was run, and no Windows state changed. The SQL/CSV fixtures passed an in-memory SQLite semantic check using Python 3.12 and SQLite 3.49.1. The 08:40 UTC VM access recheck again returned CIM denied; checkpoint and guest state remain unknown.
+
+Resolved: synthetic-only acceptance fixtures and the exact database recovery procedure are prepared; SQL/CSV fixture semantics pass in-memory SQLite validation and the focused PowerShell 7 lifecycle regression passes 2/2. Retired/excluded: none. Deferred: GUI behavior and recovery on disposable Windows 11, build provenance/compile options and upstream notices, Windows target acceptance, and owner-specific entitlement follow-up (tracked separately; not a migration blocker). Partial: the candidate remains unsupported and no legacy package outcome closed. All five ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. Estimates remain unchanged because this preparation closes no legacy outcome. See [structured evidence](archive/evidence/mitec-sqlite-query-synthetic-acceptance-preparation-2026-10-23.json), [08:40 UTC VM access check](archive/evidence/ride-win11-test-access-recheck-2026-10-23-0840.json), [fixtures and runbook](../tests/fixtures/mitec-sqlite-query/README.md), and [application review](migrations/application-migration-review.md#mitec-sqlite-query-synthetic-gui-acceptance-preparation-2026-10-23).
+## B04 durable user-proxy snapshot lifecycle candidate, 2026-10-23 08:39 UTC
+
+The unregistered `RIDE.UserProxyLifecycle` 0.2.0 candidate now persists the captured user proxy preparation snapshot with a `CreateNew` UTF-8 record in `%LOCALAPPDATA%/RIDE/State/UserProxy/<RunId>.json` after `ShouldProcess` approval and before the WinINet setter. The result returns `RunId` and `SnapshotPath`; restore may load by `RunId` and verifies the intended machine/SID/session, schema and path/size boundary. Store failure prevents the native setter; `WhatIf` writes no record. The file is not authenticated, completion is not tracked, and no catalog or engine operation consumes it yet.
+
+The combined inventory/preparation/lifecycle Pester run passed **100/100** on PowerShell 7.6.5 with TestRegistry disabled. All native calls were mocked; no registry, WinINet, network or Windows state changed. The most recent `RIDE-Win11-Test` access check at 08:32 UTC returned CIM access denied before checkpoint inspection; no VM test ran.
+
+Resolved: durable user-scope pre-change snapshot preparation and same-identity restore-by-RunId candidate behavior. Retired/excluded: none. Deferred: engine/catalog integration and restore completion, snapshot authenticity, concurrency boundaries, full policy coverage, controlled PAC-consumer checks, Windows 11 native acceptance and target support. Partial: the candidate is unregistered and closes no legacy outcome. All five ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**; estimates remain unchanged because no legacy outcome closed. See [structured evidence](archive/evidence/userproxy-durable-snapshot-regression-2026-10-23.json), [B04 guide](user-proxy-inventory.md), and [latest VM access evidence](archive/evidence/ride-win11-test-access-recheck-2026-10-23-0840.json).
+## B04 user-proxy restore-completion regression, 2026-10-23 08:48 UTC
+
+`RIDE.UserProxyLifecycle` 0.3.0 adds a create-new completion sidecar for successful restore-by-RunId. A repeated restore returns `AlreadyRestored` only while the owned flags/URL still match the captured prior state; drift is refused without another setter call. If sidecar creation fails after verified restoration, the result is `AppliedCompletionUntracked` for inspection. The combined inventory/preparation/lifecycle Pester suites passed **103/103** on PowerShell 7.6.5 with Pester 5.7.1 and TestRegistry disabled. All native boundaries were mocked; no registry, WinINet, network or Windows state changed.
+
+Resolved: standalone saved-run restore completion and idempotent repeat behavior. Retired/excluded: none. Deferred: RIDE engine/catalog integration, file authenticity, cross-process compare/write safety, complete effective-policy and controlled PAC-consumer evidence, and disposable Windows 11 acceptance. Partial: unregistered candidate only; no legacy outcome closed and no supported target added. All five ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**; unchanged because no legacy setting outcome closed. See [structured regression evidence](archive/evidence/userproxy-restore-completion-regression-2026-10-23.json), [B04 guide](user-proxy-inventory.md), and [latest VM access evidence](archive/evidence/ride-win11-test-access-recheck-2026-10-23-0840.json).
+
+## B06 servicing source-policy contract correction, 2026-10-23 08:55 UTC
+
+Corrected `RIDE.ClientComponentPreparation` 0.2.0 so Offline preparation reports that `LimitAccess` blocks Windows Update lookup while configured-source fallback remains 
+otInspected`. It no longer emits the inaccurate `AllowNetworkFallback = false` field. Online preparation also reports configured-source fallback as uninspected. The component inventory, preparation and lifecycle suites passed **59/59** on PowerShell 7.6.5; Windows PowerShell 5.1 parsed the changed module and test file. No DISM call or Windows state change occurred.
+
+Resolved: source-boundary reporting is now precise. Retired/excluded: none. Deferred: complete source/member and dependency validation, configured-source no-network proof, payload/version recovery, and Windows 11/Server target acceptance. Partial: unregistered preparation candidate; no legacy component outcome closed. All five ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**; unchanged because no legacy outcome closed. The 08:55 read-only `Get-VM -Name RIDE-Win11-Test` query returned CIM access denied before checkpoint inspection. See [structured regression evidence](archive/evidence/b06-servicing-source-policy-contract-regression-2026-10-23-0855.json), [component preparation guide](windows-component-inventory.md#prepare-the-first-client-components), and [latest access recheck](archive/evidence/ride-win11-test-access-recheck-2026-10-23-0840.json).
+
+## Package artifact quarantine and fresh-acquisition retry, 2026-10-23 09:03 UTC
+
+`RIDE-Packages` 0.15.0 now moves an artifact that fails a provider digest, publisher checksum, declared archive/member check or Authenticode `HashMismatch` out of its reusable canonical versioned cache path and retains it under a unique `.rejected-<id>` sibling. It does not write success evidence for rejected bytes. A later acquisition can download into the canonical path again. The package handler does not impose a universal signer/checksum gate, and license-review markers remain independent.
+
+`PackageEvidence.Tests.ps1` passed **27/27** and `ApplicationPackages.Tests.ps1` passed **84/84** on PowerShell 7.6.5 with Pester 5.7.1 and TestRegistry disabled. Windows PowerShell 5.1 parsed the package module and evidence test. HTTP and signature APIs were mocked; there were no real network requests, installer calls, VM tests or Windows state changes.
+
+Resolved: an invalid cached artifact no longer permanently blocks the next version-specific acquisition; failed bytes remain reviewable. Retired/excluded: none. Deferred: per-source integrity acceptance for unsigned or no-publisher-digest artifacts, safe rejected-byte review/cleanup, and disposable Windows installer acceptance. Partial: no legacy package outcome closed. All five ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**; unchanged because retry handling closes no legacy product outcome. See [structured regression evidence](archive/evidence/package-rejected-artifact-retry-regression-2026-10-23.json) and [package verification guidance](package-verification-matrix.md).
+
+## Package rejection evidence sidecars, 2026-10-23 09:09 UTC
+
+`RIDE-Packages` 0.16.0 extends the rejected-artifact retry path with a `.ride.json` sidecar containing product/version, source URI, rejection reason, SHA-256 and file size. If the canonical artifact already had an observation sidecar, the handler relocates it beside the rejected bytes instead of leaving stale evidence at the reusable path. The 27 package-evidence tests and 84 application-package tests passed on PowerShell 7.6.5; Windows PowerShell 5.1 parsed the module and evidence test. No real network or installer call occurred. The latest VM access check at 09:03 UTC returned CIM access denied.
+
+Resolved: rejected bytes now have explicit evidence, and earlier canonical evidence stays bound with them. Deferred: source-specific acceptance policy for unsigned/no-publisher-digest files, safe review/cleanup of rejected bytes, and disposable Windows installer acceptance. No legacy outcome closed; all five estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured evidence](archive/evidence/package-rejected-artifact-retry-regression-2026-10-23.json) and [package verification guidance](package-verification-matrix.md).
+
+## Deferred package and client-component recovery decisions, 2026-10-23
+
+The user kept NTCore 4GB Patch deferred after its synthetic-target test showed
+unsafe modification when the backup path was occupied and no recoverable copy
+was created. RIDE-managed ownership was selected for PSScriptTools' ThreadJob
+2.2.0 dependency; exact official bytes and digest remain unacquired after
+publisher DNS failures. OpenSSH Client and Telnet Client removal is gated on a
+validated recovery source. These decisions close no legacy outcome and change no
+estimate range. Source acquisition, dependency lifecycle, source/no-network proof,
+payload recovery and disposable Windows acceptance remain open. See the [decision
+ledger](migrations/decision-session-2026-10-17.md#deferred-package-and-client-component-recovery-decisions-2026-10-23),
+[application review](migrations/application-migration-review.md#deferred-package-decisions-2026-10-23),
+[component guidance](windows-component-inventory.md#removal-recovery-gate), and
+[functional rejection evidence](archive/evidence/ntcore-4gb-patch-functional-failure-2026-10-22.json).
+
+## Cross-group catalog, package and component regression, 2026-10-23 09:37 UTC
+
+The repository validator passed for 376 operations, 8 groups, 5 profiles and
+251 PowerShell files. Focused Pester passed **318/318 executed tests** across
+the catalog, application packages, package evidence, client-component
+preparation/lifecycle, license-review and remaining-setting suites on PowerShell
+7.6.5 with TestRegistry disabled, WindowsIntegration excluded and temporary
+files directed under `.local`. One Windows registry integration test was not
+run. The 243-test focused batch and a standalone detailed RemainingSettings
+rerun (75/75 in 139.5 seconds) make up the combined result. The catalog
+assertion for ImageMagick's runtime prerequisite was updated to match the
+current description; no product behavior changed.
+
+A separate 3,072-test broad run exposed that stale assertion, then emitted no
+output at normal verbosity while `RemainingSettings.Tests.ps1` was active. It
+was stopped before that file completed and without a complete result. The
+standalone detailed rerun passed that file. No package, installer, network call,
+VM or Windows state change occurred.
+
+Resolved: the focused regression, catalog wording assertion and standalone
+remaining-settings suite. Retired, excluded: none. Deferred: complete the broad
+regression; disposable Windows acceptance remains separate. Partial: no legacy
+product or setting outcome closed. All five ranges remain **38-58 / 52-67 /
+19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**,
+unchanged because local regression closes no legacy outcome. See the [structured
+evidence](archive/evidence/cross-group-catalog-package-component-regression-2026-10-23-0937.json).
+Latest VM acceptance access check, 2026-10-23 09:55 UTC: read-only `Get-VM -Name RIDE-Win11-Test` returned CIM access denied before checkpoint inspection. VM/checkpoint state remains unknown. No task was queued and no DISM, Defender, guest or Windows state changed. Sysinternals remains clear of licensing blockers under the prior RIDE v2 specialist approval for direct download/install; its lifecycle and target acceptance are technical work still pending. Prepared package, setting and component guest batches are deferred for VM access. Resolved, retired, excluded: none. Deferred: disposable-VM acceptance. Partial: no legacy outcome closed. All five ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [sanitized VM access evidence](archive/evidence/ride-win11-test-access-recheck-2026-10-23-0955.json).
+PSScriptTools ThreadJob exact source retry, 2026-10-23 09:56 UTC: the exact Microsoft PowerShell Gallery 2.2.0 package endpoint again failed DNS before transfer. No bytes, digest or partial file were acquired, and no local runtime copy was substituted. No dependency, utility, VM, Defender or Windows state was changed. No legacy outcome closed. All five ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [sanitized source-retry evidence](archive/evidence/psscripttools-threadjob-source-retry-2026-10-23-0956.json).
+Catalog license-status presentation correction, 2026-10-23 10:04 UTC: five NTCore/MiTeC package names now identify portable candidates without embedding local license-review status. Their exact versions remain NeedsReview in the checkout-local store; all five operations remain pending technical acceptance with no supported targets. Catalog.Tests passed 72/72 selected tests, catalog export and repository validation passed, and no package ran. No legacy outcome closed. Estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [application review](migrations/application-migration-review.md#separate-package-license-review-status-from-candidate-names-2026-10-23-1004-utc) and [structured evidence](archive/evidence/candidate-license-status-catalog-separation-2026-10-23.json).
+License-plan regression and VM access recheck, 2026-10-23 10:08 UTC: `LicenseReviews.Tests.ps1` passed 21/21. All 41 PendingAcceptance package plans remained available with version-matched local NeedsReview records, and all ten prior-approved Sysinternals package plans remained available. Catalog Pester passed 72/72 selected tests, with one WindowsIntegration test excluded; catalog export and repository validation passed. The read-only `Get-VM -Name RIDE-Win11-Test` query returned CIM access denied at 10:08:16 UTC before checkpoint inspection. No package ran and no Windows state changed. No legacy outcome closed; estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured evidence](archive/evidence/license-plan-labels-vm-access-2026-10-23-1008.json).
+
+## B06 LocalSource mode naming and boundary regression, 2026-10-23 10:18 UTC
+
+Renamed the unregistered component candidate's source mode from `Offline` to `LocalSource` in `RIDE.ClientComponentPreparation` 0.3.0 and `RIDE.ClientComponentLifecycle` 0.2.0. The lifecycle snapshot validator and mocked recovery tests use the new mode. The mode passes an explicit local path and `LimitAccess`; this blocks Windows Update lookup only. Configured-source fallback remains 
+otInspected`, and `SourceValidated` and 
+etworkBoundaryVerified` remain false. No network-isolation claim is made.
+
+The focused preparation and lifecycle suites passed **39/39** on PowerShell 7.6.5 with Pester 5.7.1 and TestRegistry disabled. Windows PowerShell 5.1 parsed both modules and both test files. No DISM call, Windows component change, network request, VM/checkpoint action or Defender change occurred.
+
+Resolved: source-mode labeling and regression coverage now match the actual source boundary. Retired/excluded: none. Deferred: matching source members, configured-source/dependency network behavior, payload/version recovery, and Windows 11/Server target acceptance. Partial: unregistered candidate; no legacy outcome closed. All five estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See the [structured evidence](archive/evidence/b06-local-source-mode-regression-2026-10-23-1018.json), [operator guide](windows-component-inventory.md#prepare-the-first-client-components), and [latest VM access evidence](archive/evidence/ride-win11-test-access-recheck-2026-10-23-1008.json).
+
+## Sysinternals Suite acceptance dispatch blocked by protected queue, 2026-10-23 10:29 UTC
+
+The existing RIDEWin11Test configuration advertises `FocusedPortableV1`, and the
+SysinternalsSuite local-source request passed runner capability preflight. Atomic
+staging then failed with access denied while creating the temporary request under
+the protected ProgramData queue. The failure occurred before enqueue, scheduled-task
+launch or VM access. The last read-only VM query at 10:22 UTC was denied by Hyper-V
+CIM, leaving VM/checkpoint state unknown. No UAC prompt was requested; no package,
+Sysinternals utility, Defender-blocked file or Windows state was touched.
+
+Resolved: controller capability is present and the runner safely failed before
+submission. Retired/excluded: none. Deferred: Sysinternals lifecycle, exact recovery
+and target acceptance until the existing authorized queue/VM access path is
+available. Partial: no guest result or legacy outcome closed. Sysinternals licensing
+remains settled under the prior RIDE v2 specialist approval for direct download and
+installation; it is not a migration blocker. All five ranges remain **38-58 / 52-67 /
+19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See the
+[dispatch evidence](archive/evidence/sysinternals-suite-dispatch-access-2026-10-23-1029.json)
+and [VM access evidence](archive/evidence/ride-win11-test-access-recheck-2026-10-23-1022.json).
+## PSScriptTools ThreadJob exact source retry, 2026-10-23 10:34 UTC
+
+The exact Microsoft PowerShell Gallery API URI for
+`Microsoft.PowerShell.ThreadJob` 2.2.0 again failed DNS before transfer. No bytes,
+digest or partial file were acquired; no alternate source was substituted. The
+PSScriptTools dependency-present runtime probe remains deferred. This closes no
+legacy outcome; all five ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**,
+exact **142-196**, rounded **145-200/about 170**. See the [structured retry
+evidence](archive/evidence/psscripttools-threadjob-source-retry-2026-10-23-1034.json).
+## Existing VM/controller focused-suite access recheck, 2026-10-23 10:35 UTC
+
+The current RIDEWin11Test configuration is readable and advertises
+`FocusedPortableV1`, but the SysinternalsSuite dispatch at 10:29 UTC failed while
+writing its protected atomic queue request before enqueue. The RIDESrv2025Test
+configuration is readable but is schema 1 with no advertised focused portable
+capabilities; no request was submitted to that controller. A read-only `Get-VM`
+inventory query returned CIM access denied, leaving VM/checkpoint state unknown.
+No UAC prompt, controller-file change, task submission, VM/package/Defender or
+Windows change occurred. Focused VM acceptance remains deferred until authorized
+queue and Hyper-V access return. No legacy outcome closed; all ranges remain
+**38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded
+**145-200/about 170**. See [structured access evidence](archive/evidence/vm-controller-capability-access-2026-10-23-1035.json).
+## NTCore Driver List and Rebel.NET package candidates, 2026-10-23 10:47 UTC
+
+Added `package.ntcore-driver-list` and `package.ntcore-rebelnet` as pinned portable
+candidates with no supported targets pending Windows acceptance. The retained
+publisher archives were rehashed; static extraction to a unique `.local` scratch
+folder verified their member hashes, file versions, architecture and signatures,
+then the scratch folder was removed. Driver List x64/x86 members are file version
+1.0.2.1; IA64 is excluded. Rebel.NET is unsigned x86 version 1.6.0.1. The official
+Rebel.NET guide says commercial use goes against its terms; the Driver List page
+and archive give no product-specific use/distribution grant. Per the user's
+migration priority, both exact versions now have local 
+eedsReview` markers; these
+records do not gate implementation or package planning. No entitlement or
+redistribution permission is inferred.
+
+ApplicationPackages and LicenseReviews passed **108/108** tests with TestRegistry
+disabled. Repository validation passed for **378 operations, 8 groups, 5 profiles
+and 251 PowerShell files**; generated operation documentation is current. No
+package executable, VM, Defender-blocked tool or Windows state was touched.
+
+Resolved: exact retained archive/member pins and static file metadata; candidate
+operations and informational license markers. Retired/excluded: none; Driver List
+IA64 is outside the x64/x86 candidate. Deferred: Windows 11 package lifecycle and
+exact recovery; Driver List report-output privacy acceptance; Rebel.NET functional
+and recovery tests against an owned synthetic assembly only. Partial: no legacy
+runtime outcome closed. All five ranges remain **38-58 / 52-67 / 19-24 / 25-35 /
+8-12**, exact **142-196**, rounded **145-200/about 170**. See the [structured
+candidate evidence](archive/evidence/ntcore-driver-list-rebelnet-candidate-2026-10-23-1047.json)
+and [application migration record](migrations/application-migration-review.md#ntcore-driver-list-and-rebelnet-package-candidates-2026-10-23).
+## B04 auto-detection engine integration, 2026-10-23 11:04 UTC
+
+Added `windows.proxy-auto-detect` as a current-user default/LAN WinINet setting
+with independent Enabled/Disabled states. Planning, live-state presentation,
+captured pre-change state and saved-run restore are wired through the RIDE engine.
+The setting owns only the automatic-detection flag; other flags, manual proxy and
+bypass strings, the PAC address, VPN/RAS and WinHTTP remain separate. The setup-
+script/address control is not part of this operation because enabling it needs an
+explicit PAC address.
+
+The operation has `PendingAcceptance = true`, Windows 11 as a candidate and no
+supported targets, so the engine refuses actual apply/restore until native target
+acceptance succeeds. The catalog validator passed for 379 operations, 8 groups,
+5 profiles and 251 PowerShell files. Focused Catalog, UserProxyInventory and
+UserProxyPreparation Pester passed 162/163 discovered tests (one not run), plus 16/16 lifecycle tests. These tests use mocked or supplied observations;
+no registry, WinINet, VM, Defender or Windows state action occurred.
+
+Resolved: source-ready independent automatic-detection operation and saved-state
+engine wiring. Retired/excluded: none. Deferred: disposable Windows 11 lifecycle
+and exact recovery acceptance, complete effective-policy coverage, controlled
+PAC-consumer behavior, and the separate PAC-address setting. Partial: the broader
+B04 default/LAN proxy outcome remains open; no legacy outcome closed. Estimates
+remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded
+**145-200/about 170**. See [structured evidence](archive/evidence/b04-proxy-auto-detect-engine-integration-2026-10-23-1104.json),
+[operator guide](user-proxy-inventory.md), and the [settings review](migrations/settings-post-migration-review.md#b04-auto-detection-engine-integration-2026-10-23-1104-utc).
+
+## B04 engine/proxy RunId consolidation, 2026-10-23 11:12 UTC
+
+The engine now passes its generated saved-run identity to the proxy lifecycle before any native setter call. The lifecycle creates the snapshot under that same RunId, and engine restore uses the matching snapshot and restore-completion sidecar. If snapshot creation fails, the setter remains uncalled. This connects proxy recovery to normal engine run reporting instead of maintaining a separate identity.
+
+Focused Catalog, inventory, preparation and lifecycle Pester passed 179/180 discovered tests (one not run). The dedicated lifecycle suite passed 16/16 and Catalog.Tests passed 76/77 (one not run). The repository validator passed 379 operations, 8 groups, 5 profiles and 251 PowerShell files. Proxy native boundaries were mocked; no WinINet, VM, Defender or Windows state change occurred. An unrelated registry integration test was excluded after sandbox HKCU access was denied.
+
+Resolved: shared saved-run identity and snapshot-before-set ordering. Retired/excluded: none. Deferred: disposable Windows 11 lifecycle and exact restore acceptance, complete effective-policy coverage, controlled PAC-consumer behavior and the separate PAC-address operation. Partial: no legacy outcome closed. Estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured evidence](archive/evidence/b04-proxy-engine-runid-consolidation-2026-10-23-1112.json) and the [operator guide](user-proxy-inventory.md).
+
+## Cross-group catalog, package, component, settings and proxy regression, 2026-10-23 11:23 UTC
+
+The current focused local regression passed 428/429 discovered Pester tests across catalog, application packages, package evidence, client component preparation/lifecycle, license reviews, remaining settings, and proxy inventory/preparation/lifecycle. Pester TestRegistry was disabled and the WindowsIntegration tag excluded because sandbox HKCU writes are denied. Repository validation passed for 379 operations, 8 groups, 5 profiles and 251 PowerShell files.
+
+Resolved: current selected local regression suites pass. Retired/excluded: none. Deferred: disposable-VM package, component and pending-target setting acceptance remains unavailable while Hyper-V/CIM access is denied. Partial: no legacy outcome closed. Estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. No VM, installer, network, WinINet, Defender or Windows-state change occurred. See [structured evidence](archive/evidence/cross-group-catalog-package-component-settings-proxy-regression-2026-10-23-1123.json).
+
+## Windows 11 and Server 2025 VM access recheck, 2026-10-23 11:24 UTC
+
+Read-only `Get-VM` queries for `RIDE-Win11-Test` and `RIDE-Srv2025Test` both returned `Access to a CIM resource was not available to the client` before VM or checkpoint state could be inspected. No task was queued, VM/checkpoint/controller/WinRM/Defender state changed, or installer run. The previous local cross-group regression remains the latest test result at 428/429 focused tests passed, with one WindowsIntegration registry test excluded due to sandbox HKCU denial.
+
+Resolved: current host access was checked for both target VMs. Retired/excluded: none. Deferred: all guest acceptance on both targets until host CIM/Hyper-V access is available. Partial: no legacy outcome closed. Estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [sanitized access evidence](archive/evidence/ride-win11-and-server2025-vm-access-recheck-2026-10-23-1124.json) and [latest local regression](archive/evidence/cross-group-catalog-package-component-settings-proxy-regression-2026-10-23-1123.json).
+
+## PSScriptTools ThreadJob publisher metadata and transfer recheck, 2026-10-23 11:29 UTC
+
+The official PowerShell Gallery lists Microsoft.PowerShell.ThreadJob 2.2.0 for Windows PowerShell 5.1 and provides a seven-file package list including LICENSE, ThirdPartyNotices.txt and the signed module manifest. Its project page identifies the MIT license. The exact version-specific Gallery nupkg request was retried into a repository-local review path; DNS resolution failed before transfer and no file, bytes or digest were produced.
+
+Resolved: publisher package identity, version, PowerShell minimum, package contents and project/license references. Retired/excluded: none. Deferred: exact package bytes, SHA-256, signature inspection, notice retention and runtime/guest acceptance. Partial: previously selected RIDE-managed dependency ownership remains; no package operation or runtime installation was added. No legacy outcome closed. Estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured evidence](archive/evidence/psscripttools-threadjob-publisher-metadata-and-transfer-recheck-2026-10-23-1129.json), the [official Gallery package](https://www.powershellgallery.com/packages/Microsoft.PowerShell.ThreadJob/2.2.0), and the [upstream project/license](https://github.com/PowerShell/ThreadJob).
+
+## B06 Windows 11 candidate target and removal guards, 2026-10-23 11:33 UTC
+
+The unregistered OpenSSH Client/Telnet Client lifecycle candidate now rejects client builds below 22000 before inventory or state capture and refuses older saved snapshots. It also blocks a state-changing Absent transition while the candidate lacks matching recovery-source identity/completeness validation; an already-absent no-op remains read-only. Focused preparation and lifecycle Pester passed 41/41 on PowerShell 7.6.5 with Pester TestRegistry disabled. No native provider, DISM, VM, installer, network, Defender or Windows state was used.
+
+Resolved: candidate target/build gate and fail-closed removal boundary. Retired/excluded: none. Deferred: matching source identity and payload completeness, configured-source fallback and dependencies, exact payload/version recovery, target support and disposable Windows 11 acceptance. Partial: the candidate remains unregistered and closes no legacy component outcome. Estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured evidence](archive/evidence/b06-component-target-and-removal-guards-2026-10-23-1133.json), [component guide](windows-component-inventory.md) and [latest VM access evidence](archive/evidence/ride-win11-and-server2025-vm-access-recheck-2026-10-23-1124.json).
+
+## PSScriptTools offline source-lifecycle fixture follow-up, 2026-10-23 12:03 UTC
+
+The local lifecycle fixture now stages with `-Offline` so it does not perform certificate-provider network checks, and checks the offline signature-inspection status for staged PowerShell scripts. Two selected metadata/incomplete-source tests passed; the full 360-file host repeat/removal/recovery test was interrupted during prolonged workspace staging and returned no result. The earlier 14-check registered Windows 11 file-lifecycle run remains the native staging evidence. No module import, package install, VM, Defender or Windows-state change occurred. PSScriptTools runtime acceptance and dependency acquisition remain open; the exact ThreadJob Gallery transfer failed DNS before bytes. No legacy package outcome closed.
+
+Resolved: offline fixture intent and selected preflight coverage. Retired/excluded: none. Deferred: full local 360-file lifecycle regression, dependency-present runtime behavior and package acceptance. Partial: PSScriptTools remains unsupported pending runtime and target acceptance. All five ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured evidence](archive/evidence/psscripttools-offline-lifecycle-fixture-follow-up-2026-10-23-1203.json), [registered file-lifecycle evidence](archive/evidence/psscripttools-registered-rerun-2026-10-22.json), and [latest VM access evidence](archive/evidence/ride-win11-and-server2025-vm-access-recheck-2026-10-23-1124.json).
+
+## MiTeC Windows File Analyzer and Icon Explorer candidate preparation, 2026-10-23 12:28 UTC
+
+Added two pinned package candidates with exact selected members and local informational NeedsReview records. The native package lifecycle fixtures pass 112/112 together with ApplicationPackages and LicenseReviews regressions; no publisher executable ran. Catalog validation reports 383 operations, eight groups, five profiles and 253 PowerShell files; the catalog loader enumerates 77 packages (47 pending). A read-only VM check at 12:26 UTC failed for both RIDE test VMs with CIM access denied before checkpoint inspection, so guest behavior and recovery remain unverified. Source/use review markers do not block candidate work. No legacy outcome closes and estimates remain 38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196, rounded 145-200/about 170. See [candidate evidence](archive/evidence/mitec-file-analyzer-icon-explorer-candidates-2026-10-23-1230.json), [package-count correction](archive/evidence/catalog-package-count-reconciliation-2026-10-23-1230.json) and [VM access evidence](archive/evidence/ride-win11-and-server2025-vm-access-recheck-2026-10-23-1226.json).
+## MiTeC OLE/COM, Registry Recovery and SMBIOS candidate preparation, 2026-10-23 12:36 UTC
+
+Added three exact-source portable candidates with local informational NeedsReview records. Focused Pester passed 114/114 and Windows PowerShell 5.1 parser checks passed; repository validation passed for 386 operations/eight groups/five profiles/254 PowerShell files, with 80 packages and 50 pending install plans in the catalog loader. No user data or payload was read or run. Both RIDE VM inventory queries remain denied by CIM before checkpoint inspection. No legacy outcome closed; all five estimate ranges and the rounded total remain unchanged. See [candidate evidence](archive/evidence/mitec-review-data-tools-candidates-2026-10-23-1236.json), [catalog-count correction](archive/evidence/catalog-package-count-reconciliation-2026-10-23-1230.json), and [VM access evidence](archive/evidence/ride-win11-and-server2025-vm-access-recheck-2026-10-23-1226.json).
+
+## DFM Editor package candidate, 2026-10-23 12:58 UTC
+
+Added one package catalog entry with two explicit Delphi runtime variants. Exact archive/member hashes and PE version resources were rechecked. Focused variant and license-planning tests passed 25/25; Windows PowerShell 5.1 parsing and repository validation passed (387 operations, 8 groups, 5 profiles, 255 PowerShell files). Catalog counts are 81 packages/51 pending. The local NeedsReview records for both exact variants do not block implementation or planning. No product or BPL ran. VM access remains denied by CIM before checkpoint inspection; no legacy outcome closed. Estimates remain 38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196, rounded 145-200/about 170. See [DFM evidence](archive/evidence/mitec-dfm-editor-candidate-2026-10-23.json), [application review](migrations/application-migration-review.md#mitec-dfm-editor-delphi-variant-package-candidate-2026-10-23), and [VM blocker](archive/evidence/ride-win11-and-server2025-vm-access-recheck-2026-10-23-1226.json).
+
+## MiTeC EXE Explorer and HexEdit package candidates, 2026-10-23 13:05 UTC
+
+Two pinned package candidates were added with informational exact-version license review markers. Focused inert staging, install planning and recovery tests passed 27/27; repository validation passed with 389 operations, eight groups, five profiles and 256 PowerShell files. The catalog loader reports 83 packages (53 pending). No legacy outcome closed; the package estimate remains 52-67 and the five ranges remain 38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196, rounded 145-200/about 170. Product behavior and Windows acceptance remain deferred until synthetic file checks and VM access are available. See [candidate evidence](archive/evidence/mitec-analysis-tools-candidates-2026-10-23.json) and [application review](migrations/application-migration-review.md#mitec-exe-explorer-and-hexedit-candidate-packages-2026-10-23).
+
+## MiTeC Mail and History Viewer candidate migration run, 2026-10-23 13:15 UTC
+
+Four unsupported Windows 11 package candidates were prepared from retained MiTeC archives. Exact archive/member pins, pending install plans, selected-file staging, repeat, removal and snapshot restoration passed 12/12 focused Pester tests. `LicenseReviews.Tests.ps1` passed 21/21, including the catalog-wide pending-package plan check and all ten Sysinternals plans covered by prior RIDE v2 specialist approval. Repository validation passed for 393 operations, eight groups, five profiles and 257 PowerShell files; the catalog loader reports 87 packages (57 pending). Windows PowerShell 5.1 parsing is recorded with the focused test check. No tool or private data was opened and no VM was used.
+
+Resolved: exact candidate pins and inert package staging/recovery preparation. Retired/excluded: none. Deferred: synthetic mail/history feature behavior and Windows 11 acceptance pending VM/checkpoint access. Partial: no whole legacy package outcome closes. Estimates remain 38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196, rounded 145-200/about 170. All five group ranges and total remain unchanged because adding package IDs does not close a legacy product outcome.
+## PSScriptTools batched portable ownership journal, 2026-10-23 13:38 UTC
+
+The portable package handler previously replaced a growing JSON ownership manifest once per staged member. It now commits the complete validated `Installing` hash journal before the first file copy and commits the final `Installed` manifest after file installation and obsolete-file cleanup. This preserves a recoverable partial-write record while avoiding repeated full-manifest replacements for large packages. The copy-failure fixture now verifies the entire 24-file set is journaled before the first failed copy.
+
+Against the retained PSScriptTools 3.2.0 archive (360 files; exact SHA-256 `05c86295a0846ae4f51ecfa6f38ef71ba8173be83eb0adc8627525a4c6ee72bd`), the complete-source install/repeat/remove/snapshot/restore case passed in 717.12 seconds and preserved unowned analyst output. Six additional compact inert failure-boundary cases passed 6/6. `ApplicationPackages.Tests.ps1` passed 87/87. Windows PowerShell 5.1 parsed the changed module and both test files; repository validation passed for 393 operations, eight groups, five profiles and 257 PowerShell files. The full PSScriptTools test file was not run in one invocation: the large source lifecycle case passed separately, and the six remaining cases passed with compact fixtures. No upstream code, installer, VM, Defender state or Windows configuration was touched.
+
+Resolved: large portable-package journaling overhead and complete pre-copy recovery ownership metadata. Retired/excluded: none. Deferred: one uninterrupted all-tests PSScriptTools invocation, the dependency-present Windows PowerShell 5.1 runtime path and Windows target acceptance. Partial: PSScriptTools activation/dependency ownership and its whole legacy outcome remain open. No legacy outcome closes, so all five ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured regression evidence](archive/evidence/psscripttools-batched-portable-journal-regression-2026-10-23.json).
+
+## B10 offline byte-bound preflight description and regression, 2026-10-23 13:45 UTC
+
+The offline bundle module help now matches the engine: explicit offline install/apply consume byte-bound whole-plan preflight, while ordinary online commands do not use this bundle preflight. Focused offline execution, manifest integrity and selected-profile coverage checks passed 143/143 with Pester TestRegistry disabled and a repository-local temporary directory. Windows PowerShell 5.1 parsing and repository validation passed (393 operations, 8 groups, 5 profiles, 257 PowerShell files). The first test attempt hit restricted AppData temp access; rerunning from repository-local scratch passed all tests.
+
+Resolved: stale module help and focused disconnected-preflight regression. Retired/excluded: none. Deferred: actual offline deployment behavior and target acceptance; current VM inventory is blocked at Hyper-V CIM access before checkpoint inspection. Partial: no legacy outcome closed. Estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [application review](migrations/application-migration-review.md#b10-offline-byte-bound-preflight-description-and-regression-2026-10-23-1345-utc) and [structured evidence](archive/evidence/offline-byte-bound-preflight-description-regression-2026-10-23.json).
+## B06 client-component captured-state restore recovery gate, 2026-10-23 13:54 UTC
+
+The OpenSSH Client/Telnet Client candidate's captured-state Restore previously bypassed the removal gate. It now refuses to remove OpenSSH or discard a Telnet payload when the prior state was payload-absent and no validated matching recovery source is available, retaining the saved snapshot. Restoring Telnet to Disabled remains supported without payload removal. The focused preparation/lifecycle suites passed 42/42; every DISM call was mocked. Windows PowerShell 5.1 parsing and repository validation passed (393 operations, 8 groups, 5 profiles, 257 PowerShell files); no VM or DISM ran.
+
+Resolved: unverified payload removal cannot be triggered through Restore. Retired/excluded: none. Deferred: matching source validation, dependency/network behavior, payload recovery, engine/catalog registration and Windows acceptance. Partial: unregistered candidate; no legacy outcome closed. Estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [component review](migrations/application-migration-review.md#b06-client-component-captured-state-restore-recovery-gate-2026-10-23-1354-utc) and [structured evidence](archive/evidence/b06-client-component-restore-recovery-gate-2026-10-23-1354.json).
+
+## Sysinternals license decision reaffirmed, 2026-10-23 14:01 UTC
+
+The user reiterated that the prior RIDE v2 license-specialist assessment approved Sysinternals for RIDE's direct Microsoft download-and-install workflow. RIDE does not transfer or publish Sysinternals copies; there are no legal issues or license blockers for package migration. All ten exact Suite/product versions remain `Reviewed`, and the Defender-detected files remain excluded. This decision closes no additional legacy outcome; estimates remain 38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196, rounded 145-200/about 170. Technical lifecycle, recovery and Windows target acceptance remain pending because current Hyper-V/CIM access to the existing VM/checkpoint is unavailable. See [decision evidence](archive/evidence/sysinternals-license-scope-reaffirmation-2026-10-23-1401.json).
+
+## Windows 11 and Server 2025 VM access recheck, 2026-10-23 14:06 UTC
+
+Fresh read-only `Get-VM` queries for `RIDE-Win11-Test` and `RIDE-Srv2025Test` both returned `Access to a CIM resource was not available to the client` before VM or checkpoint inspection. No queue submission, controller/WinRM/Defender/Windows change, fresh UAC prompt or guest mutation occurred. Package and component acceptance remain deferred at this host access boundary; independent local migration work can continue. No legacy outcome closes, so estimates remain 38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196, rounded 145-200/about 170. See [structured access evidence](archive/evidence/ride-win11-and-server2025-vm-access-recheck-2026-10-23-1406.json).
+
+## PSScriptTools complete local source-lifecycle regression, 2026-10-23 14:19 UTC
+
+The complete `tests/PSScriptToolsPackage.Tests.ps1` suite passed **7/7** in one PowerShell 7.6.5 invocation with Pester 5.7.1, TestRegistry disabled, and `TEMP`/`TMP` set under repository `.local`. The exact retained 3.2.0 source archive's 360-file install/repeat/remove/snapshot/restore case passed in **706.06 seconds**; all six compact boundary cases also passed, including preservation of unowned analyst content and refusal of modified or colliding files. No upstream code was imported or executed.
+
+Resolved: a single complete local lifecycle regression for the pinned portable source. Retired/excluded: none. Deferred: exact Microsoft.PowerShell.ThreadJob 2.2.0 acquisition (the previous Gallery transfer failed DNS), dependency-present Windows PowerShell 5.1 runtime acceptance, and target VM acceptance while Hyper-V/CIM access is denied. Partial: package activation/dependency ownership and the whole legacy outcome remain open. No legacy outcome closes; estimates remain 38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196, rounded 145-200/about 170. See [structured evidence](archive/evidence/psscripttools-complete-local-lifecycle-regression-2026-10-23-1419.json) and [VM access evidence](archive/evidence/ride-win11-and-server2025-vm-access-recheck-2026-10-23-1406.json).
+
+## Windows 11 and Server 2025 VM access recheck, 2026-10-23 14:43 UTC
+
+Fresh read-only Get-VM queries for RIDE-Win11-Test and RIDE-Srv2025Test both returned Access to a CIM resource was not available to the client before VM/checkpoint inspection. No task submission, host service/controller/WinRM change, elevation prompt, Defender action, guest mutation or Windows-state change occurred. Package, setting and component Windows acceptance remains deferred; independent local preparation may continue. No legacy outcome closed, retired or newly excluded. All five estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured access evidence](archive/evidence/ride-win11-and-server2025-vm-access-recheck-2026-10-23-1443.json).
+
+## Microsoft OpenJDK side-by-side package candidates, 2026-10-23 15:08 UTC
+
+Added pinned Microsoft Build of OpenJDK x64 MSI candidates 25.0.4.1 (default), 21.0.12.1, 17.0.20.1 and 11.0.32.1. The installer selects only `FeatureMain` and uses distinct major-version directories, leaving `JAVA_HOME`, `PATH` and `.jar` associations unchanged. The resolver validates the exact versioned Microsoft checksum sidecar before acquiring the MSI. Focused mocked resolver/catalog Pester passed **4/4**; 87 unrelated tests were not run. No MSI was downloaded or executed and no VM was accessed. Native install, repeat, uninstall and exact recovery remain pending on Windows 11 and Server 2025; no supported target is declared. Resolved: selected package metadata and fail-closed mocked checksum binding. Retired/excluded: none. Deferred: live source, MSI lifecycle and target acceptance. Partial: no legacy outcome closed. All five estimate ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. Sysinternals remains approved for RIDE direct download/install under the prior v2 specialist assessment; its licensing is not a blocker. See [application review](migrations/application-migration-review.md#microsoft-openjdk-side-by-side-compatibility-package-candidates-2026-10-23-1508-utc), [package guide](application-packages.md#microsoft-openjdk-compatibility-packages), and [structured candidate evidence](archive/evidence/microsoft-openjdk-package-candidates-2026-10-23-1508.json).
+
+## Sysmon Modular pinned download-only profiles, 2026-10-23 15:17 UTC
+
+Implemented three separate artifact choices from the GitHub-verified release `configs-a45dedb13a43`, pinned to Sysmon 15.21: Balanced, Balanced with FileDelete and Excludes only. The resolver fetches the pinned release `SHA256SUMS`, requires one exact selected filename record, then hands its SHA-256 to the shared artifact retention check. FileDelete archive cost and Excludes only verbosity are stated in the catalog and operator guide. Download does not install Sysmon or apply configuration.
+
+Focused mocked tests passed 4/4. Catalog export and repository validation passed for 400 operations, 8 groups, 5 profiles and 257 PowerShell files; Windows PowerShell 5.1 parsing passed for changed modules and tests. No release bytes, VM, Defender or Windows state were touched. Resolved: profile choices, release/target pin and checksum binding. Retired/excluded: none. Deferred: live acquisition, retained artifact lifecycle/recovery, user and VM acceptance; any configuration apply remains separate. Partial: no legacy outcome closed. Estimates remain settings 38-58, packages 52-67, components 19-24, files/assets 25-35 and maintenance 8-12; exact 142-196, rounded 145-200/about 170. See [application review](migrations/application-migration-review.md#sysmon-modular-pinned-profile-artifacts-2026-10-23), [operator guidance](application-packages.md#sysmon-modular-configuration-choices) and [structured evidence](archive/evidence/sysmon-modular-profile-artifacts-2026-10-23.json).
+
+## BloodHound exact-tag collector package source resolver, 2026-10-23 15:33 UTC
+
+Extended GitHub release package resolution to support exact version tags and publisher `.sha256` release assets. Catalog and runtime checks bind the API repository/tag, normalized package version, exact ZIP filename and checksum sidecar. Resolver requires the returned release and both download URLs to match the pinned tag and publisher repository; the bounded sidecar must contain one valid SHA-256 record naming the selected ZIP. The digest and checksum URI are included in acquisition evidence. The anonymous resolver and enrolled PAT authentication path both handle exact tag endpoints.
+
+Focused provider/catalog Pester passed **6/6** and the full GitHub authentication suite passed **53/53** on PowerShell 7 with TestRegistry disabled. Repository validation passed for **400 operations, 8 groups, 5 profiles and 257 PowerShell files**; Windows PowerShell 5.1 parsing passed for five changed files. Windows PowerShell 5.1 Pester could not load because the host AuthorizationManager blocked importing Pester. Direct source requests for the SharpHound v2.17.0 and AzureHound v3.1.1 checksum sidecars failed before HTTP with DNS failure for `github.com`; no ZIPs, hashes, archive members or notices were acquired, so no package operations were added and the resolver remains exercised with mocked metadata only. No collector/backend, VM or Windows state was touched.
+
+Resolved: exact-tag release and sidecar resolver implementation. Retired/excluded: none. Deferred: exact publisher bytes and archive/member review; portable package candidate metadata and notices; lifecycle, recovery, no-collection smoke checks and Windows acceptance. Backend/container, WSL/features, and credentials/data ownership stay separate. Partial: no legacy collector outcome closes. All five ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. The prior RIDE v2 Sysinternals specialist approval remains settled for direct download/install and is not a license blocker. See [collector source-match evidence](archive/evidence/bloodhound-ce-9.8.0-collector-match-2026-10-23.json), [resolver and network evidence](archive/evidence/bloodhound-pinned-release-provider-2026-10-23.json) and [Sysinternals decision evidence](archive/evidence/sysinternals-license-scope-reaffirmation-2026-10-23-1401.json).
+
+## JoeWare internal-use terms and current-version source review, 2026-10-23 15:56 UTC
+
+The publisher's 2024 clarification allows companies to download a copy and serve
+it to internal corporate users. Distribution as part of a solution sold to
+others is separate. This resolves the earlier overbroad distribution concern for
+RIDE's direct download-and-install workflow; licensing is not a migration gate.
+The current publisher pages list AdFind 1.64.00 (2026-06-08) and the publisher's
+2026-07-11 release note lists AdMod 1.29.00. AdFind's publisher page separately
+documents AV/PUP blocking and a password-protected archive containing
+`password.txt`; keep Defender-blocked selections excluded and do not extend this
+product-specific warning to the rest of JoeWare. The `rdp-sec-check` page still
+identifies GPLv2 source in its ZIP, but exact archive/source/dependency contents
+remain uninspected.
+
+No archive or executable was acquired or run, no AD/LDAP endpoint was contacted,
+and no Defender, VM or Windows state changed. Resolved: internal-use licensing
+scope and current AdFind/AdMod version evidence. Retired: none. Excluded:
+Defender-blocked files remain excluded. Deferred: exact publisher archive bytes,
+member/source notices and technical lifecycle/acceptance. Partial: no JoeWare
+legacy outcome closes. All five estimates remain **38-58 / 52-67 / 19-24 / 25-35 /
+8-12**, exact **142-196**, rounded **145-200/about 170**; the source and terms
+review resolves no install outcome. See [structured evidence](archive/evidence/joeware-internal-use-current-version-review-2026-10-23.json),
+[publisher clarification](https://blog.joeware.net/2024/06/06/6216/) and
+[current release note](https://blog.joeware.net/).
+
+## RIDE-Win11-Test acceptance access recheck, 2026-10-23 16:01 UTC
+
+A fresh read-only `Get-VM -Name RIDE-Win11-Test` returned `Access to a CIM
+resource was not available to the client` before VM or checkpoint inspection.
+No elevation or RunAs process was started, no task was submitted, and no host
+service, controller, Defender, guest or Windows state changed. VM and checkpoint
+state remain unknown.
+
+Resolved/retired/excluded: none. Deferred: registered package, settings and
+component Windows acceptance pending restored non-elevated Hyper-V CIM access
+and checkpoint inspection. Partial: no Windows result or legacy outcome closed.
+All five estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact
+**142-196**, rounded **145-200/about 170**. See [structured access evidence](archive/evidence/ride-win11-test-access-recheck-2026-10-23-1601.json).
+
+## MiTeC Structured Storage Viewer candidate preparation, 2026-10-23 16:04 UTC
+
+The retained MiTeC `SSView.zip` matches its recorded 3,572,814-byte archive
+SHA-256. Static inventory identifies `SSView.exe` as version 4.1.2.0 (x86),
+and the catalog candidate selects only that executable. It excludes the optional
+codec DLL, Delphi source and `test.ss` sample. The exact-version checkout-local
+
+eedsReview` marker is informational and does not block direct-download package
+planning. No executable was extracted or run, and no structured-storage file
+was opened or modified. Synthetic-only functional testing, byte-exact recovery,
+unowned activation/configuration preservation and registered Windows 11
+acceptance remain open. The 16:01 UTC Hyper-V CIM access error still blocks VM
+checkpoint inspection; no fresh elevation or system change was attempted.
+
+Resolved: archive/member identity and package-candidate metadata. Retired or
+excluded legacy outcomes: none. Partial: SSView advances to a pinned candidate;
+no whole legacy outcome closes. Deferred: behavior/recovery and Windows
+acceptance; optional codec/source/sample remain outside the candidate. All five
+ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**,
+rounded **145-200/about 170**. Repository validation passed for **401
+operations, 8 groups, 5 profiles and 257 PowerShell files**. Focused ApplicationPackages and LicenseReviews Pester passed **122/122**, with TestRegistry disabled and temporary files redirected under `.local`; SSView-specific lifecycle tests were not run. See [structured
+evidence](archive/evidence/mitec-ssview-candidate-preparation-2026-10-23.json)
+and [application migration review](migrations/application-migration-review.md#mitec-structured-storage-viewer-portable-candidate-preparation-2026-10-23).
+## MiTeC Structured Storage Viewer package lifecycle regression, 2026-10-23 16:17 UTC
+
+The self-contained `tests/MiTeCSSView.Tests.ps1` passed **2/2** on PowerShell 7.6.5. It uses checked-in source evidence and a generated inert ZIP, so clean checkouts do not need the retained `.local` archive.
+It rechecked the retained archive digest and streamed `SSView.exe` to verify its
+recorded length/hash without extracting or executing the product. An inert ZIP
+fixture verified that repeat staging selects only the viewer, and that
+snapshot/removal/restore preserves an unowned user note. Windows PowerShell 5.1
+parser validation passed; Pester could not load because the host AuthorizationManager
+blocked Pester format-data/module import before discovery. No VM, executable,
+sample or codec was used. Native structured-storage behavior and exact file
+recovery remain deferred; the registered VM/checkpoint access issue remains open.
+
+Resolved: focused inert staging/recovery and archive/member identity checks.
+Retired/excluded: none. Partial: package candidate staging/recovery is locally
+covered; no whole SSView legacy outcome closes. Deferred: synthetic-only viewer
+behavior, byte-exact file recovery, unowned activation/configuration/plugin
+preservation and disposable Windows 11 acceptance. All five ranges remain
+**38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded
+**145-200/about 170**. See [structured test evidence](archive/evidence/mitec-ssview-package-lifecycle-regression-2026-10-23-1617.json)
+and [candidate migration review](migrations/application-migration-review.md#mitec-structured-storage-viewer-package-lifecycle-regression-2026-10-23-1614-utc).
+## MiTeC Structured Storage Viewer clean-checkout lifecycle test, 2026-10-23 16:17 UTC
+
+Revised the focused test to use checked-in pin evidence and a generated inert
+ZIP, removing its dependency on an ignored retained archive. The corrected test
+passed **2/2** on PowerShell 7.6.5 with TestRegistry disabled and temporary files
+under `.local`; Windows PowerShell 5.1 parser validation passed. Pester import
+remains unavailable on Windows PowerShell 5.1 because AuthorizationManager
+blocks its module format data before discovery. No package outcome or legacy
+feature is complete; native behavior and Windows acceptance remain deferred.
+
+All five estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact
+**142-196**, rounded **145-200/about 170**. See [clean-checkout test
+evidence](archive/evidence/mitec-ssview-package-lifecycle-regression-2026-10-23-1617.json)
+and [test source](../tests/MiTeCSSView.Tests.ps1).
+## RIDE-Win11-Test acceptance access recheck, 2026-10-23 16:18 UTC
+
+A fresh read-only `Get-VM -Name RIDE-Win11-Test` returned `Access to a CIM
+resource was not available to the client` before VM or checkpoint inspection.
+No elevation or RunAs process was started, no task was submitted, and no host
+service, controller, Defender, guest or Windows state changed. VM and checkpoint
+state remain unknown.
+
+Resolved/retired/excluded: none. Deferred: registered package, settings and
+component Windows acceptance pending restored non-elevated Hyper-V CIM access
+and checkpoint inspection. Partial: no Windows result or legacy outcome closed.
+All five estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact
+**142-196**, rounded **145-200/about 170**. See [structured access
+evidence](archive/evidence/ride-win11-test-access-recheck-2026-10-23-1618.json).
+## MiTeC Network Scanner package candidate and variant regression, 2026-10-23 16:27 UTC
+
+Added the exact-version 
+eedsReview` record for `package.mitec-network-scanner`;
+its status is informational and does not block planning. The official page now
+identifies 6.1.0 dated 2026-04-23, lists an x86/x64 network-discovery utility,
+and describes non-commercial freeware for unregistered use alongside paid
+license types. The retained archive and both member hashes match the frozen
+inventory. The package defaults to x64 and offers an x86 variant, each staging
+one matching executable.
+
+`tests/MiTeCNetworkScanner.Tests.ps1` passed **2/2** across variant resolution,
+repeat inert staging and snapshot/removal/restore. `LicenseReviews.Tests.ps1`
+passed **21/21**; Windows PowerShell 5.1 parser validation passed. No scanner,
+network request, directory/host query or VirusTotal link ran. The read-only
+16:27 UTC VM query again failed at CIM access before checkpoint inspection.
+
+Resolved: exact source/member identity, architecture-specific candidate
+metadata and offline package lifecycle. Retired/excluded: none. Partial: package
+candidate and license-review planning are covered; no whole legacy outcome
+closes. Deferred: explicitly bounded network behavior against synthetic
+endpoints, sensitive result handling, activation/UI and VM acceptance. All five
+ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**,
+rounded **145-200/about 170**. Repository validation passed for **402
+operations, 8 groups, 5 profiles and 259 PowerShell files**. See [test
+evidence](archive/evidence/mitec-network-scanner-package-regression-2026-10-23-1626.json),
+[candidate evidence](archive/evidence/mitec-network-scanner-candidate-preparation-2026-10-23-1623.json),
+and [VM access evidence](archive/evidence/ride-win11-test-access-recheck-2026-10-23-1627.json).
+
+## Gpg4win 5.1.1 package candidate implementation, 2026-10-23 17:42 UTC
+
+Added a pinned, unsupported current-user Gpg4win candidate with the accepted
+GnuPG command-line/Kleopatra-only component selection. Configuration staging,
+nested-GnuPG ownership checks and synthetic `%APPDATA%/gnupg` preservation now
+have implementation and mocked coverage. The focused suite passed 8/8; combined
+ApplicationPackages/Catalog passed 177/178 discovered tests, zero failures and
+one not run. Repository validation passed at 405 operations, eight groups, five
+profiles and 262 PowerShell files. No installer or GnuPG process ran. The fresh
+read-only Windows 11 VM check failed at CIM before VM/checkpoint state inspection;
+native scope, install/repeat/remove/recovery and component visibility remain
+deferred. Resolved: implementation candidate and local mocked safeguards.
+Retired/excluded: none. Partial: no whole Gpg4win legacy outcome closes.
+Deferred: disposable Windows 11 acceptance, including nested installer scope and
+synthetic key/configuration preservation. All five ranges remain **38-58 /
+52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about
+170** because candidate implementation does not prove native product lifecycle.
+See [structured evidence](archive/evidence/gpg4win-package-candidate-implementation-2026-10-23-1755.json).
+
+## B06 OpenSSH Client and Telnet Client current-code local regression, 2026-10-23 18:00 UTC
+
+The first Pester invocation stopped before test bodies because the default TestRegistry plugin attempted a registry write denied by the sandbox; rerun with TestRegistry explicitly disabled. The current preparation and lifecycle suites then passed **47/47** mocked tests on
+PowerShell 7.6.5/Pester 5.7.1 with TestRegistry disabled. Windows PowerShell 5.1
+parsed the preparation, lifecycle and component-inventory modules plus both test
+files. No DISM call occurred. Fresh read-only `Get-VM` queries for
+`RIDE-Win11-Test` and `RIDE-Srv2025Test` both returned CIM access denied before
+checkpoint inspection. Microsoft's generic servicing documentation describes
+local feature sources and `LimitAccess`, but that does not establish Telnet's
+exact payload identity/completeness or configured-source behavior; Telnet
+LocalSource remains blocked pending that evidence. Resolved: current-code local
+mock and parser regression. Retired/excluded: none. Deferred: source/policy/
+dependency validation, exact payload recovery, and disposable Windows 11/Server
+2025 acceptance. Partial: no legacy component outcome closes. The candidate
+remains unregistered with no supported targets. All five ranges remain
+**38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded
+**145-200/about 170**, because mocked evidence is not native acceptance. See
+[structured regression and access evidence](archive/evidence/b06-client-component-current-local-regression-2026-10-23-1800.json),
+[Microsoft servicing source behavior](https://learn.microsoft.com/en-us/powershell/module/dism/enable-windowsoptionalfeature?view=windowsserver2025-ps),
+and [B06 implementation handoff](migrations/remaining-migrations-follow-up.md#b06-client-component-guarded-lifecycle-candidate-2026-10-23).
+## E08 local password-complexity backend investigation, 2026-10-23 18:04 UTC
+
+The existing maximum-age API has no password-complexity field in Microsoft's
+NetUserModalsSet levels. Complexity is a distinct local security policy.
+Microsoft documents `secedit` export, narrow security-area configuration by
+settings defined in a database, and generated rollback templates; a minimal
+one-setting template is a plausible backend but exact field isolation, managed
+precedence and recovery remain unverified. No code, catalog operation, target or
+Windows policy change was added. Resolved: backend boundary and concrete
+candidate test design. Retired/excluded: none. Deferred: isolated writer and
+Windows 11/Server 2025 tests for unrelated policy preservation, local versus
+merged policy, failure and exact restore including Not defined. Partial: no
+legacy outcome closes. All five ranges remain **38-58 / 52-67 / 19-24 / 25-35 /
+8-12**, exact **142-196**, rounded **145-200/about 170**. See [E08 evidence](archive/evidence/local-password-complexity-secedit-backend-investigation-2026-10-23-1804.json), [settings ledger](migrations/settings-post-migration-review.md#e08-local-password-complexity-backend-investigation-2026-10-23), and [remaining settings plan](migrations/remaining-settings-plan.md).
+18:06 UTC documentation validation: `tools/validate.ps1` passed with 405 operations, eight groups, five profiles and 262 PowerShell files; generated `docs/OPERATIONS.md` is current. E08 evidence now has a documented candidate backend hypothesis and explicit Windows 11/Server 2025 acceptance cases. No setter, target support or estimate change was introduced.
+## E08 one-setting local password-complexity template candidate, 2026-10-23 18:10 UTC
+
+Added an inert, unregistered module to build a UTF-16LE template containing only
+`System Access/PasswordComplexity` and to parse that value from supplied local or
+merged policy exports. Its focused Pester suite passed **8/8** on PowerShell 7;
+Windows PowerShell 5.1 parsed both files. A Windows PowerShell 5.1 runtime attempt
+was blocked by host AuthorizationManager while importing Pester/module content;
+no execution-policy bypass was attempted. No secedit command, policy query, VM or
+Windows state change occurred. Resolved: bounded source preparation. Retired or
+excluded: none. Deferred: native INF validation, local/managed precedence,
+unrelated-field preservation, failure/rollback and exact Not defined recovery on
+Windows 11 and Server 2025. Partial: no legacy outcome closes and no target or
+catalog operation is added. All five ranges remain **38-58 / 52-67 / 19-24 /
+25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured
+evidence](archive/evidence/local-password-complexity-candidate-template-implementation-2026-10-23-1810.json),
+[settings review](migrations/settings-post-migration-review.md#e08-one-setting-template-and-export-parser-candidate-2026-10-23-1810),
+and [E08 plan](migrations/remaining-settings-plan.md).
+## Current catalog package license-review planning regression, 2026-10-23 18:15 UTC
+
+`tests/LicenseReviews.Tests.ps1` passed **21/21** on PowerShell 7.6.5 with
+Pester 5.7.1 and TestRegistry disabled. The dynamic catalog-wide case used
+synthetic version-matched 
+eedsReview` records and confirmed install plans with
+desired state Present remain available for all **66** package operations marked
+`PendingAcceptance` in the current **96-package** catalog. This verifies only
+that license-review metadata is informational to planning; it does not approve
+license rights, installability, or Windows acceptance. Windows PowerShell 5.1
+parsed the test file, but its Pester runtime remains blocked by host
+AuthorizationManager. Fresh read-only `Get-VM` queries for both test VMs failed
+at CIM before checkpoint inspection. No installer, download, VM, Defender or
+Windows state changed. Resolved: catalog-wide plan availability. Retired/excluded:
+none. Deferred: source, package lifecycle, exact recovery, feature and target
+acceptance. Partial: no legacy outcome closes. All five estimates remain
+**38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded
+**145-200/about 170**. See [structured regression and VM access evidence](archive/evidence/package-license-review-plan-regression-2026-10-23-1815.json).
+## Sysinternals licensing rationale correction, 2026-10-23 18:18 UTC
+
+The user restated that the prior RIDE v2 license-specialist review approved
+Sysinternals for RIDE's direct Microsoft download-and-install workflow on supported
+devices. RIDE does not publish Sysinternals or create a shared redistribution
+bundle; the user states there are no legal issues and directs that generalized
+redistribution reasoning must not block migration. All ten exact version records
+remain `Reviewed`. Licensing is settled. Keep Defender-detected tools excluded as a
+separate security decision. Remaining Sysinternals blockers are technical lifecycle,
+exact recovery and target acceptance; existing VM/checkpoint access remains blocked.
+Resolved: migration rationale and license disposition. Retired: none. Excluded: the
+Defender-detected tools. Deferred: technical acceptance. Partial: no legacy product
+outcome closed. The five ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**,
+exact **142-196**, rounded **145-200/about 170**. See [dated evidence](archive/evidence/sysinternals-license-scope-clarification-2026-10-23-1818.json).
+## OpenJDK source and VM access recheck, 2026-10-23 18:21 UTC
+
+The current Microsoft download page confirms the exact versioned MSI and
+checksum-sidecar link identities for the selected x64 OpenJDK builds, but redirected
+sidecar bytes could not be read. No third-party digest was substituted and no MSI
+was acquired. `Get-VM` for both registered test targets was denied by CIM before
+checkpoint inspection. No installer, VM or Windows state changed. Resolved: source
+link identities. Retired/excluded: none. Deferred: publisher checksum bytes, MSI
+acquisition and target lifecycle acceptance. Partial: no legacy outcome closed.
+All five estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact
+**142-196**, rounded **145-200/about 170**. See [structured evidence](archive/evidence/package-source-and-vm-access-recheck-2026-10-23-1821.json).
+## Focused package/settings/components local regression, 2026-10-23 18:28 UTC
+
+The six focused current-code suites passed **204/204** on PowerShell 7.6.5/Pester
+5.7.1 with TestRegistry disabled and repository-local temporary storage. Covered:
+application package lifecycle, package evidence, license review, B06 preparation and
+lifecycle, and inert E08 template/parser behavior. No installer, DISM, secedit, VM or
+Windows policy was invoked. An initial run failed because Pester temp pointed to a
+protected AppData directory; staged evidence was left untouched and the corrected
+local-temp rerun passed. One synthetic Signal data directory was retained by the
+test safety contract. Resolved: local regressions pass. Retired/excluded: none.
+Deferred: native lifecycle/recovery, E08 isolation and exact rollback, OpenJDK source
+bytes and both Windows target acceptance. Partial: no legacy outcome closed. All
+five ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**,
+rounded **145-200/about 170**. See [structured evidence](archive/evidence/local-cross-group-package-settings-components-regression-2026-10-23-1828.json).
+## ThreadJob package acquisition and VM access recheck, 2026-10-23 20:55 UTC
+
+The official PowerShell Gallery page confirms `Microsoft.PowerShell.ThreadJob`
+2.2.0, minimum PowerShell 5.1, no declared package dependencies, and a package
+file list that includes its license, third-party notices and `.signature.p7s`.
+The exact publisher API download failed before transfer because the host could not
+resolve `www.powershellgallery.com`; no bytes or hash were acquired, and nothing was
+installed or imported. The current read-only VM query again returned CIM access
+denied before checkpoint inspection. A Hyper-V Manager window-state attempt timed
+out at app approval without showing guest details. No VM or Windows state changed.
+
+Resolved: exact publisher package metadata. Retired/excluded: none. Deferred:
+acquire and verify the package, then run the Windows PowerShell 5.1 module-present
+and PowerShell 7.6 built-in-module probes on the disposable VM. Partial: no
+PSScriptTools legacy outcome closed. All five ranges remain **38-58 / 52-67 /
+19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See
+[official Gallery package](https://www.powershellgallery.com/packages/Microsoft.PowerShell.ThreadJob/2.2.0)
+and [structured evidence](archive/evidence/psscripttools-threadjob-gallery-vm-recheck-2026-10-23-2055.json).
+
+## FTK Imager InstallShield static bundle recheck, 2026-10-24 03:21 UTC
+
+The retained official 8.3.0.27 ZIP matches its recorded SHA-256. 7-Zip extracted the outer setup PE sections/resources as inert data, but the 228 MB `[0]` payload was opaque to archive listing; no MSI/CAB layout or publisher-documented prerequisite contract was exposed. The main setup and CodeMeter Runtime remain separately signed executables. No silent switch or service/driver, reboot, or removal behavior was inferred. No candidate was added because the current generic EXE package contract cannot prove or recover this multi-component install. This is a technical integration gap, not a license blocker. No installer, product, VM, or Windows state changed.
+
+Resolved: outer launcher/member identity and static extraction boundary. Retired/excluded: none. Deferred: documented unattended install and prerequisite behavior; CodeMeter lifecycle; driver/service changes, reboot behavior, detection, exact recovery and disposable Windows acceptance. Partial: no FTK legacy outcome closed. All five estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [application review](migrations/application-migration-review.md#ftk-imager-installshield-bundle-static-recheck-2026-10-24-0321-utc) and [structured static evidence](archive/evidence/ftk-imager-static-bundle-recheck-2026-10-24-0321.json).
+## Disposable VM access recheck, 2026-10-24 03:23 UTC
+
+Read-only `Get-VM`/`Get-VMSnapshot` attempts for `RIDE-Win11-Test` and `RIDE-Srv2025Test` both failed with `Access to a CIM resource was not available to the client` before checkpoint inspection. No elevation was requested; no VM, checkpoint or guest state changed. Package, settings and component acceptance remains deferred.
+
+Resolved/retired/excluded: none. Deferred: all guest acceptance batches requiring the existing VM/checkpoint. Partial: no legacy outcome closed. All five estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured access evidence](archive/evidence/ride-vm-access-recheck-2026-10-24-0323.json).
+## B03 UserBinPath current-source regression, 2026-10-24 03:28 UTC
+
+Four focused local suites (`UserBinProfile`, `UserPathEngine`, `UserPathPreparation` and `ProfileAcceptanceAutomation`) passed **84/84** on PowerShell 7.6.5/Pester 5.7.1 with `TestRegistry` disabled. The initial default-config attempt failed before test execution because sandbox registry access denied Pester's HKCU test registry; no tests were counted from that attempt. No guest runner, user profile, persistent PATH or Windows state changed. Native ConsoleHost startup and checkpoint restore remain deferred because both current VM queries fail at CIM.
+
+Resolved: current mocked lifecycle/runner-boundary regression. Retired/excluded: none. Deferred: native Windows 11 startup, both installed runtime behaviors and checkpoint-backed exact recovery. Partial: no setting or legacy outcome closed. All five estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [settings review](migrations/settings-post-migration-review.md#b03-userbinpath-current-source-regression-2026-10-24-0328-utc), [structured evidence](archive/evidence/b03-user-bin-current-source-regression-2026-10-24-0328.json) and [VM access evidence](archive/evidence/ride-vm-access-recheck-2026-10-24-0323.json).
+## B10 offline execution current-source regression, 2026-10-24 03:29 UTC
+
+`OfflineExecution.Tests.ps1` and `OfflineProfileCoverage.Tests.ps1` passed **100/100** on PowerShell 7.6.5/Pester 5.7.1 with TestRegistry disabled and temporary files rooted under `.local`. The focused coverage exercises byte-bound selected-profile and package requirements, whole-plan validation before handler dispatch, fail-closed target/source/dependency checks, no-network fallback, and hash-bound portable/EXE/MSI fixtures. No real offline deployment, installer, VM or Windows state change occurred.
+
+Resolved: current mocked offline preflight and dispatch regression. Retired/excluded: none. Deferred: offline media handoff, installer-specific activation/dependency behavior and disposable-target recovery. Partial: no legacy outcome closed. All five estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [application review](migrations/application-migration-review.md#b10-offline-execution-current-source-regression-2026-10-24-0329-utc) and [structured evidence](archive/evidence/b10-offline-execution-current-source-regression-2026-10-24-0329.json).
+## B06 client-component current-source regression, 2026-10-24 03:30 UTC
+
+`ClientComponentPreparation.Tests.ps1` and `ClientComponentLifecycle.Tests.ps1` passed **47/47** on PowerShell 7.6.5/Pester 5.7.1 with TestRegistry disabled. The current mocked checks cover Online/LocalSource selection, OpenSSH CAB identity/build validation, `LimitAccess`, Telnet LocalSource refusal, exact-payload recovery guards and revalidation before restoring Present. No DISM, VM or Windows state changed. The candidate remains unregistered; Telnet source completeness and target acceptance are still open.
+
+Resolved: current mocked candidate regression. Retired/excluded: none. Deferred: Telnet source identity/completeness, configured-source/network boundary proof, payload recovery and Windows 11 acceptance. Partial: no component or legacy outcome closed. All five estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [application review](migrations/application-migration-review.md#b06-client-component-current-source-regression-2026-10-24-0330-utc), [structured evidence](archive/evidence/b06-client-components-current-source-regression-2026-10-24-0330.json) and [VM access evidence](archive/evidence/ride-vm-access-recheck-2026-10-24-0323.json).
+
+## Sysinternals focused rerun interrupted by sandbox file access, 2026-10-24 03:37 UTC
+
+The default Pester run failed before test execution because the sandbox denied Pester's HKCU registry fixture. With `TestRegistry` disabled, discovery found 28 tests, but the Sysinternals package fixtures encountered access-denied temporary-file moves during acquisition/recovery checks. The run was interrupted without a final summary; `LicenseReviews.Tests.ps1` did not complete. No aggregate pass count is claimed. The latest completed focused run remains 7/7 Sysinternals package tests and 21/21 license-plan tests at 03:12 UTC. No package, installer, Defender-detected tool, VM or Windows state changed. This environment-limited rerun resolves, retires, excludes, defers or partially closes no legacy outcome. All five estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. Sysinternals licensing remains settled under the prior RIDE v2 specialist approval for direct publisher-download/install; it is not a migration blocker. See [rerun evidence](archive/evidence/sysinternals-suite-sandbox-rerun-2026-10-24-0337.json) and [latest completed evidence](archive/evidence/sysinternals-suite-and-license-plan-local-regression-2026-10-24-0312.json).
+
+## PSScriptTools ThreadJob official Gallery browser source retry, 2026-10-24 03:41 UTC
+
+The official Gallery page continued to identify `Microsoft.PowerShell.ThreadJob` 2.2.0 and exposed its manual raw-nupkg download control. Activating that control did not produce a saved file in the browser session or the checked Downloads location. Direct navigation to the exact official Gallery package API was blocked by the browser client (`ERR_BLOCKED_BY_CLIENT`). No package bytes, digest, partial file, extraction or installation resulted. Do not substitute the bundled PowerShell runtime copy or an unverified mirror; the RIDE-managed dependency remains selected pending exact source acquisition and signature/content verification.
+
+Resolved: current official package page/version and download affordance rechecked. Retired/excluded: none. Deferred: exact nupkg acquisition and integrity verification, dependency-present PowerShell 5.1/7 runtime checks, and Windows target acceptance. Partial: no PSScriptTools legacy outcome closed. All five estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. No package, tool, VM or Windows state changed. See [structured source-retry evidence](archive/evidence/psscripttools-threadjob-browser-source-retry-2026-10-24-0341.json) and the [official Gallery page](https://www.powershellgallery.com/packages/Microsoft.PowerShell.ThreadJob/2.2.0).
+
+
+## Python RIDE-managed runtime selection decision, 2026-10-24 03:51 UTC
+
+The user selected RIDE-managed runtime selection, reaffirming explicit preparation of selected pinned runtimes, disabled implicit downloads, automatic acquisition only as an explicit online option, and updates as a separate action. Manager-managed runtimes remain per-user even if the manager MSI is machine-wide; existing command behavior and associations remain preserved by default, and RIDE uses the selected interpreter directly.
+
+Resolved: runtime-acquisition policy choice. Retired/excluded: none. Partial: Python manager and traditional installer variants remain selected candidates; no legacy Python outcome closes. Deferred: exact supported releases and architecture, publisher artifact pins, manager/runtime controls, offline bundle coverage, launcher coexistence, recovery, and disposable Windows acceptance. No runtime, installer, alias, association or Windows state changed. All five estimates remain settings 38-58, packages 52-67, components 19-24, files/assets 25-35 and maintenance 8-12; exact 142-196, rounded 145-200/about 170. See the [decision record](migrations/decision-session-2026-10-17.md#python-ride-managed-runtime-selection-reaffirmed-2026-10-24) and [Python migration review](migrations/application-migration-review.md#python-ride-managed-runtime-selection-reaffirmed-2026-10-24).
+
+## User scope decisions, 2026-10-24
+
+The user selected Zimmerman for focused review, then selected JoeWare as the
+next System Tools family later the same day. JoeWare supersedes Zimmerman for
+ordering only; the accepted 26-member list remains unchanged. Arsenal scope includes publisher
+products with a free-use scenario, including products that also have paid
+editions; only licensed-only products are excluded. OpenSSH Server is added as
+a separate v3 component outcome, individually selectable and off by default.
+No package or component was acquired or installed, no Windows state changed, and
+no legacy outcome closed. Estimates remain settings 38-58, packages 52-67,
+components 19-24, files/assets 25-35 and maintenance 8-12; exact 142-196,
+rounded 145-200/about 170. See the [decision record](migrations/decision-session-2026-10-17.md#zimmerman-arsenal-and-openssh-server-scope-decisions-2026-10-24).
+
+
+## KAPE Defender compatibility and exclusion decision, 2026-10-24 04:02 UTC
+
+CISA's KAPE collection procedure instructs responders to disable antivirus/host-protection mechanisms only if they block execution from removable media, then re-enable them after collection. This establishes an operational compatibility risk for that workflow, not a KAPE-specific Microsoft Defender detection. Kroll's KAPEDocs FAQ does not claim a Defender false positive. A user report for KAPE 1.3.0.2 in Microsoft Defender for Endpoint Live Response describes community-module validation failing because Export Format is empty; it does not report an antivirus detection or quarantine.
+
+The user authorized an exclusion limited to KAPE's dedicated install directory, with prior-state capture and removal only of the exclusion RIDE adds. Defer individual-file exclusions to v3.1. Do not exclude the shared tools root, C:\Tools, Downloads or other packages, and do not create per-file allow actions. The exclusion covers Defender Antivirus scanning in the installed directory only; it does not bypass DLP, removable-media controls, other Defender for Endpoint protections, tamper protection or organization-managed policy. Record such blockers without broadening the exclusion. No Defender setting or package changed. No legacy outcome closed. Deferred: exact publisher source/artifact, pinned definition inventory and dependency checks, managed-file lifecycle and disposable Windows acceptance. The pinned KapeFiles snapshot and separate refresh were already approved. All estimates remain settings 38-58, packages 52-67, components 19-24, files/assets 25-35 and maintenance 8-12; exact 142-196, rounded 145-200/about 170. See the [decision ledger](migrations/decision-session-2026-10-17.md#kape-defender-compatibility-and-exclusion-decision-2026-10-24), [CISA procedure](https://content.govdelivery.com/accounts/USDHSCISA/bulletins/2c5011c), [KAPEDocs FAQ](https://github.com/EricZimmerman/KapeDocs/blob/master/Pages/50-Frequently-asked-questions.md), [user report](https://github.com/EricZimmerman/KapeFiles/issues/1099), and [Microsoft exclusion guidance](https://learn.microsoft.com/en-us/defender-endpoint/navigate-defender-endpoint-antivirus-exclusions).
+
+## JoeWare current source recheck, 2026-10-24 04:08 UTC
+
+Official publisher pages and the per-product versions rows agree on AdFind 1.64.00 and AdMod 1.29.00 (2026-06-08); the global versions-file header remains dated 2023. The 41-name collection scope is unchanged. The `rdp-sec-check` page still advertises V02.00.00/0.9-beta (2014), while the list has a 2011 V01.00.00 row, and no exact archive bytes or SHA-256 pins were acquired. The download form was not submitted; no tool, endpoint, Defender setting, VM or Windows state was touched. Resolved: current AdFind/AdMod source versions. Retired: none. Excluded: Defender-blocked AdFind remains excluded. Deferred: exact artifacts, the rdp-sec-check discrepancy, file inventory and technical acceptance. Partial: no JoeWare legacy outcome closed. All five ranges remain 38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196, rounded 145-200/about 170. See [application review](migrations/application-migration-review.md#joeware-current-publisher-source-recheck-2026-10-24-0408-utc) and [structured evidence](archive/evidence/joeware-current-source-review-2026-10-24-0408.json).
+## OpenSSH Server source and VM access recheck, 2026-10-24 04:12 UTC
+
+Microsoft documents `OpenSSH.Server~~~~0.0.1.0`, its Server 2025 default presence, the enabled inbound TCP 22 rule created on installation, and host-key/config creation on first service start. The source review records a distinct off-by-default service/firewall/data lifecycle contract; no code, catalog operation, target support or legacy outcome was added. Read-only VM checks for RIDE-Win11-Test and RIDE-Srv2025Test failed at CIM before VM/checkpoint inspection. No elevation, VM, service, firewall, host-key or Windows change occurred. Resolved: current publisher-documented side effects. Retired/excluded: none. Deferred: service/firewall/file inventory, exact matching-source recovery, lifecycle implementation and native Windows 11/Server 2025 acceptance. Partial: no OpenSSH Server legacy outcome closes. All five ranges remain 38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196, rounded 145-200/about 170. See [application review](migrations/application-migration-review.md#openssh-server-current-microsoft-behavior-review-2026-10-24-0412-utc) and [structured evidence](archive/evidence/openssh-server-current-source-review-2026-10-24-0412.json).
+## OpenSSH Server read-only observation candidate, 2026-10-24 04:13 UTC
+
+Added an unregistered read-only observer for the exact Server capability, sshd service, OpenSSH TCP 22 firewall rule and a bounded `%ProgramData%\ssh` file inventory with hashes. It returns no private-key bytes and always reports mutation readiness and recovery as false. Four focused Pester tests passed after disabling Pester's sandbox-denied TestRegistry plugin; Windows PowerShell 5.1 parsing and repository validation passed. No native provider, service, firewall, host-key/config file, VM or Windows state changed. Resolved: current-code mock observation and fail-closed target/provider boundaries. Retired/excluded: none. Deferred: state-changing guarded lifecycle, feature source/recovery, catalog/profile integration and Windows 11/Server 2025 acceptance. Partial: no Server legacy outcome closes. Estimates remain 38-58 / 52-67 / 19-24 / 25-35 / 8-12; exact 142-196, rounded 145-200/about 170. See [application review](migrations/application-migration-review.md#openssh-server-current-microsoft-behavior-review-2026-10-24-0412-utc) and [structured evidence](archive/evidence/openssh-server-observation-candidate-2026-10-24-0413.json).
+
+## OpenSSH Server observation local regression follow-up, 2026-10-24 04:24 UTC
+
+Expanded the isolated provider coverage for the unregistered read-only observer.
+Focused Pester passed **7/7** on PowerShell 7.6.5/Pester 5.7.1 with TestRegistry
+disabled. PowerShell parsing and repository validation passed for 407 operations,
+8 groups, 5 profiles and 266 PowerShell files. No native component, service,
+firewall, server-data file, VM or Windows state was accessed or changed.
+Resolved: expanded current-source mock coverage for target mismatch, provider
+failure, capability/service separation, exact capability identity and bounded
+synthetic file hashing. Retired/excluded: none. Deferred: guarded lifecycle,
+exact source/recovery, catalog integration and Windows 11/Server 2025 acceptance;
+VM access remains CIM-denied. Partial: no legacy component outcome closes. All
+five ranges remain 38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196, rounded
+145-200/about 170. See [application review](migrations/application-migration-review.md#openssh-server-observation-local-regression-follow-up-2026-10-24-0424-utc)
+and [structured evidence](archive/evidence/openssh-server-observation-follow-up-2026-10-24-0424.json).
+
+## User decision update, 2026-10-24: package exclusions and deferred tools
+
+The user approved the v3 design for package-specific Defender exclusions, replacing any broad v2.x `C:\Tools` exception with reviewed exclusions limited to selected packages' RIDE-managed install directories. Capture the exact path's prior membership and remove it during package removal only if RIDE added it; preserve pre-existing exclusions. Plans and reports must identify package, version, exact path and reason. Do not exclude the shared `ToolsDirectory`, `C:\Tools`, Downloads or individual files. Per-file handling remains deferred to v3.1; the four reported NirSoft alerts remain unclassified and require manual review. No quarantined file is restored or re-extracted by this decision.
+
+Classic YARA compatibility and `GetSysmonOlafXML` remain deferred, superseding the 2026-10-23 selection of three Sysmon Modular profiles for active migration. Keep YARA-X as the selected standalone default; do not advance classic-YARA acquisition or implementation. Do not advance Sysmon Olaf acquisition or application under the earlier profile selection. No legacy outcome or estimate changed. Estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. No Defender setting, package or VM state changed.
+
+### Sysmon decision correction, 2026-10-24
+
+The user corrected the Sysmon deferral: the three selected Sysmon Modular
+profiles remain active for migration as pinned, download-only artifacts for
+Sysmon 15.21. Continue live acquisition, retained-file recovery, and user/VM
+acceptance when available. Do not treat this decision as authorization to
+install Sysmon or apply or replace a Sysmon configuration. Classic YARA remains
+deferred. This changes the active disposition only; no legacy outcome has yet
+closed, so estimates remain unchanged at **38-58 / 52-67 / 19-24 / 25-35 /
+8-12**, exact **142-196**, rounded **145-200/about 170**. No Windows state
+changed.
+
+## NTCore Windows 11 file-lifecycle and 4GB Patch functional rejection, 2026-10-24 05:06 UTC
+
+Protected Windows 11 run `40e269c4d243442eb5cd78a122e58334` completed all three
+NTCore cases on build 26300. PE Detective and CFF Explorer passed package
+file-lifecycle and saved-state recovery (**2/2**). The 4GB Patch candidate
+successfully set the large-address-aware flag on a generated synthetic x86 PE,
+but it also patched the file when its `.Backup` destination was occupied,
+returned exit code 0 and produced no recoverable backup. The test restored the
+synthetic fixture from memory. The controller reset the pinned checkpoint and
+powered off the VM; evidence collection completed without cleanup, collection
+or export errors. No real executable was opened or modified.
+
+Resolved: PE Detective and CFF Explorer Windows 11 file lifecycle only.
+Rejected/deferred: 4GB Patch functional safety and target support until a safe
+invocation guard or upstream correction passes the backup-collision and exact
+recovery checks. No whole legacy outcome resolved, retired or excluded; all
+five ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**,
+rounded **145-200/about 170**. See [structured run evidence](archive/evidence/ntcore-win11-4gb-patch-functional-rejection-2026-10-24-0506.json)
+and the [active application review](migrations/application-migration-review.md#ntcore-windows-11-file-lifecycle-and-4gb-patch-safety-rejection-2026-10-24-0506-utc).
+
+## PSScriptTools Windows 11 lifecycle and dependency-runtime acceptance, 2026-10-24 05:19 UTC
+
+Current-source Windows 11 run `cf3e8818c73b44439489e353968b1f15` passed package
+file-lifecycle and saved-state recovery. Its positive runtime probe failed
+before running product functions because Windows PowerShell 5.1 lacks the
+required `Microsoft.PowerShell.ThreadJob` module. The missing-dependency
+refusal probe passed. PowerShell Core was unavailable, and no dependency was
+installed. The VM checkpoint was restored and powered off with evidence
+collected and no cleanup, collection or export error.
+
+Resolved: package file lifecycle only. Deferred: exact ThreadJob source bytes
+and signature/hash verification, managed dependency lifecycle, positive
+dependency-present PowerShell 5.1 and PowerShell Core runtime probes, catalog
+prerequisite integration, and target support. No legacy outcome closed; all
+five estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact
+**142-196**, rounded **145-200/about 170**. See [structured run evidence](archive/evidence/psscripttools-win11-runtime-dependency-acceptance-2026-10-24-0519.json)
+and [application review](migrations/application-migration-review.md#psscripttools-windows-11-lifecycle-and-dependency-runtime-acceptance-2026-10-24-0519-utc).
+
+## OfflineCaffeine disconnected Windows 11 package/profile acceptance, 2026-10-24 05:28 UTC
+
+Current-source Windows 11 run `d94d0ff62e224f2b8435df297762b5e2` passed **16/16**
+checks for Caffeine 1.98 on build 26300. The pinned acceptance profile was
+created for the detected Enterprise Evaluation edition, build and architecture.
+The guest adapter started Up, was disabled before preflight, remained Disabled
+through the run, and the pinned checkpoint restored it afterward.
+
+Missing/corrupt/omitted payload and wrong-target refusals passed before writes.
+Offline preview, CLI install/repeat, install absence restore, profile
+apply/repeat, remove, exact removal restore and profile absence restore all
+passed. The RIDE engine, profile and payload hashes are captured in the bundle
+manifest. Caffeine was not launched, so this is offline package/profile
+acceptance, not functional app acceptance. Cleanup was `ResetAndOff`; evidence
+was collected and cleanup, collection and export errors were empty.
+
+Resolved: selected-profile offline installation, application, no-network gate
+and recovery for Caffeine on Windows 11. Deferred: executable behavior and
+broader installer, dependency, servicing, interruption and other-target
+acceptance. No whole legacy outcome closed; all five estimates remain
+**38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded
+**145-200/about 170**. See [structured run evidence](archive/evidence/offline-caffeine-win11-disconnected-acceptance-2026-10-24-0528.json)
+and [application review](migrations/application-migration-review.md#offlinecaffeine-disconnected-windows-11-packageprofile-acceptance-2026-10-24-0528-utc).
+
+## v14 prerequisite planning and shared-runtime recovery, 2026-10-24 05:42 UTC
+
+The focused local regression passed 9/9. Prerequisite ordering/deduplication,
+minimum-version refusal, dependent-removal protection and safe restoration that
+retains a newer shared runtime are covered. An initial Pester invocation failed
+before tests because the sandbox denied its HKCU registry fixture; rerunning with
+TestRegistry disabled passed. No installer, VM or Windows state changed. Deferred:
+RIDE-managed v14 lifecycle/recovery on Windows 11 and acceptance on declared
+Server targets. No legacy outcome closed, retired or excluded. Estimates remain
+38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196, rounded 145-200/about 170.
+See [evidence](archive/evidence/vcredist-prerequisite-regression-2026-10-24-0542.json)
+and [application review](migrations/application-migration-review.md#v14-prerequisite-planning-and-shared-runtime-recovery-regression-2026-10-24-0542-utc).
+## Microsoft Visual C++ v14 ApplicationsBatch5 preparation, 2026-10-24 05:52 UTC
+
+The focused Windows 11 guest lifecycle batch is wired through the existing
+application-test controller. It verifies RIDE install/repeat/remove/recovery and
+minimum registered/DLL versions when the checkpoint has no adequate runtime or
+installed dependent; otherwise it preserves the checkpoint and records
+
+otApplicable`. The script also verifies the engine's safe recovery behavior
+for an older captured shared runtime. TestAutomation passed 103 tests with two
+existing skips; focused catalog/runtime regressions passed 2/2; Windows
+PowerShell 5.1 parsing and repository validation passed. VM execution remains
+pending after the 05:30 CIM denial. Production runtime target support stays empty.
+No legacy outcome closed, retired or excluded; estimates remain **38-58 / 52-67 /
+19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See
+[structured batch evidence](archive/evidence/vcredist-applications-batch5-preparation-2026-10-24-0552.json)
+and [operator instructions](../tests/integration/README.md#existing-application-suites).
+
+## NTCore guarded synthetic acceptance and MiTeC SQLite Query lifecycle, 2026-10-24
+
+MiTeC SQLite Query passed **1/1** Windows 11 file-lifecycle/recovery case on
+build 26300. It did not open a database or execute SQL; functional, runtime,
+licensing and activation acceptance remain open. The protected controller
+restored the checkpoint and powered off without cleanup or evidence errors.
+
+The guarded NTCore synthetic PE checks passed on the guest, including checksum,
+collision refusal, exact backup and recovery. The overall controller run failed
+because its registered validator still required `ToolExecuted=false`; the
+current repository validator was updated, but the controller refresh was
+blocked by the lack of an elevated PowerShell session. Reacceptance remains
+required after refreshing the idle controller. Both runs reset/off the pinned
+checkpoint and collected evidence. No whole legacy outcome closed and no
+target support was added. All five ranges remain **38-58 / 52-67 / 19-24 /
+25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [NTCore
+controller evidence](archive/evidence/ntcore-win11-guarded-launcher-controller-validation-2026-10-24-0559.json)
+and [SQLite Query evidence](archive/evidence/mitec-sqlite-query-win11-lifecycle-2026-10-24-0604.json).
+
+## Sysinternals Suite current-source focused package regression, 2026-10-24 06:10 UTC
+
+`SysinternalsSuitePackage.Tests.ps1` passed **7/7** on PowerShell 7.6.5 and
+Pester 5.7.1 with Pester's unused `TestRegistry` plugin disabled. The default
+Pester setup was blocked by denied HKCU access; a registry-disabled attempt using
+the sandbox system temp root then failed three file-move assertions because that
+root denied moves. Redirecting the same suite's temp root to a fresh `.local`
+directory produced the complete 7/7 pass. The tests verify pinned archive and
+member metadata plus inert staging, repeat, removal, conflict preservation and
+saved-state recovery. They execute no Sysinternals utility or installer and
+change no VM, Defender or Windows state.
+
+Resolved: current-source local package lifecycle/recovery regression. Retired,
+excluded or deferred: no new legacy outcome; the user's prior license-specialist
+approval remains settled, while the four Defender-reported file groups remain
+separate exclusions. Partial: utility behavior, activation and supported-target
+acceptance remain open. All five estimate ranges remain **38-58 / 52-67 / 19-24 /
+25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured
+evidence](archive/evidence/sysinternals-suite-local-regression-2026-10-24-0610.json).
+
+## ApplicationsBatch1 stale controller-test snapshot and Gpg4win regression, 2026-10-24 06:29 UTC
+
+The registered ApplicationsBatch1 run 4b4ab05256884fde810d04d0fb875998 failed its guest validation before integration execution. One of 319 Pester tests failed because the staged TestAutomation.Tests.ps1 snapshot wrote ToolExecuted=false for NTCore, while the current controller validator expects the Boolean value true. The staged automation module matched the current checkout; the test file did not. Current-source focused controller tests now pass 5/5. A corrected ApplicationsBatch1 retry (2e2b9cab185148318a0b29aa690a4501) is running; no concurrent request was submitted.
+
+The Gpg4win current-source package suite passed 10/10 on PowerShell 7.6.5/Pester 5.7.1 with TestRegistry disabled and a repository-local temp root. No installer or GnuPG process ran. This verifies the local candidate's mocked install/remove/configuration safeguards only; native Gpg4win behavior and exact recovery remain deferred.
+
+Resolved: the stale controller-test mismatch in current source and current-source Gpg4win mocked regression. Retired/excluded: none. Deferred: ApplicationsBatch1 Windows runtime acceptance pending the corrected retry; Gpg4win install, selected component visibility and recovery. Partial: Gpg4win candidate implementation and mocked lifecycle only. No whole legacy outcome closed; estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured evidence](archive/evidence/applications-batch1-stale-controller-test-and-gpg4win-regression-2026-10-24-0629.json).
+
+## Local password-complexity template current-source regression, 2026-10-24 06:33 UTC
+
+The inert local password-complexity candidate suite passed 8/8 on PowerShell 7.6.5/Pester 5.7.1 with TestRegistry disabled. The test temp root was inside .local and removed after the run. Tests cover the allow-listed Unicode template and supplied-export parsing. No policy query, secedit execution, elevation, VM or Windows change occurred.
+
+Resolved: current-source inert template/export regression. Retired/excluded: none. Partial: template preparation only; no user-visible setting outcome is verified. Deferred: native local-policy application, exact rollback, managed-policy precedence and disposable-VM acceptance. No legacy setting outcome closed; estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured evidence](archive/evidence/local-password-complexity-template-regression-2026-10-24-0633.json).
+
+## ApplicationsBatch1 retry state recheck, 2026-10-24 06:39 UTC
+
+The corrected request 2e2b9cab185148318a0b29aa690a4501 remains present in the registered runner's queue/running directory, but no result.json, finished queue entry or guest summary exists. Its controller log has not advanced since 08:26:48 local time, when it began waiting for the second AutomatedLab command. This queue/log evidence does not prove that the controller process is alive or terminal. Read-only Task Scheduler status through PowerShell was blocked by CIM access denial; the local COM query was denied, and schtasks.exe returned a network-address error. No fresh elevation was requested, no VM state was changed, and no replacement request was submitted.
+
+Resolved: status observation attempts documented. Retired/excluded: none. Deferred: ApplicationsBatch1 result and later batches until this same request is terminal or its process state can be verified. No legacy outcome closed; all five estimate ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured status evidence](archive/evidence/applications-batch1-retry-state-recheck-2026-10-24-0639.json).
+
+## Gpg4win ApplicationsBatch1 acceptance routing, 2026-10-24 06:46 UTC
+
+The accepted current-user Gpg4win candidate now declares ApplicationsBatch1, allowing the existing disposable-VM application runner to exercise its selected command-line/Kleopatra configuration through the limited-user install/remove/recovery path. Gpg4win remains a Windows 11 candidate with no supported target until native acceptance passes. The focused package suite passed 11/11 after adding the package-selection module to its fixture. Catalog export and repository validation passed. The prior ApplicationsBatch1 retry was staged before this routing change and has no observable terminal result; it will not include Gpg4win.
+
+The local license-review record remains separate from catalog defaults and technical selection; its review marker does not gate this migration batch. No installer or GnuPG process ran, no VM or Windows state changed, and no fresh UAC was requested.
+
+Resolved: Gpg4win test-batch routing and focused catalog/selection regression. Retired/excluded: none. Partial: candidate implementation and mocked lifecycle only. Deferred: native Windows 11 install, selected component visibility, key/config preservation, remove and exact recovery. No legacy package outcome closed; estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured evidence](archive/evidence/gpg4win-applications-batch-routing-2026-10-24-0646.json).
+
+## ApplicationsBatch1 current-pin Windows 11 acceptance, 2026-10-24 06:49 UTC
+
+The registered RIDE-Win11-Test request 2e2b9cab185148318a0b29aa690a4501 passed on Windows 11 build 26300. Guest validation passed 318 Pester tests, failed none and skipped one; ApplicationsBatch1 integration passed. All eight selected packages passed lifecycle and compensating presence-recovery scenarios: Thunderbird 158.0.1, VS Code 1.143.1, Firefox 158.0.1, DB Browser for SQLite 3.13.1, Autopsy 4.23.1, Chrome 156.0.8078.48, Wireshark 4.6.9.0 and Signal 8.32.0. Thunderbird ran under the temporary limited user; profile-preservation checks passed for Thunderbird, Chrome and Signal, with temporary account and batch-logon-right cleanup verified.
+
+The controller reported no cleanup, collection or state-collection error; its cleanup restored the pinned checkpoint. Previous-version recovery was unavailable for these package selections, so the evidence establishes compensating presence recovery, not exact old-version restoration. Wireshark's existing-installation transition, association/shared-runtime behavior and broader recovery remain open. The request snapshot predates assigning Gpg4win to ApplicationsBatch1, so it did not test Gpg4win; the package remains pending Windows 11 acceptance. No Defender-blocked package was selected.
+
+Resolved: selected Windows 11 application package lifecycle/recovery scenarios. Retired/excluded: none. Partial/deferred: Gpg4win native acceptance, package-specific prior-version recovery and Wireshark's remaining scenarios. No whole legacy product outcome or additional supported target closed; all five estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured evidence](archive/evidence/applications-batch1-win11-current-pin-2026-10-24-0649.json).
+
+## ApplicationsBatch1 current-source Windows 11 acceptance, 2026-10-24 06:46 UTC
+
+The current-source ApplicationsBatch1 run passed on Windows 11 build 26300.
+All eight selected application install/repeat/remove/recovery scenarios passed;
+Pester passed 318/319 with one skip. The protected controller reset the pinned
+checkpoint, powered off, collected evidence, and reported no cleanup, collection
+or export error. Exact previous-version recovery is unavailable for these
+installers. Wireshark's existing-installation, association/shared-runtime and
+feature-specific checks remain separate acceptance items. No new target or
+legacy outcome closed; all five estimates remain 38-58 / 52-67 / 19-24 / 25-35 /
+8-12, exact 142-196, rounded 145-200/about 170. See [structured evidence]
+(archive/evidence/applications-batch1-win11-acceptance-2026-10-24-0646.json).
+
+## Gpg4win acceptance queue access blocker, 2026-10-24 06:51 UTC
+
+After the successful ApplicationsBatch1 run, the source-current request intended to include Gpg4win failed before enqueue. The task client was denied while creating its temporary request file under the protected pending queue. The pending and running queues remain empty and the controller has no blocked marker. The previous request finished Passed with eight package scenarios and no cleanup or collection error. No queue permission was changed, no fresh elevation was requested, and no VM or Defender state changed.
+
+Resolved: Windows 11 lifecycle/recovery acceptance for the prior eight ApplicationsBatch1 scenarios. Retired/excluded: none. Partial/deferred: Gpg4win routing and 11/11 local tests are ready, but native acceptance awaits an already approved elevated queue-writing session; previous-version recovery and remaining Wireshark scenarios remain open. No whole legacy product outcome closed; all estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured queue evidence](archive/evidence/gpg4win-acceptance-queue-access-block-2026-10-24-0651.json) and [ApplicationsBatch1 run evidence](archive/evidence/applications-batch1-win11-current-pin-2026-10-24-0649.json).
+
+## Remaining-settings batch routing and Sysinternals scope, 2026-10-24 07:20 UTC
+
+Routed the Hash value and Certutil context-menu registry candidates into remaining-settings batch 1; the batch now contains 19 operations. The focused suite passed 8/8 with one existing skip, and repository validation passed (407 operations, eight groups, five profiles, 269 PowerShell files). The registered VM queue remained empty because protected request-file creation was denied before enqueue. No guest, registry, Explorer or Defender state changed. Phoenix Protector, Gpg4win and TMOG remain routed to ApplicationsBatch1 with native acceptance pending.
+
+The prior RIDE v2 license-specialist approval governs Sysinternals in RIDE's direct Microsoft download-and-install workflow. RIDE does not publish or transfer Sysinternals copies; no legal or licensing blocker applies to package migration. Defender-detected utilities remain a separate exclusion. Resolved: Sysinternals licensing disposition. Retired/excluded: none beyond the separate Defender detections. Partial/deferred: context-menu behavior and remaining native package acceptance. No additional legacy outcome closed; estimates remain 38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196, rounded 145-200/about 170. See [settings evidence](archive/evidence/context-menu-settings-batch1-routing-2026-10-24-0718.json) and [Sysinternals decision evidence](archive/evidence/sysinternals-migration-scope-reaffirmation-2026-10-24-0720.json).
+## JoeWare rdp-sec-check version identity reconciliation, 2026-10-24 07:24 UTC
+
+The official product and usage pages identify the offered rdp-sec-check as 0.9-beta / JoeWare V02.00.00 dated 2014-11-17. The current product version identity is resolved; the older versions.txt V01.00.00 row and its digests remain unmapped to the current archive. The product page states that the ZIP contains GPLv2 Perl source and an ActiveState PerlApp executable and credits Portcullis/Mark Lowe; the linked original Portcullis page returned 404. No download form or external endpoint was used, no artifact was acquired, and no executable, Defender or VM state changed. Resolved: current version identity. Retired/excluded: none. Partial/deferred: exact archive/hash, source and dependency inventory, notices, package lifecycle and isolated utility acceptance. Estimates remain unchanged at 38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196, rounded 145-200/about 170. See [structured evidence](archive/evidence/joeware-rdp-sec-check-current-version-reconciliation-2026-10-24-0724.json).
+## JoeWare source reconciliation and OpenSSH Server observer regression, 2026-10-24 07:28 UTC
+
+The JoeWare rdp-sec-check product and usage pages agree on the currently offered 0.9-beta / V02.00.00 (2014-11-17); the old V01.00.00 versions-file row and digest mapping remain pending exact artifact inspection. The OpenSSH Server read-only observer passed 7/7 focused tests on PowerShell 7.6.5/Pester 5.7.1. It remains unregistered and does not mutate component, service, firewall or host-key/config state. No archive or executable was downloaded or run, no endpoint was contacted, and no VM, Windows, elevation or Defender state changed. Resolved: current JoeWare version identity and observer source regression. Retired/excluded: none. Partial/deferred: exact JoeWare bytes and behavior, OpenSSH Server lifecycle/recovery and native acceptance. Estimates remain 38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196, rounded 145-200/about 170. See [JoeWare evidence](archive/evidence/joeware-rdp-sec-check-current-version-reconciliation-2026-10-24-0724.json) and [OpenSSH observer evidence](archive/evidence/openssh-server-observation-local-regression-2026-10-24-0728.json).
+
+## ApplicationsBatch1 Server 2025 target-aware acceptance, 2026-10-24 07:34 UTC
+
+The first request, `fb2befa172e84dd5977c741d551229d0`, passed guest Pester and Thunderbird's limited-user install/repeat/remove/recovery, profile preservation and account cleanup, but the coordinator rejected target-exclusion rows without worker identity fields. The Windows Server 2025 checkpoint was restored and powered off; evidence collection had no reported errors. The runner now keeps those ineligible-target rows in the coordinator only. Focused package regressions passed 103/103 before the corrected rerun.
+
+The corrected request, `0365d89e5c4649ea94bd502ae737d2c7`, passed on Windows Server 2025 build 26100: guest validation passed 319, failed 0 and skipped 1; all eight target-eligible package lifecycle/recovery scenarios passed. Phoenix Protector, Gpg4win and TMOG were 
+otApplicable` because the catalog names Windows 11 as their candidate target. No candidate support was promoted in the production catalog. The controller restored the pinned checkpoint, powered off the VM and collected evidence without errors. Package installers provide compensating presence recovery; exact old-version recovery and Wireshark's existing-install/association/shared-runtime/feature checks remain open.
+
+Resolved: Server 2025 acceptance for eight target-eligible ApplicationsBatch1 packages and the worker evidence-routing defect. Retired/excluded: none. Partial/deferred: Windows 11 lifecycle acceptance for Phoenix Protector, Gpg4win and TMOG; exact previous-version recovery; Wireshark follow-up. No whole legacy outcome closed; all five estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. Next, run ApplicationsBatch1 on Windows 11 for the three candidates, then continue other deferred VM acceptance. See [passing Server 2025 evidence](archive/evidence/applications-batch1-server2025-acceptance-2026-10-24-0734.json), [initial harness failure](archive/evidence/applications-batch1-server2025-worker-identity-retry-2026-10-24-0711.json), [latest Windows 11 run](archive/evidence/applications-batch1-win11-current-pin-2026-10-24-0649.json) and [test procedure](../tests/integration/README.md#existing-application-suites).
+## Artcraft ApplicationsBatch6 technical routing, 2026-10-24 07:37 UTC
+
+Routed the twelve machine-scope Artcraft applications to the Windows 11-only ApplicationsBatch6 lifecycle suite; the separate current-user launcher remains out of the batch. The 13 version-specific private license records remain NeedsReview, as directed, and the review status does not gate technical migration. Package/automation Pester passed 110/112 with two skips, no failures; the pass required redirecting temporary files to a unique checkout-local `.local` directory after the default sandbox temp path denied writes. Repository validation passed for 407 operations, eight groups, five profiles and 269 PowerShell files. No installer, VM, checkpoint, Windows, elevation or Defender state changed. The latest recorded queue dispatch remained blocked before enqueue. Resolved: exact acceptance routing/local regression. Retired/excluded: none. Partial/deferred: all twelve Windows 11 install/repeat/uninstall/recovery cases and target support. No legacy outcome closed; ranges remain 38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196, rounded 145-200/about 170. See [structured evidence](archive/evidence/artcraft-applications-batch6-routing-2026-10-24-0737.json).
+
+## PSScriptTools local lifecycle and queue dispatch, 2026-10-24 10:44 UTC
+
+The PSScriptTools source-package lifecycle suite was run with Pester's default
+registry test disabled. The first invocation passed 3/7 and failed four cases
+when the restricted default temp location denied an atomic manifest rename. The
+writable `.local` rerun passed its metadata and incomplete-payload checks, then
+remained active in the full 360-member repeat-install and exact-recovery case;
+no suite pass is claimed. A registered Windows 11 PSScriptTools queue submission
+was denied before enqueue by protected pending-queue temp-file access. No UAC,
+VM or checkpoint change occurred. The existing ApplicationsBatch1 run and
+pending SysinternalsProducts request remain serialized; no guest result is
+claimed. Resolved/retired/excluded: none. Partial/deferred: PSScriptTools local
+lifecycle, guest file lifecycle, and the separate runtime/dependency probe. No
+whole legacy outcome closes. Estimates remain **38-58 / 52-67 / 19-24 / 25-35 /
+8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured
+PSScriptTools evidence](archive/evidence/psscripttools-local-regression-and-win11-queue-block-2026-10-24-1044.json).
+
+## PSScriptTools Windows 11 acceptance request queued, 2026-10-24 10:46 UTC
+
+The first request attempt stopped before enqueue because the sandboxed shell
+could not write the protected pending-queue temp file. The existing registered
+runner then accepted PSScriptTools request
+`2c4c9348bbb541059ea9e38e7fb796cd` with a 60-minute budget. It is pending after
+the active ApplicationsBatch1 run and earlier SysinternalsProducts request. Its
+local manifest points to the exact pinned archive, but no guest validation,
+package activation or recovery result is available. No VM, checkpoint, package
+or Windows state changed on submission. Resolved/retired/excluded: none.
+Partial/deferred: the full local PSScriptTools lifecycle rerun, guest lifecycle,
+runtime/dependency probe and target support. No legacy outcome closes; estimates
+remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded
+**145-200/about 170**. See [queue evidence](archive/evidence/psscripttools-win11-queue-submission-2026-10-24-1045.json).
+
+## PSScriptTools Windows 11 result and SysinternalsProducts queue recovery, 2026-10-24 11:07 UTC
+
+PSScriptTools request `2c4c9348bbb541059ea9e38e7fb796cd` completed Failed on Windows 11 build 26300 because its separate runtime probe could not import the required `Microsoft.PowerShell.ThreadJob` module under Windows PowerShell 5.1.26100.9444; PowerShell 7 was unavailable. The missing-dependency negative guard passed before creating its isolated CIM file. No dependency or product function ran. The independent 360-file package file lifecycle/recovery passed, evidence collection succeeded, and the controller restored the checkpoint with `ResetAndOff`. Its full local inert-source suite also passed 7/7. Resolved: local and Windows 11 file lifecycle. Partial/deferred: runtime and functional behavior, dependency ownership/source and target support. No whole legacy outcome closes.
+
+The earlier SysinternalsProducts queue request `cf9a9049bc0745c08d7e0c3abcb67024` was no longer present in pending/running state and had no correlated result directory at the 11:01 UTC recheck. It therefore has no acceptance result. The same fixed suite was resubmitted through the existing registered controller as `f89afa96a4154019a66b3413b4e64d71`, pending after the existing queue. The selected nine cached pinned archives remain the prepared input; Defender-blocked tools remain excluded and licensing is not a blocker. No VM change occurred at resubmission. Estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [PSScriptTools Windows 11 evidence](archive/evidence/psscripttools-win11-acceptance-2026-10-24-1104.json), [PSScriptTools local evidence](archive/evidence/psscripttools-full-local-lifecycle-2026-10-24-1101.json), and [SysinternalsProducts queue recovery evidence](archive/evidence/sysinternals-products-win11-queue-retry-2026-10-24-1104.json).
+## MiTeC package lifecycle follow-up, 2026-10-24 11:16 UTC
+
+MiTeCUtilityFiles passed three Windows 11 build 26300 file-lifecycle cases at
+11:09 UTC without executing utilities. SQLiteQuery passed its one selected
+Windows 11 build 26300 file-lifecycle/recovery case at 11:14 UTC; all 14
+reported checks passed, evidence collection succeeded, and the pinned checkpoint
+was reset/off. The utility and database were not opened or executed. Its
+focused local synthetic package suite then passed 2/2 at 11:16 UTC. These results
+resolve file-lifecycle coverage only; SQLite database features, activation,
+exact database-content recovery and supported-target promotion remain open.
+Resolved: three MiTeC utility file lifecycles and SQLiteQuery file lifecycle plus
+local candidate regression. Retired/excluded: none. Deferred: functional and
+database acceptance, activation and remaining targets. Partial: no whole legacy
+outcome closes. All group ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**,
+exact **142-196**, rounded **145-200/about 170**. See [SQLiteQuery Windows 11
+evidence](archive/evidence/mitec-sqlite-query-win11-file-lifecycle-2026-10-24-1114.json),
+[SQLiteQuery local evidence](archive/evidence/mitec-sqlite-query-local-synthetic-regression-2026-10-24-1116.json),
+and [MiTeCUtilityFiles Windows 11 evidence](archive/evidence/mitec-utility-files-win11-acceptance-2026-10-24-1109.json).
+## Zimmerman helper source pin review, 2026-10-24 11:23 UTC
+
+The official upstream history identifies commit
+`d808d1dfe6446faf884576a8a1c11b6875197a19` (2026-05-02) as current, lists no
+GitHub releases, and identifies an MIT license for the helper repository. The
+current downloader self-updates by default, discovers artifacts from the live
+publisher page, downloads multiple links, and extracts ZIPs into a chosen target
+while overwriting existing files. These characteristics need a separate
+RIDE-managed, package-scoped implementation for the fixed 26-member list. The
+exact commit archive request failed at local DNS before transfer; no partial
+file was written, and no helper or tool ran. Resolved: commit identity and
+repository-level MIT notice. Retired/excluded: none. Deferred: archive bytes and
+hash, per-member publisher versions/artifacts, license-review records and
+managed lifecycle/recovery. Partial: no legacy product outcome closes. All five
+ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**,
+rounded **145-200/about 170**. See [source review evidence](archive/evidence/zimmerman-helper-pinned-source-review-2026-10-24-1123.json)
+and [application review](migrations/application-migration-review.md#zimmerman-helper-source-pin-and-license-review-2026-10-24-1123-utc).
+## Zimmerman current publisher page version mapping, 2026-10-24 11:24 UTC
+
+The official publisher page maps the unchanged selected 26-member set to current
+artifact URLs and labels **2026.10.0-2026.10.3**. Twenty-five link to the `.NET
+10` variant; Hasher appears in the `.NET 4.7.2` column while linking to `/net/`,
+which the updater treats as `.NET 10`. Leave this discrepancy unresolved. The
+framework variant is not selected for RIDE; exact archive bytes, SHA-256 values,
+member lists, signatures, notices, dependencies and supported targets remain
+open. The exact helper source archive is separately blocked at local DNS, and
+per-product license review stays non-blocking. No tool ran, no legacy outcome closed, and all five ranges remain
+**38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded
+**145-200/about 170**. See [structured version mapping](archive/evidence/zimmerman-current-publisher-version-mapping-2026-10-24-1124.json)
+and [official publisher page](https://ericzimmerman.github.io/).
+
+## SysinternalsSuite Windows 11 file-lifecycle follow-up, 2026-10-24 11:31 UTC
+
+The current registered request `7b0d5560d7104eeb8d9094c6139ac3cb` passed 1/1 on Windows 11 build 26300. The pinned `SysinternalsSuite.zip` selection passed exact member install/remove, repeat operations, saved-state recovery, collision refusal and modified-file preservation. No Sysinternals utility ran; functional behavior, activation and target support remain pending. The controller collected evidence and restored the checkpoint with `ResetAndOff` without cleanup or collection errors.
+
+The follow-on `SysinternalsProducts` request was archived as invalid by the stale registered controller because its suite allowlist omits that selection. ApplicationsBatch5-7 and refreshed ImageMagick acceptance are also absent from the installed controller. The queue is empty and the VM is off. The refresh script requires an elevated Windows PowerShell token and must be rerun after the user performs that refresh; no request was recreated against the stale controller. No legacy outcome closed or retired; estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [current run evidence](archive/evidence/sysinternals-suite-win11-file-lifecycle-2026-10-24-1131.json) and the [registered-controller capability evidence](archive/evidence/vm-controller-capability-access-2026-10-23-1035.json).
+
+## SysinternalsProducts local inert lifecycle regression, 2026-10-24 11:45 UTC
+
+The focused nine-product suite passed **72/72** assertions on PowerShell 7.6.5
+and Pester 5.7.1, with TestRegistry disabled and Pester temp files under the
+repository's `.local` directory. No payload or utility ran and no VM, Defender
+or Windows state changed. Pester then returned exit code 1 because the
+post-test NUnit XML environment report could not query CIM; all assertions had
+already passed and the partial XML records total=72, errors=0, failures=0 and
+not-run=0. The earlier sandbox-temp attempt had access-denied atomic file moves
+and is not counted as assertion failure.
+Resolved: local inert lifecycle/recovery checks for nine independent candidates.
+Retired: none. Excluded: Defender-detected binaries remain outside this batch.
+Deferred: native utility behavior and nine-product Windows lifecycle/activation/
+target acceptance; the registered controller rejected the VM suite as unknown
+and requires an elevated refresh saved for later. Partial: no complete legacy
+outcome closes. All five estimate ranges remain **38-58 / 52-67 / 19-24 / 25-35
+/ 8-12**, exact **142-196**, rounded **145-200/about 170**. See [regression evidence]
+(archive/evidence/sysinternals-products-local-regression-2026-10-24-1145.json)
+and [VM request evidence](archive/evidence/sysinternals-products-win11-queue-retry-2026-10-24-1104.json).
+
+## D05 File Explorer F1 current-source recheck, 2026-10-24 11:58 UTC
+
+Microsoft Support's current keyboard tips list F1 as a common app Help shortcut
+and note that shortcuts may differ by app; they do not specify File Explorer. A
+2022 Microsoft Community answer reports Explorer F1 opening browser Help but is
+not current product documentation. The sources justify observing the user's
+reported behavior on an authorized Windows 11 target; they do not confirm it on
+the current build. No operation/profile change or Windows state change was made.
+Resolved/retired/excluded: none. Deferred: File Explorer behavior, exact-restore
+control and unrelated-application F1 collateral check. Partial: source review
+only. All five ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact
+**142-196**, rounded **145-200/about 170**. See [structured source evidence]
+(archive/evidence/f1-file-explorer-current-source-recheck-2026-10-24.json) and
+[decision record](migrations/decision-session-2026-10-17.md#explorer-f1-preference-and-acceptance-resources-2026-10-24).
+
+## OpenSSH Server current-source observer and lifecycle regression, 2026-10-24 14:21 UTC
+
+The current-source observer and activation/literal-restore candidate passed
+18/18 focused Pester tests on PowerShell 7.6.5/Pester 5.7.1, with Pester's
+TestRegistry plugin disabled. Tests cover separate capability/service/firewall/
+file observations, exact identity guards, preview, selected startup and existing
+TCP/22 rule state, literal restore, partial recovery and refusal paths. Provider
+calls were mocked; no capability servicing, service/firewall change, VM or
+Windows state was accessed. The module remains unregistered and declares no
+supported targets. Resolved: current-source local regression only. Retired,
+excluded and deferred estimates: unchanged; native recovery and acceptance on
+Windows 11 and Windows Server 2025 remain open. All five ranges remain **37-57 /
+52-67 / 19-24 / 25-35 / 8-12**, exact **141-195**, rounded **140-195/about
+170**. See [structured regression evidence]
+(archive/evidence/openssh-server-current-source-regression-2026-10-24-1421.json).
+
+## Detect It Easy and x64dbg publisher-source review, 2026-10-24 14:25 UTC
+
+The official Detect It Easy 3.21 release identifies the x64 Windows portable
+asset and OS label. The publisher's issue tracker has a report that Defender
+detected `Trojan:Script/Wacatac.B!ml` in that exact ZIP; the maintainer
+acknowledged investigation, with no resolution established in this review. Keep
+that artifact excluded under the user's Defender-exclusion instruction; do not
+generalize the report to later builds or the separate Microsoft Store edition.
+
+The official x64dbg site identifies x64dbg as an open-source x64/x32 Windows
+debugger and points to its download source. The latest GitHub release is
+2026.05.27; SourceForge lists `snapshot_2026-05-27_12-11.zip` at 31.5 MB, with
+the 8.8 MB symbols ZIP separate. The publisher identifies GPLv3 and documents
+third-party libraries under several licenses. The pinned release path is
+identified, but no archive was downloaded and no SHA-256 or exact member/license
+notice inventory is available. Acquire and inspect the pinned archive next;
+record version-specific license review locally without making that review a
+technical migration gate.
+
+Resolved: x64dbg current release/source identity. Excluded: the reported
+Detect It Easy 3.21 x64 portable ZIP pending current security review. Deferred:
+x64dbg exact bytes, notices, local license record and package lifecycle;
+Detect It Easy alternate current-source/security assessment. Partial: neither
+new legacy outcome closes. No binaries, VM or Windows state were changed. All
+five ranges remain **37-57 / 50-65 / 19-24 / 25-35 / 8-12**, exact **139-193**,
+rounded **140-195/about 170**. See [structured source evidence]
+(archive/evidence/analyst-tools-die-x64dbg-source-review-2026-10-24-1425.json)
+and the [candidate disposition table]
+(migrations/custom-ride-dispositions.md#readme-only-candidate-reconciliation).
+
+## x64dbg pinned publisher archive acquisition retry, 2026-10-24 14:28 UTC
+
+The native PowerShell transfer attempted the publisher-linked SourceForge URL
+for `snapshot_2026-05-27_12-11.zip` and failed DNS before any bytes transferred.
+No partial archive was written. The empty staging directory created for the
+attempt was removed after confirming it contained no files. The pinned product
+source remains identified; this is a local acquisition-network blocker, not a
+license gate or a reason to substitute an unverified mirror. Retry that same
+publisher URL when DNS is available, then hash and inspect the exact archive.
+No test, VM, installer or Windows state changed. No legacy product outcome
+closes and all five ranges remain **37-57 / 52-67 / 19-24 / 25-35 / 8-12**,
+exact **141-195**, rounded **140-195/about 170**. See [structured acquisition
+evidence](archive/evidence/x64dbg-2026.05.27-publisher-acquisition-dns-block-2026-10-24-1428.json).
+
+## ExifTool Windows release-track follow-up, 2026-10-24 14:53 UTC
+
+The publisher's Windows installation page names `exiftool-13.59_64.zip`, while
+its history identifies 13.55 as the latest production release and labels 13.59
+a development release. Keep the Windows artifact track, URL and hash open until
+the intended release track is established and the exact publisher bytes are
+verified. Do not infer a URL or hash from the filename. Direct publisher pages
+returned HTTP 403 in the browser; local acquisition remains blocked before
+transfer. No package outcome closes and the five estimate ranges are unchanged.
+See [structured evidence](archive/evidence/exiftool-version-track-follow-up-2026-10-24-1453.json).
+## ExifTool Windows artifact source pin, 2026-10-24 14:58 UTC
+
+Pinned candidate source is the publisher-linked 13.59 x64 Windows ZIP with
+SourceForge SHA-256 recorded in the source-pin evidence. The archive needs
+`exiftool(-k).exe` beside `exiftool_files`; command-line use requires launcher
+renaming. The publisher labels 13.59 development and 13.55 production. Native
+DNS prevented acquisition before any bytes arrived; local hash, member review,
+lifecycle and behavior acceptance remain deferred. No outcome closed and no
+estimate range changed.
+See [source-pin evidence](archive/evidence/exiftool-source-pin-2026-10-24-1458.json).
+
+## JoeWare AccExp, ATSN and Auth source/acquisition batch, 2026-10-24 15:43 UTC
+
+The official publisher's versions list and product pages identify AccExp
+01.01.00, ATSN 01.00.00 and Auth 01.01.00. Their uses are materially
+different: account-expiration inspection/change, AD IP-to-site/subnet query,
+and credential testing. Functional tests must use disposable synthetic
+identities and directory data. Publisher platform claims remain historical.
+The authorized download-only retry failed at local DNS before the version-list
+fetch completed; no form was submitted and no artifact bytes arrived. Resolved:
+purpose/version source review. Retired/excluded: none. Deferred: exact bytes,
+local hashes, member inventories, isolated behavior and Windows 11 support.
+Partial: no whole legacy outcome closes. All five ranges remain **37-57 /
+52-67 / 19-24 / 25-35 / 8-12**, exact **141-195**, rounded **140-195/about
+170**. See [structured source/acquisition evidence]
+(archive/evidence/joeware-accexp-atsn-auth-source-and-acquisition-review-2026-10-24-1543.json).
+
+## Phoenix Protector shared .NET prerequisite gate, 2026-10-24 15:53 UTC
+
+The package declares a read-only .NET Framework 3.5 prerequisite check based on
+Microsoft's CLR 2.0/version mapping and the Phoenix MSI's reported
+VSDFrameworkVersion=2.0.50727 launch condition. The handler fails before
+acquisition or installation when the shared feature is absent or unreadable. It
+does not enable or remove the Windows feature. PhoenixPackage.Tests.ps1 passed
+4/4; Windows PowerShell 5.1 validation passed (409 operations, 8 groups, 5
+profiles, 272 PowerShell files) and generated operation documentation is current.
+Resolved: fail-closed package preflight. Deferred: feature enablement/recovery
+and verification of the exact MSI launch condition on a prepared guest.
+Retired/excluded: none. Partial: no legacy outcome closes. All estimates remain
+**37-57 / 50-65 / 19-24 / 25-35 / 8-12**, exact **139-193**, rounded
+**140-195/about 170**. See [structured evidence]
+(archive/evidence/phoenix-dotnet35-prerequisite-gate-implementation-2026-10-24-1553.json).
+
+## Phoenix prerequisite current-source regression, 2026-10-24 15:57 UTC
+
+The focused Phoenix package suite passed 4/4 on PowerShell 7.6.5/Pester 5.7.1. The missing-prerequisite preflight and present-prerequisite mocked dispatch paths both remain green. An attempted focused PowerShell 5.1 invocation stopped before Pester output; it does not count as a test result. No VM or Windows state was changed. Resolved: current-source regression. Deferred: focused PS 5.1 execution and exact MSI acceptance with .NET Framework 3.5 enabled on a disposable guest. Retired/excluded: none. Partial: no whole legacy outcome closes. Estimates are unchanged. See [evidence](docs/archive/evidence/phoenix-prerequisite-current-source-regression-2026-10-24-1557.json).
+
+## ExifTool, Zimmerman Hasher and ShimCacheParser decisions, 2026-10-24 16:00 UTC
+
+The user kept both ExifTool Windows release tracks open: 13.55 production and
+13.59 development. The existing 13.59 catalog entry remains a provisional
+candidate; exact source bytes, track selection and acceptance remain open.
+
+The user held Zimmerman Hasher only pending clarification or exact archive
+evidence for its .NET framework. The other 25 members of the selected 26-member
+collection remain in scope for source and artifact review.
+
+The user retired ShimCacheParser from v3. Preserve the historical source review,
+but do not port, package, install or substitute another parser under this legacy
+outcome. Retired: one package outcome. Estimates are now **37-57 / 50-65 / 19-24
+/ 25-35 / 8-12**, exact **139-193**, rounded **140-195/about 170**. No package,
+tool, VM or Windows state changed, and no tests were run for this decision.
+
+## Current-source package and license-planning regression, 2026-10-24 16:04 UTC
+
+The combined Phoenix, application-package and license-planning suites passed
+130/130 on PowerShell 7.6.5/Pester 5.7.1. All ten Sysinternals install plans
+remain available, and NeedsReview metadata is not a package planning gate.
+ApplicationsBatch4 also completed during this run; archived Windows 11 evidence
+confirms Pester 332 passed/0 failed/1 skipped, Slack and Discord lifecycle and
+recovery passed, and cleanup/export reported no errors. No duplicate request was
+submitted. Resolved: current-source regression and ApplicationsBatch4 Windows 11
+acceptance. Deferred: focused PowerShell 5.1 Pester execution and remaining
+Windows package acceptance. Retired/excluded: none in this run. Partial: no
+whole legacy package outcome closes. Estimates remain **37-57 / 50-65 / 19-24 /
+25-35 / 8-12**, exact **139-193**, rounded **140-195/about 170**. See
+[package regression evidence](docs/archive/evidence/current-source-package-and-license-planning-regression-2026-10-24-1604.json)
+and [ApplicationsBatch4 evidence](docs/archive/evidence/applications-batch4-win11-follow-up-2026-10-24-1600.json).
+
+## Sysinternals current-source local lifecycle regression, 2026-10-24 16:23 UTC
+
+The whole-suite and independent-product package suites passed 79/79 on PowerShell 7.6.5/Pester 5.7.1. The initial sandbox-temp attempt had 39 filesystem failures when atomic moves were denied; rerunning with .local temp passed all tests. These are inert package lifecycle tests and do not launch Sysinternals tools or change Defender state. The prior RIDE v2 license-specialist approval covers direct download/install, so licensing is not a migration gate. Defender detections remain separate exclusions. Resolved: current-source local lifecycle regression. Deferred: Windows 11/Server acceptance and utility functional behavior. Retired/excluded: none in this run. Partial: no whole legacy outcome closes. Estimates remain **37-57 / 50-65 / 19-24 / 25-35 / 8-12**, exact **139-193**, rounded **140-195/about 170**. See [evidence](docs/archive/evidence/sysinternals-current-source-local-lifecycle-regression-2026-10-24-1623.json).
+
+## WinPmem production asset source review and package candidate, 2026-10-24 16:27 UTC
+
+The user-required deployment-only candidate package.winpmem stages the signed production Go executable as one owned x64 file. Publisher metadata distinguishes the v4.1.dev1 test-signed pre-release drivers from go-winpmem_amd64_1.0-rc2_signed.exe, which the release note designates for production and whose publisher asset listing provides the pinned SHA-256. Direct download failed at local DNS before bytes arrived; no local hash or Authenticode result is claimed. The package has no supported targets and never runs the executable or loads a driver. Focused tests passed 3/3; repository validation passed 410 operations, 8 groups, 5 profiles and 273 PowerShell files. Resolved: source/asset identity and deployment-only candidate. Deferred: local bytes/signature, driver lifecycle/recovery and Windows acceptance. Licensing is not a migration blocker; the user-approved scope is honored. Retired/excluded: none. Partial: no whole legacy outcome closes. Estimates remain **37-57 / 50-65 / 19-24 / 25-35 / 8-12**, exact **139-193**, rounded **140-195/about 170**. See [evidence](docs/archive/evidence/winpmem-production-asset-source-review-and-candidate-2026-10-24-1627.json).
+
+## WinPmem synthetic file-lifecycle regression, 2026-10-24 16:31 UTC
+
+WinPmemPackage.Tests.ps1 passed 4/4 on PowerShell 7.6.5/Pester 5.7.1; the new synthetic case stages and removes only the candidate's owned file and preserves operator-owned content. Repository validation passed 410/8/5/273 with operation documentation current. No real executable, driver, VM, Defender or Windows state was touched. Resolved: exact-file lifecycle on synthetic input. Deferred: exact publisher bytes/signature, driver lifecycle/recovery, capture behavior and Windows 11/Server acceptance. Retired/excluded: none. Partial: no whole legacy outcome closes or supported target declared. Estimates unchanged at **37-57 / 50-65 / 19-24 / 25-35 / 8-12**, exact **139-193**, rounded **140-195/about 170**. See [evidence](docs/archive/evidence/winpmem-synthetic-file-lifecycle-regression-2026-10-24-1631.json).

@@ -1,0 +1,84 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T07:18:26Z",
+  "Scope": "Hash value and Certutil context-menu registry lifecycle routing",
+  "Catalog": {
+    "OperationIds": [
+      "windows.hash-value-context-menu",
+      "windows.sha256-certutil-context-menu"
+    ],
+    "MigrationBatch": "2026-10-10-remaining-settings-1",
+    "PendingAcceptance": true,
+    "SupportedTargets": [],
+    "CandidateTargets": ["Windows 11"],
+    "Scope": "User",
+    "BatchOperationCount": 19,
+    "PreviousBatchOperationCount": 17,
+    "AcceptanceRunnerVersion": "0.2.0"
+  },
+  "Validation": {
+    "HashValueContextMenuTests": {
+      "Discovered": 9,
+      "Passed": 8,
+      "Failed": 0,
+      "Skipped": 1,
+      "CoverageIncludes": [
+        "Both operations route into the 19-operation batch",
+        "Registry-set declaration and exact saved-state handler arguments",
+        "Hash helper receives literal paths and selected algorithms"
+      ]
+    },
+    "VersionCheck": "Invoke-RideRemainingSettings.ps1 reported version 0.2.0 without guest access",
+    "CatalogExport": "Passed",
+    "RepositoryValidation": {
+      "Result": "Passed",
+      "Operations": 407,
+      "Groups": 8,
+      "Profiles": 5,
+      "PowerShellFiles": 269
+    },
+    "DiffCheck": "Passed"
+  },
+  "AcceptanceBoundary": {
+    "VmUsed": false,
+    "RegistryChanged": false,
+    "ExplorerRestarted": false,
+    "HelperExecuted": false,
+    "FreshElevationPromptRequested": false,
+    "DefenderChanged": false,
+    "NativeAcceptanceRequired": [
+      "Apply/repeat/remove/saved-state recovery in the disposable Windows 11 guest",
+      "Explorer placement and menu visibility",
+      "Certutil command quoting and output interaction",
+      "Hash helper behavior through Explorer on synthetic files with unusual names"
+    ]
+  },
+  "VmQueue": {
+    "Target": "RIDE-Win11-Test",
+    "PendingCountAtRecheck": 0,
+    "RunningCountAtRecheck": 0,
+    "LastDispatchFailure": "Protected queue denied temporary request-file creation before enqueue",
+    "NewRequestSubmitted": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Both context-menu operations remain unsupported until native registry lifecycle/recovery and Explorer behavior pass",
+      "Remaining-settings batch 1 VM run is pending protected queue write access"
+    ],
+    "Partial": [
+      "Both candidates are routed into the 19-operation batch with focused local tests passing."
+    ],
+    "EstimateRangesUnchanged": {
+      "Settings": "38-58",
+      "Packages": "52-67",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "142-196",
+      "RoundedTotal": "145-200/about 170"
+    }
+  }
+}

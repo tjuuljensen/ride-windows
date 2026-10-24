@@ -1,0 +1,48 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-22",
+  "Target": {
+    "VMName": "RIDE-Win11-Test",
+    "Configuration": "Existing registered RIDE-Win11-Test configuration",
+    "VMStateVerified": false,
+    "CheckpointVerified": false
+  },
+  "Request": {
+    "IntegrationSuite": "ApplicationsBatch1",
+    "Purpose": "Retry the already-authorized Chrome 156.0.8078.48 guest acceptance batch",
+    "RunId": "6d4b83de22b8486ba4bcf6db3bf360a9",
+    "ClientResult": "Failed before submission",
+    "FailureStage": "Write pending request JSON through a sibling temporary file",
+    "Error": "Set-Content access denied for C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\queue\\pending\\<run-id>.json.<nonce>.tmp",
+    "QueueWriteSucceeded": false,
+    "TaskSubmitted": false,
+    "TaskStarted": false,
+    "GuestResultReturned": false,
+    "FreshUacPrompts": 0
+  },
+  "Boundaries": {
+    "HostVmQuery": "Blocked: Get-VM returned CIM access denied",
+    "VMStartedOrChanged": false,
+    "ControllerChanged": false,
+    "CheckpointChanged": false,
+    "DefenderChanged": false
+  },
+  "DeferredAcceptance": [
+    "Chrome 156.0.8078.48 Windows 11 package lifecycle and exact checkpoint recovery",
+    "Windows Server 2025 support is not inferred",
+    "Retry through the existing registered queue when ordinary-account queue access is restored; verify VM and checkpoint identity before any run"
+  ],
+  "LegacyOutcome": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["ApplicationsBatch1 remains partially accepted; Chrome is pending"],
+    "Deferred": ["Chrome guest acceptance could not be submitted"]
+  },
+  "Estimate": {
+    "GroupRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactRangeEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "Reason": "The registered request client failed before queue submission; no VM scenario or whole legacy outcome changed."
+  }
+}

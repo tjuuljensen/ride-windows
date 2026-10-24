@@ -1,0 +1,15 @@
+{
+  "RecordedAtUtc": "2026-10-23T16:47:26Z",
+  "VmName": "RIDE-Win11-Test",
+  "Check": "Get-VM -Name RIDE-Win11-Test",
+  "Access": "Failed",
+  "Error": "Access to a CIM resource was not available to the client.",
+  "VmState": "Unknown",
+  "CheckpointState": "Unknown",
+  "ElevationOrRunAsStarted": false,
+  "HostServiceChanged": false,
+  "GuestOrWindowsStateChanged": false,
+  "DefenderStateChanged": false,
+  "PayloadsExecuted": 0,
+  "Notes": "Read-only Hyper-V inventory failed before VM or checkpoint inspection."
+}

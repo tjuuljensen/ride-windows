@@ -15,23 +15,74 @@ The VM is for integration tests that change Windows state. Routine validation an
 ### Focused reviewed portable packages
 
 `Invoke-RidePortableVmAcceptance.ps1` is the focused Windows 11 runner for
-MiTeC JSON/XML Viewer and NTCore PE Detective/CFF Explorer. `AllReviewed` selects
-six cases: both viewer architectures and the two x86 NTCore candidates.
-`MiTeCViewers` and `NTCore` select four and two cases respectively. The older
+MiTeC JSON/XML Viewer, NTCore PE Detective/CFF Explorer, and the 4GB Patch
+portable candidate. `AllReviewed` selects seven file-lifecycle cases: both viewer
+architectures and three x86 NTCore packages. `MiTeCViewers` and `NTCore` select
+four and three cases respectively. The NTCore suite runs 4GB Patch only against
+a generated, non-runnable x86 PE in its correlated guest evidence folder. It
+checks the large-address-aware flag, exact original backup, refusal of a
+pre-existing backup by the guarded RIDE launcher, guarded patching and exact
+synthetic-file recovery; no real executable is opened. Direct use of the
+upstream utility is unsafe when its `.Backup` path is occupied. The older
 `ApplicationsBatch1`/`ApplicationsBatch2` selectors do not include these candidates.
-No NirSoft, other collection, installer or utility execution is selected.
+No NirSoft or other Defender-blocked collection member is selected.
+
+`SysinternalsSuite` is an explicit one-package batch for the pinned 2026-10-17
+164-member snapshot. It checks portable file staging, repeat, removal, saved-run
+restoration, collision refusal and preservation of unowned or modified files. It
+does not execute a utility, accept an EULA, activate a driver/service, or approve
+publication. Its exact retained archive manifest is
+`.local/acceptance-input/SysinternalsSuite.json`.
+
+`SysinternalsProducts` is a separate nine-package batch for the pinned Process
+Explorer, Autoruns, TCPView, Process Monitor, RAMMap, Disk2vhd, Sigcheck, Strings
+and Handle archives. It checks each package's file lifecycle, saved-run recovery,
+digest, ownership and collision boundaries. The batch does not launch a utility,
+accept an EULA or activate a driver/service. The four Defender-detected NirSoft
+files and other blocked collections remain outside this selection. Its manifest
+is `.local/acceptance-input/SysinternalsProducts.json`, containing exactly one
+`Id`/`Path` row per selected package. The protected controller must advertise
+`FocusedPortableV1` before a run can be submitted; source preparation alone does
+not imply that VM acceptance has been submitted or passed.
+
+`ImageMagick` is an explicit one-package Windows 11 batch for the pinned portable
+Q16 7.1.2-34 archive. It checks whole-archive ownership, the executable signature,
+license/notice files, and package lifecycle recovery while preserving a synthetic
+unowned file. Its only feature execution reports the version and creates/identifies
+a synthetic 1x1 PNG in the run evidence folder. It does not open user images or
+claim support for Server. The package preflights for `vcomp140.dll` and leaves the
+shared Visual C++ runtime outside RIDE's install/remove ownership. The disposable
+guest runner installs Microsoft's signed x64 v14 redistributable only when the DLL
+is missing, then records installer and runtime signatures, hashes, and version in
+`imagemagick-runtime-prerequisite.json`; checkpoint recovery removes that guest
+change. The retained archive manifest is
+`.local/acceptance-input/ImageMagick.json`.
 
 Two additional batches are explicit selections and are not included by
-`AllReviewed`: `PSScriptTools` verifies all 360 reviewed source files without
-importing upstream code; `OfflineCaffeine` checks the already accepted, pinned
-Caffeine portable package through disconnected CLI install/profile apply and
-saved recovery. Each requires a manifest containing only its one package ID and
-retained ZIP. Use `-TimeoutMinutes 40` for the larger PSScriptTools file lifecycle.
+`AllReviewed`: `PSScriptTools` verifies all 360 reviewed source files, then runs
+a separate dependency acceptance probe; `OfflineCaffeine` checks the already
+accepted, pinned Caffeine portable package through disconnected CLI install/
+profile apply and saved recovery. Each requires a manifest containing only its
+one package ID and retained ZIP. Use `-TimeoutMinutes 40` for the larger
+PSScriptTools file lifecycle.
 The portable guest runner retains each saved state directory as a ZIP under
 `evidence/saved-state`, with its file count checked before collection. This avoids
 long member paths during guest-to-host evidence copying. Preserve these archives
 alongside the scenarios and source manifest; inspect them without executing their
 contents.
+
+The PSScriptTools source-file lifecycle does not execute its payload. After the
+package is staged, `Invoke-RidePSScriptToolsRuntimeAcceptance.ps1` imports the
+pinned module in fresh Windows PowerShell 5.1 and PowerShell 7 child processes
+when each edition is installed. Each child uses a unique `TEMP`/`TMP` directory
+under that run's evidence folder. It verifies the module's CIM namespace job,
+one `System.Drawing`-backed function and one ThreadJob-backed function, and
+removes only the module's known temporary file. A second probe hides available
+modules and confirms import fails on the required ThreadJob dependency before
+creating the CIM file; it does not install dependencies. Inspect
+`psscripttools-runtime/summary.json` separately from the package lifecycle.
+Missing PowerShell 7 is recorded as partial acceptance, not installed by the
+runner. The probe requires the disposable-VM guard and guest elevation.
 
 `OfflineCaffeine` records the actual guest target, builds a private acceptance
 profile/bundle bound to current source hashes and the checkout HEAD, and disables
@@ -45,8 +96,11 @@ or distribution approval. Inspect `network-before.json`, `network-after.json`,
 `bundle-manifest.json`, scenarios and the host recovery result. Broader installer,
 servicing, dependency and interruption acceptance remains separate.
 
-For repeated `PSScriptTools` and `OfflineCaffeine` batches, prefer the registered
-task instead of launching this standalone host runner with `RunAs` each time.
+For repeated `NTCore`, `PSScriptTools`, `OfflineCaffeine`, `SQLiteQuery`,
+`MiTeCUtilityFiles`, `SysinternalsSuite` and `ImageMagick` batches, prefer the
+registered task instead of launching this standalone host runner with `RunAs`
+each time. NTCore includes the 4GB Patch candidate's file lifecycle and its
+bounded synthetic-PE functional check.
 The installed controller must advertise `FocusedPortableV1`; the client refuses
 older installations before queuing or opening an elevation prompt. An idle,
 one-time elevated refresh uses the existing installed configuration and preserves
@@ -59,8 +113,17 @@ $configuration = 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration
 ```
 
 Place the one-package retained-archive manifests at
-`.local/acceptance-input/PSScriptTools.json` and
-`.local/acceptance-input/OfflineCaffeine.json`, using the `Id`/`Path` format below.
+`.local/acceptance-input/PSScriptTools.json`,
+`.local/acceptance-input/OfflineCaffeine.json`,
+`.local/acceptance-input/SQLiteQuery.json`,
+`.local/acceptance-input/SysinternalsSuite.json`,
+`.local/acceptance-input/SysinternalsProducts.json` and
+`.local/acceptance-input/ImageMagick.json`. `SysinternalsProducts.json` contains
+nine `Id`/`Path` rows; the other manifests contain one package unless the
+paragraph below specifies a three-package batch. The three-package selections use
+`.local/acceptance-input/NTCore.json` and
+`.local/acceptance-input/MiTeCUtilityFiles.json`. All use the `Id`/`Path` format
+below.
 Requests accept no caller-supplied script or payload path. The protected runner
 reads only the selected manifest and verifies its exact catalog identity/hash;
 the snapshot still excludes `.local`. From ordinary PowerShell in the owning
@@ -69,7 +132,27 @@ signed-in account, submit and wait for each result:
 ```powershell
 .\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite PSScriptTools -TimeoutMinutes 60
 .\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite OfflineCaffeine -TimeoutMinutes 60
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite SQLiteQuery -TimeoutMinutes 60
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite MiTeCUtilityFiles -TimeoutMinutes 60
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite SysinternalsSuite -TimeoutMinutes 60
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite SysinternalsProducts -TimeoutMinutes 90
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite ImageMagick -TimeoutMinutes 60
 ```
+
+`SQLiteQuery` is deliberately limited to the package file lifecycle and recovery:
+it stages the pinned executable and bundled SQLite files, then checks repeat,
+remove and saved-run restoration. It does not launch the UI, open or mutate a
+database, or establish feature, build-provenance or license acceptance. Its
+candidate remains unsupported until those independent gates are reviewed. The
+existing protected controller must be refreshed once while idle to include these
+new batches; do not submit them until that refresh and their fixed retained-archive
+manifest are available.
+
+`MiTeCUtilityFiles` stages only the pinned UUID Generator, Certificate Generator
+and Certificate Information executables and checks managed-file repeat/remove
+and saved-state recovery. It does not query identifiers, generate or inspect
+certificates, open user files or add a trust-store item. All three candidates
+remain unsupported and have version-specific local `NeedsReview` license records.
 
 The worker serializes both requests, runs the protected host child without UAC,
 and retains timeout/process termination and checkpoint recovery. Focused results
@@ -98,7 +181,8 @@ Defender-blocked archives or extract them. For `AllReviewed`:
   {"Id":"package.mitec-json-viewer","Path":"C:\\Acceptance\\JSONView.zip"},
   {"Id":"package.mitec-xml-viewer","Path":"C:\\Acceptance\\XMLView.zip"},
   {"Id":"package.ntcore-pe-detective","Path":"C:\\Acceptance\\PE_Detective.zip"},
-  {"Id":"package.ntcore-cff-explorer","Path":"C:\\Acceptance\\CFF_Explorer.zip"}
+  {"Id":"package.ntcore-cff-explorer","Path":"C:\\Acceptance\\CFF_Explorer.zip"},
+  {"Id":"package.ntcore-4gb-patch","Path":"C:\\Acceptance\\4gb_patch.zip"}
 ]
 ```
 
@@ -141,16 +225,59 @@ separate acceptance gates; this runner does not promote catalog support.
 
 `ApplicationsBatch1` selects conventional application candidates;
 `ApplicationsBatch2` selects managed portable candidates and the ShareX portable
-variant. Both run guest validation/Pester before preview, install/repeat, remove
-and saved-run recovery. Portable tests preserve user files and restore the exact
-owned bytes after removal. Run each on the pinned Windows 11 and prepared Server
-2025 controllers. Candidate support is test-only until applicable scenarios pass;
-driver/OEM tools require matching guests. See the
+variant. `ApplicationsBatch3` selects both Docker Desktop variants;
+`ApplicationsBatch3AllUsers` isolates the elevated system-wide variant on the
+pinned Windows 11 controller. These suites run guest
+validation/Pester before preview, install/repeat, remove and saved-run recovery.
+`ApplicationsBatch4` selects the Slack and Discord current-user EXE candidates,
+checks their pinned source evidence, and exercises their install/remove lifecycle
+on the disposable Windows 11 guest. Its Pester selection includes the focused
+chat-package pin checks; Discord's source digest must match the publisher payload.
+`ApplicationsBatch5` selects only the Microsoft Visual C++ v14 x64 runtime. Run
+it on the registered Windows 11 VM. If the checkpoint already has an adequate
+v14 runtime or an installed catalog-dependent package, it records `NotApplicable`
+and preserves that baseline. Otherwise,
+it verifies the minimum registered and `System32/vcomp140.dll` versions, then
+checks preview, repeat install, removal, repeat removal and saved-run recovery.
+The controller restores the same checkpoint; production `SupportedTargets`
+remains empty until guest evidence passes.
+`ApplicationsBatch6` selects the twelve machine-scope Artcraft MSI applications
+on Windows 11. The separate current-user ArtCraft Launcher is excluded because
+it has its own execution boundary. Owner-specific Artcraft code/asset/brand
+reviews remain marked in the private review store and do not gate this technical
+package lifecycle batch; no redistribution approval or production support is
+implied.
+`ApplicationsBatch7` selects only the separate current-user ArtCraft Launcher
+MSI on Windows 11. It checks launcher install/repeat/uninstall/recovery without
+starting the launcher, downloading applications, or changing launcher
+configuration. Its owner-specific review marker does not gate technical package
+migration.
+`ApplicationsBatch8` selects the four pinned Microsoft OpenJDK MSI versions on
+Windows Server 2025. It verifies side-by-side installation, exact `java.exe`
+and `javac.exe` versions, repeat/remove/recovery, and preservation of machine
+and current-user `JAVA_HOME`, `PATH`, and `.jar` associations. It does not
+promote package support until acceptance passes.
+Docker acceptance checks each install scope independently and requires its
+publisher-preserved Docker resources to remain after removal. Portable tests
+preserve user files and restore the exact owned bytes after removal. Run batches
+1 and 2 on the pinned Windows 11 and prepared Server 2025 controllers; batches 3,
+5 through 7 and the focused all-users suite are Windows 11 only; batch 8 is
+Server 2025 only. Other package candidates stay
+test-only until their applicable scenarios pass; Docker Desktop is enabled for the
+owner's physical-machine RIDE review after the Hyper-V guest attempts proved
+inconclusive. Driver/OEM tools require matching guests. See the
 [application ledger](../../docs/migrations/application-migration-review.md).
 
 ```powershell
 .\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json' -IntegrationSuite ApplicationsBatch1 -TimeoutMinutes 90
 .\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDESrv2025Test\configuration.json' -IntegrationSuite ApplicationsBatch2 -TimeoutMinutes 90
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json' -IntegrationSuite ApplicationsBatch3 -TimeoutMinutes 90
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json' -IntegrationSuite ApplicationsBatch3AllUsers -TimeoutMinutes 90
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json' -IntegrationSuite ApplicationsBatch4 -TimeoutMinutes 90
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json' -IntegrationSuite ApplicationsBatch5 -TimeoutMinutes 90
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json' -IntegrationSuite ApplicationsBatch6 -TimeoutMinutes 90
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json' -IntegrationSuite ApplicationsBatch7 -TimeoutMinutes 90
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDESrv2025Test\configuration.json' -IntegrationSuite ApplicationsBatch8 -TimeoutMinutes 180
 ```
 
 Verify the actual Server VM ID, edition and checkpoint; the example
@@ -160,7 +287,7 @@ observations, saved state and checkpoint cleanup results. Refresh protected
 controller files only while the registered task and its children are idle.
 
 The remaining-settings session has two package-free selections:
-`SettingsRemainingBatch1` covers 17 task/registry operations, and
+`SettingsRemainingBatch1` covers 19 task, policy and Explorer registry operations, and
 `SettingsRemainingBatch2` covers 19 network, Defender, power, sound and Edge
 operations. Each runs validation and guest Pester, then preview, every available
 state, repeat apply and exact saved-run restore. Missing resources and missing

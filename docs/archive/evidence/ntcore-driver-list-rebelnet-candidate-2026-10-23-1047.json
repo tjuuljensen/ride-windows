@@ -1,0 +1,150 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "RecordedAtUtc": "2026-10-23T10:47:02Z",
+  "Batch": "NTCore Driver List and Rebel.NET candidate package migration",
+  "SourceEvidence": "ntcore-member-source-follow-up-2026-10-17.json",
+  "Products": [
+    {
+      "Id": "package.ntcore-driver-list",
+      "Name": "Driver List",
+      "ProductUri": "https://ntcore.com/driver-list/",
+      "DownloadUri": "https://ntcore.com/files/DriverList.zip",
+      "PublisherPageVersion": "1.0.2",
+      "PackageVersion": "1.0.2.1",
+      "ArchiveLength": 162127,
+      "ArchiveSha256": "dbc5736808cf7203cf289a269cc27cbcf90a8c69e03eed60ae361ad29da08d28",
+      "SelectedMembers": [
+        {
+          "Path": "DriverList_x64.exe",
+          "Length": 81920,
+          "Sha256": "de90b5c29c0c1438c728b98252ba7a9e4e26a06913c575e8c44faba36ea4babf",
+          "Architecture": "x64",
+          "FileVersion": "1, 0, 2, 1",
+          "Signature": "NotSigned"
+        },
+        {
+          "Path": "DriverList_x86.exe",
+          "Length": 76800,
+          "Sha256": "2daef3855fc3ab60a3f671ebbd52f493870a494486d57c4b99a112cdbd651e4f",
+          "Architecture": "x86",
+          "FileVersion": "1, 0, 2, 1",
+          "Signature": "NotSigned"
+        }
+      ],
+      "ExcludedMembers": [
+        {
+          "Path": "DriverList_IA64.exe",
+          "Architecture": "IA64",
+          "Reason": "Itanium is not x64 or ARM64 and is not selected."
+        }
+      ],
+      "LicenseReview": {
+        "Status": "NeedsReview",
+        "ReviewedVersion": "1.0.2.1",
+        "ReviewOwner": "Unassigned",
+        "Basis": "No product-specific use or distribution grant located on the official page or in the retained archive."
+      },
+      "SafetyBoundary": "Staging does not query loaded drivers or create a report; any future report is potentially sensitive and must not be retained."
+    },
+    {
+      "Id": "package.ntcore-rebelnet",
+      "Name": "Rebel.NET",
+      "ProductUri": "https://ntcore.com/rebel-net/",
+      "TermsUri": "https://ntcore.com/files/rebelnet.htm",
+      "DownloadUri": "https://ntcore.com/files/RebelDotNET.zip",
+      "PublisherPageVersion": "1.6.0.1",
+      "PackageVersion": "1.6.0.1",
+      "ArchiveLength": 226063,
+      "ArchiveSha256": "7bd01e9cb15426642c74f8f3cab45cf7005f7525ab7cb8abc5a32973f383af32",
+      "SelectedMembers": [
+        {
+          "Path": "RebelDotNET.exe",
+          "Length": 820224,
+          "Sha256": "cc54efdf25852b677ed3cf73f4fb018a29c75103e611e306c0fe1a9f9468a665",
+          "Architecture": "x86",
+          "FileVersion": "1.6.0.1",
+          "ProductName": "Rebel.NET",
+          "Signature": "NotSigned"
+        },
+        {
+          "Path": "RebelDotNET.h",
+          "Length": 1718,
+          "Sha256": "f50c5bf92f24ada49711a3944acf00bc6d3034558c8c73183e9a35e25b0fd86a",
+          "Architecture": null
+        }
+      ],
+      "LicenseReview": {
+        "Status": "NeedsReview",
+        "ReviewedVersion": "1.6.0.1",
+        "ReviewOwner": "Unassigned",
+        "Basis": "Official guide says commercial use goes against the product terms; intended-use applicability and redistribution remain under owner review."
+      },
+      "SafetyBoundary": "No assemblies were opened or rebuilt. Future functional acceptance requires an owned synthetic .NET assembly and separate output; never use a third-party or production assembly."
+    }
+  ],
+  "StaticReview": {
+    "ArchiveHashesRecomputed": true,
+    "ExecutableMetadataReadWithoutExecution": true,
+    "ExtractionDirectoryUniqueAndUnderLocal": true,
+    "TemporaryExtractionCleaned": true,
+    "DefenderBlockedToolsTouched": false
+  },
+  "CatalogDisposition": {
+    "AddedAsPendingAcceptanceCandidates": true,
+    "SupportedTargets": [],
+    "CandidateTargets": [
+      "Windows 11"
+    ],
+    "LicenseReviewStatusStoredOutsideCatalog": true,
+    "LocalReviewCount": 38,
+    "LocalNeedsReviewCount": 28,
+    "LocalReviewedCount": 10
+  },
+  "Validation": {
+    "ApplicationPackagesPester": "87/87",
+    "LicenseReviewsPester": "21/21",
+    "CombinedPester": "108/108",
+    "RepositoryValidator": "Passed: 378 operations, 8 groups, 5 profiles, 251 PowerShell files",
+    "CatalogExport": "Passed"
+  },
+  "Boundaries": {
+    "PackageDownloaded": false,
+    "PackageInstalled": false,
+    "ExecutableRun": false,
+    "VmUsed": false,
+    "WindowsStateChanged": false,
+    "DefenderChanged": false,
+    "UacPrompts": 0
+  },
+  "Outcome": {
+    "Resolved": [
+      "Retained archive and member pins match exact metadata.",
+      "Added Driver List and Rebel.NET portable package candidates with version-specific NeedsReview markers."
+    ],
+    "Retired": [],
+    "Excluded": [
+      "Driver List IA64 member from the x64/x86 Windows 11 candidate."
+    ],
+    "Deferred": [
+      "Windows 11 portable lifecycle, exact recovery and supported-target acceptance.",
+      "Driver List report output/privacy acceptance.",
+      "Rebel.NET synthetic-assembly behavior, signature handling and exact recovery."
+    ],
+    "Partial": [
+      "Package migration progresses as unsupported candidates; no whole legacy runtime outcome is closed."
+    ]
+  },
+  "Estimate": {
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged because two new catalog IDs do not close legacy outcomes; estimates count legacy product outcomes."
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "RecordedAtUtc": "2026-10-23T14:01:29Z",
+  "Batch": "Sysinternals RIDE package-migration license decision reaffirmation",
+  "ProductIds": [
+    "package.sysinternals-suite",
+    "package.sysinternals-process-explorer",
+    "package.sysinternals-autoruns",
+    "package.sysinternals-tcpview",
+    "package.sysinternals-procmon",
+    "package.sysinternals-rammap",
+    "package.sysinternals-disk2vhd",
+    "package.sysinternals-sigcheck",
+    "package.sysinternals-strings",
+    "package.sysinternals-handle"
+  ],
+  "UserDecision": "The prior RIDE v2 license-specialist assessment approved Sysinternals for RIDE. There are no legal issues using Sysinternals in RIDE, and license concerns must not block package migration.",
+  "ApprovedWorkflow": "RIDE downloads Sysinternals directly from Microsoft and installs it on devices supported by the user. RIDE does not transfer or publish Sysinternals copies.",
+  "MigrationDisposition": "License approval is settled for RIDE's download-and-install workflow. No license review or distribution gate blocks package migration.",
+  "ReviewStatus": "Reviewed",
+  "RemainingBlockers": [
+    "Technical Windows package lifecycle acceptance",
+    "Exact package recovery acceptance",
+    "Target Windows acceptance; existing VM/checkpoint access remains blocked at Hyper-V/CIM"
+  ],
+  "DefenderBlockedFiles": {
+    "Disposition": "Excluded from package selection and execution",
+    "Files": [
+      "chromecookiesview.exe",
+      "bulletspassview.exe",
+      "ProduKey.exe",
+      "WirelessKeyView.exe",
+      "PowerISO9-x64.exe"
+    ]
+  },
+  "Outcome": {
+    "Resolved": [
+      "Sysinternals license scope for RIDE direct download-and-install; all ten exact versions remain Reviewed and licensing is not a migration blocker."
+    ],
+    "Retired": [],
+    "Excluded": [
+      "Defender-detected executables remain excluded from selection and execution."
+    ],
+    "Deferred": [
+      "Windows lifecycle, exact recovery and target acceptance pending VM/checkpoint access."
+    ],
+    "Partial": [
+      "Package migration remains technically pending; no legacy runtime outcome closes in this decision-only update."
+    ]
+  },
+  "Estimate": {
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged because this reaffirms settled approval and closes no technical acceptance outcome."
+  },
+  "Boundaries": {
+    "PackageDownloaded": false,
+    "InstallerExecuted": false,
+    "SysinternalsToolExecuted": false,
+    "VmUsed": false,
+    "DefenderChanged": false,
+    "WindowsStateChanged": false
+  }
+}

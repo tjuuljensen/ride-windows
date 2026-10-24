@@ -1,5 +1,81 @@
 # Package verification matrix
 
+The package handler validates available provider-pinned digests and publisher checksums,
+declared archive members, and Authenticode hash integrity before recording a successful
+acquisition. A validation failure moves the bytes from the reusable canonical cache path to a
+unique `.rejected-<id>` sibling with a JSON sidecar recording the content hash, source and
+rejection reason; any previous canonical observation sidecar moves with the rejected bytes.
+The next attempt can reacquire into the canonical path. Rejected bytes are not automatically deleted. Authenticode statuses
+other than `HashMismatch` remain recorded evidence; unsigned artifacts can still be used when
+their source and any available digest checks pass. This is not a blanket requirement for a
+publisher signature or checksum, and package-specific source limitations remain below.
+
+## Evidence thresholds and rejected-artifact review, 2026-10-24
+
+RIDE uses available evidence to describe what it establishes; it does not
+require every publisher to provide the same checksum or signature format.
+Acquisition can proceed to package-candidate and lifecycle review when the
+artifact is tied to an identified publisher source and exact version or
+immutable revision, RIDE records the observed SHA-256 and size, declared archive
+members pass validation, and every available provider or publisher digest
+matches. A direct source that does not publish a digest is recorded as an
+observed pin, not as publisher verification. A hosting-provider digest is
+labelled as hosting metadata. Authenticode `Valid` records signed-byte integrity
+and the observed signer identity; it does not by itself establish that RIDE has
+approved that identity. `NotSigned`, `NotTrusted`, and `UnknownError` remain
+observations and do not create a blanket package-migration block.
+
+Always reject an available digest mismatch, Authenticode `HashMismatch`, an
+archive member/path violation, or a mismatch against RIDE's reviewed pin before
+installer execution. Record the exact source, version, reason and hashes. A
+publisher checksum/signature gap can limit confidence and require a focused
+security decision for a sensitive install context, such as a driver, service,
+administrator-level installer, or credential-handling utility. That review is
+separate from license review and package lifecycle readiness. No evidence tier
+or successful acquisition authorizes installation, activation, target support,
+or a license conclusion; those are assessed separately.
+
+Rejected artifacts are retained for investigation and are never automatically
+copied back into the canonical cache or deleted. Review an exact rejected file
+and its `.ride.json` sidecar; compare the sidecar's SHA-256 and size with the
+file, read the recorded source/version/reason, and preserve any
+`.previous.ride.json` observation. If the failure is understood and a retry is
+appropriate, reacquire from the declared publisher source and run all current
+checks against the new bytes. Do not bless the rejected file by copying or
+renaming it into the canonical path.
+
+An operator may clean up reviewed rejected bytes only after exporting the
+sidecar, previous observation and disposition to the relevant evidence record.
+Use the exact path reported for the reviewed item; do not use a wildcard or
+delete a whole cache tree. Preview the exact file removal first, verify the
+resolved file is still the same regular file with the recorded hash, and then
+remove that file and its two specifically associated sidecars if they exist.
+For example, replace the placeholder with one exact reviewed path:
+
+```powershell
+$rejectedPath = 'C:\RIDE\Cache\<package>\<version>\artifact.exe.rejected-<id>'
+$resolvedPath = (Resolve-Path -LiteralPath $rejectedPath -ErrorAction Stop).Path
+$item = Get-Item -LiteralPath $resolvedPath -Force -ErrorAction Stop
+if ($item.PSIsContainer -or ($item.Attributes -band [IO.FileAttributes]::ReparsePoint)) {
+    throw 'The rejected artifact is not a regular file.'
+}
+$record = Get-Content -LiteralPath ($resolvedPath + '.ride.json') -Raw | ConvertFrom-Json
+$actualHash = (Get-FileHash -LiteralPath $resolvedPath -Algorithm SHA256).Hash.ToLowerInvariant()
+if ($actualHash -cne $record.Sha256 -or $item.Length -ne $record.FileSize) {
+    throw 'Rejected artifact no longer matches its evidence sidecar.'
+}
+$record | Format-List Kind,PackageId,Version,Uri,Reason,Sha256,FileSize
+Remove-Item -LiteralPath $resolvedPath -WhatIf
+# After confirming the reviewed evidence and path, repeat without -WhatIf.
+Remove-Item -LiteralPath $resolvedPath
+```
+
+Remove `.ride.json` and `.previous.ride.json` separately by exact literal path
+only after their contents have been archived. Do not run cleanup as part of
+acquisition or automatically after a successful retry.
+
+## Per-package source observations
+
 Sysinternals Suite source review, 2026-10-17: 374,742,194-byte official ZIP,
 SHA-256 `e1e75de5cdb12116b0a4eca83725dc7c7a1645266196025cbe5ca6c167161aed`.
 All 164 files were inventoried without execution; 151 PE executables had Valid
@@ -67,16 +143,24 @@ Source review date: 2026-10-08.
 
 | Package | Latest source | Exact versioned artifact | Publisher checksum/signature | Hosting metadata | Authenticode | Status |
 | --- | --- | --- | --- | --- | --- | --- |
-| 7-Zip x64 | Official `ip7z/7zip` release `26.04` | `7z2604-x64.exe` | No publisher checksum/detached signature identified on the official download page | GitHub SHA-256 digest matched | Windows 11 observation: `NotSigned` | Unsigned-artifact policy remains a decision before any strict gate |
+| 7-Zip x64 | Official `ip7z/7zip` release `26.04` | `7z2604-x64.exe` | No publisher checksum/detached signature identified on the official download page | GitHub SHA-256 digest matched | Windows 11 observation: `NotSigned` | Eligible under the 2026-10-24 decision; source/version and available digest checks still apply |
 | Notepad++ x64 | Official release `v8.9.8.1` | `npp.8.9.8.1.Installer.x64.exe` | Exact release checksum and GPG sidecar URLs recorded; detached verification remains open | GitHub digest matched | `Valid`; subject/organization `NOTEPAD++`, email `don.h@free.fr` | Confirm publisher signer expectations/rotation and implement trusted-key GPG verification |
 | Git for Windows x64 | Official release `v2.56.0.windows.2` | `Git-2.56.0.2-64-bit.exe`; four-part installer names supported | Exact installer SHA-256 published in release notes is now parsed and matched. No detached signature over that checksum identified | GitHub digest matched separately as provider metadata | `Valid`; subject/organization `Johannes Schindelin`, Bruehl, DE | Git functionality/lifecycle passed; publisher signer expectations remain a trust-policy investigation |
 | Sysmon x64 archive | Microsoft page version `15.22`, direct `Sysmon.zip` | Versioned cache; source ZIP URL remains mutable | No publisher checksum/detached signature identified on download page | Microsoft direct download; no GitHub digest | Root `Sysmon64.exe` reports `Valid`, signer `Microsoft Windows Publisher`, issuer `Windows Production PCA 2023`; member evidence is bound to archive SHA-256 | Actual Windows signer captured; certificate rotation/trust policy remains separate |
 | SwiftOnSecurity Sysmon XML | Latest commit history for the exact file path in `SwiftOnSecurity/sysmon-config` | Yes; the selected file is downloaded from the resolved immutable commit SHA | No detached signature or checksum identified | GitHub API reports commit identity; this does not authenticate the author or content | Not applicable to XML | Download-only artifact support added; application remains a separate explicit configuration action |
 | Git LFS standalone | Official `git-lfs/git-lfs` release `v3.8.0` | `git-lfs-windows-v3.8.0.exe` | `sha256sums.asc` and signature assets inventoried; detached verification not implemented | GitHub digest checked when supplied | `Valid`; subject/organization `GitHub, Inc.`, San Francisco, US | Requires Git before install and during removal; verify publisher keys separately |
 | Joplin | Official `laurent22/joplin` release `v3.7.21` | `Joplin-Setup-3.7.21.exe` | Sidecar URLs collected when present; no new mandatory gate | GitHub digest matched | `Valid`; subject/organization `Joplin`, Nancy, FR | Current-user NSIS lifecycle passed on Windows 11 |
-| ShareX | Official `ShareX/ShareX` release `v21.0.0` | `ShareX-21.0.0-setup-x64.exe` | Sidecar URLs collected when present; no new mandatory gate | GitHub digest matched | `NotSigned` | Machine EXE lifecycle passed on Windows 11; portable form remains separate; unsigned policy needs a decision before a strict gate |
+| ShareX | Official `ShareX/ShareX` release `v21.0.0` | `ShareX-21.0.0-setup-x64.exe` | Sidecar URLs collected when present; no new mandatory gate | GitHub digest matched | `NotSigned` | Eligible under the 2026-10-24 decision; machine EXE lifecycle passed on Windows 11; portable form remains separate |
 | WinDirStat | Official `windirstat/windirstat` release `release/v2.9.2` | `WinDirStat-x64.msi`, retained under exact version | Publisher `WinDirStat-Hashes.txt` identified; parsing/verification remains open | GitHub digest matched | `Valid`; signer `Open Source Developer Bryan Berns` | Quiet no-restart MSI lifecycle passed on Windows 11 |
 | PowerShell 7 | Official `PowerShell/PowerShell` release `v7.6.6` | `PowerShell-7.6.6-win-x64.msi` | Publisher checksum assets collected when present; verification remains separate | GitHub digest matched | `Valid`; signer `Microsoft Corporation` | MSI lifecycle and executable/version check passed on Windows 11; preserve Windows PowerShell 5.1 |
+
+The user's 2026-10-24 decision keeps 7-Zip and ShareX eligible when their
+installers report `NotSigned`. `PackageEvidence.Tests.ps1` passed **28/28** in
+the corresponding acquisition regression: a matching provider SHA-512 was
+accepted with `NotSigned`, while altered bytes were rejected. This test uses
+mocked payloads and does not establish new package or Windows acceptance. See
+the [structured evidence](archive/evidence/unsigned-package-eligibility-acquisition-regression-2026-10-24-0838.json)
+and [decision](migrations/decision-session-2026-10-17.md#unsigned-package-eligibility-decision-2026-10-24).
 
 ### Installed continuation observations, 2026-10-11
 
@@ -144,9 +228,11 @@ detached signatures.
 ## Next research
 
 1. Windows inspection completed for all package artifacts in this matrix.
-   7-Zip and ShareX are unsigned; Sysmon's executable and the other installers
-   report valid signatures. Compare certificate identities and rotation
-   expectations with official publisher material before using them as policy.
+   7-Zip and ShareX are unsigned and remain eligible under the recorded
+   decision; Sysmon's executable and the other installers report valid
+   signatures. Compare signed publishers' certificate identities and rotation
+   expectations with official material before turning those observations into
+   an enforcement policy.
 2. Git's release-note checksum and the exact Mozilla/PuTTY SHA-256 sum entries
    are implemented and matched. Other publisher sidecar parsing and detached
    GPG verification remain open, including trusted

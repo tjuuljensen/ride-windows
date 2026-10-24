@@ -1,0 +1,66 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-21",
+  "Batch": "MiTeC Paradox Data Editor bundled BDE publisher deployment follow-up",
+  "RetainedBdeEvidence": {
+    "EvidenceFile": "docs/archive/evidence/bde-version-license-follow-up-2026-10-17.json",
+    "SourceResourceSha256": "cc4c87a57391cf6c283ba212bae3a0fbbcd3346e53ac640c7819319db0b70d25",
+    "SourceResourceLength": 3548843,
+    "BdeFiles": 29,
+    "ExpandedBytes": 8189528,
+    "CoreFileVersions": {
+      "IDAPI32.DLL": "5.1.1.1",
+      "IDPDX32.DLL": "5.1.1.1",
+      "IDDBAS32.DLL": "5.1.1.1",
+      "BDEADMIN.EXE": "5.1.1.1"
+    },
+    "LocalDeploymentNoticePresent": false
+  },
+  "PublisherDocumentation": {
+    "BdeUri": "https://docwiki.embarcadero.com/RADStudio/Florence/en/Borland_Database_Engine",
+    "LicenseRequirementsUri": "https://docwiki.embarcadero.com/RADStudio/Athens/en/Software_License_Requirements",
+    "ObservedClaims": [
+      "Embarcadero describes BDE as deprecated and says it will not be enhanced; it advises against new development and recommends migration to FireDAC.",
+      "Embarcadero's BDE page points to the DEPLOY document for specific BDE redistribution rights and limitations.",
+      "Embarcadero warns that improper installation of BDE or BDE subsets can cause other BDE-based applications to fail and says registry-based configuration requires correct installation and deletion entries.",
+      "The software-license guidance says the DEPLOY document in the product installation covers BDE distribution and that third-party component redistribution rights remain governed by the supplying vendor."
+    ],
+    "Limits": "These RAD Studio documents explain where version-specific deployment rights are recorded and warn about shared BDE installation effects. They do not provide the DEPLOY/README terms for retained BDE 5.1.1.1 or grant redistribution of the copy bundled with MiTeC Paradox Data Editor.",
+    "DirectPageAccess": [
+      {
+        "Uri": "https://docwiki.embarcadero.com/RADStudio/Florence/en/Borland_Database_Engine",
+        "Result": "HTTP 403 Forbidden; search-indexed official page content was reviewed; no access-control workaround attempted"
+      },
+      {
+        "Uri": "https://docwiki.embarcadero.com/RADStudio/Athens/en/Software_License_Requirements",
+        "Result": "HTTP 403 Forbidden; search-indexed official page content was reviewed; no access-control workaround attempted"
+      }
+    ]
+  },
+  "Disposition": {
+    "Resolved": "Official current guidance confirms BDE is deprecated, highlights compatibility risks from incorrect/shared installation, and identifies version-specific DEPLOY/README as the source of precise redistribution rules.",
+    "Partial": "The exact applicable BDE 5.1.1.1 DEPLOY/README, MiTeC's right to bundle it, local user entitlement, and current Windows compatibility remain unknown.",
+    "RemainingBlockers": [
+      "Do not register or install BDE on the host. Incorrect shared BDE setup can break existing applications and modify machine registry configuration.",
+      "Obtain the applicable BDE 5.1.1.1 DEPLOY/README and MiTeC bundle terms from an authorized source before considering distribution or activation.",
+      "Keep provider/bitness compatibility, aliases, install/repeat/uninstall recovery and synthetic Paradox database acceptance deferred until licensing and an isolated BDE fixture are available."
+    ],
+    "WholeLegacyOutcomesResolved": 0,
+    "WholeLegacyOutcomesRetired": 0,
+    "WholeLegacyOutcomesExcluded": 0,
+    "EstimateRanges": ["38-58", "56-71", "20-25", "25-35", "8-12"],
+    "ExactTotal": "147-201",
+    "RoundedTotal": "145-200/about 175",
+    "EstimateReason": "Publisher deployment guidance narrows the licensing and coexistence evidence required but provides no version-specific rights for the retained bundle; no whole outcome or acceptance gate closed."
+  },
+  "Safety": {
+    "BdeDllOrAdminToolLoaded": false,
+    "BdeRegisteredOrInstalled": false,
+    "DatabaseOpened": false,
+    "InstallerExecuted": false,
+    "FreshUacPrompts": 0,
+    "VmOrControllerChanged": false,
+    "DefenderBlockedToolsTouched": false,
+    "DefenderStateChanged": false
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T16:27:39Z",
+  "Batch": "WinPmem production asset source review and package candidate",
+  "Publisher": {
+    "Repository": "https://github.com/Velocidex/WinPmem",
+    "ReleasePage": "https://github.com/Velocidex/WinPmem/releases",
+    "ReleaseTag": "v4.1.dev1",
+    "ReleaseStatus": "Pre-release; the publisher marks the new driver build test-signed and directs production users to the separate signed Go executable.",
+    "ProductionAsset": "go-winpmem_amd64_1.0-rc2_signed.exe",
+    "PackageVersionIdentity": "1.0-rc2 (filename/userspace asset identity; not represented as WinPmem 4.1 production)",
+    "DirectDownloadUri": "https://github.com/Velocidex/WinPmem/releases/download/v4.1.dev1/go-winpmem_amd64_1.0-rc2_signed.exe",
+    "AssetSize": "5.01 MB (publisher release asset listing)",
+    "PublisherSha256": "86691bb4af2c17dd9ec4834c04a99ad51e04f780a07d1b05bc382a5d1892e0c4",
+    "PublisherSha256Source": "https://github.com/Velocidex/WinPmem/releases/expanded_assets/v4.1.dev1",
+    "License": "Apache-2.0; publisher README says the source and signed binaries are available under Apache License 2.0.",
+    "LicenseUri": "https://github.com/Velocidex/WinPmem/blob/master/LICENSE"
+  },
+  "Acquisition": {
+    "Attempted": true,
+    "Result": "No such host is known (github.com:443).",
+    "BytesReceived": 0,
+    "AuthenticodeInspected": false,
+    "PartialFilePresent": false
+  },
+  "Implementation": {
+    "CatalogOperation": "package.winpmem",
+    "InstallerType": "Portable",
+    "PortableFormat": "File",
+    "Behavior": "Exact-file staging/removal only; does not execute the utility, load a driver, create a driver service or capture memory.",
+    "Scope": "Machine",
+    "CandidateTargets": ["Windows 11"],
+    "SupportedTargets": [],
+    "PendingAcceptance": true,
+    "LicenseReviewIsMigrationBlocker": false
+  },
+  "Validation": {
+    "FocusedSuite": "tests/WinPmemPackage.Tests.ps1",
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "Passed": 3,
+    "Failed": 0,
+    "Skipped": 0,
+    "RepositoryValidation": "Passed; 410 operations, 8 groups, 5 profiles and 273 PowerShell files; generated operation documentation current."
+  },
+  "Boundaries": {
+    "UtilityExecuted": false,
+    "DriverLoaded": false,
+    "MemoryCaptured": false,
+    "DefenderChanged": false,
+    "VmUsed": false,
+    "WindowsStateChanged": false
+  },
+  "MigrationDisposition": {
+    "Resolved": ["Publisher production-use asset identity, publisher-published SHA-256 and Apache license source recorded.", "User-required deployment-only package candidate implemented and statically tested."],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Exact local bytes and Authenticode signer; acquisition is blocked by local DNS.", "Driver signing/current-build compatibility, explicit load/unload, cleanup, reboot recovery and Windows 11/Server acceptance."],
+    "Partial": ["No whole legacy outcome closes; no supported target is declared."],
+    "EstimateImpact": "No scope change; settings 37-57, packages 50-65, components 19-24, files/assets 25-35, maintenance 8-12; exact 139-193, rounded 140-195/about 170."
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T13:32:41Z",
+  "RunId": "023b0d9b5c4c4dbc90649be8fea296b7",
+  "IntegrationSuite": "ApplicationsBatch1",
+  "Target": {
+    "VMName": "RIDE-Win11-Test",
+    "OS": "Windows 11 Enterprise Evaluation",
+    "Build": 26300,
+    "PowerShell": "5.1.26100.9444",
+    "Pester": "5.7.1"
+  },
+  "Run": {
+    "StartedAtUtc": "2026-10-24T13:17:58.7164922Z",
+    "FinishedAtUtc": "2026-10-24T13:28:45.7776634Z",
+    "ControllerStatus": "Failed",
+    "ValidationPassed": true,
+    "IntegrationPassed": false,
+    "Pester": { "Total": 331, "Passed": 330, "Failed": 0, "Skipped": 1 },
+    "Error": "Access to the limited-user worker evidence path was denied after the worker returned partial results.",
+    "CleanupError": null,
+    "CollectionError": null,
+    "StateCollectionError": null,
+    "EvidenceExportError": null,
+    "CheckpointRestore": "Controller cleanup completed without a reported error."
+  },
+  "LimitedUserWorker": {
+    "Account": "RIDE-WIN11-TEST\\RIDE-App-804a712c",
+    "SID": "S-1-5-21-3381495413-3650599264-2815280620-1002",
+    "EvidenceDirectory": "C:\\Users\\RIDE-App-804a712c\\AppData\\Local\\RIDE\\TestWorkers\\RIDE-ApplicationUser-ddee8f6083f14086b91503b84b6b29e7",
+    "TaskResult": 1,
+    "WorkerEvidence": "applications-batch1-user.json"
+  },
+  "Packages": [
+    {
+      "Id": "package.thunderbird",
+      "Version": "158.0.1",
+      "Scope": "User",
+      "Status": "Passed",
+      "Recovery": true,
+      "ProfilePreservation": true,
+      "ExecutionElevated": false
+    },
+    {
+      "Id": "package.gpg4win",
+      "Version": "5.1.1",
+      "Scope": "User",
+      "Status": "Failed",
+      "Recovery": false,
+      "Error": "Installer exited with code -1073741819 (0xC0000005); artifact was retained in the disposable user's RIDE cache."
+    }
+  ],
+  "Unverified": [
+    "No applications-batch1.json was exported, so machine-scope package scenario results are not established by this run.",
+    "The worker's limited-user directory ACL/evidence-write failure needs diagnosis before the user-scope package lane can pass."
+  ],
+  "DefenderBlockedToolsSelected": false,
+  "QueueAtRecording": {
+    "Running": ["14f6722a78f54ce8b931235eae5014ac"],
+    "Suite": "ApplicationsBatch1",
+    "Note": "This serialized request was already queued; no additional request was submitted."
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Gpg4win Windows 11 user-scope install/removal/recovery; its installer crashed and exact/compensating recovery did not pass.",
+      "ApplicationsBatch1 machine-scope outcomes; no batch result file was exported.",
+      "Limited-user worker evidence-path access and cleanup diagnosis."
+    ],
+    "Partial": [
+      "Thunderbird 158.0.1 passed its limited-user lifecycle/recovery case with profile preservation.",
+      "The full guest regression passed 330/331 with one skip, but integration failed after limited-user worker evidence access was denied."
+    ],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "52-67",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "141-195",
+      "RoundedTotal": "140-195/about 170",
+      "Changed": false,
+      "Reason": "One package lifecycle slice passed and Gpg4win plus machine-scope outcomes remain incomplete; no whole legacy package outcome is closed."
+    }
+  }
+}

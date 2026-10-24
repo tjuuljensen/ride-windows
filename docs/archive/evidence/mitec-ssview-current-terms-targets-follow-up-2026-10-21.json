@@ -1,0 +1,50 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-21",
+  "Scope": "Current publisher-page follow-up for MiTeC Structured Storage Viewer version, targets, codec behavior and terms; retained sample artifacts only, no code or payload execution",
+  "Sources": [
+    { "Uri": "https://www.mitec.cz/wp/mssv/", "Role": "Current product behavior, codec description, target list, version history and license price tiers" },
+    { "Uri": "https://www.mitec.cz/wp/support/", "Role": "Current generic trial/unregistered use terms and software EULA" }
+  ],
+  "PublisherFindings": {
+    "ProductVersion": "4.1.2 dated 2022-10-31",
+    "SupportedOperatingSystemsClaimed": "Windows XP-11 and Windows Server 2003-2025",
+    "CodecBehavior": "SSView searches its own directory for DLLs exporting EncodeIStream and DecodeIStream; selected decoders are used to view streams, and selected encoders/decoders participate in stream save/load. The ZLIB codec is identified as a sample included in the distribution.",
+    "ProductLicenseOptions": ["Lifetime Single", "Lifetime Single Professional", "Lifetime Site Professional"],
+    "GenericTrialTerms": "Trial or unregistered software is freeware for non-commercial use; the EULA provides evaluation-only trial terms and nontransferable named-user/build-machine, team and site license types.",
+    "SoftwareDistribution": "The software EULA permits one backup/archive copy and prohibits transfer of license rights without written permission. No separate redistribution grant for the product archive was found.",
+    "SampleSourceRights": "The ZLIB codec is described as sample Delphi source, but no explicit license or attribution terms for ZLibCodec.dpr/ZLibCodec.dll are stated on the current product page or identified in the retained archive review.",
+    "SampleFileRights": "The current product page does not identify ownership or terms for test.ss."
+  },
+  "RetainedEvidence": {
+    "EarlierStaticReview": "docs/archive/evidence/ssview-codec-failure-path-review-2026-10-20.json",
+    "Archive": ".local/collection-inventory-20261017/SSView.zip",
+    "ArchiveSha256": "e9d05067745a4f114b22dc798c7fa99017302b39bc8798853ed1bfd4c44d27ab",
+    "Source": ".local/collection-inventory-20261017/SSView.zip.review/ZLibCodec.dpr",
+    "KnownSourceSha256": "a7e1e2d316a07700de5f2e2e233eca4dadd57f2205c85ad63e1963f7337a4d69",
+    "KnownStaticRisk": "On codec exception the reviewed sample may return partial output followed by original bytes; build/runtime behavior remains unverified."
+  },
+  "Remaining": [
+    "Assess applicable non-commercial or paid license using the actual user/organization; no entitlement assumed",
+    "Resolve archive/product and codec source/binary redistribution rights and attribution",
+    "Resolve test.ss provenance and terms before using it as fixture",
+    "Use only separately identified synthetic structured-storage fixtures for codec and save/load checks",
+    "Test byte-exact document recovery, partial codec failures, empty inputs, plugin directory search and load behavior on a registered isolated guest",
+    "Publisher target claims do not establish tested RIDE operation support; no catalog support declaration changed"
+  ],
+  "RunBoundaries": {
+    "RetainedArchiveOrSampleExecuted": false,
+    "CodecLoadedOrBuilt": false,
+    "StructuredStorageFileOpenedOrModified": false,
+    "FreshUacPrompts": 0,
+    "VmRuns": 0,
+    "ControllerChanges": 0,
+    "DefenderChanges": 0,
+    "DefenderBlockedFilesTouched": false
+  },
+  "Outcomes": { "WholeLegacyOutcomesResolved": 0, "RetiredOutcomes": 0, "NewExclusions": 0 },
+  "Ranges": ["38-58", "56-71", "20-25", "25-35", "8-12"],
+  "ExactRangeEndpoints": "147-201",
+  "RoundedTotal": "145-200/about 175",
+  "EstimateReason": "Current source confirms target claims, product edition options and codec integration but does not establish owner entitlement, redistribution or codec/sample rights, and prior source analysis leaves integrity acceptance open. No whole outcome closes, so ranges are unchanged."
+}

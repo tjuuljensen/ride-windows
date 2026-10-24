@@ -1,0 +1,68 @@
+{
+  "RecordedAtUtc": "2026-10-24T11:23:19Z",
+  "Kind": "PinnedSourceAndHelperReview",
+  "Repository": "https://github.com/EricZimmerman/Get-ZimmermanTools",
+  "CurrentBranch": "master",
+  "PinnedCommit": {
+    "ShortSha": "d808d1d",
+    "FullSha": "d808d1dfe6446faf884576a8a1c11b6875197a19",
+    "CommittedDate": "2026-05-02",
+    "EvidenceUri": "https://github.com/EricZimmerman/Get-ZimmermanTools/commits/master/"
+  },
+  "ReleaseStatus": "No GitHub releases listed",
+  "RepositoryLicense": {
+    "Expression": "MIT",
+    "Scope": "Get-ZimmermanTools repository/helper source only",
+    "EvidenceUri": "https://github.com/EricZimmerman/Get-ZimmermanTools/blob/master/LICENSE"
+  },
+  "HelperBehaviorObservedInOfficialCurrentSource": [
+    "May self-update from the publisher download endpoint unless NoUpdate is selected",
+    "Discovers ZIP/TXT URLs from the live publisher page",
+    "Downloads multiple discovered artifacts concurrently",
+    "Extracts ZIPs into the selected destination and overwrites existing files",
+    "Uses publisher ETag values in a local CSV to determine whether artifacts changed"
+  ],
+  "SelectedLegacyScope": {
+    "MemberCount": 26,
+    "Changed": false
+  },
+  "Acquisition": {
+    "Uri": "https://github.com/EricZimmerman/Get-ZimmermanTools/archive/d808d1dfe6446faf884576a8a1c11b6875197a19.zip",
+    "Result": "Blocked before transfer",
+    "Error": "Local host could not resolve github.com",
+    "PartialFileCreated": false,
+    "Extracted": false,
+    "Executed": false
+  },
+  "Boundaries": {
+    "UpstreamCommitIdentityVerified": true,
+    "RepositoryLicenseVerified": true,
+    "SourceArchiveBytesAcquired": false,
+    "ArchiveSha256Available": false,
+    "ProductBinariesExecuted": false,
+    "WindowsStateChanged": false,
+    "LicenseReviewBlocksMigration": false
+  },
+  "Resolved": [
+    "Immutable upstream repository commit identity",
+    "Repository-level MIT license notice",
+    "GitHub release absence and mutable updater behavior"
+  ],
+  "Deferred": [
+    "Exact immutable archive bytes and hash",
+    "Selected-member publisher version and artifact mapping",
+    "Per-product license-review records",
+    "RIDE-managed package selection and lifecycle/recovery acceptance"
+  ],
+  "LegacyProductOutcomeClosed": false,
+  "Estimates": {
+    "WindowsSettings": "38-58",
+    "PackagesArtifacts": "52-67",
+    "WindowsComponents": "19-24",
+    "AccountsConfigurationAssets": "25-35",
+    "MaintenanceOperations": "8-12",
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "RangesChanged": false
+  }
+}

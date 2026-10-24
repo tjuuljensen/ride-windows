@@ -1,0 +1,33 @@
+{
+  "RecordedAtUtc": "2026-10-24T12:37:00Z",
+  "Decision": "The prior RIDE v2 license-specialist review approved Sysinternals for RIDE's direct download-and-install workflow.",
+  "UserReaffirmation": "RIDE downloads Sysinternals directly from Microsoft for installation on user-supported devices and does not transfer or publish copies. There are no legal issues using Sysinternals in RIDE. Do not use generalized redistribution reasoning or require another license review to block package migration.",
+  "Disposition": {
+    "LicenseMigrationBlocker": false,
+    "AdditionalLicenseReviewGate": false,
+    "RemainingGates": [
+      "Technical lifecycle and exact recovery",
+      "Selected utility behavior where applicable",
+      "Windows target acceptance"
+    ]
+  },
+  "SeparateSecurityDisposition": {
+    "DefenderDetectedToolsRemainExcluded": true,
+    "LicenseDecisionDoesNotChangeSecurityExclusions": true
+  },
+  "MigrationEstimates": {
+    "WindowsAndApplicationSettings": "38-58",
+    "PackagesPortableToolsAndDownloadableArtifacts": "52-67",
+    "WindowsComponentsAndOptionalFeatures": "19-24",
+    "AccountsConfigurationAndDeployedFilesAssets": "25-35",
+    "MaintenanceAndOperationalActions": "8-12",
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "LegacyOutcomeClosed": false
+  },
+  "AcceptanceState": {
+    "PackagePlanRegression": "11/11 passed; all ten approved Sysinternals plans remain available",
+    "ApplicationsBatch1Request": "24dae5ea55034a84b42cb6a0260d9c3c remains active with no result at recorded time; do not overlap",
+    "WindowsAcceptance": "Remaining native acceptance is tracked separately from licensing"
+  }
+}

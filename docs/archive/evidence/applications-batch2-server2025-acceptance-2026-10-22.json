@@ -1,0 +1,50 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "19f6e52b9e284ee5ac16b466eceaf90a",
+  "IntegrationSuite": "ApplicationsBatch2",
+  "Target": {
+    "VMName": "RIDE-S25-Test",
+    "VMId": "06c2ae01-bf82-4634-9215-f240f3ea4147",
+    "CheckpointId": "4a5b49ba-0795-480a-8d01-6f4f670577c8",
+    "OS": "Windows Server 2025 Standard Evaluation",
+    "Build": 26100,
+    "PowerShell": "5.1.26100.33438"
+  },
+  "Validation": {
+    "Status": "Passed",
+    "PesterVersion": "5.7.1",
+    "Passed": 285,
+    "Failed": 0,
+    "Skipped": 1,
+    "Total": 286
+  },
+  "Scenarios": [
+    { "PackageId": "package.sharex", "Variant": "portable", "Version": "21.0.0", "Status": "Passed", "Recovery": true },
+    { "PackageId": "package.chainsaw", "Variant": "portable", "Version": "2.17.1", "Status": "Passed", "Recovery": true },
+    { "PackageId": "package.hindsight", "Variant": "portable", "Version": "2026.06", "Status": "Passed", "Recovery": true },
+    { "PackageId": "package.cyberchef", "Variant": "portable", "Version": "11.5.0", "Status": "Passed", "Recovery": true },
+    { "PackageId": "package.putty", "Variant": "portable", "Version": "0.85", "Status": "Passed", "Recovery": true },
+    { "PackageId": "package.srum-dump", "Variant": "portable", "Version": "3.2", "Status": "Passed", "Recovery": true },
+    { "PackageId": "package.srum-monkey", "Variant": "portable", "Version": "1.0.0", "Status": "Passed", "Recovery": true },
+    { "PackageId": "package.dejsonlz4", "Variant": "portable", "Version": "1.1", "Status": "Passed", "Recovery": true },
+    { "PackageId": "package.cylr", "Variant": "portable", "Version": "2.2.0", "Status": "Passed", "Recovery": true },
+    { "PackageId": "package.caffeine", "Variant": "portable", "Version": "1.98", "Status": "Passed", "Recovery": true },
+    {
+      "PackageId": "package.winscp",
+      "Variant": "portable",
+      "Version": "6.5.7",
+      "Status": "Passed",
+      "Recovery": true,
+      "SessionPreservation": true,
+      "ExecutableSignatures": "WinSCP.exe and WinSCP.com were valid and shared the expected publisher thumbprint."
+    },
+    { "PackageId": "package.networkminer", "Variant": "portable", "Version": "3.2", "Status": "Passed", "Recovery": true }
+  ],
+  "RunStatus": "Passed",
+  "CleanupError": null,
+  "CollectionError": null,
+  "CollectionOmissions": [],
+  "FinalVmState": "Off; clean checkpoint restored",
+  "CatalogImpact": "All eleven packages already declared Windows 11 and Windows Server 2025. No target metadata changed.",
+  "LegacyOutcomesClosed": 0
+}

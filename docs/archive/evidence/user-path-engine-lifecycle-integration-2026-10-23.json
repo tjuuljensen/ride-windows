@@ -1,0 +1,53 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "Batch": "Q08 persistent user PATH engine lifecycle integration",
+  "OperationId": "windows.user-bin-persistent-path",
+  "Disposition": {
+    "SupportedTargets": [],
+    "CandidateTargets": ["Windows 11"],
+    "PendingAcceptance": true,
+    "NativeMutationPerformed": false
+  },
+  "Implementation": [
+    "Cataloged a user-scoped append-only persistent PATH setting.",
+    "Added current-state inspection and plan/status display.",
+    "Captured original PATH data and owned-entry recovery token in saved run state.",
+    "Routed apply and exact saved-run recovery through identity-bound ShouldProcess helpers.",
+    "Added mock-based engine coverage for saved-run restore preflight and recovery-helper dispatch.",
+    "Verified wrapper append and owned-entry recovery with fake registry handles, including unrelated PATH edits.",
+    "Does not create or remove the user-bin directory; unset is not supported."
+  ],
+  "Validation": {
+    "RepositoryValidator": {
+      "Result": "Passed",
+      "Operations": 375,
+      "Groups": 8,
+      "Profiles": 5,
+    "PowerShellFiles": 247
+    },
+    "FocusedPester": {
+      "Result": "Passed",
+      "PowerShellEditions": ["Windows PowerShell 5.1", "PowerShell 7"],
+      "Discovered": 203,
+      "Passed": 202,
+      "Failed": 0,
+      "NotRun": 1,
+      "ExcludedTag": "WindowsIntegration",
+      "TestRegistryPlugin": "Disabled because the sandbox denies registry access"
+    }
+  },
+  "AcceptanceBlockers": [
+    "Hyper-V CIM access to RIDE-Win11-Test remains unavailable.",
+    "Native Windows 11 apply, repeat, status, exact restore and effective PATH behavior remain unverified.",
+    "Environment refresh behavior remains unverified."
+  ],
+  "EstimateDisposition": {
+    "ResolvedLegacyOutcomes": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Disposable Windows 11 acceptance and effective-path verification"],
+    "Partial": ["Q08 persistent user PATH"],
+    "RangesUnchanged": "38-58 / 52-67 / 19-24 / 25-35 / 8-12; exact 142-196; rounded 145-200/about 170"
+  }
+}

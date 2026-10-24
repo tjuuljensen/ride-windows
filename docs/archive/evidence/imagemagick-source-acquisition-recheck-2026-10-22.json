@@ -1,0 +1,110 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-22",
+  "Batch": "ImageMagick portable Q16 official source acquisition recheck",
+  "OfficialPage": {
+    "Uri": "https://imagemagick.org/download/#windows",
+    "Version": "7.1.2-34",
+    "SelectedAsset": "ImageMagick-7.1.2-34-portable-Q16-x64.7z",
+    "Description": "Portable Win64 static (No installer or registry changes required)",
+    "DirectAssetUri": "https://github.com/ImageMagick/ImageMagick/releases/download/7.1.2-34/ImageMagick-7.1.2-34-portable-Q16-x64.7z"
+  },
+  "PublisherIndex": {
+    "Uri": "https://download.imagemagick.org/archive/binaries/",
+    "PageOpened": true,
+    "RecheckedAt": "2026-10-22",
+    "LatestOfficialVersion": "7.1.2-34",
+    "SelectedAssetEntry": "ImageMagick-7.1.2-34-portable-Q16-x64.7z (2026-10-14 20:00 as shown in the publisher index)",
+    "ListedAssetSize": "11 MB",
+    "SignatureSidecar": "ImageMagick-7.1.2-34-portable-Q16-x64.7z.asc (2026-10-14 21:20 as shown in the publisher index)",
+    "SignatureSidecarSize": "833 bytes",
+    "CycloneDxSidecar": "ImageMagick-7.1.2-34-portable-Q16-x64.cdx.json"
+  },
+  "Acquisition": {
+    "EarlierShellAttempts": {
+      "PublisherHost": "download.imagemagick.org",
+      "Attempted": true,
+      "Result": "DNS resolution failed: No such host is known.",
+      "OfficialGithubReleaseRetry": {
+        "Uri": "https://github.com/ImageMagick/ImageMagick/releases/download/7.1.2-34/ImageMagick-7.1.2-34-portable-Q16-x64.7z",
+        "Attempted": true,
+        "Result": "DNS resolution failed: No such host is known."
+      }
+    },
+    "OfficialReleaseAcquisition": {
+      "Uri": "https://github.com/ImageMagick/ImageMagick/releases/download/7.1.2-34/ImageMagick-7.1.2-34-portable-Q16-x64.7z",
+      "ArtifactBytesObtained": true,
+      "ArtifactSizeBytes": 12022003,
+      "Sha256": "52CC6A441C7884F5FF4274B410C9B90C4B7D54245DCDF4D32988BB4E4DF4E5D1",
+      "DetachedSignatureUri": "https://download.imagemagick.org/archive/binaries/ImageMagick-7.1.2-34-portable-Q16-x64.7z.asc",
+      "SignatureBytesObtained": true,
+      "SignatureSizeBytes": 833,
+      "DetachedSignatureVerified": false,
+      "PublisherDigestRdfObtained": true,
+      "PublisherDigestRdfContainsSelectedArchive": false,
+      "ArchiveInspection": {
+        "Method": "Read-only signed Windows inbox tar.exe member listing",
+        "MemberCount": 23,
+        "ContainsMagickExe": true,
+        "ContainsLicenseTxt": true,
+        "ContainsNoticeTxt": true,
+        "UnsafePaths": 0,
+        "Extracted": true,
+        "ExtractionDirectory": ".local/acquisition/imagemagick-7.1.2-34/static-review",
+        "Executed": false
+      }
+    },
+    "CandidateAcquisitionBlocked": false
+  },
+  "BrowserSourceCheck": {
+    "OfficialPageUri": "https://imagemagick.org/download/",
+    "OfficialPageStatesLatestStable": "7.1.2-34",
+    "OfficialPageCallsSelectedAsset": "Portable Win64 static (No installer or registry changes required)",
+    "OfficialIndexUri": "https://download.imagemagick.org/archive/binaries/",
+    "OfficialIndexListsExactAssetAndSignature": true,
+    "ObservedAssetSize": "11 MB",
+    "ObservedSignatureSize": "833 bytes",
+    "ObservationLimit": "Browser text inspection establishes publisher listing and metadata only; it does not obtain or verify artifact/signature bytes."
+  },
+  "Boundaries": {
+    "ArtifactExtracted": true,
+    "ImageMagickExecuted": false,
+    "VmRun": false,
+    "Uac": false,
+    "DefenderChange": false,
+    "PathChange": false
+  },
+  "Validation": {
+    "ApplicationPackagesWindowsPowerShell51": {
+      "Passed": 84,
+      "Failed": 0,
+      "Skipped": 0,
+      "TemporaryDirectory": "Workspace-local ignored .local/pester-temp-imagemagick",
+      "PesterTestRegistryPluginEnabled": false
+    },
+    "ApplicationPackagesPowerShell7": {
+      "Passed": 84,
+      "Failed": 0,
+      "Skipped": 0,
+      "TemporaryDirectory": "Workspace-local ignored .local/pester-temp-imagemagick",
+      "PesterTestRegistryPluginEnabled": false
+    },
+    "CatalogExportCheck": "Passed",
+    "RepositoryValidator": "Passed: 374 operations, 8 groups, 5 profiles, 243 PowerShell files",
+    "DiffCheck": "Passed",
+    "StaticExtractionReview": {
+      "ExtractedFiles": 23,
+      "RequiredMagickExePresent": true,
+      "LicenseAndNoticePresent": true,
+      "AuthenticodeSignedExecutables": 8,
+      "ExecutableSignaturesValid": true,
+      "Signer": "ImageMagick Studio LLC",
+      "ImageMagickBinariesExecuted": false
+    }
+  },
+  "Disposition": {
+    "PackageLicenseReviewStatus": "NeedsReview",
+    "LicenseBlocker": false,
+    "RemainingGates": ["Detached-signature verification (follow-up confidence check)", "Disposable Windows 11 lifecycle, recovery and feature acceptance"]
+  }
+}

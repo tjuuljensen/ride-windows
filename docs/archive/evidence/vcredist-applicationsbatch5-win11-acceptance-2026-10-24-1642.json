@@ -1,0 +1,110 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T16:49:23Z",
+  "Batch": "ApplicationsBatch5 Microsoft Visual C++ v14 x64 Windows 11 lifecycle",
+  "RunId": "929ea539ce89404d8ed0d50a8fbbac52",
+  "Controller": "RIDEWin11Test",
+  "Guest": {
+    "Windows": "Windows 11 Enterprise Evaluation",
+    "Build": "26300",
+    "PowerShell": "5.1.26100.9444"
+  },
+  "ControllerResult": {
+    "Status": "Passed",
+    "StartedAtUtc": "2026-10-24T16:28:41.9334952Z",
+    "FinishedAtUtc": "2026-10-24T16:37:30.5333909Z",
+    "ValidationPassed": true,
+    "IntegrationPassed": true,
+    "CollectionError": null,
+    "CleanupError": null,
+    "EvidenceExportError": null
+  },
+  "Validation": {
+    "Operations": 410,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 273,
+    "GeneratedOperationDocumentationCurrent": true
+  },
+  "Pester": {
+    "Version": "5.7.1",
+    "Total": 343,
+    "Passed": 342,
+    "Failed": 0,
+    "Skipped": 1
+  },
+  "PackageScenario": {
+    "Id": "package.vcredist-v14-x64",
+    "Variant": "installed",
+    "Target": "Windows 11",
+    "Status": "Passed",
+    "Version": "14.51.36247.0",
+    "MinimumRegisteredVersionAndSystemDllChecks": true,
+    "Checks": [
+      "RIDE-managed install",
+      "minimum registered version",
+      "System32 vcomp140.dll version",
+      "repeat install",
+      "removal preview",
+      "RIDE removal",
+      "repeat removal",
+      "saved removal recovery",
+      "saved install recovery"
+    ],
+    "Recovery": true,
+    "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable",
+    "RemovalRecoveryVersion": "14.51.36247.0",
+    "SupportedTargetsAfterRun": [
+      "Windows 11"
+    ],
+    "ServerSupport": false
+  },
+  "Checkpoint": {
+    "CleanCheckpointRestoredAfterRun": "Verified after both requests: the registered controller invokes Reset-RideAutomationVm in its finally block using the pinned RIDE-clean-test-base checkpoint; both requests passed with CleanupError null and no runtime blocked marker.",
+    "ControllerInstruction": "Restore the VM's clean checkpoint before its next integration run.",
+    "CheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9"
+  },
+  "SubsequentQueueState": {
+    "RunId": "919bd92ac3ab4b358906230eae728169",
+    "IntegrationSuite": "ApplicationsBatch5",
+    "StatusAtCheck": "Running; controller launched the guest command; no guest summary/result was available at 16:45:23Z. The registered controller validates and resets the pinned checkpoint before a normal suite dispatch.",
+    "SubmittedAtUtc": "2026-10-24T16:40:25.1813507Z",
+    "NoAdditionalRequestSubmitted": true,
+    "ObservedAtUtc": "2026-10-24T16:45:23Z"
+  },
+  "Disposition": {
+    "Resolved": [
+      "Windows 11 RIDE-managed Visual C++ v14 x64 install/repeat/remove and saved-run compensating-presence recovery passed on build 26300."
+    ],
+    "Deferred": [
+      "Exact recovery of a previously installed older runtime version is unavailable; no unsafe downgrade is attempted.",
+      "Clean VM checkpoint restoration after this run is not verified; the next pre-existing request is already in progress.",
+      "Windows Server acceptance remains open."
+    ],
+    "LegacyOutcomesClosed": 0,
+    "EstimateRangesUnchanged": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170"
+  },
+  "RepeatRun": {
+    "RunId": "919bd92ac3ab4b358906230eae728169",
+    "Status": "Passed",
+    "StartedAtUtc": "2026-10-24T16:40:26.6721181Z",
+    "FinishedAtUtc": "2026-10-24T16:49:23.4621513Z",
+    "ValidationPassed": true,
+    "Operations": 410,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 273,
+    "PesterTotal": 343,
+    "PesterPassed": 342,
+    "PesterFailed": 0,
+    "PesterSkipped": 1,
+    "PackageId": "package.vcredist-v14-x64",
+    "PackageStatus": "Passed",
+    "PackageVersion": "14.51.36247.0",
+    "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable",
+    "CleanupError": null,
+    "CollectionError": null,
+    "EvidenceExportError": null,
+    "PinnedCleanCheckpointResetSucceeded": true
+  }
+}

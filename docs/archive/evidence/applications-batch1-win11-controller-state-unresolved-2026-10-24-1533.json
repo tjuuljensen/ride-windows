@@ -1,0 +1,17 @@
+{
+  "RecordedAtUtc": "2026-10-24T15:33:00Z",
+  "Target": "RIDE-Win11-Test",
+  "RunId": "cd4fcbdd21ed4b1081fcaede9c1e6075",
+  "QueueMarker": "Present in queue/running",
+  "ResultJson": "Absent",
+  "LastControllerLog": "2026-10-24T15:20:48Z; AutomatedLab was waiting for the guest command.",
+  "HostTaskInspection": "Get-ScheduledTask/Get-ScheduledTaskInfo failed with Access to a CIM resource was not available to the client.",
+  "CheckpointStatus": "Unverified",
+  "Disposition": "Do not overlap or restart; treat acceptance state as unresolved until an authoritative terminal result or live controller status is available.",
+  "UnaffectedProgress": [
+    "Windows PowerShell 5.1 repository validation passed: 409 operations, 8 groups, 5 profiles, 272 PowerShell files.",
+    "LicenseReviews.Tests.ps1 passed 21/21; all ten Sysinternals plans remain available and NeedsReview is informational.",
+    "JoeWare Unlock publisher page/version-list identity was reconciled without payload download or AD contact."
+  ],
+  "Estimate": { "Settings": "37-57", "Packages": "52-67", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "ExactTotal": "141-195", "RoundedTotal": "140-195/about 170", "LegacyOutcomesClosed": 0 }
+}

@@ -1,0 +1,34 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T16:49:23Z",
+  "IntegrationSuite": "ApplicationsBatch5",
+  "Target": "Windows 11 Enterprise Evaluation build 26300",
+  "FinalRun": {
+    "RunId": "919bd92ac3ab4b358906230eae728169",
+    "Status": "Passed",
+    "Pester": { "Version": "5.7.1", "Passed": 342, "Failed": 0, "Skipped": 1, "Total": 343 },
+    "ControllerErrors": { "Run": null, "Cleanup": null, "Collection": null, "EvidenceExport": null }
+  },
+  "Package": {
+    "Id": "package.vcredist-v14-x64",
+    "Status": "Passed",
+    "Scope": "Machine",
+    "InstallerVersion": "14.51.36247.0",
+    "MinimumRegisteredVersion": "14.50.35710.0",
+    "System32Vcomp140DllVersion": "14.51.36247.0",
+    "Checks": ["install", "minimum registered version", "minimum System32 DLL version", "repeat install", "removal preview", "remove", "repeat remove", "saved removal recovery", "saved install recovery"],
+    "RemovalRecoveryVersion": "14.51.36247.0",
+    "OriginalVersion": null,
+    "Recovery": true
+  },
+  "Attempts": [
+    { "RunId": "3430215079cf49bcaaf8a695f277f4cc", "Status": "Failed", "Cause": "ApplicationsBatch5 used private Get-RideInstalledPackage directly from the guest script." },
+    { "RunId": "6a167ca471434890b705cb5d7947a75d", "Status": "Failed", "Cause": "Prerequisite removal inspected ImageMagick using metadata-only package selection without its resolved portable directory." },
+    { "RunId": "929ea539ce89404d8ed0d50a8fbbac52", "Status": "Passed", "Note": "Both runtime fixes passed; the following run revalidated after catalog support promotion." },
+    { "RunId": "919bd92ac3ab4b358906230eae728169", "Status": "Passed", "Note": "Final Windows 11 acceptance after support promotion and current regression tests." }
+  ],
+  "FocusedLocalPester": { "Files": ["tests/Catalog.Tests.ps1", "tests/PackageDependencyPlanning.Tests.ps1"], "Passed": 10, "Failed": 0, "Skipped": 0, "TestRegistryPlugin": "Disabled" },
+  "TargetDisposition": "Windows 11 support accepted after final ApplicationsBatch5 run. Windows Server targets remain undeclared.",
+  "LegacyOutcomesClosed": 0,
+  "EstimateRangesUnchanged": "37-57 / 50-65 / 19-24 / 25-35 / 8-12"
+}

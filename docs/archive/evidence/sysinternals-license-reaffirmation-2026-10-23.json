@@ -1,0 +1,29 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "Batch": "Sysinternals RIDE package-migration license decision reaffirmation",
+  "ProductIds": [
+    "package.sysinternals-suite",
+    "package.sysinternals-process-explorer",
+    "package.sysinternals-autoruns",
+    "package.sysinternals-tcpview",
+    "package.sysinternals-procmon",
+    "package.sysinternals-rammap",
+    "package.sysinternals-disk2vhd",
+    "package.sysinternals-sigcheck",
+    "package.sysinternals-strings",
+    "package.sysinternals-handle"
+  ],
+  "UserDecision": "The prior RIDE v2 license-specialist assessment approved Sysinternals for RIDE. The user reaffirmed that there are no legal issues using Sysinternals in RIDE and directed that licensing concerns must not block this package migration.",
+  "ApprovedWorkflow": "RIDE downloads Sysinternals directly from Microsoft and installs it on devices supported by the user. RIDE does not publish or transfer Sysinternals copies.",
+  "MigrationDisposition": "No legal or licensing blocker for Sysinternals use or package migration in RIDE's direct download-and-install scope.",
+  "ReviewStatus": "Reviewed",
+  "ReviewOwner": "Original specialist identity not retained; approval reported by the user",
+  "RemainingBlockers": [
+    "Technical package lifecycle acceptance",
+    "Exact recovery acceptance",
+    "Target Windows acceptance"
+  ],
+  "EstimateDisposition": "No new legacy outcome closes; all five migration ranges remain unchanged.",
+  "SupersedesForThisScope": "sysinternals-license-review-2026-10-22.json"
+}

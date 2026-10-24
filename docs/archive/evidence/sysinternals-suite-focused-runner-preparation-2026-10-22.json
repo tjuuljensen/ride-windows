@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-22",
+  "batch": "SysinternalsSuite",
+  "operationId": "package.sysinternals-suite",
+  "packageVersion": "snapshot-20261017-e1e75de5",
+  "expectedSha256": "e1e75de5cdb12116b0a4eca83725dc7c7a1645266196025cbe5ca6c167161aed",
+  "expectedMemberCount": 164,
+  "selectedCaseCount": 1,
+  "selectedDefenderBlockedTools": [],
+  "selectedIndividualSysinternalsTools": [],
+  "supportedTargets": [],
+  "pendingAcceptance": true,
+  "toolExecution": false,
+  "payloadAcquired": false,
+  "inputManifestPresent": true,
+  "vmAcceptance": "Blocked",
+  "vmAccessEvidence": "Get-VM -Name RIDE-Win11-Test returned Access to a CIM resource was not available to the client.",
+  "controllerQueueSubmitted": false,
+  "controllerCapabilityRefresh": "Still required while idle before submitting this new batch",
+  "staticValidation": {
+    "catalogSelection": "Passed: exactly package.sysinternals-suite, pinned snapshot, 164 files, no supported targets, still pending",
+    "powerShellParser": "Passed: all seven changed PowerShell files have zero parse errors",
+    "repositoryValidation": "Passed: 371 operations, 8 groups, 5 profiles, 241 PowerShell files",
+    "catalogExportCheck": "Passed: generated operation documentation is current",
+    "gitDiffCheck": "Passed"
+  },
+  "pester": {
+    "status": "Passed",
+    "attemptedSuites": [
+      "tests/PortableAcceptanceAutomation.Tests.ps1",
+      "tests/TestAutomation.Tests.ps1"
+    ],
+    "discoveredTests": 130,
+    "executedTests": 128,
+    "passed": 128,
+    "failed": 0,
+    "skipped": 2,
+    "environment": "Workspace-local TEMP/TMP; TestRegistry and TestResult storage disabled"
+  },
+  "legacyOutcomes": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Sysinternals Suite native file lifecycle and exact checkpoint recovery",
+      "Individual Sysinternals product selection, dependencies and applicability",
+      "Tool behavior, EULA interaction, driver/service use and application acceptance"
+    ],
+    "partial": [
+      "Whole-Suite source candidate remains pending; this run only prepares a fixed lifecycle selector"
+    ]
+  },
+  "estimateEffect": "No whole legacy outcome closed; all five ranges and the rounded total remain unchanged.",
+  "notes": [
+    "The fixed selection uses the existing portable lifecycle handler and does not execute any payload.",
+    "The fixed input manifest points only to the previously retained archive; its SHA-256 matches the catalog pin.",
+    "Defender-blocked NirSoft members and all nine individually cataloged Sysinternals tools are outside this batch.",
+    "Focused automation and portable-selection Pester checks passed; 2 host-preflight tests were skipped.",
+    "Get-VM access remains denied and the protected controller still needs an idle capability refresh; no task was submitted.",
+    "No license blocker remains for the prior RIDE v2 specialist-approved direct download/install workflow; see sysinternals-license-disposition-correction-2026-10-22.json."
+  ],
+  "inputManifestPath": ".local/acceptance-input/SysinternalsSuite.json",
+  "archivePreviouslyRetained": true,
+  "archiveSha256Verified": "e1e75de5cdb12116b0a4eca83725dc7c7a1645266196025cbe5ca6c167161aed"
+}

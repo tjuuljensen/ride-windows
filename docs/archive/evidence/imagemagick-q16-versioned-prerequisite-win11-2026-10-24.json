@@ -1,0 +1,75 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-24",
+  "RunId": "003f55dd7c964d27815ed6f3dea9bf9f",
+  "Batch": "ImageMagick",
+  "PackageId": "package.imagemagick-portable-q16",
+  "Source": "Local working tree including uncommitted changes",
+  "Target": {
+    "Name": "Windows 11",
+    "Build": "26300",
+    "Vm": "RIDE-Win11-Test"
+  },
+  "PackageAcceptance": {
+    "Status": "Passed",
+    "ExpectedCases": 1,
+    "Completed": 1,
+    "LifecycleRecovery": "Passed",
+    "FunctionalAcceptance": "Passed",
+    "ToolExecuted": true,
+    "PayloadExecution": "ImageMagick ran only against a generated 1x1 PNG; no user image was opened",
+    "Checks": [
+      "MicrosoftV14RuntimePrerequisite",
+      "WholeArchiveOwnership",
+      "LicenseAndNoticePresent",
+      "PublisherSignature",
+      "InstallAndRepeatInstall",
+      "PinnedVersionAndQ16",
+      "SyntheticPngEncodeAndIdentify",
+      "RemoveAndRepeatRemove",
+      "ExactRemovalRestore",
+      "UnownedPreservation",
+      "CollisionAndModifiedFileRefusal"
+    ]
+  },
+  "Prerequisite": {
+    "Acceptance": "Passed for ImageMagick's installed-system-file preflight",
+    "RuntimePackageLifecycleAcceptance": "NotSelected",
+    "Acquisition": "DownloadedFromMicrosoftAndInstalledInDisposableGuest",
+    "InstallerUri": "https://aka.ms/vc14/vc_redist.x64.exe",
+    "InstallerSha256": "843068991daaa1f73ad9f6239bce4d0f6a07a51f18c37ea2a867e9beca71295c",
+    "InstallerSigner": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "InstallerSignerThumbprint": "1D77A9B9E8FE2075D9AD15123257FB90DB0DA4A1",
+    "InstallerExitCode": 0,
+    "RuntimeFile": "System32/vcomp140.dll",
+    "RuntimeFileVersion": "14.51.36247.0",
+    "RequiredMinimumVersion": "14.50.35710.0",
+    "RuntimeSha256": "95d4ce4a6802d1e18b5e0e1722cc30ea72ca7e033f83828f05c0b7b993fe7cbf",
+    "RuntimeSigner": "CN=Microsoft Windows Software Compatibility Publisher, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "RuntimeSignerThumbprint": "2650247AC56048BC7928663C02733D25898A1D6E"
+  },
+  "Controller": {
+    "Status": "Passed",
+    "StartedAtUtc": "2026-10-24T04:15:47.8403338Z",
+    "FinishedAtUtc": "2026-10-24T04:25:23.8425048Z",
+    "Cleanup": "ResetAndOff",
+    "CleanupError": null,
+    "CollectionError": null,
+    "EvidenceCollected": true
+  },
+  "RecoveryObservation": "The runner reported that a modified managed magick.exe was preserved during its refusal/preservation checks.",
+  "Disposition": "Confirms the ImageMagick Windows 11 package path and minimum-version preflight with a sufficient v14 runtime present. It does not accept the RIDE-managed v14 package lifecycle, dependency-plan expansion, runtime update/recovery behavior, activation, or Windows Server support.",
+  "LegacyOutcomeAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "RIDE-managed package.vcredist-v14-x64 lifecycle and recovery",
+      "Catalog-driven prerequisite plan expansion and removal guard",
+      "ImageMagick activation and Server acceptance"
+    ],
+    "EstimateRangesUnchanged": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+    "ExactEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170"
+  }
+}

@@ -95,6 +95,242 @@ Describe 'Terminal JSONC inspection' {
     {Get-RideTerminalDefaultProfileDocument (Get-TerminalFixtureBytes $wide)} | Should -Throw '*limit*'
   }
 }
+
+Describe 'Current-user packaged Terminal instance discovery' {
+  It 'keeps Stable and Preview package identities bound to separate paths while marking injected records unverified' {
+    $localRoot=Join-Path $TestDrive 'LocalAppData'
+    New-Item -ItemType Directory -Path $localRoot -Force | Out-Null
+    $stableFamily='Microsoft.WindowsTerminal_8wekyb3d8bbwe'
+    $previewFamily='Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe'
+    $stablePath=Join-Path $localRoot "Packages/$stableFamily/LocalState/settings.json"
+    $previewPath=Join-Path $localRoot "Packages/$previewFamily/LocalState/settings.json"
+    New-Item -ItemType Directory -Path (Split-Path -Parent $stablePath) -Force | Out-Null
+    New-Item -ItemType Directory -Path (Split-Path -Parent $previewPath) -Force | Out-Null
+    $text='{'+$ProfileJson+ ',"defaultProfile":"'+$First+'"}'
+    [IO.File]::WriteAllBytes($stablePath,(Get-TerminalFixtureBytes $text))
+    [IO.File]::WriteAllBytes($previewPath,(Get-TerminalFixtureBytes ('{"defaultProfile":"'+$Second+'",'+$ProfileJson+'}')))
+    $packages=@(
+      [pscustomobject]@{Name='Microsoft.WindowsTerminal';PackageFamilyName=$stableFamily;PackageFullName='Microsoft.WindowsTerminal_1.0.0.0_x64__8wekyb3d8bbwe';Version='1.0.0.0'},
+      [pscustomobject]@{Name='Microsoft.WindowsTerminalPreview';PackageFamilyName=$previewFamily;PackageFullName='Microsoft.WindowsTerminalPreview_1.0.0.0_x64__8wekyb3d8bbwe';Version='1.0.0.0'}
+    )
+
+    $instances=@(Get-RideTerminalInstalledInstances -LocalAppDataPath $localRoot -AppxPackages $packages)
+
+    $instances.Count|Should -Be 2
+    ($instances|Where-Object PackageName -eq 'Microsoft.WindowsTerminal').SettingsPath|Should -BeExactly ([IO.Path]::GetFullPath($stablePath))
+    ($instances|Where-Object PackageName -eq 'Microsoft.WindowsTerminal').DefaultProfile|Should -BeExactly $First
+    ($instances|Where-Object PackageName -eq 'Microsoft.WindowsTerminalPreview').SettingsPath|Should -BeExactly ([IO.Path]::GetFullPath($previewPath))
+    ($instances|Where-Object PackageName -eq 'Microsoft.WindowsTerminalPreview').DefaultProfile|Should -BeExactly $Second
+    foreach($instance in $instances){
+      $instance.InventorySource|Should -BeExactly 'InjectedUnverified'
+      $instance.InstanceVerified|Should -BeFalse
+      $instance.ProfileAvailabilityVerified|Should -BeFalse
+      $instance.MutationAuthorized|Should -BeFalse
+      $instance.SettingsFilePresent|Should -BeTrue
+    }
+  }
+
+  It 'reports an installed package without creating its absent settings file' {
+    $localRoot=Join-Path $TestDrive 'LocalAppData'
+    New-Item -ItemType Directory -Path $localRoot -Force | Out-Null
+    $family='Microsoft.WindowsTerminalCanary_8wekyb3d8bbwe'
+    $path=Join-Path $localRoot "Packages/$family/LocalState/settings.json"
+    $package=[pscustomobject]@{Name='Microsoft.WindowsTerminalCanary';PackageFamilyName=$family;PackageFullName='Microsoft.WindowsTerminalCanary_1.0.0.0_x64__8wekyb3d8bbwe';Version='1.0.0.0'}
+
+    $instance=Get-RideTerminalInstalledInstances -LocalAppDataPath $localRoot -AppxPackages @($package)
+
+    $instance.SettingsFilePresent|Should -BeFalse
+    $instance.SettingsPath|Should -BeExactly ([IO.Path]::GetFullPath($path))
+    $instance.Profiles|Should -BeNullOrEmpty
+    Test-Path -LiteralPath $path|Should -BeFalse
+  }
+
+  It 'ignores package registrations outside the documented Terminal package names' {
+    $localRoot=Join-Path $TestDrive 'LocalAppData'
+    New-Item -ItemType Directory -Path $localRoot -Force | Out-Null
+    $package=[pscustomobject]@{Name='Microsoft.WindowsTerminalExperimental';PackageFamilyName='Microsoft.WindowsTerminalExperimental_8wekyb3d8bbwe';PackageFullName='unexpected';Version='1.0.0.0'}
+
+    @(Get-RideTerminalInstalledInstances -LocalAppDataPath $localRoot -AppxPackages @($package)).Count|Should -Be 0
+  }
+
+  It 'rejects a known package name paired with an unexpected family identity' {
+    $localRoot=Join-Path $TestDrive 'LocalAppData'
+    New-Item -ItemType Directory -Path $localRoot -Force | Out-Null
+    $package=[pscustomobject]@{Name='Microsoft.WindowsTerminal';PackageFamilyName='UnexpectedTerminal_8wekyb3d8bbwe';PackageFullName='unexpected';Version='1.0.0.0'}
+
+    {Get-RideTerminalInstalledInstances -LocalAppDataPath $localRoot -AppxPackages @($package)}|Should -Throw '*does not match the documented Windows Terminal identity*'
+  }
+
+  It 'rejects duplicate current-user records for the same packaged distribution' {
+    $localRoot=Join-Path $TestDrive 'LocalAppData'
+    New-Item -ItemType Directory -Path $localRoot -Force | Out-Null
+    $family='Microsoft.WindowsTerminal_8wekyb3d8bbwe'
+    $package=[pscustomobject]@{Name='Microsoft.WindowsTerminal';PackageFamilyName=$family;PackageFullName='Microsoft.WindowsTerminal_1.0.0.0_x64__8wekyb3d8bbwe';Version='1.0.0.0'}
+
+    {Get-RideTerminalInstalledInstances -LocalAppDataPath $localRoot -AppxPackages @($package,$package)}|Should -Throw '*More than one current-user package record*'
+  }
+
+  It 'refuses settings data above the inspection size limit' {
+    $localRoot=Join-Path $TestDrive 'LocalAppData'
+    New-Item -ItemType Directory -Path $localRoot -Force | Out-Null
+    $family='Microsoft.WindowsTerminal_8wekyb3d8bbwe'
+    $path=Join-Path $localRoot "Packages/$family/LocalState/settings.json"
+    New-Item -ItemType Directory -Path (Split-Path -Parent $path) -Force | Out-Null
+    [IO.File]::WriteAllBytes($path,(New-Object byte[] (1MB+1)))
+    $package=[pscustomobject]@{Name='Microsoft.WindowsTerminal';PackageFamilyName=$family;PackageFullName='Microsoft.WindowsTerminal_1.0.0.0_x64__8wekyb3d8bbwe';Version='1.0.0.0'}
+
+    {Get-RideTerminalInstalledInstances -LocalAppDataPath $localRoot -AppxPackages @($package)}|Should -Throw '*reparse point or exceeds the 1 MiB inspection limit*'
+  }
+}
+
+Describe 'Live packaged Terminal instance selection for the guarded writer' {
+  BeforeEach {
+    $script:TerminalInventoryRoot = Join-Path $TestDrive ([guid]::NewGuid().ToString('N'))
+    New-Item -ItemType Directory -Path $script:TerminalInventoryRoot | Out-Null
+    $script:TerminalInventoryFamily = 'Microsoft.WindowsTerminal_8wekyb3d8bbwe'
+    $script:TerminalInventoryPackage = [pscustomobject]@{
+      Name='Microsoft.WindowsTerminal'
+      PackageFamilyName=$script:TerminalInventoryFamily
+      PackageFullName='Microsoft.WindowsTerminal_1.0.0.0_x64__8wekyb3d8bbwe'
+      Version='1.0.0.0'
+    }
+    $script:TerminalInventorySettingsPath = Join-Path $script:TerminalInventoryRoot "Packages/$script:TerminalInventoryFamily/LocalState/settings.json"
+    New-Item -ItemType Directory -Path (Split-Path -Parent $script:TerminalInventorySettingsPath) -Force | Out-Null
+    $script:TerminalInventoryText = '{"defaultProfile":"'+$First+'",'+$ProfileJson+'}'
+    $script:TerminalInventorySettingsBytes = Get-TerminalFixtureBytes $script:TerminalInventoryText
+    $script:TerminalInventorySnapshotPath = Join-Path $script:TerminalInventoryRoot 'recovery.json'
+    $script:TerminalInventoryComputerName = $env:COMPUTERNAME
+    $script:TerminalInventoryUserSid = [Security.Principal.WindowsIdentity]::GetCurrent().User.Value
+  }
+
+  It 'selects one live package identity and restores exact settings bytes' {
+    [IO.File]::WriteAllBytes($script:TerminalInventorySettingsPath,$script:TerminalInventorySettingsBytes)
+    Mock Get-AppxPackage -ModuleName RIDE.TerminalJsonc { @($script:TerminalInventoryPackage) }
+
+    $applied=Set-RideTerminalInstalledInstanceDefaultProfile -PackageName 'Microsoft.WindowsTerminal' -LocalAppDataPath $script:TerminalInventoryRoot -ExpectedComputerName $script:TerminalInventoryComputerName -ExpectedUserSid $script:TerminalInventoryUserSid -ProfileId $Second -SnapshotPath $script:TerminalInventorySnapshotPath -Confirm:$false
+
+    $applied.InstanceVerified|Should -BeTrue
+    $applied.ProfileAvailabilityVerified|Should -BeFalse
+    $applied.PackageFullName|Should -BeExactly $script:TerminalInventoryPackage.PackageFullName
+    $applied.SettingsPath|Should -BeExactly ([IO.Path]::GetFullPath($script:TerminalInventorySettingsPath))
+    $applied.Applied|Should -BeTrue
+    $applied.ReadbackVerified|Should -BeTrue
+    (Get-RideTerminalDefaultProfileDocument ([IO.File]::ReadAllBytes($script:TerminalInventorySettingsPath))).DefaultProfile|Should -BeExactly $Second
+
+    $restored=Restore-RideTerminalDefaultProfileFile -SettingsPath $script:TerminalInventorySettingsPath -ExpectedComputerName $script:TerminalInventoryComputerName -ExpectedUserSid $script:TerminalInventoryUserSid -SnapshotPath $script:TerminalInventorySnapshotPath -Confirm:$false
+    $restored.Restored|Should -BeTrue
+    [Convert]::ToBase64String([IO.File]::ReadAllBytes($script:TerminalInventorySettingsPath))|Should -BeExactly ([Convert]::ToBase64String($script:TerminalInventorySettingsBytes))
+  }
+
+  It 'honors WhatIf without writing settings or recovery data' {
+    [IO.File]::WriteAllBytes($script:TerminalInventorySettingsPath,$script:TerminalInventorySettingsBytes)
+    Mock Get-AppxPackage -ModuleName RIDE.TerminalJsonc { @($script:TerminalInventoryPackage) }
+
+    $result=Set-RideTerminalInstalledInstanceDefaultProfile -PackageName 'Microsoft.WindowsTerminal' -LocalAppDataPath $script:TerminalInventoryRoot -ExpectedComputerName $script:TerminalInventoryComputerName -ExpectedUserSid $script:TerminalInventoryUserSid -ProfileId $Second -SnapshotPath $script:TerminalInventorySnapshotPath -WhatIf
+
+    $result.Applied|Should -BeFalse
+    $result.Changed|Should -BeTrue
+    $result.ReadbackVerified|Should -BeFalse
+    [Convert]::ToBase64String([IO.File]::ReadAllBytes($script:TerminalInventorySettingsPath))|Should -BeExactly ([Convert]::ToBase64String($script:TerminalInventorySettingsBytes))
+    Test-Path -LiteralPath $script:TerminalInventorySnapshotPath|Should -BeFalse
+  }
+
+  It 'refuses a live package registration without an existing settings file' {
+    Mock Get-AppxPackage -ModuleName RIDE.TerminalJsonc { @($script:TerminalInventoryPackage) }
+
+    {Set-RideTerminalInstalledInstanceDefaultProfile -PackageName 'Microsoft.WindowsTerminal' -LocalAppDataPath $script:TerminalInventoryRoot -ExpectedComputerName $script:TerminalInventoryComputerName -ExpectedUserSid $script:TerminalInventoryUserSid -ProfileId $Second -SnapshotPath $script:TerminalInventorySnapshotPath -Confirm:$false} | Should -Throw '*does not create it*'
+    Test-Path -LiteralPath $script:TerminalInventorySettingsPath|Should -BeFalse
+    Test-Path -LiteralPath $script:TerminalInventorySnapshotPath|Should -BeFalse
+  }
+
+  It 'requires an exact unique package registration' {
+    Mock Get-AppxPackage -ModuleName RIDE.TerminalJsonc { @() }
+
+    {Set-RideTerminalInstalledInstanceDefaultProfile -PackageName 'Microsoft.WindowsTerminal' -LocalAppDataPath $script:TerminalInventoryRoot -ExpectedComputerName $script:TerminalInventoryComputerName -ExpectedUserSid $script:TerminalInventoryUserSid -ProfileId $Second -SnapshotPath $script:TerminalInventorySnapshotPath -Confirm:$false} | Should -Throw '*found 0*'
+    Test-Path -LiteralPath $script:TerminalInventorySnapshotPath|Should -BeFalse
+  }
+
+  It 'validates the current computer and user even when previewing' {
+    [IO.File]::WriteAllBytes($script:TerminalInventorySettingsPath,$script:TerminalInventorySettingsBytes)
+    Mock Get-AppxPackage -ModuleName RIDE.TerminalJsonc { @($script:TerminalInventoryPackage) }
+
+    {Set-RideTerminalInstalledInstanceDefaultProfile -PackageName 'Microsoft.WindowsTerminal' -LocalAppDataPath $script:TerminalInventoryRoot -ExpectedComputerName 'OTHER-HOST' -ExpectedUserSid $script:TerminalInventoryUserSid -ProfileId $Second -SnapshotPath $script:TerminalInventorySnapshotPath -WhatIf} | Should -Throw '*computer name*'
+    [Convert]::ToBase64String([IO.File]::ReadAllBytes($script:TerminalInventorySettingsPath))|Should -BeExactly ([Convert]::ToBase64String($script:TerminalInventorySettingsBytes))
+    Test-Path -LiteralPath $script:TerminalInventorySnapshotPath|Should -BeFalse
+  }
+}
+
+Describe 'Terminal settings file writer and recovery' {
+  BeforeEach {
+    $script:TerminalFixtureDirectory = Join-Path $TestDrive ([guid]::NewGuid().ToString('N'))
+    New-Item -ItemType Directory -Path $script:TerminalFixtureDirectory | Out-Null
+    $script:TerminalSettingsPath = Join-Path $script:TerminalFixtureDirectory 'settings.json'
+    $script:TerminalSnapshotPath = Join-Path $script:TerminalFixtureDirectory 'terminal-recovery.json'
+    $script:TerminalInitialText = '{"defaultProfile":"'+$First+'",'+$ProfileJson+',"unrelated":1}'
+    [IO.File]::WriteAllBytes($script:TerminalSettingsPath,(Get-TerminalFixtureBytes $script:TerminalInitialText -Bom))
+    $script:TerminalComputerName = $env:COMPUTERNAME
+    $script:TerminalUserSid = [Security.Principal.WindowsIdentity]::GetCurrent().User.Value
+  }
+  It 'writes after a durable snapshot and restores exact prior bytes' {
+    $initial=[Convert]::ToBase64String([IO.File]::ReadAllBytes($TerminalSettingsPath))
+    $applied=Set-RideTerminalDefaultProfileFile -SettingsPath $TerminalSettingsPath -ExpectedComputerName $TerminalComputerName -ExpectedUserSid $TerminalUserSid -ProfileId $Second -SnapshotPath $TerminalSnapshotPath -Confirm:$false
+    $applied.Applied | Should -BeTrue
+    $applied.ReadbackVerified | Should -BeTrue
+    (Test-Path -LiteralPath $TerminalSnapshotPath) | Should -BeTrue
+    (Get-RideTerminalDefaultProfileDocument ([IO.File]::ReadAllBytes($TerminalSettingsPath))).DefaultProfile | Should -BeExactly $Second
+    $restored=Restore-RideTerminalDefaultProfileFile -SettingsPath $TerminalSettingsPath -ExpectedComputerName $TerminalComputerName -ExpectedUserSid $TerminalUserSid -SnapshotPath $TerminalSnapshotPath -Confirm:$false
+    $restored.Restored | Should -BeTrue
+    $restored.ReadbackVerified | Should -BeTrue
+    [Convert]::ToBase64String([IO.File]::ReadAllBytes($TerminalSettingsPath)) | Should -BeExactly $initial
+    (Test-Path -LiteralPath $TerminalSnapshotPath) | Should -BeTrue
+  }
+  It 'preserves unrelated settings edits during restoration' {
+    $null=Set-RideTerminalDefaultProfileFile -SettingsPath $TerminalSettingsPath -ExpectedComputerName $TerminalComputerName -ExpectedUserSid $TerminalUserSid -ProfileId $Second -SnapshotPath $TerminalSnapshotPath -Confirm:$false
+    $current=[Text.Encoding]::UTF8.GetString([IO.File]::ReadAllBytes($TerminalSettingsPath)).TrimStart([char]0xfeff)
+    [IO.File]::WriteAllBytes($TerminalSettingsPath,(Get-TerminalFixtureBytes $current.Replace('"unrelated":1','"unrelated":2') -Bom))
+    $null=Restore-RideTerminalDefaultProfileFile -SettingsPath $TerminalSettingsPath -ExpectedComputerName $TerminalComputerName -ExpectedUserSid $TerminalUserSid -SnapshotPath $TerminalSnapshotPath -Confirm:$false
+    $final=[Text.Encoding]::UTF8.GetString([IO.File]::ReadAllBytes($TerminalSettingsPath)).TrimStart([char]0xfeff)
+    $expectedPattern='"defaultProfile":"'+[regex]::Escape($First)+'"'
+    $final | Should -Match $expectedPattern
+    $final | Should -Match '"unrelated":2'
+  }
+  It 'refuses identity mismatches and previews without writing or saving' {
+    {Set-RideTerminalDefaultProfileFile -SettingsPath $TerminalSettingsPath -ExpectedComputerName 'OTHER-HOST' -ExpectedUserSid $TerminalUserSid -ProfileId $Second -SnapshotPath $TerminalSnapshotPath -Confirm:$false} | Should -Throw '*computer name*'
+    $initial=[Convert]::ToBase64String([IO.File]::ReadAllBytes($TerminalSettingsPath))
+    $null=Set-RideTerminalDefaultProfileFile -SettingsPath $TerminalSettingsPath -ExpectedComputerName $TerminalComputerName -ExpectedUserSid $TerminalUserSid -ProfileId $Second -SnapshotPath $TerminalSnapshotPath -WhatIf
+    [Convert]::ToBase64String([IO.File]::ReadAllBytes($TerminalSettingsPath)) | Should -BeExactly $initial
+    (Test-Path -LiteralPath $TerminalSnapshotPath) | Should -BeFalse
+  }
+  It 'refuses restore when the owned profile value has changed' {
+    $null=Set-RideTerminalDefaultProfileFile -SettingsPath $TerminalSettingsPath -ExpectedComputerName $TerminalComputerName -ExpectedUserSid $TerminalUserSid -ProfileId $Second -SnapshotPath $TerminalSnapshotPath -Confirm:$false
+    $current=[Text.Encoding]::UTF8.GetString([IO.File]::ReadAllBytes($TerminalSettingsPath)).TrimStart([char]0xfeff)
+    $current=$current.Replace('"defaultProfile":"'+$Second+'"','"defaultProfile":"'+$Third+'"')
+    [IO.File]::WriteAllBytes($TerminalSettingsPath,(Get-TerminalFixtureBytes $current -Bom))
+    {Restore-RideTerminalDefaultProfileFile -SettingsPath $TerminalSettingsPath -ExpectedComputerName $TerminalComputerName -ExpectedUserSid $TerminalUserSid -SnapshotPath $TerminalSnapshotPath -Confirm:$false} | Should -Throw '*conflict*'
+  }
+  It 'refuses a tampered snapshot and an already locked settings file' {
+    $null=Set-RideTerminalDefaultProfileFile -SettingsPath $TerminalSettingsPath -ExpectedComputerName $TerminalComputerName -ExpectedUserSid $TerminalUserSid -ProfileId $Second -SnapshotPath $TerminalSnapshotPath -Confirm:$false
+    $record=[IO.File]::ReadAllText($TerminalSnapshotPath) | ConvertFrom-Json
+    $record.ExpectedSha256='0000000000000000000000000000000000000000000000000000000000000000'
+    [IO.File]::WriteAllText($TerminalSnapshotPath,(ConvertTo-Json -InputObject $record -Depth 12 -Compress),[Text.UTF8Encoding]::new($false))
+    {Restore-RideTerminalDefaultProfileFile -SettingsPath $TerminalSettingsPath -ExpectedComputerName $TerminalComputerName -ExpectedUserSid $TerminalUserSid -SnapshotPath $TerminalSnapshotPath -Confirm:$false} | Should -Throw '*snapshot byte hash*'
+
+    $lockedPath=Join-Path $TerminalFixtureDirectory 'locked-settings.json'
+    [IO.File]::WriteAllBytes($lockedPath,(Get-TerminalFixtureBytes $TerminalInitialText))
+    $lock=[IO.File]::Open($lockedPath,[IO.FileMode]::Open,[IO.FileAccess]::ReadWrite,[IO.FileShare]::None)
+    try {
+      {Set-RideTerminalDefaultProfileFile -SettingsPath $lockedPath -ExpectedComputerName $TerminalComputerName -ExpectedUserSid $TerminalUserSid -ProfileId $Second -SnapshotPath (Join-Path $TerminalFixtureDirectory 'locked-recovery.json') -Confirm:$false} | Should -Throw
+    } finally {$lock.Dispose()}
+    (Test-Path -LiteralPath (Join-Path $TerminalFixtureDirectory 'locked-recovery.json')) | Should -BeFalse
+  }
+  It 'matches Windows computer names and settings paths without case sensitivity' {
+    $snapshotPath=Join-Path $TerminalFixtureDirectory 'case-recovery.json'
+    $null=Set-RideTerminalDefaultProfileFile -SettingsPath $TerminalSettingsPath -ExpectedComputerName $TerminalComputerName.ToLowerInvariant() -ExpectedUserSid $TerminalUserSid -ProfileId $Second -SnapshotPath $snapshotPath -Confirm:$false
+    $lowerPath=$TerminalSettingsPath.ToLowerInvariant()
+    $restored=Restore-RideTerminalDefaultProfileFile -SettingsPath $lowerPath -ExpectedComputerName $TerminalComputerName.ToLowerInvariant() -ExpectedUserSid $TerminalUserSid -SnapshotPath $snapshotPath -Confirm:$false
+    $restored.Restored | Should -BeTrue
+  }
+}
 Describe 'Terminal narrow patch and recovery' {
   It 'preserves exact bytes through replacement and recovery for BOM <Bom> and <NewlineName>' -ForEach @(
     @{Bom=$false;NewlineName='LF';Newline="`n"},@{Bom=$true;NewlineName='LF';Newline="`n"},

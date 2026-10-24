@@ -1,0 +1,28 @@
+{
+  "ReviewedAtUtc": "2026-10-24T14:47:00Z",
+  "Product": "peStudio",
+  "Publisher": "Marc Ochsenmeier / Winitor",
+  "ProductUri": "https://www.winitor.com/",
+  "DownloadUri": "https://www.winitor.com/tools/pestudio/current/pestudio.zip",
+  "SourcePage": "https://www.winitor.com/download2",
+  "CurrentPublicBasicVersion": "9.61",
+  "PublicBasicSha256": "C1E2D0C1FBF5951486CF3D850CC24B11B66E25E0A5B77A623E2EB13FFAD9DDD9",
+  "BasicEdition": "Publisher states the ZIP is portable and does not alter the system; the basic version may not be used in professional or corporate environments. Its licensing PDF limits it to private, occasional malware static analysis.",
+  "ProfessionalEdition": "Publisher offers peStudio Pro for professional malware static analysis, licensed per user for one year; the published price is EUR 159 per user/year. Delivery uses a password-protected ZIP sent to the purchaser.",
+  "LicensingDisposition": "Record exact-edition/intended-use as NeedsReview for candidate planning. The local review tool rejects IDs that are not yet in the catalog, so no local-store entry was created and no ID was invented. This is not a gate to source review or package implementation planning. Do not treat Basic as suitable for professional/corporate use; do not claim Pro acquisition or activation without a per-user entitlement.",
+  "OperationalNotes": [
+    "Publisher says Basic is provided as a ZIP and requires no installation or system changes.",
+    "The publisher download link was resolved to the exact ZIP URL but the archive was not acquired or inspected in this review.",
+    "Publisher SHA-256 is source metadata, not a locally computed digest; no bytes were downloaded.",
+    "Do not extract or distribute publisher XML files outside peStudio context without explicit authorization, per publisher licensing PDF."
+  ],
+  "EvidenceSources": [
+    "https://www.winitor.com/download2",
+    "https://www.winitor.com/tools/pestudio/current/pestudio-licensing.pdf",
+    "https://www.winitor.com/download",
+    "https://www.winitor.com/pro"
+  ],
+  "LocalReviewStore": "No record created: the review tool rejected the candidate ID because no peStudio package ID exists in the catalog yet. Add the exact edition/version record when a catalog candidate is established.",
+  "LegacyOutcome": "No outcome closed; source identity and edition terms clarified only.",
+  "Next": "Resolve the intended deployment/use population and exact edition record; acquire exact publisher ZIP when native DNS is available; verify local SHA-256 and archive members before catalog pinning or lifecycle tests."
+}

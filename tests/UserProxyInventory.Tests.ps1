@@ -2,8 +2,8 @@
 .SYNOPSIS
   Verify proxy observation identity, native memory ownership and export boundaries.
 .DESCRIPTION
-  Uses a fake unmanaged query boundary and mocked identity. No Windows proxy query,
-  PAC retrieval, connectivity check, registry mutation or WinINet setter is called.
+  Uses fake unmanaged query/write boundaries and mocked identity/policy. No Windows
+  proxy query, PAC retrieval, connectivity check, registry query/write or WinINet setter is called.
 .EXAMPLE
   Invoke-Pester .\tests\UserProxyInventory.Tests.ps1
 .INPUTS
@@ -13,6 +13,7 @@
 .NOTES
   Compatibility: Pester 5.x, Windows PowerShell 5.1 and PowerShell 7.
   Version: Repository test fixture.
+  Changelog: Add mocked documented policy-block and fail-closed refusal coverage.
 #>
 BeforeAll {
   $script:Root=Split-Path -Parent $PSScriptRoot
@@ -62,12 +63,155 @@ namespace Ride.UserProxyInventoryV1 {
     }
     public int Outstanding {get{return outstanding.Count;}}
   }
+  public sealed class FakeWriteApi : IWriteApi {
+    public bool FailSet; public bool FailSettingsChanged; public bool FailRefresh;
+    public int SetCalls; public uint Flags; public string Url;
+    public System.Collections.Generic.List<uint> OptionIds=new System.Collections.Generic.List<uint>();
+    public System.Collections.Generic.List<uint> Notifications=new System.Collections.Generic.List<uint>();
+    public bool Set(ref OptionList list,ref uint length,out int error) {
+      SetCalls++;error=0;
+      int size=System.Runtime.InteropServices.Marshal.SizeOf(typeof(Option));
+      if(list.Connection!=System.IntPtr.Zero || length!=list.Size || list.Count<1 || list.Count>2)throw new System.Exception("Unexpected write scope/count");
+      var flag=(Option)System.Runtime.InteropServices.Marshal.PtrToStructure(list.Options,typeof(Option));
+      if(flag.Id!=1)throw new System.Exception("Writer must restore flags through INTERNET_PER_CONN_FLAGS");
+      OptionIds.Add(flag.Id);Flags=flag.Value.Number;
+      if(list.Count==2) {
+        var url=(Option)System.Runtime.InteropServices.Marshal.PtrToStructure(System.IntPtr.Add(list.Options,size),typeof(Option));
+        if(url.Id!=4 || url.Value.Text==System.IntPtr.Zero)throw new System.Exception("Expected an owned PAC URL option");
+        OptionIds.Add(url.Id);Url=System.Runtime.InteropServices.Marshal.PtrToStringUni(url.Value.Text);
+      }
+      error=FailSet?55:0;return !FailSet;
+    }
+    public bool Notify(uint option,out int error) {
+      Notifications.Add(option);error=option==39 && FailSettingsChanged?87:option==37 && FailRefresh?123:0;
+      return error==0;
+    }
+  }
 }
 '@
   if(-not ('Ride.UserProxyInventoryV1.Reader' -as [type])){Add-Type -TypeDefinition ($native+"`n"+$fake)}
   Import-Module (Join-Path $Root 'modules/RIDE.UserProxyInventory.psm1') -Force
   function New-ProxySnapshot {
     [pscustomobject]@{Flags=[uint32]15;FlagsSource='FlagsUi';UiQueryError=$null;ProxyServer='http=proxy.test:80';ProxyBypass='<local>;*.test';AutoConfigUrl='https://pac.test/a.pac'}
+  }
+}
+Describe 'WinINet default/LAN writer buffer contract with a fake native API' {
+  BeforeEach {$script:WriteApi=[Ride.UserProxyInventoryV1.FakeWriteApi]::new()}
+  It 'writes only the owned flags and notifies then refreshes' {
+    $r=[Ride.UserProxyInventoryV1.Writer]::WriteWithApi($WriteApi,[uint32]7,$null,$false)
+    $r.ConfigurationSet|Should -BeTrue
+    $r.SettingsChangedNotified|Should -BeTrue
+    $r.Refreshed|Should -BeTrue
+    ($WriteApi.OptionIds -join ',')|Should -BeExactly '1'
+    ($WriteApi.Notifications -join ',')|Should -BeExactly '39,37'
+    $WriteApi.Flags|Should -Be 7
+    $WriteApi.Url|Should -BeNullOrEmpty
+  }
+  It 'writes an owned exact PAC URL through the PAC option without touching manual settings' {
+    $url='https://proxy.test/å.pac?tenant=one'
+    $r=[Ride.UserProxyInventoryV1.Writer]::WriteWithApi($WriteApi,[uint32]13,$url,$true)
+    $r.ConfigurationSet|Should -BeTrue
+    ($WriteApi.OptionIds -join ',')|Should -BeExactly '1,4'
+    $WriteApi.Flags|Should -Be 13
+    $WriteApi.Url|Should -BeExactly $url
+  }
+  It 'does not notify after a failed configuration write and preserves the native error' {
+    $WriteApi.FailSet=$true
+    $r=[Ride.UserProxyInventoryV1.Writer]::WriteWithApi($WriteApi,[uint32]7,$null,$false)
+    $r.ConfigurationSet|Should -BeFalse
+    $r.ConfigurationError|Should -Be 55
+    $r.SettingsChangedNotified|Should -BeFalse
+    $WriteApi.Notifications.Count|Should -Be 0
+  }
+  It 'reports notification and refresh failures separately after a successful write' {
+    $WriteApi.FailSettingsChanged=$true;$WriteApi.FailRefresh=$true
+    $r=[Ride.UserProxyInventoryV1.Writer]::WriteWithApi($WriteApi,[uint32]7,$null,$false)
+    $r.ConfigurationSet|Should -BeTrue
+    $r.SettingsChangedNotified|Should -BeFalse
+    $r.SettingsChangedError|Should -Be 87
+    $r.Refreshed|Should -BeFalse
+    $r.RefreshError|Should -Be 123
+    ($WriteApi.Notifications -join ',')|Should -BeExactly '39,37'
+  }
+  It 'refuses an invalid owned PAC URL before calling the native boundary' {
+    { [Ride.UserProxyInventoryV1.Writer]::WriteWithApi($WriteApi,[uint32]7,'',$true) } | Should -Throw '*bounded nonempty string*'
+    $WriteApi.SetCalls|Should -Be 0
+  }
+}
+Describe 'ShouldProcess and identity guard for the low-level user proxy writer' {
+  BeforeEach {
+    Mock Get-RideUserProxyContext -ModuleName RIDE.UserProxyInventory {
+      [pscustomobject]@{ComputerName='TEST-VM';UserSid='S-1-5-21-1-2-3-1001';SessionId=1;UserInteractive=$true}
+    }
+    Mock Invoke-RideUserProxyNativeWrite -ModuleName RIDE.UserProxyInventory {
+      [pscustomobject]@{ConfigurationSet=$true;ConfigurationError=0;SettingsChangedNotified=$true;SettingsChangedError=0;Refreshed=$true;RefreshError=0}
+    }
+    Mock Get-RideUserProxyPolicyObservation -ModuleName RIDE.UserProxyInventory {
+      [pscustomobject]@{KnownPolicyStatus='Clear';InspectedValues=@();BlockingValues=@();UnknownValues=@()}
+    }
+  }
+  It 'refuses a different computer, user or session before the native writer' -TestCases @(
+    @{Field='ExpectedComputerName';Value='OTHER'},@{Field='ExpectedUserSid';Value='S-1-5-21-1-2-3-1002'},@{Field='ExpectedSessionId';Value=2}
+  ) {
+    param($Field,$Value)
+    $arguments=@{Flags=13;AutoConfigUrl='https://pac.test/a.pac';OwnsAutoConfigUrl=$true;ExpectedComputerName='TEST-VM';ExpectedUserSid='S-1-5-21-1-2-3-1001';ExpectedSessionId=1;Confirm=$false}
+    $arguments[$Field]=$Value
+    {Set-RideUserProxyNativeConfiguration @arguments}|Should -Throw '*identity differs*'
+    Should -Invoke Invoke-RideUserProxyNativeWrite -ModuleName RIDE.UserProxyInventory -Exactly 0
+  }
+  It 'refuses a noninteractive execution context' {
+    Mock Get-RideUserProxyContext -ModuleName RIDE.UserProxyInventory {[pscustomobject]@{ComputerName='TEST-VM';UserSid='S-1-5-21-1-2-3-1001';SessionId=1;UserInteractive=$false}}
+    {Set-RideUserProxyNativeConfiguration -Flags 13 -AutoConfigUrl 'https://pac.test/a.pac' -OwnsAutoConfigUrl $true -ExpectedComputerName TEST-VM -ExpectedUserSid S-1-5-21-1-2-3-1001 -ExpectedSessionId 1 -Confirm:$false}|Should -Throw '*identity differs*'
+    Should -Invoke Invoke-RideUserProxyNativeWrite -ModuleName RIDE.UserProxyInventory -Exactly 0
+  }
+  It 'does not call WinINet for WhatIf and delegates only after identity validation' {
+    $preview=Set-RideUserProxyNativeConfiguration -Flags 13 -AutoConfigUrl 'https://pac.test/a.pac' -OwnsAutoConfigUrl $true -ExpectedComputerName TEST-VM -ExpectedUserSid S-1-5-21-1-2-3-1001 -ExpectedSessionId 1 -WhatIf
+    $preview.Status|Should -BeExactly WhatIf
+    Should -Invoke Invoke-RideUserProxyNativeWrite -ModuleName RIDE.UserProxyInventory -Exactly 0
+    $result=Set-RideUserProxyNativeConfiguration -Flags 13 -AutoConfigUrl 'https://pac.test/a.pac' -OwnsAutoConfigUrl $true -ExpectedComputerName TEST-VM -ExpectedUserSid S-1-5-21-1-2-3-1001 -ExpectedSessionId 1 -Confirm:$false
+    $result.ConfigurationSet|Should -BeTrue
+    Should -Invoke Invoke-RideUserProxyNativeWrite -ModuleName RIDE.UserProxyInventory -ParameterFilter {$Flags -eq 13 -and $AutoConfigUrl -ceq 'https://pac.test/a.pac' -and $OwnsAutoConfigUrl} -Exactly 1
+  }
+  It 'refuses a documented policy restriction before ShouldProcess or WinINet' {
+    Mock Get-RideUserProxyPolicyObservation -ModuleName RIDE.UserProxyInventory {
+      [pscustomobject]@{KnownPolicyStatus='Blocked';BlockingValues=@('LocalMachine policy Proxy=1');UnknownValues=@()}
+    }
+    {Set-RideUserProxyNativeConfiguration -Flags 13 -AutoConfigUrl $null -OwnsAutoConfigUrl $false -ExpectedComputerName TEST-VM -ExpectedUserSid S-1-5-21-1-2-3-1001 -ExpectedSessionId 1 -Confirm:$false}|Should -Throw '*policy status is Blocked*'
+    Should -Invoke Invoke-RideUserProxyNativeWrite -ModuleName RIDE.UserProxyInventory -Exactly 0
+  }
+  It 'fails closed when documented policy values cannot be read' {
+    Mock Get-RideUserProxyPolicyObservation -ModuleName RIDE.UserProxyInventory {throw 'Policy registry access failed.'}
+    {Set-RideUserProxyNativeConfiguration -Flags 13 -AutoConfigUrl $null -OwnsAutoConfigUrl $false -ExpectedComputerName TEST-VM -ExpectedUserSid S-1-5-21-1-2-3-1001 -ExpectedSessionId 1 -Confirm:$false}|Should -Throw '*Policy registry access failed*'
+    Should -Invoke Invoke-RideUserProxyNativeWrite -ModuleName RIDE.UserProxyInventory -Exactly 0
+  }
+}
+Describe 'Documented WinINet proxy policy observation' {
+  It 'allows only absent or explicitly nonblocking known policies' {
+    Mock Read-RideUserProxyPolicyValue -ModuleName RIDE.UserProxyInventory {
+      [pscustomobject]@{Hive=$Hive;SubKey=$SubKey;Name=$Name;Exists=$false;Kind=$null;Value=$null}
+    }
+    (Get-RideUserProxyPolicyObservation).KnownPolicyStatus|Should -BeExactly 'Clear'
+    Should -Invoke Read-RideUserProxyPolicyValue -ModuleName RIDE.UserProxyInventory -Exactly 3
+  }
+  It 'detects change restrictions and machine-wide proxy scope' -TestCases @(
+    @{Hive='CurrentUser';Name='Proxy';Kind='DWord';Value=1},
+    @{Hive='LocalMachine';Name='Proxy';Kind='DWord';Value=1},
+    @{Hive='LocalMachine';Name='ProxySettingsPerUser';Kind='DWord';Value=0}
+  ) {
+    param($Hive,$Name,$Kind,$Value)
+    $HiveToBlock=$Hive;$NameToBlock=$Name;$KindToBlock=$Kind;$ValueToBlock=$Value
+    Mock Read-RideUserProxyPolicyValue -ModuleName RIDE.UserProxyInventory {
+      if($Hive -ceq $HiveToBlock -and $Name -ceq $NameToBlock){[pscustomobject]@{Hive=$Hive;SubKey=$SubKey;Name=$Name;Exists=$true;Kind=$KindToBlock;Value=$ValueToBlock}}
+      else{[pscustomobject]@{Hive=$Hive;SubKey=$SubKey;Name=$Name;Exists=$false;Kind=$null;Value=$null}}
+    }
+    (Get-RideUserProxyPolicyObservation).KnownPolicyStatus|Should -BeExactly 'Blocked'
+  }
+  It 'reports malformed policy data as unknown' {
+    Mock Read-RideUserProxyPolicyValue -ModuleName RIDE.UserProxyInventory {
+      if($Name -ceq 'ProxySettingsPerUser'){[pscustomobject]@{Hive=$Hive;SubKey=$SubKey;Name=$Name;Exists=$true;Kind='String';Value='0'}}
+      else{[pscustomobject]@{Hive=$Hive;SubKey=$SubKey;Name=$Name;Exists=$false;Kind=$null;Value=$null}}
+    }
+    (Get-RideUserProxyPolicyObservation).KnownPolicyStatus|Should -BeExactly 'Unknown'
   }
 }
 Describe 'WinINet buffer and observation contract with a fake native API' {

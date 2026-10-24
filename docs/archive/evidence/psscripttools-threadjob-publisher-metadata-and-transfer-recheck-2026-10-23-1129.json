@@ -1,0 +1,55 @@
+{
+  "SchemaVersion": 1,
+  "RunUtc": "2026-10-23T11:29:42Z",
+  "Batch": "PSScriptTools ThreadJob publisher metadata and exact transfer recheck",
+  "PublisherEvidence": {
+    "GalleryPackageUri": "https://www.powershellgallery.com/packages/Microsoft.PowerShell.ThreadJob/2.2.0",
+    "ExactVersion": "2.2.0",
+    "Publisher": "Microsoft Corporation",
+    "MinimumPowerShellVersion": "5.1",
+    "GalleryFileList": [
+      "Microsoft.PowerShell.ThreadJob.nuspec",
+      "LICENSE",
+      "Microsoft.PowerShell.ThreadJob.dll",
+      "Microsoft.PowerShell.ThreadJob.psd1",
+      "ThirdPartyNotices.txt",
+      "en-us\\Microsoft.PowerShell.ThreadJob.dll-Help.xml",
+      ".signature.p7s"
+    ],
+    "NoGalleryDependencies": true,
+    "ProjectUri": "https://github.com/PowerShell/ThreadJob",
+    "ProjectLicense": "MIT",
+    "ProjectLicenseUri": "https://github.com/PowerShell/ThreadJob/blob/master/LICENSE"
+  },
+  "Acquisition": {
+    "RequestedUri": "https://www.powershellgallery.com/api/v2/package/Microsoft.PowerShell.ThreadJob/2.2.0",
+    "Attempt": "Invoke-WebRequest to repository-local .local/acquisition-review/Microsoft.PowerShell.ThreadJob-2.2.0.nupkg",
+    "Result": "Failed before transfer: No such host is known (www.powershellgallery.com:443).",
+    "PartialFileCreated": false,
+    "Sha256": null,
+    "AuthenticodeInspection": "Not possible; no package bytes acquired."
+  },
+  "Outcomes": {
+    "Resolved": [
+      "Official exact package identity, version, minimum PowerShell version, file list, project and license references confirmed."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Acquire the exact Gallery nupkg, calculate SHA-256, inspect signature and retain upstream notices before registering the dependency operation."
+    ],
+    "Partial": [
+      "PSScriptTools dependency ownership remains as previously decided; no ThreadJob package operation or runtime installation added."
+    ],
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateAdjustment": "Unchanged because no dependency artifact or legacy outcome was acquired or closed."
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-22",
+  "Publisher": "MiTeC",
+  "TermsUri": "https://www.mitec.cz/wp/support/",
+  "CurrentTermsObservation": "As observed on 2026-10-22, the support EULA says unregistered freeware is non-commercial and lists named-user/build-machine, team, site and trial licenses. Product pages describe private, educational and non-commercial freeware use. Local owner entitlement and redistribution remain unresolved.",
+  "Products": [
+    {
+      "Id": "package.mitec-certificate-generator",
+      "Name": "MiTeC Certificate Generator",
+      "ProductUri": "https://www.mitec.cz/wp/cg/",
+      "DownloadUri": "https://www.mitec.cz/wp/files/CG.zip",
+      "Version": "1.0.0",
+      "Architecture": "x64",
+      "Behavior": "Generates self-signed X.509 certificates in PEM/CER or PKCS#12 PFX formats.",
+      "UseBoundary": "Generate only a disposable test key/certificate. Do not inspect host keys, use production/personal certificates, or add generated certificates to any trust store.",
+      "Archive": {
+        "Path": ".local/remaining-collections-20261017/CG.zip",
+        "Length": 2223981,
+        "Sha256": "dab3421d6ca9629c938b86e267ce139d4f2ce54758f1125008bf7da158f28666",
+        "PublisherDigestVerified": false
+      },
+      "SelectedMember": {
+        "Path": "CG.exe",
+        "Length": 6521456,
+        "Sha256": "8cc29d56a0a7fc863ca2e659a66d115a581521767bd8988a5ace504d32cc9c0e"
+      }
+    },
+    {
+      "Id": "package.mitec-certificate-information",
+      "Name": "MiTeC Certificate Information",
+      "ProductUri": "https://www.mitec.cz/wp/mci/",
+      "DownloadUri": "https://www.mitec.cz/wp/files/CertInfo.zip",
+      "Version": "1.5.0",
+      "Architecture": "x86",
+      "Behavior": "Opens PEM/CRT/CER/P7B/P7C/DER/PFX/P12 certificates, signed portable executables, MSI packages, signed XML and PDF; exports displayed certificates as PEM or DER.",
+      "UseBoundary": "Use synthetic certificates and signed public fixtures, including a disposable test-only PFX. Never open or export a production private key.",
+      "Archive": {
+        "Path": ".local/remaining-collections-20261017/CertInfo.zip",
+        "Length": 1893898,
+        "Sha256": "6183172dc2277111b3019460716b4f57ad5b5f09d3bf3584620bdaff033e7c7b",
+        "PublisherDigestVerified": false
+      },
+      "SelectedMember": {
+        "Path": "CertInfo.exe",
+        "Length": 4859480,
+        "Sha256": "d4d7936b1f9498c2ba03a1a613a06562f447c7f2d1371d9be01e0e6ae407b391"
+      }
+    }
+  ],
+  "CurrentPublisherCheck": {
+    "CheckedDate": "2026-10-22",
+    "CertificateGeneratorPage": "https://www.mitec.cz/wp/cg/",
+    "CertificateInformationPage": "https://www.mitec.cz/wp/mci/",
+    "SupportTermsPage": "https://www.mitec.cz/wp/support/",
+    "Result": "Both product pages still list the reviewed versions and page license wording. Certificate Information lists version 1.5.0 dated 2026-07-14; Certificate Generator lists version 1.0.0 dated 2025-12-30. The current general EULA remains a separate terms boundary."
+  },
+  "Verification": {
+    "ArchiveAndMemberHashesRechecked": true,
+    "MemberBytesHashedByStreamWithoutExtraction": true,
+    "PublisherPayloadsExtracted": false,
+    "PublisherPayloadsExecuted": false,
+    "CertificateOrTrustStoreAccess": false,
+    "FreshUacPrompts": 0,
+    "VmRuns": 0,
+    "DefenderBlockedToolsTouched": false,
+    "HostOrControllerChanged": false,
+    "DefenderChanged": false,
+    "LocalLicenseStatus": "NeedsReview",
+    "LicenseReviewOwners": "Unassigned"
+  },
+  "CatalogDisposition": {
+    "SupportedTargets": [],
+    "CandidateTargets": ["Windows 11"],
+    "PendingAcceptance": true,
+    "SelectedMembers": ["CG.exe", "CertInfo.exe"],
+    "RepositoryValidationAfterAddition": {
+      "Operations": 368,
+      "Groups": 8,
+      "Profiles": 5,
+      "PowerShellFiles": 238,
+      "Packages": 66,
+      "PendingPackages": 39
+    }
+  },
+  "LegacyOutcomeAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["MiTeC Certificate Generator candidate preparation", "MiTeC Certificate Information candidate preparation"],
+    "EstimateRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactTotal": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateReason": "Both products were already within the pending package outcome estimate. Candidate preparation closes no runtime or legacy outcome."
+  }
+}

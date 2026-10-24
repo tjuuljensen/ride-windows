@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-24T12:35:00Z",
+  "scope": "Read-only current-user packaged Windows Terminal instance inventory",
+  "implementation": {
+    "function": "Get-RideTerminalInstalledInstances",
+    "module": "modules/RIDE.TerminalJsonc.psm1",
+    "moduleVersion": "0.3.0",
+    "distributions": [
+      {
+        "packageName": "Microsoft.WindowsTerminal",
+        "packageFamilyName": "Microsoft.WindowsTerminal_8wekyb3d8bbwe"
+      },
+      {
+        "packageName": "Microsoft.WindowsTerminalPreview",
+        "packageFamilyName": "Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe"
+      },
+      {
+        "packageName": "Microsoft.WindowsTerminalCanary",
+        "packageFamilyName": "Microsoft.WindowsTerminalCanary_8wekyb3d8bbwe"
+      }
+    ],
+    "settingsPath": "%LOCALAPPDATA%/Packages/<PackageFamilyName>/LocalState/settings.json",
+    "instanceVerification": "Only the live current-user Get-AppxPackage query sets InstanceVerified=true; injected package records are marked InventorySource=InjectedUnverified and InstanceVerified=false.",
+    "limits": {
+      "queriesCurrentUserOnly": true,
+      "liveAppxQueryRequiredForInstanceVerified": true,
+      "injectedPackageRecordsRemainUnverified": true,
+      "readsOnlyExistingSettings": true,
+      "maxSettingsBytes": 1048576,
+      "profileAvailabilityVerified": false,
+      "mutationAuthorized": false
+    },
+    "excludedDiscovery": [
+      "Other Windows users",
+      "Unpackaged installations",
+      "Portable installations",
+      "Dynamic profile generation or launchability"
+    ]
+  },
+  "sourceReview": {
+    "officialFaq": "https://learn.microsoft.com/en-us/windows/terminal/faq",
+    "distributionGuide": "https://learn.microsoft.com/en-us/windows/terminal/distributions",
+    "basis": "Microsoft documents separate per-package Stable/Preview/Canary settings paths, an unpackaged LocalAppData path, and portable settings stored beside the application."
+  },
+  "validation": {
+    "focusedInventoryTests": {
+      "path": "tests/TerminalJsonc.Tests.ps1",
+      "selected": 6,
+      "passed": 6,
+      "failed": 0,
+      "coverage": [
+        "Stable and Preview paths remain bound to separate package identities and settings files.",
+        "Missing settings files are reported without being created.",
+        "Unexpected package names are ignored; known names with mismatched package-family identities are refused.",
+        "Duplicate records for a package family are refused.",
+        "Settings above the 1 MiB inspection limit are refused."
+      ]
+    },
+    "fullTerminalJsoncSuite": {
+      "path": "tests/TerminalJsonc.Tests.ps1",
+      "discovered": 53,
+      "passed": 53,
+      "failed": 0,
+      "skipped": 0,
+      "powershell": "7.6.5",
+      "pester": "5.7.1",
+      "testRegistryEnabled": false
+    },
+    "windowsPowerShell51Parser": "Passed for modules/RIDE.TerminalJsonc.psm1 and tests/TerminalJsonc.Tests.ps1.",
+    "repositoryValidation": {
+      "status": "Passed",
+      "operationDocumentation": "Current",
+      "operations": 408,
+      "groups": 8,
+      "profiles": 5,
+      "powershellFiles": 272
+    }
+  },
+  "sideEffects": {
+    "appxInventoryQueried": false,
+    "vmUsed": false,
+    "terminalPackageChanged": false,
+    "terminalSettingsChanged": false,
+    "registryChanged": false,
+    "profileChanged": false,
+    "windowsStateChanged": false,
+    "testFixtures": "Synthetic injected AppX records and files under Pester TestDrive."
+  },
+  "remainingAcceptance": [
+    "Connect an operator-selected inventory record to the exact-path writer and revalidate package identity before any write.",
+    "Verify the intended profile's availability and launchability in the selected instance.",
+    "Accept packaged instance discovery and file apply/recovery behavior on a disposable Windows VM.",
+    "Keep unpackaged and portable installations on explicit operator-supplied paths unless separately implemented."
+  ],
+  "migrationAccounting": {
+    "legacyOutcomesClosed": 0,
+    "estimateRangesUnchanged": true,
+    "ranges": {
+      "settings": "38-58",
+      "packages": "52-67",
+      "components": "19-24",
+      "accountsConfigurationAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "142-196",
+      "roundedTotal": "145-200/about 170"
+    }
+  },
+  "concurrentVmRequest": {
+    "requestId": "24dae5ea55034a84b42cb6a0260d9c3c",
+    "stateAtCheck": "Still running at 12:35 UTC without a result file; controller log remained at guest-command handoff and controller-errors.log was empty. The serialized VM queue was not overlapped."
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-22",
+  "Kind": "PinnedPortableCandidatePreparation",
+  "Product": "MiTeC SQLite Query",
+  "PackageId": "package.mitec-sqlite-query",
+  "Version": "3.2.0",
+  "Artifact": {
+    "Path": ".local/remaining-collections-20261017/SQLiteQ.zip",
+    "Uri": "https://www.mitec.cz/wp/files/SQLiteQ.zip",
+    "Length": 3791645,
+    "Sha256": "7f979a622de9e97b9682dc09a5156a1bd872139a9dd56ba60616fb824e77ab16",
+    "DigestPublisherProvided": false,
+    "ArchiveEntries": 3,
+    "MemberHashesReverifiedInMemory": true,
+    "Members": [
+      {
+        "Path": "SQLiteQuery.exe",
+        "Length": 2846168,
+        "Sha256": "00bdc0c929a782563ecd3c3cf1d393405432bec9278ebbd7c19987b4d2ba0128",
+        "FileVersion": "3.2.0.0",
+        "ProductVersion": "3.0.0.0",
+        "PeMachine": "014C"
+      },
+      {
+        "Path": "sqlite3.dll",
+        "Length": 1071715,
+        "Sha256": "e9e45d6db26b5a9a020ca5214f6434bb9796caa9328085e77345ff149bbace84",
+        "Version": "3.35.5",
+        "SourceIdMatchesOfficialRelease": true,
+        "CompileOptionsAreEmbeddedMetadataOnly": true
+      },
+      {
+        "Path": "sqlite3.exe",
+        "Length": 1064448,
+        "Sha256": "01a6c2e43ecffadac3c3c7792c02604a87032d3a6d0f10bba8e7401b83ff3324",
+        "Version": "3.35.5",
+        "SourceIdMatchesOfficialRelease": true,
+        "CompileOptionsAreEmbeddedMetadataOnly": true
+      }
+    ]
+  },
+  "Candidate": {
+    "SupportedTargets": [],
+    "CandidateTargets": ["Windows 11"],
+    "PortableMembers": ["SQLiteQuery.exe", "sqlite3.dll", "sqlite3.exe"],
+    "PendingAcceptance": true,
+    "LocalLicenseReview": {
+      "ReviewedVersion": "3.2.0",
+      "ReviewOwner": "Unassigned",
+      "Status": "NeedsReview"
+    }
+  },
+  "LocalRegression": {
+    "PowerShell51": {"Passed": 2, "Failed": 0},
+    "PowerShell7": {"Passed": 2, "Failed": 0},
+    "Scope": "Catalog/source binding plus inert three-member ZIP portable lifecycle, repeat, snapshot restore and preservation of unrelated user data."
+  },
+  "RunBoundaries": {
+    "RetainedArchiveExtracted": false,
+    "RetainedBinaryLoadedOrExecuted": false,
+    "DatabaseOpenedOrModified": false,
+    "SqlExecuted": false,
+    "VmRun": false,
+    "FreshUacPrompts": 0,
+    "HostOrControllerChanged": false,
+    "DefenderBlockedToolsTouched": false,
+    "DefenderChanged": false
+  },
+  "Outcomes": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["Pinned inert MiTeC SQLite Query portable package candidate"],
+    "Deferred": [
+      "Owner-specific MiTeC use entitlement and archive redistribution review",
+      "Reproducible provenance and complete build options for bundled SQLite binaries",
+      "Preserve applicable SQLite upstream notices for redistribution",
+      "Synthetic-database SQL, edit, import/export, history and exact recovery acceptance",
+      "Windows 11 activation and target support"
+    ]
+  },
+  "Estimates": {
+    "GroupRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "ReasonUnchanged": "Candidate staging does not prove database behavior, exact data recovery, Windows support or owner-specific license entitlement, so the legacy outcome remains partial/deferred."
+  }
+}

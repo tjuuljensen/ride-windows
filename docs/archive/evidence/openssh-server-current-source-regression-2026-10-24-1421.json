@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-24T14:21:00Z",
+  "scope": "Current-source unit regression for the unregistered OpenSSH Server observer and activation/recovery candidate",
+  "runtime": {
+    "powershell": "7.6.5",
+    "pester": "5.7.1",
+    "testRegistry": "Disabled"
+  },
+  "tests": {
+    "files": [
+      "tests/OpenSshServerObservation.Tests.ps1",
+      "tests/OpenSshServerLifecycle.Tests.ps1"
+    ],
+    "passed": 18,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 17.33
+  },
+  "coveredBehaviors": [
+    "Separate capability, service, firewall and bounded server-file observations",
+    "Exact target and capability identity guards",
+    "No inferred activation from capability presence",
+    "Selected service startup and exact existing local TCP/22 rule state",
+    "Literal restore with first-start server data retained",
+    "Preview, refusal, partial-apply recovery and already-restored behavior"
+  ],
+  "boundaries": {
+    "NativeServiceOrFirewallProviderCalled": false,
+    "CapabilityServiced": false,
+    "WindowsStateChanged": false,
+    "VmOrCheckpointChanged": false,
+    "CatalogRegistrationAdded": false,
+    "SupportedTargetsDeclared": false,
+    "NativeWindows11OrServer2025Acceptance": false
+  },
+  "migrationOutcome": {
+    "resolved": ["Current-source local observer and guarded lifecycle regression"],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Capability payload/source requirements and servicing acceptance",
+      "Exact recovery and service/firewall behavior on disposable Windows 11 and Windows Server 2025 targets",
+      "Catalog integration and target support"
+    ],
+    "partial": ["Candidate module only; no legacy component outcome closes"],
+    "estimateRangesUnchanged": true,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "52-67",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "141-195",
+      "roundedTotal": "140-195/about 170"
+    }
+  }
+}

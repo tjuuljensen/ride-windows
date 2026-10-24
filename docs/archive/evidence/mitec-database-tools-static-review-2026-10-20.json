@@ -1,0 +1,78 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-20",
+  "Scope": "Static publisher-page, version, licensing, dependency and data-effect review of MiTeC Interbase Query and Paradox Data Editor; no payload executed and no database opened",
+  "TermsPage": {
+    "Uri": "https://www.mitec.cz/wp/support/",
+    "Snapshot": ".local/collection-inventory-20261017/mitec-support.html",
+    "Sha256": "00c55ee6e356a5b3422234dc74a92ffef09f83d655d4cd4965dcffbc3f2b066b",
+    "Observation": "The current support EULA says trial/unregistered software is freeware for non-commercial use and lists named-user/build-machine, team, site and trial licensing. Local intended-use entitlement and redistribution remain unresolved."
+  },
+  "Products": [
+    {
+      "Name": "MiTeC Interbase Query",
+      "ProductUri": "https://www.mitec.cz/wp/mibq/",
+      "ProductPageSnapshot": ".local/collection-inventory-20261017/mitec-product-mibq.html",
+      "ProductPageSha256": "c6b50836d2ae75dedf66a5ff09a8017a7197f853c261df32e63df6a818c33447",
+      "PageVersion": "9.5.0, dated 2020-12-15",
+      "PublishedBehavior": "Manages InterBase 6+/Firebird 1.5+ databases using IBX components. SQL editor can run any statement/script and saves successful statements in history. Object explorer edits some objects and extracts metadata including table data. User/role add-edit-delete and grant/revoke managers are available. Services include log/properties/statistics, validation, shutdown, online and offline. Registered version adds CSV/XML/raw-batch/printer import/export, index rebuild, event watcher, performance monitor and codebase.",
+      "LicensePagePriceObservation": "The page lists EUR 99 single-user, EUR 299 team and EUR 799 site lifetime licenses on the review date. These page prices and the support EULA do not establish local entitlement or redistribution.",
+      "Archive": ".local/remaining-collections-20261017/IBQ.zip",
+      "DownloadUri": "https://www.mitec.cz/wp/files/IBQ.zip",
+      "ArchiveLength": 7322738,
+      "ArchiveSha256": "6ce815ac089ff38afc0e4ed3eda4f3255f61a9e46611b55619dbdcfbb1688478",
+      "Members": [
+        {"Path":"IBQ.exe","Length":3257040,"Sha256":"0a0ca4106508960d836a9f9c6e55d34e4b74d7d8cb6505e7bed1e33c163c0971","Architecture":"x86","FileVersion":"9.5.0.0","ProductVersion":"9.0.0.0"},
+        {"Path":"IBQ64.exe","Length":4386136,"Sha256":"12246e0c2013bbdc37abe2c96c4e085f817d263093aed9af263f3e9a33891ea0","Architecture":"x64","FileVersion":"9.5.0.0","ProductVersion":"9.0.0.0"}
+      ],
+      "DependencyGate": "The publisher identifies IBX components and an optional client DLL path; exact runtime/client version, architecture matching, and redistribution notices remain unverified.",
+      "Acceptance": "Use only a disposable synthetic InterBase/Firebird database and service. Do not run arbitrary SQL against real data; do not change real users/roles/privileges, shutdown or toggle a live database, or export production rows. Verify transaction/backup and exact restoration for any synthetic mutation."
+    },
+    {
+      "Name": "MiTeC Paradox Data Editor",
+      "ProductUri": "https://www.mitec.cz/wp/mpde/",
+      "ProductPageSnapshot": ".local/collection-inventory-20261017/mitec-product-mpde.html",
+      "ProductPageSha256": "6559feb0a15e3372acf6db5ce69fa0816e6c525cc613f4ef4ef6257df3fcd600",
+      "PageVersion": "3.7.0, dated 2023-08-09",
+      "PublishedBehavior": "Views/edits Paradox tables; can remove password protection, repair tables, view BLOBs, filter/search, manage indexes/structure, convert table levels 4/5/7, export to HTML/SYLK/Excel/RTF/XML/CSV and import XML/CSV. Uses BDE; page history says startup update checks were added in 3.6.0.",
+      "LicensePagePriceObservation": "The page lists a EUR 30 single-user lifetime license on the review date. The support EULA and local entitlement/redistribution assessment remain separate.",
+      "Installer": ".local/remaining-collections-20261017/PDESetup.exe",
+      "DownloadUri": "https://www.mitec.cz/wp/files/PDESetup.exe",
+      "InstallerLength": 6706624,
+      "InstallerSha256": "cc2fce64612324bd8f0318ec848da78bd5e9aca2a46ed269db343d635c89f045",
+      "InstallerOuterMetadata": "x86 PE; publisher version resource fields blank; copyright says 2001-2023. Prior bounded listing has 18 entries, but payload/actions remain opaque and unexecuted.",
+      "DependencyGate": "BDE is required. Exact BDE version/provider/bitness, installer changes, registration/coexistence and redistribution rights remain unverified.",
+      "Acceptance": "Use disposable copies of synthetic Paradox tables with known BDE/provider state; test edits, password/repair/conversion/import/export, byte-exact originals and recovery. Never apply password removal/repair to real user data."
+    }
+  ],
+  "SafetyAndAcceptance": {
+    "FrozenArchiveInstallerPageAndMemberHashesMatch": true,
+    "PayloadsExecuted": false,
+    "InstallerExtracted": false,
+    "DatabasesOpened": false,
+    "DatabaseServicesChanged": false,
+    "FreshUacPrompts": 0,
+    "VmRuns": 0,
+    "DefenderBlockedToolsTouched": false,
+    "HostOrControllerChanged": false,
+    "DefenderChanged": false
+  },
+  "MigrationDisposition": {
+    "WholeLegacyOutcomesClosed": 0,
+    "RetiredOutcomes": 0,
+    "NewExclusions": 0,
+    "Resolved": "Publisher versions/features, separate x86/x64 Interbase Query files, BDE dependency, opaque Paradox installer pin and published license choices are recorded.",
+    "Partial": "Local entitlements, IBX/client and BDE component provenance/bitness/redistribution, installer actions, database mutation/repair, credentials, UI and activation remain unverified.",
+    "Deferred": [
+      "Owner-specific MiTeC use and distribution assessment for both tools",
+      "Do not test against live InterBase/Firebird services or non-synthetic databases",
+      "No Paradox installer/BDE registration until exact dependency, coexistence, terms and rollback are established",
+      "Any future acceptance must use synthetic disposable database copies and verify exact recovery",
+      "Windows target, UI and activation behavior through an approved guest workflow"
+    ],
+    "EstimateRanges": ["38-58", "56-71", "20-25", "25-35", "8-12"],
+    "ExactTotal": "147-201",
+    "RoundedTotal": "145-200/about 175",
+    "EstimateReason": "Database actions and dependencies are more precisely bounded, but no whole legacy outcome or safe runtime acceptance is closed; no estimate deduction is justified."
+  }
+}

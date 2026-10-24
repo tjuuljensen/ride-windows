@@ -1,0 +1,146 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-23T12:31:01Z",
+  "Batch": "MiTeC Windows File Analyzer and Icon Explorer portable candidate preparation",
+  "SourceReview": "docs/archive/evidence/mitec-file-analyzer-icon-explorer-static-review-2026-10-21.json",
+  "Publisher": "MiTeC",
+  "Products": [
+    {
+      "Id": "package.mitec-windows-file-analyzer",
+      "Name": "Windows File Analyzer",
+      "Version": "2.10.0",
+      "ProductUri": "https://www.mitec.cz/wfa.html",
+      "DownloadUri": "https://www.mitec.cz/Downloads/WFA.zip",
+      "PageLicense": "Free for private, educational and non-commercial purposes; commercial license required for other use.",
+      "Archive": ".local/remaining-collections-20261017/WFA.zip",
+      "ArchiveLength": 2099639,
+      "ArchiveSha256": "57acae30ea14576e06822703c6211c8f0c675286c989ee0cdafec23578e7a9c6",
+      "SelectedMember": {
+        "Path": "WFA.exe",
+        "Length": 2195296,
+        "Sha256": "2fdfb29599db66a8c8c91b139e6842551a6dbe8c4fa82f2daf2c9fcfd62707b6",
+        "FileVersion": "2.10.0.0",
+        "ProductVersion": "2.0.0.0"
+      }
+    },
+    {
+      "Id": "package.mitec-icon-explorer",
+      "Name": "Icon Explorer",
+      "Version": "5.3.0",
+      "ProductUri": "https://www.mitec.cz/iconex.html",
+      "DownloadUri": "https://www.mitec.cz/Downloads/IconExplorer.zip",
+      "PageLicense": "Free for private, educational and non-commercial purposes.",
+      "Archive": ".local/remaining-collections-20261017/IconExplorer.zip",
+      "ArchiveLength": 1525935,
+      "ArchiveSha256": "b7f71cee4664638a7ee24ee1091e8c604283adb3781e39ee2d5514cf1a0458f0",
+      "SelectedMember": {
+        "Path": "IconExplorer.exe",
+        "Length": 3793232,
+        "Sha256": "da678c0473d335690d68c4dece3e303972d85c96641e856ff6dd163a14d16451",
+        "FileVersion": "5.3.0.0",
+        "ProductVersion": "5.0.0.0"
+      }
+    }
+  ],
+  "LocalLicenseReviews": [
+    {
+      "Id": "package.mitec-icon-explorer",
+      "ReviewedVersion": "5.3.0",
+      "ReviewOwner": "Unassigned",
+      "LicenseReviewStatus": "NeedsReview",
+      "LicenseReviewedAt": null
+    },
+    {
+      "Id": "package.mitec-windows-file-analyzer",
+      "ReviewedVersion": "2.10.0",
+      "ReviewOwner": "Unassigned",
+      "LicenseReviewStatus": "NeedsReview",
+      "LicenseReviewedAt": null
+    }
+  ],
+  "LicenseDisposition": "Both exact-version local NeedsReview markers support owner-specific use administration; they do not block candidate planning, implementation or technical acceptance preparation and make no entitlement or redistribution assertion.",
+  "Catalog": {
+    "NewCandidateIds": [
+      "package.mitec-windows-file-analyzer",
+      "package.mitec-icon-explorer"
+    ],
+    "PendingPackages": 47,
+    "NewCandidatesPendingAcceptance": true,
+    "NewCandidatesSupportedTargets": [],
+    "Packages": 77,
+    "Operations": 383,
+    "NewCandidatesCandidateTargets": [
+      "Windows 11"
+    ]
+  },
+  "CatalogCountCorrection": {
+    "PriorOverviewPending": 43,
+    "Reason": "A full catalog load found that the previous overview undercounted two pre-existing package operations. The two candidates in this batch then add two packages and two pending plans. No migration estimate or legacy outcome changed.",
+    "FullCatalogCountBeforeThisBatch": 75,
+    "CurrentPending": 47,
+    "CurrentFullCatalogCount": 77,
+    "PriorOverviewCount": 73,
+    "FullCatalogPendingBeforeThisBatch": 45
+  },
+  "Validation": {
+    "CatalogExport": "Current",
+    "Groups": 8,
+    "Profiles": 5,
+    "Operations": 383,
+    "RepositoryValidator": "Passed",
+    "PowerShellFiles": 253
+  },
+  "FocusedTests": {
+    "Coverage": "Retained evidence pins; exact selected files; unsupported-target metadata; repeated inert offline ZIP staging; snapshot/removal/recovery; preservation of unowned content; NeedsReview remains informational and all pending package install plans remain available.",
+    "Passed": 112,
+    "Suites": [
+      "MiTeCHistoricalFileTools.Tests.ps1",
+      "LicenseReviews.Tests.ps1",
+      "ApplicationPackages.Tests.ps1"
+    ],
+    "Skipped": 0,
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "Failed": 0
+  },
+  "SafetyAndAcceptance": {
+    "DefenderBlockedToolsTouched": false,
+    "FreshUacPrompts": 0,
+    "IconsExtracted": false,
+    "DefenderChanged": false,
+    "HostForensicDataOpened": false,
+    "HostOrControllerChanged": false,
+    "SourceArchiveHashesRechecked": true,
+    "VmRuns": 0,
+    "RecursiveHostScanPerformed": false,
+    "OutputWritten": false,
+    "PayloadExecuted": false,
+    "WindowsStateChanged": false,
+    "SelectedMemberHashesRechecked": true
+  },
+  "MigrationDisposition": {
+    "Retired": [],
+    "Excluded": [],
+    "RoundedTotal": "145-200/about 170",
+    "Deferred": [
+      "Synthetic disposable forensic-artifact behavior and report/output cleanup",
+      "Synthetic icon extraction with collision and cleanup verification",
+      "Windows 11 file lifecycle and recovery acceptance"
+    ],
+    "Resolved": [
+      "Exact candidate archive/member selection and inert portable file-lifecycle preparation"
+    ],
+    "ExactTotal": "142-196",
+    "EstimateReason": "Both products already fell within the package estimate range; candidate preparation closes no legacy outcome.",
+    "EstimateRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "Partial": [
+      "No user-visible behavior or whole legacy package outcome accepted"
+    ]
+  }
+}

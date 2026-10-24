@@ -1,0 +1,78 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-21",
+  "Scope": "Official publisher page and retained archive follow-up for NTCore Driver List and Rebel.NET; no payload extraction or execution",
+  "Products": [
+    {
+      "Name": "Driver List",
+      "PublisherPage": "https://ntcore.com/driver-list/",
+      "CurrentPageVersion": "1.0.2",
+      "PublisherClaims": [
+        "Lists loaded drivers",
+        "Can generate a report file from the list",
+        "64-bit compatible"
+      ],
+      "RetainedArchive": {
+        "Path": ".local/no-uac-source-review-20261017/DriverList.zip",
+        "Length": 162127,
+        "Sha256": "dbc5736808cf7203cf289a269cc27cbcf90a8c69e03eed60ae361ad29da08d28",
+        "Members": ["DriverList_x86.exe", "DriverList_x64.exe", "DriverList_IA64.exe"]
+      },
+      "PriorStaticFinding": "Embedded version was not verified; IA64 is Itanium, not ARM64 or x64.",
+      "LicenseDisposition": "No explicit product-specific use or redistribution grant is present in the reviewed page or retained archive evidence. Do not infer permission from other NTCore products.",
+      "Remaining": [
+        "Resolve product-specific usage and distribution rights",
+        "Verify embedded versions and exact architecture compatibility",
+        "Treat generated driver inventory as potentially sensitive output",
+        "Defer loaded-driver and report behavior checks to an isolated registered guest"
+      ]
+    },
+    {
+      "Name": "Rebel.NET",
+      "PublisherPage": "https://ntcore.com/rebel-net/",
+      "OfficialGuide": "https://ntcore.com/files/rebelnet.htm",
+      "CurrentPageVersion": "1.6.0.1",
+      "PublisherClaims": [
+        "Creates Rebel.NET report files from .NET assemblies and rebuilds assemblies from report files, adding or replacing methods and streams",
+        "Supports command-line report and rebuild operations",
+        "The publisher describes it as a research project and says commercial use goes against its licensing terms",
+        "The guide documents a format flag that can delete all methods in the original assembly; it advises that this is rarely useful"
+      ],
+      "RetainedArchive": {
+        "Path": ".local/no-uac-source-review-20261017/RebelDotNET.zip",
+        "Length": 226063,
+        "Sha256": "7bd01e9cb15426642c74f8f3cab45cf7005f7525ab7cb8abc5a32973f383af32",
+        "Members": ["RebelDotNET.h", "RebelDotNET.exe"],
+        "HeaderIsFormatDocumentationNotCodeLicense": true
+      },
+      "LicenseDisposition": "Commercial use is expressly prohibited by the guide's licensing statement. No explicit redistribution grant or full license text was found in the reviewed guide, page, or archive evidence; user-specific noncommercial eligibility remains unassessed.",
+      "Remaining": [
+        "Resolve applicable user scope and any redistribution rights from the publisher or exact license text",
+        "Use only owned synthetic assemblies and separate output paths in any later acceptance",
+        "Verify byte-exact input preservation, signing/strong-name effects, failure recovery and report/rebuild behavior",
+        "Defer execution to an isolated registered guest; do not use protected third-party assemblies"
+      ]
+    }
+  ],
+  "RunBoundaries": {
+    "RetainedArchiveHashesRecomputed": true,
+    "ArchiveExtractedThisBatch": false,
+    "PayloadExecuted": false,
+    "AssemblyModified": false,
+    "DriverInventoryRead": false,
+    "FreshUacPrompts": 0,
+    "VmRuns": 0,
+    "ControllerChanges": 0,
+    "DefenderChanges": 0,
+    "DefenderBlockedFilesTouched": false
+  },
+  "Outcomes": {
+    "WholeLegacyOutcomesResolved": 0,
+    "RetiredOutcomes": 0,
+    "NewExclusions": 0
+  },
+  "Ranges": ["38-58", "56-71", "20-25", "25-35", "8-12"],
+  "ExactRangeEndpoints": "147-201",
+  "RoundedTotal": "145-200/about 175",
+  "EstimateReason": "The Rebel.NET guide resolves a commercial-use restriction and documents destructive rebuild capability, but intended scope, redistribution, all runtime behavior and both complete legacy outcomes remain unresolved. Driver List rights and output privacy also remain open."
+}

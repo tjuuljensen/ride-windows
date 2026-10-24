@@ -1,0 +1,34 @@
+{
+  "SchemaVersion": 1,
+  "RunUtc": "2026-10-23T11:12:15Z",
+  "Batch": "B04 shared engine/proxy saved-run identity",
+  "Outcome": "The proxy lifecycle snapshot and restore-completion sidecar now use the engine's saved RunId.",
+  "Implementation": [
+    "The engine passes its generated RunId to the proxy lifecycle before the WinINet setter is called.",
+    "The proxy lifecycle writes its create-new snapshot under that same RunId before the setter.",
+    "Engine restore loads proxy state by the saved RunId and tracks completion under the same identity.",
+    "If proxy snapshot creation fails, the proxy setter remains uncalled."
+  ],
+  "Validation": {
+    "FocusedCatalogProxyPester": "179 passed, 0 failed, 1 not run across 180 discovered tests.",
+    "CatalogSuite": "76 passed, 0 failed, 1 not run.",
+    "ProxyLifecycleSuite": "16 passed, 0 failed, 0 not run.",
+    "NotRunReason": "The single WindowsIntegration registry round-trip test was excluded from this sandboxed rerun because HKCU write access is denied; Pester TestRegistry was disabled. The remaining 179 focused tests passed."
+  },
+  "SafetyBoundary": {
+    "EngineRunIdEquality": "Asserted in mocked Invoke-RidePlan regression.",
+    "ApplyPreflight": "Unsupported Windows 11 candidate is rejected before any WinINet query.",
+    "NativeWinINetCall": false,
+    "VMOrCheckpointAction": false,
+    "DefenderChange": false,
+    "WindowsStateChange": false,
+    "RegistryIntegrationTest": "Excluded from the final focused run after an unfiltered attempt was denied HKCU write access by the sandbox; no registry key was created."
+  },
+  "Deferred": [
+    "Disposable Windows 11 lifecycle and exact restore acceptance.",
+    "Complete effective-policy coverage and controlled PAC-consumer behavior.",
+    "The setup-script/address control remains separate and requires an explicit PAC address."
+  ],
+  "EstimateEffect": "No legacy outcome closed; ranges remain 38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196, rounded 145-200/about 170.",
+  "EvidenceLimit": "All test native boundaries are mocked; this result verifies repository-level state identity and ordering only."
+}

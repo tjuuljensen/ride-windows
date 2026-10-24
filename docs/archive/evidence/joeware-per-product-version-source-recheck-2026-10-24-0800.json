@@ -1,0 +1,57 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T08:00:00Z",
+  "Topic": "JoeWare per-product publisher version recheck",
+  "Sources": [
+    {
+      "Product": "AdFind",
+      "Version": "1.64.00",
+      "PublisherDate": "2026-06-08",
+      "URL": "https://www.joeware.net/freetools/tools/adfind/",
+      "SourceNotes": "Current Version row names 1.64.00; Windows 7 / Server 2008 R2 or newer is a publisher platform claim."
+    },
+    {
+      "Product": "AdMod",
+      "Version": "1.29.00",
+      "PublisherDate": "2026-06-08",
+      "URL": "https://joeware.net/freetools/tools/admod/index.htm",
+      "SourceNotes": "Current Version row names 1.29.00; Windows 7 / Server 2008 R2 or newer is a publisher platform claim."
+    }
+  ],
+  "RdpSecCheck": {
+    "CurrentProductPage": "0.9-beta / V02.00.00 (2014-11-17)",
+    "OlderVersionsFileRow": "V01.00.00 (2011)",
+    "Disposition": "Current identity remains reconciled; old digest row is not mapped to current bytes."
+  },
+  "CollectionScope": "41-name authorized JoeWare scope unchanged.",
+  "Defender": "AdFind remains excluded from selected tool batches; no false-positive determination or threat classification made.",
+  "Download": "No download form submitted and no payload or digest acquired.",
+  "Runtime": "No executable, VM, Defender setting or Windows state touched.",
+  "Outcomes": {
+    "Resolved": "Current publisher version/date rows for AdFind and AdMod reconfirmed.",
+    "Retired": [],
+    "Excluded": [
+      "AdFind remains separately excluded due to Defender block"
+    ],
+    "Deferred": [
+      "Exact payloads and hashes; rdp-sec-check older row mapping; complete file inventory; package lifecycle and isolated technical acceptance"
+    ],
+    "Partial": "No JoeWare legacy outcome closed."
+  },
+  "Estimates": {
+    "Groups": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Reason": "No artifact, lifecycle or legacy outcome changed; ranges remain unchanged."
+  },
+  "SourcesChecked": [
+    "https://www.joeware.net/freetools/tools/adfind/",
+    "https://joeware.net/freetools/tools/admod/index.htm"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "TimeUtc": "10:08:16",
+  "VmName": "RIDE-Win11-Test",
+  "Check": "Read-only Get-VM query before checkpoint inspection",
+  "Result": "Denied",
+  "Error": "Access to a CIM resource was not available to the client.",
+  "CheckpointState": "Unknown; query did not reach checkpoint inspection",
+  "QueueSubmission": false,
+  "GuestMutation": false,
+  "WindowsStateChanged": false,
+  "DefenderChanged": false,
+  "Outcome": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Prepared disposable-Windows acceptance remains blocked by Hyper-V CIM access."],
+    "Partial": ["Package install plans remain available with local version-matched NeedsReview records; no package was executed."],
+    "GroupRanges": ["38-58","52-67","19-24","25-35","8-12"],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateAdjustment": "Unchanged; VM access recheck closes no legacy outcome."
+  }
+}

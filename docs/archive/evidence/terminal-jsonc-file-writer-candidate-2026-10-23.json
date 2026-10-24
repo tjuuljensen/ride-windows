@@ -1,0 +1,70 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "Batch": "B03 Terminal JSONC guarded file writer and recovery candidate",
+  "Implementation": {
+    "Module": "modules/RIDE.TerminalJsonc.psm1",
+    "Functions": [
+      "Set-RideTerminalDefaultProfileFile",
+      "Restore-RideTerminalDefaultProfileFile"
+    ],
+    "Contract": [
+      "Exact settings.json path is supplied by the operator",
+      "Expected computer and current user SID must match",
+      "Computer name and Windows path comparisons are case-insensitive",
+      "Reparse-point settings files are refused",
+      "Exclusive read/write handle protects each file operation",
+      "Recovery snapshot is created before settings mutation and never overwritten",
+      "ShouldProcess gates apply and restore; WhatIf writes neither file",
+      "Readback is flushed and compared; failed writes attempt original-byte rollback",
+      "Restore verifies snapshot identity and byte hashes, preserves unrelated edits and refuses owned-value conflicts",
+      "Tampered hashes and competing exclusive file locks are refused",
+      "Snapshot remains after restore; file ACLs are not modified or captured",
+      "Profile availability, Terminal instance ownership and GUI behavior are not verified"
+    ],
+    "CatalogOperationAdded": false,
+    "SupportedTargetsAdded": false,
+    "LiveTerminalSettingsAccessed": false,
+    "WindowsStateChanged": false
+  },
+  "Validation": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "TerminalJsoncTests": {
+      "Passed": 47,
+      "Failed": 0,
+      "Skipped": 0
+    },
+    "WindowsPowerShell51": {
+      "Pester": "Not run: Pester 5.7.1 format files were rejected by the host AuthorizationManager",
+      "ModuleImport": "Not run: the host AuthorizationManager rejected the changed workspace module",
+      "ParserErrors": 0
+    },
+    "SyntheticOnly": true
+  },
+  "VmAccess": {
+    "Target": "RIDE-Win11-Test",
+    "ObservedAtUtc": "2026-10-23T06:51:25Z",
+    "Result": "Blocked: access to a CIM resource was not available to the client",
+    "CheckpointQueryIssued": false,
+    "GuestRun": false
+  },
+  "LegacyOutcomeDisposition": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["Terminal default-profile setting implementation"],
+    "Deferred": [
+      "Bind exact path to installed Terminal package instance and verify actual profile availability",
+      "Disposable Windows 11 preview/apply/repeat/editor-lock/concurrent-edit/rollback/restore/new-tab acceptance",
+      "Catalog operation and supported target decision after acceptance"
+    ]
+  },
+  "Estimates": {
+    "GroupRanges": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+    "ExactEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged; implementation and synthetic file round trips do not close the legacy setting or establish Windows behavior."
+  }
+}

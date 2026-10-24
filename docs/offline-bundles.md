@@ -11,15 +11,22 @@ optional operator-supplied Windows servicing sources.
 Currently available: local manifest integrity/dependency preflight and optional
 byte-bound catalog/profile package coverage, plus explicit local-source assembly
 with an optional selected-profile package-content gate. Explicit offline
-`install`/`apply` now enforce that gate for accepted inert portable packages,
-subject to the constraints below. Normal commands without offline options retain
-their online acquisition behavior. Automatic acquisition planning, broader
-dependency/installer support and engine packaging remain pending. The focused
-Caffeine portable scenario passed disconnected Windows 11 build 26300 acceptance;
-broader native coverage remains pending. Assembly or preflight alone does not establish an
-installable air-gapped bundle.
+`install`/`apply` enforce that gate for accepted portable packages and EXE/MSI
+installers whose artifact is declared `DeclaredNoNetwork`, including catalog
+prerequisites expanded into the same ordered plan. Each required package payload
+must be present and accepted. A selected artifact dependency edge is accepted
+only when it resolves to that consumer's earlier catalog prerequisite operation;
+it does not create a separate installer action. Unmatched or multi-artifact
+dependency actions remain unsupported.
+Installer execution still requires catalog target acceptance.
+Normal commands without offline options retain their online acquisition
+behavior. Automatic acquisition planning, broader dependency/installer support
+and engine packaging remain pending. The focused Caffeine portable scenario
+passed disconnected Windows 11 build 26300 acceptance; broader native coverage
+remains pending. Assembly or preflight alone does not establish an installable
+air-gapped bundle.
 
-## Execute an explicitly selected portable bundle
+## Execute an explicitly selected offline package bundle
 
 Use a fresh native Windows PowerShell 5.1 or PowerShell 7 process from the bundled
 RIDE directory. The manifest must include `ride.ps1`, `catalog/operations.psd1`
@@ -58,20 +65,25 @@ profile. Catalog/manifest architecture declarations must agree. A neutral archiv
 does not establish that every included executable runs on every processor or
 Windows release; native behavior and supported-target checks remain separate.
 
-The first execution path has these explicit limits:
+The offline execution path has these explicit limits:
 
-- Every selection must be an already accepted `Portable` package in `Present`
-  state, with one payload and `DeclaredNoNetwork` capability. Catalog and artifact
-  dependency actions are refused. The bound profile must use explicit variants
-  where the catalog offers them; local preferences cannot silently change it.
-- EXE/MSI installers, services/drivers, package removal, settings, servicing
+- Every selection must be an already accepted `Portable`, `Exe` or `Msi` package
+  in `Present` state, with exactly one payload and `DeclaredNoNetwork` capability.
+  Catalog-declared prerequisites are expanded in dependency order and each must
+  have a selected, accepted payload in the bundle. A manifest artifact edge
+  must match the consumer's direct catalog prerequisite and the prerequisite
+  operation must precede the consumer. Other artifact-level dependency actions
+  are refused. The bound profile must use explicit variants where the
+  catalog offers them; local preferences cannot silently change it.
+- Other installer types, services/drivers, package removal, settings, servicing
   sources, library overlays and desktop-user handoff are not implemented for
   offline execution. Mixed plans fail before their first setting is changed.
 - Network authentication options cannot accompany the CLI offline selection.
   No provider/discovery/download fallback is called. Portable extraction skips
   Authenticode provider inspection, which can contact certificate services, and
-  records `NotInspectedOffline`. Exact SHA-256 checks and owned-file protections
-  remain active. This is not a signature-verification claim.
+  records `NotInspectedOffline`. EXE/MSI payload signatures are not inspected by
+  this offline path either. Exact SHA-256 checks and owned-file protections remain
+  active. This is not a signature-verification claim.
 
 Machine-scoped packages still require elevation. Use the normal saved Run ID for
 portable exact-file recovery; unowned and modified files retain existing conflict
@@ -189,9 +201,15 @@ integrity-only assembly remain supported; no retained bundle is rewritten.
 This gate checks declared package content. Hidden installer dependencies,
 non-package resources, engine provenance, target applicability and actual offline
 behavior remain separate. OfflineGates and ReadyForMutation=false remain visible
-in preparation reports. Explicit offline install/apply adds the portable execution
-gate above and rechecks files under read leases. Native disconnected acceptance
-and broader installer/dependency execution remain pending.
+in preparation reports. Explicit offline install/apply adds a whole-plan execution
+gate above and rechecks files under read leases. It supports portable deployment
+and MSI installers only when the selected artifact is marked
+`DeclaredNoNetwork`, has exactly one payload and no declared/catalog dependency
+actions, and the catalog target has already passed native acceptance. All other
+installer types fail closed before mutation. This declaration does not prove an
+EXE or MSI will avoid network access; test actual installer behavior on a
+disconnected disposable Windows VM. Native acceptance and broader
+installer/dependency coverage remain separate.
 
 ## Schema-1 manifest contract
 
@@ -220,8 +238,10 @@ graphs are refused. Artifact and servicing identities must not collide.
 OfflineCapability is Unverified, DeclaredNoNetwork or NetworkRequired. Even
 DeclaredNoNetwork is a supplied assertion, not independently tested behavior.
 Installer-internal downloads, activation, prompts, drivers and reboot behavior
-remain product-specific gates. Preserve upstream notices and agreements with the
-original payload; listing one notice does not prove all required notices exist.
+remain product-specific gates. Offline execution enforces no network fallback;
+it does not firewall an installer or guarantee its actions remain local. Preserve
+upstream notices and agreements with the original payload; listing one notice
+does not prove all required notices exist.
 No credentials, private license-review records or organization assessment fields
 belong in the shared manifest. Q14's pending local review must not become an
 installation gate; publication omissions remain a distinct decision.
@@ -261,10 +281,11 @@ still need separate pinned acquisition evidence.
 
 The explicit offline installation path preflights the complete selected deployment
 before **any** target change, verify its source coverage and native eligibility,
-then resolve locally without network fallback or version advancement. A partial
+then execute locally without network fallback or version advancement. A partial
 bundle may serve complete profiles; missing content unrelated to that profile
-does not block it. The execution gate currently accepts only the portable subset
-described above; unsupported requirements fail before mutation.
+does not block it. The execution gate accepts portable, EXE and MSI packages only
+under the declared no-network and dependency constraints above; unsupported
+requirements fail before mutation.
 
 ## Comparing profile package declarations
 

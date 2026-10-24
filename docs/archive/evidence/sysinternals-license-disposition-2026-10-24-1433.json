@@ -1,0 +1,29 @@
+{
+  "RecordedAtUtc": "2026-10-24T14:33:00Z",
+  "Subject": "Sysinternals package migration licensing disposition",
+  "UserClarification": "RIDE downloads Sysinternals directly from Microsoft for installation on user-supported devices. RIDE does not transfer or publish copies. The prior RIDE v2 license-specialist review approved this use, and there are no legal issues using Sysinternals in RIDE.",
+  "Disposition": {
+    "LicenseMigrationBlocker": false,
+    "AdditionalLegalReviewPrerequisite": false,
+    "GeneralizedRedistributionAnalysisAppliesToRidesUse": false,
+    "VersionSpecificLocalReviewRecordsBlockMigration": false
+  },
+  "SeparateSecurityDisposition": {
+    "DefenderDetectedToolsRemainExcluded": true
+  },
+  "RemainingTechnicalWork": [
+    "Package lifecycle and exact recovery",
+    "Selected utility behavior",
+    "Windows target acceptance"
+  ],
+  "MigrationEstimate": {
+    "Settings": "37-57",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "141-195",
+    "RoundedTotal": "140-195/about 170",
+    "LegacyOutcomeClosed": false
+  }
+}

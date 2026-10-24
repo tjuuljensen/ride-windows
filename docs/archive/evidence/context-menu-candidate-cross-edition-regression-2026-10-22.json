@@ -1,0 +1,45 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-22",
+  "Batch": "Context-menu candidate catalog and authoring regression",
+  "Coverage": [
+    "tests/ExampleLibrary.Tests.ps1",
+    "tests/CustomRegistryAuthoring.Tests.ps1",
+    "tests/HashValueContextMenu.Tests.ps1"
+  ],
+  "Results": {
+    "PowerShell7": {"Passed": 50, "Failed": 0, "Skipped": 1},
+    "WindowsPowerShell51": {"Passed": 51, "Failed": 0, "Skipped": 0},
+    "PesterTestRegistryPlugin": "Disabled because sandbox policy denied optional HKCU fixture access.",
+    "PesterTemp": "Placed under .local/pester-temp in the writable repository to avoid sandbox-denied Windows Temp paths."
+  },
+  "InitialCombinedRun": {
+    "Coverage": [
+      "tests/Catalog.Tests.ps1",
+      "tests/ExampleLibrary.Tests.ps1",
+      "tests/CustomRegistryAuthoring.Tests.ps1",
+      "tests/HashValueContextMenu.Tests.ps1"
+    ],
+    "Discovered": 122,
+    "Passed": 110,
+    "Failed": 11,
+    "Skipped": 1,
+    "EnvironmentFailures": [
+      "Catalog registry security-descriptor fixture denied HKCU access.",
+      "Package artifact fixtures and library-authoring atomic file moves were denied under the sandbox-protected Windows Temp path."
+    ],
+    "CodeAssertionFailure": false
+  },
+  "Acceptance": {
+    "VM": "Get-VM -Name RIDE-Win11-Test fails with Access to a CIM resource was not available to the client.",
+    "NoRegistryMutation": true,
+    "NoInstallerOrUtilityExecuted": true,
+    "NativeExplorerAcceptance": "Not run."
+  },
+  "Disposition": {
+    "Resolved": ["Cross-edition example-library and custom RegistryValueSet authoring regression for both context-menu candidates."],
+    "Partial": ["Catalog-wide Pester verification remains constrained by sandbox registry/file ACLs."],
+    "Deferred": ["Windows 11 Explorer GUI and exact registry lifecycle acceptance."],
+    "EstimateEffect": "No legacy outcome was closed; migration ranges are unchanged."
+  }
+}

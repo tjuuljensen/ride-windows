@@ -1,0 +1,64 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "ObservedAtUtc": "2026-10-23T06:33:09Z",
+  "Batch": "PSScriptTools ThreadJob 2.2.0 exact package acquisition retry",
+  "OfficialGalleryPage": "https://www.powershellgallery.com/packages/Microsoft.PowerShell.ThreadJob/2.2.0",
+  "GalleryObservations": {
+    "Version": "2.2.0",
+    "MinimumPowerShellVersion": "5.1",
+    "Dependencies": [],
+    "Copyright": "Microsoft Corporation",
+    "PackageFileListIncludesSignature": true
+  },
+  "Acquisition": {
+    "Uri": "https://www.powershellgallery.com/api/v2/package/Microsoft.PowerShell.ThreadJob/2.2.0",
+    "Method": "Windows curl.exe exact official package endpoint",
+    "Result": "FailedBeforeTransfer",
+    "Error": "Could not resolve host: www.powershellgallery.com",
+    "ExitCode": 6,
+    "ArtifactCreated": false,
+    "BytesAcquired": false,
+    "DigestMeasured": false
+  },
+  "ManualDownload": {
+    "OfficialGalleryLink": "https://aka.ms/psgallery-manualdownload",
+    "Result": "Browser fetch failed after redirect to Microsoft Learn manual-download page",
+    "PayloadAvailable": false
+  },
+  "LocalRuntimeObservation": {
+    "Module": "Microsoft.PowerShell.ThreadJob",
+    "Version": "2.2.0",
+    "Interpretation": "Bundled test-runtime copy only; not treated as acquired Gallery publisher artifact"
+  },
+  "Boundaries": {
+    "DependencyInstalled": false,
+    "PSScriptToolsImported": false,
+    "InstallerOrPackageRan": false,
+    "VmOrCheckpointChanged": false,
+    "DefenderChanged": false,
+    "UacPrompts": 0
+  },
+  "Outcome": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Exact ThreadJob package acquisition and digest pin",
+      "PSScriptTools dependency-present runtime acceptance"
+    ],
+    "Partial": [
+      "Official package version, minimum PowerShell version, dependency list and file list are confirmed"
+    ],
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "No legacy package outcome or acceptance gate closed."
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "RecordedAtUtc": "2026-10-24T15:20:00Z",
+  "Target": "RIDE-Win11-Test",
+  "IntegrationSuite": "ApplicationsBatch1",
+  "CompletedRequests": [
+    {
+      "RunId": "ac22583d29ea463c82727bf2c4a62c83",
+      "Status": "Failed",
+      "StartedAtUtc": "2026-10-24T13:40:15Z",
+      "FinishedAtUtc": "2026-10-24T14:32:54Z",
+      "ControllerError": "Guest results were unsuccessful; see exported guest summary.",
+      "Pester": { "Total": 331, "Passed": 330, "Failed": 0, "Skipped": 1 },
+      "Packages": { "PassedWithRecovery": 9, "Failed": 1, "Failure": "package.gpg4win exited 0xC0000005; recovery failed; artifact retained." }
+    },
+    {
+      "RunId": "ddf032acbdbd4843b519d42877baa49f",
+      "Status": "TimedOut",
+      "StartedAtUtc": "2026-10-24T14:32:55Z",
+      "FinishedAtUtc": "2026-10-24T15:12:42Z",
+      "ControllerError": "Test controller exceeded timeout and terminated the process tree.",
+      "Pester": { "Total": 331, "Passed": 330, "Failed": 0, "Skipped": 1 },
+      "Packages": { "PassedWithRecovery": 9, "Failed": 1, "Failure": "package.gpg4win exited 0xC0000005; recovery failed; artifact retained." },
+      "Collection": "Partial guest evidence copied; transcript.log unavailable because it was locked.",
+      "CleanupError": null,
+      "CheckpointRestoration": "Unverified"
+    }
+  ],
+  "VerifiedPackageSubresults": [
+    "package.thunderbird passed limited-user recovery and profile preservation",
+    "package.vscode passed",
+    "package.firefox passed",
+    "package.sqlitebrowser passed",
+    "package.autopsy passed",
+    "package.chrome passed",
+    "package.wireshark passed",
+    "package.signal passed",
+    "package.tmog passed"
+  ],
+  "AggregateAcceptance": "Not achieved; both completed runs are unsuccessful.",
+  "ActiveRequest": {
+    "RunId": "cd4fcbdd21ed4b1081fcaede9c1e6075",
+    "StatusAtRecordTime": "Running",
+    "TimeoutMinutes": 90,
+    "Instruction": "Keep the VM queue serialized; do not overlap or restart."
+  },
+  "TechnicalBlockers": [
+    "Gpg4win 5.1.1 /C component-control failure is reproducible; observed 0xC0000005 cause remains unconfirmed.",
+    "Checkpoint restoration after the timed-out run has not been verified.",
+    "Controller timeout prevents aggregate Windows 11 package acceptance."
+  ],
+  "SysinternalsDisposition": {
+    "LicenseBlocker": false,
+    "Basis": "Prior RIDE v2 license-specialist approval for RIDE's direct Microsoft download-and-install workflow, reaffirmed by user.",
+    "DefenderDetectedTools": "Remain separately excluded for security reasons."
+  },
+  "Estimate": {
+    "Settings": "37-57",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "141-195",
+    "RoundedTotal": "140-195/about 170",
+    "LegacyOutcomesClosed": 0,
+    "ReasonUnchanged": "Partial package subresults and a failed/timed-out acceptance do not close a whole legacy outcome."
+  }
+}

@@ -14,11 +14,32 @@ It adds a Hash value submenu for files with MD5, SHA1, SHA256, SHA384, SHA512,
 MACTripleDES, RIPEMD160 and Show all. Its commands invoke Windows PowerShell
 through `cmd`, then keep the console open with `Start-Sleep 3600`.
 
-Before implementation, check algorithm availability on the selected PowerShell
-runtime, errors in Show all, filenames containing spaces, apostrophes,
-ampersands, percent signs and Unicode, and submenu behavior on Windows 11.
-Review scope, attribution/reuse terms, repeat apply and exact saved-run restore.
-The attachment is source material, not instructions to execute it.
+The upstream tutorial was updated on 2026-09-25. Its thread documents a
+double-space issue in an earlier command form; the author updated the tutorial.
+A suggested workaround was later reported to fail with apostrophes. The
+retained commands still reconstruct the path from echoed text, and their
+behavior for unusual file names has not been tested through Explorer. Each
+command also holds its console open with `Start-Sleep 3600`.
+A synthetic local probe on Windows PowerShell 5.1 and PowerShell 7 found that
+Windows PowerShell 5.1 accepts all seven listed algorithms, while PowerShell 7
+accepts MD5, SHA1, SHA256, SHA384 and SHA512 but rejects MACTripleDES and
+RIPEMD160. The supplied command invokes `powershell`, which selected Windows
+PowerShell 5.1 in the test environment. The probe passed a synthetic path
+containing double spaces, an apostrophe, ampersand, percent sign and Unicode
+directly to `Get-FileHash -LiteralPath`; it did not test Explorer substitution.
+The original attachment remains unchanged and was not executed. See the
+[dated source review](../../docs/archive/evidence/hash-value-submenu-source-review-2026-10-22.json).
+
+A RIDE-owned candidate now passes the selected path as a literal script
+argument, invokes Windows PowerShell 5.1 to retain all seven algorithms, and
+shows the requested result in one message box rather than leaving a console open.
+Its 17 coordinated registry values register the submenu in the current user's
+`HKCU\Software\Classes` view and capture exact prior state through the existing
+`RegistryValueSet` lifecycle. The operation remains a Windows 11 candidate with
+no supported target until Explorer placement, unusual filenames, repeat apply,
+removal and exact saved-run restore pass on the disposable VM. The local
+PowerShell tests do not exercise Shell substitution or GUI behavior. The
+attachment is source material, not instructions to execute it.
 
 ## Corrected single-command solution
 
@@ -58,6 +79,13 @@ Windows 11 classic/Show more options visibility, the icon resource on the
 target build, actual hashing and unusual filename handling still need
 disposable-VM acceptance. This static verb does not establish native Windows 11
 modern-menu integration or Windows Server support.
+
+The optional catalog candidate `windows.sha256-certutil-context-menu` maps the
+two values to the current user's `HKCU\Software\Classes` view and uses exact
+saved-state capture and restore. It remains unsupported until a disposable
+Windows 11 run checks the icon, menu placement, percent/apostrophe/Unicode
+filenames, repeat apply, unset and exact restoration. The menu candidates are
+separate from each other and from the HashCheck package.
 
 Microsoft documents [static verb registration](https://learn.microsoft.com/en-us/windows/win32/shell/context-menu-handlers)
 and [Certutil hashing](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/certutil#-hashfile).

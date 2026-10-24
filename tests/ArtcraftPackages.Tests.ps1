@@ -22,8 +22,10 @@ BeforeAll {
   $root = Split-Path -Parent $PSScriptRoot
   Import-Module (Join-Path $root 'modules/RIDE.CatalogData.psm1') -Force
   Import-Module (Join-Path $root 'modules/RIDE-Packages.psm1') -Force
+  Import-Module (Join-Path $root 'modules/RIDE.PackageSelection.psm1') -Force
   $catalog = Import-RideCatalogData (Join-Path $root 'catalog/operations.psd1')
   $packages = @($catalog.Operations | Where-Object Category -eq 'Software / Artcraft')
+  $applicationBatchSource = Get-Content (Join-Path $root 'tests/integration/Invoke-RideApplicationBatch.ps1') -Raw
 }
 
 Describe 'Artcraft standalone acquisition' {
@@ -51,11 +53,17 @@ Describe 'Artcraft standalone acquisition' {
     }
   }
 
-  It 'keeps downloads available without claiming untested Windows support' {
+  It 'limits declared support to the Artcraft MSI batches that passed Windows 11 acceptance' {
     foreach ($package in $packages) {
-      $package.PendingAcceptance | Should -BeTrue
-      @($package.SupportedTargets).Count | Should -Be 0
-      $package.CandidateTargets | Should -Contain 'Windows 11'
+      if ($package.MigrationBatch -eq 'ApplicationsBatch6') {
+        $package.PendingAcceptance | Should -BeFalse
+        $package.SupportedTargets | Should -Contain 'Windows 11'
+        @($package.CandidateTargets).Count | Should -Be 0
+      } else {
+        $package.PendingAcceptance | Should -BeTrue
+        @($package.SupportedTargets).Count | Should -Be 0
+        $package.CandidateTargets | Should -Contain 'Windows 11'
+      }
       $package.CandidateTargets | Should -Not -Contain 'Windows Server 2025'
       $package.Actions | Should -Contain 'Download'
       $package.LicenseUri | Should -Match '^https://github.com/storytold/'
@@ -79,5 +87,37 @@ Describe 'Artcraft standalone acquisition' {
       }
     }
     ($packages | Where-Object PackageId -eq 'pdfcraft').InstallerArguments | Should -Match 'ALLUSERS=1'
+  }
+
+  It 'routes the twelve machine apps into ApplicationsBatch6 and the current-user launcher into ApplicationsBatch7' {
+    $selected = @($packages | Where-Object MigrationBatch -eq 'ApplicationsBatch6')
+    $selected.Count | Should -Be 12
+    foreach ($package in $selected) {
+      $package.RequiresAdmin | Should -BeTrue
+      $package.Scope | Should -Be 'Machine'
+      $package.PendingAcceptance | Should -BeFalse
+      $package.SupportedTargets | Should -Contain 'Windows 11'
+      @($package.CandidateTargets).Count | Should -Be 0
+      $resolved = Resolve-RidePackageSelection -Operation $package
+      $resolved.MigrationBatch | Should -Be 'ApplicationsBatch6'
+    }
+    $launcher = $packages | Where-Object PackageId -eq 'artcraft-launcher'
+    $launcher.MigrationBatch | Should -Be 'ApplicationsBatch7'
+    $launcher.Scope | Should -Be 'User'
+    $launcher.RequiresAdmin | Should -BeFalse
+    @($launcher.SupportedTargets).Count | Should -Be 0
+    $launcher.CandidateTargets | Should -Contain 'Windows 11'
+    (Resolve-RidePackageSelection -Operation $launcher).MigrationBatch | Should -Be 'ApplicationsBatch7'
+    @($selected | Where-Object { $_.PendingAcceptance -ne $false }).Count | Should -Be 0
+  }
+
+  It 'seeds and verifies Artcraft user profile data across install, vendor uninstall and recovery' {
+    $applicationBatchSource | Should -Match 'elseif\(\$Batch -eq 6\)'
+    $applicationBatchSource | Should -Match 'elseif\(\$Batch -eq 7\)'
+    $applicationBatchSource | Should -Match 'package\.pdfcraft'
+    $applicationBatchSource | Should -Match 'ProfilePreservationPath=\$profileRoot'
+    $applicationBatchSource | Should -Match 'Installation changed existing profile data'
+    $applicationBatchSource | Should -Match 'Removal changed existing profile data'
+    $applicationBatchSource | Should -Match 'Recovery changed existing profile data'
   }
 }

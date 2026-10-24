@@ -1,0 +1,58 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T06:39:21Z",
+  "RunId": "2e2b9cab185148318a0b29aa690a4501",
+  "IntegrationSuite": "ApplicationsBatch1",
+  "RequestSubmittedAtUtc": "2026-10-24T06:21:06Z",
+  "ObservedState": {
+    "RunningQueueEntryPresent": true,
+    "FinishedQueueEntryPresent": false,
+    "ControllerResultPresent": false,
+    "GuestSummaryPresent": false,
+    "ControllerLogLastWriteLocal": "2026-10-24T08:26:48+02:00",
+    "LastControllerLogLine": "Waiting for completion of the second AutomatedLab command activity on RIDE-Win11-Test.",
+    "Conclusion": "Unresolved. The queue entry and last log do not prove that the runner process is still alive or that the request has terminated."
+  },
+  "ReadOnlyStatusAttempts": [
+    {
+      "Method": "Get-ScheduledTask and Get-ScheduledTaskInfo",
+      "Outcome": "Unavailable",
+      "Reason": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "Method": "Local Task Scheduler COM API",
+      "Outcome": "Denied",
+      "Reason": "Access denied (0x80070005)."
+    },
+    {
+      "Method": "schtasks.exe query",
+      "Outcome": "Unavailable",
+      "Reason": "The network address is invalid."
+    }
+  ],
+  "Actions": {
+    "NewRequestSubmitted": false,
+    "ExistingRequestRestarted": false,
+    "FreshUacRequested": false,
+    "VmStateChanged": false
+  },
+  "NextAction": "Preserve request 2e2b9cab185148318a0b29aa690a4501. Recheck its same result paths and controller logs before submitting any later authorized batch. Defer host-side scheduler/process inspection that requires fresh elevation.",
+  "LegacyOutcomesResolved": [],
+  "LegacyOutcomesRetired": [],
+  "LegacyOutcomesExcluded": [],
+  "LegacyOutcomesDeferred": [
+    "ApplicationsBatch1 Windows 11 acceptance; retry terminal state and guest result are not yet observable."
+  ],
+  "LegacyOutcomesPartial": [],
+  "Estimates": {
+    "Settings": "38-58",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "FilesAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Changed": false,
+    "Reason": "No additional legacy outcome closed; the registered retry has no terminal acceptance evidence."
+  }
+}

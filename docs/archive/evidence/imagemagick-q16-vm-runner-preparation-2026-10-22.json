@@ -1,0 +1,45 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-22",
+  "PackageId": "package.imagemagick-portable-q16",
+  "Batch": "ImageMagick",
+  "Target": "Windows 11 disposable VM",
+  "Archive": {
+    "File": "ImageMagick-7.1.2-34-portable-Q16-x64.7z",
+    "Sha256": "52cc6a441c7884f5ff4274b410c9b90c4b7d54245dcdf4d32988bb4e4df4e5d1"
+  },
+  "Implementation": {
+    "AcceptanceModuleVersion": "0.8.0",
+    "GuestRunnerVersion": "0.5.0",
+    "HostRunnerVersion": "0.5.0",
+    "TaskClientVersion": "1.0.0",
+    "TaskControllerModuleVersion": "1.0.0",
+    "RegistrationVersion": "0.4.0"
+  },
+  "LocalRegression": {
+    "Command": "Invoke-Pester -Path tests/PortableAcceptanceAutomation.Tests.ps1,tests/TestAutomation.Tests.ps1 with TestRegistry disabled",
+    "Passed": 132,
+    "Failed": 0,
+    "Skipped": 2
+  },
+  "ControllerRefresh": {
+    "InstalledControllerModuleVersion": "0.9.0",
+    "InstalledGuestRunnerVersion": "0.4.0",
+    "Result": "NotRefreshed",
+    "Reason": "The attempted registration process failed its administrator check. The current command host does not have an elevated Windows/Hyper-V administrative context."
+  },
+  "VmAcceptance": {
+    "Submitted": false,
+    "VmState": "NotVerified",
+    "Reason": "Protected controller refresh is required before the new ImageMagick suite can be dispatched."
+  },
+  "Disposition": "Keep the package unsupported and pending Windows 11 lifecycle, recovery and synthetic feature acceptance.",
+  "LegacyOutcomeAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "EstimateRangesUnchanged": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170"
+  }
+}

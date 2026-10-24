@@ -1,0 +1,74 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-21",
+  "Scope": "Static publisher-page, version, licensing, process/service-control and external-data risk review of MiTeC Task Manager DeLuxe 5.1.1; no payload executed and no process/service/reputation query performed",
+  "PublisherEvidence": {
+    "ProductPage": {
+      "Uri": "https://www.mitec.cz/wp/tmx/",
+      "Snapshot": ".local/collection-inventory-20261017/mitec-product-tmx.html",
+      "Sha256": "61530125f57df5658e6bbd2a283fc971b439d5ee2d8158fc373a3cffc8fd8523",
+      "Version": "5.1.1, dated 2026-09-08",
+      "PublishedBehavior": "Portable process/service/driver, network, session, startup, hardware and performance monitor. Includes an optional VirusTotal reputation link for processes/services, a session journal, Desktop Explorer and system information. The version history also describes start/stop/restart/terminate controls, optional automatic termination of suspended processes, process minidumps, system-update checks and CSV export of machine journal/user-account data for registered users. Exact external requests/data, dump contents, journal retention and no-install/no-trace behavior are not established here.",
+      "OperatingSystems": "Publisher lists Windows XP-11 and Server 2003-2025; this is not RIDE target acceptance.",
+      "LicensePagePriceObservation": "The product page lists a EUR 30 lifetime single-user license on the review date. The support EULA separately describes non-commercial unregistered use; local entitlement/redistribution are unresolved."
+    },
+    "TermsPage": {
+      "Uri": "https://www.mitec.cz/wp/support/",
+      "Snapshot": ".local/collection-inventory-20261017/mitec-support.html",
+      "Sha256": "00c55ee6e356a5b3422234dc74a92ffef09f83d655d4cd4965dcffbc3f2b066b",
+      "Observation": "Support EULA states trial/unregistered freeware is for non-commercial use and lists named-user/build-machine, team, site and trial licensing. This does not establish owner-specific use or distribution rights."
+    }
+  },
+  "PinnedArtifact": {
+    "Archive": ".local/remaining-collections-20261017/TMX.zip",
+    "DownloadUri": "https://www.mitec.cz/wp/files/TMX.zip",
+    "Length": 16119724,
+    "Sha256": "3dd111519325ecf18ed9202649c4f8740a2c195382cd4337fc701056d2234f3b",
+    "PublisherDigestVerified": false,
+    "Members": [
+      {"Path":"TMX.exe","Length":4417216,"Sha256":"85e820f08ebf3692a3b3144e10083fe3144be24bf1c6bb0ef1db410f412d9213","Architecture":"x86","FileVersion":"5.1.1.0","ProductVersion":"5.0.0.0"},
+      {"Path":"TMX64.exe","Length":6212176,"Sha256":"932f56d8b32f5e8ac0533622702de8cf622a58aa59821a24afc60798f56928a3","Architecture":"x64","FileVersion":"5.1.1.0","ProductVersion":"5.0.0.0"},
+      {"Path":"DeskExp.exe","Length":2737680,"Sha256":"b958eaccfa78bb80a2b59fdfc9da484cefab4bd62eef3938a61e9e1665507bb0","Architecture":"x86","FileVersion":"2.0.0.0","ProductVersion":"2.0.0.0"},
+      {"Path":"DeskExp64.exe","Length":3871824,"Sha256":"d72a929b59ac463e9f78b35425faebfb85309a0691462f94e941cec7fefcd800","Architecture":"x64","FileVersion":"2.0.0.0","ProductVersion":"2.0.0.0"}
+    ],
+    "MemberSetObservation": "Separate x86/x64 TMX and Desktop Explorer executables; no license, README or notice member recorded in the frozen inventory."
+  },
+  "ReviewFindings": [
+    "Frozen archive, page snapshot and four executable member hashes match. TMX files report FileVersion 5.1.1.0 but ProductVersion 5.0.0.0; Desktop Explorer files are separately versioned 2.0.0.0. Preserve these distinctions.",
+    "The published feature set can expose process arguments/details, account names, session history, network connections, hardware identifiers and service state. Process termination, service control and minidump creation can change system state or capture sensitive memory.",
+    "The VirusTotal process/service link, update checks and optional export behavior require separate data-flow review. Do not query VirusTotal or enable/configure any API key in source review; the exact query inputs and outbound requests are unspecified.",
+    "The publisher's no-install/no-traces claim is not verified by the page or archive inventory; actual file, registry, startup, journal and preference persistence remain unknown."
+  ],
+  "SafetyAndAcceptance": {
+    "FrozenArchivePageAndMemberHashesMatch": true,
+    "PayloadExecuted": false,
+    "LiveProcessesOrServicesQueried": false,
+    "ProcessOrServiceChanged": false,
+    "MinidumpCreated": false,
+    "SessionOrAccountDataExported": false,
+    "VirusTotalQueried": false,
+    "NetworkRequestMade": false,
+    "FreshUacPrompts": 0,
+    "VmRuns": 0,
+    "DefenderBlockedToolsTouched": false,
+    "HostOrControllerChanged": false,
+    "DefenderChanged": false
+  },
+  "MigrationDisposition": {
+    "WholeLegacyOutcomesClosed": 0,
+    "RetiredOutcomes": 0,
+    "NewExclusions": 0,
+    "Resolved": "Current version, separate x86/x64 TMX/Desktop Explorer members, published monitoring/control surface, and reputation/export features are recorded.",
+    "Partial": "Local license entitlement, process/service action semantics, dump/journal sensitivity, persistence, VirusTotal/update data flow, component-suite rights, UI and activation remain unverified.",
+    "Deferred": [
+      "Owner-specific use and distribution assessment",
+      "No process termination, service change, live-process minidump, account/session export or VirusTotal/API query",
+      "Any later viewer acceptance must be read-only, use an isolated guest and synthetic data, with exact persistence and cleanup review",
+      "Windows target, UI and activation behavior through an approved guest workflow"
+    ],
+    "EstimateRanges": ["38-58", "56-71", "20-25", "25-35", "8-12"],
+    "ExactTotal": "147-201",
+    "RoundedTotal": "145-200/about 175",
+    "EstimateReason": "Process/service and data-flow effects are better bounded, but license, runtime/recovery behavior and a complete legacy outcome remain open; no estimate deduction is justified."
+  }
+}

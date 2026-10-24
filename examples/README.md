@@ -10,8 +10,8 @@ setting, ZIP/EXE package and a group referencing built-in 7-Zip.
 | [Main library](library/README.md) | Complete manifest, readable catalog and explicit profiles. |
 | [KeePassXC definition](authoring/keepassxc.psd1) | Small MSI helper-input example with an optional product URL omitted. |
 | [Windows 7 Games definition](authoring/windows7-games.psd1) | Small ZIP/EXE helper-input example with archive/member hashes and omitted license URL. |
-| [Certutil definition](authoring/certutil-context-menu.psd1) | Small coordinated-registry helper-input example, HKCR mapping and an unnamed command value. |
-| [Hash context-menu material](hash-context-menu/README.md) | Corrected .reg and preserved upstream attachment for review. |
+| [Certutil definition](authoring/certutil-context-menu.psd1) | Coordinated-registry authoring example for the separate unsupported SHA-256 menu candidate. |
+| [Hash context-menu material](hash-context-menu/README.md) | Preserved upstream attachment and the RIDE-owned, unsupported Windows 11 submenu and Certutil candidates. |
 | [Recovery snapshots](recovery/README.md) | Historical metadata for restoring runs from old examples. |
 
 Authoring definitions are inputs to `New-RideLibrary.ps1`, not catalogs for

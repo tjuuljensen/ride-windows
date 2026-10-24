@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-24T11:01:00Z",
+  "suite": "PSScriptToolsPackage.Tests.ps1",
+  "status": "Passed",
+  "runtime": {
+    "powershell": "7.6.5",
+    "pester": "5.7.1",
+    "testRegistry": "Disabled",
+    "tempRoot": ".local/pester-psscripttools-20261024-1034"
+  },
+  "result": {
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 1741.66,
+    "reviewedFiles": 360,
+    "scenarios": [
+      "Pinned package metadata and notices",
+      "Incomplete module-only archive refusal",
+      "Initial and repeat 360-member source staging",
+      "Unowned analyst output preservation",
+      "Modified managed source refusal and preservation",
+      "Unowned destination collision refusal",
+      "Changed snapshot bytes refusal before removal",
+      "Prior-absence restore preserving unowned content",
+      "Exact 360-member saved-state restore and managed hash/health verification"
+    ]
+  },
+  "boundaries": {
+    "PublisherPayloadExecuted": false,
+    "PackageCodeImported": false,
+    "WindowsStateChanged": false,
+    "VmOrCheckpointChanged": false,
+    "NativeRuntimeOrDependencyAcceptance": false,
+    "WindowsTargetSupportPromoted": false
+  },
+  "initialDefaultTempAttempt": {
+    "passed": 3,
+    "failed": 4,
+    "status": "SupersededByWritableWorkspaceTempRerun",
+    "failure": "Sandbox denied the temporary manifest atomic rename; no package script executed."
+  },
+  "migrationOutcome": {
+    "resolved": ["PSScriptTools local source-file lifecycle regression"],
+    "retired": [],
+    "excluded": [],
+    "partial": ["PSScriptTools package remains pending guest acceptance and runtime/dependency verification"],
+    "deferred": ["Windows 11 package file lifecycle, dependency-present runtime probe, native target acceptance"],
+    "estimateRangesUnchanged": true,
+    "estimates": {
+      "settings": "38-58",
+      "packages": "52-67",
+      "components": "19-24",
+      "deploymentAndOffline": "25-35",
+      "other": "8-12",
+      "exactTotal": "142-196",
+      "roundedTotal": "145-200/about 170"
+    }
+  }
+}

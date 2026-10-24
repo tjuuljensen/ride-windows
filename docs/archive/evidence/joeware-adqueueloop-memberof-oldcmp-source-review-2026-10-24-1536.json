@@ -1,0 +1,39 @@
+{
+  "RecordedAtUtc": "2026-10-24T15:36:00Z",
+  "Batch": "JoeWare AdQueueLoop, MemberOf and OldCmp source review",
+  "Sources": [
+    {
+      "Product": "AdQueueLoop",
+      "PublisherVersionRow": "02.00.00; 2006-03-23",
+      "PublisherUsageIdentity": "V02.00.00cpp; March 2006",
+      "IdentityReconciled": true,
+      "Behavior": "Read-only Active Directory replication queue polling; optional file/CSV output.",
+      "SupportBoundary": "Publisher index lists through Windows 8/Server 2012 era, not Windows 11."
+    },
+    {
+      "Product": "MemberOf",
+      "PublisherVersionRow": "02.03.00; 2006-06-10",
+      "PublisherUsageIdentity": "V02.03.00cpp; June 2006",
+      "IdentityReconciled": true,
+      "Behavior": "Reads group membership for a user, group or computer and separately adds the primary group by default.",
+      "SupportBoundary": "Publisher index lists through Windows 8/Server 2012 era, not Windows 11."
+    },
+    {
+      "Product": "OldCmp",
+      "PublisherVersionRow": "01.05.00; 2004-12-28",
+      "PublisherProductPageIdentity": "1.5.0; December 28, 2004",
+      "IdentityReconciled": true,
+      "Behavior": "Reports, disables, moves or deletes old AD computer/user objects. Delete requires already-disabled objects; default change cap is 10; unsafe and forreal confirmations are required for broad/modifying actions; domain controllers are excluded.",
+      "SupportBoundary": "Publisher product page lists Windows 2000, Server 2003 and XP, not Windows 11."
+    }
+  ],
+  "ArtifactAcquisition": "Not attempted in this batch; exact ZIPs, SHA-256 and member inventories remain open. The prior Unlock acquisition attempt demonstrated local DNS failure before transfer.",
+  "TestBoundary": "No publisher forms submitted, archives downloaded/extracted, executables run, AD contacted, VM used, Defender changed or Windows state modified.",
+  "MigrationDisposition": {
+    "LicenseBlocker": false,
+    "CandidateAdmission": "Deferred pending exact publisher bytes and archive review.",
+    "AcceptanceRequirements": ["Isolated disposable AD only", "AdQueueLoop synthetic replication queue and bounded output fixture", "MemberOf synthetic user/group/computer and primary-group fixture", "OldCmp report-only first; any mutation only against disposable objects with exact restore"],
+    "LegacyOutcomesClosed": 0
+  },
+  "Estimate": { "Settings": "37-57", "Packages": "52-67", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "ExactTotal": "141-195", "RoundedTotal": "140-195/about 170", "Adjustment": "Unchanged; publisher version/behavior observations do not prove artifact identity, lifecycle or runtime acceptance." }
+}

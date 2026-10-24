@@ -1,0 +1,33 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "RecordedAtUtc": "2026-10-23T16:18:42Z",
+  "Batch": "RIDE-Win11-Test read-only acceptance access recheck",
+  "Target": "RIDE-Win11-Test",
+  "Command": "Get-VM -Name RIDE-Win11-Test",
+  "Result": "Blocked before VM or checkpoint inspection: Access to a CIM resource was not available to the client.",
+  "VMState": "Unknown",
+  "CheckpointState": "Unknown",
+  "NoActionsTaken": [
+    "No elevation prompt or RunAs process was started.",
+    "No task was submitted and the protected controller was not refreshed.",
+    "No host service, Defender setting, guest or Windows state was changed."
+  ],
+  "Outcome": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Registered package, settings and component acceptance pending restored non-elevated Hyper-V CIM access and checkpoint inspection."
+    ],
+    "Partial": [
+      "No Windows acceptance result or legacy outcome closed."
+    ]
+  },
+  "Estimates": {
+    "GroupRanges": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged: access recheck closed no legacy outcome."
+  }
+}

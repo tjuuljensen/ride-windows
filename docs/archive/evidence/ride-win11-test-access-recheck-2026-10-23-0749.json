@@ -1,0 +1,23 @@
+{
+  "SchemaVersion": 1,
+  "ObservedAtUtc": "2026-10-23T07:49:44.4418029Z",
+  "Host": "P52",
+  "VmName": "RIDE-Win11-Test",
+  "Operation": "Read-only Get-VM and checkpoint-count query",
+  "Result": "Blocked before checkpoint query",
+  "Error": "Access to a CIM resource was not available to the client.",
+  "VmState": "Unknown",
+  "CheckpointState": "Unknown",
+  "StateChanged": false,
+  "QueueSubmitted": false,
+  "EstimateDisposition": {
+    "GroupRanges": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged; access recheck closed no legacy outcome."
+  },
+  "DeferredAcceptance": [
+    "Sysinternals Suite lifecycle, exact recovery and Windows target acceptance",
+    "Other already prepared disposable-VM batches"
+  ]
+}

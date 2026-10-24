@@ -73,6 +73,14 @@ Describe 'RIDE operation catalog' {
     @($allIds | Select-Object -Unique).Count | Should -Be $allIds.Count
   }
 
+  It 'provides user-facing presentation metadata for every setting and control operation' {
+    $settings = @($script:Catalog.Operations | Where-Object Kind -notin @('Package','StoreApp','Artifact','ProfileSetting'))
+    $settings.Count | Should -Be 281
+    foreach ($operation in $settings) {
+      $operation.ContainsKey('SettingPresentation') | Should -BeTrue -Because $operation.Id
+    }
+  }
+
   It 'uses only registered members in solution groups' {
     $operationIds = @($script:Catalog.Operations.Id)
     foreach ($group in $script:Catalog.Groups) {
@@ -85,7 +93,7 @@ Describe 'RIDE operation catalog' {
   It 'declares support, scope, privilege, actions, and rollback for every operation' {
     foreach ($operation in $script:Catalog.Operations) {
       if ($operation.PendingAcceptance) {
-        $operation.Kind | Should -BeIn @('Package', 'StoreApp', 'ProfileSetting', 'FirewallProfile', 'RegistryValueSet', 'RegistryValue', 'OwnedPowerPlan', 'WindowsService', 'LocalPasswordMaximumAge')
+        $operation.Kind | Should -BeIn @('Package', 'StoreApp', 'ProfileSetting', 'UserPath', 'UserProxy', 'FirewallProfile', 'RegistryValueSet', 'RegistryValue', 'OwnedPowerPlan', 'WindowsService', 'LocalPasswordMaximumAge')
         $operation.SupportedTargets.Count | Should -Be 0
         $operation.CandidateTargets.Count | Should -BeGreaterThan 0
       } else { $operation.SupportedTargets.Count | Should -BeGreaterThan 0 }
@@ -112,10 +120,111 @@ Describe 'RIDE operation catalog' {
       elseif ($operation.Kind -eq 'NetworkProfile') {
         $operation.DocumentationUri | Should -Match '^https://learn\.microsoft\.com/'
       }
+      elseif ($operation.Kind -eq 'UserProxy') {
+        $operation.DocumentationUri | Should -Match '^https://learn\.microsoft\.com/'
+      }
       elseif ($operation.Kind -eq 'Package') {
         $operation.ProductUri | Should -Match '^https://'
       }
     }
+  }
+
+  It 'declares the versioned ImageMagick runtime package prerequisite' {
+    $operation=$script:Catalog.Operations|Where-Object Id -eq 'package.imagemagick-portable-q16'
+    $operation.PrerequisiteSystemFiles|Should -Be @('vcomp140.dll')
+    $operation.SupportedTargets|Should -Be @('Windows 11')
+    $operation.PendingAcceptance|Should -BeFalse
+    $operation.TargetDefaults.'Windows 11'.DefaultValue|Should -Be 'Absent'
+    $operation.Description|Should -Match 'RIDE adds package.vcredist-v14-x64 to the install plan'
+    $operation.Description|Should -Match '14\.50\.35710'
+    $operation.Description|Should -Match 'cannot be applied until that acceptance passes'
+    $operation.PrerequisitePackageId|Should -Be 'package.vcredist-v14-x64'
+  }
+
+  It 'declares the v14 runtime supported on Windows 11 after the focused lifecycle acceptance passed' {
+    $runtime=$script:Catalog.Operations|Where-Object Id -eq 'package.vcredist-v14-x64'
+    $runtime.MigrationBatch|Should -BeExactly 'ApplicationsBatch5'
+    $runtime.CandidateTargets|Should -BeNullOrEmpty
+    $runtime.SupportedTargets|Should -Be @('Windows 11')
+    $runtime.PendingAcceptance|Should -BeFalse
+    $runtime.TargetDefaults.'Windows 11'.DefaultValue|Should -BeExactly 'Absent'
+    $runtime.MinimumInstalledVersion|Should -BeExactly '14.50.35710.0'
+  }
+
+  It 'keeps Docker Desktop a plannable Windows 11 candidate until RIDE lifecycle acceptance passes' {
+    $operation=$script:Catalog.Operations|Where-Object Id -eq 'package.docker-desktop'
+    $operation.PendingAcceptance|Should -BeTrue
+    $operation.SupportedTargets|Should -BeNullOrEmpty
+    $operation.CandidateTargets|Should -Be @('Windows 11')
+    $operation.TargetDefaults|Should -BeNullOrEmpty
+    $plan=@(Get-RideSingleOperationPlan -Id 'package.docker-desktop' -Action Install)
+    $plan.Count|Should -Be 1
+    $plan[0].Operation.PendingAcceptance|Should -BeTrue
+    $plan[0].Operation.CandidateTargets|Should -Be @('Windows 11')
+  }
+
+  It 'pins the selected TMOG free-edition package without declaring unverified Windows support' {
+    $operation=$script:Catalog.Operations|Where-Object Id -eq 'package.tmog'
+    $operation.PackageVersion|Should -BeExactly '1.0.1'
+    $operation.ExpectedSha256|Should -BeExactly 'b4edf70fa040968958c662ffb09feeeb0eeca07759e6ed7742606bcc39f29fc6'
+    $operation.DownloadUri|Should -BeExactly 'https://tmog.org/rtm/downloads/TMOG-Task-Manager-Setup-1.0.1-0-x64-b4edf70fa040.exe'
+    $operation.SupportedTargets|Should -BeNullOrEmpty
+    $operation.CandidateTargets|Should -Be @('Windows 11')
+    $operation.PendingAcceptance|Should -BeTrue
+    $operation.MigrationBatch|Should -BeExactly 'ApplicationsBatch1'
+    $operation.License|Should -Match 'release-candidate document'
+    $plan=@(Get-RideSingleOperationPlan -Id 'package.tmog' -Action Install)
+    $plan.Count|Should -Be 1
+    $plan[0].Operation.PendingAcceptance|Should -BeTrue
+    $plan[0].Operation.SupportedTargets|Should -BeNullOrEmpty
+  }
+
+  It 'models the Python manager no-implicit-install policy as an exact user environment setting candidate' {
+    $operation=$script:Catalog.Operations|Where-Object Id -eq 'windows.python-manager-automatic-install'
+    $operation.Kind|Should -BeExactly 'RegistryValue'
+    $operation.RegistryPath|Should -BeExactly 'HKCU:\Environment'
+    $operation.ValueName|Should -BeExactly 'PYTHON_MANAGER_AUTOMATIC_INSTALL'
+    $operation.ValueType|Should -BeExactly 'String'
+    $operation.States.Disabled|Should -BeExactly 'false'
+    $operation.States.WindowsDefault|Should -BeNullOrEmpty
+    $operation.BaselineState|Should -BeExactly 'WindowsDefault'
+    $operation.Scope|Should -BeExactly 'User'
+    $operation.RequiresAdmin|Should -BeFalse
+    $operation.SupportedTargets|Should -BeNullOrEmpty
+    $operation.CandidateTargets|Should -Be @('Windows 11','Windows Server 2025')
+    $operation.PendingAcceptance|Should -BeTrue
+    $operation.Rollback|Should -BeExactly 'Exact'
+    $operation.Description|Should -Match 'Explicit py install commands remain available'
+    $operation.Description|Should -Match 'Existing processes may retain stale environment data'
+    $plan=@(Get-RideSingleOperationPlan -Id $operation.Id -Action Set -State Disabled)
+    $plan.Count|Should -Be 1
+    $plan[0].Operation.PendingAcceptance|Should -BeTrue
+    $plan[0].State|Should -BeExactly 'Disabled'
+  }
+
+  It 'models Click to Do policy availability with exact user-scope recovery and pending target acceptance' {
+    $operation=$script:Catalog.Operations|Where-Object Id -eq 'windows.click-to-do-policy'
+    $operation.Kind|Should -BeExactly 'RegistryValue'
+    $operation.RegistryPath|Should -BeExactly 'HKCU:\SOFTWARE\Policies\Microsoft\Windows\WindowsAI'
+    $operation.ValueName|Should -BeExactly 'DisableClickToDo'
+    $operation.ValueType|Should -BeExactly 'DWord'
+    $operation.Scope|Should -BeExactly 'User'
+    $operation.RequiresAdmin|Should -BeFalse
+    $operation.States.Blocked|Should -Be 1
+    $operation.States.Allowed|Should -Be 0
+    $operation.States.WindowsDefault|Should -BeNullOrEmpty
+    $operation.BaselineState|Should -BeExactly 'WindowsDefault'
+    $operation.Rollback|Should -BeExactly 'Exact'
+    $operation.SupportedTargets|Should -BeNullOrEmpty
+    $operation.CandidateTargets|Should -Be @('Windows 11')
+    $operation.PendingAcceptance|Should -BeTrue
+    $operation.Description|Should -Match 'does not force the user''s own Click to Do Settings toggle on'
+    $operation.Description|Should -Match 'independent of Recall and other Copilot features'
+    $operation.Description|Should -Match 'ordinary Windows 11 policy behavior and the visible effect remain pending acceptance'
+    $plan=@(Get-RideSingleOperationPlan -Id $operation.Id -Action Set -State Blocked)
+    $plan.Count|Should -Be 1
+    $plan[0].Operation.PendingAcceptance|Should -BeTrue
+    $plan[0].State|Should -BeExactly 'Blocked'
   }
 
   It 'publishes license references without individual or company review decisions' {
@@ -547,6 +656,86 @@ Describe 'RIDE profile planning' {
     $longPaths = $script:Catalog.Operations | Where-Object Id -eq 'windows.long-paths-policy'
     $longPaths.States.Enabled | Should -Be 1
     $longPaths.States.Disabled | Should -Be 0
+  }
+
+  It 'plans default/LAN automatic proxy detection as an independent pending user setting' {
+    $operation = Get-RideOperation -Id 'windows.proxy-auto-detect'
+    $operation.Kind | Should -Be 'UserProxy'
+    $operation.Handler | Should -Be 'UserProxy'
+    $operation.Scope | Should -Be 'User'
+    $operation.SupportedTargets | Should -BeNullOrEmpty
+    $operation.CandidateTargets | Should -Contain 'Windows 11'
+    $operation.PendingAcceptance | Should -BeTrue
+    $operation.States.Enabled | Should -Be 'Enabled'
+    $operation.States.Disabled | Should -Be 'Disabled'
+    $enabled = @(Get-RideSingleOperationPlan -Id $operation.Id -Action Set -State Enabled)
+    $disabled = @(Get-RideSingleOperationPlan -Id $operation.Id -Action Set -State Disabled)
+    $enabled[0].State | Should -Be 'Enabled'
+    $disabled[0].State | Should -Be 'Disabled'
+    { Get-RideSingleOperationPlan -Id $operation.Id -Action Set -State Invalid } | Should -Throw
+    InModuleScope RIDE.Engine {
+      Mock Get-RidePlatform { 'Windows 11' }
+      Mock Get-RideUserProxyCurrentState { throw 'The unsupported candidate must not query WinINet during apply preflight.' }
+      $plan=@(Get-RideSingleOperationPlan -Id 'windows.proxy-auto-detect' -Action Set -State Disabled)
+      { Invoke-RidePlan -Plan $plan -WhatIf } | Should -Throw '*does not support Windows 11*'
+      Should -Invoke Get-RideUserProxyCurrentState -Exactly 0
+    }
+  }
+
+  It 'routes proxy status through the read-only inventory and reports the observed flag state' {
+    InModuleScope RIDE.Engine {
+      $observation=[pscustomobject]@{AutoDetectFlag=$true;FlagsSource='FlagsUi'}
+      Mock Get-RideUserProxyCurrentState { [pscustomobject]@{Available=$true;Observation=$observation;Identity=[pscustomobject]@{ComputerName='TEST';UserSid='S-1-5-21-1-2-3-1001';SessionId=1}} }
+      $operation=Get-RideOperation -Id 'windows.proxy-auto-detect'
+      $current=Get-RideCurrentState -Operation $operation
+      $current.Available | Should -BeTrue
+      Get-RideCurrentStateName -Operation $operation -CurrentState $current | Should -Be 'Enabled'
+      Get-RideCurrentValueText -Operation $operation -CurrentState $current | Should -Be 'Default/LAN automatic detection: Enabled; FlagsUi'
+      Test-RideCurrentStateMatch -Operation $operation -State Enabled -CurrentState $current | Should -BeTrue
+      Test-RideCurrentStateMatch -Operation $operation -State Disabled -CurrentState $current | Should -BeFalse
+      Should -Invoke Get-RideUserProxyCurrentState -Exactly 1
+    }
+  }
+
+  It 'captures the automatic-detection edit and machine/user/session identity in saved state' {
+    InModuleScope RIDE.Engine {
+      Mock Initialize-RideStateRoot { $TestDrive }
+      Mock New-RideUserProxyConfigurationPatch { [pscustomobject]@{Snapshot=[pscustomobject]@{SchemaVersion=1;Kind='UserProxyPreparationSnapshot';OwnedFlagMask=8}} }
+      $operation=Get-RideOperation -Id 'windows.proxy-auto-detect'
+      $observation=[pscustomobject]@{ComputerName='TEST';UserSid='S-1-5-21-1-2-3-1001';SessionId=1;Flags=[uint32]8;AutoDetectFlag=$true}
+      $current=[pscustomobject]@{Available=$true;Observation=$observation;Identity=[pscustomobject]@{ComputerName='TEST';UserSid='S-1-5-21-1-2-3-1001';SessionId=1}}
+      Save-RideOperationSnapshot -RunId 'proxy-run' -Operation $operation -CurrentState $current -DesiredState Disabled
+      $path=Join-Path (Join-Path $TestDrive 'proxy-run') 'windows.proxy-auto-detect.json'
+      $record=Get-Content -LiteralPath $path -Raw | ConvertFrom-Json
+      $record.Snapshot.OperationId | Should -Be 'windows.proxy-auto-detect'
+      $record.Snapshot.ProxySnapshot.OwnedFlagMask | Should -Be 8
+      $record.Snapshot.ComputerName | Should -Be 'TEST'
+      $record.Snapshot.UserSid | Should -Be 'S-1-5-21-1-2-3-1001'
+      $record.Snapshot.SessionId | Should -Be 1
+      Should -Invoke New-RideUserProxyConfigurationPatch -Exactly 1 -ParameterFilter { $AutomaticDetection -eq 'Disabled' -and $SetupScript -eq 'Unchanged' }
+    }
+  }
+
+  It 'uses one engine RunId for the proxy lifecycle snapshot and saved run' {
+    InModuleScope RIDE.Engine {
+      Mock Assert-RidePlanAllowed {}
+      Mock Initialize-RideStateRoot { $TestDrive }
+      Mock New-RideUserProxyConfigurationPatch {
+        [pscustomobject]@{ChangeRequired=$true;DesiredValues=[pscustomobject]@{Flags=[uint32]7;AutoConfigUrl=$null};Snapshot=[pscustomobject]@{SchemaVersion=1;Kind='UserProxyPreparationSnapshot';Original=$Observation}}
+      }
+      Mock Get-RideCurrentState {
+        $observation=[pscustomobject]@{ComputerName='TEST';UserSid='S-1-5-21-1-2-3-1001';SessionId=1;Flags=[uint32]15;AutoDetectFlag=$true;ProxyServer=$null;ProxyBypass=$null;AutoConfigUrl=$null;FlagsSource='FlagsUi'}
+        [pscustomobject]@{Available=$true;Observation=$observation;Identity=[pscustomobject]@{ComputerName='TEST';UserSid='S-1-5-21-1-2-3-1001';SessionId=1}}
+      }
+      Mock Set-RideUserProxyConfigurationPatch { $script:ForwardedProxyRunId=$RunId; [pscustomobject]@{Status='Applied';ReadbackMatched=$true} }
+      $operation=Get-RideOperation -Id 'windows.proxy-auto-detect'
+      $plan=@([pscustomobject]@{Operation=$operation;State='Disabled'})
+      $output=@(Invoke-RidePlan -Plan $plan -Confirm:$false)
+      $engineRunId=[regex]::Match(($output -join "`n"),'Run ID: ([0-9a-f]{32})').Groups[1].Value
+      $engineRunId | Should -Match '^[0-9a-f]{32}$'
+      $script:ForwardedProxyRunId | Should -BeExactly $engineRunId
+      Should -Invoke Set-RideUserProxyConfigurationPatch -Exactly 1 -ParameterFilter { $RunId -eq $engineRunId }
+    }
   }
 
   It 'maps the first UI Tweaks batch to reversible registry states in the default profile' {

@@ -1,0 +1,87 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-22",
+  "PackageId": "package.mitec-uuid-generator",
+  "PublisherEvidence": {
+    "ProductUri": "https://www.mitec.cz/wp/uuid/",
+    "DownloadUri": "https://www.mitec.cz/wp/files/UUID.zip",
+    "PublisherVersion": "1.0.0, dated 2025-12-30",
+    "PublisherLicenseStatement": "Freeware for private, educational and non-commercial purposes",
+    "GeneralTermsUri": "https://www.mitec.cz/wp/support/",
+    "TermsConflict": "The general support EULA separately describes unregistered freeware as non-commercial and lists named-user/build-machine, team, site and trial licensing. Local entitlement and redistribution remain unresolved."
+  },
+  "VerifiedRetainedArtifact": {
+    "Path": ".local/remaining-collections-20261017/UUID.zip",
+    "Length": 1615754,
+    "Sha256": "0795838486e6a0ce15edeaeaeed978e09d510ffa9478f9f040122a4583914c80",
+    "PublisherDigestVerified": false,
+    "Members": [
+      {
+        "Path": "UUID.exe",
+        "Length": 3959880,
+        "Sha256": "36508b19dec5f4ff521322ddffc278e1cbba69f75d733eb1fcee1ba94ab6137f",
+        "Architecture": "x86",
+        "FileVersion": "1.0.0.0",
+        "ProductVersion": "1.0.0.0"
+      }
+    ],
+    "Verification": "Retained archive SHA-256, length, member path, length and SHA-256 were rechecked by hashing the member stream directly; no member was extracted."
+  },
+  "CatalogDisposition": {
+    "SupportedTargets": [],
+    "CandidateTargets": ["Windows 11"],
+    "PendingAcceptance": true,
+    "SelectedMembers": ["UUID.exe"],
+    "DefaultPathChange": false,
+    "RepositoryValidation": {
+      "Operations": 366,
+      "Groups": 8,
+      "Profiles": 5,
+      "PowerShellFiles": 237,
+      "Packages": 64,
+      "PendingPackages": 37
+    },
+    "PackageCountAfterAddition": 64,
+    "PendingPackageCountAfterAddition": 37
+  },
+  "LocalLicenseReview": {
+    "Store": ".local/license-reviews.json",
+    "ReviewedVersion": "1.0.0",
+    "ReviewOwner": "Unassigned",
+    "LicenseReviewStatus": "NeedsReview",
+    "DistributionPermissionInferred": false
+  },
+  "AcceptanceBoundary": {
+    "PayloadExtracted": false,
+    "PayloadExecuted": false,
+    "LiveHostIdentifiersQueried": false,
+    "IdentifiersCapturedLoggedOrExported": false,
+    "FreshUacPrompts": 0,
+    "VmRuns": 0,
+    "DefenderBlockedToolsTouched": false,
+    "HostOrControllerChanged": false,
+    "DefenderChanged": false,
+    "FocusedPester": {
+      "WindowsPowerShell51": "2/2 passed",
+      "PowerShell7": "2/2 passed",
+      "TestRegistryPlugin": "Disabled because sandbox registry access is unavailable",
+      "FixtureCorrection": "Moved atomic-manifest fixture from Pester TestDrive to a GUID-scoped workspace-local .local directory after sandbox temp rename denial."
+    },
+    "Deferred": [
+      "Synthetic UUID v4/v7, ULID and Snowflake generation and decoder checks only",
+      "Privacy-safe window/output acceptance with no live UEFI, SMBIOS, machine or device identifier capture",
+      "Windows 11 target and activation behavior on a registered disposable guest",
+      "Intended-user entitlement and redistribution review for exact version 1.0.0"
+    ]
+  },
+  "LegacyOutcomeAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["MiTeC UUID Generator candidate package preparation"],
+    "EstimateRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactTotal": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateReason": "One catalog candidate advances package implementation, but no runtime behavior or whole legacy outcome is closed; the existing in-scope outcome remains counted."
+  }
+}

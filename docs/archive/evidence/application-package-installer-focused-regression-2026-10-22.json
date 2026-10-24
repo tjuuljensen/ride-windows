@@ -1,0 +1,48 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-22",
+  "Batch": "Application package and installer-inspection local regression",
+  "Runtime": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "TempRoot": ".local/pester-temp-package-tests"
+  },
+  "Tests": {
+    "Files": [
+      "tests/ApplicationPackages.Tests.ps1",
+      "tests/InstallerInspection.Tests.ps1"
+    ],
+    "Discovered": 99,
+    "Passed": 99,
+    "Failed": 0,
+    "Skipped": 0
+  },
+  "SetupFailures": [
+    "Initial Pester run failed because the optional TestRegistry fixture could not create its HKCU key under the sandbox.",
+    "A follow-up with TestRegistry disabled still hit denied moves when portable-manifest temporary files were placed under the OS temp directory. TEMP/TMP were then redirected under the workspace-local .local directory and the controlled rerun passed."
+  ],
+  "LiveActions": {
+    "InstallerExecuted": false,
+    "WindowsStateChanged": false,
+    "VmRun": false,
+    "Uac": false
+  },
+  "Outcomes": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": [
+      "Application package and installer-inspection local regression"
+    ],
+    "Deferred": [
+      "Native package activation, package-specific recovery and VM acceptance not represented by these unit suites"
+    ]
+  },
+  "Estimates": {
+    "Groups": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactTotal": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged; no legacy product outcome closed."
+  }
+}

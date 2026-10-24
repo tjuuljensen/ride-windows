@@ -1,0 +1,69 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "RecordedAtUtc": "2026-10-23T18:15:18Z",
+  "Batch": "Current catalog NeedsReview package-plan regression",
+  "Catalog": {
+    "Operations": 405,
+    "Groups": 8,
+    "Packages": 96,
+    "PendingAcceptancePackages": 66
+  },
+  "Tests": {
+    "File": "tests/LicenseReviews.Tests.ps1",
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistry": "Disabled",
+    "Discovered": 21,
+    "Passed": 21,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "DurationSeconds": 71.49,
+    "PendingPackageCoverage": 66,
+    "InstallPlansAvailable": 66,
+    "DesiredState": "Present",
+    "PendingAcceptancePreserved": true
+  },
+  "WindowsPowerShell51": {
+    "Version": "5.1.26100.9711",
+    "ParserErrors": 0,
+    "PesterRuntime": "Not run; Pester 5.7.1 import remains blocked by host AuthorizationManager."
+  },
+  "Disposition": {
+    "LicenseReview": "NeedsReview is tested as informational local metadata. Synthetic test records do not represent or replace owner-specific license decisions.",
+    "TechnicalAcceptance": "PendingAcceptance remains true for each package; install plans do not assert installability or target acceptance.",
+    "Resolved": [
+      "Current catalog-wide pending package install planning remains available with synthetic version-matched NeedsReview records."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Package source, install, repeat, uninstall, exact recovery, feature behavior and supported-target acceptance remain per package.",
+      "Fresh read-only Get-VM checks for RIDE-Win11-Test and RIDE-Srv2025Test failed at CIM before checkpoint inspection."
+    ],
+    "Partial": [
+      "No whole legacy package outcome closes in this planning-only run."
+    ]
+  },
+  "Estimate": {
+    "GroupRanges": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged because plan availability is not package lifecycle or legacy outcome acceptance."
+  },
+  "Boundaries": {
+    "PackageDownloaded": false,
+    "InstallerExecuted": false,
+    "VmUsed": false,
+    "DefenderChanged": false,
+    "WindowsStateChanged": false
+  },
+  "VmAccess": {
+    "CheckedAtUtc": "2026-10-23T18:15:18Z",
+    "Queries": [
+      {"Name":"RIDE-Win11-Test","Result":"Access to a CIM resource was not available to the client.","CheckpointInspected":false},
+      {"Name":"RIDE-Srv2025Test","Result":"Access to a CIM resource was not available to the client.","CheckpointInspected":false}
+    ]
+  }
+}

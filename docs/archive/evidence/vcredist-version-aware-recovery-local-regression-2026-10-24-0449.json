@@ -1,0 +1,58 @@
+{
+  "RecordedAtUtc": "2026-10-24T04:49:00Z",
+  "Changes": [
+    "Package inspection now reports an installed shared runtime below MinimumInstalledVersion as Present=false while retaining its detected registration metadata and version.",
+    "Recovery retains a newer shared runtime when the captured prior registration was below the required minimum; exact downgrade is unavailable and an operator warning explains the partial compensation."
+  ],
+  "FocusedTests": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistry": "Disabled",
+    "Passed": 2,
+    "Failed": 0,
+    "Tests": [
+      "reports an installed but outdated minimum-version runtime without treating it as absent",
+      "retains an upgraded shared runtime when the captured prior version is below the required minimum"
+    ]
+  },
+  "RepositoryValidation": {
+    "Passed": true,
+    "Operations": 407,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 266
+  },
+  "WindowsPowerShell51Parse": {
+    "Passed": true,
+    "Files": [
+      "modules/RIDE-Packages.psm1",
+      "modules/RIDE.Engine.psm1",
+      "tests/PackageEvidence.Tests.ps1",
+      "tests/ApplicationPackages.Tests.ps1"
+    ]
+  },
+  "BroaderAttempt": "A 130-test discovery across PackageEvidence and ApplicationPackages was interrupted after unrelated portable-package fixtures encountered sandbox-denied moves under AppContainer temporary directories. It produced no aggregate pass count. The two focused tests above were rerun and passed.",
+  "RuntimeAndVM": "No installer, package, VM, checkpoint, Defender setting, or Windows state was changed or accessed.",
+  "MigrationDisposition": {
+    "Resolved": "Version-aware observation and safe compensation for the outdated shared-runtime case.",
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Catalog-driven prerequisite expansion and dependency ordering",
+      "Package removal guard for shared prerequisites",
+      "RIDE-managed Visual C++ v14 package lifecycle and exact acceptance on Windows 11",
+      "Windows Server support acceptance"
+    ],
+    "Partial": "No package or legacy outcome closed; this is a prerequisite safety implementation step."
+  },
+  "Estimates": {
+    "Settings": "38-58",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Reason": "Ranges remain unchanged because no legacy package outcome has yet completed migration or acceptance."
+  }
+}

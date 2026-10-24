@@ -1,13 +1,15 @@
 # Application review rounds, 2026-10-12
 
-Current disposition update, 2026-10-17: Q17 and Q20 explicitly retire planned
-Volatility 2 and ImproHound deployment, leaving existing installations/data alone.
-This dated map retains all 79 original outcomes for traceability; 77 remain pending
-or partial. See the [current ledger and estimate reconciliation](application-migration-review.md#accepted-volatility-2-and-improhound-retirements-2026-10-17).
+Current disposition update, 2026-10-24: Q17 and Q20 retired planned Volatility 2
+and ImproHound deployment, and the user later retired ShimCacheParser from v3,
+leaving existing installations/data alone. This dated map retains all 79
+original outcomes for traceability; three are retired and 76 remain pending or
+partial. See the [current ledger](application-migration-review.md) and the
+[latest scope decision](decision-session-2026-10-17.md#exiftool-zimmerman-hasher-and-shimcacheparser-decisions-2026-10-24).
 Earlier unanswered/retirement-review wording below is historical, not a request
 to reconsider these accepted dispositions.
 
-This is a decision map for the 79 unresolved outcomes in the
+This is a decision map for the original 79 outcomes in the
 [application review ledger](application-migration-review.md), not an approved
 installation batch. The 29 accepted outcomes (ten earlier, nineteen newly
 accepted) and Opera's user-policy exclusion remain unchanged. No installer,
@@ -146,9 +148,9 @@ separate workflow.
 The [publisher guide](https://docs.python.org/3/using/windows.html#installation)
 warns that existing Python installations/PATH can affect commands; manager app
 updates, runtime installation/update behavior and pip maintenance are separate.
-The manager's automatic missing-runtime acquisition and its own update delivery
-remain additional unresolved choices. No blanket automatic-update policy follows
-from choosing the manager as the default variant.
+The user later selected explicit RIDE-controlled manager updates and disabled
+the manager's built-in automatic self-update (2026-10-24); this is separate from
+runtime acquisition and interpreter updates. See the dated decision ledger.
 
 ## R03 preparation review, 2026-10-12
 
@@ -165,7 +167,7 @@ open choices remain separate review items.
 | SharpHound / AzureHound | Keep both optional tools; match versions to the selected backend | Exact stable distributions, compatibility, scope/destination, licenses/notices and saved-selection lifecycle; no collection or service setup |
 | ImproHound | Review for retirement | Historical tiering-analysis needs, current-stack compatibility or explicit replacement/retirement decision; not retired yet |
 | Microsoft OpenJDK / Neo4j/APOC | No standalone-product decision confirmed | Determine independently useful deployments before choosing Java majors, server/plugin versions and environment/service behavior |
-| RSAT / ADReplStatus / PingCastle | Existing individual review retained | Exact component set/applicability, licensed binary/build or edition, runtime and applicable domain/lab acceptance |
+| RSAT / ADReplStatus / PingCastle | RSAT remains a Windows component; PingCastle selected as optional v3 tool on 2026-10-24; ADReplStatus explicitly deferred by user on 2026-10-24 | RSAT capability applicability; PingCastle current license/source/version and domain/lab acceptance; ADReplStatus requires an authorized compatible distribution before reconsideration |
 
 The [current CE quickstart](https://bloodhound.specterops.io/get-started/quickstart/community-edition-quickstart)
 uses a container backend and browser UI. The [Docker Windows requirements](https://docs.docker.com/desktop/setup/install/windows-install/)
@@ -230,7 +232,7 @@ added to their ranges.
 | R10 | Hashcat CLI with optional compatible launcher; GPU vendor coverage explicit and drivers separate. | Pinned artifacts, launcher compatibility and hardware/runtime evidence. |
 | R11 | RIDE owns configuration; LoggingBaseline observes only; Sysmon acquisition/application separate; browser fields and enforced policies distinct. | Desired-reference export is source-ready; real configuration ownership, mappings, recovery and native effects remain. |
 | R12 | FTK then KAPE; pinned KAPE definitions; four CCleaner-family products, TMOG, PST/OST viewers and WinHex individually selected. Shared-installer rule supersedes entitlement-only variant/tier gates. | FTK CodeMeter/driver acceptance, KAPE agreement/artifacts, exact edition artifact differences, shared OCX ownership and settings/activation preservation. Optional activation is not a blanket installation prerequisite. |
-| R13 | Retain all eleven historical products individually; defer unverified tools without substitution. | RegRipper 3.0, Hex2text and ChromeSyncParser have source candidates; ShimCacheParser has a Python 2 blocker. Remaining provenance, formats, dependencies and native/parser correctness need evidence. |
+| R13 | Retain the historical products individually except ShimCacheParser, retired from v3 on 2026-10-24; defer unverified tools without substitution. | RegRipper 3.0, Hex2text and ChromeSyncParser have source candidates. Remaining provenance, formats, dependencies and native/parser correctness need evidence. |
 
 The final [updater review](decision-session-2026-10-17.md#artifact-compatibility-and-updater-review-continuation-2026-10-17)
 found no new user decision. Its nine bounded fixtures are source-review evidence,
@@ -391,7 +393,7 @@ publisher evidence or blockers. Components of legacy bundles remain separate.
 | R13 | 2 | `InstallAutorunner`, `RemoveAutorunner` |
 | R13 | 2 | `GetChromeParser`, `RemoveChromeParser` |
 | R13 | 2 | `GetHex2text`, `RemoveHex2text` |
-| R13 | 2 | `GetShimCacheParser`, `RemoveShimCacheParser` |
+| R13 | 2 | `GetShimCacheParser`, `RemoveShimCacheParser` (retired from v3, 2026-10-24) |
 | R13 | 2 | `InstallSSView`, `RemoveSSView` |
 | R13 | 2 | `InstallThumbcacheviewer`, `RemoveThumbcacheviewer` |
 | R13 | 2 | `InstallSuperFetchTools2`, `RemoveSuperFetchTools2` |
@@ -399,11 +401,16 @@ publisher evidence or blockers. Components of legacy bundles remain separate.
 | R13 | 2 | `InstallThumbsviewer`, `RemoveThumbsviewer` |
 | R13 | 2 | `InstallRegRipper`, `RemoveRegRipper` |
 
-Coverage: 79 unresolved outcomes, each assigned once across 13 primary groups.
-All remain pending implementation/acceptance or individual review. This review
-resolves no legacy outcome, retires/excludes none, and changes no support claim.
-R01 choices cover four legacy outcomes, R02 three (Python and Volatility 2/3), and
-R03 four (BloodHound, two collectors and ImproHound). All eleven retain technical
-acceptance or final disposition work. Global estimates remain 38-58 settings, 58-73 packages/artifacts,
-20-25 components, 25-35 accounts/assets and 8-12 maintenance actions, rounded
-150-205 / about 180; see the dated planning entry.
+Coverage: 79 original outcomes, each assigned once across 13 primary groups.
+Three are now retired from v3 and 76 remain pending implementation/acceptance or
+individual review. The ShimCacheParser retirement closes one legacy package
+outcome without changing its historical selector mapping or claiming a parser
+replacement. No support claim is added.
+R01 choices cover four original legacy outcomes, R02 three (Python and Volatility
+2/3), and R03 four (BloodHound, two collectors and ImproHound). The later
+Volatility 2, ImproHound and ShimCacheParser decisions retire three outcomes;
+remaining items retain technical acceptance or final disposition work. Current
+estimates are 37-57 settings,
+50-65 packages/artifacts, 19-24 components, 25-35 accounts/assets and 8-12
+maintenance actions, rounded 140-195 / about 170 (exact 139-193); see the
+[migration plan](../MIGRATION-PLAN.md).

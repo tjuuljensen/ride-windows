@@ -1,0 +1,51 @@
+{
+  "Date": "2026-10-22",
+  "Batch": "B06 client component local regression",
+  "Scope": [
+    "tests/ComponentInventory.Tests.ps1",
+    "tests/ClientComponentPreparation.Tests.ps1"
+  ],
+  "Results": [
+    {
+      "PowerShell": "5.1.26100.9711",
+      "Passed": 49,
+      "Failed": 0,
+      "Skipped": 0
+    },
+    {
+      "PowerShell": "7.6.5",
+      "Passed": 49,
+      "Failed": 0,
+      "Skipped": 0
+    }
+  ],
+  "TestRegistryPlugin": "Disabled",
+  "LiveActions": {
+    "Dism": false,
+    "ServicingSourceInspection": false,
+    "Elevation": false,
+    "NetworkPolicyChange": false,
+    "VmRun": false,
+    "ComponentMutation": false,
+    "Reboot": false
+  },
+  "Outcomes": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": [
+      "B06 OpenSSH Client and Telnet Client implementation"
+    ],
+    "Deferred": [
+      "Source completeness and no-network enforcement",
+      "Dependencies, pending reboot, durable prior-state capture and exact component recovery",
+      "Native Windows target and consumer acceptance"
+    ]
+  },
+  "Estimates": {
+    "Groups": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactTotal": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged; this was a local regression run only."
+  }
+}

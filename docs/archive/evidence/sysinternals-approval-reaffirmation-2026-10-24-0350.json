@@ -1,0 +1,18 @@
+{
+  "RecordedAtUtc": "2026-10-24T03:50:00Z",
+  "Decision": "The prior RIDE v2 license-specialist review approved Sysinternals for RIDE's direct download-and-install workflow.",
+  "UserReaffirmation": "RIDE does not transfer or publish Sysinternals. There are no legal issues using Sysinternals in RIDE. Do not use strict generalized redistribution reasoning to block package migration.",
+  "Disposition": {
+    "LicenseMigrationBlocker": false,
+    "AdditionalLicenseReviewGate": false,
+    "RemainingGates": [
+      "Technical lifecycle and exact recovery",
+      "Windows target acceptance when VM access is available"
+    ]
+  },
+  "SeparateSecurityDisposition": {
+    "DefenderDetectedToolsRemainExcluded": true,
+    "LicenseDecisionDoesNotChangeSecurityExclusions": true
+  },
+  "EstimateImpact": "No legacy outcome closed; all five migration ranges remain unchanged."
+}

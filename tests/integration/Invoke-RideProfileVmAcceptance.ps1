@@ -16,8 +16,9 @@
   Optional publisher acquisition JSON containing a local Path, official release Uri
   and Sha256. Verified Microsoft-signed MSI is staged only as a guest prerequisite.
 .PARAMETER Scenario
-  Colors (default) or UserBinPath. UserBinPath requires both runtimes already
-  installed and does not install prerequisites or change guest UAC.
+  Colors (default) or UserBinPath. UserBinPath may use a verified local
+  PowerShellArtifactPath to install PowerShell 7 inside the disposable guest;
+  it does not change guest UAC or acquire anything over the network.
 .PARAMETER Version
   Print the version without accessing a VM.
 .EXAMPLE
@@ -44,7 +45,6 @@ $script:ScriptVersion = '0.2.0'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 if (-not $ConfigurationPath -or -not $Credential -or -not $OutputDirectory) { throw 'ConfigurationPath, Credential and OutputDirectory are required.' }
-if ($Scenario -eq 'UserBinPath' -and $PowerShellArtifactPath) { throw 'UserBinPath requires installed runtimes; prerequisite installation is outside this scenario.' }
 Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -Force
 $config = Read-RideAutomationConfiguration $ConfigurationPath
 $artifact = $null

@@ -1,0 +1,83 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "StaticSourceDependencyReview",
+  "ObservedAtUtc": "2026-10-22T12:06:44.686842Z",
+  "Product": "PSScriptTools",
+  "Version": "3.2.0",
+  "Revision": "549fa3e3d769532320054fc0b3c8f42df0452361",
+  "SourceUri": "https://github.com/jdhitsolutions/PSScriptTools/archive/549fa3e3d769532320054fc0b3c8f42df0452361.zip",
+  "Sha256": "05c86295a0846ae4f51ecfa6f38ef71ba8173be83eb0adc8627525a4c6ee72bd",
+  "ArchiveEntries": 374,
+  "SourceFiles": 360,
+  "FunctionFiles": 75,
+  "ArchiveReadOnly": true,
+  "Extracted": false,
+  "Imported": false,
+  "Executed": false,
+  "ManifestRequirements": {
+    "PowerShellVersion": "5.1",
+    "CompatiblePSEditions": [
+      "Desktop",
+      "Core"
+    ],
+    "RequiredModules": [
+      "Microsoft.PowerShell.Threadjob"
+    ],
+    "RequiredAssemblies": [
+      "System.Drawing"
+    ]
+  },
+  "StaticReferences": {
+    "ThreadJob": [
+      {
+        "Line": 505,
+        "File": "functions/CimMember.ps1",
+        "Command": "Start-ThreadJob"
+      },
+      {
+        "Line": 353,
+        "File": "functions/Utilities.ps1",
+        "Command": "Start-ThreadJob"
+      }
+    ],
+    "SystemDrawing": [
+      {
+        "Line": 26,
+        "Reference": "System.Drawing.ColorTranslator",
+        "File": "functions/Convert-HTMLtoANSI.ps1"
+      }
+    ]
+  },
+  "ModuleInitialization": {
+    "DotSourcesFunctions": true,
+    "LoadsTypesAndFormatsFromManifest": true,
+    "SetsGlobalVariables": [
+      "PSAnsiFileMap",
+      "PSSpecialChar",
+      "PSSamplePath"
+    ],
+    "ConditionalEditorIntegration": [
+      "VS Code",
+      "$psISE"
+    ],
+    "UnconditionalImportActions": [
+      "Starts a ThreadJob that recursively calls Get-CimInstance to enumerate CIM namespaces.",
+      "Writes enumeration results to %TEMP%\\CimNamespaceList.txt, a shared fixed path.",
+      "Registers argument completers that read the generated text file."
+    ],
+    "ImportMustBeIsolated": "Disposable Windows guest only; set TEMP and TMP to a unique run-owned directory, then verify the created file remains inside it."
+  },
+  "Implications": [
+    "Both dependencies are manifest-level import requirements even though source references appear in a subset of functions.",
+    "Module import is not inert: it starts a CIM namespace enumeration job, writes a fixed-name file to TEMP and registers completers.",
+    "Run import tests only in a disposable guest with TEMP/TMP redirected to a unique run-owned directory.",
+    "RIDE does not install either runtime dependency during inert package deployment.",
+    "Test module import with dependencies present and absent in both Windows PowerShell 5.1 and PowerShell 7.6 on a disposable guest.",
+    "Verify representative dependency-using functions plus dependency ownership/removal, CIM query, temp-file and module-global side effects."
+  ],
+  "SourceFilesInspected": [
+    "PSScriptTools.psd1",
+    "PSScriptTools.psm1",
+    "all 75 functions/*.ps1 entries"
+  ]
+}

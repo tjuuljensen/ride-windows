@@ -1,0 +1,23 @@
+{
+  "SchemaVersion": 1,
+  "ReviewedAtUtc": "2026-10-22",
+  "PackageId": "package.chrome",
+  "SourceUri": "https://dl.google.com/dl/chrome/install/googlechromestandaloneenterprise64.msi",
+  "Acquisition": "Downloaded the current publisher-hosted stable enterprise MSI to an ignored local review directory; installer was inspected and not executed.",
+  "FileName": "googlechromestandaloneenterprise64.msi",
+  "FileSizeBytes": 170979328,
+  "Sha256": "a31bd8a4746069a128bf3beefdaa246c792af5f15bbf06af0259abc895c9609b",
+  "WindowsInstallerProperties": {
+    "ProductName": "Google Chrome",
+    "ProductVersion": "156.0.8078.48",
+    "ProductCode": "{FC681062-00FC-3E42-98D1-2B1A9AF642A3}",
+    "Manufacturer": "Google LLC"
+  },
+  "Authenticode": {
+    "Status": "Valid",
+    "Signer": "Google LLC",
+    "Thumbprint": "607A3EDAA64933E94422FC8F0C80388E0590986C"
+  },
+  "CatalogAction": "Updated the source pin to this exact version and digest, then marked package acceptance pending for Windows 11 and Windows Server 2025 until both candidate-target runs complete.",
+  "AcceptanceStatus": "Pending"
+}

@@ -6,8 +6,9 @@
   is data-only; explicit selections never fall back to another distribution.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Owner: RIDE-Windows maintainers. Version: 0.3.0.
-  Changelog: 0.3.0: Add data-only variant inspection without preferences or destination resolution.
+  Owner: RIDE-Windows maintainers. Version: 0.4.0.
+  Changelog: 0.4.0: Add read-only target eligibility checks for acceptance routing.
+    0.3.0: Add data-only variant inspection without preferences or destination resolution.
     0.2.0: Resolve and retain explicit current-user EXE destinations.
     0.1.0: Add package variant and scoped configuration resolution.
 #>
@@ -127,4 +128,22 @@ function Resolve-RidePackageSelection {
   $result
 }
 
-Export-ModuleMember -Function Get-RidePackageConfiguration, Resolve-RidePackageSelection
+function Test-RidePackageTargetEligibility {
+  <#
+  .SYNOPSIS
+    Check whether a package selection declares a supported or candidate target.
+  .PARAMETER Operation
+    Resolved package selection or catalog package record.
+  .PARAMETER Target
+    Normalized Windows target name.
+  .OUTPUTS
+    System.Boolean.
+  .NOTES
+    This read-only check does not promote a candidate to supported status.
+  #>
+  [CmdletBinding()]
+  param([Parameter(Mandatory)][hashtable] $Operation, [Parameter(Mandatory)][string] $Target)
+  @($Operation.SupportedTargets) -contains $Target -or @($Operation.CandidateTargets) -contains $Target
+}
+
+Export-ModuleMember -Function Get-RidePackageConfiguration, Resolve-RidePackageSelection, Test-RidePackageTargetEligibility

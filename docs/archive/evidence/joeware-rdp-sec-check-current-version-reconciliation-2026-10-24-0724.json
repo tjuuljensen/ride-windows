@@ -1,0 +1,56 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T07:24:00Z",
+  "Batch": "JoeWare rdp-sec-check current-version identity reconciliation",
+  "PublisherIdentity": {
+    "ProductPageVersion": "0.9-beta / JoeWare V02.00.00",
+    "ProductPageDate": "2014-11-17",
+    "UsagePageIdentifiesSameVersion": true,
+    "VersionHistoryListsJoeWareV2Date": "2014-11-17",
+    "VersionsFileRow": "01.00.00 / 2011-02-11",
+    "CurrentProductVersionIdentityResolved": true,
+    "LegacyVersionsFileRowDigestMappingResolved": false,
+    "Disposition": "Use the product page and usage page to identify the publisher's current offered version. Keep the older versions.txt row and its MD5/SHA-1 values as historical evidence; do not map those digests to V02.00.00 without inspecting the archive."
+  },
+  "PublisherNotices": {
+    "ProductPageStatesPerlSourceIncludedInZip": true,
+    "LicenseStatedByPublisher": "GPLv2",
+    "Attribution": "Portcullis Labs / Mark Lowe",
+    "OriginalSourceLinkChecked": "https://labs.portcullis.co.uk/application/rdp-sec-check/",
+    "OriginalSourceLinkStatus": "404 at review time",
+    "EmbeddedExecutable": "ActiveState PerlApp"
+  },
+  "Boundaries": {
+    "DownloadFormSubmitted": false,
+    "ArchiveAcquired": false,
+    "ArtifactDigestVerified": false,
+    "SourceMembersInspected": false,
+    "ExecutableRun": false,
+    "EndpointContacted": false,
+    "DefenderChanged": false,
+    "VmUsed": false,
+    "WindowsStateChanged": false
+  },
+  "Sources": [
+    "https://joeware.net/freetools/tools/rdp-sec-check/index.htm",
+    "https://joeware.net/freetools/tools/rdp-sec-check/usage.htm",
+    "https://joeware.net/freetools/versions.txt",
+    "https://labs.portcullis.co.uk/application/rdp-sec-check/"
+  ],
+  "MigrationAccounting": {
+    "Resolved": ["Current offered rdp-sec-check display/version identity is confirmed by the product and usage pages."],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Exact archive bytes, mapping of the old V01.00.00 digest row, source member inventory, dependency/license notice preservation, package lifecycle and isolated functional acceptance."],
+    "Partial": ["No JoeWare legacy package outcome closes."],
+    "EstimateRangesUnchanged": {
+      "Settings": "38-58",
+      "Packages": "52-67",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "142-196",
+      "RoundedTotal": "145-200/about 170"
+    }
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T17:57:06.6039942Z",
+  "Controller": "RIDEWin11Test",
+  "Target": "RIDE-Win11-Test",
+  "Checkpoint": {
+    "Name": "RIDE-clean-test-base",
+    "Id": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9"
+  },
+  "Request": {
+    "RunId": "ae3bb5af12ee4b329c88cc51ff3d2bc2",
+    "Suite": "SysinternalsProducts",
+    "Source": "Local",
+    "TimeoutMinutes": 180,
+    "StatusAtRecord": "Pending",
+    "Position": "Serialized behind launcher diagnostic retry 1a0ec19a4e8e4517ad800bf3ac9f21dc"
+  },
+  "Selection": {
+    "Count": 9,
+    "Archives": [
+      {
+        "Id": "package.sysinternals-process-explorer",
+        "Path": "C:\\Users\\tjuuljensen\\git\\ride-windows\\.local\\sysinternals-process-explorer\\ProcessExplorer.zip",
+        "Sha256": "dab147316264b89ae46ae2ad7d8a94116848ef0b703bcac8de9ff22689ce9d51",
+        "Members": 4
+      },
+      {
+        "Id": "package.sysinternals-autoruns",
+        "Path": "C:\\Users\\tjuuljensen\\git\\ride-windows\\.local\\sysinternals-autoruns\\Autoruns.zip",
+        "Sha256": "7b3a8eed819f732a3e4c134aecaeaebb8d643a46490ccddb82cc8a1a745c4cf7",
+        "Members": 7
+      },
+      {
+        "Id": "package.sysinternals-tcpview",
+        "Path": "C:\\Users\\tjuuljensen\\git\\ride-windows\\.local\\sysinternals-tcpview\\TCPView.zip",
+        "Sha256": "4fc5ceba3e1b27ad95a24df35d094b454ec5f9478e12a8ca2b1b222705b9683b",
+        "Members": 8
+      },
+      {
+        "Id": "package.sysinternals-procmon",
+        "Path": "C:\\Users\\tjuuljensen\\git\\ride-windows\\.local\\sysinternals-procmon\\ProcessMonitor.zip",
+        "Sha256": "477754bf299c9e5b311c5666f7a4a48dfdb21265eaa8f0cca70ef9d9552e3a10",
+        "Members": 4
+      },
+      {
+        "Id": "package.sysinternals-rammap",
+        "Path": "C:\\Users\\tjuuljensen\\git\\ride-windows\\.local\\sysinternals-rammap\\RAMMap.zip",
+        "Sha256": "6536a8107a3fb391e4443f2742366067341a7da50de89f99ca0b2390120dd0cc",
+        "Members": 4
+      },
+      {
+        "Id": "package.sysinternals-disk2vhd",
+        "Path": "C:\\Users\\tjuuljensen\\git\\ride-windows\\.local\\sysinternals-disk2vhd\\Disk2vhd.zip",
+        "Sha256": "c294d279bf98645f84452989f320b561bf58609e35d85de47ea19ef583880821",
+        "Members": 5
+      },
+      {
+        "Id": "package.sysinternals-sigcheck",
+        "Path": "C:\\Users\\tjuuljensen\\git\\ride-windows\\.local\\sysinternals-sigcheck\\Sigcheck.zip",
+        "Sha256": "8756099c1ce3d3f450245c0d4b39aeb5b29309f56bf77f8c18f1469c418abf12",
+        "Members": 4
+      },
+      {
+        "Id": "package.sysinternals-strings",
+        "Path": "C:\\Users\\tjuuljensen\\git\\ride-windows\\.local\\sysinternals-strings\\Strings.zip",
+        "Sha256": "b1a0a3dc5f639af1c98ae5832676727646eb3d543640e65e310dff747e733a25",
+        "Members": 4
+      },
+      {
+        "Id": "package.sysinternals-handle",
+        "Path": "C:\\Users\\tjuuljensen\\git\\ride-windows\\.local\\sysinternals-handle\\Handle.zip",
+        "Sha256": "279aaf8eccb6f79147f4dcc6ba091fb895c4cb8b199a0dd186a4c76bc519d2cd",
+        "Members": 4
+      }
+    ],
+    "DefenderDetectedToolsIncluded": 0,
+    "UtilityExecution": false,
+    "EulaAcceptance": false,
+    "ExternalNetwork": false
+  },
+  "LicenseDisposition": "Prior RIDE v2 license-specialist approval governs direct Microsoft download-and-install; no legal or licensing migration blocker.",
+  "RuntimeBlocker": false,
+  "Estimate": {
+    "Ranges": "37-57 / 50-65 / 19-24 / 25-35 / 8-12",
+    "Exact": "139-193",
+    "Rounded": "140-195/about 170",
+    "LegacyOutcomesClosed": 0
+  }
+}

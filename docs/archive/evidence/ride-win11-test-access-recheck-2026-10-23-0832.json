@@ -1,0 +1,35 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "TimeUtc": "08:32:05",
+  "Host": "P52",
+  "VmName": "RIDE-Win11-Test",
+  "Check": "Read-only Get-VM query before checkpoint inspection",
+  "Result": "Denied",
+  "Error": "Access to a CIM resource was not available to the client.",
+  "CheckpointState": "Unknown; query was not reached",
+  "Mutation": false,
+  "QueueSubmission": false,
+  "DefenderChange": false,
+  "Outcome": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Prepared Windows guest acceptance remains blocked by Hyper-V CIM access."
+    ],
+    "Partial": [
+      "Package, settings, and component candidates with only local/static evidence remain pending native acceptance."
+    ],
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateAdjustment": "Unchanged; local SQLite fixture and package lifecycle checks closed no legacy outcome."
+  }
+}

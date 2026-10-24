@@ -1,0 +1,55 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-21",
+  "Scope": "Reconcile active MiTeC source-review blockers against retained static extraction evidence; no installer or payload execution",
+  "Supersedes": [
+    "docs/archive/evidence/installer-static-extraction-2026-10-17.json",
+    "docs/archive/evidence/bde-version-license-follow-up-2026-10-17.json"
+  ],
+  "ExtractionEvidence": {
+    "Tool": "innoextract 1.9",
+    "Installers": 6,
+    "Succeeded": 6,
+    "OpaqueOuterInstallers": 0,
+    "OriginalPinsUnchanged": true,
+    "ExecutedInstallerOrPayload": false,
+    "Products": [
+      { "Installer": "InfoBar_Setup.exe", "Sha256": "6808673eb693870150e06b650e27b89785c8a21a01b2b067891685563e549a3a", "Payload": "InfoBar x86/x64 4.6.2.0; DeskExp x86/x64 1.4.0.0" },
+      { "Installer": "PDESetup.exe", "Sha256": "cc2fce64612324bd8f0318ec848da78bd5e9aca2a46ed269db343d635c89f045", "Payload": "Paradox Data Editor x86 3.7.0.0; TUTIL32.DLL 5.0.0.38; BdeInst.dll 5.1.1.1; nested BDE resource decoded in later review" },
+      { "Installer": "PMInstall.exe", "Sha256": "ee2a74e34c0c0ad97c58163b2f4f114876252317cb52fffbf9fa11e2afe13419", "Payload": "Project Maker x86/x64 1.9.0.0" },
+      { "Installer": "WA_Setup.exe", "Sha256": "1817767092b85cf2bd843c29747eb8787277f3044962a1169eeff50668831c4e", "Payload": "Weather Agent x86 3.6.0.0 and localized data" },
+      { "Installer": "MAILCHECKER_Instal.exe", "Sha256": "da47910bf3eab1efabb6fc7200a6bdfc394c17a24dfb236b0aafb220967c8ce0", "Payload": "Mail Checker x86 7.2.0.0; bundled OpenSSL-identified 1.0.1e libraries and localized data" },
+      { "Installer": "ExplorerSuite.exe", "Sha256": "94f4348ec573b05990b1e19542986e46dc30a87870739f5d5430b60072d5144d", "Payload": "Explorer Suite IV; CFF Explorer x86/x64 8.0.0.0, Task Explorer 2.2.0.1, PE Detective 1.2.1.1, Signature Explorer 2.0.0.0, DriverList variants and UPX 3.08" }
+    ]
+  },
+  "Resolved": [
+    "All six outer installer format/extraction subgates",
+    "Weather Agent and Mail Checker payload version and bundled-file identification",
+    "Nested BDE resource format and file inventory, by the later 2026-10-17 BDE review",
+    "Project Maker release payload version discrepancy against the under-development page"
+  ],
+  "Remaining": [
+    "Installer actions, registry/service/task/shortcut effects and exact uninstall/restore behavior",
+    "Product-specific license, redistribution and intended-user rights",
+    "Weather Agent network/API data flow and current-target behavior",
+    "Mail Checker send/delete behavior, exact OpenSSL binary provenance/notices, and isolated local mail sink acceptance; never use a real mailbox",
+    "Phoenix custom-action behavior and Explorer Suite component ownership/installer conditions",
+    "BDE registration, aliases, provider/bitness compatibility and coexistence",
+    "Synthetic fixtures, dependency preparation, current Windows support, UI and activation"
+  ],
+  "RunBoundaries": {
+    "InstallerOrPayloadExecuted": false,
+    "FreshUacPrompts": 0,
+    "VmRuns": 0,
+    "ControllerChanges": 0,
+    "DefenderChanges": 0,
+    "DefenderBlockedFilesTouched": false,
+    "LegacyOutcomesResolved": 0,
+    "LegacyOutcomesRetired": 0,
+    "LegacyOutcomesNewlyExcluded": 0
+  },
+  "Ranges": ["38-58", "56-71", "20-25", "25-35", "8-12"],
+  "ExactRangeEndpoints": "147-201",
+  "RoundedTotal": "145-200/about 175",
+  "EstimateReason": "Six outer extraction blockers and nested BDE format blocker were already resolved by retained evidence; installer behavior, licensing and acceptance remain partial, so no whole legacy outcome or estimate endpoint changed."
+}

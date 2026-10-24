@@ -1,0 +1,48 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-10-23T16:14:00Z",
+  "PackageId": "package.mitec-ssview",
+  "PackageVersion": "4.1.2",
+  "TestFile": "tests/MiTeCSSView.Tests.ps1",
+  "SourceEvidence": "docs/archive/evidence/mitec-ssview-candidate-preparation-2026-10-23.json",
+  "PowerShell7": {
+    "Version": "7.6.5",
+    "PesterVersion": "5.7.1",
+    "Passed": 2,
+    "Failed": 0,
+    "Skipped": 0,
+    "TestRegistryEnabled": false,
+    "TemporaryFiles": "Redirected under .local"
+  },
+  "WindowsPowerShell51": {
+    "Parser": "Passed",
+    "Pester": "Blocked before discovery: AuthorizationManager prevented Pester format data/module import"
+  },
+  "Assertions": [
+    "Catalog pin matches the recorded archive/member source evidence; that evidence records the direct hash recheck from candidate preparation",
+    "The catalog selects only SSView.exe and leaves SupportedTargets empty pending acceptance",
+    "An inert ZIP stages only SSView.exe across repeat install",
+    "Snapshot, uninstall and restore preserve an unowned user note"
+  ],
+  "RetainedPayloadExtractedOrExecuted": false,
+  "OptionalCodecLoadedOrBuilt": false,
+  "StructuredStorageOpenedOrModified": false,
+  "FreshUacPrompts": 0,
+  "VmRuns": 0,
+  "DefenderBlockedFilesTouched": false,
+  "Outcomes": {
+    "WholeLegacyOutcomesResolved": 0,
+    "RetiredOutcomes": 0,
+    "NewExclusions": 0,
+    "PartialCandidateOutcomes": 1
+  },
+  "Ranges": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+  "ExactRangeEndpoints": "142-196",
+  "RoundedTotal": "145-200/about 170",
+  "Remaining": [
+    "Synthetic structured-storage behavior and byte-exact recovery",
+    "Activation/configuration/plugin preservation under a Windows 11 guest",
+    "Windows PowerShell 5.1 Pester execution when host AuthorizationManager allows module import",
+    "Registered VM/checkpoint access and native acceptance"
+  ]
+}

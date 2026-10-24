@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-24T13:39:59Z",
+  "topic": "RIDE-Win11-Test ApplicationsBatch1 repeat with pre-fix staged source",
+  "runId": "14f6722a78f54ce8b931235eae5014ac",
+  "configuration": {"vmName": "RIDE-Win11-Test", "checkpointName": "RIDE-clean-test-base", "integrationSuite": "ApplicationsBatch1", "timeoutMinutes": 90, "guestWindows": "Windows 11 Enterprise Evaluation build 26300", "guestPowerShell": "5.1.26100.9444"},
+  "stagedSource": {"snapshotCreatedAtLocal": "2026-10-24T15:28:46", "workerEvidencePathFixIncluded": false, "observedExpression": "$evidencePath=$workerRoot.Replace(...)"},
+  "validation": {"passed": true, "pesterVersion": "5.7.1", "total": 331, "passedCount": 330, "failed": 0, "skipped": 1},
+  "integration": {
+    "passed": false,
+    "error": "Access to the limited-user TestWorkers directory was denied when it was used as the coordinator evidence file path.",
+    "userScopeResults": [
+      {"packageId": "package.thunderbird", "version": "158.0.1", "status": "Passed", "recovery": true, "profilePreservation": true, "executionElevated": false, "recoveryMode": "Compensating presence recovery; previous-version recovery unavailable"},
+      {"packageId": "package.gpg4win", "version": "5.1.1", "status": "Failed", "installerExitCode": -1073741819, "installerExitCodeHex": "0xC0000005", "recovery": false, "artifactRetainedInDisposableUserCache": true}
+    ],
+    "machineScopeEvidenceExported": false
+  },
+  "controller": {"status": "Failed", "cleanupError": null, "collectionError": null, "evidenceExportError": null, "queueTerminal": true},
+  "legacyOutcomesClosed": 0,
+  "excludedTools": "Defender-detected utilities remain excluded; this run did not change their disposition.",
+  "estimates": {"settings": "37-57", "packages": "52-67", "components": "19-24", "accountsConfigurationAssets": "25-35", "maintenance": "8-12", "exactTotal": "141-195", "roundedTotal": "140-195/about 170"},
+  "nextAction": "The fixed local source and regression test are validated. A new serialized ApplicationsBatch1 request was submitted after this request reached the finished queue."
+}

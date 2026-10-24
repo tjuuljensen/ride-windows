@@ -1,0 +1,339 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-10-23T13:16:00Z",
+  "Scope": "MiTeC Mail Viewer and history viewer package candidates; retained archive/member rehash and inert synthetic staging/recovery only",
+  "Products": [
+    {
+      "Id": "package.mitec-mail-viewer",
+      "Name": "MiTeC Mail Viewer",
+      "Version": "2.5.1.0",
+      "ProductUri": "https://www.mitec.cz/wp/mmv/",
+      "DownloadUri": "https://www.mitec.cz/wp/files/MailView.zip",
+      "Archive": ".local/remaining-collections-20261017/MailView.zip",
+      "ArchiveSha256": "c2590633a9b13cc9d46a41a2980347057c84d8788a4597b83ffcc057ffd5b774",
+      "ArchiveLength": 1939876,
+      "Members": [
+        {
+          "Path": "MailView.exe",
+          "Length": 4939600,
+          "Sha256": "cc775794e9a2973f633fcf8df19d98ffbbb6dd30a31b3305d26052c18eea962a",
+          "FileVersion": "2.5.1.0",
+          "ProductVersion": "2.0.0.0"
+        },
+        {
+          "Path": "MailViewer.cs.lng",
+          "Length": 5381,
+          "Sha256": "50355266d6d82a3364ce5d789059d49af363f10c805254b8778ff0b9d4aa7846",
+          "FileVersion": null,
+          "ProductVersion": null
+        },
+        {
+          "Path": "MailViewer.de.lng",
+          "Length": 5080,
+          "Sha256": "b629028e9d5d01161894756cd22b0083685e90e781fd167dc010d770dc9a9e89",
+          "FileVersion": null,
+          "ProductVersion": null
+        },
+        {
+          "Path": "MailViewer.en.lng",
+          "Length": 5120,
+          "Sha256": "e3300811fd484168c793ff8a103206728ccf205214d3e07e841962fac0df94da",
+          "FileVersion": null,
+          "ProductVersion": null
+        },
+        {
+          "Path": "MailViewer.fr.lng",
+          "Length": 5366,
+          "Sha256": "de98e4200c9c6515be8ae18c091767f609a00e6981c15daffba7cc81f87f2055",
+          "FileVersion": null,
+          "ProductVersion": null
+        },
+        {
+          "Path": "MailViewer.pl.lng",
+          "Length": 5317,
+          "Sha256": "ac6ae828043ac97949559977e1c8b6ac123ed841ea51a9d81617df9f79160d29",
+          "FileVersion": null,
+          "ProductVersion": null
+        },
+        {
+          "Path": "MailViewer.zh.lng",
+          "Length": 5016,
+          "Sha256": "e474a610d16d1b0360ffeef33521aac2b4b3839368d8e3a2f6e3c93a5ad1aed2",
+          "FileVersion": null,
+          "ProductVersion": null
+        },
+        {
+          "Path": "MailViewer.es.lng",
+          "Length": 4962,
+          "Sha256": "4deac468ce800d163f304e08501d7a7fb6dc5a9bd79366db05c08fcd092eb141",
+          "FileVersion": null,
+          "ProductVersion": null
+        },
+        {
+          "Path": "Localization.txt",
+          "Length": 474,
+          "Sha256": "704b33cb254a346de3bd12f24091c5146b8babfd3213af49345cef7ca8acf7cf",
+          "FileVersion": null,
+          "ProductVersion": null
+        },
+        {
+          "Path": "MailViewer.it.lng",
+          "Length": 5506,
+          "Sha256": "37f209801c7936c2263990e9ac4ca1da73a9c203dab533e9beed0b24be49bbbb",
+          "FileVersion": null,
+          "ProductVersion": null
+        },
+        {
+          "Path": "MailViewer.pt_br.lng",
+          "Length": 6835,
+          "Sha256": "94f1988b2238608cfd82bf8a0bca6c1e1e6a1d27994bf10cdcfb606fb16f5bdb",
+          "FileVersion": null,
+          "ProductVersion": null
+        },
+        {
+          "Path": "MailViewer.hu.lng",
+          "Length": 5179,
+          "Sha256": "83caf26eeed2e3fcb1c452860e353e3c9008c18033adb34bab1bbc1cbbd4b4db",
+          "FileVersion": null,
+          "ProductVersion": null
+        },
+        {
+          "Path": "MailViewer.sv.lng",
+          "Length": 4743,
+          "Sha256": "d61de889163d0dd217a145256b86f9fb7dad15118aae17d7476a8973ef74e950",
+          "FileVersion": null,
+          "ProductVersion": null
+        },
+        {
+          "Path": "MailViewer.nl.lng",
+          "Length": 5397,
+          "Sha256": "fb20da84600b6269ab41cf55093ad6e6de5aba92803bfd8389e86fe0bd5dc88e",
+          "FileVersion": null,
+          "ProductVersion": null
+        },
+        {
+          "Path": "MailViewer.sk.lng",
+          "Length": 4907,
+          "Sha256": "678b976b0bb1e975f5eb07607871ca2c879a788c2eedcb81cde54699487ee048",
+          "FileVersion": null,
+          "ProductVersion": null
+        },
+        {
+          "Path": "MailViewer.ru.lng",
+          "Length": 6614,
+          "Sha256": "2ea2ff49c52cfaec480c098a7158ecd9df0c6bcc53e9c463837c170857b74935",
+          "FileVersion": null,
+          "ProductVersion": null
+        },
+        {
+          "Path": "MailViewer.tr.lng",
+          "Length": 4689,
+          "Sha256": "1c10e9ae7dad84f6e07d698d48437d8fd50a6bb070458a591a205f3a8f94a05f",
+          "FileVersion": null,
+          "ProductVersion": null
+        },
+        {
+          "Path": "MailViewer.zh-tw.lng",
+          "Length": 4590,
+          "Sha256": "0b9c08b4a16e43308c633aac555bc14ee07fa7e51dd082c1be688ed2fba96a1c",
+          "FileVersion": null,
+          "ProductVersion": null
+        },
+        {
+          "Path": "MailViewer.el.lng",
+          "Length": 7986,
+          "Sha256": "9873b33da16bd5fed112dd42c1a28dd87213f543fb049313d31fd73634fcf7ef",
+          "FileVersion": null,
+          "ProductVersion": null
+        },
+        {
+          "Path": "MailViewer.lv.lng",
+          "Length": 4562,
+          "Sha256": "86859c3aa75e043282990a2757e414f5573b8d89ce9ffe82e23e3093494a55e8",
+          "FileVersion": null,
+          "ProductVersion": null
+        },
+        {
+          "Path": "MailViewer.pt_pt.lng",
+          "Length": 4609,
+          "Sha256": "ca69ca69d6a115b151eec4163e734f1362063204fd438aac25d563aa6709a531",
+          "FileVersion": null,
+          "ProductVersion": null
+        },
+        {
+          "Path": "MailViewer.lt.lng",
+          "Length": 10550,
+          "Sha256": "90e54d3f8690643bf74218554f763e611ab7250db5ae981443796acb4e29e536",
+          "FileVersion": null,
+          "ProductVersion": null
+        },
+        {
+          "Path": "MailViewer.sr.lng",
+          "Length": 7037,
+          "Sha256": "dc636b6fd22b8e0a74e6c4de425ff7042ff63570e3319423de264faf34c1ba53",
+          "FileVersion": null,
+          "ProductVersion": null
+        }
+      ],
+      "CurrentPageObservation": {
+        "ProductPage": "https://www.mitec.cz/wp/mmv/",
+        "FrozenPageSha256": "376cbdb4e4f7d673729ce176eb88555544b9b8c06703337d82559f104c6ea5e0",
+        "FrozenInventoryPath": "docs/archive/evidence/mitec-remaining-source-review-2026-10-17.json",
+        "PublishedBehavior": "Reads Outlook Express 4/5/6 IDX/MBX/DBX databases, Windows Mail/Windows Live Mail and Thunderbird databases, and standalone EML. Displays messages and properties with detailed view, HTML preview, search/filter, address extraction, EML saving, attachment extraction and printing.",
+        "CurrentPageLicense": "Free for private, educational and non-commercial purposes.",
+        "VersionObservation": "Current page exposes no release number. Frozen inventory records FileVersion 2.5.1.0 and ProductVersion 2.0.0.0 for MailView.exe.",
+        "OperatingSystems": "Current page lists Windows XP-11 and Windows Server 2003-2025; this is publisher page support only, not RIDE acceptance."
+      },
+      "AcceptanceBoundary": "Use only isolated synthetic mail stores; never open personal mailboxes, messages, or attachments."
+    },
+    {
+      "Id": "package.mitec-email-history-browser",
+      "Name": "MiTeC E-mail History Browser",
+      "Version": "1.2.0",
+      "ProductUri": "https://www.mitec.cz/ehb.html",
+      "DownloadUri": "https://www.mitec.cz/wp/files/EHB.zip",
+      "Archive": ".local/remaining-collections-20261017/EHB.zip",
+      "ArchiveSha256": "6ecc87d4a0061cedc13ccc398eb66009c39c5e36931737bb1841a373de22c363",
+      "ArchiveLength": 897775,
+      "Members": [
+        {
+          "Path": "EHB.exe",
+          "Length": 2106880,
+          "Sha256": "274180e49846829773177ed65ac93fab03d104f84b2c8ce565a30e2a25c1e0ee",
+          "FileVersion": "1.2.0.0",
+          "ProductVersion": "1.0.0.0"
+        }
+      ],
+      "CurrentPageObservation": {
+        "ProductPage": "https://www.mitec.cz/ehb.html",
+        "FrozenPageSha256": "826abda975939b52e86983e542b9e3b3e7ab1b81807d28390a7877615bfdad07",
+        "FrozenInventoryPath": "docs/archive/evidence/mitec-remaining-source-review-2026-10-17.json",
+        "PublishedBehavior": "Collects and filters communication history from Outlook Express, Windows Mail, Windows Live Mail and Thunderbird. The page says message bodies and attachments are excluded; communication metadata remains visible. Portable; current page lists target platforms only through Windows 10.",
+        "CurrentPageLicense": "Free for private and commercial users. This conflicts with the support EULA's general statement that trial or unregistered freeware is non-commercial; obtain product-specific written clarification before relying on commercial use or redistribution.",
+        "VersionObservation": "Current page exposes no release number. Frozen inventory records page version 1.2.0 and EHB.exe FileVersion 1.2.0.0/ProductVersion 1.0.0.0."
+      },
+      "AcceptanceBoundary": "The tool exposes communication metadata. Use isolated synthetic mail stores; never inspect personal accounts."
+    },
+    {
+      "Id": "package.mitec-internet-history-browser",
+      "Name": "MiTeC Internet History Browser",
+      "Version": "2.5.0",
+      "ProductUri": "https://www.mitec.cz/ihb.html",
+      "DownloadUri": "https://www.mitec.cz/wp/files/IHB.zip",
+      "Archive": ".local/remaining-collections-20261017/IHB.zip",
+      "ArchiveSha256": "94d513e5507e871b7d87246676f1072a92386e0b352ef7e02473a5812fd292db",
+      "ArchiveLength": 1956135,
+      "Members": [
+        {
+          "Path": "IHB.dll",
+          "Length": 1071715,
+          "Sha256": "e9e45d6db26b5a9a020ca5214f6434bb9796caa9328085e77345ff149bbace84",
+          "FileVersion": "3.35.5",
+          "ProductVersion": "3.35.5"
+        },
+        {
+          "Path": "IHB.exe",
+          "Length": 3770208,
+          "Sha256": "290045a378ab23a3efba1856240f31b93fd9c04bad35ed4ec5b70ec7359662f3",
+          "FileVersion": "2.5.0.0",
+          "ProductVersion": "2.0.0.0"
+        }
+      ],
+      "CurrentPageObservation": {
+        "ProductPage": "https://www.mitec.cz/ihb.html",
+        "FrozenPageSha256": "187aedc093c768885775138a9a49a0c90264f68ff656185f805f964bb3de7ab1",
+        "FrozenInventoryPath": "docs/archive/evidence/mitec-remaining-source-review-2026-10-17.json",
+        "PublishedBehavior": "Portable history viewer that collects visit URLs, dates, times and browser identity. Publisher lists Edge, Internet Explorer, Chrome, Opera, Safari, Firefox, SeaMonkey, Vivaldi, Yandex, Pale Moon and Brave; current listed Windows targets end at Windows 10 and Server 2019.",
+        "CurrentPageLicense": "Free for private, educational and non-commercial purposes.",
+        "VersionObservation": "Current page exposes no release number. Frozen inventory records page version 2.5.0; IHB.exe reports FileVersion 2.5.0.0/ProductVersion 2.0.0.0.",
+        "DependencyObservation": "Frozen archive contains renamed IHB.dll with SQLite Development Team metadata and version 3.35.5. Upstream SQLite public-domain status does not establish exact binary provenance or rights to the surrounding product."
+      },
+      "AcceptanceBoundary": "Use isolated synthetic browser stores; do not read real browser profiles or history."
+    },
+    {
+      "Id": "package.mitec-instant-messaging-history-browser",
+      "Name": "MiTeC Instant Messaging History Browser",
+      "Version": "1.2.1",
+      "ProductUri": "https://www.mitec.cz/imhb.html",
+      "DownloadUri": "https://www.mitec.cz/wp/files/IMHB.zip",
+      "Archive": ".local/remaining-collections-20261017/IMHB.zip",
+      "ArchiveSha256": "107dd1bc31e4493a93f2a213934a976a0f1901d6eecd8ed203216d1765bba7a8",
+      "ArchiveLength": 1425874,
+      "Members": [
+        {
+          "Path": "IMHB.dll",
+          "Length": 676036,
+          "Sha256": "44d3392efdc45532d42eefc780729ff062bfab8dcba1e7c0f077ab1ab48e02e3",
+          "FileVersion": "3.8.10.2",
+          "ProductVersion": "3.8.10.2"
+        },
+        {
+          "Path": "IMHB.exe",
+          "Length": 2504704,
+          "Sha256": "c36547380d21e7b31a7ef62056bc688002ed7a0a62ed22e50fab23dc2ab8bb52",
+          "FileVersion": "1.2.1.0",
+          "ProductVersion": "1.0.0.0"
+        }
+      ],
+      "CurrentPageObservation": {
+        "ProductPage": "https://www.mitec.cz/imhb.html",
+        "FrozenPageSha256": "3633aca626e004ef7525c78ee6d643128e1ffcfdd4ac3ce15a03da6cc48f83a4",
+        "FrozenInventoryPath": "docs/archive/evidence/mitec-remaining-source-review-2026-10-17.json",
+        "PublishedBehavior": "Portable history viewer that can expose chats, calls and file transfers (when supported by the client), grouped by person or time. Listed clients are Skype, ICQ 7, Windows Live Messenger and Yahoo Messenger; current listed Windows targets end at Windows 10.",
+        "CurrentPageLicense": "Free for private and commercial users. This conflicts with the support EULA's general statement that trial or unregistered freeware is non-commercial; obtain product-specific written clarification before relying on commercial use or redistribution.",
+        "VersionObservation": "Current page exposes no release number. Frozen inventory records page version 1.2.1 and IMHB.exe FileVersion 1.2.1.0/ProductVersion 1.0.0.0.",
+        "DependencyObservation": "Frozen archive contains renamed IMHB.dll with SQLite Development Team metadata and version 3.8.10.2. Upstream SQLite public-domain status does not establish exact binary provenance or rights to the surrounding product."
+      },
+      "AcceptanceBoundary": "Use isolated synthetic message databases; do not inspect real chats, calls, transfers, accounts or profiles."
+    }
+  ],
+  "TermsUri": "https://www.mitec.cz/wp/support/",
+  "LicenseReview": {
+    "Note": "Version-specific owner administration records are informational and do not block package implementation or install planning.",
+    "Owner": "Unassigned",
+    "Status": "NeedsReview",
+    "MigrationBlocking": false
+  },
+  "LocalRegression": {
+    "Runner": "tests/MiTeCMailHistoryViewers.Tests.ps1",
+    "Result": "Passed",
+    "Passed": 12,
+    "Failed": 0,
+    "Runtime": "PowerShell 7.6.5; Pester 5; TestRegistry disabled",
+    "WindowsPowerShell51Parser": "Passed",
+    "WindowsPowerShell51TokenCount": 1035,
+    "Coverage": "Retained archive/member SHA-256 recheck; install planning remains available; synthetic ZIP repeat staging, selected-file boundary, uninstall and snapshot recovery",
+    "ExecutablesRun": false,
+    "RealPersonalDataOpened": false
+  },
+  "Safety": {
+    "DefenderBlockedToolsTouched": false,
+    "VmRuns": 0,
+    "HostOrControllerChanged": false,
+    "FreshUacPrompts": 0,
+    "PersonalAccountsOrCredentialsUsed": false,
+    "NetworkRequestsMade": false,
+    "PayloadsExecuted": false,
+    "PersonalBrowserHistoryOpened": false,
+    "PersonalMailOrAttachmentsOpened": false,
+    "PersonalMessagesOrCallsOpened": false,
+    "DefenderChanged": false
+  },
+  "Deferred": [
+    "Synthetic Mail Viewer message/store behavior and output cleanup",
+    "Synthetic E-mail History metadata enumeration and source immutability",
+    "Synthetic Internet History browser-store parsing with no live-profile writes",
+    "Synthetic Instant Messaging history parsing, privacy boundaries and cleanup",
+    "Windows 11 package acceptance after VM access is available"
+  ],
+  "EstimateRanges": [
+    "38-58",
+    "52-67",
+    "19-24",
+    "25-35",
+    "8-12"
+  ],
+  "ExactTotal": "142-196",
+  "RoundedTotal": "145-200/about 170",
+  "EstimateReason": "Four package catalog entries do not close whole legacy outcomes; the existing package estimate and all ranges remain unchanged."
+}

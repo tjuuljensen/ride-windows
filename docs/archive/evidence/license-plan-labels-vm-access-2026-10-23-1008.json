@@ -1,0 +1,44 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "VmAccess": {
+    "CheckedAtUtc": "2026-10-23T10:08:16Z",
+    "VmName": "RIDE-Win11-Test",
+    "Command": "Get-VM -Name RIDE-Win11-Test",
+    "Result": "Denied",
+    "Error": "Access to a CIM resource was not available to the client.",
+    "CheckpointState": "Unknown; Get-VM query failed before checkpoint inspection",
+    "QueueSubmission": false,
+    "GuestMutation": false
+  },
+  "LocalValidation": {
+    "CatalogPester": {"Discovered":73,"Selected":72,"Passed":72,"Failed":0,"Skipped":0,"NotRun":1},
+    "LicenseReviewsPester": {"Discovered":21,"Passed":21,"Failed":0,"Skipped":0,"NotRun":0},
+    "LicensePlanCoverage": "All 41 PendingAcceptance package plans remained available with version-matched NeedsReview records; all ten approved Sysinternals package plans remained available.",
+    "CatalogExportCheck": "Passed",
+    "RepositoryValidation": "Passed; 376 operations, 8 groups, 5 profiles, 251 PowerShell files",
+    "GitDiffCheck": "Passed"
+  },
+  "LicenseStatusSeparation": {
+    "SysinternalsDisposition": "No licensing blocker under prior RIDE v2 specialist approval for direct download/install.",
+    "OtherPackageReview": "The five NTCore/MiTeC candidate versions remain NeedsReview only in the checkout-local review store; no status is embedded in their shared catalog names."
+  },
+  "StateBoundaries": {
+    "PackageOrUtilityExecuted": false,
+    "DependencyInstalled": false,
+    "WindowsStateChanged": false,
+    "DefenderChanged": false,
+    "UacPrompts": 0
+  },
+  "Outcome": {
+    "Resolved": ["License-review status remains separate from implementation and all 41 pending package install plans remain available."],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Prepared Windows package, setting and component acceptance remains blocked by Hyper-V CIM access."],
+    "Partial": ["No legacy package, setting or component outcome closed in this run."],
+    "GroupRanges": ["38-58","52-67","19-24","25-35","8-12"],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateAdjustment": "Unchanged; license-plan behavior and catalog presentation were validated, but no legacy outcome closed."
+  }
+}

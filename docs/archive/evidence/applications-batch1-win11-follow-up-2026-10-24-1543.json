@@ -1,0 +1,143 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T15:43:31Z",
+  "IntegrationSuite": "ApplicationsBatch1",
+  "Target": {
+    "VMName": "RIDE-Win11-Test",
+    "OS": "Windows 11 Enterprise Evaluation",
+    "Build": 26300,
+    "PowerShell": "5.1.26100.9444",
+    "Pester": "5.7.1"
+  },
+  "Runs": [
+    {
+      "RunId": "5843bcf609d04d0d9ffc0af824554b42",
+      "StartedAtUtc": "2026-10-24T12:55:21Z",
+      "FinishedAtUtc": "2026-10-24T13:05:37Z",
+      "ControllerStatus": "Failed",
+      "Pester": { "Passed": 329, "Failed": 1, "Skipped": 1, "Total": 331 },
+      "FailingTest": "Application batch incremental evidence serialization",
+      "Failure": "The Windows PowerShell 5.1 test harness counted one decoded JSON row instead of two.",
+      "CleanupError": null,
+      "CollectionError": null,
+      "PackageLifecycleStarted": false
+    },
+    {
+      "RunId": "c2295dddd2704b9db3008a0a0958cb0b",
+      "StartedAtUtc": "2026-10-24T13:06:00Z",
+      "FinishedAtUtc": "2026-10-24T13:16:59Z",
+      "ControllerStatus": "Failed",
+      "Pester": { "Passed": 329, "Failed": 1, "Skipped": 1, "Total": 331 },
+      "FailingTest": "Application batch incremental evidence serialization",
+      "Failure": "The Windows PowerShell 5.1 test harness counted one decoded JSON row instead of two.",
+      "CleanupError": null,
+      "CollectionError": null,
+      "PackageLifecycleStarted": false
+    },
+    {
+      "RunId": "023b0d9b5c4c4dbc90649be8fea296b7",
+      "StartedAtUtc": "2026-10-24T13:17:58Z",
+      "FinishedAtUtc": "2026-10-24T13:28:45Z",
+      "ControllerStatus": "Failed",
+      "Pester": { "Passed": 330, "Failed": 0, "Skipped": 1, "Total": 331 },
+      "Failure": "The coordinator's evidence destination was overwritten with the limited-user worker directory. Gpg4win exited with 0xC0000005 after Thunderbird passed.",
+      "CleanupError": null,
+      "CollectionError": null,
+      "PackageRows": 2
+    },
+    {
+      "RunId": "14f6722a78f54ce8b931235eae5014ac",
+      "StartedAtUtc": "2026-10-24T13:28:45Z",
+      "FinishedAtUtc": "2026-10-24T13:39:59Z",
+      "ControllerStatus": "Failed",
+      "Pester": { "Passed": 330, "Failed": 0, "Skipped": 1, "Total": 331 },
+      "Failure": "The same limited-user worker path collision prevented coordinator evidence writes. Gpg4win again exited with 0xC0000005 after Thunderbird passed.",
+      "CleanupError": null,
+      "CollectionError": null,
+      "PackageRows": 2
+    },
+    {
+      "RunId": "ac22583d29ea463c82727bf2c4a62c83",
+      "StartedAtUtc": "2026-10-24T13:40:15Z",
+      "FinishedAtUtc": "2026-10-24T14:32:54Z",
+      "ControllerStatus": "Failed",
+      "Pester": { "Passed": 330, "Failed": 0, "Skipped": 1, "Total": 331 },
+      "Failure": "Phoenix Protector failed with MSI exit 1603 and the serialized diagnostic row raised 'Cannot convert value to type System.String'.",
+      "PackageRows": 11,
+      "PackageResults": { "Passed": 9, "Failed": 2, "Missing": 0 },
+      "CleanupError": null,
+      "CollectionError": null
+    },
+    {
+      "RunId": "ddf032acbdbd4843b519d42877baa49f",
+      "StartedAtUtc": "2026-10-24T14:32:55Z",
+      "FinishedAtUtc": "2026-10-24T15:12:42Z",
+      "ControllerStatus": "TimedOut",
+      "Pester": { "Passed": 330, "Failed": 0, "Skipped": 1, "Total": 331 },
+      "Failure": "The controller timed out during ApplicationsBatch1. Partial evidence contained ten package rows; the Phoenix result was not serialized.",
+      "PackageRows": 10,
+      "PackageResults": { "Passed": 9, "Failed": 1, "Missing": 1 },
+      "CleanupError": null,
+      "CollectionError": null
+    },
+    {
+      "RunId": "cd4fcbdd21ed4b1081fcaede9c1e6075",
+      "StartedAtUtc": "2026-10-24T15:15:08Z",
+      "FinishedAtUtc": "2026-10-24T15:43:31Z",
+      "ControllerStatus": "Failed",
+      "Pester": { "Passed": 332, "Failed": 0, "Skipped": 1, "Total": 333 },
+      "PackageRows": 11,
+      "PackageResults": { "Passed": 9, "Failed": 2, "Missing": 0 },
+      "PassedPackages": [
+        "package.thunderbird",
+        "package.vscode",
+        "package.firefox",
+        "package.sqlitebrowser",
+        "package.autopsy",
+        "package.chrome",
+        "package.wireshark",
+        "package.signal",
+        "package.tmog"
+      ],
+      "FailedPackages": {
+        "package.gpg4win": "Current-user installer exited with 0xC0000005. The artifact was retained in the temporary user's RIDE cache.",
+        "package.phoenix-protector": "MSI exit 1603. The MSI log reports VSDFrameworkVersion=2.0.50727 and a launch condition requiring .NET Framework 2.0."
+      },
+      "UserDataPreservation": {
+        "package.thunderbird": true,
+        "package.chrome": true,
+        "package.signal": true
+      },
+      "CleanupError": null,
+      "CollectionError": null,
+      "EvidenceExportError": null
+    }
+  ],
+  "Implementation": {
+    "Script": "tests/integration/Invoke-RideApplicationBatch.ps1",
+    "Version": "0.14.2",
+    "Corrections": [
+      "Write one compact JSON record per scenario without emitting generic-list return values.",
+      "Keep the coordinator evidence path distinct from the limited-user worker path.",
+      "Normalize MSI diagnostic lines and capture one JSON string before appending it."
+    ],
+    "LocalValidation": {
+      "PowerShellAstParse": "Passed for tests/integration/Invoke-RideApplicationBatch.ps1 and tests/TestAutomation.Tests.ps1.",
+      "GitDiffCheck": "Passed."
+    }
+  },
+  "RemainingAcceptance": [
+    "Investigate the repeatable Gpg4win current-user installer access violation.",
+    "Implement or explicitly gate Phoenix Protector on its .NET Framework prerequisite; catalog-driven prerequisite installation is approved for v3.",
+    "Retest after prerequisite and installer disposition work.",
+    "Complete the other deferred Windows 11 and Windows Server 2025 acceptance batches."
+  ],
+  "MigrationDisposition": {
+    "Resolved": 0,
+    "Retired": 0,
+    "Excluded": 0,
+    "Deferred": "Gpg4win and Phoenix Protector remain unresolved; other target and package acceptance remains in the active migration ledger.",
+    "Partial": "Nine package lifecycle rows passed on Windows 11. Package-level closure is withheld while the batch has unresolved products and the remaining target-specific acceptance is incomplete.",
+    "EstimateChange": "None. No whole legacy product outcome is closed by this run; exact and rounded ranges remain unchanged."
+  }
+}

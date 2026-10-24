@@ -1,0 +1,44 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-22",
+  "Batch": "Certutil SHA-256 context-menu candidate implementation",
+  "OperationId": "windows.sha256-certutil-context-menu",
+  "Disposition": {
+    "Status": "Candidate",
+    "SupportedTargets": [],
+    "CandidateTargets": ["Windows 11"],
+    "PendingAcceptance": true,
+    "Scope": "User",
+    "Rollback": "Exact saved-state restore"
+  },
+  "Implementation": {
+    "RegistryValues": [
+      {"Name":"Icon", "Path":"HKCU:\\Software\\Classes\\*\\shell\\RIDE.Sha256Certutil", "Enabled":"shell32.dll,-152"},
+      {"Name":"(Default)", "Path":"HKCU:\\Software\\Classes\\*\\shell\\RIDE.Sha256Certutil\\command", "Enabled":"cmd.exe /k certutil -hashfile \"%1\" SHA256"}
+    ],
+    "DisabledState": "Both values unset",
+    "ActivationBehavior": "Opens a command window that remains until the user closes it."
+  },
+  "Validation": {
+    "CatalogExport": "tools/Export-RideCatalog.ps1 generated docs/OPERATIONS.md; -Check passed.",
+    "RepositoryValidator": "Passed: 374 operations, 8 groups, 5 profiles, 243 PowerShell files.",
+    "PowerShell7Pester": {"Passed": 7, "Failed": 0, "Skipped": 1},
+    "WindowsPowerShell51Pester": {"Passed": 8, "Failed": 0, "Skipped": 0},
+    "TestRegistryPlugin": "Disabled because sandbox policy denied Pester's optional HKCU fixture.",
+    "DiffCheck": "Passed."
+  },
+  "Acceptance": {
+    "VM": "Get-VM -Name RIDE-Win11-Test failed with Access to a CIM resource was not available to the client.",
+    "NotRun": ["Icon rendering", "Explorer menu placement", "Percent/apostrophe/Unicode filename handling", "Repeat apply", "Unset", "Exact saved-run restore"],
+    "NoHostRegistryChange": true,
+    "SupportedTargetPromotion": "None"
+  },
+  "LegacyOutcome": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Windows 11 Explorer menu and registry lifecycle acceptance"],
+    "Partial": ["Additional requested v3 Certutil context-menu candidate"]
+  },
+  "EstimateEffect": "No legacy outcome was closed. The Certutil candidate is additional v3 scope outside the 279-item legacy presentation count."
+}

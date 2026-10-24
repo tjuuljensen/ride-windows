@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-24T12:52:00Z",
+  "scope": "Verify identity and preview behavior for current-user packaged Terminal settings writer",
+  "implementation": {
+    "module": "modules/RIDE.TerminalJsonc.psm1",
+    "moduleVersion": "0.4.0",
+    "function": "Set-RideTerminalInstalledInstanceDefaultProfile",
+    "identityCheck": "The wrapper validates expected current computer and current-user SID, plus an existing regular settings.json, before any ShouldProcess preview or write.",
+    "selection": "Requires exactly one documented Stable, Preview or Canary package identity from a live current-user AppX query; injected synthetic records cannot authorize writing.",
+    "profileAvailabilityVerified": false
+  },
+  "validation": {
+    "focusedSuite": {
+      "path": "tests/TerminalJsonc.Tests.ps1",
+      "discovered": 58,
+      "passed": 58,
+      "failed": 0,
+      "skipped": 0,
+      "powershell": "7.6.5",
+      "pester": "5.7.1",
+      "testRegistryEnabled": false,
+      "appxResponses": "Mocked synthetic package records",
+      "fileData": "Synthetic files under Pester TestDrive",
+      "specificGuard": "A WhatIf request with a mismatched computer name is refused before preview and makes no settings or snapshot write."
+    },
+    "windowsPowerShell51Parser": "Passed for module and TerminalJsonc test file.",
+    "repositoryValidation": {
+      "status": "Passed",
+      "operationDocumentation": "Current",
+      "operations": 408,
+      "groups": 8,
+      "profiles": 5,
+      "powershellFiles": 272
+    }
+  },
+  "sideEffects": {
+    "liveAppxInventoryQueried": false,
+    "terminalLaunched": false,
+    "profileLaunched": false,
+    "settingsChanged": false,
+    "vmUsed": false,
+    "windowsStateChanged": false
+  },
+  "remainingAcceptance": [
+    "Exercise actual current-user AppX discovery on the selected disposable Windows instance.",
+    "Verify the selected profile is available and opens in a new Terminal tab.",
+    "Accept packaged-instance file apply, exact recovery and GUI behavior on a disposable VM.",
+    "Consider catalog integration only after native behavior and target support are established."
+  ],
+  "migrationAccounting": {
+    "legacyOutcomesClosed": 0,
+    "estimateRangesUnchanged": true,
+    "ranges": {
+      "settings": "38-58",
+      "packages": "52-67",
+      "components": "19-24",
+      "accountsConfigurationAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "142-196",
+      "roundedTotal": "145-200/about 170"
+    }
+  },
+  "concurrentVmRequest": {
+    "requestId": "24dae5ea55034a84b42cb6a0260d9c3c",
+    "stateAtCheck": "At 12:45 UTC the request remained in queue/running; its result directory had no result.json, controller log last write was 11:54:20Z and controller error log was empty. The owner task was active; no other batch was submitted."
+  }
+}

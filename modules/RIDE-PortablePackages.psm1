@@ -8,11 +8,15 @@
   Engine-internal writers require engine ShouldProcess and snapshot capture.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Prerequisites: Local filesystem, ZIP APIs, resolved package metadata.
+  Prerequisites: Local filesystem, ZIP APIs, Windows inbox tar for 7z archives,
+  resolved package metadata.
   Recovery: Versioned file snapshots; missing backups stop restore before writes.
   Failed manifest commits retain staged evidence for review, never automatic adoption.
-  Owner: RIDE-Windows maintainers. Version: 0.5.0.
-  Changelog: 0.5.0: Support pinned exact ZIP member selection before product writes.
+  Owner: RIDE-Windows maintainers. Version: 0.7.0.
+  Changelog: 0.7.0: Support explicitly declared copies of staged portable files.
+    0.6.0: Batch ownership journaling for large portable packages and add
+    bounded Windows inbox tar support for validated 7z archives.
+    0.5.0: Support pinned exact ZIP member selection before product writes.
     0.4.0: Omit certificate-provider inspection during explicit offline deployment.
     0.3.0: Bound unchanged-file replacement retries and retain failed manifest evidence.
     0.2.0: Inspect available signatures on portable COM executables.
@@ -95,6 +99,100 @@ function Write-RidePortableManifest {
       Write-Warning "Portable manifest commit failed. Retained staged evidence at '$temporary'; preserve it and the saved run for recovery review." -WarningAction Continue
     }
     throw
+  }
+}
+
+function Invoke-RidePortableTar {
+  param(
+    [Parameter(Mandatory)][ValidateSet('List','ListVerbose','Extract')][string]$Action,
+    [Parameter(Mandatory)][string]$ArchivePath,
+    [string]$Destination,
+    [switch]$Offline
+  )
+  $tar = Join-Path $env:SystemRoot 'System32\tar.exe'
+  if (-not (Test-Path -LiteralPath $tar -PathType Leaf)) { throw 'Windows inbox tar.exe is unavailable for 7z portable package extraction.' }
+  if (-not $Offline) {
+    $signature = Get-AuthenticodeSignature -LiteralPath $tar -ErrorAction Stop
+    if ([string]$signature.Status -ne 'Valid' -or $signature.SignerCertificate.Subject -notmatch '^CN=Microsoft Windows(?:,|$)') { throw 'Windows inbox tar.exe does not have a valid Microsoft Windows signature.' }
+  }
+  if ($ArchivePath.Contains('"') -or $ArchivePath.Contains("`r") -or $ArchivePath.Contains("`n") -or
+      ($Destination -and ($Destination.Contains('"') -or $Destination.Contains("`r") -or $Destination.Contains("`n")))) { throw 'Portable archive paths contain unsupported characters.' }
+  $quotedArchive = '"' + $ArchivePath + '"'
+  $arguments = if ($Action -eq 'List') { '-tf ' + $quotedArchive }
+    elseif ($Action -eq 'ListVerbose') { '-tvf ' + $quotedArchive }
+    else { '-xf ' + $quotedArchive + ' -C "' + $Destination + '"' }
+  $startInfo = [Diagnostics.ProcessStartInfo]::new()
+  $startInfo.FileName = $tar
+  $startInfo.Arguments = $arguments
+  $startInfo.WorkingDirectory = (Split-Path -Parent $tar)
+  $startInfo.UseShellExecute = $false
+  $startInfo.CreateNoWindow = $true
+  $startInfo.RedirectStandardOutput = $true
+  $startInfo.RedirectStandardError = $true
+  $process = [Diagnostics.Process]::new()
+  $process.StartInfo = $startInfo
+  try {
+    if (-not $process.Start()) { throw 'Windows inbox tar.exe did not start.' }
+    $stdoutTask = $process.StandardOutput.ReadToEndAsync()
+    $stderrTask = $process.StandardError.ReadToEndAsync()
+    if (-not $process.WaitForExit(300000)) {
+      $process.Kill()
+      $process.WaitForExit()
+      throw 'Windows inbox tar.exe exceeded the five-minute operation limit.'
+    }
+    $stdout = $stdoutTask.Result
+    $stderr = $stderrTask.Result
+    if ($stdout.Length -gt 16777216) { throw 'Windows inbox tar.exe produced more than 16 MiB of listing output.' }
+    $exitCode = $process.ExitCode
+    if ($exitCode -ne 0 -or $stderr) {
+      $detail = ($stderr -replace '[\r\n]+',' ').Trim()
+      if ($detail.Length -gt 500) { $detail = $detail.Substring(0, 500) }
+      throw "Windows inbox tar.exe failed to $($Action.ToLowerInvariant()) the 7z archive (exit $exitCode): $detail"
+    }
+    $lines = @($stdout -split "`r?`n")
+    if ($lines.Count -and $lines[$lines.Count - 1] -eq '') { $lines = @($lines | Select-Object -First ($lines.Count - 1)) }
+    $lines
+  } finally { $process.Dispose() }
+}
+
+function Expand-RidePortableSevenZip {
+  param([string]$ArchivePath, [string]$Destination, [switch]$Offline)
+  $paths = @(Invoke-RidePortableTar -Action List -ArchivePath $ArchivePath -Offline:$Offline)
+  $details = @(Invoke-RidePortableTar -Action ListVerbose -ArchivePath $ArchivePath -Offline:$Offline)
+  if (-not $paths.Count -or $paths.Count -gt 10000 -or $details.Count -ne $paths.Count) { throw 'Portable 7z archive has an empty, oversized, or inconsistent member listing.' }
+  $expected = @(); $seen = @{}; $total = [long]0
+  for ($i = 0; $i -lt $paths.Count; $i++) {
+    $listedPath = [string]$paths[$i]
+    if (-not $listedPath -or $listedPath.Contains("`n") -or $listedPath.Contains("`r")) { throw 'Portable 7z archive contains an invalid member path.' }
+    $isDirectory = $listedPath.EndsWith('/')
+    $relativePath = if ($isDirectory) { $listedPath.TrimEnd('/') } else { $listedPath }
+    if ($relativePath -eq '.' -and $isDirectory) { continue }
+    $null = Get-RidePortableMemberPath $Destination $relativePath
+    if ($relativePath -ieq '.ride-package.json' -or $seen.ContainsKey($relativePath)) { throw 'Portable 7z archive has a reserved or duplicate case-insensitive path.' }
+    $seen[$relativePath] = $true
+
+    $detail = [string]$details[$i]
+    if ($detail.Length -lt 10 -or $detail -notmatch '^(.{10})\s+\d+\s+\d+\s+\d+\s+(\d+)\s+' ) { throw 'Portable 7z archive has unsupported verbose member metadata.' }
+    $mode = $Matches[1]; $size = [long]$Matches[2]
+    if (($isDirectory -and $mode[0] -ne 'd') -or (-not $isDirectory -and $mode[0] -ne '-') -or $mode[0] -notin @('d','-')) { throw 'Portable 7z archives may contain only regular files and directories; links and special files are rejected.' }
+    if ($size -gt 536870912) { throw 'Portable 7z member exceeds 512 MiB.' }
+    if (-not $isDirectory) {
+      $total += $size
+      if ($total -gt 2147483648) { throw 'Portable 7z archive exceeds 2 GiB of extracted files.' }
+      $expected += [pscustomobject]@{ RelativePath = $relativePath; Length = $size }
+    }
+  }
+  if (-not $expected.Count) { throw 'Portable 7z archive contains no regular files.' }
+  $null = Invoke-RidePortableTar -Action Extract -ArchivePath $ArchivePath -Destination $Destination -Offline:$Offline
+
+  $actualItems = @(Get-ChildItem -LiteralPath $Destination -Recurse -Force)
+  if (@($actualItems | Where-Object { $_.Attributes -band [IO.FileAttributes]::ReparsePoint }).Count) { throw 'Portable 7z extraction produced a link or reparse point.' }
+  $actualFiles = @($actualItems | Where-Object { -not $_.PSIsContainer })
+  if ($actualFiles.Count -ne $expected.Count) { throw 'Portable 7z extraction did not produce the listed file set.' }
+  $expectedByPath = @{}; foreach ($item in $expected) { $expectedByPath[$item.RelativePath] = $item }
+  foreach ($file in $actualFiles) {
+    $relativePath = $file.FullName.Substring($Destination.Length + 1).Replace('\','/')
+    if (-not $expectedByPath.ContainsKey($relativePath) -or $file.Length -ne $expectedByPath[$relativePath].Length) { throw 'Portable 7z extraction differs from its validated member listing.' }
   }
 }
 
@@ -216,11 +314,39 @@ function Install-RidePortablePayload {
         [IO.Compression.ZipFileExtensions]::ExtractToFile($entry, $path)
       }
       if ($null -ne $selected -and @($selected.Keys | Where-Object { -not $selected[$_] }).Count) { throw 'Portable archive is missing a selected file.' }
+    } elseif ($Operation.PortableFormat -eq 'SevenZip') {
+      if ($null -ne $selected) { throw 'Exact PortableMembers selection is supported only for ZIP archives.' }
+      Expand-RidePortableSevenZip -ArchivePath $Artifact.Path -Destination $stage -Offline:$Offline
     } elseif ($Operation.PortableFormat -eq 'File') {
       $path = Get-RidePortableMemberPath $stage $Operation.PortableFileName
       New-Item -ItemType Directory -Path (Split-Path -Parent $path) -Force | Out-Null
       Copy-Item -LiteralPath $Artifact.Path -Destination $path
     } else { throw 'Unsupported portable format.' }
+    if ($Operation.ContainsKey('PortableCopies')) {
+      if ($Operation.PortableFormat -ne 'Zip' -or $Operation.PortableCopies -isnot [array] -or
+          $Operation.PortableCopies.Count -lt 1 -or $Operation.PortableCopies.Count -gt 64) {
+        throw 'Portable copies require a bounded ZIP copy map.'
+      }
+      $copyDestinations = @{}
+      foreach ($copy in $Operation.PortableCopies) {
+        if ($copy -isnot [hashtable] -or -not $copy.ContainsKey('Source') -or -not $copy.ContainsKey('Destination')) {
+          throw 'Portable copy entries require Source and Destination paths.'
+        }
+        $sourceRelative = [string]$copy.Source
+        $destinationRelative = [string]$copy.Destination
+        $source = Get-RidePortableMemberPath $stage $sourceRelative
+        $destination = Get-RidePortableMemberPath $stage $destinationRelative
+        if ($sourceRelative -ieq $destinationRelative -or $copyDestinations.ContainsKey($destinationRelative) -or
+            $sourceRelative -notin @($Operation.RequiredFiles) -or $destinationRelative -notin @($Operation.RequiredFiles)) {
+          throw 'Portable copies must have unique destinations and declared required source and destination files.'
+        }
+        if (-not (Test-Path -LiteralPath $source -PathType Leaf)) { throw "Portable copy source is missing: $sourceRelative" }
+        if (Test-Path -LiteralPath $destination) { throw "Portable copy destination already exists: $destinationRelative" }
+        $copyDestinations[$destinationRelative] = $true
+        New-Item -ItemType Directory -Path (Split-Path -Parent $destination) -Force | Out-Null
+        Copy-Item -LiteralPath $source -Destination $destination -ErrorAction Stop
+      }
+    }
     foreach ($requiredTemplate in $Operation.RequiredFiles) {
       $required = ([string]$requiredTemplate).Replace('{version}', [string]$Artifact.Version)
       if (-not (Test-Path -LiteralPath (Get-RidePortableMemberPath $stage $required) -PathType Leaf)) { throw "Portable payload is missing required file: $required" }
@@ -245,14 +371,17 @@ function Install-RidePortablePayload {
     $manifestPath = Join-Path $root '.ride-package.json'
     $journal = @{}
     foreach ($old in $state.Manifest.Files) { if ($old) { $journal[$old.RelativePath] = $old } }
+    foreach ($file in $newFiles) { $journal[$file.RelativePath] = $file }
+    # Commit the complete validated write-ahead journal once before product writes.
+    # Per-file replacement serialized a growing manifest hundreds of times for
+    # large source packages and left the same recoverable state on interruption.
+    $manifest.Files = @($journal.Values)
+    Write-RidePortableManifest -Root $root -Manifest $manifest
     foreach ($file in $newFiles) {
       $source = Get-RidePortableMemberPath $stage $file.RelativePath
       $dest = Get-RidePortableMemberPath $root $file.RelativePath
       New-Item -ItemType Directory -Path (Split-Path -Parent $dest) -Force | Out-Null
-      # Journal ownership before copying, so interrupted writes remain recoverable.
-      $journal[$file.RelativePath] = $file
-      $manifest.Files = @($journal.Values)
-      Write-RidePortableManifest -Root $root -Manifest $manifest
+      # The full ownership/hash set is durable before the first file is copied.
       Copy-Item -LiteralPath $source -Destination $dest -Force
     }
     foreach ($old in $state.Files) {

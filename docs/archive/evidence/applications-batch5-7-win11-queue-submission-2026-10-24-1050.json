@@ -1,0 +1,16 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T10:50:33Z",
+  "Controller": "RIDEWin11Test",
+  "Target": "RIDE-Win11-Test",
+  "Requests": [
+    {"RunId":"cf8f187288c4464db54b96e7db103c08","IntegrationSuite":"ApplicationsBatch7","SubmittedAtUtc":"2026-10-24T10:48:23Z","TimeoutMinutes":60,"Scope":"Current-user ArtCraft Launcher MSI; launch disabled","Status":"Pending"},
+    {"RunId":"a4bf331470b44d829ae3fddb4b7cfd40","IntegrationSuite":"ApplicationsBatch5","SubmittedAtUtc":"2026-10-24T10:49:58Z","TimeoutMinutes":90,"Scope":"Microsoft Visual C++ v14 x64 prerequisite lifecycle","Status":"Pending"},
+    {"RunId":"d4cfc6d0a0364f4782ebf4b373ac33e3","IntegrationSuite":"ApplicationsBatch6","SubmittedAtUtc":"2026-10-24T10:50:33Z","TimeoutMinutes":90,"Scope":"Twelve Artcraft machine-scope MSI packages","Status":"Pending"}
+  ],
+  "QueueOrder": ["ApplicationsBatch1:0f8b118f952941d7989e25cf9f13bf1e","SysinternalsProducts:cf9a9049bc0745c08d7e0c3abcb67024","PSScriptTools:2c4c9348bbb541059ea9e38e7fb796cd","ApplicationsBatch7:cf8f187288c4464db54b96e7db103c08","ApplicationsBatch5:a4bf331470b44d829ae3fddb4b7cfd40","ApplicationsBatch6:d4cfc6d0a0364f4782ebf4b373ac33e3"],
+  "PriorApplicationsBatch7Attempt": {"Status":"DeniedBeforeEnqueue","Reason":"Sandboxed protected-queue temporary-file access was denied.","VmStateChanged":false},
+  "ElevatedSubmissions": {"Status":"Queued","VmStateChanged":false,"UserStateChanged":false,"DefenderChanged":false},
+  "Acceptance": {"AllThreeGuestResults":"Pending","CheckpointRecovery":"Pending","SupportedTargetsAdded":false,"LegacyOutcomeClosed":false},
+  "Estimates": {"Settings":"38-58","Packages":"52-67","Components":"19-24","FilesAndAssets":"25-35","Maintenance":"8-12","ExactTotal":"142-196","RoundedTotal":"145-200/about 170","Adjustment":"Unchanged; queue submissions close no legacy outcome or target acceptance."}
+}

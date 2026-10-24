@@ -24,6 +24,11 @@ BeforeAll {
     [IO.File]::WriteAllText($path,$Text,[Text.UTF8Encoding]::new($false))
     [pscustomobject]@{Id=$Id;RelativePath=$Relative;Role=$Role;Length=(Get-Item -LiteralPath $path).Length;Sha256=(Get-FileHash -LiteralPath $path).Hash.ToLowerInvariant()}
   }
+  function Replace-ExecutionFile($Root,$Id,$Relative,$Role,$Text) {
+    $path=Join-Path $Root $Relative
+    [IO.File]::WriteAllText($path,$Text,[Text.UTF8Encoding]::new($false))
+    [pscustomobject]@{Id=$Id;RelativePath=$Relative;Role=$Role;Length=(Get-Item -LiteralPath $path).Length;Sha256=(Get-FileHash -LiteralPath $path).Hash.ToLowerInvariant()}
+  }
   $script:CatalogText=@'
 @{SchemaVersion=1;Groups=@();Operations=@(
  @{Id='package.fixture';Name='Fixture';Kind='Package';PackageId='fixture';Scope='User';InstallerType='Portable';PortableFormat='File';PortableFileName='fixture.ps1';RequiredFiles=@('fixture.ps1');Architecture='x64';SupportedTargets=@('Windows 11');Actions=@('Install','Uninstall');ProductUri='https://publisher.example/product';License='Fixture';LicenseUri='https://publisher.example/license';DownloadUri='https://publisher.example/source';PackageVersion='1.0'}
@@ -80,10 +85,69 @@ Describe 'Whole-plan offline source and byte gate' {
     } finally { foreach($lease in $context.Leases){$lease.Dispose()} }
     {[IO.File]::WriteAllText($PayloadPath,'released')} | Should -Not -Throw
   }
+  It 'preflights catalog prerequisite artifacts in dependency order before offline dispatch' {
+    $catalogText=@'
+@{SchemaVersion=1;Groups=@();Operations=@(
+ @{Id='package.runtime';Name='Fixture Runtime';Kind='Package';PackageId='runtime';Scope='User';InstallerType='Portable';PortableFormat='File';PortableFileName='runtime.exe';RequiredFiles=@('runtime.exe');Architecture='x64';SupportedTargets=@('Windows 11');Actions=@('Install','Uninstall');ProductUri='https://publisher.example/runtime';License='Fixture';LicenseUri='https://publisher.example/license';DownloadUri='https://publisher.example/runtime-source';PackageVersion='1.0'}
+ @{Id='package.fixture';Name='Fixture Consumer';Kind='Package';PackageId='fixture';Scope='User';InstallerType='Portable';PortableFormat='File';PortableFileName='fixture.ps1';RequiredFiles=@('fixture.ps1');Architecture='x64';SupportedTargets=@('Windows 11');Actions=@('Install','Uninstall');PrerequisitePackageId='package.runtime';PrerequisiteProgramFilesExecutable='runtime.exe';ProductUri='https://publisher.example/product';License='Fixture';LicenseUri='https://publisher.example/license';DownloadUri='https://publisher.example/source';PackageVersion='1.0'}
+)}
+'@
+    $script:Manifest.Files[1]=Replace-ExecutionFile $BundleRoot catalog 'ride/catalog/operations.psd1' Engine $catalogText
+    $null=Replace-ExecutionFile $SourceRoot catalog 'catalog/operations.psd1' Engine $catalogText
+    $profileText="@{SchemaVersion=1;Name='Fixture';Operations=@(@{Id='package.fixture';State='Present';Variant='installed'})}"
+    $script:Manifest.Files[3]=Replace-ExecutionFile $BundleRoot profile 'ride/profiles/fixture.psd1' Profile $profileText
+    $script:Manifest.Files+=New-ExecutionFile $BundleRoot runtime-payload 'payload/runtime.exe' Payload 'inert runtime payload'
+    $script:Manifest.Files+=New-ExecutionFile $BundleRoot runtime-notice 'notices/runtime.txt' Notice 'runtime notice'
+    $script:Manifest.Files+=New-ExecutionFile $BundleRoot consumer-payload 'payload/fixture-consumer.ps1' Payload 'inert consumer payload'
+    $script:Manifest.Files+=New-ExecutionFile $BundleRoot consumer-notice 'notices/consumer.txt' Notice 'consumer notice'
+    $runtimeArtifact=[pscustomobject]@{Id='runtime';PackageId='package.runtime';Variant='installed';Version='1.0';Architecture='x64';Targets=@('Windows 11');Status='Included';OmissionCode=$null;FileIds=@('runtime-payload','runtime-notice');DependencyIds=@();OfflineCapability='DeclaredNoNetwork';ProductUri='https://publisher.example/runtime';DownloadUri='https://publisher.example/runtime-source';License='Fixture';LicenseUri='https://publisher.example/license'}
+    $consumerArtifact=$script:Manifest.Artifacts[0]
+    $consumerArtifact.FileIds=@('consumer-payload','consumer-notice')
+    $consumerArtifact.DependencyIds=@('runtime')
+    $script:Manifest.Artifacts=@($runtimeArtifact,$consumerArtifact)
+    $script:Manifest.Profiles[0].ArtifactIds=@('tool')
+    $operations=@(Import-RideCatalogData -Content $catalogText).Operations
+    $runtime=$operations | Where-Object Id -eq 'package.runtime'
+    $consumer=$operations | Where-Object Id -eq 'package.fixture'
+    $runtime.SelectedVariant='installed';$consumer.SelectedVariant='installed'
+    $script:Plan=@([pscustomobject]@{Operation=$runtime;State='Present'},[pscustomobject]@{Operation=$consumer;State='Present'})
+    Save-ExecutionManifest
+
+    $context=Open-ExecutionContext
+    try {
+      $context.Artifacts.Keys | Should -Contain 'package.runtime'
+      $context.Artifacts.Keys | Should -Contain 'package.fixture'
+      $context.Preflight.SelectedPackageContentComplete | Should -BeTrue
+      @($context.Preflight.ProfileCoverage.PackageRequirements.Id) | Should -Be @('package.runtime','package.fixture')
+    } finally { foreach($lease in $context.Leases){$lease.Dispose()} }
+  }
+  It 'allows an explicitly declared offline <InstallerType> with no dependency action once the catalog target is accepted' -ForEach @(@{InstallerType='Exe'},@{InstallerType='Msi'}) {
+    $msiCatalogText=$CatalogText.Replace("InstallerType='Portable'", "InstallerType='$InstallerType'")
+    $Manifest.Files[1]=New-ExecutionFile $BundleRoot catalog 'ride/catalog/operations.psd1' Engine $msiCatalogText
+    [IO.File]::WriteAllText((Join-Path $SourceRoot 'catalog/operations.psd1'),$msiCatalogText,[Text.UTF8Encoding]::new($false))
+    $extension=if($InstallerType -eq 'Msi'){'.msi'}else{'.exe'}
+    $payload=New-ExecutionFile $BundleRoot payload ('payload/fixture'+$extension) Payload ('inert '+$InstallerType+' fixture')
+    $Manifest.Files[4]=$payload
+    $script:PayloadPath=Join-Path $BundleRoot ('payload/fixture'+$extension)
+    $operation=(Import-RideCatalogData -Content $msiCatalogText).Operations[0]
+    $operation.SelectedVariant='installed'
+    $operation.PendingAcceptance=$false
+    $script:Plan=@([pscustomobject]@{Operation=$operation;State='Present'})
+    Save-ExecutionManifest
+    $context=Open-ExecutionContext
+    try {
+      $context.Artifacts['package.fixture'].InstallerType | Should -BeExactly $InstallerType
+      $context.Artifacts['package.fixture'].OfflineCapability | Should -BeExactly 'DeclaredNoNetwork'
+      $context.Artifacts['package.fixture'].Path | Should -BeExactly $PayloadPath
+    } finally { foreach($lease in $context.Leases){$lease.Dispose()} }
+    $Manifest.Artifacts[0].OfflineCapability='Unverified'
+    Save-ExecutionManifest
+    {Open-ExecutionContext} | Should -Throw '*no-network coverage failed*'
+  }
   It 'fails <Case> before returning an executable context and releases all leases' -ForEach @(
     @{Case='MissingPayload'},@{Case='ChangedPayload'},@{Case='MissingNotice'},@{Case='WrongPublisherSource'},
     @{Case='Omission'},@{Case='NetworkRequired'},@{Case='MissingEngineSource'},@{Case='ChangedRunningSource'},
-    @{Case='WrongTarget'},@{Case='WrongPlan'},@{Case='WrongVariant'},@{Case='ExecutableInstaller'},
+    @{Case='WrongTarget'},@{Case='WrongPlan'},@{Case='WrongVariant'},@{Case='UnsupportedInstaller'},
     @{Case='CatalogDependency'},@{Case='PendingAcceptance'},@{Case='ManifestDependency'},@{Case='BadCatalogRoot'},@{Case='RemovalRequirement'}
   ) {
     switch($Case){
@@ -98,7 +162,7 @@ Describe 'Whole-plan offline source and byte gate' {
       WrongTarget {$Manifest.Profiles[0].Build=26200}
       WrongPlan {$Plan[0].Operation.Id='package.other'}
       WrongVariant {$Plan[0].Operation.SelectedVariant='portable'}
-      ExecutableInstaller {$Plan[0].Operation.InstallerType='Exe'}
+      UnsupportedInstaller {$Plan[0].Operation.InstallerType='SysmonZip'}
       CatalogDependency {$Plan[0].Operation.PrerequisitePackageId='package.runtime'}
       PendingAcceptance {$Plan[0].Operation.PendingAcceptance=$true}
       BadCatalogRoot {$Manifest.Files[1].RelativePath='ride/notcatalog/operations.psd1';$null=New-ExecutionFile $BundleRoot catalog $Manifest.Files[1].RelativePath Engine $CatalogText}
@@ -142,7 +206,7 @@ Describe 'Engine offline dispatch and lease recovery' {
       param($Lease,$Root)
       $script:OfflineDispatchOperation=@{Id='package.fixture';Kind='Package';Name='Fixture';Scope='User';SelectedVariant='installed'}
       $script:OfflineDispatchRoot=$Root
-      $script:OfflineDispatchContext=[pscustomobject]@{Leases=@($Lease);Artifacts=@{'package.fixture'=[pscustomobject]@{Offline=$true;Sha256=('a'*64);Path='fixture';Version='1.0'}}}
+      $script:OfflineDispatchContext=[pscustomobject]@{Leases=@($Lease);Artifacts=@{'package.fixture'=[pscustomobject]@{Offline=$true;OfflineCapability='DeclaredNoNetwork';InstallerType='Portable';Sha256=('a'*64);Path='fixture';Version='1.0'}}}
       Mock Get-RideOfflinePlanContext {$script:OfflineDispatchContext}
       Mock Assert-RidePlanAllowed {}
       Mock Get-RideOperation {$script:OfflineDispatchOperation}
@@ -163,6 +227,19 @@ Describe 'Engine offline dispatch and lease recovery' {
     Should -Invoke Save-RideOperationSnapshot -ModuleName RIDE.Engine -Exactly 1
     $DispatchLease.CanRead | Should -BeFalse
   }
+  It 'forwards a declared offline MSI artifact through the plan handler boundary' {
+    $DispatchPlan[0].Operation.InstallerType='Msi'
+    InModuleScope RIDE.Engine {
+      $script:OfflineDispatchOperation.InstallerType='Msi'
+      $script:OfflineDispatchContext.Artifacts['package.fixture'].InstallerType='Msi'
+    }
+    Invoke-RidePlan $DispatchPlan -OfflineBundle fixture -OfflineProfileId p -OfflineCatalogFileId c -Confirm:$false | Out-Null
+    Should -Invoke Install-RidePackage -ModuleName RIDE.Engine -Exactly 1 -ParameterFilter {
+      $OfflineArtifact.Offline -and $OfflineArtifact.OfflineCapability -eq 'DeclaredNoNetwork' -and
+      $OfflineArtifact.InstallerType -eq 'Msi' -and $OfflineArtifact.Sha256 -eq ('a'*64)
+    }
+    $DispatchLease.CanRead | Should -BeFalse
+  }
   It 'runs the gate but performs no capture or handler in preview' {
     Invoke-RidePlan $DispatchPlan -OfflineBundle fixture -OfflineProfileId p -OfflineCatalogFileId c -WhatIf | Out-Null
     Should -Invoke Get-RideOfflinePlanContext -ModuleName RIDE.Engine -Exactly 1
@@ -181,10 +258,13 @@ Describe 'Engine offline dispatch and lease recovery' {
 
 Describe 'Offline handler cannot fall back to acquisition or certificate networking' {
   BeforeEach {
-    $script:HandlerRoot=Join-Path $TestDrive ([guid]::NewGuid().ToString('N'))
+    $localRoot=Join-Path $RepositoryRoot '.local'
+    if (-not (Test-Path -LiteralPath $localRoot -PathType Container)) { $null=New-Item -ItemType Directory -Path $localRoot }
+    if ((Get-Item -LiteralPath $localRoot).Attributes -band [IO.FileAttributes]::ReparsePoint) { throw 'Offline execution fixtures cannot use a reparse-point .local directory.' }
+    $script:HandlerRoot=Join-Path $localRoot ('offline-handler-tests-'+[guid]::NewGuid().ToString('N'))
     $null=New-Item -ItemType Directory -Path $HandlerRoot
     $script:HandlerPath=Join-Path $HandlerRoot 'fixture.ps1';[IO.File]::WriteAllText($HandlerPath,'# inert payload')
-    $script:HandlerArtifact=[pscustomobject]@{Path=$HandlerPath;Sha256=(Get-FileHash -LiteralPath $HandlerPath).Hash;Version='1.0';Offline=$true}
+    $script:HandlerArtifact=[pscustomobject]@{Path=$HandlerPath;Sha256=(Get-FileHash -LiteralPath $HandlerPath).Hash;Version='1.0';Offline=$true;OfflineCapability='DeclaredNoNetwork';InstallerType='Portable'}
     $script:HandlerOperation=@{Id='package.fixture';Name='Fixture';Kind='Package';PackageId='fixture';Scope='User';InstallerType='Portable';PortableFormat='File';PortableFileName='fixture.ps1';RequiredFiles=@('fixture.ps1');SelectedVariant='installed';ResolvedToolsDirectory=$HandlerRoot;InstallDirectory=(Join-Path $HandlerRoot 'fixture')}
     Mock Save-RidePackageArtifact -ModuleName RIDE-Packages {throw 'No network'}
     Mock Get-RidePackagePrerequisiteDirectory -ModuleName RIDE-Packages {}
@@ -194,6 +274,14 @@ Describe 'Offline handler cannot fall back to acquisition or certificate network
   AfterEach {
     Should -Invoke Save-RidePackageArtifact -ModuleName RIDE-Packages -Exactly 0
     Should -Invoke Get-AuthenticodeSignature -ModuleName RIDE-PortablePackages -Exactly 0
+    if ([IO.Directory]::Exists($HandlerRoot)) {
+      $resolvedRoot=[IO.Path]::GetFullPath((Resolve-Path -LiteralPath $HandlerRoot).Path)
+      $expectedParent=[IO.Path]::GetFullPath((Join-Path $RepositoryRoot '.local'))
+      if (([IO.Path]::GetDirectoryName($resolvedRoot) -cne $expectedParent) -or
+          (Split-Path -Leaf $resolvedRoot) -notmatch '^offline-handler-tests-[0-9a-f]{32}$' -or
+          (([IO.File]::GetAttributes($resolvedRoot) -band [IO.FileAttributes]::ReparsePoint) -ne 0)) { throw 'Refusing to clean an unexpected offline handler fixture path.' }
+      Remove-Item -LiteralPath $resolvedRoot -Recurse -Force
+    }
   }
   It 'deploys only verified inert bytes and records skipped offline signature inspection' {
     $result=Install-RidePackage $HandlerOperation $HandlerRoot -OfflineArtifact $HandlerArtifact
@@ -201,8 +289,48 @@ Describe 'Offline handler cannot fall back to acquisition or certificate network
     [IO.File]::ReadAllText((Join-Path $HandlerOperation.InstallDirectory 'fixture.ps1')) | Should -BeExactly '# inert payload'
     (Get-RidePortableState $HandlerOperation).Manifest.Files[0].AuthenticodeStatus | Should -Be NotInspectedOffline
   }
-  It 'refuses <Case> without downloading or installing' -ForEach @(@{Case='Null'},@{Case='Changed'},@{Case='Installer'}) {
-    switch($Case){Null {$HandlerArtifact=$null} Changed {[IO.File]::WriteAllText($HandlerPath,'changed')} Installer {$HandlerOperation.InstallerType='Exe'}}
+  It 'installs a hash-bound declared offline MSI without package acquisition' {
+    $msiPath=Join-Path $HandlerRoot 'fixture.msi'
+    [IO.File]::WriteAllText($msiPath,'inert MSI fixture')
+    $HandlerOperation.InstallerType='Msi'
+    $HandlerOperation.InstallerArguments='/qn /norestart'
+    $HandlerArtifact=[pscustomobject]@{Path=$msiPath;Sha256=(Get-FileHash -LiteralPath $msiPath).Hash;Version='1.0';Offline=$true;OfflineCapability='DeclaredNoNetwork';InstallerType='Msi'}
+    Mock Invoke-RidePackageInstallerProcess -ModuleName RIDE-Packages {param($Operation,$FilePath,$ArgumentList);$script:InstallerInvocation=[pscustomobject]@{FilePath=$FilePath;ArgumentList=$ArgumentList};[pscustomobject]@{ExitCode=0}}
+    Mock Get-RideInstalledPackage -ModuleName RIDE-Packages {[pscustomobject]@{Present=$true;DisplayName='Fixture';Version='1.0'}}
+    $result=Install-RidePackage $HandlerOperation $HandlerRoot -OfflineArtifact $HandlerArtifact
+    $result.Path | Should -BeExactly $msiPath
+    $InstallerInvocation.FilePath | Should -BeExactly (Join-Path $env:SystemRoot 'System32\msiexec.exe')
+    $InstallerInvocation.ArgumentList | Should -BeExactly ('/i "' + $msiPath + '" /qn /norestart')
+    Should -Invoke Invoke-RidePackageInstallerProcess -ModuleName RIDE-Packages -Exactly 1
+  }
+  It 'installs a hash-bound declared offline EXE from its local artifact path' {
+    $exePath=Join-Path $HandlerRoot 'fixture.exe'
+    [IO.File]::WriteAllText($exePath,'inert EXE fixture')
+    $HandlerOperation.InstallerType='Exe'
+    $HandlerOperation.InstallerArguments='/S'
+    $HandlerArtifact=[pscustomobject]@{Path=$exePath;Sha256=(Get-FileHash -LiteralPath $exePath).Hash;Version='1.0';Offline=$true;OfflineCapability='DeclaredNoNetwork';InstallerType='Exe'}
+    Mock Invoke-RidePackageInstallerProcess -ModuleName RIDE-Packages {param($Operation,$FilePath,$ArgumentList);$script:InstallerInvocation=[pscustomobject]@{FilePath=$FilePath;ArgumentList=$ArgumentList};[pscustomobject]@{ExitCode=0}}
+    Mock Get-RideInstalledPackage -ModuleName RIDE-Packages {[pscustomobject]@{Present=$true;DisplayName='Fixture';Version='1.0'}}
+    $result=Install-RidePackage $HandlerOperation $HandlerRoot -OfflineArtifact $HandlerArtifact
+    $result.Path | Should -BeExactly $exePath
+    $InstallerInvocation.FilePath | Should -BeExactly $exePath
+    $InstallerInvocation.ArgumentList | Should -BeExactly '/S'
+    Should -Invoke Invoke-RidePackageInstallerProcess -ModuleName RIDE-Packages -Exactly 1
+  }
+  It 'refuses <Case> offline installer bytes before starting a process' -ForEach @(
+    @{Case='MismatchedInstallerType'},@{Case='ChangedExePayload'},@{Case='ChangedMsiPayload'}
+  ) {
+    Mock Invoke-RidePackageInstallerProcess -ModuleName RIDE-Packages {throw 'Installer process must not start'}
+    switch($Case){
+      MismatchedInstallerType {$HandlerOperation.InstallerType='Msi';$HandlerArtifact.InstallerType='Exe'}
+      ChangedExePayload {$HandlerOperation.InstallerType='Exe';$HandlerArtifact.InstallerType='Exe';[IO.File]::WriteAllText($HandlerPath,'modified EXE payload')}
+      ChangedMsiPayload {$HandlerOperation.InstallerType='Msi';$HandlerArtifact.InstallerType='Msi';[IO.File]::WriteAllText($HandlerPath,'modified MSI payload')}
+    }
+    {Install-RidePackage $HandlerOperation $HandlerRoot -OfflineArtifact $HandlerArtifact} | Should -Throw
+    Should -Invoke Invoke-RidePackageInstallerProcess -ModuleName RIDE-Packages -Exactly 0
+  }
+  It 'refuses <Case> without downloading or installing' -ForEach @(@{Case='Null'},@{Case='Changed'},@{Case='Installer'},@{Case='MissingOfflineDeclaration'}) {
+    switch($Case){Null {$HandlerArtifact=$null} Changed {[IO.File]::WriteAllText($HandlerPath,'changed')} Installer {$HandlerOperation.InstallerType='SysmonZip'} MissingOfflineDeclaration {$HandlerArtifact.OfflineCapability='Unverified'}}
     {Install-RidePackage $HandlerOperation $HandlerRoot -OfflineArtifact $HandlerArtifact} | Should -Throw
     Test-Path -LiteralPath $HandlerOperation.InstallDirectory | Should -BeFalse
   }

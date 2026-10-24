@@ -1,0 +1,96 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T13:18:08Z",
+  "IntegrationSuite": "ApplicationsBatch1",
+  "Target": {
+    "VMName": "RIDE-Win11-Test",
+    "OS": "Windows 11 Enterprise Evaluation",
+    "Build": 26300,
+    "PowerShell": "5.1.26100.9444",
+    "Pester": "5.7.1"
+  },
+  "FailedRuns": [
+    {
+      "RunId": "5843bcf609d04d0d9ffc0af824554b42",
+      "StartedAtUtc": "2026-10-24T12:55:21Z",
+      "FinishedAtUtc": "2026-10-24T13:05:37Z",
+      "Status": "Failed",
+      "Pester": { "Total": 331, "Passed": 329, "Failed": 1, "Skipped": 1 },
+      "Failure": "Application batch incremental evidence serialization expected 2 decoded JSON rows but counted 1 in Windows PowerShell 5.1.",
+      "CleanupError": null,
+      "CollectionError": null,
+      "EvidenceExportError": null
+    },
+    {
+      "RunId": "c2295dddd2704b9db3008a0a0958cb0b",
+      "StartedAtUtc": "2026-10-24T13:06:00Z",
+      "FinishedAtUtc": "2026-10-24T13:16:59Z",
+      "Status": "Failed",
+      "Pester": { "Total": 331, "Passed": 329, "Failed": 1, "Skipped": 1 },
+      "Failure": "The request snapshot predated the correction and reproduced the same PowerShell 5.1 JSON-array test failure.",
+      "CleanupError": null,
+      "CollectionError": null,
+      "EvidenceExportError": null
+    }
+  ],
+  "RegressionCorrection": {
+    "File": "tests/TestAutomation.Tests.ps1",
+    "Change": "Assign ConvertFrom-Json output before counting it; avoid wrapping the pipeline in @(), which nests the returned JSON array in Windows PowerShell 5.1.",
+    "FocusedTest": {
+      "PowerShell7": { "Total": 1, "Passed": 1, "Failed": 0 },
+      "WindowsPowerShell51": { "Total": 1, "Passed": 1, "Failed": 0 }
+    },
+    "FullTestFile": {
+      "PowerShell7": { "Total": 114, "Passed": 112, "Failed": 0, "Skipped": 2 },
+      "WindowsPowerShell51": { "Total": 114, "Passed": 114, "Failed": 0, "Skipped": 0 }
+    }
+  },
+  "CurrentRetry": {
+    "RunId": "023b0d9b5c4c4dbc90649be8fea296b7",
+    "Suite": "ApplicationsBatch1",
+    "StatusAtRecording": "Submitted",
+    "ExpectedSourceIncludesRegressionCorrection": true
+  },
+  "QueueObservation": {
+    "ObservedAtUtc": "2026-10-24T13:28:31Z",
+    "Running": ["023b0d9b5c4c4dbc90649be8fea296b7"],
+    "Pending": ["14f6722a78f54ce8b931235eae5014ac"],
+    "PendingSuite": "ApplicationsBatch1",
+    "Note": "The queue serializes these requests. No additional VM request was submitted."
+  },
+  "LocalPSScriptToolsAttempt": {
+    "TestFile": "tests/PSScriptToolsPackage.Tests.ps1",
+    "Discovered": 7,
+    "Outcome": "InterruptedWithoutFinalSummary",
+    "Reason": "The full retained 360-file archive lifecycle fixture stopped producing output; the test process was interrupted. No pass count is claimed."
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "ApplicationsBatch1 package acceptance remains pending a corrected-source rerun.",
+      "PSScriptTools full 360-file local lifecycle regression has no final result."
+    ],
+    "Partial": [
+      "The existing Windows 11 ApplicationsBatch1 attempts completed with evidence collection and no reported controller cleanup error, but package acceptance is not established because guest Pester failed."
+    ],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "52-67",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "141-195",
+      "RoundedTotal": "140-195/about 170",
+      "Changed": false,
+      "Reason": "Neither failed VM run establishes package acceptance or closes a legacy outcome; the existing user-directed retirement of one obsolete Edge setting remains reflected in the current baseline."
+    }
+  },
+  "SideEffects": {
+    "DefenderBlockedToolsSelected": false,
+    "NewPerRunUacPrompt": false,
+    "ControllerCleanupErrors": false,
+    "PackageOutcomeClosed": false
+  }
+}

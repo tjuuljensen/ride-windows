@@ -1,0 +1,69 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "Batch": "Sysinternals install-plan and technical-acceptance regression",
+  "PackageIds": [
+    "package.sysinternals-suite",
+    "package.sysinternals-process-explorer",
+    "package.sysinternals-autoruns",
+    "package.sysinternals-tcpview",
+    "package.sysinternals-procmon",
+    "package.sysinternals-rammap",
+    "package.sysinternals-disk2vhd",
+    "package.sysinternals-sigcheck",
+    "package.sysinternals-strings",
+    "package.sysinternals-handle"
+  ],
+  "Assertions": [
+    "Install plan is available for each exact catalog package ID.",
+    "Each plan declares package kind and desired Present state.",
+    "PendingAcceptance remains true; planning does not claim technical acceptance."
+  ],
+  "Tests": {
+    "PesterVersion": "5.7.1",
+    "WindowsPowerShell51": {
+      "Passed": 20,
+      "Failed": 0,
+      "Skipped": 0
+    },
+    "PowerShell7": {
+      "Passed": 20,
+      "Failed": 0,
+      "Skipped": 0
+    },
+    "TestRegistryPlugin": "Disabled because the sandbox denies registry access."
+  },
+  "Boundaries": {
+    "InstallerExecuted": false,
+    "PackageDownloaded": false,
+    "WindowsStateChanged": false,
+    "VmUsed": false,
+    "DefenderChanged": false,
+    "ToolExecuted": false
+  },
+  "Outcome": {
+    "Resolved": [
+      "Regression coverage now protects install planning for all ten approved Sysinternals suite/product IDs while preserving their pending technical-acceptance gate."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Disposable Windows lifecycle, exact recovery and target acceptance remain pending because current VM/CIM access is denied."
+    ],
+    "Partial": [
+      "This is local plan/test coverage only; no product or legacy runtime outcome is accepted."
+    ]
+  },
+  "Estimate": {
+    "GroupRanges": [
+      "38-58",
+      "53-68",
+      "20-25",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged; the regression closes no legacy migration outcome."
+  }
+}

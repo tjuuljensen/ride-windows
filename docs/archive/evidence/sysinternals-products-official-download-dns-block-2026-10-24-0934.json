@@ -1,0 +1,59 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T09:34:00Z",
+  "Batch": "Independent Sysinternals pinned source acquisition attempt",
+  "Acquisition": {
+    "Helper": "Save-RidePackageArtifact",
+    "SourceOwner": "Microsoft Sysinternals download host",
+    "Host": "download.sysinternals.com",
+    "SelectedCandidates": [
+      "package.sysinternals-process-explorer",
+      "package.sysinternals-autoruns",
+      "package.sysinternals-tcpview",
+      "package.sysinternals-procmon",
+      "package.sysinternals-rammap",
+      "package.sysinternals-disk2vhd",
+      "package.sysinternals-sigcheck",
+      "package.sysinternals-strings",
+      "package.sysinternals-handle"
+    ],
+    "Attempts": 9,
+    "Transferred": 0,
+    "Failure": "All requests stopped before transfer: No such host is known (download.sysinternals.com:443).",
+    "ManifestWritten": false
+  },
+  "Boundaries": {
+    "PayloadBytesAcquired": false,
+    "InstallerExecuted": false,
+    "UtilityExecuted": false,
+    "EulaAccepted": false,
+    "VmUsed": false,
+    "DefenderChanged": false,
+    "WindowsStateChanged": false
+  },
+  "Outcome": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [
+      "Defender-detected files remain separately excluded from this nine-product batch."
+    ],
+    "Deferred": [
+      "Pinned archive acquisition and local manifest until publisher DNS works.",
+      "Windows file-lifecycle acceptance until archive preparation and VM access are available."
+    ],
+    "Partial": [
+      "No legacy outcome or supported Windows target closes."
+    ]
+  },
+  "LicenseDisposition": "No license blocker. The user's prior RIDE v2 specialist approval governs direct Microsoft download-and-install; this DNS failure is unrelated to licensing.",
+  "Estimates": {
+    "Settings": "38-58",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged: no payload or legacy outcome was acquired or accepted."
+  }
+}

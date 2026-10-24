@@ -1,0 +1,44 @@
+{
+  "Date": "2026-10-22",
+  "Batch": "Discord installer digest recheck",
+  "Source": {
+    "PublisherArtifactUrl": "https://stable.dl2.discordapp.net/distro/app/stable/win/x64/1.0.9264/DiscordSetup.exe",
+    "MatchingWinGetManifestUrl": "https://raw.githubusercontent.com/microsoft/winget-pkgs/master/manifests/d/Discord/Discord/1.0.9264/Discord.Discord.installer.yaml",
+    "ManifestReleaseDate": "2026-10-20",
+    "ManifestSha256Length": 65,
+    "ManifestSha256": "2C79A8ECCF972709DC04E014A9ED36D8DCCC4CE84179741EB1424E022D4C3625C"
+  },
+  "Acquisition": {
+    "ShellResult": "No such host is known: stable.dl2.discordapp.net",
+    "BrowserArtifactFetch": "Not accessible via the available fetch tool",
+    "ArtifactBytesRetrieved": false,
+    "DigestIndependentlyComputed": false,
+    "AuthenticodeSignatureVerified": false
+  },
+  "Catalog": {
+    "PackageId": "package.discord",
+    "Version": "1.0.9264",
+    "ExpectedSha256": null,
+    "AcquisitionBlocked": true,
+    "BlockReason": "The matching Microsoft WinGet manifest publishes a malformed 65-character SHA-256 value; the publisher artifact could not be reached to independently compute and verify a valid digest."
+  },
+  "Outcomes": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["Discord current-user package candidate"],
+    "Deferred": ["Discord artifact digest verification and Windows 11 lifecycle/recovery acceptance"]
+  },
+  "Estimates": {
+    "Groups": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactTotal": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged; no legacy product outcome was completed or removed."
+  },
+  "SystemState": {
+    "InstallerExecution": false,
+    "VmRun": false,
+    "DefenderChange": false,
+    "Uac": false
+  }
+}

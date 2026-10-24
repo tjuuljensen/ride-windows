@@ -1,0 +1,55 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T10:45:09Z",
+  "RunId": "2c4c9348bbb541059ea9e38e7fb796cd",
+  "Request": {
+    "Source": "Local",
+    "IntegrationSuite": "PSScriptTools",
+    "TimeoutMinutes": 60,
+    "Status": "Pending",
+    "SubmittedAtUtc": "2026-10-24T10:45:09Z",
+    "Controller": "RIDEWin11Test",
+    "Target": "RIDE-Win11-Test"
+  },
+  "QueueAtSubmission": {
+    "ActiveRunId": "0f8b118f952941d7989e25cf9f13bf1e",
+    "ActiveSuite": "ApplicationsBatch1",
+    "EarlierPendingRunId": "cf9a9049bc0745c08d7e0c3abcb67024",
+    "EarlierPendingSuite": "SysinternalsProducts",
+    "PSScriptToolsPosition": "After SysinternalsProducts"
+  },
+  "Inputs": {
+    "Manifest": ".local/acceptance-input/PSScriptTools.json",
+    "PinnedArchivePresent": true,
+    "ArchivePath": ".local/b08-psscripttools/PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361.zip",
+    "ArchiveHashRevalidatedAtSubmission": false
+  },
+  "PriorDispatchAttempt": {
+    "Status": "DeniedBeforeEnqueue",
+    "Reason": "Sandboxed shell was denied access to a temporary file in the protected pending queue.",
+    "VmStateChanged": false
+  },
+  "ElevatedDispatch": {
+    "Status": "Queued",
+    "Runner": "tests/integration/Invoke-RideVmTestTask.ps1",
+    "VmStateChanged": false
+  },
+  "Acceptance": {
+    "GuestValidation": "Pending",
+    "PackageLifecycle": "Pending",
+    "DependencyRuntime": "Pending",
+    "CheckpointRecovery": "Pending",
+    "TargetSupport": "Pending",
+    "LegacyOutcomeClosed": false
+  },
+  "Estimates": {
+    "Settings": "38-58",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged; queue submission closes no legacy outcome or target acceptance."
+  }
+}

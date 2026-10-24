@@ -1,10 +1,11 @@
-# Read-only user proxy observation
+# User proxy inventory and lifecycle
 
 This tool captures literal default/LAN WinINet proxy options for an explicitly
 identified interactive account. It preserves manual proxy, bypass and PAC strings
 and all flags, including unknown bits. It does not fetch a PAC file, resolve a proxy,
-test connectivity, refresh settings or change network configuration. Native target
-acceptance remains pending; it introduces no active catalog operation.
+test connectivity, refresh settings or change network configuration. The catalog
+includes a pending-acceptance automatic-detection operation with no supported
+targets until native acceptance succeeds.
 
 ## Capture the intended user and scope
 
@@ -116,6 +117,89 @@ edit; a later engine integration must track completion rather than infer another
 write from this snapshot. Same-session binding deliberately refuses later sessions;
 cross-session recovery requires its own identity/state contract.
 
+## Native write boundary candidate
+
+`RIDE.UserProxyInventory` 0.2.0 now contains a low-level writer for the default/LAN
+connection. It writes `INTERNET_PER_CONN_FLAGS` and includes
+`INTERNET_PER_CONN_AUTOCONFIG_URL` only when the caller marks that URL as owned.
+It leaves the manual proxy server and bypass options untouched, then reports the
+separate `INTERNET_OPTION_SETTINGS_CHANGED` and `INTERNET_OPTION_REFRESH` results.
+The setter requires the expected current computer, user SID and interactive
+session, and honors `ShouldProcess`.
+
+This is a native write boundary, not a complete setting lifecycle or a command for
+direct use. It has no durable pre-change store, complete managed-policy coverage, atomic
+compare-and-set, post-write readback, partial-failure compensation, conflict-aware
+restore or RIDE engine/catalog integration. It can therefore change proxy behavior
+if invoked and approved, while recovery remains unimplemented. Do not invoke it
+outside a future lifecycle wrapper. WinHTTP, named RAS/VPN connections, PAC
+retrieval and PAC consumer behavior remain separate. Microsoft documents the
+[per-connection option structures](https://learn.microsoft.com/en-us/windows/win32/api/wininet/ns-wininet-internet_per_conn_optionw)
+and the [set/refresh sequence](https://learn.microsoft.com/en-us/windows/win32/wininet/setting-and-retrieving-internet-options).
+
+The 0.3.0 candidate adds a read-only policy check before that low-level writer.
+It checks the documented `Proxy` policy value in the current-user and local-machine
+`Software\Policies\Microsoft\Internet Explorer\Control Panel` keys, and the
+local-machine `ProxySettingsPerUser` policy value under
+`Software\Policies\Microsoft\Windows\CurrentVersion\Internet Settings`. A
+nonzero `Proxy` restriction or `ProxySettingsPerUser=0` reports `Blocked`; malformed
+values report `Unknown`; a denied registry read throws, so the write does not proceed.
+Microsoft maps `DisableProxyChange` to the `Proxy` registry value and documents that
+it prevents proxy changes; Microsoft also documents `ProxySettingsPerUser=0` as
+machine-wide configuration. See the [InternetExplorer policy mapping](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-internetexplorer#disableproxychange)
+and [NetworkProxy CSP](https://learn.microsoft.com/en-us/windows/client-management/mdm/networkproxy-csp#proxysettingsperuser).
+
+`Clear` means only that these inspected values were absent or nonblocking. It is
+not a complete effective-policy inventory and does not prove desktop ownership,
+effective routing or that an application consumes WinINet settings. The policy
+observation is not durable state. The low-level writer itself has no compare,
+readback or recovery; the separate guarded lifecycle candidate below supplies
+local compare/readback behavior but still lacks engine integration.
+
+## Guarded apply and restore candidate
+
+The RIDE.UserProxyLifecycle module adds Set-RideUserProxyConfigurationPatch and
+Restore-RideUserProxyConfigurationSnapshot. Apply validates the version-1
+preparation snapshot, checks the explicit current machine/SID/session, compares a
+fresh default/LAN observation with the full prepared literal values, checks the
+documented policy values, honors ShouldProcess, writes the changed flags and
+owned PAC URL, then reads the result back. It returns the preparation snapshot and
+distinct statuses for success, no-op, refused drift, native failure, incomplete
+refresh, mismatch and unverified readback.
+
+If the native setter reports success but a notification fails, the candidate
+rechecks current values and policy, then attempts to restore the complete
+pre-operation literal values. It verifies that compensation and reports whether it
+completed. If post-write values conflict, or two readback attempts fail, it reports
+an unverified/partial result and does not overwrite unknown current data. Restore
+reconstructs the owned flag mask and URL from the supplied preparation snapshot,
+refuses changed owned values, and retains unowned current flags, manual proxy,
+bypass and URL values.
+
+The lifecycle persists its version-1 preparation snapshot as a create-new
+JSON record under `%LOCALAPPDATA%/RIDE/State/UserProxy/<RunId>.json` after
+`ShouldProcess` approval and before calling the WinINet setter. `WhatIf` creates no
+record. Engine apply supplies its saved `RunId` to the lifecycle, so the proxy snapshot and restore-completion marker use the same run identity. Apply returns `RunId` and `SnapshotPath`; restore accepts either the
+in-memory snapshot or `-RunId`, validates the saved machine/SID/session binding,
+then performs the same fresh compare, policy check, owned-field recovery and
+readback. A successful `-RunId` restore writes a create-new completion sidecar;
+a repeat returns `AlreadyRestored` if the owned values still match the captured
+prior state, and refuses if they drifted. If sidecar creation fails after verified
+restoration, the result is `AppliedCompletionUntracked` for explicit inspection.
+The state and completion files are user-writable and schema-validated, not
+authenticated. The engine integrates automatic detection as
+`windows.proxy-auto-detect`, captures the prior owned flag in the saved run, and
+uses conflict-aware recovery. Windows 11 remains a candidate target; the catalog
+declares no supported target until disposable Windows acceptance.
+
+The compare before a WinINet set is not atomic against other applications. RIDE
+does not claim an atomic compare-and-set across Windows applications; it rechecks
+literal values and documented policy immediately before its setter and refuses
+detected conflicts. Complete effective-policy coverage, controlled PAC-consumer
+checks and native Windows acceptance remain open. Focused tests use fake
+observations, policies and setters; they make no registry or WinINet calls. No
+proxy setting has been changed by this implementation work.
+
 ## Evidence, acceptance and recovery
 
 The exporter exclusively creates a new UTF-8 JSON file and refuses an existing path,
@@ -135,9 +219,19 @@ limitations. Do not use a developer workstation as a mutation test target.
 URL syntax, null/empty recovery, JSON round trips, identity mismatch, conflicting
 current edits and inconsistent snapshots using supplied data only.
 
-Next implementation must bind the prepared edits to fresh native observations and
-durable saved state, prove managed-source refusal, apply/repeat/partial-failure
-behavior, documented refresh and conflict-aware live recovery. Test PAC consumers against a controlled local fixture.
+The setup-script/address control remains separate because enabling it needs an
+explicit PAC address. Continue by completing effective-policy coverage, testing
+PAC consumers against a controlled local fixture, and running disposable Windows
+11 lifecycle/recovery acceptance before declaring a supported target. Preview the
+pending automatic-detection operation with:
+
+```powershell
+.\ride.ps1 set -Id windows.proxy-auto-detect -State Disabled -WhatIf
+```
+
+The fake writer and lifecycle tests validate buffers, comparisons, durable
+snapshot ordering, restore by run ID, readback and compensation only; no WinINet
+setter was called.
 Named RAS identity and machine WinHTTP require separate coverage. No live setter
 exists here, and removing this preparation needs no proxy-state recovery. See the
 [capture record](migrations/settings-post-migration-review.md#b04-defaultlan-proxy-observation-2026-10-16)

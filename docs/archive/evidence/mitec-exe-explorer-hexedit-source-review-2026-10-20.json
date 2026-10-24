@@ -1,0 +1,86 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-20",
+  "Scope": "Static publisher-page, archive, version, license and behavior review of MiTeC EXE Explorer and HexEdit; no executable, analyzed file, process or disk target was opened",
+  "TermsPage": {
+    "Uri": "https://www.mitec.cz/wp/support/",
+    "Snapshot": ".local/collection-inventory-20261017/mitec-support.html",
+    "Sha256": "00c55ee6e356a5b3422234dc74a92ffef09f83d655d4cd4965dcffbc3f2b066b",
+    "Observation": "MiTeC's current support page says trial or unregistered software is freeware for non-commercial usage and describes paid user/site licensing. No local entitlement or redistribution determination is made."
+  },
+  "Products": [
+    {
+      "Name": "MiTeC EXE Explorer",
+      "ProductUri": "https://www.mitec.cz/wp/mee/",
+      "ProductPageSnapshot": ".local/collection-inventory-20261017/mitec-product-mee.html",
+      "ProductPageSha256": "dc7a18372269574fb98200bc9a95bd212b76f9c050dc7ed21397ab854d64c36c",
+      "PageVersion": "3.7.5, dated 2026-04-15",
+      "PublishedBehavior": "Reads executable formats including PE32/PE32+, NE, VxD and .NET metadata; displays headers, imports/exports, resources, certificates, version data and type libraries; can save resource types to files and produce text reports. The publisher page lists a VirusTotal scan-report feature and version history mentions a configurable user API key; exact online request/data handling is unspecified here.",
+      "Archive": ".local/remaining-collections-20261017/EXE.zip",
+      "DownloadUri": "https://www.mitec.cz/wp/files/EXE.zip",
+      "ArchiveLength": 12837437,
+      "ArchiveSha256": "87b3bbf80301de96b871da5f1d4ce742c38182ee2fbc4414a28a2e7133011c78",
+      "PublisherDigestVerified": false,
+      "Members": [
+        {"Path":"EXE.exe","Length":5931048,"Sha256":"d9deec06c474d8d3ec8a64a8cbc12e9c91fc94ed5871438f658c1fff44762746","Architecture":"x86","FileVersion":"3.7.5.0"},
+        {"Path":"EXE64.exe","Length":7588424,"Sha256":"25987ef9c3b6d0cb24e887de71120faf958c97d9bd63a323c355c332028649d9","Architecture":"x64","FileVersion":"3.7.5.0"}
+      ],
+      "ArchiveMemberSet": "Two executable files; no license, README or notice file found by filename.",
+      "RiskAndAcceptance": [
+        "Use only synthetic, non-sensitive PE inputs; confirm viewer-only parsing and exact resource export paths before any feature acceptance.",
+        "Keep VirusTotal/API-key behavior disabled until data sent and network requests are explicitly reviewed; do not upload samples or configure a key in the source pass."
+      ]
+    },
+    {
+      "Name": "MiTeC HexEdit",
+      "ProductUri": "https://www.mitec.cz/wp/mhex/",
+      "ProductPageSnapshot": ".local/collection-inventory-20261017/mitec-product-mhex.html",
+      "ProductPageSha256": "b6bde85265e252b4fb3ae864a4b2f945c1d6474efd3ca6b446d8ead9f3d5bdcb",
+      "PageVersion": "7.1.0, dated 2021-02-24",
+      "PublishedBehavior": "Hex editor with file compare, memory dumper, disk dumper and data interpretation/analysis features. The page lists a paid single-user license.",
+      "Archive": ".local/remaining-collections-20261017/HEXEdit.zip",
+      "DownloadUri": "https://www.mitec.cz/wp/files/HEXEdit.zip",
+      "ArchiveLength": 2100697,
+      "ArchiveSha256": "cfe264a121c560d69e2bb95512be407f374164f2f79d0ddc4ceb7a8d0a09c788",
+      "PublisherDigestVerified": false,
+      "Members": [
+        {"Path":"HEXEdit.exe","Length":2222048,"Sha256":"cb782a9d85690487bc4138968f03c9c1e320b55347a76bfa3dc01eb6956144e7","Architecture":"x86","FileVersion":"7.1.0.0"}
+      ],
+      "ArchiveMemberSet": "One executable; no license, README or notice file found by filename.",
+      "RiskAndAcceptance": [
+        "Any later file-edit test must use a disposable copy and exact-byte backup/restore verification.",
+        "Keep live process-memory and raw-disk features out of the default acceptance selection; require a specifically isolated target and recovery plan before testing either."
+      ]
+    }
+  ],
+  "SafetyAndAcceptance": {
+    "OuterArchiveAndMemberHashesMatchFrozenInventory": true,
+    "ProductPageSnapshotHashesMatchFrozenInventory": true,
+    "PayloadsExecuted": false,
+    "FilesOpenedByReviewedTools": false,
+    "MemoryOrDiskTargetsAccessed": false,
+    "VirusTotalApiUsed": false,
+    "FreshUacPrompts": 0,
+    "VmRuns": 0,
+    "DefenderBlockedToolsTouched": false,
+    "HostOrControllerChanged": false,
+    "DefenderChanged": false
+  },
+  "MigrationDisposition": {
+    "WholeLegacyOutcomesClosed": 0,
+    "RetiredOutcomes": 0,
+    "NewExclusions": 0,
+    "Resolved": "Current product-page features, version labels, explicit x86/x64 EXE Explorer files, HexEdit's x86 binary, terms page and frozen archive identities are recorded.",
+    "Partial": "Local MiTeC entitlement and redistribution, VirusTotal network behavior, non-destructive resource export, HexEdit write/recovery semantics and memory/disk targeting remain unverified.",
+    "Deferred": [
+      "Owner-specific MiTeC license and archive distribution assessment",
+      "EXE Explorer synthetic PE parsing/resource-export acceptance and explicit network-feature review",
+      "HexEdit file-copy edit/recovery acceptance; no live memory/disk targets",
+      "Windows target, UI and activation behavior through an approved guest workflow"
+    ],
+    "EstimateRanges": ["38-58", "56-71", "20-25", "25-35", "8-12"],
+    "ExactTotal": "147-201",
+    "RoundedTotal": "145-200/about 175",
+    "EstimateReason": "Static version and feature scope is clarified, but rights and complete user-visible/runtime outcomes remain open; no estimate deduction is justified."
+  }
+}

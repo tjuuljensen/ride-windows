@@ -1,0 +1,46 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-22",
+  "Batch": "Hash value context-menu candidate implementation",
+  "OperationId": "windows.hash-value-context-menu",
+  "Disposition": {
+    "Status": "Candidate",
+    "SupportedTargets": [],
+    "CandidateTargets": ["Windows 11"],
+    "PendingAcceptance": true,
+    "Scope": "User",
+    "Rollback": "Exact saved-state restore"
+  },
+  "Implementation": {
+    "Helper": "tools/Get-RideHashValue.ps1",
+    "Runtime": "Windows PowerShell 5.1",
+    "Algorithms": ["MD5", "SHA1", "SHA256", "SHA384", "SHA512", "MACTripleDES", "RIPEMD160"],
+    "ShowAll": "Computes the seven listed algorithms and presents one bounded message box.",
+    "PathHandling": "Passes the Shell-selected path through a quoted -LiteralPath argument; the helper uses Get-FileHash -LiteralPath.",
+    "Registry": "17 coordinated per-user HKCU:\\Software\\Classes values managed through RegistryValueSet.",
+    "WindowsDefault": "Empty/unset registry value set.",
+    "Recovery": "Existing RegistryValueSet handler captures and restores exact prior registry values."
+  },
+  "Validation": {
+    "CatalogExport": "tools/Export-RideCatalog.ps1 -Check passed.",
+    "RepositoryValidator": "Passed: 373 operations, 8 groups, 5 profiles, 243 PowerShell files.",
+    "PowerShell7Pester": {"Passed": 5, "Failed": 0, "Skipped": 1},
+    "WindowsPowerShell51Pester": {"Passed": 6, "Failed": 0, "Skipped": 0},
+    "TestRegistryPlugin": "Disabled because sandbox policy denied Pester's optional HKCU fixture.",
+    "DiffCheck": "Passed."
+  },
+  "Acceptance": {
+    "VM": "Get-VM -Name RIDE-Win11-Test failed with Access to a CIM resource was not available to the client.",
+    "NotRun": ["Explorer menu placement", "Shell filename substitution", "GUI display", "Repeat apply", "Removal", "Exact saved-run restore"],
+    "NoHostRegistryChange": true,
+    "SupportedTargetPromotion": "None"
+  },
+  "LegacyOutcome": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Windows 11 Explorer GUI and registry lifecycle acceptance"],
+    "Partial": ["Additional requested v3 hash context-menu candidate"]
+  },
+  "EstimateEffect": "No legacy outcome was closed. All five migration ranges remain unchanged; this is additional requested v3 scope outside the 279-item legacy presentation count."
+}

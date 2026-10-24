@@ -1,0 +1,65 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-20",
+  "Scope": "Static publisher-page, licensing and host-identifier data-effect review of MiTeC UUID Generator; no payload executed and no host identifiers queried",
+  "PublisherEvidence": {
+    "ProductPage": {
+      "Uri": "https://www.mitec.cz/wp/uuid/",
+      "Snapshot": ".local/collection-inventory-20261017/mitec-product-uuid.html",
+      "Sha256": "30880aedb3a829cbf741c8799ca1c0c0c2fa60d39b0a71887fe6a5ae66b66a11",
+      "Version": "1.0.0, dated 2025-12-30",
+      "PublishedBehavior": "Generates UUID v4 (Windows GUID), UUID v7 (RFC 9562), ULID and Snowflake Int64 identifiers; decodes UUIDs; also displays current UEFI, SMBIOS System, Machine and Device UUIDs. The page lists Windows XP-11 and Server 2003-2025 as publisher claims only.",
+      "LicenseObservation": "The product page calls the tool freeware for private, educational and non-commercial purposes."
+    },
+    "TermsPage": {
+      "Uri": "https://www.mitec.cz/wp/support/",
+      "Snapshot": ".local/collection-inventory-20261017/mitec-support.html",
+      "Sha256": "00c55ee6e356a5b3422234dc74a92ffef09f83d655d4cd4965dcffbc3f2b066b",
+      "Observation": "The current support EULA separately states freeware for non-commercial use and lists named-user/build-machine, team, site and trial licensing. Local intended-use rights and redistribution remain unresolved."
+    }
+  },
+  "PinnedArtifact": {
+    "Archive": ".local/remaining-collections-20261017/UUID.zip",
+    "DownloadUri": "https://www.mitec.cz/wp/files/UUID.zip",
+    "Length": 1615754,
+    "Sha256": "0795838486e6a0ce15edeaeaeed978e09d510ffa9478f9f040122a4583914c80",
+    "PublisherDigestVerified": false,
+    "Members": [
+      {"Path":"UUID.exe","Length":3959880,"Sha256":"36508b19dec5f4ff521322ddffc278e1cbba69f75d733eb1fcee1ba94ab6137f","Architecture":"x86","FileVersion":"1.0.0.0","ProductVersion":"1.0.0.0","CompanyName":"MiTeC"}
+    ],
+    "ArchiveMemberSet": "One executable; no license, README or notice member recorded by the frozen inventory."
+  },
+  "ReviewFindings": [
+    "The current page and frozen archive/member hashes match the retained inventory; PE metadata matches version 1.0.0.0 but does not establish runtime behavior or target support.",
+    "Displaying live UEFI, SMBIOS, machine or device UUIDs can reveal persistent host identifiers. Acceptance must not capture, log, screenshot or export those live values.",
+    "Useful isolated behavior coverage is limited to generation and decoding of synthetic identifiers with expected version/format checks; do not compare generated IDs with live system identifiers."
+  ],
+  "SafetyAndAcceptance": {
+    "ArchiveAndMemberHashesMatchFrozenInventory": true,
+    "ProductPageSnapshotHashMatchesFrozenInventory": true,
+    "PayloadExecuted": false,
+    "LiveHostIdentifiersQueried": false,
+    "IdentifiersLoggedOrExported": false,
+    "FreshUacPrompts": 0,
+    "VmRuns": 0,
+    "DefenderBlockedToolsTouched": false,
+    "HostOrControllerChanged": false,
+    "DefenderChanged": false
+  },
+  "MigrationDisposition": {
+    "WholeLegacyOutcomesClosed": 0,
+    "RetiredOutcomes": 0,
+    "NewExclusions": 0,
+    "Resolved": "Current version, generation/decoder formats, live identifier display and publisher license boundary are recorded.",
+    "Partial": "Local entitlement, identifier generation/decoding behavior, privacy-safe display handling and UI/activation remain unverified.",
+    "Deferred": [
+      "Owner-specific MiTeC use and archive distribution assessment",
+      "Synthetic UUID/ULID/Snowflake generation and decode checks only; no host-identifier collection",
+      "Windows target, UI and activation behavior through an approved guest workflow"
+    ],
+    "EstimateRanges": ["38-58", "56-71", "20-25", "25-35", "8-12"],
+    "ExactTotal": "147-201",
+    "RoundedTotal": "145-200/about 175",
+    "EstimateReason": "The live host-identifier display is now explicit, but no whole legacy outcome or runtime acceptance is resolved; no estimate deduction is justified."
+  }
+}

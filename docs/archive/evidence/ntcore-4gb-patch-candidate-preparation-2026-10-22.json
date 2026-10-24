@@ -1,0 +1,66 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-22",
+  "PackageId": "package.ntcore-4gb-patch",
+  "Name": "NTCore 4GB Patch",
+  "PublisherUri": "https://ntcore.com/4gb-patch/",
+  "DownloadUri": "https://ntcore.com/files/4gb_patch.zip",
+  "PinnedArtifact": {
+    "Version": "1.0.0.1",
+    "FileName": "4gb_patch.zip",
+    "Length": 21464,
+    "Sha256": "1e13c263dc55e85cf62e3e30c6b2ce936d4c7e16e3bba3e311a5a8bed4be16ca",
+    "PinSource": "Retained archive acquired 2026-10-17; digest recomputed 2026-10-22; not publisher-provided and not refreshed from mutable URL"
+  },
+  "SelectedMember": {
+    "Path": "4gb_patch.exe",
+    "Length": 45056,
+    "Sha256": "980bf5eb62d30c749e5fbf7593e9d25094a4d849a959aa2b7b3fc979b1c93b5a",
+    "Architecture": "x86",
+    "CopyrightMetadata": "2007 Daniel Pistelli; all rights reserved"
+  },
+  "CatalogDisposition": {
+    "PendingAcceptance": true,
+    "CandidateTargets": ["Windows 11"],
+    "SupportedTargets": [],
+    "PortableMembers": ["4gb_patch.exe"],
+    "License": "Unknown"
+  },
+  "LocalLicenseReview": {
+    "Store": ".local/license-reviews.json",
+    "ReviewedVersion": "1.0.0.1",
+    "ReviewOwner": "Unassigned",
+    "LicenseReviewStatus": "NeedsReview",
+    "DistributionPermissionInferred": false
+  },
+  "AcceptanceStatus": "Pending",
+  "DeferredAcceptance": [
+    "Reacquire or otherwise verify exact current publisher bytes before VM test",
+    "Portable install, repeat, remove, exact restoration and collision checks on disposable Windows 11",
+    "Run utility only against an owned synthetic x86 PE and verify large-address-aware flag, backup content/path/collision and exact recovery"
+  ],
+  "RunBoundaries": {
+    "ArchiveExecuted": false,
+    "UtilityExecuted": false,
+    "TargetExecutableModified": false,
+    "VmRequestDispatched": false,
+    "VmRun": false,
+    "FreshUacPrompts": 0,
+    "ControllerChanges": 0,
+    "DefenderChanges": 0,
+    "DefenderBlockedFilesTouched": false,
+    "QueueSubmissionBlocker": "The current process runs at low integrity. Set-Content to the registered pending queue returned Access Denied even though the queue DACL grants the owning user Modify; no request was created."
+  },
+  "LegacyOutcomeAccounting": {
+    "WholeLegacyOutcomesResolved": [],
+    "RetiredOutcomes": [],
+    "ExcludedOutcomes": [],
+    "MappingNote": "No stable legacy selector mapping for this product was found in the current checkout. Candidate admission does not close an outcome."
+  },
+  "EstimatedRemainingWork": {
+    "GroupRanges": ["38-58", "56-71", "20-25", "25-35", "8-12"],
+    "ExactRangeEndpoints": "147-201",
+    "RoundedTotal": "145-200/about 175",
+    "EstimateReason": "Source preparation and license-review bookkeeping do not establish package lifecycle, utility behavior, or a whole legacy outcome."
+  }
+}

@@ -6,11 +6,14 @@
   Queries uninstall entries or the Sysmon service. Resolves explicit HTTPS installers,
   GitHub release/file revisions or the Microsoft Sysmon archive; downloads versioned artifacts, checks available provider digests, and
   records SHA-256/Authenticode observations. Install/uninstall run declared commands and check
-  presence; hashes alone are not publisher authentication. Downloads retain public license
+  presence; declared user-data preservation can wrap selected installers and all removals. Hashes
+  alone are not publisher authentication. Downloads retain public license
   references and GitHub release assets must belong to the declared publisher repository.
   Latest-release metadata is reused for at most five minutes within this process.
   Shared GitHub quota/backoff headers defer further release lookups without retries;
   expired metadata is never substituted for a latest lookup.
+  Declared .NET Framework 3.5 requirements are checked read-only before artifact
+  acquisition; this check never enables a Windows feature.
 
 .EXAMPLE
   Import-Module .\modules\RIDE-Packages.psm1
@@ -32,8 +35,15 @@
   Recovery: State-changing handlers are engine-internal: use ride.ps1 preview and captured-run
   restoration. Direct calls bypass ShouldProcess and snapshot capture.
   Author: RIDE-Windows maintainers.
-  Version: 0.12.0
+  Version: 0.19.0
   Changelog:
+    0.19.0: Fail closed on the declared shared .NET Framework 3.5 prerequisite.
+    0.18.0: Preserve declared user data across package install/removal and retain installer-created collisions.
+    0.17.0: Stage explicit installer configuration and preserve user data only after declared processes exit.
+    0.16.0: Record rejected artifact evidence and relocate stale canonical sidecars.
+    0.15.0: Quarantine artifacts that fail integrity/content checks so retries can reacquire.
+    0.14.0: Check minimum versions of declared runtime DLL and installed package prerequisites.
+    0.13.0: Check declared Windows system-DLL prerequisites before package acquisition.
     0.12.0: Accept engine-verified local portable payloads with no acquisition fallback.
     0.11.0: Add explicit GitHub PAT selection and credential-safe acceptance boundaries.
     0.10.0: Bound latest-release metadata reuse and defer shared GitHub quota exhaustion.
@@ -60,7 +70,7 @@
 #>
 
 
-$script:ModuleVersion = '0.11.0'
+$script:ModuleVersion = '0.14.0'
 $script:GitHubReleaseCache = @{}
 $script:GitHubReleaseNotBefore = $null
 $script:GitHubReleaseRate = $null
@@ -113,11 +123,23 @@ function Get-RideInstalledPackage {
   }
 
   if ($Operation.ConflictingDisplayNamePattern) {
+    $ownedMainRegistration = $false
+    if ($Operation.OwnedConflictingInstallPath -and $Operation.InstallDirectory) {
+      $ownedRelativePath = [string]$Operation.OwnedConflictingInstallPath
+      if ($ownedRelativePath -cne '../GnuPG') { throw "Unsupported owned nested install path for '$($Operation.Id)'." }
+      $ownedNestedPath = [IO.Path]::GetFullPath((Join-Path (Split-Path -Parent $Operation.InstallDirectory) 'GnuPG'))
+      $ownedMainRegistration = @(
+        Get-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*' -ErrorAction SilentlyContinue |
+          Where-Object { $_.DisplayName -match $Operation.DisplayNamePattern -and [string]$_.InstallLocation -ieq [string]$Operation.InstallDirectory }
+      ).Count -gt 0
+    }
     $allRoots=@('HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*','HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*','HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*')
     foreach ($root in $allRoots) {
       foreach ($entry in (Get-ItemProperty -Path $root -ErrorAction SilentlyContinue)) {
-        if ($entry.DisplayName -match $Operation.ConflictingDisplayNamePattern -and
-            ($root -notlike 'HKCU:*' -or $entry.DisplayName -notmatch $Operation.DisplayNamePattern -or [string]$entry.InstallLocation -ine [string]$Operation.InstallDirectory)) {
+        $isMainRegistration = $root -like 'HKCU:*' -and $entry.DisplayName -match $Operation.DisplayNamePattern -and [string]$entry.InstallLocation -ieq [string]$Operation.InstallDirectory
+        $isOwnedNestedRegistration = $ownedMainRegistration -and $root -like 'HKCU:*' -and [string]$entry.InstallLocation -and
+          [IO.Path]::GetFullPath([string]$entry.InstallLocation) -ieq $ownedNestedPath
+        if ($entry.DisplayName -match $Operation.ConflictingDisplayNamePattern -and -not $isMainRegistration -and -not $isOwnedNestedRegistration) {
           throw "Conflicting existing edition or destination for '$($Operation.Id)': $($entry.DisplayName). Review it before migration."
         }
       }
@@ -127,9 +149,22 @@ function Get-RideInstalledPackage {
     'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*',
     'HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*'
   ) }
+  $outdatedMatch = $null
   foreach ($root in $uninstallRoots) {
     foreach ($entry in (Get-ItemProperty -Path $root -ErrorAction SilentlyContinue)) {
       if ($entry.DisplayName -match $Operation.DisplayNamePattern) {
+        if ($Operation.MinimumInstalledVersion) {
+          [version]$requiredVersion = [version]::MinValue
+          [version]$detectedVersion = [version]::MinValue
+          if (-not [version]::TryParse([string]$Operation.MinimumInstalledVersion, [ref]$requiredVersion) -or
+              -not [version]::TryParse([string]$entry.DisplayVersion, [ref]$detectedVersion)) {
+            continue
+          }
+          if ($detectedVersion -lt $requiredVersion) {
+            if (-not $outdatedMatch) { $outdatedMatch = $entry }
+            continue
+          }
+        }
         if ($Operation.MozillaChannel) {
           $channelPath=Join-Path $entry.InstallLocation 'defaults/pref/channel-prefs.js'
           if (-not (Test-Path -LiteralPath $channelPath -PathType Leaf) -or (Get-Content -LiteralPath $channelPath -Raw) -notmatch ('pref\("app.update.channel",\s*"'+[regex]::Escape($Operation.MozillaChannel)+'"\)')) { throw "Conflicting or unverifiable Mozilla update channel for '$($Operation.Id)'; review the existing edition." }
@@ -146,6 +181,16 @@ function Get-RideInstalledPackage {
     }
   }
 
+  if ($outdatedMatch) {
+    return [pscustomobject]@{
+      Present = $false
+      DisplayName = $outdatedMatch.DisplayName
+      DisplayVersion = $outdatedMatch.DisplayVersion
+      UninstallString = $outdatedMatch.UninstallString
+      QuietUninstallString = $outdatedMatch.QuietUninstallString
+      InstallLocation = $outdatedMatch.InstallLocation
+    }
+  }
   [pscustomobject]@{ Present = $false; DisplayName = $null; DisplayVersion = $null; UninstallString = $null; QuietUninstallString = $null; InstallLocation = $null }
 }
 
@@ -218,8 +263,8 @@ function Get-RideGitHubReleaseMetadata {
   if (-not [Uri]::TryCreate($Uri, [UriKind]::Absolute, [ref]$endpoint) -or
       $endpoint.Scheme -ne 'https' -or $endpoint.Host -ne 'api.github.com' -or
       -not $endpoint.IsDefaultPort -or $endpoint.UserInfo -or $endpoint.Query -or $endpoint.Fragment -or
-      $endpoint.AbsolutePath -notmatch '^/repos/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/releases/latest$') {
-    throw 'GitHub release discovery must identify the declared publisher repository on the public HTTPS API without credentials or query parameters.'
+      $endpoint.AbsolutePath -notmatch '^/repos/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/releases/(?:latest|tags/[A-Za-z0-9][A-Za-z0-9.+_-]*)$') {
+    throw 'GitHub release discovery must identify a latest or exact tagged release on the public HTTPS API without credentials or query parameters.'
   }
   $key = $endpoint.AbsoluteUri
   $now = Get-RideGitHubUtcNow
@@ -282,7 +327,7 @@ function Resolve-RidePackageArtifact {
     Resolve the catalog source to a versioned upstream artifact.
 
   .DESCRIPTION
-    Resolves an explicit versioned HTTPS installer, or queries an allowed GitHub release API,
+    Resolves an explicit versioned HTTPS installer, a latest or exact tagged GitHub release API,
     immutable GitHub file commit or Microsoft Sysmon page.
     Validates source/asset metadata and returns available digest/signature links. Makes network
     requests but does not download/install the artifact. GitHub latest-release metadata
@@ -316,12 +361,80 @@ function Resolve-RidePackageArtifact {
 
   param([Parameter(Mandatory = $true)][hashtable] $Operation, [ValidateSet('Anonymous','PAT')][string] $GitHubAuthentication = 'Anonymous', [string] $GitHubCredentialReference)
 
+  if ($Operation.AcquisitionBlockedReason) { throw "Acquisition blocked for $($Operation.PackageId): $($Operation.AcquisitionBlockedReason)" }
   if ($Operation.DownloadProvider -in @('VSCodeUpdateApi', 'MozillaVersionsJson', 'PublisherLinkPage', 'SignalDesktopFeed', 'WinSCPPortablePage')) { return Resolve-RidePublisherArtifact -Operation $Operation }
+  if ($Operation.DownloadProvider -eq 'GitHubReleaseAssetApi') {
+    $repository=[string]$Operation.Repository
+    $releaseTag=[string]$Operation.ReleaseTag
+    $assetName=[string]$Operation.AssetName
+    $releaseVersion=[string]$Operation.PackageVersion
+    $targetVersion=[string]$Operation.TargetSysmonVersion
+    $expectedRepository='olafhartong/sysmon-modular'
+    $expectedTag='configs-'+$releaseVersion
+    $allowedAssets=@('sysmonconfig.xml','sysmonconfig-with-filedelete.xml','sysmonconfig-excludes-only.xml')
+    if($repository -cne $expectedRepository -or $releaseVersion -notmatch '^[0-9a-f]{12}$' -or $releaseTag -cne $expectedTag -or $targetVersion -cne '15.21' -or $assetName -notin $allowedAssets -or $Operation.Architecture -cne 'neutral') { throw 'Sysmon Modular release metadata must pin one reviewed profile from the exact 15.21 configuration release.' }
+    $expectedDownloadUri="https://github.com/$repository/releases/download/$releaseTag/$assetName"
+    $expectedChecksumUri="https://github.com/$repository/releases/download/$releaseTag/SHA256SUMS"
+    if($Operation.DownloadUri -cne $expectedDownloadUri -or $Operation.ChecksumUri -cne $expectedChecksumUri) { throw 'Sysmon Modular profile URLs must match the pinned repository, release tag, profile and checksum manifest.' }
+    $manifestResponse=Invoke-WebRequest -Uri $expectedChecksumUri -UseBasicParsing -TimeoutSec 120 -ErrorAction Stop
+    $manifest=[string]$manifestResponse.Content
+    if($manifest.Length -gt 1048576) { throw 'Sysmon Modular SHA256SUMS response exceeds 1 MiB.' }
+    $matchingLines=@($manifest -split "`r?`n" | Where-Object { $_ -match ('^\s*[0-9a-fA-F]{64}\s+\*?'+[regex]::Escape($assetName)+'\s*$') })
+    if($matchingLines.Count -ne 1) { throw "Expected exactly one checksum record for $assetName in the pinned Sysmon Modular release." }
+    $digestMatch=[regex]::Match($matchingLines[0],'^\s*(?<hash>[0-9a-fA-F]{64})\s+\*?(?<file>[^\s]+)\s*$')
+    if(-not $digestMatch.Success -or $digestMatch.Groups['file'].Value -cne $assetName) { throw 'Sysmon Modular checksum record does not match the selected profile filename.' }
+    $digest=$digestMatch.Groups['hash'].Value.ToLowerInvariant()
+    return [pscustomobject]@{
+      PackageId = [string]$Operation.ArtifactId
+      ArtifactId = [string]$Operation.ArtifactId
+      OriginUri = [string]$Operation.ProductUri
+      Version = $releaseVersion
+      Architecture = 'neutral'
+      FileName = $assetName
+      Uri = $expectedDownloadUri
+      SourceUri = $expectedChecksumUri
+      ProviderDigest = 'sha256:'+$digest
+      ChecksumUris = @($expectedChecksumUri)
+      SignatureUris = @()
+    }
+  }
+  if ($Operation.DownloadProvider -eq 'MicrosoftOpenJdk') {
+    $version=[string]$Operation.PackageVersion
+    $architecture=[string]$Operation.Architecture
+    if ($version -notmatch '^(?:11|17|21|25)\.0\.[0-9]+\.[0-9]+$' -or $architecture -cne 'x64' -or $Operation.InstallerType -cne 'Msi') { throw 'Microsoft OpenJDK requires a pinned LTS version and x64 Windows MSI.' }
+    $fileName="microsoft-jdk-$version-windows-x64.msi"
+    $expectedDownloadUri="https://aka.ms/download-jdk/$fileName"
+    $expectedChecksumUri="$expectedDownloadUri.sha256sum.txt"
+    if ($Operation.AssetName -cne $fileName -or $Operation.DownloadUri -cne $expectedDownloadUri -or $Operation.ExpectedSha256Uri -cne $expectedChecksumUri) { throw 'Microsoft OpenJDK source URLs must match the exact pinned versioned x64 MSI and its official checksum file.' }
+    $checksumResponse=Invoke-WebRequest -Uri $expectedChecksumUri -UseBasicParsing -TimeoutSec 120 -ErrorAction Stop
+    $content=[string]$checksumResponse.Content
+    if ($content.Length -gt 4096) { throw 'Microsoft OpenJDK checksum response exceeds 4 KiB.' }
+    $lines=@($content -split "`r?`n" | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
+    if ($lines.Count -ne 1) { throw 'Expected exactly one Microsoft OpenJDK checksum record.' }
+    $checksumMatch=[regex]::Match($lines[0],'^\s*(?:SHA-?256\s*\((?<name>[^)]+)\)\s*=\s*)?(?<hash>[0-9a-fA-F]{64})(?:\s+\*?(?<file>[^\s]+))?\s*$')
+    if (-not $checksumMatch.Success) { throw 'Microsoft OpenJDK checksum file does not contain one supported SHA-256 record.' }
+    $checksumName=if($checksumMatch.Groups['name'].Success){$checksumMatch.Groups['name'].Value}else{$checksumMatch.Groups['file'].Value}
+    if($checksumName -and [IO.Path]::GetFileName($checksumName) -cne $fileName){throw 'Microsoft OpenJDK checksum record names a different file.'}
+    $digest=$checksumMatch.Groups['hash'].Value.ToLowerInvariant()
+    return [pscustomobject]@{
+      PackageId = [string]$Operation.PackageId
+      OriginUri = [string]$Operation.ProductUri
+      Version = $version
+      Architecture = $architecture
+      FileName = $fileName
+      Uri = $expectedDownloadUri
+      SourceUri = $expectedChecksumUri
+      ProviderDigest = 'sha256:' + $digest
+      ChecksumUris = @($expectedChecksumUri)
+      SignatureUris = @()
+    }
+  }
+
   if ($Operation.DownloadProvider -eq 'DirectHttps') {
     if (-not [uri]::IsWellFormedUriString([string]$Operation.DownloadUri, [UriKind]::Absolute)) { throw 'A direct installer requires an absolute HTTPS URL.' }
     $source = [uri]$Operation.DownloadUri
     if ($source.Scheme -ne 'https' -or -not $source.IsDefaultPort -or $source.UserInfo -or $source.Fragment) { throw 'A direct installer requires HTTPS on the default port without credentials or fragments.' }
-    $assetExtension = if ($Operation.PortableFormat -eq 'File') { [IO.Path]::GetExtension([string]$Operation.AssetName) } elseif ($Operation.ArchiveType -eq 'Zip' -or $Operation.PortableFormat -eq 'Zip') { '.zip' } else { '.' + ([string]$Operation.InstallerType).ToLowerInvariant() }
+    $assetExtension = if ($Operation.PortableFormat -eq 'File') { [IO.Path]::GetExtension([string]$Operation.AssetName) } elseif ($Operation.PortableFormat -eq 'SevenZip') { '.7z' } elseif ($Operation.ArchiveType -eq 'Zip' -or $Operation.PortableFormat -eq 'Zip') { '.zip' } else { '.' + ([string]$Operation.InstallerType).ToLowerInvariant() }
     if ($Operation.ArchiveType -and $Operation.ArchiveType -notin @('None', 'Zip')) { throw 'Unsupported ArchiveType.' }
     if ($Operation.ArchiveType -eq 'Zip' -and $Operation.InstallerType -ne 'Portable') {
       $entry = [string]$Operation.InstallerEntry
@@ -331,8 +444,8 @@ function Resolve-RidePackageArtifact {
     } elseif ($Operation.ContainsKey('InstallerEntry') -or $Operation.ContainsKey('ExpectedInstallerSha256')) { throw 'InstallerEntry and ExpectedInstallerSha256 require ArchiveType Zip.' }
     if ($Operation.PackageVersion -notmatch '^[0-9A-Za-z][0-9A-Za-z.+_-]*$' -or
         $Operation.InstallerType -notin @('Exe', 'Msi', 'Portable') -or
-        $Operation.AssetName -notmatch '^[a-zA-Z0-9][a-zA-Z0-9._-]*\.(exe|msi|zip)$' -or
-        [IO.Path]::GetExtension([string]$Operation.AssetName) -ne $assetExtension) { throw 'A direct installer requires a safe version and an EXE/MSI or ZIP filename matching its metadata.' }
+        $Operation.AssetName -notmatch '^[a-zA-Z0-9][a-zA-Z0-9._-]*\.(exe|msi|zip|7z)$' -or
+        [IO.Path]::GetExtension([string]$Operation.AssetName) -ne $assetExtension) { throw 'A direct installer requires a safe version and an EXE/MSI/ZIP/7z filename matching its metadata.' }
     if ($Operation.ContainsKey('ExpectedSha256') -and $Operation.ExpectedSha256 -notmatch '^[a-fA-F0-9]{64}$') { throw 'ExpectedSha256 must contain 64 hexadecimal characters.' }
     return [pscustomobject]@{
       PackageId = [string]$Operation.PackageId
@@ -399,8 +512,27 @@ function Resolve-RidePackageArtifact {
   if (-not [uri]::IsWellFormedUriString([string]$Operation.DownloadUri, [UriKind]::Absolute) -or ([uri]$Operation.DownloadUri).Scheme -ne 'https' -or ([uri]$Operation.DownloadUri).Host -ne 'api.github.com') {
     throw "The GitHub release API URI for $($Operation.PackageId) must use HTTPS on api.github.com."
   }
+  $repositoryMatch = [regex]::Match(([uri]$Operation.DownloadUri).AbsolutePath, '^/repos/(?<repository>[^/]+/[^/]+)/releases/(?<release>latest|tags/(?<tag>[A-Za-z0-9][A-Za-z0-9.+_-]*))$')
+  if (-not $repositoryMatch.Success) { throw 'GitHub release discovery must identify the declared publisher repository.' }
+  $repository = $repositoryMatch.Groups['repository'].Value
+  $exactTag = [string]$Operation.ReleaseTag
+  $publisherChecksum = $null
+  if ($exactTag) {
+    $declaredVersion = [regex]::Replace($exactTag, '^v', '')
+    if ($exactTag -notmatch '^[A-Za-z0-9][A-Za-z0-9.+_-]*$' -or $repositoryMatch.Groups['tag'].Value -cne $exactTag -or
+        $Operation.DownloadUri -cne "https://api.github.com/repos/$repository/releases/tags/$exactTag" -or
+        ($Operation.Repository -and [string]$Operation.Repository -cne $repository) -or
+        [string]$Operation.PackageVersion -cne $declaredVersion -or
+        -not $Operation.AssetName -or [string]$Operation.AssetName -notmatch [string]$Operation.AssetPattern -or
+        -not $Operation.ChecksumAssetName -or [string]$Operation.ChecksumAssetName -cne ([string]$Operation.AssetName + '.sha256')) {
+      throw "Pinned GitHub release metadata for $($Operation.PackageId) must name one exact repository, tag, asset and checksum asset."
+    }
+  } elseif ($repositoryMatch.Groups['release'].Value -cne 'latest') {
+    throw 'GitHub release API URI must use releases/latest unless an exact ReleaseTag is declared.'
+  }
   $metadata = Get-RideGitHubReleaseMetadata -Uri $Operation.DownloadUri -GitHubAuthentication $GitHubAuthentication -GitHubCredentialReference $GitHubCredentialReference
   $release = $metadata.Release
+  if ($exactTag -and [string]$release.tag_name -cne $exactTag) { throw "GitHub returned a different release tag for $($Operation.PackageId)." }
   $matches = @($release.assets | Where-Object { $_.name -match $Operation.AssetPattern })
   if ($matches.Count -ne 1) {
     throw "Expected one latest $($Operation.Architecture) installer for $($Operation.PackageId); found $($matches.Count)."
@@ -413,20 +545,42 @@ function Resolve-RidePackageArtifact {
   if (-not [uri]::IsWellFormedUriString($uri, [UriKind]::Absolute) -or ([uri]$uri).Scheme -ne 'https') {
     throw "The release asset URL for $($Operation.PackageId) is not a valid HTTPS URL."
   }
-  $repositoryMatch = [regex]::Match(([uri]$Operation.DownloadUri).AbsolutePath, '^/repos/(?<repository>[^/]+/[^/]+)/releases/latest$')
-  if (-not $repositoryMatch.Success) { throw 'GitHub release discovery must identify the declared publisher repository.' }
   $assetUri = [uri]$uri
-  $publisherPrefix = '/' + $repositoryMatch.Groups['repository'].Value + '/releases/download/'
+  $publisherPrefix = '/' + $repository + '/releases/download/'
   if ($assetUri.Host -ne 'github.com' -or -not $assetUri.IsDefaultPort -or $assetUri.UserInfo -or -not $assetUri.AbsolutePath.StartsWith($publisherPrefix, [StringComparison]::OrdinalIgnoreCase)) {
     throw "The release asset for $($Operation.PackageId) must come from the declared publisher repository."
+  }
+  if ($exactTag) {
+    if ([string]$asset.name -cne [string]$Operation.AssetName -or $assetUri.AbsolutePath -notmatch ('/releases/download/' + [regex]::Escape($exactTag) + '/' + [regex]::Escape([string]$Operation.AssetName) + '$')) {
+      throw "The asset for $($Operation.PackageId) does not match its exact pinned release tag and filename."
+    }
+    $checksumAsset = @($release.assets | Where-Object { $_.name -ceq [string]$Operation.ChecksumAssetName })
+    if ($checksumAsset.Count -ne 1) { throw "Expected exactly one pinned checksum asset for $($Operation.PackageId)." }
+    $checksumUri = [uri][string]$checksumAsset[0].browser_download_url
+    if ($checksumUri.Scheme -ne 'https' -or $checksumUri.Host -ne 'github.com' -or $checksumUri.UserInfo -or
+        -not $checksumUri.AbsolutePath.StartsWith($publisherPrefix, [StringComparison]::OrdinalIgnoreCase) -or
+        $checksumUri.AbsolutePath -notmatch ('/releases/download/' + [regex]::Escape($exactTag) + '/' + [regex]::Escape([string]$Operation.ChecksumAssetName) + '$')) {
+      throw "The checksum asset for $($Operation.PackageId) is not from the exact pinned publisher release."
+    }
+    $checksumResponse = Invoke-WebRequest -Uri $checksumUri.AbsoluteUri -UseBasicParsing -TimeoutSec 120 -ErrorAction Stop
+    $checksumText = [string]$checksumResponse.Content
+    if ([Text.Encoding]::UTF8.GetByteCount($checksumText) -gt 4096) { throw "The publisher checksum for $($Operation.PackageId) exceeds 4 KiB." }
+    $checksumLines = @($checksumText -split "`r?`n" | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
+    if ($checksumLines.Count -ne 1) { throw "Expected exactly one SHA-256 record for $($Operation.AssetName)." }
+    $checksumMatch = [regex]::Match($checksumLines[0], '^\s*(?:(?<hash>[a-fA-F0-9]{64})\s+\*?(?<file>[^\s]+)|SHA-?256\s*\((?<name>[^)]+)\)\s*=\s*(?<hash2>[a-fA-F0-9]{64})|(?<hash3>[a-fA-F0-9]{64}))\s*$')
+    if (-not $checksumMatch.Success) { throw "Publisher checksum for $($Operation.PackageId) is not one valid SHA-256 record." }
+    $checksumFile = if ($checksumMatch.Groups['file'].Success) { $checksumMatch.Groups['file'].Value } elseif ($checksumMatch.Groups['name'].Success) { $checksumMatch.Groups['name'].Value } else { $null }
+    $publisherChecksum = if ($checksumMatch.Groups['hash'].Success) { $checksumMatch.Groups['hash'].Value } elseif ($checksumMatch.Groups['hash2'].Success) { $checksumMatch.Groups['hash2'].Value } else { $checksumMatch.Groups['hash3'].Value }
+    if ($checksumFile -and [IO.Path]::GetFileName($checksumFile) -cne [string]$Operation.AssetName) { throw "Publisher checksum names a different file than $($Operation.AssetName)." }
+    $publisherChecksum = $publisherChecksum.ToLowerInvariant()
   }
   $version = [string]$release.tag_name
   if ($Operation.TagPrefix -and $version.StartsWith([string]$Operation.TagPrefix, [StringComparison]::Ordinal)) { $version = $version.Substring(([string]$Operation.TagPrefix).Length) }
   if ($version.StartsWith('v', [StringComparison]::OrdinalIgnoreCase)) { $version = $version.Substring(1) }
-  if (-not $version -or $version -notmatch '^[0-9A-Za-z][0-9A-Za-z.+_-]*$') { throw "The latest release for $($Operation.PackageId) has an invalid version tag." }
+  if (-not $version -or $version -notmatch '^[0-9A-Za-z][0-9A-Za-z.+_-]*$') { throw "The release tag for $($Operation.PackageId) has an invalid version." }
+  if ($exactTag -and [string]$Operation.PackageVersion -cne $version) { throw "Pinned GitHub release tag $exactTag does not match PackageVersion for $($Operation.PackageId)." }
 
-  $publisherChecksum = $null
-  if ($Operation.PublisherChecksumSource -eq 'ReleaseNotes') {
+  if ($Operation.PublisherChecksumSource -eq 'ReleaseNotes' -and -not $exactTag) {
     $escapedName = [regex]::Escape([string]$asset.name)
     $checksumMatches = @([regex]::Matches([string]$release.body, "(?im)^\s*\|?\s*${escapedName}\s*\|\s*([0-9a-f]{64})\s*\|?\s*$|^\s*([0-9a-f]{64})\s+${escapedName}\s*$"))
     $checksums = @($checksumMatches | ForEach-Object { if ($_.Groups[1].Success) { $_.Groups[1].Value.ToLowerInvariant() } else { $_.Groups[2].Value.ToLowerInvariant() } } | Select-Object -Unique)
@@ -435,7 +589,7 @@ function Resolve-RidePackageArtifact {
   }
   [pscustomobject]@{
     PackageId = [string]$Operation.PackageId
-    OriginUri = if ($Operation.ProductUri) { [string]$Operation.ProductUri } else { 'https://github.com/' + $repositoryMatch.Groups['repository'].Value }
+    OriginUri = if ($Operation.ProductUri) { [string]$Operation.ProductUri } else { 'https://github.com/' + $repository }
     Version = $version
     Architecture = [string]$Operation.Architecture
     FileName = [string]$asset.name
@@ -444,7 +598,7 @@ function Resolve-RidePackageArtifact {
     ReleaseMetadata = $metadata.Provenance
     ProviderDigest = [string]$asset.digest
     PublisherSha256 = $publisherChecksum
-    PublisherChecksumUri = if ($publisherChecksum) { [string]$release.html_url } else { $null }
+    PublisherChecksumUri = if ($publisherChecksum -and $exactTag) { $checksumUri.AbsoluteUri } elseif ($publisherChecksum) { [string]$release.html_url } else { $null }
     ChecksumUris = @($release.assets | Where-Object { $_.name -match '(?i)(checksum|checksums|sha256)' -and $_.name -notmatch '(?i)(\.sig|\.asc|\.gpg)$' } | ForEach-Object { [string]$_.browser_download_url })
     SignatureUris = @($release.assets | Where-Object { $_.name -match '(?i)(\.sig|\.asc|\.gpg)$' } | ForEach-Object { [string]$_.browser_download_url })
   }
@@ -468,6 +622,53 @@ function Get-RideArtifactFileEvidence {
     TimestampSigner = if ($timestampCertificate) { $timestampCertificate.Subject } else { $null }
     TimestampThumbprint = if ($timestampCertificate) { $timestampCertificate.Thumbprint } else { $null }
   }
+}
+
+function Move-RideRejectedPackageArtifact {
+  param([Parameter(Mandatory)][string]$Path,[Parameter(Mandatory)][pscustomobject]$Artifact,[Parameter(Mandatory)][string]$Reason)
+  if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) { return $null }
+  $item = Get-Item -LiteralPath $Path -Force -ErrorAction Stop
+  if ($item.PSIsContainer) { throw 'Rejected artifact path unexpectedly names a directory.' }
+  $rejectedPath = $Path + '.rejected-' + [guid]::NewGuid().ToString('N')
+  [IO.File]::Move([IO.Path]::GetFullPath($Path), [IO.Path]::GetFullPath($rejectedPath))
+  $evidenceError = $null
+  $previousSidecarPath = $Path + '.ride.json'
+  $preservedPreviousSidecarPath = $null
+  if (Test-Path -LiteralPath $previousSidecarPath -PathType Leaf) {
+    $preservedPreviousSidecarPath = $rejectedPath + '.previous.ride.json'
+    try { [IO.File]::Move([IO.Path]::GetFullPath($previousSidecarPath), [IO.Path]::GetFullPath($preservedPreviousSidecarPath)) }
+    catch { $evidenceError = "Could not move the previous canonical observation sidecar: $($_.Exception.Message)" }
+  }
+  $sidecarPath = $rejectedPath + '.ride.json'
+  try {
+    $rejectedItem = Get-Item -LiteralPath $rejectedPath -Force -ErrorAction Stop
+    $record = [ordered]@{
+      SchemaVersion = 1
+      Kind = 'RejectedPackageArtifact'
+      RejectedAtUtc = [DateTime]::UtcNow.ToString('o')
+      PackageId = $Artifact.PackageId
+      ArtifactId = $Artifact.ArtifactId
+      Version = $Artifact.Version
+      Architecture = $Artifact.Architecture
+      OriginalFileName = $Artifact.FileName
+      RejectedFileName = [IO.Path]::GetFileName($rejectedPath)
+      Uri = $Artifact.Uri
+      SourceUri = $Artifact.SourceUri
+      Reason = $Reason
+      Sha256 = (Get-FileHash -LiteralPath $rejectedPath -Algorithm SHA256 -ErrorAction Stop).Hash.ToLowerInvariant()
+      FileSize = $rejectedItem.Length
+      PreviousObservationPreservedAt = if ($preservedPreviousSidecarPath -and (Test-Path -LiteralPath $preservedPreviousSidecarPath -PathType Leaf)) { [IO.Path]::GetFileName($preservedPreviousSidecarPath) } else { $null }
+    }
+    $bytes = [Text.UTF8Encoding]::new($false,$true).GetBytes((ConvertTo-Json -InputObject ([pscustomobject]$record) -Depth 6 -Compress))
+    $stream = [IO.File]::Open($sidecarPath,[IO.FileMode]::CreateNew,[IO.FileAccess]::Write,[IO.FileShare]::None)
+    try { $stream.Write($bytes,0,$bytes.Length); $stream.Flush($true) } finally { $stream.Dispose() }
+  }
+  catch {
+    $message = "Could not write rejected-artifact evidence sidecar: $($_.Exception.Message)"
+    $evidenceError = if ($evidenceError) { $evidenceError + ' ' + $message } else { $message }
+    $sidecarPath = $null
+  }
+  [pscustomobject]@{Path=$rejectedPath;SidecarPath=$sidecarPath;PreviousSidecarPath=$preservedPreviousSidecarPath;EvidenceError=$evidenceError}
 }
 
 function Add-RideArtifactObservation {
@@ -559,6 +760,9 @@ function Save-RidePackageArtifact {
   .DESCRIPTION
     Creates item/version directories, downloads when absent, computes SHA-256, checks a supplied
     provider digest and supported publisher checksum, and records file/member observations.
+    Artifacts failing digest, archive-content, or signature-integrity checks are moved out of the
+    reusable canonical cache path under a unique rejected name with a hash/reason sidecar; their
+    bytes are retained, and any previous canonical observation moves beside them.
     Always retains a sidecar; warns if shared recording fails. Does not invoke an installer
     or authenticate the publisher from a local hash. Copies publisher license references
     into the result and evidence; does not read private user/company license reviews.
@@ -644,50 +848,64 @@ function Save-RidePackageArtifact {
     $acquisitionKind = 'Download'
   }
   $artifact | Add-Member -NotePropertyName AcquisitionKind -NotePropertyValue $acquisitionKind -Force
-  $sha256 = (Get-FileHash -LiteralPath $installer -Algorithm SHA256 -ErrorAction Stop).Hash.ToLowerInvariant()
-  if ($artifact.ProviderDigest) {
-    $digestMatch = [regex]::Match([string]$artifact.ProviderDigest, '^(sha256|sha512):([0-9a-fA-F]+)$')
-    if (-not $digestMatch.Success) { throw "Unrecognized provider digest format for $($Operation.PackageId)." }
-    $algorithm = $digestMatch.Groups[1].Value.ToUpperInvariant()
-    $expectedLength = if ($algorithm -eq 'SHA256') { 64 } else { 128 }
-    if ($digestMatch.Groups[2].Value.Length -ne $expectedLength) { throw "Unrecognized provider digest length for $($Operation.PackageId)." }
-    $actual = if ($algorithm -eq 'SHA256') { $sha256 } else { (Get-FileHash -LiteralPath $installer -Algorithm SHA512 -ErrorAction Stop).Hash.ToLowerInvariant() }
-    if ($digestMatch.Groups[2].Value.ToLowerInvariant() -ne $actual) { throw "Provider $($algorithm.Replace('SHA','SHA-')) digest mismatch for $($Operation.PackageId) $($artifact.Version)." }
-  }
-  if ($artifact.PublisherSha256 -and $artifact.PublisherSha256 -ne $sha256) { throw "Publisher SHA-256 checksum mismatch for $($artifact.FileName)." }
   $contents = @()
-  if ($Operation.ArchiveType -eq 'Zip' -and $Operation.InstallerType -ne 'Portable') {
-    $inspection = Get-RideInstallerInspection -Path $installer -InstallerEntry $Operation.InstallerEntry -Confirm:$false
-    if ($inspection.InstallerType -ne $Operation.InstallerType) { throw 'ZIP installer content does not match InstallerType.' }
-    if ($Operation.ExpectedInstallerSha256 -and $inspection.InstallerSha256 -ne $Operation.ExpectedInstallerSha256) { throw 'ZIP installer SHA-256 digest mismatch.' }
-    $contents = @([pscustomobject]@{ ArchivePath = $Operation.InstallerEntry; Sha256 = $inspection.InstallerSha256; ParentSha256 = $sha256 })
-  }
-  if ($Operation.InstallerType -eq 'SysmonZip') {
-    Add-Type -AssemblyName System.IO.Compression.FileSystem
-    $archive = [IO.Compression.ZipFile]::OpenRead($installer)
-    $inspectionRoot = Join-Path ([IO.Path]::GetTempPath()) ('RIDE-Artifact-' + [guid]::NewGuid().ToString('N'))
-    try {
-      $entries = @($archive.Entries | Where-Object FullName -eq 'Sysmon64.exe')
-      if ($entries.Count -ne 1) { throw 'Sysmon archive must contain exactly one root Sysmon64.exe.' }
-      New-Item -ItemType Directory -Path $inspectionRoot -Force | Out-Null
-      $memberPath = Join-Path $inspectionRoot 'Sysmon64.exe'
-      [IO.Compression.ZipFileExtensions]::ExtractToFile($entries[0], $memberPath)
-      $member = Get-RideArtifactFileEvidence -Path $memberPath
-      $member | Add-Member -NotePropertyName ArchivePath -NotePropertyValue 'Sysmon64.exe'
-      $member | Add-Member -NotePropertyName ParentSha256 -NotePropertyValue $sha256
-      $contents = @($member)
+  try {
+    $sha256 = (Get-FileHash -LiteralPath $installer -Algorithm SHA256 -ErrorAction Stop).Hash.ToLowerInvariant()
+    if ($artifact.ProviderDigest) {
+      $digestMatch = [regex]::Match([string]$artifact.ProviderDigest, '^(sha256|sha512):([0-9a-fA-F]+)$')
+      if (-not $digestMatch.Success) { throw "Unrecognized provider digest format for $($Operation.PackageId)." }
+      $algorithm = $digestMatch.Groups[1].Value.ToUpperInvariant()
+      $expectedLength = if ($algorithm -eq 'SHA256') { 64 } else { 128 }
+      if ($digestMatch.Groups[2].Value.Length -ne $expectedLength) { throw "Unrecognized provider digest length for $($Operation.PackageId)." }
+      $actual = if ($algorithm -eq 'SHA256') { $sha256 } else { (Get-FileHash -LiteralPath $installer -Algorithm SHA512 -ErrorAction Stop).Hash.ToLowerInvariant() }
+      if ($digestMatch.Groups[2].Value.ToLowerInvariant() -ne $actual) { throw "Provider $($algorithm.Replace('SHA','SHA-')) digest mismatch for $($Operation.PackageId) $($artifact.Version)." }
     }
-    finally {
-      $archive.Dispose()
-      if (Test-Path -LiteralPath $inspectionRoot) {
-        $resolvedInspection = (Resolve-Path -LiteralPath $inspectionRoot).Path
-        if ($resolvedInspection -ne [IO.Path]::GetFullPath($inspectionRoot) -or (Split-Path -Leaf $resolvedInspection) -notmatch '^RIDE-Artifact-[0-9a-f]{32}$') { throw 'Unexpected artifact inspection directory.' }
-        Remove-Item -LiteralPath $resolvedInspection -Recurse -Force
+    if ($artifact.PublisherSha256 -and $artifact.PublisherSha256 -ne $sha256) { throw "Publisher SHA-256 checksum mismatch for $($artifact.FileName)." }
+    if ($Operation.ArchiveType -eq 'Zip' -and $Operation.InstallerType -ne 'Portable') {
+      $inspection = Get-RideInstallerInspection -Path $installer -InstallerEntry $Operation.InstallerEntry -Confirm:$false
+      if ($inspection.InstallerType -ne $Operation.InstallerType) { throw 'ZIP installer content does not match InstallerType.' }
+      if ($Operation.ExpectedInstallerSha256 -and $inspection.InstallerSha256 -ne $Operation.ExpectedInstallerSha256) { throw 'ZIP installer SHA-256 digest mismatch.' }
+      $contents = @([pscustomobject]@{ ArchivePath = $Operation.InstallerEntry; Sha256 = $inspection.InstallerSha256; ParentSha256 = $sha256 })
+    }
+    if ($Operation.InstallerType -eq 'SysmonZip') {
+      Add-Type -AssemblyName System.IO.Compression.FileSystem
+      $archive = [IO.Compression.ZipFile]::OpenRead($installer)
+      $inspectionRoot = Join-Path ([IO.Path]::GetTempPath()) ('RIDE-Artifact-' + [guid]::NewGuid().ToString('N'))
+      try {
+        $entries = @($archive.Entries | Where-Object FullName -eq 'Sysmon64.exe')
+        if ($entries.Count -ne 1) { throw 'Sysmon archive must contain exactly one root Sysmon64.exe.' }
+        New-Item -ItemType Directory -Path $inspectionRoot -Force | Out-Null
+        $memberPath = Join-Path $inspectionRoot 'Sysmon64.exe'
+        [IO.Compression.ZipFileExtensions]::ExtractToFile($entries[0], $memberPath)
+        $member = Get-RideArtifactFileEvidence -Path $memberPath
+        $member | Add-Member -NotePropertyName ArchivePath -NotePropertyValue 'Sysmon64.exe'
+        $member | Add-Member -NotePropertyName ParentSha256 -NotePropertyValue $sha256
+        $contents = @($member)
+      }
+      finally {
+        $archive.Dispose()
+        if (Test-Path -LiteralPath $inspectionRoot) {
+          $resolvedInspection = (Resolve-Path -LiteralPath $inspectionRoot).Path
+          if ($resolvedInspection -ne [IO.Path]::GetFullPath($inspectionRoot) -or (Split-Path -Leaf $resolvedInspection) -notmatch '^RIDE-Artifact-[0-9a-f]{32}$') { throw 'Unexpected artifact inspection directory.' }
+          Remove-Item -LiteralPath $resolvedInspection -Recurse -Force
+        }
       }
     }
+    $fileEvidence = Get-RideArtifactFileEvidence -Path $installer
+    if ($fileEvidence.AuthenticodeStatus -eq 'HashMismatch' -or @($contents | Where-Object AuthenticodeStatus -eq 'HashMismatch').Count) { throw 'Artifact signature integrity failure.' }
   }
-  $fileEvidence = Get-RideArtifactFileEvidence -Path $installer
-  if ($fileEvidence.AuthenticodeStatus -eq 'HashMismatch' -or @($contents | Where-Object AuthenticodeStatus -eq 'HashMismatch').Count) { throw 'Artifact signature integrity failure.' }
+  catch {
+    $validationMessage = $_.Exception.Message
+    try { $rejected = Move-RideRejectedPackageArtifact -Path $installer -Artifact $artifact -Reason $validationMessage }
+    catch { throw "Artifact validation failed ($validationMessage), and its bytes could not be moved aside from the reusable cache path: $($_.Exception.Message)" }
+    if ($rejected) {
+      $evidenceNote = if ($rejected.SidecarPath) { " Rejection evidence: '$($rejected.SidecarPath)'" } else { " Rejected-artifact evidence sidecar could not be written." }
+      if ($rejected.PreviousSidecarPath -and (Test-Path -LiteralPath $rejected.PreviousSidecarPath -PathType Leaf)) { $evidenceNote += " Previous observation retained at '$($rejected.PreviousSidecarPath)'" }
+      if ($rejected.EvidenceError) { $evidenceNote += " $($rejected.EvidenceError)" }
+      throw "$validationMessage Rejected bytes retained at '$($rejected.Path)'; a later acquisition can use the canonical versioned cache path.$evidenceNote"
+    }
+    throw
+  }
   Add-RideArtifactObservation -Artifact $artifact -Path $installer -Sha256 $sha256 -ObservationPath $ObservationPath -Route $Route -Contents $contents
   [pscustomobject]@{
     PackageId = if ($artifact.ArtifactId) { $null } else { $artifact.PackageId }
@@ -704,6 +922,8 @@ function Save-RidePackageArtifact {
     DownloadProvider = $artifact.DownloadProvider
     SourceUri = $artifact.SourceUri
     OriginUri = $artifact.OriginUri
+    PublisherSha256 = $artifact.PublisherSha256
+    PublisherChecksumUri = $artifact.PublisherChecksumUri
     ChecksumUris = @($artifact.ChecksumUris)
     SignatureUris = @($artifact.SignatureUris)
     FileEvidence = $fileEvidence
@@ -713,14 +933,65 @@ function Save-RidePackageArtifact {
   }
 }
 
+function Get-RidePackagePrerequisiteStatus {
+  param([Parameter(Mandatory = $true)][hashtable] $Operation)
+  $failures = New-Object System.Collections.Generic.List[string]
+  if ($Operation.PrerequisiteDotNetFramework35 -eq $true -and -not (Test-RideDotNetFramework35Installed)) {
+    $failures.Add('requires the shared .NET Framework 3.5 feature, which supplies the CLR 2.0 runtime')
+  }
+  if ($Operation.ContainsKey('PrerequisiteSystemFiles')) {
+    foreach ($fileName in $Operation.PrerequisiteSystemFiles) {
+      if ($fileName -notmatch '^[A-Za-z0-9_.-]+\.dll$') { throw 'Invalid package system-file prerequisite.' }
+      $systemFile = Join-Path (Join-Path $env:SystemRoot 'System32') $fileName
+      if (-not (Test-Path -LiteralPath $systemFile -PathType Leaf)) {
+        $failures.Add("requires the Windows system prerequisite '$fileName' at '$systemFile'")
+        continue
+      }
+      if ($Operation.PrerequisiteSystemFileMinimumVersions -and $Operation.PrerequisiteSystemFileMinimumVersions.ContainsKey($fileName)) {
+        $minimumVersion = [version]$Operation.PrerequisiteSystemFileMinimumVersions[$fileName]
+        [version]$actualVersion = [version]::MinValue
+        try { $fileVersion = [Diagnostics.FileVersionInfo]::GetVersionInfo($systemFile).FileVersion }
+        catch { $failures.Add("cannot read version for '$systemFile': $($_.Exception.Message)"); continue }
+        if (-not [version]::TryParse([string]$fileVersion, [ref]$actualVersion) -or $actualVersion -lt $minimumVersion) {
+          $failures.Add("requires '$fileName' version $minimumVersion or later; '$systemFile' reports '$fileVersion'")
+        }
+      }
+    }
+  }
+  $executable = $null
+  if ($Operation.PrerequisiteProgramFilesExecutable) {
+    $relative = [string]$Operation.PrerequisiteProgramFilesExecutable
+    if ([IO.Path]::IsPathRooted($relative) -or $relative -match '(^|[\\/])\.\.([\\/]|$)' -or $relative -match '["\r\n:*?]') { throw 'Invalid package prerequisite executable path.' }
+    $executable = Join-Path $env:ProgramFiles $relative
+    if (-not (Test-Path -LiteralPath $executable -PathType Leaf)) { $failures.Add("requires $($Operation.PrerequisitePackageId) at '$executable'") }
+  }
+  [pscustomobject]@{
+    Satisfied = ($failures.Count -eq 0)
+    Reason = if ($failures.Count) { "$($Operation.Id) " + ($failures -join '; ') } else { $null }
+    Executable = $executable
+    Directory = if ($executable) { Split-Path -Parent $executable } else { $null }
+  }
+}
+
+function Test-RideDotNetFramework35Installed {
+  $keyPath = 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v3.5'
+  try {
+    $value = Get-ItemProperty -LiteralPath $keyPath -Name Install -ErrorAction Stop
+    return ([int]$value.Install -eq 1)
+  } catch {
+    if ($_.CategoryInfo.Category -eq [Management.Automation.ErrorCategory]::ObjectNotFound) { return $false }
+    throw "Could not inspect the installed .NET Framework 3.5 runtime: $($_.Exception.Message)"
+  }
+}
+
 function Get-RidePackagePrerequisiteDirectory {
   param([hashtable] $Operation)
-  if (-not $Operation.PrerequisiteProgramFilesExecutable) { return }
-  $relative = [string]$Operation.PrerequisiteProgramFilesExecutable
-  if ([IO.Path]::IsPathRooted($relative) -or $relative -match '(^|[\\/])\.\.([\\/]|$)' -or $relative -match '["\r\n:*?]') { throw 'Invalid package prerequisite executable path.' }
-  $executable = Join-Path $env:ProgramFiles $relative
-  if (-not (Test-Path -LiteralPath $executable -PathType Leaf)) { throw "$($Operation.Id) requires $($Operation.PrerequisitePackageId) at '$executable'. Install the prerequisite first and remove it last." }
-  Split-Path -Parent $executable
+  $status = Get-RidePackagePrerequisiteStatus -Operation $Operation
+  if (-not $status.Satisfied) {
+    if ($Operation.PrerequisitePackageId) { throw "$($status.Reason). Install or update the declared prerequisite first and remove it last." }
+    throw "$($status.Reason). Install the documented shared runtime first."
+  }
+  $status.Directory
 }
 
 function Test-RidePackageAdministrator {
@@ -799,7 +1070,8 @@ function Install-RidePackage {
   $offline = $PSBoundParameters.ContainsKey('OfflineArtifact')
   if ($offline -and ($null -eq $OfflineArtifact -or $OfflineArtifact.Offline -ne $true -or
       $OfflineArtifact.Sha256 -notmatch '^[a-fA-F0-9]{64}$' -or -not $OfflineArtifact.Version -or
-      $Operation.InstallerType -ne 'Portable' -or $Operation.PrerequisitePackageId -or $Operation.DependsOn -or
+      $OfflineArtifact.OfflineCapability -cne 'DeclaredNoNetwork' -or $OfflineArtifact.InstallerType -cne $Operation.InstallerType -or
+      $Operation.InstallerType -notin @('Portable', 'Exe', 'Msi') -or $Operation.PrerequisitePackageId -or $Operation.DependsOn -or
       $GitHubAuthentication -ne 'Anonymous' -or $GitHubCredentialReference)) { throw 'Invalid or unsupported offline package; no network fallback is allowed.' }
   $null = Get-RidePackagePrerequisiteDirectory -Operation $Operation
   Assert-RidePackageExecutionContext -Operation $Operation
@@ -840,6 +1112,7 @@ function Install-RidePackage {
   }
   if ($Operation.InstallerType -notin @('Exe', 'Msi', 'Portable')) { throw "Unsupported installer type for $($Operation.Id): $($Operation.InstallerType)" }
   $installerPath = $download.Path; $installerStaging = $null
+  $configurationStaging = $null
   try {
     if ($Operation.ArchiveType -eq 'Zip' -and $Operation.InstallerType -ne 'Portable') {
       $installerStaging = Join-Path ([IO.Path]::GetTempPath()) ('RIDE-Installer-' + [guid]::NewGuid().ToString('N'))
@@ -857,7 +1130,29 @@ function Install-RidePackage {
       $installerExe = Join-Path $env:SystemRoot 'System32\msiexec.exe'
       $installerArguments = '/i "' + $installerPath + '" ' + $Operation.InstallerArguments
     }
-    $process = Invoke-RidePackageInstallerProcess -Operation $Operation -FilePath $installerExe -ArgumentList $installerArguments
+    if ($Operation.InstallerConfiguration) {
+      $configurationStaging = Join-Path ([IO.Path]::GetTempPath()) ('RIDE-PackageConfig-' + [guid]::NewGuid().ToString('N'))
+      $configurationStaging = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($configurationStaging)
+      $null = [IO.Directory]::CreateDirectory($configurationStaging)
+      if ((Get-Item -LiteralPath $configurationStaging).Attributes -band [IO.FileAttributes]::ReparsePoint) { throw 'Installer configuration staging cannot use reparse points.' }
+      $configurationPath = Join-Path $configurationStaging 'installer.ini'
+      $configurationSection = [string]$Operation.InstallerConfigurationSection
+      if (-not $configurationSection -or $configurationSection -notmatch '^[A-Za-z0-9_-]{1,64}$') { throw 'Installer configuration requires a valid declared section name.' }
+      $configurationLines = @("[$configurationSection]") + @(foreach ($key in @($Operation.InstallerConfiguration.Keys | Sort-Object -CaseSensitive)) {
+        $value = if ($Operation.InstallerConfiguration[$key]) { 'true' } else { 'false' }
+        "$key=$value"
+      })
+      $configurationBytes = [Text.Encoding]::ASCII.GetBytes(($configurationLines -join "`r`n") + "`r`n")
+      $configurationStream = [IO.File]::Open($configurationPath, [IO.FileMode]::CreateNew, [IO.FileAccess]::Write, [IO.FileShare]::None)
+      try { $configurationStream.Write($configurationBytes, 0, $configurationBytes.Length) } finally { $configurationStream.Dispose() }
+      if (-not $Operation.InstallerArguments.Contains('{InstallerConfigurationPath}')) { throw 'Installer configuration requires an explicit path token in InstallerArguments.' }
+      $installerArguments = $installerArguments.Replace('{InstallerConfigurationPath}', $configurationPath)
+    }
+    $process = if ($Operation.PreserveRoamingDirectoryOnInstall) {
+      Invoke-RidePreservingPackageOperation -Operation $Operation -FilePath $installerExe -ArgumentList $installerArguments
+    } else {
+      Invoke-RidePackageInstallerProcess -Operation $Operation -FilePath $installerExe -ArgumentList $installerArguments
+    }
     $successExitCodes = if ($Operation.SuccessExitCodes) { @($Operation.SuccessExitCodes) } else { @(0) }
     if ($process.ExitCode -notin $successExitCodes) { throw "Installer for $($Operation.Name) exited with code $($process.ExitCode). Artifact retained at '$($download.Path)'." }
     if ($process.ExitCode -eq 3010) { Write-Warning "$($Operation.Name) installation succeeded; a restart is required." }
@@ -868,6 +1163,11 @@ function Install-RidePackage {
       if ($resolvedStaging -ne [IO.Path]::GetFullPath($installerStaging) -or (Split-Path -Leaf $resolvedStaging) -notmatch '^RIDE-Installer-[0-9a-f]{32}$') { throw 'Unexpected installer staging directory.' }
       Remove-Item -LiteralPath $resolvedStaging -Recurse -Force
     }
+    if ($configurationStaging -and [IO.Directory]::Exists($configurationStaging)) {
+      $resolvedConfigurationStaging = (Get-Item -LiteralPath $configurationStaging).FullName
+      if ($resolvedConfigurationStaging -ne [IO.Path]::GetFullPath($configurationStaging) -or (Split-Path -Leaf $resolvedConfigurationStaging) -notmatch '^RIDE-PackageConfig-[0-9a-f]{32}$') { throw 'Unexpected installer configuration staging directory.' }
+      Remove-Item -LiteralPath $resolvedConfigurationStaging -Recurse -Force
+    }
   }
   $download
 }
@@ -876,12 +1176,15 @@ function Get-RideRoamingApplicationDataRoot {
   [Environment]::GetFolderPath('ApplicationData')
 }
 
-function Invoke-RidePreservingPackageRemoval {
+function Invoke-RidePreservingPackageOperation {
   param([hashtable] $Operation, [string] $FilePath, [string] $ArgumentList)
   if (-not $Operation.PreserveRoamingDirectory) { return Invoke-RidePackageInstallerProcess -Operation $Operation -FilePath $FilePath -ArgumentList $ArgumentList }
   $name=[string]$Operation.PreserveRoamingDirectory
-  if ($Operation.Scope -ne 'User' -or $Operation.InstallerType -ne 'Exe' -or $name -notmatch '^[a-zA-Z0-9][a-zA-Z0-9 ._-]{0,79}$' -or $name.EndsWith('.') -or $name.EndsWith(' ') -or $name -match '^(?i)(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\.|$)' -or $Operation.PreservationProcessName -notmatch '^[a-zA-Z0-9_-]+$') { throw 'Invalid user-data preservation directory.' }
-  if ($Operation.PreservationProcessName -and (Get-Process -Name $Operation.PreservationProcessName -ErrorAction SilentlyContinue)) { throw "Close $($Operation.Name) before removing it; user data was not moved." }
+  $processNames = if ($Operation.PreservationProcessNames) { @($Operation.PreservationProcessNames) } elseif ($Operation.PreservationProcessName) { @($Operation.PreservationProcessName) } else { @() }
+  if ($Operation.Scope -ne 'User' -or $Operation.InstallerType -ne 'Exe' -or $name -notmatch '^[a-zA-Z0-9][a-zA-Z0-9 ._-]{0,79}$' -or $name.EndsWith('.') -or $name.EndsWith(' ') -or $name -match '^(?i)(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\.|$)' -or $processNames.Count -lt 1 -or @($processNames | Where-Object { $_ -notmatch '^[a-zA-Z0-9_-]+$' }).Count -gt 0 -or ($Operation.PreservationProcessNames -and $Operation.PreservationProcessName)) { throw 'Invalid user-data preservation directory.' }
+  foreach ($processName in $processNames) {
+    if (Get-Process -Name $processName -ErrorAction SilentlyContinue) { throw "Close $processName before changing $($Operation.Name); user data was not moved." }
+  }
   $root=Get-RideRoamingApplicationDataRoot
   if (-not $root -or -not [IO.Path]::IsPathRooted($root)) { throw 'User roaming application-data root is unavailable.' }
   $pending=@(Get-ChildItem -LiteralPath $root -Force -Filter ('.'+$name+'.ride-preserved-*') -ErrorAction Stop)
@@ -906,9 +1209,16 @@ function Invoke-RidePreservingPackageRemoval {
   }
   finally {
     if ($moved) {
-      if (Test-Path -LiteralPath $original) { throw "User-data restoration has a collision. Preserved data remains at '$holding'; original destination is '$original'." }
+      if (Test-Path -LiteralPath $original) {
+        $conflictingData = Get-Item -LiteralPath $original -Force -ErrorAction Stop
+        if (-not $conflictingData.PSIsContainer -or ($conflictingData.Attributes -band [IO.FileAttributes]::ReparsePoint)) { throw "User-data restoration has a non-directory collision. Preserved data remains at '$holding'; original destination is '$original'." }
+        $createdData = Join-Path $root ('.'+$name+'.ride-created-'+[guid]::NewGuid().ToString('N'))
+        try { Move-Item -LiteralPath $original -Destination $createdData -ErrorAction Stop }
+        catch { throw "Could not retain installer-created user data. Original data remains at '$holding'; new data remains at '$original'. $($_.Exception.Message)" }
+      }
       try { Move-Item -LiteralPath $holding -Destination $original -ErrorAction Stop }
       catch { throw "User-data restoration failed. Preserved data remains at '$holding'; original destination is '$original'. $($_.Exception.Message)" }
+      if ($createdData) { Write-Warning "The package created a new user-data directory during install/removal; it was retained at '$createdData' while the original data was restored." }
     }
     if (Test-Path -LiteralPath $journal) { Remove-Item -LiteralPath $journal -ErrorAction Stop }
   }
@@ -922,9 +1232,10 @@ function Uninstall-RidePackage {
   .DESCRIPTION
     Returns when absent. Parses registered quiet/uninstall strings and applies declared fallback
     arguments when needed. UninstallerType may override the installer format for MSI wrappers.
-    A declared user-data preservation contract refuses a running application and temporarily
-    renames its Roaming data directory, restoring it after the uninstaller finishes or fails.
-    Interrupted restoration retains the directory and journal for review instead of overwriting.
+    A declared user-data preservation contract refuses running processes and temporarily renames
+    its Roaming data directory, restoring it after the installer or uninstaller finishes or fails.
+    Newly created data is retained separately if the original path collides. Interrupted restoration
+    retains the directory and journal for review instead of overwriting.
     Throws on a nonzero exit or remaining package presence. Use the engine;
     no exact-version backup is created here.
 
@@ -973,11 +1284,11 @@ function Uninstall-RidePackage {
     $arguments = [regex]::Replace($arguments, '(?i)(^|\s)/I(?=\s|\{)', '$1/X')
   }
   if ($arguments -notmatch '(?i)(/quiet|/qn|/s|/silent|/verysilent|--uninstall)(?=\s|$)') { $arguments = ($arguments + ' ' + $Operation.UninstallerArguments).Trim() }
-  $process = Invoke-RidePreservingPackageRemoval -Operation $Operation -FilePath $exe -ArgumentList $arguments
+  $process = Invoke-RidePreservingPackageOperation -Operation $Operation -FilePath $exe -ArgumentList $arguments
   $successExitCodes = if ($Operation.SuccessExitCodes) { @($Operation.SuccessExitCodes) } else { @(0) }
   if ($process.ExitCode -notin $successExitCodes) { throw "Uninstaller for $($Operation.Name) exited with code $($process.ExitCode)." }
   if ($process.ExitCode -eq 3010) { Write-Warning "$($Operation.Name) removal succeeded; a restart is required." }
   if ((Get-RideInstalledPackage -Operation $Operation).Present) { throw "Uninstaller completed but $($Operation.Name) is still detected." }
 }
 
-Export-ModuleMember -Function Get-RideInstalledPackage, Resolve-RidePackageArtifact, Save-RidePackageArtifact, Install-RidePackage, Uninstall-RidePackage
+Export-ModuleMember -Function Get-RideInstalledPackage, Get-RidePackagePrerequisiteStatus, Resolve-RidePackageArtifact, Save-RidePackageArtifact, Install-RidePackage, Uninstall-RidePackage

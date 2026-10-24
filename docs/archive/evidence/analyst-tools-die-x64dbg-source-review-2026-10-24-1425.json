@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-24T14:25:00Z",
+  "batch": "Optional analyst tool source review: Detect It Easy and x64dbg",
+  "products": [
+    {
+      "name": "Detect It Easy",
+      "productUri": "https://github.com/horsicq/DIE-engine",
+      "licenseUri": "https://github.com/horsicq/Detect-It-Easy/blob/master/LICENSE",
+      "reviewedVersion": "3.21",
+      "downloadUri": "https://github.com/horsicq/DIE-engine/releases/download/3.21/die_win64_portable_3.21_x64.zip",
+      "publisherEvidence": "The official release lists die_win64_portable_3.21_x64.zip as a portable x64 Windows build and labels it Windows 7-Windows 11. The repository identifies MIT licensing.",
+      "securityEvidence": {
+        "uri": "https://github.com/horsicq/Detect-It-Easy/issues/346",
+        "reportedDetection": "Trojan:Script/Wacatac.B!ml",
+        "reportedArtifact": "die_win64_portable_3.21_x64.zip",
+        "publisherResponse": "The project maintainer acknowledged the report and said it would be investigated.",
+        "ResolutionConfirmed": false
+      },
+      "disposition": "Exclude this reported Windows x64 portable artifact from migration batches until a current artifact receives a security review. Do not infer that every future build or the separate Microsoft Store edition has the same result."
+    },
+    {
+      "name": "x64dbg",
+      "productUri": "https://x64dbg.com/",
+      "downloadUri": "https://sourceforge.net/projects/x64dbg/files/snapshots/snapshot_2026-05-27_12-11.zip/download",
+      "licenseUri": "https://help.x64dbg.com/en/latest/licenses.html",
+      "licenseSummary": "The x64dbg project identifies GPLv3; its license documentation also lists bundled libraries under LGPL, MIT, zlib and BSD licenses.",
+      "reviewedRelease": "2026.05.27",
+      "reviewedArchive": {
+        "name": "snapshot_2026-05-27_12-11.zip",
+        "publisherListedSize": "31.5 MB",
+        "publisherListedModifiedUtc": "2026-05-27T13:02:26Z",
+        "symbolsArchiveSeparate": true
+      },
+      "sourceReady": true,
+      "acquired": false,
+      "sha256": null,
+      "nextAction": "Acquire the pinned publisher archive, record its SHA-256, inspect exact members, embedded third-party notices and signatures, then prepare its local version-specific license review record. License review remains non-blocking for migration preparation; package promotion still requires artifact and lifecycle evidence."
+    }
+  ],
+  "boundaries": {
+    "PublisherArtifactsDownloaded": false,
+    "ExecutablesRun": false,
+    "DefenderQueried": false,
+    "VmOrWindowsStateChanged": false,
+    "CatalogCandidatesAdded": false
+  },
+  "migrationOutcome": {
+    "resolved": ["Current publisher source and version identity for x64dbg"],
+    "retired": [],
+    "excluded": ["Detect It Easy 3.21 Windows x64 portable ZIP, pending security review"],
+    "deferred": [
+      "Detect It Easy's current non-flagged Windows artifact route and security disposition",
+      "x64dbg pinned artifact acquisition, SHA-256, member/license notice review and lifecycle acceptance"
+    ],
+    "partial": ["Both remain supplemental candidates; no legacy product outcome closes"],
+    "estimateRangesUnchanged": true,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "52-67",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "141-195",
+      "roundedTotal": "140-195/about 170"
+    }
+  }
+}

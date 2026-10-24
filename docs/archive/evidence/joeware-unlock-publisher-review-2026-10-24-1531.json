@@ -1,0 +1,38 @@
+{
+  "RecordedAtUtc": "2026-10-24T15:31:00Z",
+  "Batch": "JoeWare Unlock publisher version and behavior review",
+  "Product": "Unlock",
+  "PublisherPage": "https://www.joeware.net/freetools/tools/unlock/index.htm",
+  "PublisherVersionsFile": "https://joeware.net/freetools/versions.txt",
+  "Findings": {
+    "ProductPageCurrentVersion": "2.1.0",
+    "VersionListVersion": "02.01.00",
+    "ReleaseDate": "2004-08-16",
+    "IdentityReconciled": true,
+    "PublisherListedPlatforms": ["Windows 2000", "Windows Server 2003", "Windows XP"],
+    "Windows11SupportEstablished": false,
+    "Purpose": "Query currently locked Active Directory accounts and unlock accounts.",
+    "Privilege": "Directory queries use caller rights; unlocking requires write-property permission on lockoutTime.",
+    "Implementation": "C++ compiled with Borland Builder 6.0; source code unavailable.",
+    "DownloadWorkflow": "Publisher page uses optional email form; no form submitted or payload acquired.",
+    "PublisherDigests": "Versions file contains MD5/SHA-1 only; not correlated to acquired bytes and no SHA-256 is supplied."
+  },
+  "Boundaries": { "Download": false, "Execution": false, "ADContact": false, "Vm": false, "DefenderChanged": false, "WindowsStateChanged": false },
+  "Disposition": {
+    "SourceVersionOutcome": "Resolved",
+    "PackageCandidate": "Not registered; exact artifact and archive inventory remain unavailable.",
+    "TechnicalBlockers": ["Exact payload/hash/member inventory", "Isolated synthetic AD lifecycle/behavior acceptance", "Windows 11 compatibility not established by publisher platform list"],
+    "LicenseMigrationBlocker": false,
+    "LegacyOutcomeClosed": 0
+  },
+  "Estimate": {
+    "Settings": "37-57",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "141-195",
+    "RoundedTotal": "140-195/about 170",
+    "Adjustment": "Unchanged: page/list version reconciliation does not establish artifact identity or acceptance."
+  }
+}

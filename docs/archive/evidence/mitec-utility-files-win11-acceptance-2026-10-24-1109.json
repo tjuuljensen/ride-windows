@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-24T11:09:24Z",
+  "runId": "304052eb71a74c6380c815609ba48941",
+  "suite": "MiTeCUtilityFiles",
+  "target": "Windows 11",
+  "build": "26300",
+  "controllerResult": {
+    "status": "Passed",
+    "cleanupError": null,
+    "collectionError": null,
+    "checkpointRecovery": "Completed"
+  },
+  "guestResult": {
+    "status": "Passed",
+    "expectedCases": 3,
+    "completedCases": 3,
+    "passedCases": 3,
+    "payloadExecution": false,
+    "toolExecuted": false,
+    "products": [
+      {
+        "id": "package.mitec-uuid-generator",
+        "lifecycleRecovery": true
+      },
+      {
+        "id": "package.mitec-certificate-generator",
+        "lifecycleRecovery": true
+      },
+      {
+        "id": "package.mitec-certificate-information",
+        "lifecycleRecovery": true
+      }
+    ],
+    "checksPerProduct": [
+      "InstallPreview",
+      "Install",
+      "ExactMemberSelection",
+      "RepeatInstall",
+      "RemovePreview",
+      "Remove",
+      "RepeatRemove",
+      "RestorePreview",
+      "ExactRemovalRestore",
+      "UnownedPreservation",
+      "OriginalAbsenceRestore",
+      "UnownedCollisionRefusal",
+      "ModifiedReplacementRefusal",
+      "ModifiedRemovalPreservation"
+    ],
+    "functionalAcceptance": "Pending",
+    "runtimeAcceptance": "NotSelected",
+    "activationAcceptance": "Pending"
+  },
+  "migrationOutcome": {
+    "resolved": ["Windows 11 source-file lifecycle and recovery for three MiTeC utility packages"],
+    "retired": [],
+    "excluded": [],
+    "partial": ["Three MiTeC packages remain without functional, runtime or target-support acceptance"],
+    "deferred": ["Utility behavior, Authenticode unknown-status review, functional acceptance and support declaration"],
+    "estimateRangesUnchanged": true,
+    "estimates": {
+      "settings": "38-58",
+      "packages": "52-67",
+      "components": "19-24",
+      "deploymentAndOffline": "25-35",
+      "other": "8-12",
+      "exactTotal": "142-196",
+      "roundedTotal": "145-200/about 170"
+    }
+  },
+  "evidencePaths": [
+    "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\304052eb71a74c6380c815609ba48941\\focused\\evidence\\summary.json",
+    "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\304052eb71a74c6380c815609ba48941\\focused\\evidence\\scenarios.json",
+    "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\304052eb71a74c6380c815609ba48941\\controller.log"
+  ]
+}

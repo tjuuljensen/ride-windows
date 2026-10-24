@@ -1,0 +1,77 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "TimeUtc": "08:55:22",
+  "Batch": "B06 servicing source-policy contract correction",
+  "Module": "modules/RIDE.ClientComponentPreparation.psm1",
+  "Version": "0.2.0",
+  "Change": {
+    "RemovedMisleadingField": "AllowNetworkFallback",
+    "OfflineFields": {
+      "WindowsUpdateLookupBlocked": true,
+      "ConfiguredSourceFallback": "NotInspected",
+      "SourceValidated": false,
+      "NetworkBoundaryVerified": false
+    },
+    "OnlineFields": {
+      "WindowsUpdateLookupBlocked": false,
+      "ConfiguredSourceFallback": "NotInspected",
+      "SourceValidated": false,
+      "NetworkBoundaryVerified": false
+    },
+    "Effect": "Preparation output no longer claims that LimitAccess blocks all configured network sources."
+  },
+  "Validation": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "FocusedSuites": [
+      "tests/ComponentInventory.Tests.ps1",
+      "tests/ClientComponentPreparation.Tests.ps1",
+      "tests/ClientComponentLifecycle.Tests.ps1"
+    ],
+    "Discovered": 59,
+    "Passed": 59,
+    "Failed": 0,
+    "Skipped": 0,
+    "WindowsPowerShell51ParserFiles": 2,
+    "WindowsPowerShell51ParserErrors": 0,
+    "DismCalls": 0,
+    "WindowsStateChanged": false
+  },
+  "Acceptance": {
+    "VmRun": false,
+    "Reason": "Get-VM -Name RIDE-Win11-Test returned CIM access denied at 2026-10-23 08:55 UTC before checkpoint inspection.",
+    "Open": [
+      "Matching build/edition/architecture/language and complete OpenSSH Client payload validation.",
+      "TelnetClient source inventory and dependencies.",
+      "No-network proof that includes configured servicing-source policy/fallback.",
+      "Exact payload/version restoration and both Windows 11/declared Server acceptance."
+    ],
+    "SupportedTargetsChanged": false
+  },
+  "Outcomes": {
+    "Resolved": [
+      "The preparation source-policy contract now reports the precise Windows Update and configured-source boundaries."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Servicing source/payload completeness, dependencies, effective policy, exact recovery, Windows acceptance and support declarations."
+    ],
+    "Partial": [
+      "Candidate remains unregistered; no legacy component outcome closed."
+    ],
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateAdjustment": "Unchanged; contract correction closes no legacy outcome."
+  }
+}

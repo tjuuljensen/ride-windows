@@ -1,0 +1,91 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T06:29:23Z",
+  "Batches": [
+    {
+      "Batch": "ApplicationsBatch1 registered Windows 11 controller run",
+      "RunId": "4b4ab05256884fde810d04d0fb875998",
+      "Target": {
+        "VMName": "RIDE-Win11-Test",
+        "OS": "Windows 11 Enterprise Evaluation",
+        "Build": 26300,
+        "PowerShell": "5.1.26100.9444",
+        "Pester": "5.7.1"
+      },
+      "StartedAtUtc": "2026-10-24T06:08:50.5636506Z",
+      "FinishedAtUtc": "2026-10-24T06:18:19.7657488Z",
+      "ControllerStatus": "Failed",
+      "Validation": {
+        "Status": "Failed",
+        "Passed": 317,
+        "Failed": 1,
+        "Skipped": 1,
+        "Total": 319
+      },
+      "Failure": {
+        "Test": "Correlated execution, failures and VM recovery.Fixed preregistered portable batches.dispatches NTCore without RunAs or acquiring the worker lock again",
+        "Cause": "The guest snapshot had an outdated test mock that always wrote ToolExecuted=false. Current controller validation correctly expects ToolExecuted=true for NTCore. The snapshot test file differed from the current checkout; the automation module matched.",
+        "IntegrationSuiteExecuted": false
+      },
+      "CleanupError": null,
+      "CollectionError": null,
+      "BlockedMarkerPresent": false
+    },
+    {
+      "Batch": "Current-source preregistered portable controller regression",
+      "TestPath": "tests/TestAutomation.Tests.ps1",
+      "Filter": "Fixed preregistered portable batches.dispatches",
+      "Status": "Passed",
+      "Passed": 5,
+      "Failed": 0,
+      "Skipped": 0,
+      "PowerShell": "7.6.5",
+      "Pester": "5.7.1",
+      "TestRegistryEnabled": false
+    },
+    {
+      "Batch": "Gpg4win current-source package regression",
+      "TestPath": "tests/Gpg4winPackage.Tests.ps1",
+      "Status": "Passed",
+      "Passed": 10,
+      "Failed": 0,
+      "Skipped": 0,
+      "PowerShell": "7.6.5",
+      "Pester": "5.7.1",
+      "TestRegistryEnabled": false,
+      "TempRoot": "Repository-local .local path; removed after the run",
+      "InstallerExecuted": false,
+      "GnuPGExecuted": false,
+      "VmUsed": false,
+      "WindowsStateChanged": false
+    }
+  ],
+  "Retry": {
+    "RunId": "2e2b9cab185148318a0b29aa690a4501",
+    "Batch": "ApplicationsBatch1",
+    "StatusAtRecordTime": "Running",
+    "StagedTestSnapshot": "Corrected mock reports ToolExecuted=true for NTCore",
+    "DoNotSubmitAnotherConcurrentRun": true
+  },
+  "LegacyOutcomesResolved": [],
+  "LegacyOutcomesRetired": [],
+  "LegacyOutcomesExcluded": [],
+  "LegacyOutcomesDeferred": [
+    "ApplicationsBatch1 runtime acceptance; the first controller run stopped in Pester before integration execution, and the corrected registered retry is still running.",
+    "Gpg4win native install, component and exact recovery acceptance."
+  ],
+  "LegacyOutcomesPartial": [
+    "Gpg4win package candidate implementation and current-source mocked lifecycle/recovery regression pass, but no Gpg4win installer or GnuPG process ran."
+  ],
+  "Estimates": {
+    "Settings": "38-58",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "FilesAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Changed": false,
+    "Reason": "No whole legacy feature or product outcome closed; the failure and local tests change acceptance evidence only."
+  }
+}

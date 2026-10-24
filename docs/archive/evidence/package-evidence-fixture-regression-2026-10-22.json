@@ -1,0 +1,41 @@
+{
+  "Date": "2026-10-22",
+  "Batch": "Package evidence filesystem fixture regression",
+  "Suite": "tests/PackageEvidence.Tests.ps1",
+  "FixtureStrategy": "Each module-scope case creates a GUID-scoped directory directly under the repository .local directory and validates the resolved path before cleanup.",
+  "Tests": {
+    "WindowsPowerShell51": "25 passed, 0 failed, 0 skipped",
+    "PowerShell7": "25 passed, 0 failed, 0 skipped",
+    "PesterTestRegistry": "Disabled because the sandbox denies registry access",
+    "RecheckThisTurn": {
+      "PowerShell": "7.6.5",
+      "Passed": 25,
+      "Failed": 0,
+      "Skipped": 0,
+      "TestRegistry": "Disabled because the sandbox denies registry access"
+    }
+  },
+  "Outcomes": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["Package evidence test fixture regression"],
+    "Deferred": [
+      "VM acceptance remains unavailable through Hyper-V CIM and protected controller queue access",
+      "Package runtime acceptance and source-specific pending reviews remain open"
+    ]
+  },
+  "Estimates": {
+    "Groups": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactTotal": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged; this test harness correction closes no legacy feature or product outcome."
+  },
+  "SystemState": {
+    "ArtifactDownload": false,
+    "InstallerExecution": false,
+    "VmRun": false,
+    "DefenderChange": false,
+    "Uac": false
+  }
+}

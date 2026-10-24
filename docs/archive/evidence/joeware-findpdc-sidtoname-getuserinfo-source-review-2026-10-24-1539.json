@@ -1,0 +1,37 @@
+{
+  "RecordedAtUtc": "2026-10-24T15:39:00Z",
+  "Batch": "JoeWare FindPDC, SidToName and GetUserInfo source review",
+  "PublisherVersionsFile": "https://joeware.net/freetools/versions.txt",
+  "Products": [
+    {
+      "Name": "FindPDC",
+      "Version": "01.00.01",
+      "Date": "2001-09-28",
+      "PublisherProductPage": "https://joeware.net/freetools/tools/findpdc/index.htm",
+      "PageAndVersionRowMatch": true,
+      "Behavior": "Checks name resolution and polls NetGetDCName/NetLogon behavior to locate a domain PDC.",
+      "PublisherPlatforms": ["Windows NT", "Windows 2000", "Windows Server 2003", "Windows XP"],
+      "Windows11SupportEstablished": false
+    },
+    {
+      "Name": "SidToName",
+      "Version": "02.00.00",
+      "Date": "2003-03-03",
+      "PublisherUsagePage": "https://joeware.net/freetools/tools/sidtoname/usage.htm",
+      "PageAndVersionRowMatch": true,
+      "Behavior": "Resolves a text SID locally or by specifying a computer for remote resolution.",
+      "Windows11SupportEstablished": false
+    },
+    {
+      "Name": "GetUserInfo",
+      "VersionRow": "02.07.00; 2003-09-27",
+      "PublisherIndexBehavior": "Queries user-account information from Windows machines.",
+      "ProductPageCorrelation": "Open; product-specific page/version identity could not be confirmed from the retrieved publisher sources.",
+      "Windows11SupportEstablished": false
+    }
+  ],
+  "Artifacts": { "Download": false, "SHA256": null, "Members": null, "FormSubmitted": false },
+  "Boundaries": { "ADContact": false, "EndpointContact": false, "Execution": false, "Vm": false, "WindowsStateChanged": false },
+  "MigrationDisposition": { "LicenseBlocker": false, "CandidateAdmission": "Deferred pending exact bytes and complete per-product source/member review.", "LegacyOutcomesClosed": 0 },
+  "Estimate": { "Settings": "37-57", "Packages": "52-67", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "ExactTotal": "141-195", "RoundedTotal": "140-195/about 170", "Adjustment": "Unchanged; source/version review adds no artifact, lifecycle or functional acceptance." }
+}

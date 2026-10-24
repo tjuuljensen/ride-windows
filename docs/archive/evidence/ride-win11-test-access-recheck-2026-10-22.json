@@ -1,0 +1,37 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-22",
+  "Target": {
+    "VMName": "RIDE-Win11-Test",
+    "VMId": null,
+    "CheckpointId": null
+  },
+  "Check": {
+    "Command": "Get-VM -Name RIDE-Win11-Test",
+    "Access": "ReadOnly",
+    "Result": "Blocked",
+    "Error": "Access to a CIM resource was not available to the client.",
+    "LastRecheckedUtc": "2026-10-22T12:26:19Z",
+    "VmStateVerified": false,
+    "CheckpointVerified": false
+  },
+  "Boundaries": {
+    "TaskSubmitted": false,
+    "VmStartedOrChanged": false,
+    "ControllerChanged": false,
+    "QueueWriteAttempted": false,
+    "FreshUacPrompts": 0,
+    "HostServicesChanged": false,
+    "DefenderChanges": false
+  },
+  "DeferredAcceptance": [
+    "Re-establish the existing authorized Hyper-V read and registered-controller workflow when available.",
+    "Verify the existing VM and checkpoint identities before running only already authorized scenarios."
+  ],
+  "EstimatedRemainingWork": {
+    "GroupRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactRangeEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateReason": "An access preflight could not inspect VM state and did not run acceptance or resolve a legacy outcome."
+  }
+}

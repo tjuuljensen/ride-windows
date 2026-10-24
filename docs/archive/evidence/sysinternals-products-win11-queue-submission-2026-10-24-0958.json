@@ -1,0 +1,53 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T10:05:00Z",
+  "Batch": "SysinternalsProducts Windows 11 focused file lifecycle acceptance",
+  "Request": {
+    "RunId": "cf9a9049bc0745c08d7e0c3abcb67024",
+    "Suite": "SysinternalsProducts",
+    "Source": "Local",
+    "TimeoutMinutes": 180,
+    "ResultDirectory": "C:/ProgramData/RIDE/TestAutomation/RIDEWin11Test/results/cf9a9049bc0745c08d7e0c3abcb67024",
+    "Status": "Confirmed pending at 2026-10-24T10:05:00Z; serialized behind active ApplicationsBatch1 request 0f8b118f952941d7989e25cf9f13bf1e.",
+    "GuestRunStarted": false,
+    "ResultCollected": false,
+    "QueueState": {
+      "ObservedAtUtc": "2026-10-24T10:05:00Z",
+      "PendingRunId": "cf9a9049bc0745c08d7e0c3abcb67024",
+      "RunningRunId": "0f8b118f952941d7989e25cf9f13bf1e",
+      "ResultCollected": false
+    }
+  },
+  "PayloadEvidence": "sysinternals-products-cached-payload-verification-2026-10-24-0942.json",
+  "Selection": {
+    "PackageCount": 9,
+    "DefenderDetectedToolsIncluded": 0,
+    "UtilityExecution": false,
+    "EulaAcceptance": false
+  },
+  "Outcome": {
+    "Resolved": [
+      "Focused SysinternalsProducts request submitted without a new UAC prompt through the existing preregistered queue."
+    ],
+    "Retired": [],
+    "Excluded": [
+      "Defender-detected tools remain outside the fixed batch."
+    ],
+    "Deferred": [
+      "Guest lifecycle results and checkpoint restoration; the earlier ApplicationsBatch1 request remains active."
+    ],
+    "Partial": [
+      "No legacy outcome or supported Windows target closes until the guest result is collected and accepted."
+    ]
+  },
+  "Estimates": {
+    "Settings": "38-58",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged while the focused VM request is pending."
+  }
+}

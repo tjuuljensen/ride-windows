@@ -1,0 +1,41 @@
+{
+  "RecordType": "RIDE migration focused regression",
+  "Batch": "Catalog-driven Visual C++ v14 prerequisite planning and shared-runtime recovery",
+  "RecordedAtUtc": "2026-10-24T05:42:00Z",
+  "Platform": "Windows 11 host, PowerShell 7.6.5, Pester 5.7.1",
+  "Tests": {
+    "Selected": 9,
+    "Passed": 9,
+    "Failed": 0,
+    "Skipped": 0,
+    "Files": [
+      "tests/PackageDependencyPlanning.Tests.ps1",
+      "tests/ApplicationPackages.Tests.ps1"
+    ]
+  },
+  "TestRegistry": "Disabled because sandbox access to HKCU\\\\Software\\\\Pester is denied.",
+  "InitialAttempt": "Pester reached discovery but its registry plugin failed before tests; rerun with TestRegistry disabled completed successfully.",
+  "Checks": [
+    "Prerequisite plan expansion/order/deduplication",
+    "Minimum installed runtime version refusal",
+    "Unsupported candidate allowed only when installed prerequisite already satisfies requirement",
+    "Hand-built consumer-only mutation plan refusal",
+    "Dependent package removal guard and reverse order",
+    "Keep a newer shared runtime when saved pre-change runtime was below minimum"
+  ],
+  "WindowsStateChanged": false,
+  "InstallerRun": false,
+  "VmAcceptance": "Pending: RIDE-managed runtime install/repeat/remove/recovery on the disposable Windows 11 VM and Server target acceptance remain separate.",
+  "SysinternalsDisposition": "No license blocker: prior RIDE v2 license-specialist approval covers direct download and install; Defender-detected files remain separately excluded.",
+  "LegacyOutcomesClosed": 0,
+  "Estimates": {
+    "WindowsSettings": "38-58",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "AccountsConfigurationAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200",
+    "Midpoint": "about 170"
+  }
+}

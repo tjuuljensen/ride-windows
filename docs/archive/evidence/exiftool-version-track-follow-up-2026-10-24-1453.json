@@ -1,0 +1,31 @@
+{
+  "RecordedAtUtc": "2026-10-24T14:53:00Z",
+  "Product": "ExifTool",
+  "ProductUri": "https://exiftool.org/index.html",
+  "HistoryUri": "https://exiftool.org/history.html",
+  "WindowsInstallUri": "https://exiftool.org/install.html",
+  "PublisherHistoryStatus": {
+    "LatestProductionRelease": "13.55",
+    "WindowsInstallPageZipName": "exiftool-13.59_64.zip",
+    "13.59Status": "Listed in history as a development release (2026-05-27); not labeled production there."
+  },
+  "WindowsArchiveRequirements": "Keep exiftool(-k).exe and its adjacent exiftool_files directory together.",
+  "SourceAccess": {
+    "SearchIndex": "Official indexed installation/history pages expose the version names and status above.",
+    "DirectPageFetch": "HTTP 403 on history, installation and home pages during this review.",
+    "LocalAcquisition": "Not attempted in this follow-up; prior native PowerShell acquisition was blocked by local DNS before transfer."
+  },
+  "Disposition": "Do not conflate the latest Windows executable name (13.59) with the publisher's latest production release (13.55). Keep the Windows artifact pin unresolved until the intended release track is selected and the exact publisher URL and bytes are verified. Do not infer a URL or hash from the filename.",
+  "License": "Publisher identifies ExifTool as available under GNU GPL or Artistic License; version-specific local license review is administrative and not a migration gate.",
+  "Next": "After publisher access recovers, resolve the exact 13.55 production Windows artifact or explicitly choose 13.59 development; verify URL, SHA-256, members, notices and lifecycle before catalog pinning.",
+  "LegacyOutcomeClosed": false,
+  "Estimates": {
+    "Settings": "37-57",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "141-195",
+    "RoundedTotal": "140-195/about 170"
+  }
+}

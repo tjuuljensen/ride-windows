@@ -1,0 +1,125 @@
+{
+  "SchemaVersion": 1,
+  "FirstRunId": "4f30b46b5906472c8f62ddf50b5589e7",
+  "IntegrationSuite": "ApplicationsBatch1",
+  "StartedAtUtc": "2026-10-22T09:08:45.7416233Z",
+  "FinishedAtUtc": "2026-10-22T09:28:10.8673157Z",
+  "Target": {
+    "VMName": "RIDE-Win11-Test",
+    "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "CheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+    "OS": "Windows 11 Enterprise Evaluation",
+    "Build": 26300
+  },
+  "FirstRunValidation": {
+    "Status": "Passed",
+    "PesterVersion": "5.7.1",
+    "Passed": 272,
+    "Failed": 0
+  },
+  "FirstRunScenarios": [
+    { "PackageId": "package.thunderbird", "Status": "Passed", "Version": "158.0.1", "Recovery": true, "ProfilePreservation": true },
+    { "PackageId": "package.vscode", "Status": "Passed", "Version": "1.143.0", "Recovery": true },
+    { "PackageId": "package.firefox", "Status": "Passed", "Version": "158.0.1", "Recovery": true },
+    { "PackageId": "package.sqlitebrowser", "Status": "Passed", "Version": "3.13.1", "Recovery": true },
+    { "PackageId": "package.autopsy", "Status": "Passed", "Version": "4.23.1", "Recovery": true },
+    { "PackageId": "package.chrome", "Status": "FailedBeforeInstall", "Version": null, "Recovery": false, "Failure": "Provider SHA-256 digest mismatch for chrome 155.0.8059.40", "ExpectedSha256": "32ba438dea18f0fed1ec621bfb274a2669adec67be2aa91d96b3cc6c64779276", "ObservedFileSize": 169652224, "ObservedAuthenticodeStatus": "Valid", "ObservedSigner": "Google LLC", "ActualSha256Retained": false },
+    { "PackageId": "package.wireshark", "Status": "Passed", "Version": "4.6.9.0", "Recovery": true, "Acceptance": "Partial; explicit removal action, existing-installation transition, association/shared-runtime preservation and broader recovery remain" },
+    { "PackageId": "package.signal", "Status": "Passed", "Version": "8.32.0", "Recovery": true, "ProfilePreservation": true }
+  ],
+  "FirstRunStatus": "Failed",
+  "CleanupError": null,
+  "CollectionError": null,
+  "CollectionOmissions": [],
+  "BlockedMarkerPresent": false,
+  "LegacyOutcomesResolved": [],
+  "LegacyOutcomesRetired": [],
+  "LegacyOutcomesExcluded": [],
+  "LegacyOutcomesPartial": [
+    "Wireshark package lifecycle was exercised on Windows 11 build 26300, but the separately documented existing-installation, association/shared-runtime and recovery acceptance remains open."
+  ],
+  "FirstRunDeferredAcceptance": [
+    "Chrome required a refreshed, exact publisher MSI version and byte pin before rerun; the earlier mismatch failed before installer launch."
+  ],
+  "LatestRun": {
+    "RunId": "3e0dee246f2e48c5af664890887afe47",
+    "StartedAtUtc": "2026-10-22T19:10:41Z",
+    "FinishedAtUtc": "2026-10-22T19:32:30Z",
+    "Target": {
+      "VMName": "RIDE-Win11-Test",
+      "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+      "CheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+      "OS": "Windows 11 Enterprise Evaluation",
+      "Build": 26300
+    },
+    "Validation": {
+      "Status": "Passed",
+      "PowerShell": "5.1.26100.9444",
+      "PesterVersion": "5.7.1",
+      "Passed": 285,
+      "Failed": 0,
+      "Skipped": 1,
+      "Total": 286
+    },
+    "Scenarios": [
+      { "PackageId": "package.thunderbird", "Status": "Passed", "Version": "158.0.1", "Recovery": true, "ProfilePreservation": true, "Scope": "User" },
+      { "PackageId": "package.vscode", "Status": "Passed", "Version": "1.143.0", "Recovery": true, "Scope": "User" },
+      { "PackageId": "package.firefox", "Status": "Passed", "Version": "158.0.1", "Recovery": true, "Scope": "Machine" },
+      { "PackageId": "package.sqlitebrowser", "Status": "Passed", "Version": "3.13.1", "Recovery": true, "Scope": "Machine" },
+      { "PackageId": "package.autopsy", "Status": "Passed", "Version": "4.23.1", "Recovery": true, "Scope": "Machine" },
+      { "PackageId": "package.chrome", "Status": "Passed", "Version": "156.0.8078.48", "Recovery": true, "ProfilePreservation": true, "Scope": "Machine", "AuthenticodeStatus": "Valid", "Signer": "Google LLC", "Sha256": "a31bd8a4746069a128bf3beefdaa246c792af5f15bbf06af0259abc895c9609b" },
+      { "PackageId": "package.wireshark", "Status": "Passed", "Version": "4.6.9.0", "Recovery": true, "Scope": "Machine", "RemainingAcceptance": "Existing-installation transition, association/shared-runtime preservation and broader recovery remain open." },
+      { "PackageId": "package.signal", "Status": "Passed", "Version": "8.32.0", "Recovery": true, "ProfilePreservation": true, "Scope": "User" }
+    ],
+    "RunStatus": "Passed",
+    "CleanupError": null,
+    "CollectionError": null,
+    "CollectionOmissions": [],
+    "BlockedMarkerPresent": false,
+    "FinalVmState": "Off; clean checkpoint restored"
+  },
+  "Server2025Run": {
+    "RunId": "91190a3b18f14c0f9830d62d024556a9",
+    "StartedAtUtc": "2026-10-22T19:34:42Z",
+    "FinishedAtUtc": "2026-10-22T19:49:20Z",
+    "Target": {
+      "VMName": "RIDE-S25-Test",
+      "VMId": "06c2ae01-bf82-4634-9215-f240f3ea4147",
+      "CheckpointId": "4a5b49ba-0795-480a-8d01-6f4f670577c8",
+      "OS": "Windows Server 2025 Standard Evaluation",
+      "Build": 26100
+    },
+    "Validation": {
+      "Status": "Passed",
+      "PowerShell": "5.1.26100.9444",
+      "PesterVersion": "5.7.1",
+      "Passed": 285,
+      "Failed": 0,
+      "Skipped": 1,
+      "Total": 286
+    },
+    "Scenarios": [
+      { "PackageId": "package.thunderbird", "Status": "Passed", "Version": "158.0.1", "Recovery": true, "ProfilePreservation": true, "Scope": "User" },
+      { "PackageId": "package.vscode", "Status": "Passed", "Version": "1.143.0", "Recovery": true, "Scope": "User" },
+      { "PackageId": "package.firefox", "Status": "Passed", "Version": "158.0.1", "Recovery": true, "Scope": "Machine" },
+      { "PackageId": "package.sqlitebrowser", "Status": "Passed", "Version": "3.13.1", "Recovery": true, "Scope": "Machine" },
+      { "PackageId": "package.autopsy", "Status": "Passed", "Version": "4.23.1", "Recovery": true, "Scope": "Machine" },
+      { "PackageId": "package.chrome", "Status": "Passed", "Version": "156.0.8078.48", "Recovery": true, "ProfilePreservation": true, "Scope": "Machine", "AuthenticodeStatus": "Valid", "Signer": "Google LLC", "Sha256": "a31bd8a4746069a128bf3beefdaa246c792af5f15bbf06af0259abc895c9609b" },
+      { "PackageId": "package.wireshark", "Status": "Passed", "Version": "4.6.9.0", "Recovery": true, "Scope": "Machine", "RemainingAcceptance": "Existing-installation transition, association/shared-runtime preservation and broader recovery remain open." },
+      { "PackageId": "package.signal", "Status": "Passed", "Version": "8.32.0", "Recovery": true, "ProfilePreservation": true, "Scope": "User" }
+    ],
+    "RunStatus": "Passed",
+    "CleanupError": null,
+    "CollectionError": null,
+    "CollectionOmissions": [],
+    "BlockedMarkerPresent": false,
+    "FinalVmState": "Off; clean checkpoint restored"
+  },
+  "CurrentAcceptance": {
+    "package.chrome": "Windows 11 and Windows Server 2025 lifecycle accepted at 156.0.8078.48; profile preservation and compensating recovery passed on both.",
+    "package.wireshark": "Clean-absence install/repeat/remove/recovery passed on Windows 11 and Windows Server 2025; existing-installation, association/shared-runtime and broader recovery acceptance remain pending.",
+    "OtherScenarios": "The other six packages passed on both Windows 11 and Windows Server 2025; their existing supported-target declarations are validated by the paired runs."
+  },
+  "NoLegacyOutcomesClosed": true,
+  "DefenderEvidence": "Defender event logs were not exported in this run."
+}

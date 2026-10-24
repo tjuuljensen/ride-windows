@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "observedAtUtc": "2026-10-24T10:44:00Z",
+  "product": "PSScriptTools",
+  "localRegression": {
+    "command": "Invoke-Pester -Configuration with TestRegistry disabled",
+    "runtime": "PowerShell 7.6.5, Pester 5.7.1",
+    "initialAttempt": {
+      "status": "FailedBySandboxTempWriteDenial",
+      "passed": 3,
+      "failed": 4,
+      "detail": "The default Pester temp workspace denied the portable manifest atomic rename during four lifecycle cases. No package payload or product code was executed."
+    },
+    "workspaceTempRerun": {
+      "status": "Passed",
+      "tempDirectory": ".local/pester-psscripttools-20261024-1034",
+      "passed": 7,
+      "failed": 0,
+      "skipped": 0,
+      "durationSeconds": 1741.66,
+      "completedAtUtc": "2026-10-24T11:01:00Z",
+      "detail": "All seven package metadata, incomplete-payload, 360-member repeat install, unowned-output preservation, modified-file refusal, exact 360-file snapshot restore, changed-recovery refusal and prior-absence cases passed. No package script was executed or imported."
+    }
+  },
+  "windows11Submission": {
+    "suite": "PSScriptTools",
+    "configuration": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\configuration.json",
+    "status": "DeniedBeforeEnqueue",
+    "error": "Set-Content was denied while creating a temporary file under the protected pending queue.",
+    "uacPrompted": false,
+    "vmOrCheckpointChanged": false,
+    "resultClaimed": false
+  },
+  "subsequentRegisteredSubmission": {
+    "runId": "2c4c9348bbb541059ea9e38e7fb796cd",
+    "suite": "PSScriptTools",
+    "submittedAtUtc": "2026-10-24T10:45:09Z",
+    "status": "Pending",
+    "dispatch": "Existing registered RIDE VM task",
+    "vmOrCheckpointChanged": false,
+    "resultClaimed": false
+  },
+  "existingVmQueue": {
+    "activeRunId": "0f8b118f952941d7989e25cf9f13bf1e",
+    "activeSuite": "ApplicationsBatch1",
+    "pendingRunId": "cf9a9049bc0745c08d7e0c3abcb67024",
+    "pendingSuite": "SysinternalsProducts",
+    "additionalPendingRunId": "2c4c9348bbb541059ea9e38e7fb796cd",
+    "additionalPendingSuite": "PSScriptTools",
+    "status": "Serialized; PSScriptTools is queued behind SysinternalsProducts"
+  },
+  "migrationOutcome": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "partial": ["PSScriptTools source package local lifecycle regression passed; guest lifecycle and runtime acceptance remain open"],
+    "deferred": ["PSScriptTools guest file lifecycle and separate runtime dependency probe"],
+    "estimateRangesUnchanged": true,
+    "estimates": {
+      "settings": "38-58",
+      "packages": "52-67",
+      "components": "19-24",
+      "deploymentAndOffline": "25-35",
+      "other": "8-12",
+      "exactTotal": "142-196",
+      "roundedTotal": "145-200/about 170"
+    }
+  }
+}

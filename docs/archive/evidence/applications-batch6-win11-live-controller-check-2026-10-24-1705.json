@@ -1,0 +1,27 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T17:05:51Z",
+  "Controller": "RIDEWin11Test",
+  "Target": "RIDE-Win11-Test",
+  "RequestId": "f7b20b6524bf4f99a80a1f19962b7cfd",
+  "IntegrationSuite": "ApplicationsBatch6",
+  "Status": "Running",
+  "QueueState": "running",
+  "QueueRequestLastWriteUtc": "2026-10-24T16:51:53Z",
+  "ResultFiles": [
+    "controller-errors.log",
+    "controller.log",
+    "source-files.json"
+  ],
+  "GuestResultPresent": false,
+  "ControllerLogLastWriteUtc": "2026-10-24T16:57:22Z",
+  "ControllerLogLastActivity": "AutomatedLab guest command activity is waiting for completion.",
+  "WorkerExclusiveLockHeld": true,
+  "RuntimeBlockedMarkerPresent": false,
+  "ReadOnlyTaskSchedulerInspection": "Unavailable: CIM access denied to the current non-elevated session.",
+  "ReadOnlyWorkerLockProbe": "Opening runtime/worker.lock read-only with FileShare.None failed because another process holds an exclusive handle.",
+  "FreshUacPromptRequested": false,
+  "NextAction": "Wait for the same registered request; do not overlap another VM request. Inspect correlated guest result and checkpoint cleanup before scheduling the next batch.",
+  "LegacyOutcomesClosed": 0,
+  "EstimateRanges": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170"
+}

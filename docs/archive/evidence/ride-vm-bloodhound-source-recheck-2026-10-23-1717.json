@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-23T17:17:31Z",
+  "batch": "RIDE VM access and BloodHound collector publisher-source follow-up",
+  "vmAccess": {
+    "method": "Read-only Get-VM inventory; no elevation request",
+    "targets": ["RIDE-Win11-Test", "RIDE-Srv2025Test"],
+    "result": "Both queries failed before VM or checkpoint inspection: Access to a CIM resource was not available to the client.",
+    "stateChanged": false
+  },
+  "publisherPages": [
+    {
+      "product": "BloodHound CE",
+      "version": "9.8.0",
+      "uri": "https://github.com/SpecterOps/BloodHound/releases/tag/v9.8.0",
+      "observation": "The official release page identifies tag v9.8.0 and a GitHub-verified signed release commit."
+    },
+    {
+      "product": "SharpHound",
+      "version": "2.17.0",
+      "uri": "https://github.com/SpecterOps/SharpHound/releases/tag/v2.17.0",
+      "observation": "The official release page identifies tag v2.17.0 and a GitHub-verified signed release commit."
+    },
+    {
+      "product": "AzureHound",
+      "version": "3.1.1",
+      "uri": "https://github.com/SpecterOps/AzureHound/releases/tag/v3.1.1",
+      "observation": "The official release page identifies tag v3.1.1 and a GitHub-verified signed release commit."
+    }
+  ],
+  "sidecarRetrieval": {
+    "attempted": [
+      "https://github.com/SpecterOps/AzureHound/releases/download/v3.1.1/AzureHound_v3.1.1_windows_amd64.zip.sha256",
+      "https://github.com/SpecterOps/SharpHound/releases/download/v2.17.0/SharpHound_v2.17.0_windows_x86.zip.sha256",
+      "https://github.com/SpecterOps/SharpHound/releases/download/v2.17.0/SharpHound_v2.17.0_windows_x64.zip.sha256"
+    ],
+    "result": "Web reader returned cache-miss errors; exact sidecar contents were not retrieved. No ZIP bytes, checksum bytes, or member inventories were acquired."
+  },
+  "result": "No package or catalog change. Exact publisher payload acquisition, checksum verification, notices, member selection, and portable lifecycle remain open. VM acceptance remains blocked before checkpoint inspection.",
+  "estimates": {
+    "settings": "38-58",
+    "packages": "52-67",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "142-196",
+    "roundedTotal": "145-200/about 170"
+  },
+  "scope": {
+    "networkPayloadAcquired": false,
+    "installerRun": false,
+    "vmRun": false,
+    "defenderChange": false,
+    "legacyOutcomeClosed": false
+  }
+}

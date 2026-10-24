@@ -1,0 +1,66 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-22",
+  "Kind": "OfficialSourceFormatFollowUp",
+  "Batch": "Q16/R01 ImageMagick portable Q16",
+  "Publisher": "ImageMagick Studio LLC",
+  "OfficialReferences": {
+    "WindowsDownloadPage": "https://imagemagick.org/download/#windows",
+    "WindowsReleaseIndex": "https://download.imagemagick.org/windows/releases/",
+    "License": "https://imagemagick.org/license/"
+  },
+  "SelectedPublisherAsset": {
+    "Version": "7.1.2-34",
+    "FileName": "ImageMagick-7.1.2-34-portable-Q16-x64.7z",
+    "OfficialDescription": "Portable Win64 static (No installer or registry changes required)",
+    "OfficialIndexSize": "9.7 MB",
+    "SignatureFileName": "ImageMagick-7.1.2-34-portable-Q16-x64.7z.asc",
+    "SignatureIndexSize": "833 bytes"
+  },
+  "NonSubstituteArchive": {
+    "FileName": "ImageMagick-7.1.2-34.zip",
+    "OfficialIndexSize": "16 MB",
+    "DetachedSignatureListed": true,
+    "OfficialPageLabelsAsPortable": false,
+    "SelectedAsCandidate": false
+  },
+  "Retrieval": {
+    "OfficialDownloadPageRechecked": true,
+    "OfficialIndexRechecked": true,
+    "DirectBrowserFetches": "Cache miss for the 7z and .asc URLs",
+    "EarlierShellRetrieval": "DNS resolution failed for publisher and GitHub hosts",
+    "ArtifactBytesObtained": false,
+    "SignatureBytesObtained": false,
+    "Sha256": null,
+    "DetachedSignatureVerified": false
+  },
+  "RepositorySupport": {
+    "PortableLifecycleFormats": ["Zip", "File"],
+    "SevenZipSupported": false,
+    "CatalogPackageAdded": false
+  },
+  "RunBoundaries": {
+    "ArchiveExtracted": false,
+    "BinaryLoadedOrExecuted": false,
+    "VmRun": false,
+    "Uac": false,
+    "DefenderChange": false
+  },
+  "Outcomes": {
+    "Resolved": ["Current publisher-selected portable artifact identity and format"],
+    "Retired": [],
+    "Excluded": ["Generic ImageMagick-7.1.2-34.zip was not substituted for the official portable build"],
+    "Partial": ["Q16/R01 ImageMagick portable package source selection"],
+    "Deferred": [
+      "Acquire and verify exact publisher artifact and detached signature",
+      "Implement bounded 7z extraction, ownership, removal and exact recovery",
+      "Verify portable feature behavior and supported Windows target"
+    ]
+  },
+  "Estimates": {
+    "GroupRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "ReasonUnchanged": "Source format identification does not provide bytes, signature verification, extraction, runtime acceptance or a closed legacy outcome."
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "RecordedAtUtc": "2026-10-24T15:29:00Z",
+  "Suite": "tests/LicenseReviews.Tests.ps1",
+  "Runtime": "PowerShell 7.6.5",
+  "Pester": "5.7.1",
+  "TestRegistryPlugin": "Disabled",
+  "Results": { "Discovered": 21, "Passed": 21, "Failed": 0, "Skipped": 0, "DurationSeconds": 128.57 },
+  "VerifiedBehavior": [
+    "All ten reviewed Sysinternals suite/product install plans remain available while package acceptance is pending.",
+    "NeedsReview metadata remains informational for package install planning, including all pending package plans.",
+    "Local license review data can be read, written, exported/imported and discovered without changing catalog defaults."
+  ],
+  "Boundaries": { "Network": false, "Installer": false, "Vm": false, "WindowsStateChanged": false, "TemporaryStore": "Unique workspace-local .local/pester-license-review fixture" },
+  "MigrationDisposition": { "LegacyOutcomesClosed": 0, "EstimateRangesChanged": false, "LicenseBlockerForSysinternals": false, "Reason": "Planning metadata regression does not establish package runtime acceptance." },
+  "ActiveVmRequest": { "RunId": "cd4fcbdd21ed4b1081fcaede9c1e6075", "StatusAtRecordTime": "Queue/running; guest command awaited; no result.json", "Overlap": false }
+}

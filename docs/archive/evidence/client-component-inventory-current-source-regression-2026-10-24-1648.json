@@ -1,0 +1,39 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T16:48:37Z",
+  "Batch": "Windows component inventory current-source local regression",
+  "Suites": ["tests/ComponentInventory.Tests.ps1"],
+  "Runner": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "WindowsIntegrationExcluded": true,
+    "VmUsed": false,
+    "TempRoot": ".local/component-inventory-pester-20261024-1648"
+  },
+  "Result": {
+    "Passed": 20,
+    "Failed": 0,
+    "Skipped": 0,
+    "Total": 20,
+    "Status": "Passed"
+  },
+  "Coverage": [
+    "Mocked provider capture, identity/elevation guards, namespace separation, incomplete provider results and unavailable states.",
+    "Read-only preview and non-overwriting JSON export behavior using temporary test files."
+  ],
+  "Boundaries": {
+    "NativeDISMQueried": false,
+    "ServerManagerQueried": false,
+    "RegistryQueried": false,
+    "WindowsStateChanged": false,
+    "VmAcceptance": false,
+    "TargetSupportDeclared": false
+  },
+  "Disposition": {
+    "Resolved": ["Current-source component inventory contract regression passed locally."],
+    "Deferred": ["Native Windows provider collection, exact recovery and Windows 11/Server 2025 target acceptance."],
+    "LegacyOutcomesClosed": 0,
+    "EstimateRangesUnchanged": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170"
+  }
+}

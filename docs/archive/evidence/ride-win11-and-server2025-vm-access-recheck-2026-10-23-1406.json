@@ -1,0 +1,53 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-23T14:06:43Z",
+  "Batch": "Read-only RIDE disposable VM access recheck",
+  "Targets": [
+    {
+      "Name": "RIDE-Win11-Test",
+      "Result": "Blocked",
+      "Error": "Access to a CIM resource was not available to the client.",
+      "CheckpointInspected": false
+    },
+    {
+      "Name": "RIDE-Srv2025Test",
+      "Result": "Blocked",
+      "Error": "Access to a CIM resource was not available to the client.",
+      "CheckpointInspected": false
+    }
+  ],
+  "Outcome": {
+    "Resolved": [
+      "Current host-side VM access was rechecked for Windows 11 and Server 2025 targets."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Guest package, component and settings acceptance until host Hyper-V/CIM access is available."
+    ],
+    "Partial": [
+      "No legacy runtime outcome closes in this access-only check."
+    ]
+  },
+  "Estimate": {
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged because VM access failure closes no legacy outcome."
+  },
+  "Boundaries": {
+    "QueueSubmitted": false,
+    "ControllerChanged": false,
+    "WinRMChanged": false,
+    "DefenderChanged": false,
+    "FreshUacPromptRequested": false,
+    "GuestMutation": false,
+    "WindowsStateChanged": false
+  }
+}

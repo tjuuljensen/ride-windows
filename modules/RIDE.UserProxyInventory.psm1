@@ -4,18 +4,28 @@
 .DESCRIPTION
   Queries documented connection options without decoding registry blobs, resolving
   a proxy or fetching a PAC file. Retains manual proxy, bypass, URL and all flag
-  bits. No setter, refresh, WinHTTP call or automatic connection selection exists.
+  bits. A low-level default/LAN writer boundary is included with a bounded,
+  read-only check for documented policies; durable state, compare-and-set and
+  effective-route verification remain unimplemented.
 .NOTES
   Compatibility: Native Windows PowerShell 5.1 and PowerShell 7. Native acceptance
   remains pending. Requires an explicitly identified interactive user/session.
   File/environment inputs: Expected machine, user SID and session; no file reads.
-  Recovery: Observation only; not an engine snapshot or authorization to mutate.
-  Version: 0.1.0.
-  Changelog: 0.1.0: Add bounded default/LAN option capture and native memory ownership.
+  Recovery: The low-level writer is not a lifecycle; prior state is not retained.
+  Version: 0.3.0.
+  Changelog: 0.3.0: Detect documented proxy policies and refuse guarded writes when blocked/unknown.
+  0.2.0: Add a ShouldProcess-gated WinINet writer boundary for flags/PAC URL.
+  0.1.0: Add bounded default/LAN option capture and native memory ownership.
 .LINK
   ../docs/user-proxy-inventory.md
 .LINK
   https://learn.microsoft.com/en-us/windows/win32/api/wininet/ns-wininet-internet_per_conn_optionw
+.LINK
+  https://learn.microsoft.com/en-us/windows/win32/wininet/setting-and-retrieving-internet-options
+.LINK
+  https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-internetexplorer#disableproxychange
+.LINK
+  https://learn.microsoft.com/en-us/windows/client-management/mdm/networkproxy-csp#proxysettingsperuser
 #>
 $ErrorActionPreference='Stop'
 
@@ -25,6 +35,17 @@ function Get-RideUserProxyContext {
   try {
     [pscustomobject]@{ComputerName=[Environment]::MachineName;UserSid=$identity.User.Value;SessionId=$process.SessionId;UserInteractive=[Environment]::UserInteractive}
   } finally {$identity.Dispose();$process.Dispose()}
+}
+
+function Get-RideUserProxyCurrentIdentity {
+  Get-RideUserProxyContext
+}
+
+function Get-RideUserProxyCurrentState {
+  $context=Get-RideUserProxyContext
+  if(-not $context.UserInteractive){throw 'The current process is not in an interactive user session.'}
+  $observation=Get-RideUserProxyObservation -ExpectedComputerName $context.ComputerName -ExpectedUserSid $context.UserSid -ExpectedSessionId $context.SessionId -ConnectionKind DefaultLan
+  [pscustomobject]@{Available=$true;Identity=$context;Observation=$observation}
 }
 
 function Initialize-RideUserProxyNative {
@@ -51,10 +72,20 @@ namespace Ride.UserProxyInventoryV1 {
     bool Query(ref OptionList options, ref uint length, out int error);
     void FreeReturnedString(IntPtr text);
   }
-  internal sealed class NativeApi : IQueryApi {
+  public interface IWriteApi {
+    bool Set(ref OptionList options, ref uint length, out int error);
+    bool Notify(uint option, out int error);
+  }
+  internal sealed class NativeApi : IQueryApi, IWriteApi {
     [DllImport("wininet.dll", ExactSpelling=true, SetLastError=true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static extern bool InternetQueryOptionW(IntPtr handle, uint option, ref OptionList list, ref uint length);
+    [DllImport("wininet.dll", ExactSpelling=true, SetLastError=true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool InternetSetOptionW(IntPtr handle, uint option, ref OptionList list, uint length);
+    [DllImport("wininet.dll", ExactSpelling=true, SetLastError=true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool InternetSetOptionW(IntPtr handle, uint option, IntPtr buffer, uint length);
     [DllImport("kernel32.dll", ExactSpelling=true)] private static extern IntPtr GlobalFree(IntPtr memory);
     public bool Query(ref OptionList options, ref uint length, out int error) {
       bool result=InternetQueryOptionW(IntPtr.Zero,75,ref options,ref length);
@@ -62,6 +93,14 @@ namespace Ride.UserProxyInventoryV1 {
     }
     public void FreeReturnedString(IntPtr text) {
       if(GlobalFree(text)!=IntPtr.Zero) throw new InvalidOperationException("Unable to release returned proxy option memory.");
+    }
+    public bool Set(ref OptionList options, ref uint length, out int error) {
+      bool result=InternetSetOptionW(IntPtr.Zero,75,ref options,length);
+      error=result ? 0 : Marshal.GetLastWin32Error(); return result;
+    }
+    public bool Notify(uint option, out int error) {
+      bool result=InternetSetOptionW(IntPtr.Zero,option,IntPtr.Zero,0);
+      error=result ? 0 : Marshal.GetLastWin32Error(); return result;
     }
   }
   public sealed class Snapshot {
@@ -142,6 +181,48 @@ namespace Ride.UserProxyInventoryV1 {
       return ReadWithApi(new NativeApi());
     }
   }
+  public sealed class WriteResult {
+    public bool ConfigurationSet; public int ConfigurationError;
+    public bool SettingsChangedNotified; public int SettingsChangedError;
+    public bool Refreshed; public int RefreshError;
+  }
+  public static class Writer {
+    private static readonly int OptionSize=Marshal.SizeOf(typeof(Option));
+    private static readonly int ListSize=Marshal.SizeOf(typeof(OptionList));
+    public static WriteResult WriteWithApi(IWriteApi api,uint flags,string autoConfigUrl,bool ownsAutoConfigUrl) {
+      if(api==null)throw new ArgumentNullException("api");
+      Reader.ValidateLayout();
+      if(ownsAutoConfigUrl && (String.IsNullOrEmpty(autoConfigUrl) || autoConfigUrl.Length>32768 || autoConfigUrl.IndexOf('\0')>=0))
+        throw new ArgumentException("Owned automatic-configuration URL must be a bounded nonempty string.","autoConfigUrl");
+      int count=ownsAutoConfigUrl ? 2 : 1;
+      IntPtr options=Marshal.AllocHGlobal(checked(OptionSize*count));
+      IntPtr url=IntPtr.Zero;
+      try {
+        var flagOption=new Option();flagOption.Id=1;flagOption.Value.Number=flags;
+        Marshal.StructureToPtr(flagOption,options,false);
+        if(ownsAutoConfigUrl) {
+          url=Marshal.StringToHGlobalUni(autoConfigUrl);
+          var urlOption=new Option();urlOption.Id=4;urlOption.Value.Text=url;
+          Marshal.StructureToPtr(urlOption,IntPtr.Add(options,OptionSize),false);
+        }
+        var list=new OptionList {Size=(uint)ListSize,Connection=IntPtr.Zero,Count=(uint)count,ErrorIndex=0,Options=options};
+        uint length=(uint)ListSize;int error;
+        var result=new WriteResult();
+        result.ConfigurationSet=api.Set(ref list,ref length,out error);result.ConfigurationError=error;
+        if(!result.ConfigurationSet)return result;
+        result.SettingsChangedNotified=api.Notify(39,out error);result.SettingsChangedError=error;
+        result.Refreshed=api.Notify(37,out error);result.RefreshError=error;
+        return result;
+      } finally {
+        if(url!=IntPtr.Zero)Marshal.FreeHGlobal(url);
+        Marshal.FreeHGlobal(options);
+      }
+    }
+    public static WriteResult SetDefaultLan(uint flags,string autoConfigUrl,bool ownsAutoConfigUrl) {
+      if(Environment.OSVersion.Platform!=PlatformID.Win32NT)throw new PlatformNotSupportedException("Windows WinINet is required.");
+      return WriteWithApi(new NativeApi(),flags,autoConfigUrl,ownsAutoConfigUrl);
+    }
+  }
 }
 '@
 }
@@ -149,6 +230,103 @@ namespace Ride.UserProxyInventoryV1 {
 function Get-RideUserProxyNativeSnapshot {
   Initialize-RideUserProxyNative
   [Ride.UserProxyInventoryV1.Reader]::ReadDefaultLan()
+}
+
+function Invoke-RideUserProxyNativeWrite {
+  param([uint32]$Flags,[AllowNull()][string]$AutoConfigUrl,[bool]$OwnsAutoConfigUrl,$Api)
+  Initialize-RideUserProxyNative
+  if($null -ne $Api){return [Ride.UserProxyInventoryV1.Writer]::WriteWithApi($Api,$Flags,$AutoConfigUrl,$OwnsAutoConfigUrl)}
+  [Ride.UserProxyInventoryV1.Writer]::SetDefaultLan($Flags,$AutoConfigUrl,$OwnsAutoConfigUrl)
+}
+
+function Read-RideUserProxyPolicyValue {
+  param([ValidateSet('CurrentUser','LocalMachine')][string]$Hive,[string]$SubKey,[string]$Name)
+  $root=if($Hive -ceq 'CurrentUser'){[Microsoft.Win32.Registry]::CurrentUser}else{[Microsoft.Win32.Registry]::LocalMachine}
+  $key=$root.OpenSubKey($SubKey,$false)
+  try {
+    if($null -eq $key){return [pscustomobject]@{Hive=$Hive;SubKey=$SubKey;Name=$Name;Exists=$false;Kind=$null;Value=$null}}
+    $names=@($key.GetValueNames()|Where-Object {$_ -ieq $Name})
+    if($names.Count -gt 1){throw 'Proxy policy value identity is ambiguous.'}
+    if(-not $names.Count){return [pscustomobject]@{Hive=$Hive;SubKey=$SubKey;Name=$Name;Exists=$false;Kind=$null;Value=$null}}
+    $actual=$names[0]
+    [pscustomobject]@{Hive=$Hive;SubKey=$SubKey;Name=$Name;Exists=$true;Kind=$key.GetValueKind($actual).ToString();Value=$key.GetValue($actual,$null,[Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames)}
+  } finally {if($null -ne $key){$key.Dispose()}}
+}
+
+function Get-RideUserProxyPolicyObservation {
+  [CmdletBinding()]
+  param()
+  $restrictionPath='Software\Policies\Microsoft\Internet Explorer\Control Panel'
+  $scopePath='Software\Policies\Microsoft\Windows\CurrentVersion\Internet Settings'
+  $values=@(
+    (Read-RideUserProxyPolicyValue -Hive CurrentUser -SubKey $restrictionPath -Name Proxy),
+    (Read-RideUserProxyPolicyValue -Hive LocalMachine -SubKey $restrictionPath -Name Proxy),
+    (Read-RideUserProxyPolicyValue -Hive LocalMachine -SubKey $scopePath -Name ProxySettingsPerUser)
+  )
+  $unknown=[Collections.Generic.List[string]]::new()
+  $blocked=[Collections.Generic.List[string]]::new()
+  foreach($value in $values){
+    if(-not $value.Exists){continue}
+    if($value.Kind -cne 'DWord' -or $value.Value -isnot [int] -or $value.Value -lt 0){$unknown.Add("$($value.Hive)\$($value.SubKey)\$($value.Name)");continue}
+    if($value.Name -ceq 'Proxy' -and $value.Value -ne 0){$blocked.Add("$($value.Hive)\$($value.SubKey)\$($value.Name)")}
+    if($value.Name -ceq 'ProxySettingsPerUser' -and $value.Value -eq 0){$blocked.Add("$($value.Hive)\$($value.SubKey)\$($value.Name)")}
+    if($value.Name -ceq 'ProxySettingsPerUser' -and $value.Value -notin @(0,1)){$unknown.Add("$($value.Hive)\$($value.SubKey)\$($value.Name)")}
+  }
+  $status=if($blocked.Count){'Blocked'}elseif($unknown.Count){'Unknown'}else{'Clear'}
+  [pscustomobject]@{KnownPolicyStatus=$status;InspectedValues=$values;BlockingValues=@($blocked);UnknownValues=@($unknown);Scope='Documented WinINet proxy-change and per-user/per-machine policy values; not a complete effective-policy inventory'}
+}
+
+function Set-RideUserProxyNativeConfiguration {
+  <#
+  .SYNOPSIS
+    Write selected default/LAN WinINet flag and PAC URL values for the current user.
+  .DESCRIPTION
+    Low-level writer boundary. Requires an explicit current interactive computer,
+    SID and session, refuses detected or unreadable documented proxy policies,
+    then honors ShouldProcess. It does not capture prior state, perform atomic
+    compare-and-set or establish all effective policy; use only from a lifecycle
+    that supplies those controls and verifies readback/recovery.
+  .PARAMETER Flags
+    Complete desired INTERNET_PER_CONN_FLAGS bitmask, including preserved bits.
+  .PARAMETER AutoConfigUrl
+    Exact HTTP/HTTPS PAC URL to write when OwnsAutoConfigUrl is true.
+  .PARAMETER OwnsAutoConfigUrl
+    Whether this write includes the URL field; false writes only the flags.
+  .PARAMETER ExpectedComputerName
+    Current local computer name expected by the caller.
+  .PARAMETER ExpectedUserSid
+    Current user SID expected by the caller.
+  .PARAMETER ExpectedSessionId
+    Current interactive session expected by the caller.
+  .EXAMPLE
+    Set-RideUserProxyNativeConfiguration -Flags 13 -AutoConfigUrl 'https://proxy.example/pac' -OwnsAutoConfigUrl $true -ExpectedComputerName $env:COMPUTERNAME -ExpectedUserSid $sid -ExpectedSessionId $session -WhatIf
+  .INPUTS
+    None.
+  .OUTPUTS
+    PSCustomObject. Configuration-write, settings-changed notification and refresh outcomes.
+  .NOTES
+    Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
+    Version: 0.3.0. Policy inspection reads only documented values. No RAS,
+    WinHTTP, PAC retrieval or network connection is used.
+  .LINK
+    https://learn.microsoft.com/en-us/windows/win32/wininet/setting-and-retrieving-internet-options
+  #>
+  [CmdletBinding(SupportsShouldProcess=$true,ConfirmImpact='High')]
+  param(
+    [Parameter(Mandatory)][ValidateRange(0,4294967295)][uint32]$Flags,
+    [AllowNull()][string]$AutoConfigUrl,
+    [Parameter(Mandatory)][bool]$OwnsAutoConfigUrl,
+    [Parameter(Mandatory)][ValidateNotNullOrEmpty()][string]$ExpectedComputerName,
+    [Parameter(Mandatory)][ValidatePattern('^S-1-[0-9]+(?:-[0-9]+)+$')][string]$ExpectedUserSid,
+    [Parameter(Mandatory)][ValidateRange(1,2147483647)][int]$ExpectedSessionId
+  )
+  $context=Get-RideUserProxyContext
+  if($context.ComputerName -ine $ExpectedComputerName -or $context.UserSid -cne $ExpectedUserSid -or $context.SessionId -ne $ExpectedSessionId -or -not $context.UserInteractive){throw 'Proxy write identity differs from the expected interactive machine/user/session.'}
+  $policy=Get-RideUserProxyPolicyObservation
+  if($policy.KnownPolicyStatus -cne 'Clear'){throw "Proxy write refused because documented policy status is $($policy.KnownPolicyStatus)."}
+  $target="$($context.ComputerName) / $($context.UserSid) / session $($context.SessionId) / DefaultLan"
+  if(-not $PSCmdlet.ShouldProcess($target,'Write selected WinINet proxy flags/PAC URL and notify refresh')){return [pscustomobject]@{Status='WhatIf';ConfigurationSet=$false;SettingsChangedNotified=$false;Refreshed=$false}}
+  Invoke-RideUserProxyNativeWrite -Flags $Flags -AutoConfigUrl $AutoConfigUrl -OwnsAutoConfigUrl $OwnsAutoConfigUrl
 }
 
 function Get-RideUserProxyObservation {
@@ -208,4 +386,4 @@ function Get-RideUserProxyObservation {
   }
 }
 
-Export-ModuleMember -Function Get-RideUserProxyObservation
+Export-ModuleMember -Function Get-RideUserProxyObservation,Get-RideUserProxyPolicyObservation,Get-RideUserProxyCurrentIdentity,Get-RideUserProxyCurrentState,Set-RideUserProxyNativeConfiguration

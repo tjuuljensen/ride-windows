@@ -28,6 +28,7 @@ BeforeAll {
 
 Describe 'Selected offline bundle integrity' {
   BeforeEach {
+    Remove-Module RIDE.Engine -Force -ErrorAction SilentlyContinue
     $bundleRoot=Join-Path $TestDrive ([guid]::NewGuid().ToString('N'))
     $manifest=New-BundleFixture $bundleRoot
   }
@@ -191,6 +192,7 @@ Describe 'Selected offline bundle integrity' {
 
 Describe 'Offline bundle CLI and completion' {
   BeforeEach {
+    Remove-Module RIDE.Engine -Force -ErrorAction SilentlyContinue
     $bundleRoot=Join-Path $TestDrive ([guid]::NewGuid().ToString('N'))
     $manifest=New-BundleFixture $bundleRoot
     $manifestPath=Join-Path $bundleRoot 'manifest.json'

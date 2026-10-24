@@ -4,15 +4,19 @@
 .DESCRIPTION
   Reads only the explicitly identified current user's literal Environment/Path.
   Preparation appends an absolute bin entry in memory and reconstructs version-1
-  recovery without owning pre-existing entries. No registry/environment setter,
-  profile execution, broadcast, directory creation or deletion is implemented.
+  recovery without owning pre-existing entries. An internal ShouldProcess-gated
+  compare/write/read-back primitive now persists a supplied value in that user's
+  registry key; it does not broadcast, create/delete directories or update the
+  current process environment. The engine does not dispatch this primitive yet.
 .NOTES
   Compatibility: Native Windows PowerShell 5.1 and PowerShell 7 on Windows.
   Inputs: Explicit machine/SID/session for observation; supplied records for edits.
-  Recovery: Data-only entry recovery; durable state, live conflict checks and
-  environment refresh remain unimplemented. No catalog target is introduced.
-  Version: 0.1.0.
-  Changelog: 0.1.0: Add literal user PATH observation and append/recovery ownership.
+  Recovery: Engine snapshots capture the exact prior literal value and entry
+  ownership; environment refresh and native acceptance remain unimplemented.
+  Version: 0.3.0.
+  Changelog: 0.3.0: Add current-user observation and guarded patch/recovery writers.
+  0.2.0: Add internal guarded registry compare/write/read-back primitive.
+  0.1.0: Add literal user PATH observation and append/recovery ownership.
 .LINK
   ../docs/powershell-profiles.md
 #>
@@ -54,19 +58,69 @@ function Get-RideUserPathContext {
   finally{$identity.Dispose();$process.Dispose()}
 }
 
-function Open-RideUserPathKey { [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey('Environment',$false) }
+function Open-RideUserPathKey { param([bool]$Writable=$false) [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey('Environment',$Writable) }
+
+function Get-RideUserPathValueFromKey {
+  param($Key)
+  $names=@($Key.GetValueNames())
+  if($names.Count -gt 4096){throw 'User environment exceeds the observation bound.'}
+  $matches=@($names|Where-Object {$_ -ieq 'Path'})
+  if($matches.Count -gt 1){throw 'Ambiguous user PATH registry identity.'}
+  if(-not $matches.Count){return [pscustomobject]@{KeyExists=$true;Exists=$false;Kind=$null;Value=$null}}
+  ConvertTo-RideUserPathValue ([pscustomobject]@{KeyExists=$true;Exists=$true;Kind=$Key.GetValueKind($matches[0]).ToString();Value=$Key.GetValue($matches[0],$null,[Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames)})
+}
 
 function Read-RideUserPathValue {
   $key=Open-RideUserPathKey
   try{
     if($null -eq $key){return [pscustomobject]@{KeyExists=$false;Exists=$false;Kind=$null;Value=$null}}
-    $names=@($key.GetValueNames())
-    if($names.Count -gt 4096){throw 'User environment exceeds the observation bound.'}
-    $matches=@($names|Where-Object {$_ -ieq 'Path'})
-    if($matches.Count -gt 1){throw 'Ambiguous user PATH registry identity.'}
-    if(-not $matches.Count){return [pscustomobject]@{KeyExists=$true;Exists=$false;Kind=$null;Value=$null}}
-    ConvertTo-RideUserPathValue ([pscustomobject]@{KeyExists=$true;Exists=$true;Kind=$key.GetValueKind($matches[0]).ToString();Value=$key.GetValue($matches[0],$null,[Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames)})
+    Get-RideUserPathValueFromKey $key
   }finally{if($null -ne $key){$key.Dispose()}}
+}
+
+function Write-RideUserPathValue {
+  param($Expected,$Desired)
+  $expectedValue=ConvertTo-RideUserPathValue $Expected
+  $desiredValue=ConvertTo-RideUserPathValue $Desired
+  $key=Open-RideUserPathKey -Writable $true
+  try{
+    if($null -eq $key){
+      if($expectedValue.KeyExists -or ($expectedValue.Exists)){throw 'User PATH key disappeared before the write.'}
+      if(-not $desiredValue.Exists){return $desiredValue}
+      $key=[Microsoft.Win32.Registry]::CurrentUser.CreateSubKey('Environment')
+      if($null -eq $key){throw 'Unable to open the current user Environment key for writing.'}
+    }
+    $current=Get-RideUserPathValueFromKey $key
+    if($current.KeyExists -ne $expectedValue.KeyExists -or -not (Test-RideUserPathValueEqual $current $expectedValue)){throw 'User PATH changed after it was prepared; refusing to overwrite it.'}
+    if($desiredValue.Exists){
+      $kind=[Enum]::Parse([Microsoft.Win32.RegistryValueKind],$desiredValue.Kind,$false)
+      $key.SetValue('Path',$desiredValue.Value,$kind)
+    }elseif($current.Exists){$key.DeleteValue('Path',$false)}
+  }finally{if($null -ne $key){$key.Dispose()}}
+  $observed=Read-RideUserPathValue
+  if($observed.KeyExists -ne $desiredValue.KeyExists -or -not (Test-RideUserPathValueEqual $observed $desiredValue)){throw 'User PATH write did not match its requested post-state.'}
+  $observed
+}
+
+function Set-RideUserPathValue {
+  [CmdletBinding(SupportsShouldProcess=$true,ConfirmImpact='Medium')]
+  param([Parameter(Mandatory)]$Expected,[Parameter(Mandatory)]$Desired,
+    [Parameter(Mandatory)][ValidateNotNullOrEmpty()][string]$ExpectedComputerName,
+    [Parameter(Mandatory)][ValidateNotNullOrEmpty()][string]$ExpectedUserSid,
+    [Parameter(Mandatory)][ValidateNotNullOrEmpty()][string]$ExpectedUserProfile,
+    [Parameter(Mandatory)][ValidateRange(1,2147483647)][int]$ExpectedSessionId)
+  $expectedValue=ConvertTo-RideUserPathValue $Expected
+  $desiredValue=ConvertTo-RideUserPathValue $Desired
+  $identity=ConvertTo-RideUserPathContext (Get-RideUserPathContext)
+  if($identity.ComputerName -ine $ExpectedComputerName -or $identity.UserSid -cne $ExpectedUserSid -or $identity.UserProfile -ine $ExpectedUserProfile -or $identity.SessionId -ne $ExpectedSessionId){throw 'User PATH target differs from the explicitly intended machine/user/profile/session.'}
+  $before=Read-RideUserPathValue
+  if($before.KeyExists -ne $expectedValue.KeyExists -or -not (Test-RideUserPathValueEqual $before $expectedValue)){throw 'User PATH differs from the caller-supplied expected value; refusing to overwrite it.'}
+  if(Test-RideUserPathValueEqual $before $desiredValue){return [pscustomobject]@{Applied=$false;Changed=$false;Value=$before;EffectivePathVerified=$false;EnvironmentBroadcast=$false}}
+  if(-not $PSCmdlet.ShouldProcess("$($identity.ComputerName) / $($identity.UserSid) user PATH",'Write persistent HKCU Environment/Path')){return [pscustomobject]@{Applied=$false;Changed=$false;Value=$before;EffectivePathVerified=$false;EnvironmentBroadcast=$false}}
+  $result=Write-RideUserPathValue -Expected $expectedValue -Desired $desiredValue
+  $after=ConvertTo-RideUserPathContext (Get-RideUserPathContext)
+  foreach($name in @('ComputerName','UserSid','SessionId','UserProfile')){if($identity.$name -ine $after.$name){throw 'User PATH identity changed during the write.'}}
+  [pscustomobject]@{Applied=$true;Changed=$true;Value=$result;EffectivePathVerified=$false;EnvironmentBroadcast=$false}
 }
 
 function Get-RideUserBinPathObservation {
@@ -100,6 +154,35 @@ function Get-RideUserBinPathObservation {
   $after=ConvertTo-RideUserPathContext (Get-RideUserPathContext)
   foreach($name in @('ComputerName','UserSid','SessionId','UserProfile')){if($before.$name -ine $after.$name){throw 'User PATH context changed during observation.'}}
   ConvertTo-RideUserPathObservation ([pscustomobject]@{SchemaVersion=1;Kind='UserPathObservation';Status='Captured';Context=$before;Path=$value;ReadyForMutation=$false})
+}
+
+function Get-RideCurrentUserBinPathObservation {
+  [CmdletBinding()]
+  param()
+  $context=ConvertTo-RideUserPathContext (Get-RideUserPathContext)
+  Get-RideUserBinPathObservation -ExpectedComputerName $context.ComputerName -ExpectedUserSid $context.UserSid -ExpectedSessionId $context.SessionId
+}
+
+function Set-RideUserBinPathPatch {
+  [CmdletBinding(SupportsShouldProcess=$true,ConfirmImpact='Medium')]
+  param([Parameter(Mandatory)]$Observation)
+  $original=ConvertTo-RideUserPathObservation $Observation
+  $current=Get-RideUserBinPathObservation -ExpectedComputerName $original.Context.ComputerName -ExpectedUserSid $original.Context.UserSid -ExpectedSessionId $original.Context.SessionId
+  if($current.Context.UserProfile -ine $original.Context.UserProfile -or $current.Path.KeyExists -ne $original.Path.KeyExists -or -not (Test-RideUserPathValueEqual $current.Path $original.Path)){throw 'User PATH changed after preparation; create a new plan before applying.'}
+  $patch=New-RideUserBinPathPatch $current
+  if(-not $patch.ChangeRequired){return [pscustomobject]@{Applied=$false;Changed=$false;Value=$current.Path;EffectivePathVerified=$false;EnvironmentBroadcast=$false}}
+  if(-not $PSCmdlet.ShouldProcess("$($current.Context.ComputerName) / $($current.Context.UserSid) user PATH",'Append existing user-bin directory')){return [pscustomobject]@{Applied=$false;Changed=$false;Value=$current.Path;EffectivePathVerified=$false;EnvironmentBroadcast=$false}}
+  Set-RideUserPathValue -Expected $current.Path -Desired $patch.DesiredValue -ExpectedComputerName $current.Context.ComputerName -ExpectedUserSid $current.Context.UserSid -ExpectedUserProfile $current.Context.UserProfile -ExpectedSessionId $current.Context.SessionId -Confirm:$false
+}
+
+function Set-RideUserBinPathRecovery {
+  [CmdletBinding(SupportsShouldProcess=$true,ConfirmImpact='Medium')]
+  param([Parameter(Mandatory)]$Observation,[Parameter(Mandatory)]$Snapshot)
+  $current=ConvertTo-RideUserPathObservation $Observation
+  $recovery=Restore-RideUserBinPathPatch -Observation $current -Snapshot $Snapshot
+  if(-not $recovery.ChangeRequired){return [pscustomobject]@{Applied=$false;Changed=$false;Value=$current.Path;EffectivePathVerified=$false;EnvironmentBroadcast=$false}}
+  if(-not $PSCmdlet.ShouldProcess("$($current.Context.ComputerName) / $($current.Context.UserSid) user PATH",'Restore captured persistent user PATH')){return [pscustomobject]@{Applied=$false;Changed=$false;Value=$current.Path;EffectivePathVerified=$false;EnvironmentBroadcast=$false}}
+  Set-RideUserPathValue -Expected $current.Path -Desired $recovery.DesiredValue -ExpectedComputerName $current.Context.ComputerName -ExpectedUserSid $current.Context.UserSid -ExpectedUserProfile $current.Context.UserProfile -ExpectedSessionId $current.Context.SessionId -Confirm:$false
 }
 
 function Get-RideUserPathEntries {
@@ -218,4 +301,4 @@ function Restore-RideUserBinPathPatch {
   [pscustomobject]@{SchemaVersion=1;Kind='UserBinPathRecoveryPreparation';DesiredValue=$desired;ChangeRequired=(-not (Test-RideUserPathValueEqual $current.Path $desired));ReadyForMutation=$false;MutationAuthorized=$false;DirectoryOwnership=$false;EffectivePathVerified=$false}
 }
 
-Export-ModuleMember -Function Get-RideUserBinPathObservation,New-RideUserBinPathPatch,Restore-RideUserBinPathPatch
+Export-ModuleMember -Function Get-RideUserBinPathObservation,Get-RideCurrentUserBinPathObservation,New-RideUserBinPathPatch,Restore-RideUserBinPathPatch,Set-RideUserBinPathPatch,Set-RideUserBinPathRecovery

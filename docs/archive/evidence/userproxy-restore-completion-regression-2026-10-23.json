@@ -1,0 +1,80 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "TimeUtc": "08:48:41",
+  "Batch": "B04 user-proxy saved-run restore completion regression",
+  "Module": "modules/RIDE.UserProxyLifecycle.psm1",
+  "Version": "0.3.0",
+  "Implementation": {
+    "CompletionPath": "%LOCALAPPDATA%/RIDE/State/UserProxy/<RunId>.completed.json",
+    "WriteMode": "CreateNew UTF-8 JSON record, flushed after verified restore",
+    "Behavior": [
+      "A successful restore by RunId writes a completion record bound to machine, SID and session.",
+      "A repeated restore returns AlreadyRestored without another setter call when owned values still match the original snapshot.",
+      "A repeated restore refuses if owned values drift after recorded restoration.",
+      "If completion persistence fails after verified restoration, return AppliedCompletionUntracked for explicit inspection."
+    ],
+    "Boundaries": [
+      "Snapshot and completion records are user-writable and schema-validated, not authenticated.",
+      "The standalone candidate is not integrated with the RIDE engine or catalog.",
+      "WinINet compare/write is not atomic against external applications.",
+      "No native Windows acceptance or complete effective-policy/PAC consumer evidence is available."
+    ]
+  },
+  "Validation": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "FocusedSuites": [
+      "tests/UserProxyInventory.Tests.ps1",
+      "tests/UserProxyPreparation.Tests.ps1",
+      "tests/UserProxyLifecycle.Tests.ps1"
+    ],
+    "Discovered": 103,
+    "Passed": 103,
+    "Failed": 0,
+    "Skipped": 0,
+    "KeyCases": [
+      "Completion sidecar is created after successful durable restore.",
+      "Repeat restore performs no additional native setter call while owned values match the original state.",
+      "Repeat restore refuses owned-value drift after completion without another setter call.",
+      "A completion-store failure is reported as AppliedCompletionUntracked after successful readback.",
+      "Existing snapshot ordering, WhatIf, identity binding, policy, drift, readback and compensation cases remain passing."
+    ],
+    "NativeWinInetCalls": 0,
+    "RegistryCalls": 0,
+    "WindowsStateChanged": false
+  },
+  "VmAcceptance": {
+    "Run": false,
+    "Reason": "The latest read-only Get-VM access recheck at 08:40 UTC returned CIM access denied before checkpoint inspection; this regression uses mocked native boundaries.",
+    "Evidence": "ride-win11-test-access-recheck-2026-10-23-0840.json",
+    "SupportedTargetsUnchanged": true
+  },
+  "Outcomes": {
+    "Resolved": [
+      "Standalone RunId restore now records completion and handles safe idempotent repeats or owned-value drift."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "RIDE engine/catalog integration and engine-owned completion state.",
+      "Snapshot/completion authenticity and cross-process compare/write safety.",
+      "Complete effective-policy coverage, controlled PAC consumer testing, and disposable Windows 11 native acceptance."
+    ],
+    "Partial": [
+      "Unregistered preparation candidate only; no legacy setting outcome closed and no supported target added."
+    ],
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateAdjustment": "Unchanged; the candidate regression closes no legacy outcome."
+  }
+}

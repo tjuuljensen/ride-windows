@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-23T15:33:31Z",
+  "batch": "BloodHoundPinnedCollectorReleaseProvider",
+  "selectedCompatibility": {
+    "backend": "BloodHound CE 9.8.0",
+    "collectors": [
+      {
+        "product": "SharpHound",
+        "version": "2.17.0",
+        "repository": "SpecterOps/SharpHound",
+        "releaseTag": "v2.17.0",
+        "asset": "SharpHound_v2.17.0_windows_x86.zip",
+        "checksumAsset": "SharpHound_v2.17.0_windows_x86.zip.sha256"
+      },
+      {
+        "product": "AzureHound",
+        "version": "3.1.1",
+        "repository": "SpecterOps/AzureHound",
+        "releaseTag": "v3.1.1",
+        "asset": "AzureHound_v3.1.1_windows_amd64.zip",
+        "checksumAsset": "AzureHound_v3.1.1_windows_amd64.zip.sha256"
+      }
+    ],
+    "source": "https://raw.githubusercontent.com/SpecterOps/BloodHound/v9.8.0/dockerfiles/bloodhound.Dockerfile"
+  },
+  "implementation": {
+    "provider": "GitHubReleaseApi with exact ReleaseTag and ChecksumAssetName",
+    "checks": [
+      "Exact api.github.com repository, release tag, package version, asset filename and checksum sidecar are required.",
+      "Release metadata tag and download URLs must match the declared publisher repository and exact tag.",
+      "Exactly one bounded SHA-256 sidecar record is accepted and, when it names a file, the filename must match the asset.",
+      "Publisher SHA-256 is returned in package acquisition evidence and checked against acquired bytes.",
+      "Anonymous and enrolled PAT release metadata paths support exact tagged endpoints."
+    ],
+    "candidatePackagesAdded": false,
+    "reason": "Publisher network access failed DNS resolution before sidecars or archives could be read; exact archive member inventories and bytes remain necessary for portable package catalog entries."
+  },
+  "validation": {
+    "focusedPinnedProviderPesterPowerShell7": { "passed": 6, "failed": 0, "notRun": 95, "testRegistryEnabled": false },
+    "githubAuthenticationPesterPowerShell7": { "passed": 53, "failed": 0, "notRun": 0, "testRegistryEnabled": false },
+    "windowsPowerShell51Parser": "Passed for modules/RIDE-Packages.psm1, modules/RIDE.CatalogValidation.psm1, modules/RIDE.GitHubAuthentication.psm1 and both changed test files.",
+    "repositoryValidation": "Passed: generated operation documentation current; 400 operations, 8 groups, 5 profiles and 257 PowerShell files.",
+    "windowsPowerShell51Pester": "Not run: host AuthorizationManager prevented importing Pester 5.7.1; Windows PowerShell 5.1 parser validation passed.",
+    "publisherFetch": "Direct Invoke-WebRequest to both exact GitHub SHA-256 sidecars failed before HTTP with No such host is known (github.com:443).",
+    "archivesDownloaded": false,
+    "executablesRun": false,
+    "vmAccessed": false,
+    "windowsStateChanged": false
+  },
+  "migrationDisposition": {
+    "resolved": "Exact-tag metadata, asset and publisher checksum-sidecar resolution is implemented and covered by mocks.",
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Acquire and verify the exact publisher sidecars and archives.",
+      "Inspect the exact selected ZIP members and companion notices before adding SharpHound/AzureHound portable package candidates.",
+      "Run collector file lifecycle, exact recovery and no-collection Windows acceptance after package preparation and VM access return.",
+      "BloodHound CE backend/container and credential/data setup remain separately deferred."
+    ],
+    "partial": "No legacy collector outcome closes.",
+    "estimateRanges": {
+      "settings": "38-58",
+      "packages": "52-67",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "142-196",
+      "roundedTotal": "145-200/about 170"
+    },
+    "licenseDisposition": "No licensing issue blocks implementation; GPL-family notices remain catalog and package-content metadata, and owner-specific local review markers are not a package gate. Sysinternals remains approved for RIDE direct download/install under the prior v2 specialist approval."
+  }
+}

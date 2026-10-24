@@ -1,0 +1,72 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-22",
+  "ReviewType": "StaticSourceBehaviorReview",
+  "Package": {
+    "Id": "package.hex2text",
+    "Name": "Hex2text (Pinned Python source)",
+    "PackageVersion": "source-9715c6c26824",
+    "Repository": "gh05t-4/hex2text",
+    "Revision": "9715c6c26824ef05039228f16e0c47620c52fe79",
+    "ArchiveSha256": "aa0083da094a3320db9a97eb22c499a420187c208ed92376a662243678f083c3",
+    "ScriptPath": "hex2text-9715c6c26824ef05039228f16e0c47620c52fe79/hex2text.py",
+    "ScriptSha256": "016ac1ca471de179aa908eb71eb7ea068a53f0d04e6761a5f0e27ca95e682047",
+    "License": "GNU GPL version 3; retain complete upstream source and license"
+  },
+  "StaticFindings": [
+    {
+      "Behavior": "Input normalization",
+      "Observation": "The script prompts on stdin and removes literal U+0020 spaces from the entire input. It does not describe or implement a general byte-stream decoder."
+    },
+    {
+      "Behavior": "Four-digit grouping",
+      "Observation": "It processes floor(input_length / 4) groups, converts each complete group with int(group, 16), then chr(value); each group therefore maps to one Python Unicode code point."
+    },
+    {
+      "Behavior": "Incomplete suffix",
+      "Observation": "One to three remaining characters are silently ignored because the loop count is computed from complete four-character groups only."
+    },
+    {
+      "Behavior": "Invalid complete group",
+      "Observation": "An invalid complete group raises ValueError from int(..., 16); the source has no exception handler for that input."
+    },
+    {
+      "Behavior": "I/O boundary",
+      "Observation": "The source imports no modules and uses stdin/stdout only; static review found no file, database, registry or network access."
+    },
+    {
+      "Behavior": "Unicode runtime",
+      "Observation": "The fixed four-digit grouping does not implement surrogate-pair composition. Surrogate code points and terminal/display behavior were not executed or verified."
+    }
+  ],
+  "Disposition": {
+    "CatalogCandidateRetained": true,
+    "PendingAcceptance": true,
+    "CandidateTargets": ["Windows 11"],
+    "SupportedTargets": [],
+    "NoSourceExecution": true,
+    "NoUserInputProvided": true,
+    "NoRuntimeFileAccess": true,
+    "NoUserFileAccess": true,
+    "NoWindowsStateChanged": true,
+    "NoVmUsed": true,
+    "LegacyOutcomeResolved": false
+  },
+  "PreviouslyRecordedSyntaxEvidence": {
+    "PythonVersion": "3.12.14",
+    "SyntaxAccepted": true,
+    "SourceExecuted": false,
+    "Evidence": "python-script-source-review-2026-10-16.json"
+  },
+  "RequiredFollowUp": [
+    "Keep the package unsupported until disposable managed-file lifecycle acceptance passes on the declared Windows target.",
+    "Any future runtime/function tests must use synthetic input only and distinguish code-point conversion from UTF-8 byte decoding.",
+    "Verify invalid groups, incomplete suffixes, control/surrogate code points and console encoding without testing against user files."
+  ],
+  "EstimatedRemainingWork": {
+    "GroupRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactRangeEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateReason": "Static behavior clarification closes no runtime, file-lifecycle or whole legacy outcome."
+  }
+}

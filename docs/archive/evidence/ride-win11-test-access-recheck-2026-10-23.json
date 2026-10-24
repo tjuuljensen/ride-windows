@@ -1,0 +1,45 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-23",
+  "Target": {
+    "VMName": "RIDE-Win11-Test",
+    "VMId": null,
+    "CheckpointId": null
+  },
+  "Check": {
+    "Command": "Get-VM -Name RIDE-Win11-Test",
+    "Access": "ReadOnly",
+    "Result": "Blocked",
+    "Error": "Access to a CIM resource was not available to the client.",
+    "LastRecheckedUtc": "2026-10-23T05:18:37Z",
+    "VmStateVerified": false,
+    "CheckpointVerified": false
+  },
+  "Boundaries": {
+    "TaskSubmitted": false,
+    "VmStartedOrChanged": false,
+    "ControllerChanged": false,
+    "QueueWriteAttempted": false,
+    "FreshUacPrompts": 0,
+    "HostServicesChanged": false,
+    "DefenderChanges": false,
+    "DefenderBlockedToolsSelected": false
+  },
+  "DeferredAcceptance": [
+    "Re-establish the existing authorized Hyper-V read and registered-controller workflow when available.",
+    "Verify the existing VM and checkpoint identities before running only already authorized scenarios.",
+    "Resume prepared package and component acceptance; Sysinternals licensing is not a blocker for its approved direct download-and-install workflow."
+  ],
+  "EstimatedRemainingWork": {
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateReason": "Read-only access recheck could not inspect VM state. The Q08 local guarded-write implementation closed no legacy outcome; all current estimate ranges remain unchanged."
+  }
+}

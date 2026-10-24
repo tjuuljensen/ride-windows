@@ -1,0 +1,51 @@
+{
+  "SchemaVersion": 1,
+  "RunUtc": "2026-10-23T11:24:20Z",
+  "Batch": "Read-only Windows 11 and Server 2025 VM access recheck",
+  "Queries": [
+    {
+      "Result": "Access to a CIM resource was not available to the client.",
+      "Target": "RIDE-Win11-Test",
+      "Command": "Get-VM -Name 'RIDE-Win11-Test'"
+    },
+    {
+      "Result": "Access to a CIM resource was not available to the client.",
+      "Target": "RIDE-Srv2025Test",
+      "Command": "Get-VM -Name 'RIDE-Srv2025Test'"
+    }
+  ],
+  "VmOrCheckpointState": "Unknown; access denied before state/checkpoint inspection.",
+  "Actions": {
+    "VmStarted": false,
+    "CheckpointRead": false,
+    "TaskQueued": false,
+    "ControllerChanged": false,
+    "WinRMChanged": false,
+    "DefenderChanged": false,
+    "InstallerCalled": false,
+    "WindowsStateChanged": false
+  },
+  "Outcomes": {
+    "Resolved": [
+      "Current read-only access status checked for both registered migration targets."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Windows 11 and Server 2025 acceptance remains blocked until host CIM/Hyper-V access is available."
+    ],
+    "Partial": [
+      "No legacy outcome closed."
+    ],
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateAdjustment": "Unchanged; access recheck provides no feature acceptance or legacy outcome closure."
+  }
+}

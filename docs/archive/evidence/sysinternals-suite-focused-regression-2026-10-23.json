@@ -1,0 +1,65 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "ObservedAtUtc": "2026-10-23T06:06:52Z",
+  "Batch": "Sysinternals Suite focused package regression",
+  "Tests": {
+    "File": "tests/SysinternalsSuitePackage.Tests.ps1",
+    "Discovered": 7,
+    "Passed": 7,
+    "Failed": 0,
+    "Skipped": 0,
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "TemporaryDirectory": "Repository .local scratch"
+  },
+  "AdditionalRuns": [
+    {
+      "File": "tests/SysinternalsSuitePackage.Tests.ps1",
+      "Discovered": 7,
+      "Passed": 7,
+      "Failed": 0,
+      "Skipped": 0,
+      "PowerShell": "Windows PowerShell 5.1",
+      "Pester": "5.7.1",
+      "TestRegistryEnabled": false,
+      "TemporaryDirectory": "Repository .local scratch"
+    }
+  ],
+  "DefaultTemporaryDirectoryAttempt": {
+    "Result": "3 of 7 package tests failed due to sandbox UnauthorizedAccessException during Move-Item/manifest replacement",
+    "Disposition": "Repeated in isolation, then rerun with TEMP and TMP set to repository .local; do not treat as a product or licensing failure",
+    "RetainedTemporaryEvidence": true
+  },
+  "Scope": {
+    "VmAcceptanceRun": false,
+    "SysinternalsToolExecuted": false,
+    "PackageInstalled": false,
+    "NetworkUsed": false,
+    "DefenderSettingsChanged": false,
+    "WindowsStateChanged": false
+  },
+  "Outcome": {
+    "Resolved": [
+      "Focused Sysinternals Suite package-boundary regression passes when its scratch files remain inside the writable repository"
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "VM lifecycle, exact recovery and Windows target acceptance because RIDE-Win11-Test remains inaccessible"
+    ],
+    "Partial": [
+      "Sysinternals migration remains technically pending acceptance; no licensing blocker"
+    ],
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170"
+  }
+}

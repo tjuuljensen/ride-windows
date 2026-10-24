@@ -1,0 +1,99 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-21",
+  "Batch": "MiTeC MSA Query and ADO Query dependency/behavior follow-up",
+  "PublisherPages": [
+    {
+      "Uri": "https://www.mitec.cz/msaq.html",
+      "Product": "MSA Query",
+      "Behavior": [
+        "Publisher says it is based on Microsoft DAO Engine.",
+        "SQL editor can run any type of SQL statement or script and saves correctly run statements in a history buffer.",
+        "CSV/SQL import/export, object inspection/editing, table data editing, and a BLOB editor are described.",
+        "Account Manager can add, edit and delete database users and object rights."
+      ],
+      "Targets": [
+        "Windows 2000",
+        "Windows XP",
+        "Windows 2003",
+        "Windows Vista",
+        "Windows 7"
+      ],
+      "LicenseStatement": "Free to use for both private and commercial users.",
+      "ProviderVersionOrBitness": "Not stated."
+    },
+    {
+      "Uri": "https://www.mitec.cz/adoq.html",
+      "Product": "ADO Query",
+      "Behavior": [
+        "Publisher says the application manages databases supported by Microsoft ActiveX Data Objects and that ADO must be installed.",
+        "SQL editor can run any type of SQL statement or script and saves correctly run statements in a history buffer.",
+        "Data Editor supports inspect/edit/import/export and BLOB editing; Object Explorer can edit some object details.",
+        "The page overview says CSV import and CSV/XML export, while its SQL Editor section says CSV/SQL import/export; precise format direction remains unclear."
+      ],
+      "Targets": [
+        "Windows 2000",
+        "Windows XP",
+        "Windows 2003",
+        "Windows Vista",
+        "Windows 7",
+        "Windows Server 2008",
+        "Windows Server 2008 R2",
+        "Windows 8",
+        "Windows 8.1",
+        "Windows 10"
+      ],
+      "LicenseStatement": "Free to use for both private and commercial users.",
+      "ProviderVersionOrBitness": "Not stated; ADO must be installed."
+    },
+    {
+      "Uri": "https://www.mitec.cz/wp/support/",
+      "Observation": "Current general terms say trial/unregistered software is freeware for non-commercial use and describe paid named-user/build-machine, team and site licenses.",
+      "Conflict": "Both current product pages say free for private and commercial use. Exact applicability to the retained versions and intended user remains unresolved; neither statement alone grants redistribution rights."
+    }
+  ],
+  "Artifacts": [
+    {
+      "Product": "MSA Query",
+      "Archive": "MSAQuery.zip",
+      "ArchiveLength": 1021739,
+      "ArchiveSha256": "9382e37ba54cfea34078239f058d1dbb51a3cb7a42048a9b8747cc005e1ecd1d",
+      "Executable": "MSAQuery.exe",
+      "ExecutableLength": 1036800,
+      "ExecutableSha256": "10585f22c2e63a3a1e16fb3a944cd2086381d57241b98c7c40f3caeb57dbf671",
+      "FileVersion": "2.1.0.0",
+      "ProductVersion": "1.0.0.0",
+      "FrozenHashesMatch": true
+    },
+    {
+      "Product": "ADO Query",
+      "Archive": "ADOQuery.zip",
+      "ArchiveLength": 1127362,
+      "ArchiveSha256": "a412293b10ad00b0a94509cd48ad389c4f609b96fa504ccbbb2501742e3ad96d",
+      "Executable": "ADOQuery.exe",
+      "ExecutableLength": 1143808,
+      "ExecutableSha256": "16109679cfccc5afa88230925d4642cc98bbeadd9c3536a48903ee029865def2",
+      "FileVersion": "1.9.0.0",
+      "ProductVersion": "1.0.0.0",
+      "FrozenHashesMatch": true
+    }
+  ],
+  "RemainingBlockers": [
+    "Exact DAO Engine and ADO runtime/provider versions, architecture/bitness compatibility and install/redistribution entitlements remain unstated.",
+    "Both product pages' commercial-use statement conflicts with the general unregistered non-commercial terms; exact intended-user entitlement and redistribution remain unresolved.",
+    "MSA Query's listed target ends at Windows 7; ADO Query's target list ends at Windows 10. Neither page claims Windows 11 or later Server support.",
+    "Arbitrary SQL, editable objects and table data, BLOB editing, and MSA database user/rights management require isolated synthetic databases and explicit recovery.",
+    "ADO Query's page is internally inconsistent about import/export formats and needs product-specific clarification or empirical acceptance."
+  ],
+  "ResolvedWholeLegacyOutcomes": 0,
+  "RetiredWholeLegacyOutcomes": 0,
+  "ExcludedWholeLegacyOutcomes": 0,
+  "NativeAcceptance": false,
+  "PayloadExecuted": false,
+  "DatabaseOpened": false,
+  "CredentialsUsed": false,
+  "FreshUacLaunches": 0,
+  "VmOrControllerChanged": false,
+  "DefenderStateChanged": false,
+  "Inspection": "Read official publisher/support pages; recomputed retained archive and executable hashes and read embedded version metadata only. No executable ran, no database was opened, and no credentials were used."
+}

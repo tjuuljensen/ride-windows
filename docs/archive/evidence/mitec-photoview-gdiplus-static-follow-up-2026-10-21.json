@@ -1,0 +1,74 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-21",
+  "Batch": "MiTeC PhotoView GDI+ dependency follow-up",
+  "Inputs": [
+    {
+      "Path": ".local/source-review-batches2-20261017/PhotoView.zip",
+      "Length": 1611828,
+      "Sha256": "6bcbb3aafd3db71e7cbdfb75d78934101ded79a5792f52fbae600ec16910795c",
+      "MatchesFrozenEvidence": true
+    },
+    {
+      "Path": ".local/source-review-batches2-20261017/metadata-PhotoView.zip/PhotoView.exe",
+      "Length": 692736,
+      "Sha256": "8f384761ac341e42968cbdc0dedfd2ba11ece8dbc2d00908af78d4a90f8ec5f7",
+      "FileVersion": "1.4.0.0",
+      "ProductVersion": "1.0.0.0",
+      "CompanyName": "MiTeC",
+      "MatchesFrozenEvidence": true
+    },
+    {
+      "Path": ".local/source-review-batches2-20261017/metadata-PhotoView.zip/gdiplus.dll",
+      "Length": 1645320,
+      "Sha256": "f1da32183b3da19f75fa4ef0974a64895266b16d119bbb1da9fe63867dba0645",
+      "FileVersion": "5.1.3102.1360 (xpsp2.040109-1800)",
+      "ProductVersion": "5.1.3102.1360",
+      "CompanyName": "Microsoft Corporation",
+      "AuthenticodeStatus": "Valid",
+      "Signer": "CN=Microsoft Windows XP Publisher, OU=Copyright (c) 2003 Microsoft Corp., O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "MatchesFrozenEvidence": true
+    }
+  ],
+  "StaticFindings": {
+    "ExecutableFormat": "PE32 x86",
+    "PhotoViewImportsGdiplusDll": true,
+    "ImportTableObservation": "The PhotoView.exe PE import table names gdiplus.dll directly. This confirms a declared load dependency in this binary; it does not establish which file Windows resolves at runtime or whether a replacement is compatible.",
+    "MicrosoftBulletin": {
+      "Uri": "https://learn.microsoft.com/en-us/security-updates/securitybulletins/2004/ms04-028",
+      "Observation": "Microsoft lists Gdiplus.dll version 5.1.3102.1360 at 1,645,320 bytes for Platform SDK Redistributable: GDI+ and identifies that version as not vulnerable to the specific MS04-028 JPEG processing issue.",
+      "Limits": "This is a release-family/version-size match, not a cryptographic match to Microsoft's package, proof that PhotoView acquired the DLL from that package, redistribution permission for this copy, or a current security assessment.",
+      "SecurityScope": "The bulletin concerns the 2004 JPEG-processing vulnerability only; its status must not be generalized to other vulnerabilities or current security.",
+      "Rights": "The bulletin's existence of a Platform SDK Redistributable does not itself establish redistribution rights for this retained DLL in RIDE or another shared kit."
+    },
+    "GdiPlusDocumentation": {
+      "Uri": "https://learn.microsoft.com/en-us/windows/win32/gdiplus/-gdiplus-gdi-start",
+      "Observation": "Microsoft describes GDI+ as a graphics API and documents that it is not supported for use in Windows services.",
+      "Limits": "General API documentation does not identify PhotoView's expected system-DLL resolution behavior or certify this historical binary on Windows 11 or Server."
+    },
+    "LanguageFiles": [
+      "Czech.lng",
+      "Polish.lng",
+      "Greek.lng"
+    ],
+    "LanguageFileDisposition": "No new terms or selection evidence found; preserve deliberate selection and rights review for all three files."
+  },
+  "ResolvedWholeLegacyOutcomes": 0,
+  "RetiredWholeLegacyOutcomes": 0,
+  "ExcludedWholeLegacyOutcomes": 0,
+  "NativeAcceptance": false,
+  "PayloadExecuted": false,
+  "DllLoaded": false,
+  "ImageOpened": false,
+  "FreshUacLaunches": 0,
+  "VmOrControllerChanged": false,
+  "DefenderStateChanged": false,
+  "RemainingBlockers": [
+    "Exact Microsoft package provenance for the bundled DLL remains unproven despite a valid Microsoft signature and matching official version/size record.",
+    "PhotoView's applicable historical and current product terms, local entitlement, and redistribution rights for the executable, DLL, and language resources remain unresolved.",
+    "Windows 11 and declared Windows Server behavior and actual DLL resolution need isolated disposable-guest acceptance before changing dependency selection.",
+    "No supported replacement or omission path is established; the executable's direct gdiplus.dll import must be accounted for.",
+    "Czech, Polish, and Greek language-file selection and rights remain open."
+  ],
+  "Inspection": "Recomputed retained archive and staged member SHA-256 values; read PE headers/import table, version resources, and Authenticode status only. No application or library was executed or loaded."
+}

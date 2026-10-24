@@ -1,0 +1,90 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-20",
+  "Scope": "Static version, runtime-package, licensing and behavior review of the frozen MiTeC DFM Editor archive; no executable or BPL was loaded",
+  "PublisherEvidence": {
+    "ProductPage": {
+      "Uri": "https://www.mitec.cz/wp/mdfme/",
+      "Snapshot": ".local/collection-inventory-20261017/mitec-product-mdfme.html",
+      "Sha256": "3f37db55acb1c2d0bddb42b433ea2f4e01a71e3f8d7c0979d83128f7cf5c3021",
+      "Version": "8.4.0, dated 2024-07-16",
+      "PublishedBehavior": "The product edits and creates Delphi form files in binary and text form, extracts forms from compiled PE files, previews forms, and can register user packages so their components are known to the editor.",
+      "VariantNote": "The 8.4.0 history says separate variants for Delphi 11 and 12. The publisher lists paid single-user and site license tiers; no local entitlement assessment is recorded."
+    },
+    "TermsPage": {
+      "Uri": "https://www.mitec.cz/wp/support/",
+      "Snapshot": ".local/collection-inventory-20261017/mitec-support.html",
+      "Sha256": "00c55ee6e356a5b3422234dc74a92ffef09f83d655d4cd4965dcffbc3f2b066b",
+      "Observation": "The publisher's current page says trial or unregistered software is freeware for non-commercial usage and provides a software EULA. No individual/company entitlement or distribution determination was made."
+    },
+    "EmbarcaderoDocumentation": [
+      {
+        "Uri": "https://docwiki.embarcadero.com/RADStudio/Alexandria/en/Software_License_Requirements",
+        "Observation": "RAD Studio 11 documentation says redistribution of some associated files is limited and refers to the installed DEPLOY and README documents and the product license."
+      },
+      {
+        "Uri": "https://docwiki.embarcadero.com/RADStudio/Athens/en/Software_License_Requirements",
+        "Observation": "RAD Studio 12 documentation likewise directs distributors to the installed version-specific DEPLOY/README and license documents; third-party redistribution rights are governed by the supplying vendor."
+      },
+      {
+        "Uri": "https://docwiki.embarcadero.com/RADStudio/Athens/en/Runtime_Packages",
+        "Observation": "The application and all runtime packages it calls must be present with correct versions. Documentation alone does not grant redistribution rights for these exact archive members."
+      }
+    ]
+  },
+  "PinnedArtifact": {
+    "Archive": ".local/remaining-collections-20261017/DFMEdit.zip",
+    "DownloadUri": "https://www.mitec.cz/wp/files/DFMEdit.zip",
+    "Length": 16714229,
+    "Sha256": "189386a7b43e835c936d0858a7e47d0e7840d0031f991d50f4abc55d391783aa",
+    "PublisherDigestVerified": false,
+    "DirectoryEntries": ["Delphi 11/", "Delphi 12/"],
+    "FileMemberCount": 18,
+    "MemberSets": {
+      "Delphi 11": {
+        "Application": "DFMEdit.exe, FileVersion 8.3.1.0, ProductVersion 8.0.0.0",
+        "RuntimePackageFamily": "Eight x86 BPL files with 280 suffix, PE product version 28.0",
+        "ArchiveFileHashesMatchFrozenInventory": true
+      },
+      "Delphi 12": {
+        "Application": "DFMEdit.exe, FileVersion 8.4.0.0",
+        "RuntimePackageFamily": "Eight x86 BPL files with 290 suffix, PE product version 29.0",
+        "ArchiveFileHashesMatchFrozenInventory": true
+      }
+    },
+    "DocumentationFiles": "No license, licence, COPYING, README, notice, DEPLOY or EULA file found by filename among the archive's 18 file members."
+  },
+  "ReviewFindings": [
+    "The archive's outer SHA-256 and all 18 non-directory member hashes match the frozen inventory. The two ZIP directory entries are empty folder markers and are not payload members.",
+    "The Delphi 11 and Delphi 12 variants are not interchangeable: their executable versions and 280/290 BPL families differ. Preserve them as explicit alternatives and keep the package directories isolated.",
+    "The publisher documents user-package registration. Package loading is code execution; no user-supplied BPL is registered or loaded by this source review. Functional testing must use a disposable package and DFM/PE fixture in an isolated directory.",
+    "Embarcadero's public guidance identifies version-specific local deployment/license documents and vendor terms as necessary to establish redistribution. Those installed DEPLOY/README/license documents and the local MiTeC entitlement evidence are not present here; no broad BPL redistribution grant is inferred."
+  ],
+  "SafetyAndAcceptance": {
+    "ArchiveExtractedThisBatch": false,
+    "PayloadExecuted": false,
+    "BplLoadedOrRegistered": false,
+    "FreshUacPrompts": 0,
+    "VmRuns": 0,
+    "DefenderBlockedToolsTouched": false,
+    "HostOrControllerChanged": false,
+    "DefenderChanged": false
+  },
+  "MigrationDisposition": {
+    "WholeLegacyOutcomesClosed": 0,
+    "RetiredOutcomes": 0,
+    "NewExclusions": 0,
+    "Resolved": "The pinned archive has two distinct Delphi runtime families and all member hashes match; official guidance identifies the exact local documents needed to assess redistribution.",
+    "Partial": "Exact version-specific BPL redistribution rights, local MiTeC entitlement, user-package behavior, and DFM save/extraction recovery remain unverified.",
+    "Deferred": [
+      "Review installed Delphi 11/12 DEPLOY, README and license documents for the exact bundled BPLs",
+      "Assess local MiTeC use and distribution entitlement",
+      "Create disposable text/binary DFM, synthetic PE and user-package fixtures; verify exact preservation and recovery",
+      "Run only under a later registered guest workflow; do not register BPLs on the host"
+    ],
+    "EstimateRanges": ["38-58", "56-71", "20-25", "25-35", "8-12"],
+    "ExactTotal": "147-201",
+    "RoundedTotal": "145-200/about 175",
+    "EstimateReason": "The variant and redistribution review prerequisites are clearer, but no complete legacy feature outcome or native behavior is accepted; no estimate deduction is justified."
+  }
+}

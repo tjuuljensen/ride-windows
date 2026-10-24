@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "ObservedAtUtc": "2026-10-23T06:27:25Z",
+  "Batch": "RIDE VM access and PSScriptTools dependency source recheck",
+  "Vm": {
+    "Target": "RIDE-Win11-Test",
+    "Command": "Get-VM -Name RIDE-Win11-Test",
+    "Result": "Blocked",
+    "Error": "Access to a CIM resource was not available to the client.",
+    "VmStateVerified": false,
+    "CheckpointVerified": false,
+    "QueueSubmissionAttempted": false,
+    "VmOrCheckpointChanged": false
+  },
+  "ThreadJobDependency": {
+    "Module": "Microsoft.PowerShell.ThreadJob",
+    "Version": "2.2.0",
+    "Observation": "The Codex PowerShell runtime exposes a bundled module at version 2.2.0.",
+    "GalleryPackageBytesAvailable": false,
+    "GalleryPackageDigestAvailable": false,
+    "AcceptedAsPublisherPackage": false,
+    "PSScriptToolsImported": false,
+    "DependencyInstalled": false
+  },
+  "Boundaries": {
+    "InstallerOrPackageRan": false,
+    "CimDataCollected": false,
+    "UacPrompts": 0,
+    "DefenderSettingsChanged": false
+  },
+  "Outcome": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Prepared guest acceptance until authorized VM/controller access is available",
+      "PSScriptTools runtime/dependency acceptance until exact dependency source is acquired and verified"
+    ],
+    "Partial": [
+      "Read-only access recheck confirms the existing Hyper-V CIM blocker persists",
+      "A matching-version module is present in the bundled test runtime but is not a verified Gallery artifact"
+    ],
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170"
+  }
+}

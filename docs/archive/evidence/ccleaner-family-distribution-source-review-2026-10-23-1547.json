@@ -1,0 +1,77 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "CheckedAtUtc": "2026-10-23T15:47:00Z",
+  "Batch": "CCleaner-family installed and publisher-portable distribution review",
+  "Decision": "Retain four independently selectable products; prefer installed distributions and expose publisher-provided portable builds only when verified. Preserve existing installations and do not substitute unavailable variants.",
+  "Products": [
+    {
+      "Product": "CCleaner",
+      "ProductPage": "https://www.ccleaner.com/ccleaner/builds",
+      "OfficialReleaseNotice": "https://community.ccleaner.com/t/ccleaner-v7-13/167187",
+      "Finding": "Official builds page lists online/offline installer builds and a portable ZIP. It warns that advanced builds are not for distribution or mirroring. RIDE downloads directly from the publisher and installs for the user; this is not a legal blocker. Official announcement identifies v7.13 on 2026-10-21, while the page-reader cache showed an older v7.11 page snapshot; exact current installer and portable artifact versions need publisher-byte verification.",
+      "Portable": "Listed by publisher; exact current portable version/bytes not verified.",
+      "LicenseDisposition": "No migration blocker. Record owner-specific status as informational NeedsReview after exact package version and catalog ID are pinned."
+    },
+    {
+      "Product": "Defraggler",
+      "ProductPage": "https://www.ccleaner.com/defraggler/builds",
+      "EolNotice": "https://community.ccleaner.com/t/defraggler-end-of-life/166405",
+      "Finding": "The builds page reader lists only a standard installer, but the publisher announcement dated 2026-09-11 says Defraggler reached end of life, last build was August 2020, and the publisher no longer distributes, sells or supports it. Resolve this current page/EOL inconsistency and exact publisher artifact availability before adding a new-download operation.",
+      "Portable": "Not listed on current publisher builds page.",
+      "LicenseDisposition": "No legal blocker is asserted; source availability and technical lifecycle are the current gates."
+    },
+    {
+      "Product": "Recuva",
+      "ProductPage": "https://www.ccleaner.com/recuva/builds",
+      "Finding": "Current official builds page lists a standard installer only; it does not expose an exact version in the page-reader text.",
+      "Portable": "Not listed by current publisher page; do not substitute third-party or self-converted builds.",
+      "LicenseDisposition": "No migration blocker. Record owner-specific status as informational NeedsReview after exact package version and catalog ID are pinned."
+    },
+    {
+      "Product": "Speccy",
+      "ProductPage": "https://www.ccleaner.com/speccy/download",
+      "BuildsPage": "https://www.ccleaner.com/speccy/builds",
+      "Finding": "Official download page identifies Speccy 1.34.84 dated 2026-06-22 and says Free and Professional are for home use only. Official builds page lists a standard installer only.",
+      "Portable": "Not listed by current publisher page; do not substitute third-party or self-converted builds.",
+      "LicenseDisposition": "No migration blocker. Record owner-specific status as informational NeedsReview after exact package version and catalog ID are pinned."
+    }
+  ],
+  "Acquisition": {
+    "ArtifactBytesAcquired": false,
+    "PublisherPageRequestsAttempted": 4,
+    "DefenderChanged": false,
+    "InstallerExecuted": false,
+    "PublisherPageRequestsFailedBeforeHttp": "DNS resolution failed for www.ccleaner.com",
+    "DigestsRecorded": false,
+    "LocalOfficialArtifactsFound": false,
+    "CatalogChanged": false
+  },
+  "VmAccess": "Get-VM for RIDE-Win11-Test and RIDE-Srv2025Test returned CIM access denied before VM/checkpoint inspection.",
+  "Outcome": {
+    "Partial": [
+      "No new package operations added because exact publisher artifacts and immutable version pins are not locally available."
+    ],
+    "Deferred": [
+      "Exact publisher installer/portable bytes, versions, signatures and hashes; Defraggler source-page/EOL conflict; product lifecycle, privacy/feature and Windows 11/Server acceptance."
+    ],
+    "Resolved": [
+      "Confirmed current official product-page distribution listings for four independent product outcomes.",
+      "Recorded Defraggler publisher EOL and the conflict between its builds-page listing and EOL announcement.",
+      "Confirmed current publisher pages list no portable build for Recuva or Speccy; CCleaner portable is listed but its exact current version is not verified."
+    ],
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Retired": [],
+    "LegalBlocker": false,
+    "Excluded": [],
+    "EstimateAdjustment": "Unchanged; publisher distribution review closes no legacy product outcome."
+  }
+}

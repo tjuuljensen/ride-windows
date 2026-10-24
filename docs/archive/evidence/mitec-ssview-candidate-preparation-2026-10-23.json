@@ -1,0 +1,64 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-10-23T16:04:00Z",
+  "PackageId": "package.mitec-ssview",
+  "PackageVersion": "4.1.2",
+  "DownloadUri": "https://www.mitec.cz/wp/files/SSView.zip",
+  "ProductUri": "https://www.mitec.cz/wp/mssv/",
+  "LicenseUri": "https://www.mitec.cz/wp/support/",
+  "RetainedArchive": ".local/collection-inventory-20261017/SSView.zip",
+  "ArchiveLength": 3572814,
+  "ArchiveSha256": "e9d05067745a4f114b22dc798c7fa99017302b39bc8798853ed1bfd4c44d27ab",
+  "PublisherDigestVerified": false,
+  "ArchiveSha256RecheckedThisRun": true,
+  "SelectedMemberHashRecheckedFromZipStreamThisRun": true,
+  "SelectedMembers": [
+    {
+      "Path": "SSView.exe",
+      "Length": 2706280,
+      "Sha256": "2620d85bf64e9f527740921a2a905753ac571d532dfc56ce7e91f629bbab6c0c",
+      "Architecture": "x86",
+      "FileVersion": "4.1.2.0"
+    }
+  ],
+  "ExcludedArchiveMembers": ["ZLibCodec.dll", "ZLibCodec.dpr", "test.ss"],
+  "ReviewDisposition": "Exact-version local NeedsReview record is informational; it does not block direct-download package planning. MiTeC describes unregistered use as non-commercial and lists paid license tiers; owner-specific entitlement is not determined by this record.",
+  "CandidateState": {
+    "SupportedTargets": [],
+    "CandidateTargets": ["Windows 11"],
+    "PendingAcceptance": true,
+    "SsviewSpecificPackageLifecycleTests": "Not run",
+    "RegressionTests": {
+      "Suites": ["ApplicationPackages.Tests.ps1", "LicenseReviews.Tests.ps1"],
+      "Passed": 122,
+      "Failed": 0,
+      "Skipped": 0,
+      "TestRegistryEnabled": false,
+      "TemporaryFiles": "Redirected under .local"
+    }
+  },
+  "PayloadExecuted": false,
+  "ArchiveExtractedThisRun": false,
+  "OptionalCodecLoadedOrBuilt": false,
+  "StructuredStorageOpenedOrModified": false,
+  "NativeAcceptance": false,
+  "FreshUacPrompts": 0,
+  "VmRuns": 0,
+  "DefenderBlockedFilesTouched": false,
+  "Remaining": [
+    "Synthetic-only viewer behavior and byte-exact recovery",
+    "Preservation of unowned activation, configuration and plugins",
+    "Windows 11 lifecycle acceptance after registered VM and checkpoint access",
+    "Optional codec, source and sample remain excluded and require separate review before selection"
+  ],
+  "Outcomes": {
+    "WholeLegacyOutcomesResolved": 0,
+    "RetiredOutcomes": 0,
+    "NewExclusions": 0,
+    "PartialCandidateOutcomes": 1
+  },
+  "Ranges": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+  "ExactRangeEndpoints": "142-196",
+  "RoundedTotal": "145-200/about 170",
+  "EstimateReason": "SSView advances from static source review to an exact pinned package candidate, but it closes no legacy outcome; no range adjustment is warranted."
+}

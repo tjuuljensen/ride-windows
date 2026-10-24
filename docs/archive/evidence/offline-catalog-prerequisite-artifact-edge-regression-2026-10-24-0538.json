@@ -1,0 +1,58 @@
+{
+  "SchemaVersion": 1,
+  "Batch": "Catalog prerequisite artifact-edge execution",
+  "StartedAtUtc": "2026-10-24T05:34:05Z",
+  "FinishedAtUtc": "2026-10-24T05:38:52Z",
+  "SourceCommit": "f0f2c4cc4da1bfd121ed967340eff897652231ac",
+  "ChangedBehavior": "An offline artifact dependency edge is accepted only when it identifies the consumer's direct catalog PrerequisitePackageId with a matching earlier package operation and included payload.",
+  "RejectionsRetained": [
+    "Unmatched artifact dependency",
+    "Artifact dependency without a catalog prerequisite",
+    "Multiple artifact dependencies for one direct prerequisite operation",
+    "Catalog prerequisite not ordered before consumer",
+    "Missing or omitted prerequisite artifact"
+  ],
+  "Validation": {
+    "Pester": {
+      "Status": "Passed",
+      "Passed": 101,
+      "Failed": 0,
+      "Skipped": 0,
+      "Suites": [
+        "tests/OfflineExecution.Tests.ps1",
+        "tests/OfflineProfileCoverage.Tests.ps1"
+      ],
+      "PowerShell": "7.6.5",
+      "Pester": "5.7.1",
+      "TestRegistryEnabled": false
+    },
+    "WindowsPowerShell51Parser": {
+      "Status": "Passed",
+      "Files": [
+        "modules/RIDE.Engine.psm1",
+        "tests/OfflineExecution.Tests.ps1"
+      ]
+    },
+    "RepositoryValidation": {
+      "Status": "Passed",
+      "Operations": 407,
+      "Groups": 8,
+      "Profiles": 5,
+      "PowerShellFiles": 269,
+      "GeneratedOperationDocumentationCurrent": true
+    },
+    "GitDiffCheck": "Passed"
+  },
+  "Safety": {
+    "PackageOrInstallerExecuted": false,
+    "NetworkAcquisitionPerformed": false,
+    "WindowsStateChanged": false,
+    "VmAccessed": false
+  },
+  "Acceptance": {
+    "Windows11": "Pending VM access",
+    "WindowsServer2025": "Pending VM access",
+    "LegacyOutcomeClosure": [],
+    "EstimateChange": "None"
+  }
+}

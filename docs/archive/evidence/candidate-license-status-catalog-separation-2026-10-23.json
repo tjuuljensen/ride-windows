@@ -1,0 +1,47 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "ObservedAtUtc": "2026-10-23T10:04:00Z",
+  "Batch": "Separate local package license-review status from shared candidate names",
+  "CatalogChanges": [
+    {"Id":"package.ntcore-4gb-patch","Version":"1.0.0.1","PreviousName":"NTCore 4GB Patch (portable; licence review pending)","Name":"NTCore 4GB Patch (portable candidate)"},
+    {"Id":"package.mitec-uuid-generator","Version":"1.0.0","PreviousName":"MiTeC UUID Generator (portable; licence review pending)","Name":"MiTeC UUID Generator (portable candidate)"},
+    {"Id":"package.mitec-certificate-generator","Version":"1.0.0","PreviousName":"MiTeC Certificate Generator (portable; licence review pending)","Name":"MiTeC Certificate Generator (portable candidate)"},
+    {"Id":"package.mitec-certificate-information","Version":"1.5.0","PreviousName":"MiTeC Certificate Information (portable; licence review pending)","Name":"MiTeC Certificate Information (portable candidate)"},
+    {"Id":"package.mitec-sqlite-query","Version":"3.2.0","PreviousName":"MiTeC SQLite Query (portable; licence review pending)","Name":"MiTeC SQLite Query (portable candidate)"}
+  ],
+  "LocalReviewStore": {
+    "File": ".local/license-reviews.json",
+    "StatusesVerified": [
+      {"Id":"package.ntcore-4gb-patch","Version":"1.0.0.1","Status":"NeedsReview"},
+      {"Id":"package.mitec-uuid-generator","Version":"1.0.0","Status":"NeedsReview"},
+      {"Id":"package.mitec-certificate-generator","Version":"1.0.0","Status":"NeedsReview"},
+      {"Id":"package.mitec-certificate-information","Version":"1.5.0","Status":"NeedsReview"},
+      {"Id":"package.mitec-sqlite-query","Version":"3.2.0","Status":"NeedsReview"}
+    ],
+    "ReviewStatusInCatalog": false
+  },
+  "Acceptance": {
+    "AllFivePendingAcceptance": true,
+    "AllFiveSupportedTargetsEmpty": true,
+    "PackageExecuted": false,
+    "WindowsOrDefenderStateChanged": false
+  },
+  "Validation": {
+    "CatalogPester": {"Discovered":73,"Selected":72,"Passed":72,"Failed":0,"Skipped":0,"NotRun":1,"NotRunReason":"WindowsIntegration excluded"},
+    "CatalogExportCheck": "Passed",
+    "RepositoryValidation": "Passed; 376 operations, 8 groups, 5 profiles, 251 PowerShell files",
+    "GitDiffCheck": "Passed"
+  },
+  "Outcome": {
+    "Resolved": ["Shared package display names no longer present local license-review status as a package-migration state."],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Technical lifecycle, recovery and supported-target acceptance remain pending for these packages."],
+    "Partial": ["Five portable candidates retain exact version-matched local NeedsReview records; no package outcome closed."],
+    "GroupRanges": ["38-58","52-67","19-24","25-35","8-12"],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateAdjustment": "Unchanged; this catalog wording correction does not close legacy runtime outcomes."
+  }
+}

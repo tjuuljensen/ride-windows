@@ -1,0 +1,31 @@
+{
+  "RecordedAtUtc": "2026-10-24T04:24:00Z",
+  "Scope": "Expanded local regression for the read-only OpenSSH Server observation candidate",
+  "FocusedPester": {
+    "File": "tests/OpenSshServerObservation.Tests.ps1",
+    "Discovered": 7,
+    "Passed": 7,
+    "Failed": 0,
+    "Skipped": 0,
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryPluginEnabled": false
+  },
+  "StaticValidation": {
+    "PowerShellParser": "Passed for module and focused test file under PowerShell 7.6.5",
+    "RepositoryValidator": "Passed: 407 operations, 8 groups, 5 profiles, 266 PowerShell files"
+  },
+  "Safety": {
+    "NativeCapabilityOrServiceQueried": false,
+    "FirewallQueriedOrChanged": false,
+    "ServerDataRead": false,
+    "VmOrCheckpointInspected": false,
+    "WindowsStateChanged": false
+  },
+  "Disposition": {
+    "Resolved": ["Expanded mock coverage for target mismatch, provider failure, capability/service separation, exact capability identity, and bounded synthetic file hashing"],
+    "Deferred": ["State-changing lifecycle", "Exact source and recovery", "Catalog/profile integration", "Windows 11 and Server 2025 target acceptance; current Hyper-V CIM access remains denied"],
+    "LegacyOutcomesClosed": 0
+  },
+  "EstimateImpact": "No legacy outcome closed; settings 38-58, packages 52-67, components 19-24, files/assets 25-35, maintenance 8-12; exact 142-196 and rounded 145-200/about 170."
+}

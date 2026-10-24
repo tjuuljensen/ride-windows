@@ -1,0 +1,41 @@
+{
+  "RecordedAtUtc": "2026-10-24T15:37:00Z",
+  "Batch": "JoeWare FindExpAcc, GCChk and UserName source review",
+  "PublisherVersionList": "https://joeware.net/freetools/versions.txt",
+  "Products": [
+    {
+      "Name": "FindExpAcc",
+      "Version": "01.01.00",
+      "Date": "2005-06-19",
+      "ProductPageIdentity": "1.1.0; June 19, 2005",
+      "IdentityReconciled": true,
+      "Behavior": "Queries expired accounts and accounts with expired/expiring passwords; read-only reporting.",
+      "PublisherPlatforms": ["Windows 2000", "Windows Server 2003", "Windows XP"],
+      "Windows11SupportEstablished": false
+    },
+    {
+      "Name": "GCChk",
+      "Version": "01.03.00",
+      "Date": "2004-08-30",
+      "ProductPageIdentity": "1.3.0; August 30, 2004",
+      "IdentityReconciled": true,
+      "Behavior": "Read-only query of a Global Catalog to flag possible lingering/consistency issues; incomplete directory-read permissions can appear as missing GUIDs.",
+      "PublisherPlatforms": ["Windows 2000", "Windows Server 2003", "Windows XP"],
+      "Windows11SupportEstablished": false
+    },
+    {
+      "Name": "UserName",
+      "Version": "01.00.00",
+      "Date": "2002-10-08",
+      "ProductPageIdentity": "1.0.0; October 8, 2002",
+      "IdentityReconciled": true,
+      "Behavior": "Reads current user's directory identity formats; optional command/batch-file output.",
+      "PublisherPlatforms": ["Windows 2000", "Windows Server 2003", "Windows XP"],
+      "Windows11SupportEstablished": false
+    }
+  ],
+  "Artifacts": { "Downloaded": false, "SHA256": null, "Members": null, "FormSubmitted": false },
+  "Boundaries": { "ADContact": false, "Execution": false, "Vm": false, "WindowsStateChanged": false },
+  "Disposition": { "SourceIdentityResolved": true, "CandidateAdmission": "Deferred pending exact publisher archives and member inventory.", "LicenseBlocker": false, "TechnicalAcceptance": "Isolated synthetic AD/user fixture; no Windows 11 support inference.", "LegacyOutcomesClosed": 0 },
+  "Estimate": { "Settings": "37-57", "Packages": "52-67", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "ExactTotal": "141-195", "RoundedTotal": "140-195/about 170", "Adjustment": "Unchanged; metadata-only source review closes no package outcome." }
+}

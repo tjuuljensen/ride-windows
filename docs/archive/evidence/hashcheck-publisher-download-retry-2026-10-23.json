@@ -1,0 +1,52 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "Batch": "HashCheck 2.6.3 publisher artifact acquisition retry",
+  "PublisherRelease": {
+    "Uri": "https://github.com/idrassi/HashCheck/releases/tag/v2.6.3",
+    "Version": "2.6.3",
+    "ReleaseNotesVerified": true,
+    "AssetListAvailable": false
+  },
+  "PublisherAssetLead": {
+    "Uri": "https://github.com/idrassi/HashCheck/releases/download/v2.6.3/HashCheckSetup-v2.6.3.0.exe",
+    "SourceOfReportedDigest": "https://community.chocolatey.org/packages/hashcheck/2.6.3",
+    "ReportedSha256": "CD890774839177B234A1165FD459DDEB830274EF7D81B289DDB70D43AE5983FA",
+    "Disposition": "Unverified third-party lead only; not a catalog pin."
+  },
+  "AcquisitionAttempt": {
+    "Method": "Windows curl.exe to the exact publisher release-asset URL",
+    "CurlExitCode": 6,
+    "Error": "Could not resolve host: github.com",
+    "DestinationExistedBeforeAttempt": false,
+    "DownloadedBytes": false,
+    "OutputFileCreated": false,
+    "Sha256Measured": false,
+    "AuthenticodeChecked": false
+  },
+  "Validation": {
+    "ReadOnlyVmCheck": "Get-VM -Name RIDE-Win11-Test returned CIM access denied",
+    "InstallerExecuted": false,
+    "DefenderBlockedToolsTouched": false,
+    "DefenderChanged": false,
+    "FreshUacPrompts": 0,
+    "VmAcceptanceRun": false
+  },
+  "Disposition": {
+    "License": "BSD-3-Clause; no migration blocker for RIDE download/install use.",
+    "PackageOperationAdded": false,
+    "SupportedTargets": [],
+    "LegacyOutcomeClosed": false,
+    "Remaining": [
+      "Acquire exact publisher bytes and measure SHA-256",
+      "Verify Authenticode signer and inspect installer behavior",
+      "Test lifecycle and recovery on disposable Windows targets"
+    ]
+  },
+  "Estimates": {
+    "GroupRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "ReasonUnchanged": "The attempt failed before transfer and resolved no package or legacy outcome."
+  }
+}

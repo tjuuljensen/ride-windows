@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-23T15:18:00Z",
+  "batch": "BloodHoundCECollectorCompatibility",
+  "backend": {
+    "product": "BloodHound Community Edition",
+    "version": "9.8.0",
+    "tag": "v9.8.0",
+    "source": "https://raw.githubusercontent.com/SpecterOps/BloodHound/v9.8.0/dockerfiles/bloodhound.Dockerfile",
+    "sourceObservedAtUtc": "2026-10-23T15:16:00Z",
+    "sha256": null,
+    "sourceBytesAcquired": false
+  },
+  "collectors": [
+    {
+      "product": "SharpHound",
+      "version": "v2.17.0",
+      "backendPin": "ARG SHARPHOUND_VERSION=v2.17.0",
+      "windowsAsset": "SharpHound_v2.17.0_windows_x86.zip",
+      "checksumAsset": "SharpHound_v2.17.0_windows_x86.zip.sha256",
+      "architecture": "x86",
+      "license": "GPL-3.0",
+      "licenseUri": "https://github.com/SpecterOps/SharpHound/blob/v2.17.0/LICENSE",
+      "sourceUri": "https://github.com/SpecterOps/SharpHound/releases/tag/v2.17.0"
+    },
+    {
+      "product": "AzureHound",
+      "version": "v3.1.1",
+      "backendPin": "ARG AZUREHOUND_VERSION=v3.1.1",
+      "windowsAsset": "AzureHound_v3.1.1_windows_amd64.zip",
+      "checksumPattern": "<Windows amd64 ZIP>.sha256",
+      "architecture": "x64",
+      "license": "GPL-3.0-or-later",
+      "licenseUri": "https://github.com/SpecterOps/AzureHound/blob/v3.1.1/LICENSE.md",
+      "sourceUri": "https://github.com/SpecterOps/AzureHound/releases/tag/v3.1.1"
+    }
+  ],
+  "compatibility": {
+    "status": "Verified from the CE v9.8.0 backend build source",
+    "meaning": "CE v9.8.0 embeds SharpHound 2.17.0 and AzureHound 3.1.1 for its collector API.",
+    "notEstablished": ["Local ZIP bytes or checksum values", "RIDE package ownership/lifecycle", "Runtime interoperability with an actual CE 9.8.0 backend", "Collection behavior"]
+  },
+  "decisions": {
+    "selectedByUser": "CE 9.8.0 and optional SharpHound/AzureHound collector management",
+    "backendDeployment": "Deferred separately per Q19; no Docker, WSL, Windows feature, credential, data or service setup is authorized by collector selection.",
+    "execution": "No collector or backend was run.",
+    "vmAccessed": false,
+    "windowsStateChanged": false,
+    "estimateRanges": {
+      "settings": "38-58",
+      "packages": "52-67",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "142-196",
+      "roundedTotal": "145-200/about 170"
+    }
+  }
+}

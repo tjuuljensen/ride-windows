@@ -131,6 +131,21 @@ Describe 'Explicit GitHub PAT credentials' {
       Should -Invoke Invoke-RideGitHubAuthenticatedHttp -Exactly 1
     }
 
+    It 'resolves an exact tagged release after confirming its repository is public' {
+      Mock Invoke-RideGitHubAuthenticatedHttp {
+        if ($Uri -eq 'https://api.github.com/user') { $json = '{"id":123}' }
+        elseif ($Uri -eq 'https://api.github.com/repos/publisher/app/releases/tags/v2.17.0') { $json = '{"tag_name":"v2.17.0","assets":[]}' }
+        else { $json = '{"private":false}' }
+        [pscustomobject]@{ StatusCode = 200; Content = $json; Headers = @{ 'X-RateLimit-Remaining' = '4998' } }
+      }
+      Set-RideGitHubCredential public -Token $script:Secret -ExpiresAtUtc $script:Now.AddHours(1)
+      $result=Get-RideAuthenticatedGitHubRelease 'https://api.github.com/repos/publisher/app/releases/tags/v2.17.0' public
+      $result.Release.tag_name | Should -BeExactly 'v2.17.0'
+      $result.Provenance.ApiUri | Should -BeExactly 'https://api.github.com/repos/publisher/app/releases/tags/v2.17.0'
+      Should -Invoke Invoke-RideGitHubAuthenticatedHttp -Exactly 1 -ParameterFilter {$Uri -ceq 'https://api.github.com/repos/publisher/app/releases/tags/v2.17.0'}
+      Should -Invoke Invoke-RideGitHubAuthenticatedHttp -Exactly 1 -ParameterFilter {$Uri -ceq 'https://api.github.com/repos/publisher/app'}
+    }
+
     It 'lists metadata without calling DPAPI resolution' {
       Set-RideGitHubCredential public -Token $script:Secret -ExpiresAtUtc $script:Now.AddHours(1)
       Mock Get-RideGitHubCredentialContext { throw 'Must not decrypt' }

@@ -1,0 +1,26 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-23T16:34:00Z",
+  "Test": "tests/MiTeCInterbaseQuery.Tests.ps1",
+  "PowerShellVersion": "7.6.5",
+  "PesterVersion": "5.7.1",
+  "Passed": 2,
+  "Failed": 0,
+  "Skipped": 0,
+  "TestRegistryEnabled": false,
+  "TemporaryDirectory": ".local/pester-temp",
+  "SourceEvidence": "docs/archive/evidence/mitec-interbase-query-candidate-preparation-2026-10-23-1632.json",
+  "Variants": ["x64", "x86"],
+  "Coverage": [
+    "Catalog pins and architecture-specific file selections",
+    "Repeat offline staging from generated inert ZIPs",
+    "Unselected executable and unrelated file are excluded",
+    "Snapshot, uninstall and restore preserve an unowned note"
+  ],
+  "PayloadExtractedOrExecuted": false,
+  "DatabaseOrServiceConnected": false,
+  "FreshUacPrompts": 0,
+  "VmRuns": 0,
+  "DefenderBlockedFilesTouched": false,
+  "Outcome": "Local package file lifecycle covered; whole legacy behavior and Windows acceptance remain pending"
+}

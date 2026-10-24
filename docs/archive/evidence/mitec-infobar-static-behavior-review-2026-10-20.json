@@ -1,0 +1,64 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-20",
+  "Scope": "Static product-page, installer metadata, licensing and data-effect review of MiTeC InfoBar 4.6.2; installer payload not extracted or executed",
+  "PublisherEvidence": {
+    "ProductPage": {
+      "Uri": "https://www.mitec.cz/wp/mib/",
+      "Snapshot": ".local/collection-inventory-20261017/mitec-product-mib.html",
+      "Sha256": "1ee6d57c0e244b40e78698792d9689f3956e3db68f85c936731649100dc213df",
+      "Version": "4.6.2, dated 2025-04-03",
+      "PublishedBehavior": "Taskbar-like auto-hide panel with system uptime, power, disk, network, CPU/process/memory and keyboard-lock information; embedded desktop explorer, calendar, calculator, coding tools, notepad, weather/forecast, RSS reader, system/process monitors and network-interface list. The publisher history mentions delayed logon startup, an OpenWeather Map API key, RSS/Atom support, selected weather location, network access detection and Explorer-crash recovery. Exact network traffic, startup writes, data retention and recovery behavior are not established by the page.",
+      "OperatingSystems": "Publisher lists Windows Vista-11 and Windows Server 2008-2025; this is not RIDE target acceptance.",
+      "LicenseObservation": "The product page says freeware for private, educational and non-commercial purposes."
+    },
+    "TermsPage": {
+      "Uri": "https://www.mitec.cz/wp/support/",
+      "Snapshot": ".local/collection-inventory-20261017/mitec-support.html",
+      "Sha256": "00c55ee6e356a5b3422234dc74a92ffef09f83d655d4cd4965dcffbc3f2b066b",
+      "Observation": "The current support EULA separately describes non-commercial freeware and named-user/build-machine, team, site and trial licensing. Local intended-use rights and redistribution remain unresolved."
+    }
+  },
+  "PinnedInstaller": {
+    "Path": ".local/remaining-collections-20261017/InfoBar_Setup.exe",
+    "DownloadUri": "https://www.mitec.cz/wp/files/InfoBar_Setup.exe",
+    "Length": 16746064,
+    "Sha256": "6808673eb693870150e06b650e27b89785c8a21a01b2b067891685563e549a3a",
+    "PublisherDigestVerified": false,
+    "StaticOuterMetadata": {"Machine":"014c","FileVersion":"blank","ProductVersion":"4.6.2","CompanyName":"Michal Mutl"},
+    "PreviousBoundedListing": "PE installer with 18 listed entries; inner payload and actions remain unknown because extraction/execution was out of scope."
+  },
+  "ReviewFindings": [
+    "The publisher page and frozen installer/page pins match the inventory, but the executable installer exposes no established application file/version inventory in this review. Product version 4.6.2 is the publisher-page version and installer ProductVersion metadata, not verified installed application behavior.",
+    "The feature set spans host monitoring, process/network views, RSS/weather services, a location preference, and coding tools. Treat process names, interface details, location, RSS content and any credentials as potentially sensitive; do not configure real feeds, API keys or locations in acceptance.",
+    "Delayed logon startup and Explorer-crash recovery are version-history statements, not verified registry/task actions or recovery guarantees. Exact installer scope, startup integration, cleanup, internet requests and component notices remain unknown."
+  ],
+  "SafetyAndAcceptance": {
+    "InstallerAndPageHashesMatchFrozenInventory": true,
+    "InstallerExtracted": false,
+    "InstallerExecuted": false,
+    "HostDataOrProcessesReadByProduct": false,
+    "NetworkRequestsMade": false,
+    "FreshUacPrompts": 0,
+    "VmRuns": 0,
+    "DefenderBlockedToolsTouched": false,
+    "HostOrControllerChanged": false,
+    "DefenderChanged": false
+  },
+  "MigrationDisposition": {
+    "WholeLegacyOutcomesClosed": 0,
+    "RetiredOutcomes": 0,
+    "NewExclusions": 0,
+    "Resolved": "Publisher-described features, page version, noncommercial terms and pinned installer metadata are recorded.",
+    "Partial": "Installer scope, startup/recovery behavior, local entitlement, component notices, network requests, host-data handling, UI and activation remain unverified.",
+    "Deferred": [
+      "Owner-specific MiTeC use and installer redistribution assessment",
+      "Review installer actions and exact component notices from a safely retained source before proposing activation",
+      "Any later acceptance needs an isolated guest, synthetic host data, no real RSS/weather credentials/location, and exact startup/removal recovery checks"
+    ],
+    "EstimateRanges": ["38-58", "56-71", "20-25", "25-35", "8-12"],
+    "ExactTotal": "147-201",
+    "RoundedTotal": "145-200/about 175",
+    "EstimateReason": "The public feature surface and installer metadata are clearer, but the installer actions and complete user-visible/runtime outcome remain unknown; no estimate deduction is justified."
+  }
+}

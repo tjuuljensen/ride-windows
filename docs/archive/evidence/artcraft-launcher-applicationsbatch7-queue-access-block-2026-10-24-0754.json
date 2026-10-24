@@ -1,0 +1,58 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T07:54:00Z",
+  "Topic": "ArtCraft Launcher ApplicationsBatch7 registered queue access",
+  "Dispatch": {
+    "Configuration": "RIDE-Win11-Test existing registered configuration",
+    "IntegrationSuite": "ApplicationsBatch7",
+    "AttemptRunId": "cef30af6937b48c19ec79a311f6b2a56",
+    "Status": "Failed before enqueue",
+    "Failure": "Access denied creating the temporary JSON request file in the protected ProgramData pending queue.",
+    "FreshUacRequested": false,
+    "VMOrCheckpointChanged": false,
+    "PendingQueueAfterAttempt": 0,
+    "RunningQueueAfterAttempt": 0
+  },
+  "PriorRequest": {
+    "RunId": "158f5e1bd21c496e8048e71982df81e6",
+    "Suite": "ApplicationsBatch1",
+    "Status": "Failed",
+    "FinishedAtUtc": "2026-10-24T07:49:53Z",
+    "Failure": "Gpg4win current-user installer exited -1073741819 after Thunderbird passed; guest aggregate status Failed.",
+    "CleanupError": null,
+    "CollectionError": null,
+    "ExitCodeHex": "0xC0000005",
+    "ExitCodeName": "STATUS_ACCESS_VIOLATION",
+    "CauseKnown": false,
+    "ExitCodeReference": "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55"
+  },
+  "Disposition": {
+    "Batch7RoutingAndLocalTestsRemainValid": true,
+    "SysinternalsLicenseBlocker": false,
+    "DefenderDetectedUtilitiesRemainSeparateExclusions": true,
+    "LicenseReviewIsNotATechnicalMigrationGate": true
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "ApplicationsBatch7 Windows 11 launcher lifecycle/recovery",
+      "Gpg4win installer crash diagnosis and native acceptance",
+      "Additional ApplicationsBatch1 acceptance"
+    ],
+    "Partial": [
+      "Batch7 remains locally routed but has no guest result; ApplicationsBatch1 did not pass aggregate acceptance"
+    ],
+    "EstimateRangesUnchanged": true,
+    "EstimateRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170"
+  }
+}

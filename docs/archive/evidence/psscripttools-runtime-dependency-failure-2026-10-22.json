@@ -1,0 +1,53 @@
+{
+  "SchemaVersion": 1,
+  "RunDate": "2026-10-22",
+  "IntegrationSuite": "PSScriptTools",
+  "Target": "Windows 11 Enterprise Evaluation build 26300",
+  "Runs": [
+    {
+      "RunId": "dcc6cfd5cf2e489cb9e29fa0f36f989c",
+      "Status": "Failed",
+      "Finding": "Portable lifecycle passed. Runtime child error details were recorded, but the parent process exit code was null and caused a false failure for the expected missing-dependency case."
+    },
+    {
+      "RunId": "72e9fc489f914e2ea0552f893b28a21c",
+      "Status": "Failed",
+      "PortableLifecycle": "Passed; exact file restoration completed",
+      "Runtime": {
+        "Status": "Failed",
+        "ExpectedCases": 4,
+        "Completed": 3,
+        "Passed": 1,
+        "WindowsPowerShell51PresentDependency": {
+          "Status": "Failed",
+          "ProcessExitCode": 1,
+          "ErrorClass": "System.MissingMemberException",
+          "ErrorMessage": "The required module Microsoft.PowerShell.Threadjob is not loaded.",
+          "CimEnumerationJob": "NotRun",
+          "CimNamespaceContentsCollected": false
+        },
+        "WindowsPowerShell51MissingDependency": {
+          "Status": "Passed",
+          "ProcessExitCode": 0,
+          "Result": "Import failed at the declared missing ThreadJob dependency before module side effects; run-local TEMP was isolated."
+        },
+        "PowerShell7": "Unavailable; pwsh.exe is not installed in the guest."
+      },
+      "DependenciesInstalled": false,
+      "FinalVmState": "Off; clean checkpoint restored"
+    }
+  ],
+  "Disposition": "Keep PSScriptTools unsupported and pending. The file lifecycle is accepted on Windows 11; runtime dependencies were not installed, Windows PowerShell 5.1 import requires Microsoft.PowerShell.Threadjob, and PowerShell 7 runtime acceptance remains unavailable.",
+  "LegacyOutcomeAccounting": {
+    "WholeLegacyOutcomesResolved": [],
+    "RetiredOutcomes": [],
+    "ExcludedOutcomes": [],
+    "MappingNote": "Runtime and dependency ownership remain unresolved; portable staging alone closes no whole legacy outcome."
+  },
+  "EstimatedRemainingWork": {
+    "GroupRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactRangeEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateReason": "The failed runtime/dependency gate does not close the package or a whole legacy outcome."
+  }
+}

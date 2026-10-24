@@ -3354,6 +3354,20 @@ Keep keyboard-remapping tools as optional alternatives, not dependencies of the
 preferred native solution. No catalog, profile, handler, host settings or migration
 estimate changes accompany this revised investigation direction.
 
+### F1 current keyboard-source recheck, 2026-10-24
+
+Microsoft Support's current [keyboard tips and tricks](https://support.microsoft.com/en-us/windows/hardware/input-devices/windows-keyboard-tips-and-tricks)
+lists F1 as a common app shortcut for Help and cautions that common shortcuts
+may not work in every app. It does not identify File Explorer or confirm its
+behavior on Windows 11 build 26300. A 2022 Microsoft Community answer says F1
+in File Explorer opens a browser help page, but that answer is a community
+observation rather than current product documentation. Together with the user's
+reported experience, these sources justify a targeted Windows 11 observation;
+they do not replace it. Preserve Explorer behavior and unrelated-application F1
+as separate assertions. Do not add a catalog operation or default-profile entry
+until the disposable-target behavior and a safe, exact-restore control pass.
+See the [structured source recheck](../archive/evidence/f1-file-explorer-current-source-recheck-2026-10-24.json).
+
 ### Accepted Windows-native F1 investigation decision, 2026-10-11
 
 The user approved retaining Stop F1 opening Windows Help in Explorer and on the
@@ -9178,3 +9192,571 @@ partial; PowerShell 7 prerequisite and native startup remain pending. Persistent
 PATH, directory provisioning, WindowsApps and explicit profile/resource deferrals
 remain separate. All five ranges stay **38-58 / 56-71 / 20-25 / 25-35 / 8-12**,
 rounded **145-200/about 175**; this failed prerequisite closes no legacy outcome.
+
+## B03 user-bin local prerequisite runner preparation, 2026-10-22
+
+Updated the checkpoint-backed profile runner so `-Scenario UserBinPath` may use
+the same optional `-PowerShellArtifactPath` as the Colors scenario. When the
+Windows 11 guest lacks PowerShell 7, the guest validates that the artifact and
+MSI are under the current run directory, the URI is an official PowerShell
+GitHub release MSI, its SHA-256 matches, and Authenticode identifies Microsoft
+Corporation. It then uses quiet `msiexec` with `/norestart` and `ADD_PATH=1`.
+The controller retains the prerequisite result and follows its existing reboot,
+evidence collection and pinned-checkpoint recovery path. No guest UAC policy is
+changed and no network acquisition is available in this path. If PowerShell 7
+is already installed, no prerequisite is installed; if absent and no local
+artifact is supplied, preparation fails before startup acceptance.
+
+The three edited PowerShell files parsed successfully. The focused UserBinPath
+profile lifecycle, profile metadata and runner boundary suites passed **65/65**;
+these are local checks, not VM acceptance.
+The session cannot inspect RIDE-Win11-Test through Hyper-V CIM or write its
+protected registered queue, so this runner was not executed in the VM and no
+startup behavior is accepted. Existing checkpoint state is unverified. No
+whole legacy outcome was resolved, retired or excluded; B03 remains partial.
+All five estimate ranges remain **38-58 / 54-69 / 20-25 / 25-35 / 8-12**,
+exact **145-199**, rounded **145-200/about 170**. The former prerequisite
+failure evidence remains available above as the reason for adding this path.
+
+Evidence: [sanitized runner preparation record](../archive/evidence/user-bin-local-prerequisite-runner-preparation-2026-10-22.json).
+## Hash value context-menu source follow-up, 2026-10-22
+
+The [upstream tutorial](https://www.elevenforum.com/t/add-hash-value-to-context-menu-of-files-in-windows-11.22212/)
+was updated 2026-09-25. It describes an all-user file verb, requires
+administrator approval for adding or removing it, and notes that Windows 11
+places it under Show more options. Its forum thread documents a double-space
+issue in an earlier command form and an apostrophe regression in a suggested
+workaround; the author updated the tutorial. The retained commands still
+rebuild the path from echoed text, so unusual file-name behavior needs direct
+Explorer testing. They also keep each command window open for one hour.
+
+A synthetic local probe passed a filename containing double spaces, an
+apostrophe, ampersand, percent sign and Unicode directly to
+`Get-FileHash -LiteralPath`. Windows PowerShell 5.1 accepts all seven listed
+algorithms. PowerShell 7.6.5 accepts MD5, SHA1, SHA256, SHA384 and SHA512, and
+rejects MACTripleDES and RIPEMD160 at parameter validation. The supplied command
+invokes `powershell`, which selected Windows PowerShell 5.1 in the test
+environment. This proves local cmdlet handling only; it does not validate
+Explorer substitution or menu behavior. The attached `.reg` was not executed,
+no user file was read, and no registry or VM was changed.
+
+Resolved: current upstream scope/placement claims, local cmdlet algorithm
+availability, and adaptation source requirements. Partial: the new candidate
+implementation; current Explorer path behavior remains unverified.
+Deferred: Windows 11 GUI acceptance, including Shell path substitution, unusual
+filenames, menu placement, repeat apply, removal and exact saved-run restore.
+No supported target is claimed. This requested v3 setting is additional scope,
+not a completed legacy migration. The five migration ranges remain
+**38-58 / 53-68 / 20-25 / 25-35 / 8-12**, exact **144-198**, rounded
+**145-200/about 170**. See the [sanitized evidence](../archive/evidence/hash-value-submenu-source-review-2026-10-22.json)
+and [source notes](../../examples/hash-context-menu/README.md).
+
+## Hash value context-menu candidate implementation, 2026-10-22
+
+Added `tools/Get-RideHashValue.ps1` and candidate operation
+`windows.hash-value-context-menu`. The helper receives the selected path through
+an argument and calls `Get-FileHash -LiteralPath`; Windows PowerShell 5.1 is
+explicitly selected because it supports the requested MACTripleDES and
+RIPEMD160 algorithms that PowerShell 7 rejects. Results appear together in one
+message box, including errors, without the upstream one-hour console sleep or
+writing a report. The operation uses 17 coordinated per-user registry values
+through `RegistryValueSet`, with the existing exact saved-state capture and
+restore behavior. All dynamic command-path tokens are restricted and resolved
+by the handler; the disabled state is an empty registry set.
+
+The export check passed and repository validation passed for 373 operations,
+eight groups, five profiles and 243 PowerShell files. The focused Pester suite
+passed 5 tests with one skip in PowerShell 7 and 6/6 in Windows PowerShell 5.1.
+Pester's optional TestRegistry plugin was disabled because sandbox policy denied
+its HKCU test fixture. A fresh `Get-VM -Name RIDE-Win11-Test` call returned CIM
+access denied; no registry or GUI action was performed. Explorer placement,
+argument substitution, unusual filenames, repeat, removal and exact restore
+remain unverified, so the operation has no supported target.
+
+Resolved: owned helper, explicit runtime, per-user candidate mapping and local
+handler/unit coverage. Retired/excluded: none. Partial: additional requested v3
+setting candidate. Deferred: complete Windows 11 GUI and registry lifecycle
+acceptance. This adds no completed legacy outcome and is outside the legacy
+279-presentation count; all migration estimates remain unchanged. See the
+[sanitized implementation evidence](../archive/evidence/hash-value-submenu-candidate-implementation-2026-10-22.json).
+
+## Certutil SHA-256 context-menu candidate implementation, 2026-10-22
+
+Added `windows.sha256-certutil-context-menu` as the optional single-command
+counterpart to the multi-algorithm submenu. It registers a per-user icon and
+command under `HKCU:\Software\Classes`, keeps the corrected icon resource
+declaration, uses the supplied Certutil command, and restores exact prior values
+through the `RegistryValueSet` handler. The default state removes only the two
+declared values. The catalog marks it a Windows 11 candidate with no supported
+targets until native acceptance.
+
+The focused context-menu Pester suite now passes 7 tests with one PowerShell 7
+skip and 8/8 in Windows PowerShell 5.1. Catalog validation passes for 374
+operations, eight groups, five profiles and 243 PowerShell files; the generated
+operation reference is current. The optional Pester TestRegistry plugin was
+disabled because sandbox policy denied HKCU fixture access. `Get-VM -Name
+RIDE-Win11-Test` returned CIM access denied. No registry write, command launch or
+GUI test occurred. Icon rendering, placement, percent/apostrophe/Unicode path
+handling, repeat, unset and exact saved-run restore remain pending.
+
+Resolved: candidate catalog mapping and local handler coverage. Retired/excluded:
+none. Partial: this requested optional v3 setting. Deferred: Windows 11 GUI and
+registry lifecycle acceptance. It closes no legacy outcome and leaves all five
+estimate ranges unchanged; it is outside the 279-item legacy presentation count.
+See the [sanitized candidate evidence](../archive/evidence/certutil-context-menu-candidate-implementation-2026-10-22.json).
+
+## Context-menu candidate cross-edition regression, 2026-10-22
+
+The focused ExampleLibrary, CustomRegistryAuthoring and HashValueContextMenu
+suites passed 50 tests with one skip in PowerShell 7 and 51/51 in Windows
+PowerShell 5.1. Pester's optional TestRegistry plugin was disabled, and TEMP/TMP
+were rooted under `.local/pester-temp` in the writable repository. These tests
+cover example parsing, custom-library authoring and mocked registry handler
+capture for both context-menu candidates; they do not exercise Explorer UI or
+write Windows registry values.
+
+An initial 122-test combined run that also included `Catalog.Tests.ps1` used the
+sandbox's protected Windows Temp path: 110 passed, 11 failed and one skipped.
+Failures were environment exceptions for HKCU security-descriptor access,
+package artifact fixture writes and atomic library moves. The isolated rerun did
+not include `Catalog.Tests.ps1`; full catalog Pester acceptance therefore
+remains open even though catalog export and repository validation pass. The
+Hyper-V VM remains inaccessible, so GUI and native registry lifecycle remain
+deferred. No legacy outcome closed and estimates remain unchanged. See the
+[cross-edition test evidence](../archive/evidence/context-menu-candidate-cross-edition-regression-2026-10-22.json).
+
+## B03 persistent user PATH guarded write preparation, 2026-10-23
+
+Extended `RIDE.UserPathPreparation` to 0.2.0 with an internal
+`Set-RideUserPathValue` boundary. It requires the expected literal value and
+explicit current computer/SID/profile/session, rechecks identity and current registry
+data, honors `ShouldProcess`, writes only `HKCU\Environment\Path` with the
+captured `String` or `ExpandString` kind, and verifies a literal read-back. It
+does not create or delete the Environment key during ordinary writes, touch
+machine/process PATH, broadcast `WM_SETTINGCHANGE`, delete the Environment key,
+create/delete the bin directory, or claim the value is active in existing processes.
+It creates the Environment key only when it is absent and a value must be written.
+
+The expanded focused suite passed 50/50 in PowerShell 7 and 50/50 in Windows
+PowerShell 5.1. It exercises the write boundary with mocked handles, including
+stale-value refusal, writable-handle use, type/text read-back, identity binding
+and `-WhatIf`. No actual registry value was read or changed. The optional Pester
+TestRegistry plugin was disabled because it requires a sandbox-denied HKCU test
+key; test TEMP/TMP used `.local/userpath-regression-2026-10-23`.
+
+Resolved: a local typed compare/write/read-back primitive and its mock-based
+contract. Retired/excluded: none. Partial: persistent user PATH; engine dispatch,
+authenticated durable run state, complete conflict/interruption recovery,
+environment refresh, inherited/machine PATH coexistence and disposable native
+acceptance remain. This closes no legacy outcome and changes none of the five
+migration estimate ranges. See [focused evidence](../archive/evidence/user-path-guarded-write-regression-2026-10-23.json).
+
+## B03 persistent user PATH engine lifecycle integration, 2026-10-23
+
+Added `windows.user-bin-persistent-path` as an explicit pending-acceptance
+candidate with no supported targets. The engine now exposes its literal current
+state for status and planning, captures the pre-change PATH value and owned-entry
+recovery token in saved run state, and routes apply/restore through identity-bound,
+ShouldProcess-gated helpers. `unset` is unsupported; exact recovery uses the saved
+run and removes only RIDE's appended entry. The setting remains separate from
+PowerShell startup PATH and does not create or remove the bin folder.
+
+Repository validation passed for 375 operations, eight groups, five profiles and
+247 PowerShell files. The focused user PATH helper suite passed 52/52 in both PowerShell editions. Combined Pester discovered 203 tests: 202 passed, none failed
+and one registry integration case was excluded because the sandbox denies
+registry access. The Pester TestRegistry plugin was disabled for the same reason.
+No host registry value was read or changed. Native Windows 11 acceptance,
+environment refresh and effective-path behavior remain unverified. The operation's
+empty `SupportedTargets` list prevents apply until acceptance adds a supported
+target.
+
+Resolved: engine/catalog planning and saved-run recovery wiring, locally tested.
+Retired/excluded: none. Partial: persistent user PATH; disposable Windows 11
+apply, repeat, status, exact restore, process refresh and effective behavior
+remain. No legacy outcome closed and all five migration estimate ranges remain
+unchanged. See [dated integration evidence](../archive/evidence/user-path-engine-lifecycle-integration-2026-10-23.json).
+
+## B03 Terminal JSONC guarded file writer and recovery candidate, 2026-10-23
+
+`RIDE.TerminalJsonc.psm1` now includes `Set-RideTerminalDefaultProfileFile` and
+`Restore-RideTerminalDefaultProfileFile`. Both require an exact `settings.json`
+path and matching current computer/user SID. Apply creates a new snapshot of the
+original and expected bytes before mutation, locks the file exclusively, honors
+`ShouldProcess`, flushes and verifies readback, and attempts byte rollback after a
+write failure. Restore validates snapshot identity and hashes, preserves unrelated
+settings edits, refuses changed owned values and retains the snapshot. File ACLs
+are not captured or changed, and a visible profile declaration does not verify
+that the profile is installed or launchable.
+
+The synthetic file suite passed **47/47** on PowerShell 7.6.5 with Pester 5.7.1;
+it covers preview, exact apply/restore, unrelated edits, identity mismatch,
+tampered snapshot hashes and a competing exclusive lock. Pester's optional
+TestRegistry fixture was disabled. Windows PowerShell 5.1 parsed the changed
+module and test file with zero parser errors, but Pester 5.7.1 could not load
+because its format files failed the host AuthorizationManager check; direct
+module import was also denied by that host policy. A read-only `Get-VM -Name
+RIDE-Win11-Test` recheck at 06:51 UTC returned CIM access denied, so no checkpoint
+query or guest run occurred. No Terminal settings file was read, no snapshot was
+created outside TestDrive, and no Windows state changed. No catalog operation or
+supported target was added.
+
+Resolved: guarded candidate writer and conflict-aware byte recovery. Retired or
+excluded: none. Partial: Terminal default-profile setting. Deferred: installed
+instance/path binding, actual profile availability and disposable Windows 11
+preview/apply/repeat, editor locking, concurrent edits, failure rollback, restore
+and new-tab acceptance. No legacy outcome closed; estimates remain **38-58 /
+52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**.
+See [candidate evidence](../archive/evidence/terminal-jsonc-file-writer-candidate-2026-10-23.json)
+and the [VM access recheck](../archive/evidence/ride-win11-test-access-recheck-2026-10-23-0651.json).
+
+## B04 default/LAN WinINet native write-boundary candidate, 2026-10-23
+
+Added a low-level writer to RIDE.UserProxyInventory 0.2.0. It writes the
+INTERNET_PER_CONN_FLAGS value and writes INTERNET_PER_CONN_AUTOCONFIG_URL only
+when the caller marks that URL as owned. It leaves manual proxy and bypass fields
+untouched, then reports the INTERNET_OPTION_SETTINGS_CHANGED and
+INTERNET_OPTION_REFRESH results separately. The exported wrapper requires the
+expected current computer, user SID and interactive session, and honors
+ShouldProcess.
+
+The focused UserProxyInventory.Tests.ps1 and UserProxyPreparation.Tests.ps1 suites
+passed 80/80 on PowerShell 7.6.5. Fake API tests cover the current process ABI layout,
+selected option IDs/values, Unicode URL preservation, native error propagation
+and notification/refresh failures. Both native PowerShell parsers accepted all
+four changed source/test files. No WinINet call, registry change, PAC fetch or
+connectivity test occurred.
+
+This is only a writer boundary, not a complete setting lifecycle: policy refusal,
+fresh compare-and-set, durable saved state, post-write observation, partial-failure
+compensation, conflict-aware restore and RIDE engine/catalog integration remain.
+The 07:39 UTC read-only VM query returned CIM access denied, so Windows UI/routing
+acceptance remains deferred. Resolved: local native writer boundary. Retired or
+excluded: none. Partial: B04 default/LAN proxy configuration. Deferred: complete
+lifecycle and target acceptance. No legacy outcome closed; estimates remain
+38-58 / 52-67 / 19-24 / 25-35 / 8-12, exact 142-196, rounded 145-200/about 170.
+See structured evidence at ../archive/evidence/userproxy-native-write-boundary-2026-10-23-0745.json.
+
+## B04 documented proxy-policy refusal guard, 2026-10-23
+
+RIDE.UserProxyInventory 0.3.0 now reads the documented `Proxy` restriction from
+the current-user and local-machine Internet Explorer Control Panel policy keys,
+and the machine `ProxySettingsPerUser` policy. The low-level setter refuses a
+detected restriction, machine-wide scope, malformed known value or registry read
+failure before ShouldProcess and before WinINet. The read-only result is scoped
+to these documented registry mappings; `Clear` is not a complete effective-policy
+inventory and does not establish which applications consume WinINet.
+
+The `UserProxyInventory.Tests.ps1` and `UserProxyPreparation.Tests.ps1` suites
+passed **87/87** on PowerShell 7.6.5 with Pester 5.7.1 and TestRegistry disabled;
+the inventory suite accounts for 48 tests. Windows PowerShell 5.1 parsed both
+modules and both test files cleanly. Tests mock the policy reader; no registry query,
+WinINet query/setter, PAC retrieval, network access or Windows state change
+occurred. Microsoft documents the [DisableProxyChange mapping](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-internetexplorer#disableproxychange)
+and [per-user versus machine-wide proxy scope](https://learn.microsoft.com/en-us/windows/client-management/mdm/networkproxy-csp#proxysettingsperuser).
+
+Resolved: refusal for the documented policy states above. Partial: B04 proxy
+configuration. Deferred: complete effective-policy coverage, fresh compare-and-set,
+durable saved state, post-write readback, partial-failure compensation,
+conflict-aware live recovery, engine/catalog integration and disposable Windows
+acceptance. No legacy outcome closed; estimates remain **38-58 / 52-67 / 19-24 /
+25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [focused
+evidence](../archive/evidence/userproxy-policy-guard-regression-2026-10-23.json)
+and the [B04 guide](../user-proxy-inventory.md#native-write-boundary-candidate).
+
+## B04 guarded proxy apply/restore lifecycle candidate, 2026-10-23
+
+Added the unregistered RIDE.UserProxyLifecycle candidate. Apply reconstructs the
+preparation snapshot, checks the explicit interactive identity and full current
+literal values, refuses documented policy blockers, uses the ShouldProcess-gated
+setter, and verifies the native readback. Restore reuses the preparation module's
+owned-bit/URL conflict check, retains unowned flags/manual proxy/bypass/URL, and
+verifies its result. If a setter exception is followed by values exactly matching
+the desired edit, or the native setter succeeds but notifications fail, the
+candidate rechecks state and attempts compensation to the pre-operation values.
+Conflicting current values and repeated readback failure do not trigger an
+overwrite. The comparison is still non-atomic.
+
+The three focused suites passed **97/97** on PowerShell 7.6.5 with Pester 5.7.1 and
+TestRegistry disabled. Windows PowerShell 5.1 parsed all three modules and three
+test files cleanly. All observations, policies and setters were mocked; no
+registry or WinINet call occurred. No RIDE engine/catalog state persistence is
+implemented, so snapshots are not durable/authenticated and the candidate is not
+registered as an active setting.
+
+Resolved: local apply/readback, notification compensation and conflict-aware
+restore candidate. Partial: B04 user-proxy configuration. Deferred: durable
+pre-change state, engine integration, complete effective-policy coverage,
+concurrent write safety and Windows target acceptance. No legacy outcome closed;
+estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**,
+rounded **145-200/about 170**. See [structured evidence](../archive/evidence/userproxy-lifecycle-candidate-2026-10-23.json)
+and the [lifecycle guide](../user-proxy-inventory.md#guarded-apply-and-restore-candidate).
+
+## B04 durable proxy state candidate follow-up, 2026-10-23
+
+`RIDE.UserProxyLifecycle` 0.2.0 persists the preparation snapshot in a create-new user-scope JSON record before the candidate WinINet setter. Apply returns a saved RunId; restore can load that record after checking machine, SID and session identity. A store failure prevents the setter, and `WhatIf` creates no record. The record is user-writable and schema-validated, not authenticated; the engine still needs to track restore completion. This does not solve external-process races or guarantee atomic compare-and-set.
+
+The combined inventory/preparation/lifecycle regression passed 100/100 on PowerShell 7.6.5 with Pester 5.7.1 and TestRegistry disabled. All native calls were mocked. No registry, WinINet, network, proxy or Windows state was touched. The 08:40 UTC VM access recheck again returned CIM access denied; checkpoint state remains unknown. Engine/catalog integration, full policy coverage, native Windows acceptance and supported-target status remain open; no legacy outcome closed. See the [structured run evidence](../archive/evidence/userproxy-durable-snapshot-regression-2026-10-23.json), [B04 operator guide](../user-proxy-inventory.md), and [VM access evidence](../archive/evidence/ride-win11-test-access-recheck-2026-10-23-0840.json).
+
+## B04 restore-completion sidecar candidate regression, 2026-10-23
+
+`RIDE.UserProxyLifecycle` 0.3.0 now writes a create-new user-scope completion record after a verified `-RunId` restore. Repeated restoration returns `AlreadyRestored` only when the owned flags and URL still match the captured pre-change state; if they drift, the candidate refuses to overwrite them. A completion-store failure after successful readback is returned as `AppliedCompletionUntracked` for inspection. This tracks completion in the standalone candidate only; RIDE engine/catalog persistence remains separate.
+
+The combined inventory/preparation/lifecycle Pester suites passed **103/103** on PowerShell 7.6.5 with Pester 5.7.1 and TestRegistry disabled. Mocked cases cover marker creation, idempotent repeat, drift refusal and completion-store failure. No registry, WinINet, network, proxy or Windows state was touched. Engine/catalog integration, file authenticity, cross-process compare/write safety, full policy coverage, controlled PAC-consumer testing and native Windows acceptance remain deferred. No legacy outcome closed; all five estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured evidence](../archive/evidence/userproxy-restore-completion-regression-2026-10-23.json), [B04 guide](../user-proxy-inventory.md), and [latest VM access evidence](../archive/evidence/ride-win11-test-access-recheck-2026-10-23-0840.json).
+
+## B04 auto-detection engine integration, 2026-10-23 11:04 UTC
+
+Added `windows.proxy-auto-detect` as an independent current-user default/LAN
+WinINet setting with Enabled and Disabled states. Engine status, planning,
+saved-state capture and conflict-aware restore are wired to the existing
+inventory, preparation and lifecycle modules. Only the automatic-detection flag
+is owned; the PAC address and enablement, manual proxy/bypass values, named
+VPN/RAS and WinHTTP stay separate.
+
+The catalog lists Windows 11 as a candidate and leaves `SupportedTargets` empty,
+so actual apply and restore remain unavailable pending native acceptance. The
+repository validator passed for 379 operations, 8 groups, 5 profiles and 251
+PowerShell files. Catalog, inventory and preparation tests passed 162/163 discovered (one not run), plus the separately recorded 16/16 lifecycle suite. All tests used synthetic
+observations or mocks. No native proxy, registry, VM, Defender or Windows-state
+action occurred.
+
+Resolved: independent automatic-detection catalog/engine candidate and saved-run
+recovery wiring. Retired/excluded: none. Deferred: Windows 11 lifecycle and exact
+restore, complete effective-policy coverage, PAC-consumer tests and the separate
+PAC-address setting. Partial: the broader B04 proxy outcome remains open; no
+legacy outcome closed. Estimates remain unchanged at **38-58 / 52-67 / 19-24 /
+25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**. See the
+[structured evidence](../archive/evidence/b04-proxy-auto-detect-engine-integration-2026-10-23-1104.json),
+[operator guide](../user-proxy-inventory.md), and the [migration plan](../MIGRATION-PLAN.md#b04-auto-detection-engine-integration-2026-10-23-1104-utc).
+
+## B04 engine/proxy RunId consolidation, 2026-10-23 11:12 UTC
+
+The RIDE engine now forwards its saved RunId to the proxy lifecycle before the setter. The snapshot is created under that identity, and engine restore reads it by the same RunId and shares the restore-completion marker. A snapshot write failure prevents the setter call.
+
+Focused Catalog, inventory, preparation and lifecycle Pester passed 179/180 discovered tests (one not run); the lifecycle suite passed 16/16. Repository validation passed 379 operations, 8 groups, 5 profiles and 251 PowerShell files. No native WinINet, VM, Defender or Windows state change occurred. An unrelated registry round-trip integration test was excluded after sandbox HKCU access was denied.
+
+Windows 11 native apply, repeat apply, exact restore, drift refusal, effective policy and controlled PAC-consumer checks remain deferred. No legacy outcome closed; estimates are unchanged. See [structured evidence](../archive/evidence/b04-proxy-engine-runid-consolidation-2026-10-23-1112.json), [migration plan](../MIGRATION-PLAN.md) and [operator guide](../user-proxy-inventory.md).
+## E08 local password-complexity backend investigation, 2026-10-23 18:04 UTC
+
+The existing `NetUserModalsSet` backend does not expose a password-complexity
+field; its documented focused levels cover fields such as password length, age,
+history and lockout. Complexity is a separate local security policy setting in
+Account Policies. Microsoft's `secedit` documentation describes exporting local
+or merged policy, configuring settings defined in a security database, and
+creating rollback templates. A minimal database/template containing only
+`[System Access] PasswordComplexity` is a plausible local writer, but exact
+isolation and recovery are not established by those command references. This is
+a design inference, not implementation or acceptance.
+
+Next implementation work can test that one-setting template on disposable
+Windows 11 and Server 2025: capture local policy separately from merged
+effective policy; apply/repeat; preserve unrelated account-policy values; detect
+managed precedence; generate and validate rollback; and restore prior Enabled,
+Disabled and Not defined states. Do not add a catalog operation or supported
+target until those cases prove exact ownership and recovery. No `secedit`, local
+policy read, VM, elevation or Windows change occurred in this investigation.
+Resolved: current NetUserModals backend lacks the setting. Retired/excluded:
+none. Deferred: candidate implementation and Windows acceptance. Partial: no
+legacy outcome closes. All five ranges remain **38-58 / 52-67 / 19-24 / 25-35 /
+8-12**, exact **142-196**, rounded **145-200/about 170**. See [structured
+research evidence](../archive/evidence/local-password-complexity-secedit-backend-investigation-2026-10-23-1804.json),
+[NetUserModalsSet](https://learn.microsoft.com/en-us/windows/win32/api/lmaccess/nf-lmaccess-netusermodalsset),
+[password complexity policy](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/password-must-meet-complexity-requirements),
+[`secedit /configure`](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/secedit-configure),
+and [`secedit /generaterollback`](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/secedit-generaterollback).
+## E08 one-setting template and export parser candidate, 2026-10-23 18:10 UTC
+
+Added an inert, unregistered PowerShell candidate that builds UTF-16LE INF bytes
+with exactly one `[System Access] PasswordComplexity` entry and parses only the
+same field from supplied local or merged exports. It distinguishes a missing
+local value (`NotDefined`) from a missing merged observation (`NotReported`)
+and never claims an observation is effective. The module neither reads policy
+nor invokes `secedit`; no catalog operation or target support was added.
+
+The focused Pester suite passed **8/8** on PowerShell 7.6.5/Pester 5.7.1 with
+TestRegistry disabled. The initial 6/8 assertion run exposed a CRLF regex issue
+in the tests; after correcting the assertions, all eight passed. Windows
+PowerShell 5.1 parsed both new files. Runtime import/test execution in Windows
+PowerShell 5.1 remains unavailable because the host AuthorizationManager rejects
+module and Pester format imports; no bypass was attempted. Native template
+validation, local/merged policy behavior, unrelated-setting preservation,
+managed precedence and exact rollback remain deferred until Windows 11 and
+Server 2025 VM acceptance is possible. Resolved: source-ready template/observation
+preparation. Retired/excluded: none. Partial: no legacy outcome closes. All five
+ranges remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**,
+rounded **145-200/about 170**. See [candidate evidence](../archive/evidence/local-password-complexity-candidate-template-implementation-2026-10-23-1810.json)
+and [Microsoft security template rollback documentation](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/secedit-generaterollback).
+
+## Hash value context-menu v3 scope confirmed, 2026-10-24
+
+The user confirmed that the multi-algorithm hash value context-menu setting
+should be retained in v3. The candidate helper, explicit Windows PowerShell 5.1
+runtime and per-user registry mapping are already prepared; Windows 11 Explorer
+placement and substitution, unusual filenames, repeat apply, removal and exact
+saved-state restore remain unaccepted. No supported target or legacy outcome is
+claimed. This confirms requested v3 scope only; estimates remain unchanged at
+**38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact **142-196**, rounded
+**145-200/about 170**. See the [decision record](decision-session-2026-10-17.md#hash-submenu-package-requirements-and-qemu-validation-targets-2026-10-24)
+and [candidate implementation evidence](../archive/evidence/hash-value-submenu-candidate-implementation-2026-10-22.json).
+## B03 UserBinPath current-source regression, 2026-10-24 03:28 UTC
+
+The focused local regression passed **84/84** on PowerShell 7.6.5/Pester 5.7.1
+with Pester's `TestRegistry` plugin disabled and temporary files rooted under
+repository `.local`. It covered `UserBinProfile`, `UserPathEngine`,
+`UserPathPreparation` and `ProfileAcceptanceAutomation`. The first attempt used
+the default Pester configuration and failed before running tests because its
+registry plugin was denied access to HKCU; the corrected configuration matched
+the repository's sandbox-safe runner. No guest runner, profile, PATH, VM or
+Windows state changed. This proves current mocked lifecycle and runner-boundary
+behavior only; native ConsoleHost startup and checkpoint recovery remain pending
+until the registered disposable Windows 11 VM is accessible. No setting or
+legacy outcome closed. See [structured regression evidence](../archive/evidence/b03-user-bin-current-source-regression-2026-10-24-0328.json).
+
+## Local password-complexity template current-source regression, 2026-10-24 06:33 UTC
+
+The current inert candidate suite passed 8/8 on PowerShell 7.6.5/Pester 5.7.1 with the unused TestRegistry plugin disabled and an isolated .local temp root removed after execution. Coverage is limited to the one-field Unicode template and supplied-export parser. No local policy was queried or changed and no secedit command ran. Native application, exact rollback, managed-policy precedence and disposable-VM behavior remain deferred. This regression resolves no legacy setting outcome and does not change estimates. See [structured evidence](../archive/evidence/local-password-complexity-template-regression-2026-10-24-0633.json).
+
+## Hash value and Certutil context-menu settings routed to remaining batch 1, 2026-10-24 07:18 UTC
+
+The per-user `windows.hash-value-context-menu` and
+`windows.sha256-certutil-context-menu` operations now join
+`2026-10-10-remaining-settings-1`. The batch count increases from 17 to 19;
+`Invoke-RideRemainingSettings.ps1` now expects 19 operations for either remaining
+settings batch and reports version 0.2.0. This preserves the existing runner's
+exact-state apply, idempotence and saved-run restore sequence. The focused context
+menu suite passed 8/8 with one existing skip, including selection of both
+operations in the 19-entry batch. Catalog export and repository validation passed.
+
+This route prepares registry lifecycle and exact-recovery checks only. It does
+not establish Explorer placement, menu visibility, command quoting, or the
+hash-helper behavior from Explorer. Both operations remain unsupported pending
+their disposable Windows 11 acceptance. The registered queue remains empty after
+its protected request-file creation denial; no guest or user registry state was
+changed. No legacy outcome closed and estimates remain unchanged. See [structured
+evidence](../archive/evidence/context-menu-settings-batch1-routing-2026-10-24-0718.json).
+
+## Click to Do policy candidate implementation, 2026-10-24
+
+Added `windows.click-to-do-policy` as a user-scoped `RegistryValue` candidate
+using Microsoft's documented `DisableClickToDo` policy mapping under
+`HKCU:\SOFTWARE\Policies\Microsoft\Windows\WindowsAI`.
+
+Its states are intentionally policy-specific: `Blocked=1` removes the Click to
+Do component and entry points; `Allowed=0` permits the feature but does not
+override the user's local Click to Do toggle; `WindowsDefault` removes the RIDE
+policy override and preserves Windows/user choice. Saved-run restore is exact.
+The operation is independent of Recall and other Copilot controls. It is not
+selected in a profile and has no `SupportedTargets` until acceptance.
+
+Microsoft's management page describes Click to Do as a Copilot+ PC feature,
+requires eligible hardware, and documents both the policy and the user-facing
+Settings toggle. The WindowsAI Policy CSP lists `DisableClickToDo` applicability
+as Insider Preview. Therefore the candidate remains pending acceptance for
+current Windows 11 policy behavior, user/device-policy precedence, visible
+entry points and exact restore on the test target. The policy reference is
+[Microsoft's WindowsAI CSP](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai#disableclicktodo);
+the feature boundary is in [Manage Click to Do](https://learn.microsoft.com/en-us/windows/client-management/manage-click-to-do).
+
+Catalog generation and repository validation passed for 408 operations, eight
+groups, five profiles and 272 PowerShell files. The focused catalog Pester case
+passed 1/1 on PowerShell 7.6.5/Pester 5.7.1. No registry, profile or Windows
+state changed; no VM test was started because the registered ApplicationsBatch1
+request still owns the active VM queue. This new v3 candidate closes no legacy
+outcome and does not change the estimate ranges. See the [implementation
+evidence](../archive/evidence/click-to-do-policy-candidate-implementation-2026-10-24-1222.json).
+
+## Windows Terminal packaged-instance inventory, 2026-10-24 12:28 UTC
+
+Added `Get-RideTerminalInstalledInstances` to the Terminal JSONC module. It
+queries only the current user's documented Windows Terminal Stable, Preview and
+Canary package registrations and derives each distribution's separate
+`LocalState/settings.json` path from its exact package-family identity. Existing
+files are read under the JSONC module's 1 MiB bound; absent files are reported
+without being created. The result distinguishes an installed package instance
+from a declared profile. The follow-up provenance guard below ensures
+`InstanceVerified` is true only after the live current-user AppX query, while
+`ProfileAvailabilityVerified` and `MutationAuthorized` remain false. It rejects
+family mismatches, duplicate registrations, reparse-point settings files and
+oversized files. It does not enumerate other users,
+unpackaged/portable installs, dynamic profiles or launchability.
+
+The focused synthetic discovery cases passed 6/6. The full
+`TerminalJsonc.Tests.ps1` suite passed 53/53 on PowerShell 7.6.5/Pester 5.7.1;
+Windows PowerShell 5.1 parsed the module and test file. The tests injected
+synthetic current-user package records and settings files; no live AppX inventory
+was queried, and no Terminal file, package, registry, profile or Windows state
+changed. The existing writer still accepts an explicit path and SID, so a
+reviewed user selection must connect an inventory row to the exact-path writer
+before declaring the operation end-to-end. Unpackaged/portable path handoff,
+real profile availability, editor/concurrent-write behavior and disposable VM
+acceptance remain open. The registered ApplicationsBatch1 VM request remained
+active with no result file at 12:28 UTC. This E06 implementation closes no legacy
+setting outcome and does not change the migration ranges. See [structured
+evidence](../archive/evidence/terminal-jsonc-packaged-instance-inventory-2026-10-24-1228.json),
+Microsoft's [Terminal FAQ](https://learn.microsoft.com/en-us/windows/terminal/faq)
+and [distribution guide](https://learn.microsoft.com/en-us/windows/terminal/distributions).
+
+## Terminal inventory verification-source guard, 2026-10-24 12:35 UTC
+
+Review caught that the test-injection parameter initially made synthetic package
+records report `InstanceVerified=true`. That overclaim is corrected: the result
+now carries `InventorySource`, and only an actual `Get-AppxPackage` query in the
+current user's context can set `InstanceVerified=true`. Injected records remain
+`InjectedUnverified`/false. The tests assert this boundary; no live AppX query is
+needed for local coverage.
+
+After the correction, the full Terminal JSONC regression passed **53/53** on
+PowerShell 7.6.5/Pester 5.7.1, Windows PowerShell 5.1 parsed the module and
+tests, and repository validation passed for 408 operations, eight groups, five
+profiles and 272 PowerShell files. No VM, Windows setting, Terminal file,
+package or profile state changed. The current-user inventory-to-writer handoff,
+profile launchability and disposable-VM behavior remain unaccepted. No legacy
+outcome closes and estimates are unchanged. See the [corrected implementation
+evidence](../archive/evidence/terminal-jsonc-packaged-instance-inventory-2026-10-24-1228.json).
+
+## B03 packaged Terminal selection-to-writer handoff, 2026-10-24 12:45 UTC
+
+Added `Set-RideTerminalInstalledInstanceDefaultProfile`. It re-queries current-
+user AppX registrations, accepts only one exact documented Stable/Preview/Canary
+package name, requires a live verified registration and existing settings file,
+then delegates to the identity-bound exclusive writer. It validates a declared
+visible profile before prompting; `ShouldProcess`/`-WhatIf` remains active, and
+the result explicitly leaves profile availability unverified. Synthetic package
+records cannot authorize this path; unpackaged/portable settings retain the
+explicit-path writer. No Terminal launch, profile, setting or Windows state was
+changed.
+
+The focused full Terminal JSONC suite passed **57/57** on PowerShell 7.6.5/Pester
+5.7.1 with Pester TestRegistry disabled. AppX registration results were mocked;
+all files were synthetic under TestDrive, so the run does not establish live
+package registration or profile launchability. Windows PowerShell 5.1 parsing
+passed, and repository validation passed for 408 operations, eight groups, five
+profiles and 272 PowerShell files. The packaged inventory-to-writer code path is
+implemented, while actual AppX discovery, launchability, GUI effect, disposable
+VM acceptance and catalog integration remain open. No legacy outcome closes;
+all five estimates remain **38-58 / 52-67 / 19-24 / 25-35 / 8-12**, exact
+**142-196**, rounded **145-200/about 170**. See the [structured regression
+evidence](../archive/evidence/terminal-jsonc-packaged-instance-selection-writer-2026-10-24-1245.json).
+
+## B03 identity-checked preview and setting-presentation coverage, 2026-10-24 12:52 UTC
+
+The packaged Terminal selector now checks the expected current computer, current
+user SID and regular existing settings file before previewing or writing. A new
+test refuses a mismatched computer under `-WhatIf`; the complete synthetic
+Terminal JSONC suite passes **58/58**. The prior 57/57 run is preserved as dated
+history; the final regression also requires identity checks before preview.
+
+The catalog audit found `windows.sha256-certutil-context-menu` was missing its
+user-facing `SettingPresentation`. Added text for its all-file per-user scope,
+Certutil command/console behavior, exact removal/recovery, file-read boundary and
+unverified Windows 11 menu/filename behavior. Added a catalog regression test
+requiring presentation metadata on all 281 setting/control operations. That
+focused test passed **1/1**; catalog export regenerated `docs/OPERATIONS.md`,
+repository validation passed for 408 operations, eight groups, five profiles and
+272 PowerShell files, and Windows PowerShell 5.1 parsing passed. No live AppX
+query, file, profile, menu, registry or VM behavior was exercised. Terminal
+profile launchability, Certutil menu placement/quoting and their disposable-VM
+acceptance remain open; the Certutil candidate remains unsupported. No legacy
+outcome closes and all five estimates remain **38-58 / 52-67 / 19-24 / 25-35 /
+8-12**, exact **142-196**, rounded **145-200/about 170**. See the [Terminal
+regression](../archive/evidence/terminal-jsonc-packaged-instance-writer-identity-2026-10-24-1252.json)
+and [catalog coverage evidence](../archive/evidence/sha256-certutil-setting-presentation-2026-10-24-1252.json).

@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-24T11:04:42Z",
+  "suite": "SysinternalsProducts",
+  "target": "RIDE-Win11-Test",
+  "originalRequest": {
+    "runId": "cf9a9049bc0745c08d7e0c3abcb67024",
+    "submittedAtUtc": "2026-10-24T09:54:38Z",
+    "currentStateAtRecheck": "No matching pending/running queue item or correlated result directory was found at 2026-10-24T11:01Z.",
+    "acceptanceClaimed": false
+  },
+  "replacementRequest": {
+    "runId": "f89afa96a4154019a66b3413b4e64d71",
+    "submittedAtUtc": "2026-10-24T11:04:32.2039109Z",
+    "source": "Local",
+    "timeoutMinutes": 180,
+    "statusAtObservation": "Pending",
+    "dispatch": "Existing registered RIDE VM test task",
+    "clientResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\f89afa96a4154019a66b3413b4e64d71",
+    "uacPrompted": false,
+    "vmOrCheckpointChangedOnSubmission": false
+  },
+  "queueAtObservation": {
+    "activeRunId": "fe5484dbd11942beaead8252be5da8c6",
+    "activeSuite": "ImageMagick",
+    "pendingSuites": [
+      "MiTeCUtilityFiles",
+      "SysinternalsSuite",
+      "SQLiteQuery",
+      "ApplicationsBatch5",
+      "ApplicationsBatch7",
+      "ApplicationsBatch6",
+      "SysinternalsProducts"
+    ],
+    "productsRequestPosition": "Pending behind the existing serialized queue"
+  },
+  "inputs": {
+    "manifest": ".local/acceptance-input/SysinternalsProducts.json",
+    "pinnedArchivesPreviouslyVerified": 9,
+    "manifestGatePreviouslyPassed": true,
+    "defenderBlockedToolsIncluded": false,
+    "licenseBlocker": false
+  },
+  "migrationOutcome": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "partial": ["SysinternalsProducts request was replaced after its prior queue record disappeared without a correlated result"],
+    "deferred": ["Windows 11 install, repeat, removal, exact recovery and acceptance for nine independent products"],
+    "estimateRangesUnchanged": true,
+    "estimates": {
+      "settings": "38-58",
+      "packages": "52-67",
+      "components": "19-24",
+      "deploymentAndOffline": "25-35",
+      "other": "8-12",
+      "exactTotal": "142-196",
+      "roundedTotal": "145-200/about 170"
+    }
+  }
+}

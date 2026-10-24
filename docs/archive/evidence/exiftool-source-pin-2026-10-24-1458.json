@@ -1,0 +1,26 @@
+{
+  "RecordedAtUtc": "2026-10-24T14:58:00Z",
+  "Product": "ExifTool",
+  "ProductUri": "https://exiftool.sourceforge.net/",
+  "VersionHistoryUri": "https://exiftool.sourceforge.net/history.html",
+  "WindowsInstallUri": "https://exiftool.sourceforge.net/install.html",
+  "DownloadUri": "https://sourceforge.net/projects/exiftool/files/exiftool-13.59_64.zip/download",
+  "AssetName": "exiftool-13.59_64.zip",
+  "PackageVersion": "13.59",
+  "PublisherReleaseStatus": "The publisher identifies 13.59 as the latest Windows executable and records a security update; version history labels it a development release and identifies 13.55 as latest production. This candidate intentionally follows the current Windows executable, with the development status retained for acceptance review.",
+  "SourceForgeSha256": "44b512b25af500724ba579d0a53c8fc5851628b692dd5e5d94ae4a15c2cba9ec",
+  "Sha256Provenance": "SourceForge file page SHA-256 metadata, corroborated by an independent package manifest; not locally computed and not the publisher checksums text file.",
+  "PublisherChecksumsUri": "https://sourceforge.net/projects/exiftool/files/checksums-13.59.txt/download",
+  "ArchiveNotes": "Publisher says Windows ZIP includes Perl and must retain exiftool(-k).exe beside the exiftool_files directory. Rename the launcher to exiftool.exe for command-line use.",
+  "Acquisition": {
+    "AttemptedUri": "https://sourceforge.net/projects/exiftool/files/exiftool-13.59_64.zip/download",
+    "Result": "Native Invoke-WebRequest failed with No such host is known (sourceforge.net:443) before transfer.",
+    "PartialFile": false,
+    "ArchiveMemberInspection": false,
+    "Execution": false
+  },
+  "License": "Free software under the same terms as Perl itself; publisher states GNU GPL or Artistic License. Version-specific local review is administrative and does not gate migration preparation.",
+  "Disposition": "Exact source route and expected SHA-256 are ready for catalog candidate preparation. Local bytes/hash and archive member validation remain deferred until DNS works. No third-party mirror was used for acquisition.",
+  "LegacyOutcomeClosed": false,
+  "MigrationEstimates": {"Settings":"37-57","Packages":"52-67","Components":"19-24","FilesAndAssets":"25-35","Maintenance":"8-12","ExactTotal":"141-195","RoundedTotal":"140-195/about 170"}
+}

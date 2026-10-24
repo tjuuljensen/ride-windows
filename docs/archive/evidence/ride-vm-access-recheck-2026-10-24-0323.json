@@ -1,0 +1,23 @@
+{
+  "RecordedAtUtc": "2026-10-24T03:23:42Z",
+  "Targets": [
+    {
+      "Name": "RIDE-Win11-Test",
+      "Operation": "Read-only Get-VM followed by Get-VMSnapshot",
+      "Result": "Access to a CIM resource was not available to the client.",
+      "CheckpointInspectionReached": false
+    },
+    {
+      "Name": "RIDE-Srv2025Test",
+      "Operation": "Read-only Get-VM followed by Get-VMSnapshot",
+      "Result": "Access to a CIM resource was not available to the client.",
+      "CheckpointInspectionReached": false
+    }
+  ],
+  "Changes": {
+    "ElevationRequested": false,
+    "VMOrCheckpointChanged": false,
+    "GuestStateChanged": false
+  },
+  "Disposition": "Package, settings and component acceptance remains deferred until authorized Hyper-V/CIM access is available."
+}

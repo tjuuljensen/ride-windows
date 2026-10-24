@@ -1,0 +1,125 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-21",
+  "Batch": "MiTeC Weather Agent OpenWeatherMap endpoint static follow-up",
+  "Installer": {
+    "Path": ".local/remaining-collections-20261017/WA_Setup.exe",
+    "Length": 1516488,
+    "Sha256": "1817767092b85cf2bd843c29747eb8787277f3044962a1169eeff50668831c4e",
+    "MatchesFrozenEvidence": true
+  },
+  "ExtractedApplication": {
+    "Path": ".local/installer-static-20261017/payload-WA_Setup.exe/app/WeatherAgent.EXE",
+    "Length": 4559704,
+    "Sha256": "0563922c21c12597bcff7404ba1f33c37f154a46e57f28f561af7e288c83fc51",
+    "FileVersion": "3.6.0.0",
+    "ProductVersion": "3.0.0.0",
+    "CompanyName": "MiTeC",
+    "AuthenticodeStatus": "Valid",
+    "Signer": "CN=Ing. Michal Mutl, O=Ing. Michal Mutl, L=Praha 10, C=CZ"
+  },
+  "StaticNetworkTemplates": [
+    {
+      "Scheme": "http",
+      "Host": "api.openweathermap.org",
+      "Path": "/data/2.5/find",
+      "Parameters": [
+        "APPID",
+        "location-format-placeholder",
+        "type",
+        "mode",
+        "lang"
+      ],
+      "Mode": "xml",
+      "Type": "like",
+      "AppIdIsFormatPlaceholder": true
+    },
+    {
+      "Scheme": "http",
+      "Host": "api.openweathermap.org",
+      "Path": "/data/2.5/weather",
+      "Parameters": [
+        "APPID",
+        "location-format-placeholder",
+        "mode",
+        "units",
+        "lang"
+      ],
+      "Mode": "xml",
+      "AppIdIsFormatPlaceholder": true
+    },
+    {
+      "Scheme": "http",
+      "Host": "api.openweathermap.org",
+      "Path": "/data/2.5/forecast",
+      "Parameters": [
+        "APPID",
+        "location-format-placeholder",
+        "mode",
+        "units",
+        "cnt",
+        "lang"
+      ],
+      "Mode": "xml",
+      "AppIdIsFormatPlaceholder": true
+    },
+    {
+      "Scheme": "http",
+      "Host": "api.openweathermap.org",
+      "Path": "/data/2.5/forecast/daily",
+      "Parameters": [
+        "APPID",
+        "location-format-placeholder",
+        "mode",
+        "units",
+        "cnt",
+        "lang"
+      ],
+      "Mode": "xml",
+      "AppIdIsFormatPlaceholder": true
+    }
+  ],
+  "StaticUiStrings": [
+    "API key:",
+    "Get API Key",
+    "Location Selector",
+    "LocationID",
+    "Latitude",
+    "Longitude"
+  ],
+  "OpenWeatherMapDocumentation": {
+    "CurrentWeatherUri": "https://openweathermap.org/api/current",
+    "ApiKeyUri": "https://openweathermap.org/appid",
+    "Observations": [
+      "OpenWeatherMap's current API documentation shows HTTPS for /data/2.5/weather.",
+      "The provider says appid is required and identifies it as the user's unique API key.",
+      "The provider page says built-in city-name, ZIP and city-ID requests/geocoding are deprecated but remain available without bug fixes or updates."
+    ],
+    "Limits": "Current documentation describes today's provider interface; it does not establish the exact behavior, redirects, account/key ownership, or persistence of this historical application."
+  },
+  "DataAndSecurityInterpretation": "The compiled application contains HTTP request templates that place an APPID format placeholder and a location format placeholder in the query. If used as written, both the API key and selected location are sent over plaintext HTTP. Actual request execution, redirects, key source/storage, location encoding and any network data flow outside these templates remain unverified.",
+  "LocalizationData": {
+    "Path": ".local/installer-static-20261017/payload-WA_Setup.exe/app/WeatherAgent.cs.dat",
+    "Length": 4549,
+    "Sha256": "900946afdbd47c51858d9a050ba83b3245c7db1994c3701311d85fdbc086e5f3",
+    "ContentPublished": false
+  },
+  "RemainingBlockers": [
+    "Plaintext HTTP templates can expose the API key and selected location; do not run network acceptance unless the executable can be proven to use HTTPS or a separately isolated, non-secret/non-personal test path.",
+    "Exact API-key source, persistence, location placeholder encoding, HTTP redirect behavior and actual request selection remain unverified.",
+    "OpenWeatherMap's documented built-in city/ZIP/ID lookups are deprecated, so exact current-service compatibility is not established.",
+    "MiTeC free private/commercial page wording conflicts with general unregistered non-commercial terms; product entitlement and redistribution remain unresolved.",
+    "Windows 11/newer Server behavior, startup/installer actions and removal recovery remain unverified."
+  ],
+  "ResolvedWholeLegacyOutcomes": 0,
+  "RetiredWholeLegacyOutcomes": 0,
+  "ExcludedWholeLegacyOutcomes": 0,
+  "PayloadExecuted": false,
+  "NetworkRequestMade": false,
+  "LocationUsed": false,
+  "ApiKeyUsed": false,
+  "FreshUacLaunches": 0,
+  "VmOrControllerChanged": false,
+  "DefenderStateChanged": false,
+  "Inspection": "Recomputed installer/executable/data-file hashes; read PE version/signature metadata and bounded ASCII/UTF-16 strings. URL query values and potential credentials were not recorded. No application or web service was contacted."
+}

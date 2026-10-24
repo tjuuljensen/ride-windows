@@ -1,0 +1,69 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T09:42:24Z",
+  "Batch": "Independent Sysinternals cached archive and member-pin verification",
+  "Manifest": ".local/acceptance-input/SysinternalsProducts.json",
+  "ManifestVerifiedBy": "Get-RidePortableAcceptancePayloads",
+  "OriginalAcquisition": {
+    "RecordedAtUtcRange": "2026-10-17T05:30:08Z through 2026-10-17T05:44:06Z",
+    "RecordedDirectFinalHost": "download.sysinternals.com",
+    "AcquisitionSidecars": 9,
+    "SidecarSha256MatchesCurrentCatalogPins": 9,
+    "SidecarsRecordExecution": false,
+    "PreviouslyExtractedReviewMembersRemainInLocalIgnoredCaches": true
+  },
+  "Archives": [
+    {"Id":"package.sysinternals-process-explorer","Path":".local/sysinternals-process-explorer/ProcessExplorer.zip","Sha256":"dab147316264b89ae46ae2ad7d8a94116848ef0b703bcac8de9ff22689ce9d51","Bytes":3813190,"Members":4,"ExpectedInventoryMatch":true,"EulaTxt":true},
+    {"Id":"package.sysinternals-autoruns","Path":".local/sysinternals-autoruns/Autoruns.zip","Sha256":"7b3a8eed819f732a3e4c134aecaeaebb8d643a46490ccddb82cc8a1a745c4cf7","Bytes":3183752,"Members":7,"ExpectedInventoryMatch":true,"EulaTxt":true},
+    {"Id":"package.sysinternals-tcpview","Path":".local/sysinternals-tcpview/TCPView.zip","Sha256":"4fc5ceba3e1b27ad95a24df35d094b454ec5f9478e12a8ca2b1b222705b9683b","Bytes":1604604,"Members":8,"ExpectedInventoryMatch":true,"EulaTxt":true},
+    {"Id":"package.sysinternals-procmon","Path":".local/sysinternals-procmon/ProcessMonitor.zip","Sha256":"477754bf299c9e5b311c5666f7a4a48dfdb21265eaa8f0cca70ef9d9552e3a10","Bytes":3202206,"Members":4,"ExpectedInventoryMatch":true,"EulaTxt":true},
+    {"Id":"package.sysinternals-rammap","Path":".local/sysinternals-rammap/RAMMap.zip","Sha256":"6536a8107a3fb391e4443f2742366067341a7da50de89f99ca0b2390120dd0cc","Bytes":737190,"Members":4,"ExpectedInventoryMatch":true,"EulaTxt":true},
+    {"Id":"package.sysinternals-disk2vhd","Path":".local/sysinternals-disk2vhd/Disk2vhd.zip","Sha256":"c294d279bf98645f84452989f320b561bf58609e35d85de47ea19ef583880821","Bytes":578504,"Members":5,"ExpectedInventoryMatch":true,"EulaTxt":true},
+    {"Id":"package.sysinternals-sigcheck","Path":".local/sysinternals-sigcheck/Sigcheck.zip","Sha256":"8756099c1ce3d3f450245c0d4b39aeb5b29309f56bf77f8c18f1469c418abf12","Bytes":682449,"Members":4,"ExpectedInventoryMatch":true,"EulaTxt":true},
+    {"Id":"package.sysinternals-strings","Path":".local/sysinternals-strings/Strings.zip","Sha256":"b1a0a3dc5f639af1c98ae5832676727646eb3d543640e65e310dff747e733a25","Bytes":547485,"Members":4,"ExpectedInventoryMatch":true,"EulaTxt":true},
+    {"Id":"package.sysinternals-handle","Path":".local/sysinternals-handle/Handle.zip","Sha256":"279aaf8eccb6f79147f4dcc6ba091fb895c4cb8b199a0dd186a4c76bc519d2cd","Bytes":747331,"Members":4,"ExpectedInventoryMatch":true,"EulaTxt":true}
+  ],
+  "Verification": {
+    "ArchiveCount": 9,
+    "CatalogSha256PinsMatched": 9,
+    "ReviewedMemberInventoriesMatched": 9,
+    "UnsafePaths": 0,
+    "CaseInsensitiveDuplicateNames": 0,
+    "DefenderDetectedToolNames": 0,
+    "ArchiveExtractionDuringThisVerification": false,
+    "PreviouslyExtractedReviewMembersInLocalCache": true,
+    "UtilityExecuted": false,
+    "InstallerExecuted": false,
+    "EulaAccepted": false,
+    "ExternalNetwork": false,
+    "VmUsed": false,
+    "DefenderChanged": false,
+    "WindowsStateChanged": false
+  },
+  "Outcome": {
+    "Resolved": [
+      "All nine exact pinned archives and the required local acceptance manifest are available and verified against source/member evidence."
+    ],
+    "Retired": [],
+    "Excluded": [
+      "Defender-detected collections remain outside the selected candidates."
+    ],
+    "Deferred": [
+      "Windows file-lifecycle acceptance awaits the active RIDE-Win11-Test ApplicationsBatch1 request to complete and restore its checkpoint."
+    ],
+    "Partial": [
+      "No legacy outcome or supported Windows target closes."
+    ]
+  },
+  "LicenseDisposition": "No license blocker; prior RIDE v2 specialist approval governs direct Microsoft download-and-install.",
+  "Estimates": {
+    "Settings": "38-58",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged because pinned source preparation and inventory verification do not establish Windows behavior or close a legacy outcome."
+  }
+}

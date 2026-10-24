@@ -1,0 +1,53 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T15:53:44Z",
+  "Batch": "Phoenix Protector shared .NET Framework 3.5 prerequisite gate",
+  "Implementation": {
+    "CatalogField": "PrerequisiteDotNetFramework35",
+    "CatalogOperation": "package.phoenix-protector",
+    "Preflight": "Read HKLM\\SOFTWARE\\Microsoft\\NET Framework Setup\\NDP\\v3.5 Install before artifact acquisition; fail closed when absent or unreadable.",
+    "Mutation": "None. The package handler does not enable or remove the shared Windows feature.",
+    "NativeRegistryQueried": false,
+    "FeatureEnabled": false,
+    "InstallerLaunched": false
+  },
+  "SourceBasis": {
+    "ObservedGuestBlocker": "Phoenix MSI exited 1603 and reported VSDFrameworkVersion=2.0.50727.",
+    "MicrosoftCompatibilityFact": ".NET Framework 2.0, 3.0 and 3.5 use CLR 2.0; installing 3.5 supplies the 2.0/3.0 layers.",
+    "ExactPhoenixLaunchConditionWithFeatureEnabled": "Not tested."
+  },
+  "FocusedTests": {
+    "Suite": "tests/PhoenixPackage.Tests.ps1",
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "TempRoot": ".local/phoenix-prereq-20261024",
+    "Passed": 4,
+    "Failed": 0,
+    "Skipped": 0
+  },
+  "RepositoryValidation": {
+    "PowerShell": "Windows PowerShell 5.1",
+    "Status": "Passed",
+    "Operations": 409,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 272,
+    "GeneratedOperationsDocumentation": "Current"
+  },
+  "Boundaries": {
+    "VMUsed": false,
+    "WindowsStateChanged": false,
+    "FeatureActivationAcceptance": false
+  },
+  "MigrationDisposition": {
+    "Resolved": ["Phoenix package installation now fails before acquisition/launch when the shared CLR 2.0 prerequisite is absent."],
+    "Deferred": [
+      "Enabling and recovering the shared .NET Framework 3.5 feature remains a separate explicit Windows-component scenario.",
+      "Verify the exact Phoenix MSI launch condition on a disposable guest where the prerequisite is enabled.",
+      "Gpg4win 5.1.1 current-user crash cause and remaining Windows Server 2025 package acceptance."
+    ],
+    "LegacyOutcomesClosed": 0,
+    "EstimateImpact": "No whole legacy outcome closes; ranges remain settings 37-57, packages 52-67, components 19-24, files/assets 25-35, maintenance 8-12, exact 141-195, rounded 140-195/about 170."
+  }
+}

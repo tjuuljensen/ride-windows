@@ -105,6 +105,10 @@
   .\ride.ps1 apply -Profile .\profiles\analyst-basics.psd1 -WhatIf
 
 .EXAMPLE
+  .\ride.ps1 install package.docker-desktop -Variant all-users -WhatIf
+  Preview Docker Desktop's all-users installation; run from elevated PowerShell to install.
+
+.EXAMPLE
   .\ride.ps1 -Version
 
 .INPUTS
@@ -471,6 +475,7 @@ Options:
   -Confirm             Ask before each supported change.
   -Help                Display this help.
   -Variant <name>      Select a declared package edition; Tab completes its variants.
+                       Docker Desktop: all-users installs for all users and requires elevation.
   -Version             Print the script version without loading the engine.
   -GitHubAuthentication Anonymous (default) or PAT; download/install/apply/restore only.
   -OfflineBundle      Local manifest for install/apply; no network fallback.
@@ -483,6 +488,9 @@ Options:
 
 Package scope follows its catalog selection. Thunderbird's user selection requires
 non-elevated PowerShell for install, removal and restore; preview remains read-only.
+Docker Desktop's all-users selection requires elevated PowerShell for install, removal
+and restore. Its Windows 11 target remains pending acceptance until disposable-VM
+acceptance completes.
 
 List views:
   all                  Show operations, groups, and profiles.

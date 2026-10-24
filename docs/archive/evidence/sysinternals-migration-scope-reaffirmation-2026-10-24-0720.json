@@ -1,0 +1,25 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T07:20:00Z",
+  "Topic": "Sysinternals package migration scope",
+  "UserDecision": "The prior RIDE v2 license-specialist assessment approved Sysinternals for RIDE. RIDE downloads directly from Microsoft and installs on user-supported devices; RIDE does not transfer, publish or distribute Sysinternals copies. There are no legal issues using Sysinternals in RIDE. Do not use generalized redistribution reasoning to block package migration.",
+  "Disposition": {
+    "LicenseBlocker": false,
+    "PriorSpecialistApprovalGovernsExistingScope": true,
+    "NewLegalReviewRequiredForExistingScope": false,
+    "DefenderBlockedToolsRemainSeparatelyExcluded": true
+  },
+  "Acceptance": {
+    "CurrentSourceSuitePackageTests": "7/7 passed",
+    "UtilityBehavior": "Technical acceptance remains separate from licensing",
+    "WindowsTargetAcceptance": "Pending for any scenarios not already evidenced by prior guest runs"
+  },
+  "MigrationAccounting": {
+    "Resolved": ["Sysinternals licensing disposition for RIDE direct download-and-install"],
+    "Retired": [],
+    "Excluded": ["Only utilities separately blocked by Defender detections; not excluded on licensing grounds"],
+    "Deferred": ["Remaining technical utility behavior and native acceptance scenarios"],
+    "Partial": ["Existing package implementation and source regression; no new legacy outcome closed by this reaffirmation"],
+    "EstimateRangesUnchanged": true
+  }
+}

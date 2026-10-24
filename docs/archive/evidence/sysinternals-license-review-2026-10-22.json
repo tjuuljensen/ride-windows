@@ -1,0 +1,56 @@
+{
+  "Date": "2026-10-22",
+  "Batch": "Sysinternals package version-specific license review markers",
+  "Basis": {
+    "PublisherTerms": "Microsoft Sysinternals terms allow installation/use on a user's devices but prohibit publishing for others to copy, renting/leasing/lending, or transferring the software.",
+    "PublisherFaq": "Microsoft's Sysinternals Licensing FAQ says no distribution licenses are offered, including free third-party distribution.",
+    "TermsUri": "https://learn.microsoft.com/en-us/sysinternals/license-terms",
+    "FaqUri": "https://learn.microsoft.com/en-us/sysinternals/license-faq"
+  },
+  "Reviews": [
+    {"Id":"package.sysinternals-suite","ReviewedVersion":"snapshot-20261017-e1e75de5","ReviewOwner":"Unassigned","LicenseReviewStatus":"NeedsReview"},
+    {"Id":"package.sysinternals-process-explorer","ReviewedVersion":"17.2","ReviewOwner":"Unassigned","LicenseReviewStatus":"NeedsReview"},
+    {"Id":"package.sysinternals-autoruns","ReviewedVersion":"14.3","ReviewOwner":"Unassigned","LicenseReviewStatus":"NeedsReview"},
+    {"Id":"package.sysinternals-tcpview","ReviewedVersion":"4.19","ReviewOwner":"Unassigned","LicenseReviewStatus":"NeedsReview"},
+    {"Id":"package.sysinternals-procmon","ReviewedVersion":"4.12","ReviewOwner":"Unassigned","LicenseReviewStatus":"NeedsReview"},
+    {"Id":"package.sysinternals-rammap","ReviewedVersion":"1.63","ReviewOwner":"Unassigned","LicenseReviewStatus":"NeedsReview"},
+    {"Id":"package.sysinternals-disk2vhd","ReviewedVersion":"2.02","ReviewOwner":"Unassigned","LicenseReviewStatus":"NeedsReview"},
+    {"Id":"package.sysinternals-sigcheck","ReviewedVersion":"2.93","ReviewOwner":"Unassigned","LicenseReviewStatus":"NeedsReview"},
+    {"Id":"package.sysinternals-strings","ReviewedVersion":"2.54","ReviewOwner":"Unassigned","LicenseReviewStatus":"NeedsReview"},
+    {"Id":"package.sysinternals-handle","ReviewedVersion":"5.0","ReviewOwner":"Unassigned","LicenseReviewStatus":"NeedsReview"}
+  ],
+  "LocalStore": {
+    "Path": ".local/license-reviews.json",
+    "PreviousNeedsReviewCount": 25,
+    "CurrentNeedsReviewCount": 35,
+    "StoreSchemaVersion": 1,
+    "VerifiedExactCatalogVersions": "10 of 10",
+    "PesterLicenseReviewSuite": "9 passed, 0 failed, 0 skipped",
+    "PesterTestRegistry": "Disabled because the sandbox denies registry access"
+  },
+  "Outcomes": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": [
+      "Ten Sysinternals catalog package versions have owner-specific license review markers."
+    ],
+    "Deferred": [
+      "Owner-specific intended-use and publication review",
+      "Portable lifecycle and native application acceptance"
+    ]
+  },
+  "SystemState": {
+    "ArtifactDownload": false,
+    "InstallerExecution": false,
+    "VmRun": false,
+    "DefenderChange": false,
+    "Uac": false
+  },
+  "Estimates": {
+    "Groups": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactTotal": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged; license bookkeeping closes no package or whole legacy outcome."
+  }
+}

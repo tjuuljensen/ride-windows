@@ -6,16 +6,17 @@
   Starts ConsoleHost processes with and without profiles, checks missing and
   existing bin directories and duplicate entries, then restores original bytes.
   Requires an initially absent bin directory; never adopts existing contents.
-  The outer serialized runner retains source/evidence and restores its checkpoint.
+  An optional verified local PowerShell MSI can satisfy a missing PowerShell 7
+  prerequisite inside the disposable guest. The outer runner restores its checkpoint.
 .PARAMETER Stage
-  Prepare checks installed runtimes without acquiring or installing anything; Run
-  executes the lifecycle and startup cases.
+  Prepare verifies runtimes and may install PowerShell 7 from the supplied local,
+  hash-pinned, Microsoft-signed artifact; Run executes lifecycle and startup cases.
 .PARAMETER ExpectedComputerName
   Exact disposable guest identity supplied by the host runner.
 .PARAMETER EvidencePath
   Run evidence beneath C:\RIDE\ProfileAcceptance.
 .PARAMETER PrerequisiteEvidencePath
-  Must be empty. This scenario does not acquire prerequisites.
+  Optional guest-local publisher acquisition JSON and MSI staged by the outer runner.
 .PARAMETER DisposableVm
   Required disposable-guest attestation.
 .PARAMETER Version
@@ -28,9 +29,11 @@
   Preparation status or startup/lifecycle evidence objects.
 .NOTES
   Compatibility: Windows PowerShell 5.1 coordinator; Windows 11 disposable guest.
-  Prerequisites: Both PowerShell runtimes installed; existing pinned VM workflow.
+  Prerequisites: Windows PowerShell 5.1; existing pinned VM workflow; for a missing
+  PowerShell 7 runtime, a local pinned Microsoft-signed MSI supplied by the host runner.
   Recovery: Saved runs, owned empty fixture directory cleanup, outer checkpoint.
-  Version: 0.1.0. Changelog: 0.1.0: Add current-source startup acceptance case.
+  Version: 0.2.0. Changelog: 0.2.0: Add local signed MSI preparation for missing guest PS7.
+    0.1.0: Add current-source startup acceptance case.
 #>
 
 
@@ -40,14 +43,13 @@ param(
   [string]$ExpectedComputerName, [string]$EvidencePath,
   [string]$PrerequisiteEvidencePath, [switch]$DisposableVm, [switch]$Version
 )
-$script:ScriptVersion = '0.1.0'
+$script:ScriptVersion = '0.2.0'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 if (-not $DisposableVm -or $env:RIDE_INTEGRATION_VM -ne '1' -or -not $ExpectedComputerName -or
     $env:COMPUTERNAME -ine $ExpectedComputerName -or (Get-CimInstance Win32_ComputerSystem).Model -notmatch 'Virtual Machine') {
   throw 'Use the attested disposable guest runner; no workstation integration is permitted.'
 }
-if ($PrerequisiteEvidencePath) { throw 'Prerequisite installation is outside this scenario.' }
 $evidence = [IO.Path]::GetFullPath($EvidencePath)
 if (-not $evidence.StartsWith('C:\RIDE\ProfileAcceptance\',[StringComparison]::OrdinalIgnoreCase)) { throw 'Evidence must belong to this guest run.' }
 Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE.Engine.psm1') -Force
@@ -57,8 +59,37 @@ $runtimes = @{
   WindowsPowerShell51 = Join-Path $env:WINDIR 'System32/WindowsPowerShell/v1.0/powershell.exe'
   PowerShell7 = Join-Path $env:ProgramFiles 'PowerShell/7/pwsh.exe'
 }
+$rebootRequired = $false
+$artifact = $null
+foreach ($path in $runtimes.Values) {
+  if ([IO.File]::Exists($path)) { continue }
+  if ($path -ceq $runtimes.PowerShell7 -and $Stage -eq 'Prepare' -and $PrerequisiteEvidencePath) {
+    $base = (Split-Path -Parent $evidence) + '\'
+    $artifactPath = [IO.Path]::GetFullPath($PrerequisiteEvidencePath)
+    if (-not $artifactPath.StartsWith($base,[StringComparison]::OrdinalIgnoreCase)) { throw 'Prerequisite evidence must belong to this guest run.' }
+    $artifact = Get-Content -LiteralPath $artifactPath -Raw | ConvertFrom-Json
+    $runBase = (Split-Path -Parent $artifactPath) + '\'
+    if (-not [IO.Path]::GetFullPath($artifact.Path).StartsWith($runBase,[StringComparison]::OrdinalIgnoreCase) -or
+        $artifact.Uri -cnotmatch '^https://github\.com/PowerShell/PowerShell/releases/download/v[0-9.]+/PowerShell-[0-9.]+-win-x64\.msi$' -or
+        $artifact.Sha256 -notmatch '^[0-9a-fA-F]{64}$' -or (Get-FileHash -LiteralPath $artifact.Path -Algorithm SHA256).Hash -ine $artifact.Sha256) {
+      throw 'Invalid guest prerequisite publisher/hash evidence.'
+    }
+    $signature = Get-AuthenticodeSignature -LiteralPath $artifact.Path
+    if ($signature.Status -ne 'Valid' -or $signature.SignerCertificate.Subject -notmatch 'Microsoft Corporation') { throw 'PowerShell prerequisite MSI signature is not valid Microsoft publisher evidence.' }
+    $installer = Start-Process -FilePath msiexec.exe -ArgumentList @('/i',('"' + $artifact.Path + '"'),'/qn','/norestart','ADD_PATH=1') -WindowStyle Hidden -PassThru -Wait
+    if ($installer.ExitCode -notin @(0,3010) -or -not [IO.File]::Exists($path)) { throw 'Disposable PowerShell prerequisite installation failed.' }
+    $rebootRequired = $installer.ExitCode -eq 3010
+    continue
+  }
+  throw "Installed runtime required: $path. For PowerShell 7, provide the verified local PowerShell MSI to the outer VM runner."
+}
+if ($Stage -eq 'Prepare') {
+  $result = [pscustomobject]@{ RebootRequired = [bool]$rebootRequired; Runtimes = $runtimes; Artifact = if ($artifact) { $artifact } else { $null } }
+  $result | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath (Join-Path $evidence 'prerequisites.json') -Encoding UTF8
+  $result
+  return
+}
 foreach ($path in $runtimes.Values) { if (-not [IO.File]::Exists($path)) { throw "Installed runtime required: $path" } }
-if ($Stage -eq 'Prepare') { [pscustomobject]@{ RebootRequired = $false; Runtimes = $runtimes }; return }
 if (-not $PSCmdlet.ShouldProcess($ExpectedComputerName,'Verify user-bin profile lifecycle and startup')) { return }
 $null = New-Item -ItemType Directory -Path $evidence -Force
 $bin = Join-Path ([Environment]::GetFolderPath('UserProfile')) 'bin'

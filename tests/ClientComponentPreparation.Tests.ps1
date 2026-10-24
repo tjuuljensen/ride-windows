@@ -46,19 +46,23 @@ Describe 'Independent client servicing preparation' {
     $r.Parameters.Contains('NoRestart')|Should -BeFalse
     $r.ReadyForMutation|Should -BeFalse;$r.RecoverySupported|Should -BeFalse
     $r.SourcePolicy.PolicyOverridesAllowed|Should -BeFalse
+    $r.SourcePolicy.WindowsUpdateLookupBlocked|Should -BeFalse
+    $r.SourcePolicy.ConfiguredSourceFallback|Should -BeExactly NotInspected
     ($r|ConvertTo-Json -Depth 8)|Should -Not -Match 'OpenSSH.Server'
   }
-  It 'distinguishes offline payload sources from the DISM running-image Online parameter' {
-    $r=New-RideClientComponentPreparation -Inventory $Inventory -Kind Capability -Name OpenSSH.Client~~~~0.0.1.0 -DesiredState Present -SourceMode Offline -SourcePath D:\Sources\FOD
-    $r.SourcePolicy.Mode|Should -BeExactly Offline
+  It 'distinguishes LocalSource mode from the DISM running-image Online parameter' {
+    $r=New-RideClientComponentPreparation -Inventory $Inventory -Kind Capability -Name OpenSSH.Client~~~~0.0.1.0 -DesiredState Present -SourceMode LocalSource -SourcePath D:\Sources\FOD
+    $r.SourcePolicy.Mode|Should -BeExactly LocalSource
     $r.Parameters.Online|Should -BeTrue;$r.Parameters.LimitAccess|Should -BeTrue
     $r.Parameters.Source[0]|Should -BeExactly 'D:\Sources\FOD'
-    $r.SourcePolicy.AllowNetworkFallback|Should -BeFalse
+    $r.SourcePolicy.WindowsUpdateLookupBlocked|Should -BeTrue
+    $r.SourcePolicy.ConfiguredSourceFallback|Should -BeExactly NotInspected
     $r.SourcePolicy.SourceValidated|Should -BeFalse;$r.SourcePolicy.NetworkBoundaryVerified|Should -BeFalse
+    ($r|ConvertTo-Json -Depth 8)|Should -Not -Match 'AllowNetworkFallback|offline'
     $r.ReadyForMutation|Should -BeFalse
   }
   It 'prepares Telnet with NoRestart but without automatic parents or payload removal' {
-    $r=New-RideClientComponentPreparation -Inventory $Inventory -Kind OptionalFeature -Name TelnetClient -DesiredState Present -SourceMode Offline -SourcePath D:\Sources\Sxs
+    $r=New-RideClientComponentPreparation -Inventory $Inventory -Kind OptionalFeature -Name TelnetClient -DesiredState Present -SourceMode LocalSource -SourcePath D:\Sources\Sxs
     $r.Command|Should -BeExactly 'Dism\Enable-WindowsOptionalFeature'
     $r.Parameters.FeatureName[0]|Should -BeExactly TelnetClient
     $r.Parameters.NoRestart|Should -BeTrue
@@ -66,7 +70,7 @@ Describe 'Independent client servicing preparation' {
   }
   It 'prepares capability removal without inappropriate source switches and retains recovery requirements' {
     $Inventory.Providers[0].Rows[0].StateObserved='Installed'
-    $r=New-RideClientComponentPreparation -Inventory $Inventory -Kind Capability -Name OpenSSH.Client~~~~0.0.1.0 -DesiredState Absent -SourceMode Offline -SourcePath D:\Sources\FOD
+    $r=New-RideClientComponentPreparation -Inventory $Inventory -Kind Capability -Name OpenSSH.Client~~~~0.0.1.0 -DesiredState Absent -SourceMode LocalSource -SourcePath D:\Sources\FOD
     $r.Command|Should -BeExactly 'Dism\Remove-WindowsCapability'
     $r.Parameters.Contains('Source')|Should -BeFalse;$r.Parameters.Contains('LimitAccess')|Should -BeFalse
     $r.Parameters.Contains('NoRestart')|Should -BeFalse
@@ -127,15 +131,15 @@ Describe 'Independent client servicing preparation' {
       @{Kind='OptionalFeature';Name='telnetclient'}
     )){{New-RideClientComponentPreparation -Inventory $Inventory -Kind $case.Kind -Name $case.Name -DesiredState Present -SourceMode Online}|Should -Throw '*exact prioritized*'}
   }
-  It 'requires a source for offline mode and forbids online overrides' {
-    {New-RideClientComponentPreparation -Inventory $Inventory -Kind OptionalFeature -Name TelnetClient -DesiredState Present -SourceMode Offline}|Should -Throw '*explicit local*'
+  It 'requires a source for LocalSource mode and forbids online overrides' {
+    {New-RideClientComponentPreparation -Inventory $Inventory -Kind OptionalFeature -Name TelnetClient -DesiredState Present -SourceMode LocalSource}|Should -Throw '*explicit local*'
     {New-RideClientComponentPreparation -Inventory $Inventory -Kind OptionalFeature -Name TelnetClient -DesiredState Present -SourceMode Online -SourcePath D:\Sources}|Should -Throw '*forbids*'
   }
-  It 'refuses non-local, expanded, relative or malformed offline path <Path>' -ForEach @(
+  It 'refuses non-local, expanded, relative or malformed LocalSource path <Path>' -ForEach @(
     @{Path='\\server\share\source'},@{Path='relative'},@{Path='D:relative'},@{Path='D:\a\..\b'},
     @{Path='D:\%SOURCE%'},@{Path='D:\source:stream'},@{Path='https://example.invalid/source'},@{Path='D:\*.cab'}
   ) {
-    {New-RideClientComponentPreparation -Inventory $Inventory -Kind OptionalFeature -Name TelnetClient -DesiredState Present -SourceMode Offline -SourcePath $Path}|Should -Throw '*local drive path*'
+    {New-RideClientComponentPreparation -Inventory $Inventory -Kind OptionalFeature -Name TelnetClient -DesiredState Present -SourceMode LocalSource -SourcePath $Path}|Should -Throw '*local drive path*'
   }
   It 'does not extend client preparation to domain controllers' {
     $Inventory.WindowsContext.ProductType='LanmanNT'
@@ -166,7 +170,7 @@ Describe 'Independent client servicing preparation' {
     Should -Invoke Get-RideComponentProviderRows -ModuleName RIDE.ComponentInventory -Exactly 0
   }
   It 'completes finite source modes and desired states without queries' {
-    foreach($item in @(@{Text='New-RideClientComponentPreparation -SourceMode Off';Expected='Offline'},@{Text='New-RideClientComponentPreparation -DesiredState Pre';Expected='Present'})){
+    foreach($item in @(@{Text='New-RideClientComponentPreparation -SourceMode Loc';Expected='LocalSource'},@{Text='New-RideClientComponentPreparation -DesiredState Pre';Expected='Present'})){
       (TabExpansion2 $item.Text $item.Text.Length).CompletionMatches.CompletionText|Should -Contain $item.Expected
     }
     Should -Invoke Get-RideComponentProviderRows -ModuleName RIDE.ComponentInventory -Exactly 0

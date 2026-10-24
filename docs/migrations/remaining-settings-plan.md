@@ -7,13 +7,13 @@ policy choices and subsequent refinements are recorded; BitLocker/recovery setup
 and new deployment profiles are explicitly deferred, not awaiting repeated prompts.
 The thirty rows below retain partial outcomes and their exact acceptance gates.
 
-Reviewed: **2026-10-17**. B01 adds reviewed presentation for keyboard delay,
+Source review: **2026-10-24 11:58 UTC**. This source-only recheck leaves D05 pending: Microsoft's general F1 shortcut guidance and a 2022 community report do not confirm File Explorer behavior on the current Windows 11 build. See the [source evidence](../archive/evidence/f1-file-explorer-current-source-recheck-2026-10-24.json). No catalog, profile or Windows state changed in that source review. Latest implementation update: **2026-10-24 12:52 UTC**; packaged Terminal selection-to-writer now checks the expected computer/SID before `-WhatIf`, and all 281 setting/control operations have explicit presentation metadata. Live AppX, profile launchability and disposable-VM acceptance remain open. The current catalog has 408 operations; B01 presentation review remains complete at 279/279. B01 adds reviewed presentation for keyboard delay,
 pointer precision, registered sound schemes and startup sound, plus manual
 playback-device mute guidance. B02 read-only playback-endpoint capture contracts
 are source-ready; see the [B02 record](settings-post-migration-review.md#b02-read-only-playback-endpoint-contract-2026-10-16).
 The B03 existing user-bin startup renderer is also source-ready as two pending runtime candidates; see the [profile contract](../powershell-profiles.md#existing-user-bin-startup-path-candidate). Retain GUI, startup and hardware acceptance separately. Native proxy,
 Terminal profile and local password-complexity work follow after their recovery
-contracts are demonstrated. Small registry changes with uncertain current effects
+contracts are demonstrated. E08 now has an inert, unregistered template builder/parser; focused Pester passes 8/8 and Windows PowerShell 5.1 parsing passes. Native secedit isolation, managed precedence and exact rollback remain unproven. Small registry changes with uncertain current effects
 remain investigations, even when their code would be short.
 
 This is the follow-up requested while the user is away. It covers all 30 entries
@@ -28,12 +28,15 @@ Regional preparation also has [separate process/user/machine observations](remai
 
 ## Current implementation and validation
 
-The catalog has 362 operations: 279 setting/control declarations, 60 packages,
-one artifact and 22 pending Store app declarations. These are declarations, not
-counts of remaining legacy outcomes.
-All 279 settings have explicit `SettingPresentation` metadata. Unverified mappings,
+The catalog has 408 operations: 281 setting/control declarations, 97 package
+operations (67 PendingAcceptance), 22 Store app declarations, four PowerShell
+profile settings, and four standalone artifacts. It has eight groups and five
+profiles.
+These are declarations, not counts of remaining legacy outcomes.
+All 281 setting/control operations have explicit `SettingPresentation` metadata,
+enforced by a catalog regression test. Unverified mappings,
 obsolete behavior and native acceptance gaps remain identified within that metadata;
-coverage does not certify behavior or close legacy outcomes. Seventeen settings,
+coverage does not certify behavior or close legacy outcomes. Twenty-one settings,
 including the two startup settings, remain pending candidates. Do not widen
 published support from a lifecycle result alone.
 The retained BitLocker `EncryptionMethod` mapping needs a separate compatibility
@@ -95,15 +98,19 @@ has already passed.
 | E03 | Terminal default-profile [native guidance](../windows-terminal-profile.md) and selected [playback-device mute guidance](../audio-service.md#mute-a-selected-playback-device) implemented | Manual workflows retain prior selection/mute and same-device recovery; GUI/playback acceptance remains pending. Terminal file editing and automated endpoint mute still need separate ownership, identity/session and conflict contracts. Acquire no components |
 | E04 | Extend focused maximum-age boundary evidence | NoExpiry/90/999 and 1/2/998-day repeat/reverse/fault recovery passed on both targets. MinimumAgeConflict guard passed on both targets with a one-day fixture seed, zero primary native writes and separate exact seed recovery. GUI, managed/default and complexity-backend acceptance remain pending. Preserve all other fields; no user passwords change |
 | E05 | Add isolated intended-user and managed-source validation designs | Capture expected SID/session before changing a user setting; refuse mismatched account recovery. Plan mixed-scope and alternate-administrator cases before any profile recommendation. Decision D01 governs an explicit cross-account route |
-| E06 | JSONC in-memory preservation/recovery proof source-ready; implement bound live writer next | The [preparation API](../terminal-jsonc-preparation.md) preserves supplied bytes and refuses conflicts with 41 tests per edition. Live installed-instance/SID/path binding, actual profile availability, exclusive file preconditions and native acceptance remain open. Q09 selection behavior is accepted; each target still requires an actual profile choice; no Terminal installation or default-terminal-host change |
+| E06 | JSONC preparation, guarded exact-path writer and current-user packaged-instance inventory/selection implemented | The [preparation API](../terminal-jsonc-preparation.md) preserves supplied bytes and refuses conflicts; `Set-RideTerminalInstalledInstanceDefaultProfile` re-queries current-user AppX inventory, binds the chosen package identity to its exact settings path and delegates to the identity-bound writer. Only a live query sets `InstanceVerified`; injected records cannot authorize writes. Full regression passes 57/57; Windows PowerShell 5.1 parsing and repository validation pass. Live AppX query, profile availability/launchability, unpackaged/portable discovery and disposable native acceptance remain open. Q09 selection behavior is accepted; each target still requires an actual instance/profile choice; no Terminal installation or default-terminal-host change |
 | E07 | Default/LAN capture and in-memory edit/recovery proof source-ready; bind live state next | The [proxy APIs](../user-proxy-inventory.md) preserve literal flags/manual/bypass/PAC values with 31 capture and 39 preparation tests per edition plus x86/x64 layout proof. Fresh policy/identity binding, durable native writes/refresh, partial failures, RAS and GUI acceptance remain open. WinHTTP stays separate |
-| E08 | Investigate a focused local complexity backend | Existing maximum-age code does not supply a complexity setter. Prove a narrowly owned policy mutation and unrelated-field preservation before implementation. Refuse domain controllers and distinguish local definition from effective managed policy |
+| E08 | Investigate a focused local complexity backend | Existing maximum-age code does not supply a complexity setter. The 2026-10-23 source review found `NetUserModalsSet` has no complexity field; an inert UTF-16LE one-setting `secedit` template builder and bounded local/merged export parser are implemented, while generated rollback remains unproven. Verify local versus merged effective policy, unrelated-field preservation, and exact Enabled/Disabled/Not defined recovery on Windows 11 and Server 2025 before catalog integration. See the [dated investigation](settings-post-migration-review.md#e08-local-password-complexity-backend-investigation-2026-10-23) and [structured evidence](../archive/evidence/local-password-complexity-secedit-backend-investigation-2026-10-23-1804.json) |
+| E09 | Click to Do per-user policy candidate implemented | `windows.click-to-do-policy` maps the documented `DisableClickToDo` user policy to `Blocked=1`, `Allowed=0` and exact override removal. The user's local toggle, conflicting device policy, Copilot+ hardware, Policy CSP Insider Preview applicability and visible effect remain separate. The focused catalog test passed 1/1; no profile selects the candidate and `SupportedTargets` remains empty pending Windows 11 acceptance. See the [dated implementation record](settings-post-migration-review.md#click-to-do-policy-candidate-implementation-2026-10-24). |
 
 **E01's first batch and D01's explicit user-only handoff are implemented.** Native
 interactive handoff acceptance and mixed-profile recovery remain pending; see the
-[handoff guide](../intended-user-handoff.md). Continue the other independent work. E06-E08 are candidates for
-the next new controls, but they have real file/API/recovery work and should not be
-classified as simple registry edits.
+[handoff guide](../intended-user-handoff.md). Continue the other independent work.
+E06-E09 now have distinct preparation/candidate records; Click to Do is the only
+one of these four with a catalog candidate. Terminal's read-only packaged
+inventory and exact-path writer remain separate until their instance-to-writer
+selection is tied together and accepted on Windows. None has target support until
+its specific file/API/registry recovery and visible behavior are accepted.
 
 The first concrete batch is `windows.hidden-files-visibility`,
 `windows.protected-files-visibility`, `windows.explorer-recent-shortcuts`,
@@ -219,12 +226,12 @@ it or acquiring a package.
 
 | ID | Question | Proposed course while awaiting an answer |
 | --- | --- | --- |
-| D01 | Answered 2026-10-14: use a separate process handoff to the intended user | First delivery targets the signed-in user in the current desktop session; other sessions or no desktop are refused. Preserve user-owned saved recovery and explicit identity/session checks; no fallback to another administrator's HKCU. Mixed-scope ordering and recovery require their own implementation |
+| D01 | Answered 2026-10-14 and clarified 2026-10-24: use a separate process handoff to the intended user; mixed-scope profiles are valid and expected | First delivery targets the signed-in user in the current desktop session; other sessions or no desktop are refused. Preserve user-owned saved recovery and explicit identity/session checks; no fallback to another administrator's HKCU. Do not block profiles that combine user and machine settings. A mixed-scope overview/report is optional future work, not a migration prerequisite |
 | D02 | Answered Q28: Explorer/icons and keyboard/input first | Preserve other GUI checks as pending; use independently authorized disposable targets and defer unavailable resources |
 | D03 | Answered Q28: Server sign-in/shutdown next | Application-dependent checks then hardware/peer checks; retain explicit credentials, elevation and recovery gates |
-| D04 | Which pre-existing test resources can be provided: Office/App-V/Edge Update client, Server Core/Desktop Experience, usable audio endpoint, EFS-capable user, and two peers/adapters? | Use the existing Windows 11/Server 2025 settings targets where applicable. Mark unavailable components and physical/peer coverage deferred; packages stay paused |
-| D05 | Can the earlier reliable NumLock setup's build/hardware/boot conditions or notes be identified, and is there a specific current Explorer/Desktop F1 behavior to suppress? | Preserve the historical result. Investigate the accepted native candidates without SendKeys, IFEO or a remapper. Return for a material design decision only if current evidence contradicts the accepted outcome |
-| D06 | For later BitLocker/Windows RE acceptance, which disposable TPM/boot setup and off-device recovery destination can be used, and who will verify retrieval/unlock? | Continue staged design and native UI guidance. Defer encryption/decryption, failed-sign-in lockout and recovery-changing experiments needing keys, interactive secure input or independent boot recovery. Do not collect secrets in this document |
+| D04 | Answered 2026-10-24: defer unavailable resources explicitly and proceed with independent acceptance; a standalone Lenovo Windows 11 Pro laptop will be prepared for the TPM/boot test | Match each acceptance case to the available target. Defer only checks that require unavailable resources, and request another scenario when its evidence need is concrete. The dedicated physical laptop is a scoped TPM/boot acceptance target; document why this hardware scenario uses it alongside the disposable-VM validation model |
+| D05 | Partially answered 2026-10-24: user wants an option to disable File Explorer F1 Help and wants it in the default profile if current Windows behavior is confirmed. Historical NumLock build/hardware/boot conditions remain unknown | Microsoft's current keyboard tips page describes F1 as a common Help shortcut but cautions behavior can differ by app; a 2022 Microsoft Community answer reports Explorer F1 opening a browser help page but does not establish current build behavior. Verify on an authorized Windows 11 target; if confirmed, prepare a clearly named setting and include it in the default profile with exact restore. Do not use SendKeys, IFEO, or a remapper. Keep NumLock historical evidence open. See the [source review](settings-post-migration-review.md#f1-current-keyboard-source-recheck-2026-10-24) and [structured evidence](../archive/evidence/f1-file-explorer-current-source-recheck-2026-10-24.json) |
+| D06 | Updated 2026-10-24: the user will prepare a standalone Lenovo Windows 11 Pro laptop; USB storage and a password manager are both acceptable recovery-key destinations | Before a recovery-changing step, ask the user to confirm the key was saved and can be retrieved, unless the procedure verified that it saved the key to portable storage. Do not require an independent verifier or a particular destination, and do not record recovery secrets. Keep testing deferred until the laptop and confirmation are available |
 | D07 | Answered Q29: visible but unavailable until reliable recovery | Explain the limitation and provide accurate manual guidance. No guessed content/ACL reconstruction or retirement |
 | D08 | Answered Q30: explicit endpoint plus separately selected current-default option | Resolve/capture actual identity before mutation and restore that same endpoint; no fallback when missing |
 | D09 | Answered Q31: close unsubstantiated bookkeeping | Retain bounded audit and reopen on evidence; no assembly deployment/removal or feature-completion claim |
@@ -334,10 +341,11 @@ policies, scoped reviewed assets and per-user Wi-Fi/import boundaries. See the
 These choices remove design questions, not identity/ownership/recovery or native
 acceptance. No settings changed; presentation remains 102/279 with 177 open.
 
-Persistent user PATH now has [literal observation and entry recovery preparation](../powershell-profiles.md#persistent-user-path-preparation)
-with 44 distinct tests passed per native edition. The startup renderer remains
-separate; registry writes, refresh and native recovery are pending. No legacy
-outcome or presentation count changed.
+Persistent user PATH now has [literal observation, entry recovery and an internal guarded write boundary](../powershell-profiles.md#persistent-user-path-preparation).
+The focused suite passes 50/50 in each native edition using mocked registry
+handles. The startup renderer remains separate; the RIDE engine does not dispatch
+the writer, and durable run recovery, refresh and native acceptance are pending.
+No legacy outcome or presentation count changed.
 
 ## Accepted remaining decisions, 2026-10-17
 
@@ -362,3 +370,56 @@ See the [dated review](settings-post-migration-review.md#b01-scheduled-task-pres
 ## B01 scheduled-task observation and readback, 2026-10-17
 
 See the [repair evidence](settings-post-migration-review.md#b01-scheduled-task-observation-and-readback-2026-10-17). Twenty selected task tests passed per edition; native workload acceptance remains pending. Presentation is 198/279, 81 open. Existing profiles remain unchanged under the new explicit profile-selection deferral. All five ranges remain unchanged.
+
+## Mixed-scope profiles and acceptance resources, 2026-10-24
+
+The user confirmed that mixed-scope profiles are expected because RIDE users
+commonly apply settings from both user and machine scopes. Mixed scope is not a
+design or migration blocker. A report or analysis view that summarizes scope
+within a profile may be considered as separate future functionality; it is not
+required before completing profile work. D01 remains answered for intended-user
+handoff and identity-safe recovery; its mixed-scope follow-up is closed.
+
+Unavailable acceptance resources are explicitly deferred while independent
+checks proceed. A standalone Lenovo laptop running Windows 11 Pro is the selected
+target for the TPM/boot recovery scenario, and the user will prepare it. This is
+a focused hardware acceptance case alongside the repository's disposable-VM
+validation model, not a general change to that model.
+
+The user clarified on 2026-10-24 that either USB storage or a password manager
+may hold the recovery key. Before a recovery-changing test, ask whether the key
+has been saved and can be retrieved, unless the procedure itself verified the
+key was saved to portable storage. Do not require a specific destination or an
+independent verifier. Never record the key in repository evidence. The laptop
+and this confirmation remain prerequisites; no recovery-changing test is
+authorized by this clarification. See the [follow-up decision record](remaining-migrations-follow-up.md#mixed-scope-profiles-and-tpm-boot-acceptance-2026-10-24)
+and the [authoritative decision ledger](decision-session-2026-10-17.md#joeware-latest-download-and-acceptance-resource-decisions-2026-10-24).
+
+## RIDE v3 Windows AI, passkey and presence controls, 2026-10-24
+
+The user added the following recent Windows controls to the RIDE v3 candidate
+scope. They are new feature work, not legacy outcomes; do not change migration
+estimates or count these as completed legacy selectors. Click to Do now has an
+unregistered, pending catalog candidate; no profile selection or Windows
+behavior is claimed by recording this scope.
+
+| Candidate | Intended RIDE control | Implementation and acceptance boundary |
+| --- | --- | --- |
+| Click to Do | Per-user `Blocked`/`Allowed`/`WindowsDefault` policy candidate implemented; keep independent from Copilot and Recall | `windows.click-to-do-policy` maps the documented `DisableClickToDo` DWORD. `Allowed` does not force the user's local toggle on, and a conflicting device policy remains outside this operation. The CSP lists Insider Preview applicability. Verify current target policy behavior, visible entry points and exact saved-state restore before declaring support. It is not selected in any default profile. |
+| Passkey app access | Keep per-app access and user choice; do not default-deny all applications | Windows 11 24H2 exposes per-app passkey privacy consent. Microsoft documents policy controls for app lists, but currently marks them Insider Preview. Model package-family-specific allow/deny/user-control decisions and preserve each app's prior choice; a global Boolean registry operation is not equivalent. Verify sign-in and registration recovery for each selected app. |
+| Presence sensing | Keep app access at user control by default; offer OS lock-on-leave separately as a security control | Microsoft documents the app-access policy and hardware-dependent presence behaviors. Do not combine app access, lock-on-leave and wake-on-approach into one switch. Verify exact policy consumers, sensor availability, supported builds, lock timing, wake behavior and prior-state restore. |
+| Administrator protection | Offer an explicit enable choice; consider it for a hardened profile after acceptance | Microsoft documents a LocalPoliciesSecurityOptions CSP and restart requirement. The current CSP target is Insider Preview, and Windows Server is not supported by the feature documentation. Implement through a supported local security-policy backend, not an inferred registry value; verify prompt behavior, restart and exact restoration on a disposable Windows 11 VM. |
+| Smart App Control | Inspect Off/Evaluation/Enforcement and offer enablement only where Windows exposes a supported transition | Microsoft says registry configuration is for testing and may compromise protection. Its documented Settings transition is one-way outside Evaluation on the current guidance; verify the new on/off rollout and a supported recovery route before adding a state-changing operation. Test app compatibility and restart requirements in a disposable VM. |
+
+Click to Do's source-backed candidate has state observation, apply and exact
+saved-run restore through the existing `RegistryValue` handler; target
+applicability and visible effects remain unaccepted. The other four remain
+source-review and implementation candidates until their state, apply,
+saved-run restore, target applicability and visible effects meet RIDE's
+lifecycle contract. The default-profile recommendations above remain deferred;
+none of these controls is selected in `profiles/default.psd1`.
+Authoritative references: [WindowsAI Policy CSP](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai),
+[passkeys in Windows](https://learn.microsoft.com/en-us/windows/security/identity-protection/passkeys/),
+[Privacy Policy CSP](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy),
+[Administrator protection](https://learn.microsoft.com/en-us/windows/security/application-security/application-control/administrator-protection),
+and [Smart App Control testing and configuration](https://learn.microsoft.com/en-us/windows/apps/develop/smart-app-control/test-your-app-with-smart-app-control).

@@ -1,0 +1,50 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T17:50:43.8144258Z",
+  "Controller": "RIDEWin11Test",
+  "Target": "RIDE-Win11-Test",
+  "RunId": "2ce98ec80d5c45fe8826c384b81de378",
+  "Suite": "ApplicationsBatch7",
+  "Status": "Failed",
+  "SourceSnapshotRunnerVersion": "0.14.5",
+  "Guest": {
+    "OS": "Microsoft Windows 11 Enterprise Evaluation",
+    "Build": "26300",
+    "PowerShell": "5.1.26100.9444",
+    "Account": "RIDE-WIN11-TEST\\admin"
+  },
+  "ValidationPassed": true,
+  "Pester": {
+    "Version": "5.7.1",
+    "Total": 348,
+    "Passed": 347,
+    "Failed": 0,
+    "Skipped": 1
+  },
+  "Scenario": {
+    "PackageId": "package.artcraft-launcher",
+    "Status": "Failed",
+    "InstallerExit": "Accepted by RIDE",
+    "DetectedAfterInstall": false,
+    "Error": "RIDE operation 'package.artcraft-launcher' failed. Run ID: 65421549f920452fb72890f013b1fa96. Saved state: package.artcraft-launcher. Completed operations: <none>. Error: Installer completed but ArtCraft Launcher was not detected afterward. Artifact retained at 'C:\\Users\\admin\\AppData\\Local\\RIDE\\State\\Cache\\artcraft-launcher\\0.2.1\\artcraft-launcher-0.2.1-windows-x64.msi'.",
+    "Recovery": false,
+    "Checks": [],
+    "PackageLaunched": false
+  },
+  "ControllerResult": {
+    "Error": "Test controller exited with code 1. See controller-errors.log.",
+    "CleanupError": null,
+    "CollectionError": null,
+    "EvidenceExportError": null,
+    "CheckpointRestored": true,
+    "QueueFinished": true,
+    "BlockedMarkerPresent": false
+  },
+  "Disposition": "Do not promote launcher support. Diagnose the MSI successful-exit/post-install-detection mismatch and rerun lifecycle acceptance. This result closes no legacy outcome.",
+  "Estimate": {
+    "Ranges": "37-57 / 50-65 / 19-24 / 25-35 / 8-12",
+    "Exact": "139-193",
+    "Rounded": "140-195/about 170",
+    "LegacyOutcomesClosed": 0
+  }
+}

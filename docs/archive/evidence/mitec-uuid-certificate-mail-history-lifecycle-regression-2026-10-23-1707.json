@@ -1,0 +1,40 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-23T17:07:00Z",
+  "Tests": [
+    "tests/MiTecUuidGenerator.Tests.ps1",
+    "tests/MiTecCertificateTools.Tests.ps1",
+    "tests/MiTeCMailHistoryViewers.Tests.ps1"
+  ],
+  "PowerShellVersion": "7.6.5",
+  "PesterVersion": "5.7.1",
+  "Passed": 18,
+  "Failed": 0,
+  "Skipped": 0,
+  "TestRegistryEnabled": false,
+  "WindowsPowerShell51Parser": "Passed for the current portable-package module, all three focused tests, and catalog data file",
+  "TemporaryDirectory": ".local/pester-temp",
+  "Packages": [
+    "MiTeC UUID Generator 1.0.0",
+    "MiTeC Certificate Generator 1.0.0",
+    "MiTeC Certificate Information 1.5.0",
+    "MiTeC Mail Viewer 2.5.1.0",
+    "MiTeC E-mail History Browser 1.2.0",
+    "MiTeC Internet History Browser 2.5.0",
+    "MiTeC Instant Messaging History Browser 1.2.1"
+  ],
+  "Coverage": [
+    "Frozen archive and selected-member pins",
+    "Variant and catalog metadata checks",
+    "Inert offline staging and repeat install planning",
+    "Snapshot/uninstall/restore preserving unowned files"
+  ],
+  "RealPersonalOrBrowserDataOpened": false,
+  "CertificatesOrKeysCreated": false,
+  "PayloadsExecuted": false,
+  "NetworkUsed": false,
+  "FreshUacPrompts": 0,
+  "VmRuns": 0,
+  "DefenderBlockedFilesTouched": false,
+  "Outcome": "Local package file lifecycle and planning regression passes; product behavior, privacy, and Windows acceptance remain pending"
+}

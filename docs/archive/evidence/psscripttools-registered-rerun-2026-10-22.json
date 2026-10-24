@@ -1,0 +1,69 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-22T08:25:00Z",
+  "Scope": "Registered PSScriptTools portable package lifecycle acceptance",
+  "ControllerResult": {
+    "RunId": "8c0b33994d28476e852735c78e89170f",
+    "Source": "Local",
+    "IntegrationSuite": "PSScriptTools",
+    "Status": "Passed",
+    "StartedAtUtc": "2026-10-22T08:17:00.8672076Z",
+    "FinishedAtUtc": "2026-10-22T08:24:50.0424999Z",
+    "CleanupError": null,
+    "CollectionError": null,
+    "EvidenceExportError": null,
+    "FocusedResult": {
+      "Batch": "PSScriptTools",
+      "VM": "RIDE-Win11-Test",
+      "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+      "CheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+      "Status": "Passed",
+      "Cleanup": "ResetAndOff",
+      "EvidenceCollected": true,
+      "ToolExecuted": false
+    }
+  },
+  "Scenario": {
+    "OperationId": "package.psscripttools",
+    "Variant": "portable",
+    "WindowsTarget": "Windows 11",
+    "Build": "26300",
+    "Status": "Passed",
+    "LifecycleRecovery": true,
+    "Checks": [
+      "InstallPreview",
+      "Install",
+      "ExactMemberSelection",
+      "RepeatInstall",
+      "RemovePreview",
+      "Remove",
+      "RepeatRemove",
+      "RestorePreview",
+      "ExactRemovalRestore",
+      "UnownedPreservation",
+      "OriginalAbsenceRestore",
+      "UnownedCollisionRefusal",
+      "ModifiedReplacementRefusal",
+      "ModifiedRemovalPreservation"
+    ],
+    "FileEvidenceCount": 360,
+    "SavedStateZipCount": 7,
+    "RunIds": [
+      "0a4b500a8b4741cd95c4a4751f7c2efa",
+      "a3353c93e2be4699aa7f65e0bb50c239",
+      "edbbf557d2c14ba6b77a4183559bc954"
+    ],
+    "ModifiedUnownedFilePreserved": ".github/FUNDING.yml",
+    "ToolExecuted": false,
+    "FunctionalAcceptance": "Pending",
+    "ActivationAcceptance": "Pending"
+  },
+  "RawEvidence": "%ProgramData%/RIDE/TestAutomation/RIDEWin11Test/results/8c0b33994d28476e852735c78e89170f/",
+  "Outcome": {
+    "Resolved": "Registered portable file lifecycle, exact 360-file selection, repeat, removal, exact restoration, and refusal/preservation checks for PSScriptTools.",
+    "Partial": "PSScriptTools runtime/function compatibility and dependency ownership remain unverified.",
+    "Retired": [],
+    "Excluded": [],
+    "EstimateAdjustment": "None; this package subgate does not resolve a whole legacy outcome."
+  }
+}

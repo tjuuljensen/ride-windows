@@ -1,0 +1,56 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T06:51:07Z",
+  "AttemptedBatch": "ApplicationsBatch1 with source-current Gpg4win routing",
+  "AttemptedRequestId": "2f67ba46a1d24589ab7f8b2fa220233a",
+  "Submission": {
+    "Status": "Failed before enqueue",
+    "Error": "Set-Content access denied while creating the temporary request file under C:/ProgramData/RIDE/TestAutomation/RIDEWin11Test/queue/pending.",
+    "PendingQueueCountAfterAttempt": 0,
+    "RunningQueueCountAfterAttempt": 0,
+    "BlockedMarkerPresent": false
+  },
+  "PreviousRequest": {
+    "RunId": "2e2b9cab185148318a0b29aa690a4501",
+    "Status": "Passed",
+    "ApplicationsBatch1ScenariosPassed": 8,
+    "ApplicationsBatch1ScenarioFailures": 0,
+    "CleanupError": null,
+    "CollectionError": null
+  },
+  "Gpg4winPreparation": {
+    "MigrationBatch": "ApplicationsBatch1",
+    "FocusedTestsPassed": 11,
+    "FocusedTestsFailed": 0,
+    "CurrentRequestSnapshotIncludesGpg4win": false,
+    "WindowsAcceptanceStatus": "Deferred; no request was enqueued"
+  },
+  "Actions": {
+    "FreshUacRequested": false,
+    "SandboxEscalationAttempted": false,
+    "QueueAclChanged": false,
+    "VmStateChanged": false,
+    "DefenderBlockedToolsSelected": false
+  },
+  "NextAction": "Defer queue submission to an already approved elevated terminal session. Do not modify protected queue permissions or resubmit until the authorized preregistration can write the request.",
+  "LegacyOutcomesResolved": [],
+  "LegacyOutcomesRetired": [],
+  "LegacyOutcomesExcluded": [],
+  "LegacyOutcomesDeferred": [
+    "Gpg4win Windows 11 native install/remove/recovery acceptance because the registered queue rejected the request before enqueue."
+  ],
+  "LegacyOutcomesPartial": [
+    "Eight ApplicationsBatch1 package lifecycle/recovery scenarios passed; the source-current run needed for Gpg4win could not be queued."
+  ],
+  "Estimates": {
+    "Settings": "38-58",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "FilesAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Changed": false,
+    "Reason": "The successful batch confirms previously tested outcomes; Gpg4win acceptance was not run."
+  }
+}

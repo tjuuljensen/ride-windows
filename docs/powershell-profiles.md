@@ -166,9 +166,10 @@ implementation, not a Microsoft-documented Windows default.
 ## Persistent user PATH preparation
 
 Q08 accepts persistent user PATH as a separate explicit setting. The startup
-renderer above remains independent. RIDE.UserPathPreparation 0.1.0 provides a
-literal read-only observation and in-memory append/recovery contract; no registry
-setter, environment refresh or catalog operation is enabled yet.
+renderer above remains independent. `windows.user-bin-persistent-path` is now a
+pending-acceptance catalog candidate with engine status, planning and saved-run
+recovery. It has no supported targets, so apply remains blocked until disposable
+Windows 11 acceptance passes.
 
 From the repository root in native PowerShell 5.1 or 7, on the explicitly intended
 interactive user's target, no elevation is required. Replace the identity values
@@ -215,18 +216,24 @@ An Environment key or bin directory is never owned or deleted. New unrelated
 content keeps the value present even when it was originally absent. Matching text
 cannot prove that another actor did not remove and recreate the same token.
 
-ReadyForMutation, MutationAuthorized and EffectivePathVerified remain false.
-Snapshot schema checks do not authenticate operator-supplied records or prove
-that a proposed append occurred. Durable private state, actual bin availability,
-fresh identity/registry guards, write/post-state verification, interruption
-recovery, inherited/machine PATH coexistence and refresh behavior still need
-implementation and disposable acceptance. No running process environment changes
-automatically from this API. Preserve the folder and contents for both choices.
+The module now provides identity-bound, `ShouldProcess`-gated write and recovery
+boundaries with exact expected-value comparison, typed registry write and literal
+read-back. It writes only the current user's `HKCU\Environment\Path`; tests use
+mocked registry handles, and no real registry write has been accepted. It creates
+the Environment key only when absent and a value must be written; it never deletes
+that key. The engine captures the original value and owned-entry token in saved
+run state; `unset` is unsupported. The setting remains target-gated, and snapshot
+schema checks do not authenticate operator-supplied records or prove that an
+append occurred. Actual bin availability, inherited/machine PATH coexistence,
+environment refresh and effective-path behavior still need disposable acceptance.
+The helper does not change the current process environment or broadcast a refresh.
+Preserve the folder and contents
+for both choices.
 
 Microsoft describes [process environment inheritance](https://learn.microsoft.com/en-us/windows/win32/procthread/environment-variables)
 and [literal registry retrieval](https://learn.microsoft.com/en-us/dotnet/api/microsoft.win32.registrykey.getvalue).
 RIDE's append/ownership rules are implementation constraints. See the
-[dated validation](migrations/settings-post-migration-review.md#b03-persistent-user-path-observation-and-recovery-2026-10-17).
+[dated validation](migrations/settings-post-migration-review.md#b03-persistent-user-path-guarded-write-preparation-2026-10-23).
 
 ## Color usage and acceptance
 
@@ -271,16 +278,20 @@ PowerShellArtifactPath accepts publisher acquisition JSON for a cached signed MS
 No workstation integration or production target-bypass flag is provided.
 
 For the separate pending user-bin candidates, select `-Scenario UserBinPath` on
-the same VM runner. This Windows 11 case requires both runtimes already installed
-and an initially absent user bin directory. It acquires no prerequisite and
-does not change UAC. It checks real ConsoleHost startup with missing/existing bin,
+the same VM runner. This Windows 11 case requires Windows PowerShell 5.1 and an
+initially absent user bin directory. If PowerShell 7 is missing, pass
+`-PowerShellArtifactPath` with publisher acquisition JSON for a cached MSI; the
+guest checks its run-local path, SHA-256, official release URI and Microsoft
+signature before silent installation. It does not acquire over the network or
+change guest UAC. It checks real ConsoleHost startup with missing/existing bin,
 equivalent inherited PATH entries, NoProfile, repeat apply, Default and exact
 saved-profile restoration. The fixture creates and removes only its own sentinel
 and empty bin directory; unexpected content stops cleanup. Existing profile code
 that changes PATH can make the case fail and must be reviewed, not erased.
 Use the existing idle controller configuration, guest credential and a fresh
-output directory; omit PowerShellArtifactPath for this scenario. Collection of
-source hashes, evidence and saved runs precedes pinned-checkpoint recovery.
+output directory. The artifact is optional when PowerShell 7 is already present.
+Collection of source hashes, prerequisite evidence and saved runs precedes
+pinned-checkpoint recovery.
 This scenario is prepared, not yet accepted; it does not expand supported targets.
 
 References: [PowerShell profiles](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_profiles),

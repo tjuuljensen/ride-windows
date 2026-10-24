@@ -1,0 +1,49 @@
+{
+  "SchemaVersion": 1,
+  "RunDate": "2026-10-24",
+  "RecordedAtUtc": "2026-10-24T16:00:02Z",
+  "IntegrationSuite": "ApplicationsBatch4",
+  "Target": "Windows 11 Enterprise Evaluation build 26300",
+  "RunId": "98c3fa185fb14162b486d9048b28f0fe",
+  "ControllerStatus": "Passed",
+  "ControllerErrors": {
+    "Run": null,
+    "Cleanup": null,
+    "Collection": null,
+    "EvidenceExport": null
+  },
+  "Pester": {
+    "Version": "5.7.1",
+    "Passed": 332,
+    "Failed": 0,
+    "Skipped": 1,
+    "Total": 333
+  },
+  "Packages": {
+    "slack": {
+      "Status": "Passed",
+      "Version": "4.52.182",
+      "Scope": "Current user",
+      "Provider": "DirectHttps",
+      "VendorUninstall": "Passed in place",
+      "ProfilePreservation": true,
+      "Recovery": "Reinstalled version 4.52.182"
+    },
+    "discord": {
+      "Status": "Passed",
+      "Version": "1.0.9264",
+      "Scope": "Current user",
+      "Provider": "DirectHttps",
+      "VendorUninstall": "Passed in place",
+      "ProfilePreservation": true,
+      "Recovery": "Reinstalled version 1.0.9264"
+    }
+  },
+  "Guest": {
+    "PowerShell": "5.1.26100.9444",
+    "Account": "RIDE-WIN11-TEST\\admin"
+  },
+  "LegacyOutcomesClosed": 0,
+  "EstimateRangesUnchanged": "37-57 / 51-66 / 19-24 / 25-35 / 8-12",
+  "Notes": "This run revalidated the current-user Slack and Discord lifecycle. Vendor uninstallation operated in place, profile-preservation assertions passed, and compensating installation restored each package at its tested version. Windows Server support remains unverified."
+}

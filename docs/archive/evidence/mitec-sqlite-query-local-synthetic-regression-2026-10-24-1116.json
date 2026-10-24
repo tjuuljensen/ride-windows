@@ -1,0 +1,49 @@
+{
+  "RecordedAtUtc": "2026-10-24T11:16:24Z",
+  "Scope": "MiTeC SQLite Query local candidate metadata and inert synthetic package lifecycle regression",
+  "Environment": {
+    "OS": "Windows",
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false
+  },
+  "Validation": {
+    "TestFile": "tests/MiTeCSqliteQuery.Tests.ps1",
+    "Passed": 2,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "Checks": [
+      "Pinned three-member archive metadata and candidate review fields",
+      "Inert synthetic archive staging, repeat installation, owned-file removal, snapshot restore and preservation of unowned content"
+    ]
+  },
+  "Boundaries": {
+    "ProductBinaryExtractedOrRun": false,
+    "DatabaseOpened": false,
+    "WindowsStateChanged": false,
+    "VmAcceptanceClaimed": false,
+    "LicenseReviewBlocksPackagePlan": false,
+    "DefenderBlockedToolsIncluded": false
+  },
+  "Resolved": ["Focused local candidate regression"],
+  "Retired": [],
+  "Excluded": [],
+  "Deferred": [
+    "Database GUI and feature behavior",
+    "Exact database-file recovery",
+    "Remaining provenance and technical review",
+    "Windows 11 and Windows Server target acceptance"
+  ],
+  "Partial": ["No whole legacy package outcome closed"],
+  "Estimates": {
+    "WindowsSettings": "38-58",
+    "PackagesArtifacts": "52-67",
+    "WindowsComponents": "19-24",
+    "AccountsConfigurationAssets": "25-35",
+    "MaintenanceOperations": "8-12",
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "RangesChanged": false
+  }
+}

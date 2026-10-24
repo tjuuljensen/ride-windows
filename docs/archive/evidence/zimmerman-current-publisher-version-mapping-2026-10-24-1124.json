@@ -1,0 +1,81 @@
+{
+  "RecordedAtUtc": "2026-10-24T11:24:55Z",
+  "Kind": "CurrentPublisherPageVersionMapping",
+  "PublisherPage": "https://ericzimmerman.github.io/",
+  "ObservedFrameworkVariant": "Mostly .NET 10; Hasher framework/path conflict",
+  "FrameworkVariantSelectedForRide": false,
+  "SelectedLegacyMemberCount": 26,
+  "MappedMemberCount": 26,
+  "Members": [
+    {"Name":"AmcacheParser","Version":"2026.10.0","DownloadUri":"https://download.ericzimmermanstools.com/net/AmcacheParser.zip"},
+    {"Name":"AppCompatCacheParser","Version":"2026.10.0","DownloadUri":"https://download.ericzimmermanstools.com/net/AppCompatCacheParser.zip"},
+    {"Name":"bstrings","Version":"2026.10.0","DownloadUri":"https://download.ericzimmermanstools.com/net/bstrings.zip"},
+    {"Name":"EvtxECmd","Version":"2026.10.1","DownloadUri":"https://download.ericzimmermanstools.com/net/EvtxECmd.zip"},
+    {"Name":"EZViewer","Version":"2026.10.0","DownloadUri":"https://download.ericzimmermanstools.com/net/EZViewer.zip"},
+    {"Name":"Hasher","Version":"2026.10.0","PublisherFrameworkLabel":".NET 4.7.2 column","DownloadUri":"https://download.ericzimmermanstools.com/net/hasher.zip","PathVariantAccordingToUpdater":".NET 10","FrameworkVariantConflict":true},
+    {"Name":"JLECmd","Version":"2026.10.3","DownloadUri":"https://download.ericzimmermanstools.com/net/JLECmd.zip"},
+    {"Name":"JumpList Explorer","Version":"2026.10.1","DownloadUri":"https://download.ericzimmermanstools.com/net/JumpListExplorer.zip"},
+    {"Name":"LECmd","Version":"2026.10.2","DownloadUri":"https://download.ericzimmermanstools.com/net/LECmd.zip"},
+    {"Name":"MFTECmd","Version":"2026.10.2","DownloadUri":"https://download.ericzimmermanstools.com/net/MFTECmd.zip"},
+    {"Name":"MFTExplorer","Version":"2026.10.0","DownloadUri":"https://download.ericzimmermanstools.com/net/MFTExplorer.zip"},
+    {"Name":"PECmd","Version":"2026.10.2","DownloadUri":"https://download.ericzimmermanstools.com/net/PECmd.zip"},
+    {"Name":"RBCmd","Version":"2026.10.0","DownloadUri":"https://download.ericzimmermanstools.com/net/RBCmd.zip"},
+    {"Name":"RecentFileCacheParser","Version":"2026.10.1","DownloadUri":"https://download.ericzimmermanstools.com/net/RecentFileCacheParser.zip"},
+    {"Name":"RECmd","Version":"2026.10.1","DownloadUri":"https://download.ericzimmermanstools.com/net/RECmd.zip"},
+    {"Name":"Registry Explorer","Version":"2026.10.1","DownloadUri":"https://download.ericzimmermanstools.com/net/RegistryExplorer.zip"},
+    {"Name":"RLA","Version":"2026.10.0","DownloadUri":"https://download.ericzimmermanstools.com/net/rla.zip"},
+    {"Name":"SDB Explorer","Version":"2026.10.0","DownloadUri":"https://download.ericzimmermanstools.com/net/SDBExplorer.zip"},
+    {"Name":"SBECmd","Version":"2026.10.1","DownloadUri":"https://download.ericzimmermanstools.com/net/SBECmd.zip"},
+    {"Name":"ShellBags Explorer","Version":"2026.10.1","DownloadUri":"https://download.ericzimmermanstools.com/net/ShellBagsExplorer.zip"},
+    {"Name":"SQLECmd","Version":"2026.10.1","DownloadUri":"https://download.ericzimmermanstools.com/net/SQLECmd.zip"},
+    {"Name":"SrumECmd","Version":"2026.10.0","DownloadUri":"https://download.ericzimmermanstools.com/net/SrumECmd.zip"},
+    {"Name":"SumECmd","Version":"2026.10.0","DownloadUri":"https://download.ericzimmermanstools.com/net/SumECmd.zip"},
+    {"Name":"Timeline Explorer","Version":"2026.10.0","DownloadUri":"https://download.ericzimmermanstools.com/net/TimelineExplorer.zip"},
+    {"Name":"VSCMount","Version":"2026.10.0","DownloadUri":"https://download.ericzimmermanstools.com/net/VSCMount.zip"},
+    {"Name":"WxTCmd","Version":"2026.10.0","DownloadUri":"https://download.ericzimmermanstools.com/net/WxTCmd.zip"}
+  ],
+  "Boundaries": {
+    "ArtifactBytesAcquired": false,
+    "ArchiveHashesVerified": false,
+    "ArchiveMembersInspected": false,
+    "AuthenticodeInspected": false,
+    "ToolsExecuted": false,
+    "WindowsStateChanged": false,
+    "LicenseReviewBlocksMigration": false,
+    "DefenderBlockedToolsIncluded": false
+  },
+  "ArtifactHostProbe": {
+    "Method": "HEAD",
+    "Uri": "https://download.ericzimmermanstools.com/net/AmcacheParser.zip",
+    "Result": "Blocked before HTTP",
+    "Error": "Local host could not resolve download.ericzimmermanstools.com",
+    "ArtifactBytesReceived": false
+  },
+  "VariantDiscrepancies": [
+    {
+      "Product": "Hasher",
+      "PublisherPageLabel": ".NET 4.7.2 column",
+      "LinkedPath": "/net/hasher.zip",
+      "UpdaterPathInterpretation": ".NET 10",
+      "Disposition": "Unresolved; do not select a framework variant until exact bytes or publisher clarification resolves the conflict"
+    }
+  ],
+  "Deferred": [
+    "Choose/verify framework variant against user-selected target support",
+    "Acquire and hash exact per-product archive bytes",
+    "Inspect archive members, signatures, notices and runtime dependencies",
+    "Create RIDE-managed selected-package plans and lifecycle/recovery acceptance",
+    "Maintain non-blocking per-product license-review markers"
+  ],
+  "LegacyProductOutcomesClosed": 0,
+  "Estimates": {
+    "WindowsSettings": "38-58",
+    "PackagesArtifacts": "52-67",
+    "WindowsComponents": "19-24",
+    "AccountsConfigurationAssets": "25-35",
+    "MaintenanceOperations": "8-12",
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "RangesChanged": false
+  }
+}

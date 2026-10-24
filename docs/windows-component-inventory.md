@@ -110,13 +110,17 @@ For future source selection, consult the
 
 The accepted first choices are OpenSSH Client and Telnet Client, independently
 selected and neither enabled by default. Larger components remain separate.
-RIDE.ClientComponentPreparation 0.1.0 consumes saved inventory only. From the
+OpenSSH Server is also in v3 scope as a separate optional outcome, selected by
+the user on 2026-10-24. It remains off by default and requires independent review
+of its service, firewall rules, host keys, configuration ownership and recovery.
+The Client's implementation, state and acceptance do not cover the Server.
+RIDE.ClientComponentPreparation 0.3.0 consumes saved inventory only. From the
 repository root in native PowerShell, without elevation:
 
 ```powershell
 Import-Module .\modules\RIDE.ClientComponentPreparation.psm1
 Get-RideClientComponentPreparationChoice -Inventory $inventory
-$proposal = New-RideClientComponentPreparation -Inventory $inventory -Kind Capability -Name 'OpenSSH.Client~~~~0.0.1.0' -DesiredState Present -SourceMode Offline -SourcePath 'D:\Sources\FOD'
+$proposal = New-RideClientComponentPreparation -Inventory $inventory -Kind Capability -Name 'OpenSSH.Client~~~~0.0.1.0' -DesiredState Present -SourceMode LocalSource -SourcePath 'D:\Sources\FOD'
 $proposal | Select-Object Status,Command,Parameters,Requirements
 ```
 
@@ -127,18 +131,44 @@ Unknown/pending states, missing observations and domain controllers have no comm
 outline. Already desired literal states report NoChangeObserved.
 
 Select Online explicitly to respect configured servicing sources and organizational
-policy; it forbids SourcePath overrides. Select Offline explicitly with a matching
-local drive source; UNC, device paths, traversal and expansion are refused. The
-path is not opened or checked for content. Offline installation outlines include
-Source and LimitAccess. The DISM Online parameter still selects the running OS;
-it does not select the RIDE network-source mode.
+policy; it forbids SourcePath overrides. Select LocalSource explicitly with a local
+drive source; UNC, device paths, traversal and expansion are refused. For OpenSSH
+Client only, the lifecycle candidate checks a direct-child `OpenSSH-Client-Package`
+CAB for the native architecture and reads its package identity before servicing.
+Other LocalSource paths are not accepted by the lifecycle candidate. LocalSource
+installation outlines include Source and LimitAccess. The DISM Online parameter
+still selects the running OS; it does not select the RIDE network-source mode.
 
-Microsoft documents LimitAccess as preventing Windows Update lookup. That flag
-alone does not establish the accepted requirement of no network fallback through
-any configured source. SourceValidated and NetworkBoundaryVerified therefore remain
-false. Before servicing, prove matching build, edition, architecture, language,
-required payloads and complete offline behavior without changing servicing policy.
-Missing or incompatible source content must fail visibly.
+Microsoft documents LimitAccess as preventing Windows Update lookup. LocalSource
+blocks that lookup only; configured-source fallback remains uninspected, so this
+mode does not establish network isolation. Preparation records
+`WindowsUpdateLookupBlocked` and reports `ConfiguredSourceFallback = NotInspected`;
+it makes no overall `AllowNetworkFallback = false` claim. `SourceValidated` and
+`NetworkBoundaryVerified` therefore remain false. The OpenSSH LocalSource preflight
+requires the exact official CAB filename for the native architecture, reads one
+matching CBS package identity whose Windows build matches the target build, and
+records the CAB SHA-256. Restore to Present repeats those checks and requires the
+same package identity, architecture and hash from the saved record. Microsoft's
+inventory identifies this capability as non-satellite, so no language CAB is
+required for this package. This preflight does not validate configured-source
+fallback or establish Windows behavior. An existing directory or older saved
+record alone is insufficient. The candidate remains unregistered and unsupported
+pending native source, dependency, recovery and Windows acceptance.
+
+Microsoft's Windows 11 Features on Demand inventory identifies OpenSSH Client as
+the non-satellite `OpenSSH.Client~~~~0.0.1.0` capability, with an
+`OpenSSH-Client-Package` CAB on the Windows 11 Languages and Optional Features
+media. The media must match the Windows image version. Microsoft's source-order
+guidance says DISM may check configured Group Policy locations after an explicit
+source misses content; `LimitAccess` blocks Windows Update lookup but does not by
+itself rule out a policy-configured network source. Telnet's `TelnetClient`
+identity is an optional feature, and its source requirements need a separate
+target-specific inventory; Telnet LocalSource apply/restore remains blocked. The
+OpenSSH preflight verifies the selected CAB identity, architecture, build and hash,
+but not servicing dependencies or source precedence. See the [OpenSSH requirement and policy
+troubleshooting](https://learn.microsoft.com/en-us/troubleshoot/windows-server/system-management-components/cant-install-openssh-features),
+[Windows 11 Features on Demand inventory](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod?view=windows-11),
+and [DISM source order](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-v2--capabilities?view=windows-11).
 
 Telnet outlines use NoRestart, omit All and never use Remove to delete payloads.
 Capability cmdlets do not expose NoRestart; future execution must inspect restart
@@ -146,15 +176,118 @@ results without initiating a reboot. A prior DisabledWithPayloadRemoved feature
 cannot be exactly restored just by disabling it. Removing a capability requires
 separate reacquisition/dependency and recovery evidence.
 
+### Removal recovery gate
+
+On 2026-10-23, the user decided to restrict removal of OpenSSH Client and Telnet
+Client to cases with a validated recovery source. Do not offer an `Absent`
+transition when the original payload may be removed and cannot be reliably
+reacquired and restored. The current runner is unregistered and does not yet
+validate source identity, completeness, dependency coverage, or all network
+fallback paths; it must not be treated as satisfying this gate. Disposable-target
+acceptance must demonstrate source-matched apply and exact recovery before a
+removal operation can be exposed. See the [decision record](migrations/decision-session-2026-10-17.md#deferred-package-and-client-component-recovery-decisions-2026-10-23).
+
+### Local transition runner candidate
+
+`RIDE.ClientComponentLifecycle.psm1` adds an unregistered candidate runner for these
+two exact client components. It takes a fresh local inventory, checks computer,
+build and edition, refuses Server installations and pending reboots, saves the literal
+prior state under `%ProgramData%\RIDE\State\ClientComponents`, calls the selected
+DISM transition only after `ShouldProcess`, and reads the resulting state back. It
+never starts a restart. Restore refuses target/revision changes and state drift.
+It also refuses a captured-state restore that would remove OpenSSH or discard
+Telnet's payload-removed state without a validated matching recovery source; the
+saved snapshot remains available. Restore to Telnet's Disabled state remains
+available when the payload is present. The machine snapshot ACL is limited to
+SYSTEM and Administrators.
+
+From an elevated native PowerShell session on an intended disposable Windows VM,
+use its freshly recorded identity and an existing local evidence directory to run
+`Invoke-RideClientComponentTransition` with `-WhatIf` first. Online mode respects
+configured servicing sources. LocalSource mode requires an explicit local source
+path. For OpenSSH Client, the lifecycle candidate checks the exact architecture-
+specific CAB filename and rejects a reparse point or empty file. It reads the CBS
+package identity, requires the expected publisher package and target Windows build,
+and records the CAB SHA-256. Restore repeats the checks and requires the same
+package identity, architecture and hash. This preflight does not validate servicing
+dependencies or prove every required payload member is present. `LimitAccess` blocks
+Windows Update lookup, but policy-configured source fallback is not inspected, so
+`NetworkBoundaryVerified` remains false. Telnet LocalSource validation is not
+implemented. Absent transitions remain blocked until source completeness, dependency
+coverage, network behavior and exact payload recovery are validated. The runner
+rejects pre-Windows 11 client builds and is not connected to a catalog operation or
+supported target.
+Do not treat a local regression as Windows servicing acceptance. See the [dated
+candidate record](migrations/remaining-migrations-follow-up.md#b06-client-component-guarded-lifecycle-candidate-2026-10-23).
+
 These are data-only outlines, not executable plans: ReadyForMutation and
 RecoverySupported stay false. No supported catalog target or profile is added.
-Fresh target/elevation checks, policy and dependency preflight, durable capture,
-explicit diagnostic paths, post-state verification and native consumer/recovery
-acceptance remain required. Retain the original inventory; no Windows rollback is
-needed for preparation. See the [dated validation](migrations/remaining-migrations-follow-up.md#b06-client-component-source-preparation-2026-10-17).
+The runner candidate does not prove policy/dependency readiness, source boundaries,
+exact payload recovery or native target behavior. Retain the original inventory;
+no Windows rollback is needed for local preparation. See the [dated validation](migrations/remaining-migrations-follow-up.md#b06-client-component-source-preparation-2026-10-17).
 
 Parameter boundaries are documented by Microsoft for
 [Add-WindowsCapability](https://learn.microsoft.com/en-us/powershell/module/dism/add-windowscapability?view=windowsserver2025-ps),
 [Remove-WindowsCapability](https://learn.microsoft.com/en-us/powershell/module/dism/remove-windowscapability?view=windowsserver2025-ps),
 [Enable-WindowsOptionalFeature](https://learn.microsoft.com/en-us/powershell/module/dism/enable-windowsoptionalfeature?view=windowsserver2025-ps)
 and [Disable-WindowsOptionalFeature](https://learn.microsoft.com/en-us/powershell/module/dism/disable-windowsoptionalfeature?view=windowsserver2025-ps).
+
+## OpenSSH Server component boundary
+
+OpenSSH Server is a distinct optional v3 outcome, individually selected and off
+by default. Its capability identity is
+`OpenSSH.Server~~~~0.0.1.0`; Windows Server 2025 installs it by default, so a
+Server 2025 target may already have the capability without the user selecting it.
+Capability presence must not start or automatically enable `sshd` or open inbound
+SSH access. Microsoft documents that installing the capability creates and
+enables the `OpenSSH-Server-In-TCP` firewall rule for TCP port 22. A RIDE install
+candidate must capture the prior service/firewall state and disable only a rule
+that installation newly creates, while leaving pre-existing service, firewall,
+configuration and host-key state intact.
+
+Starting `sshd` is a separate activation step. Its first start generates host
+keys under `%ProgramData%\ssh` and generates `sshd_config` if that file is
+missing. Never start the service as an installation side effect, copy private
+host keys into RIDE snapshots, or delete keys/configuration during generic
+component removal. A future explicit activation workflow needs its own
+`ShouldProcess` boundary and reversible service/firewall state. Removal must
+preserve unowned host keys/configuration and refuse if exact feature recovery
+cannot be established or if the owned firewall rule has drifted.
+
+Microsoft's Server 2025 default installation and UI enablement model means the
+capability state alone does not express whether SSH is enabled. Readiness and
+acceptance must record capability, service start mode/status, exact firewall
+rule identity and enabled state, and the existence/hash/ownership of server
+configuration and host-key files as separate evidence. The generic Windows
+component provider captures only the capability. An unregistered
+`RIDE.OpenSshServerObservation.psm1` candidate now records service, firewall and
+bounded server-data observations separately; it does not capture private-key
+bytes or establish atomic state, ownership, source completeness or recovery. Its
+observation always remains not ready for mutation. No OpenSSH Server catalog
+operation or supported target is added by this candidate.
+
+An unregistered `RIDE.OpenSshServerLifecycle.psm1` candidate now handles only
+explicit service activation and the enabled state of an already existing,
+exact local inbound TCP/22 rule. It requires an already elevated session and
+an installed capability; capability installation/removal and target support
+remain separate work. The caller must choose `Manual` or `Automatic` service
+startup and `Keep`, `Enabled` or `Disabled` for the firewall rule. `Keep` retains
+the observed rule, so starting `sshd` while that rule is already enabled allows
+inbound SSH. The operation does not create a firewall rule, start a service as a
+capability-install side effect, or copy private-key bytes. It saves the prior
+service and rule literals under the protected machine state directory before
+mutation, verifies their post-state and refuses restore after target or literal
+drift. Restore leaves any host keys or configuration generated by first start
+in place and reports the difference; exact server-data recovery is unsupported.
+All native lifecycle, first-start, network exposure and recovery acceptance on
+Windows 11 and Windows Server 2025 remains deferred. The focused mocked
+activation suite passes 11/11 on PowerShell 7.6.5, and both candidate files parse
+under Windows PowerShell 5.1. This candidate remains unregistered and adds no
+catalog operation, profile selection or supported target. See the
+[activation regression evidence](archive/evidence/openssh-server-activation-lifecycle-local-candidate-2026-10-24-0816.json).
+
+See [Microsoft's install and first-use guidance](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse),
+[Windows Server OpenSSH configuration](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh-server-configuration),
+[host-key management](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_keymanagement),
+the [source review](archive/evidence/openssh-server-current-source-review-2026-10-24-0412.json),
+and [observer regression evidence](archive/evidence/openssh-server-observation-candidate-2026-10-24-0413.json).

@@ -1,0 +1,97 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T07:51:00Z",
+  "Topic": "ArtCraft Launcher ApplicationsBatch7 routing and ApplicationsBatch1 Windows 11 result",
+  "Batch7": {
+    "PackageId": "package.artcraft-launcher",
+    "PackageVersion": "0.2.1",
+    "MigrationBatch": "ApplicationsBatch7",
+    "Scope": "User",
+    "CandidateTargets": [
+      "Windows 11"
+    ],
+    "SupportedTargets": [],
+    "PendingAcceptance": true,
+    "Guard": "Exactly one launcher package; Windows 11 only; install/repeat/uninstall/saved-run recovery; do not launch the application or download app payloads.",
+    "LicenseReview": "Owner-specific local review remains separate and does not gate technical migration."
+  },
+  "LocalValidation": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "FocusedSuites": [
+      "ArtcraftPackages.Tests.ps1",
+      "TestAutomation.Tests.ps1"
+    ],
+    "Discovered": 114,
+    "Passed": 112,
+    "Failed": 0,
+    "Skipped": 2,
+    "TestRegistryPlugin": "Disabled because sandbox access to HKCU is denied",
+    "TemporaryRoot": "Unique checkout-local .local directory",
+    "CatalogExport": "Passed; docs/OPERATIONS.md current",
+    "RepositoryValidation": "Passed: 407 operations, 8 groups, 5 profiles, 269 PowerShell files",
+    "RunnerVersion": "0.9.0",
+    "DiffCheck": "Passed"
+  },
+  "ApplicationsBatch1Run": {
+    "RunId": "158f5e1bd21c496e8048e71982df81e6",
+    "Suite": "ApplicationsBatch1",
+    "Target": "RIDE-Win11-Test, Windows 11 Enterprise Evaluation build 26300",
+    "StartedAtUtc": "2026-10-24T07:37:35Z",
+    "FinishedAtUtc": "2026-10-24T07:49:53Z",
+    "Status": "Failed",
+    "GuestPester": {
+      "Total": 322,
+      "Passed": 321,
+      "Failed": 0,
+      "Status": "Passed"
+    },
+    "PartialScenarioEvidence": [
+      {
+        "Id": "package.thunderbird",
+        "Status": "Passed",
+        "Version": "158.0.1",
+        "Recovery": true
+      },
+      {
+        "Id": "package.gpg4win",
+        "Status": "Failed",
+        "Error": "Installer exited with code -1073741819",
+        "Recovery": false,
+        "ExitCodeHex": "0xC0000005",
+        "ExitCodeName": "STATUS_ACCESS_VIOLATION",
+        "CauseKnown": false
+      }
+    ],
+    "AggregateAcceptance": "Not accepted; the guest summary is Failed and the full ApplicationsBatch1 scenario result was not collected. Do not claim an aggregate package pass count.",
+    "ControllerResult": "Test controller exited with code 1 after guest results were reported mismatched or unsuccessful.",
+    "CleanupError": null,
+    "CollectionError": null,
+    "PendingQueueAfterCompletion": 0,
+    "RunningQueueAfterCompletion": 0,
+    "Next": "Investigate the Gpg4win limited-user installer crash and protected queue access before another VM request. No fresh UAC or controller refresh was attempted."
+  },
+  "MigrationAccounting": {
+    "Resolved": [
+      "ArtCraft Launcher technical routing to a dedicated acceptance batch"
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "ArtCraft Launcher Windows 11 lifecycle/recovery; Gpg4win native lifecycle/recovery after installer crash; further ApplicationsBatch1 acceptance"
+    ],
+    "Partial": [
+      "ArtCraft Launcher remains unsupported pending guest acceptance; ApplicationsBatch1 run failed and closes no whole legacy product outcome"
+    ],
+    "EstimateRangesUnchanged": true,
+    "EstimateRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170"
+  }
+}

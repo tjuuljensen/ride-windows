@@ -1,0 +1,72 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-22",
+  "ReviewType": "StaticSourceSafetyReview",
+  "Package": {
+    "Id": "package.chromeparser",
+    "Name": "ChromeSyncParser (Pinned Python source)",
+    "PackageVersion": "1.00-0f59c5702ffd",
+    "Repository": "marleyjaffe/ChromeSyncParser",
+    "Revision": "0f59c5702ffd03102c550ecc373ab4fefa6f810c",
+    "ArchiveSha256": "8dff59a48d3d6ab41cf8d39154a0e05cfda5df36a1b76180a70692762854da46",
+    "ScriptPath": "ChromeSyncParser-0f59c5702ffd03102c550ecc373ab4fefa6f810c/ChromeParser.py",
+    "ScriptSha256": "7f8f8d7f4c29c9bd66f1645da47d2a449381896f48c3629a8c71e79e8b705384",
+    "License": "MIT; retain upstream copyright and license"
+  },
+  "StaticFindings": [
+    {
+      "Area": "Default Windows database discovery",
+      "Observation": "GetDatabases assigns databasePath on Windows only for platform.release() values 7 and XP. On Windows 10/11 without --database, the Windows branch leaves databasePath unset before glob.glob(databasePath). The README's Windows Vista-or-later path also differs from the source path.",
+      "Evidence": "Pinned ChromeParser.py lines 93-127; pinned README DataLocations section.",
+      "RuntimeVerified": false
+    },
+    {
+      "Area": "SQLite input protection",
+      "Observation": "SyncFile uses sqlite3.connect(self.database) without a read-only URI mode. The reviewed routines issue SELECT queries, but opening a database is not enforced read-only by the connection.",
+      "Evidence": "Pinned ChromeParser.py lines 143-154 and query methods.",
+      "RuntimeVerified": false
+    },
+    {
+      "Area": "Output truncation and input/output collision",
+      "Observation": "CheckFile opens an existing --outFile path with mode 'w'. main calls CheckFile before opening or discovering the database, and there is no canonical-path collision guard. Supplying the same path as database and output therefore truncates the database before SQLite opens it.",
+      "Evidence": "Pinned ChromeParser.py lines 710-737 and 751-764.",
+      "RuntimeVerified": false
+    },
+    {
+      "Area": "Compatibility",
+      "Observation": "Syntax parsing under Python 3.12.14 is recorded in the earlier source review, but it does not establish historical database schema compatibility, modern Chrome support, parser correctness, safe forensic acquisition, or Windows lifecycle behavior.",
+      "Evidence": "Earlier source evidence and pinned README.",
+      "RuntimeVerified": false
+    }
+  ],
+  "Validation": {
+    "CatalogValidator": "Passed: 371 operations, 8 groups, 5 profiles, 241 PowerShell files",
+    "GeneratedOperationsCheck": "Passed: docs/OPERATIONS.md matches catalog",
+    "PackageEvidencePester": "24 passed, 1 failed. The unrelated shared-observation update test could not replace its existing fixture file under the sandbox (File.Replace reported Unable to remove the file to be replaced); the artifact remained retained."
+  },
+  "Disposition": {
+    "CatalogCandidateRetained": true,
+    "PendingAcceptance": true,
+    "CandidateTargets": ["Windows 11"],
+    "SupportedTargets": [],
+    "NoSourceExecution": true,
+    "NoDatabaseAccess": true,
+    "NoBrowserProfileAccess": true,
+    "NoOutputFileOpened": true,
+    "NoVmUsed": true,
+    "NoWindowsStateChanged": true,
+    "LegacyOutcomeResolved": false
+  },
+  "RequiredFollowUp": [
+    "Keep the source package unsupported and do not execute it against live profiles or evidence.",
+    "If source-file lifecycle is separately tested, use the existing inert package fixture path and do not run Python.",
+    "Any future parser execution requires an independently reviewed implementation with explicit copied/synthetic inputs, enforced read-only database handling, non-overwriting output creation, and modern schema validation.",
+    "Windows 11 disposable package lifecycle acceptance remains pending."
+  ],
+  "EstimatedRemainingWork": {
+    "GroupRanges": ["38-58", "53-68", "20-25", "25-35", "8-12"],
+    "ExactRangeEndpoints": "144-198",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateReason": "The static review identifies concrete runtime and forensic-safety blockers but does not close or change the pinned source-only package outcome."
+  }
+}

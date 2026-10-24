@@ -1,0 +1,45 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T07:28:00Z",
+  "Scope": "OpenSSH Server read-only observation candidate local regression",
+  "Test": {
+    "Path": "tests/OpenSshServerObservation.Tests.ps1",
+    "PesterVersion": "5.7.1",
+    "PowerShellVersion": "7.6.5",
+    "PowerShellEdition": "Core",
+    "Discovered": 7,
+    "Passed": 7,
+    "Failed": 0,
+    "Skipped": 0,
+    "TestRegistryPlugin": "Disabled"
+  },
+  "Coverage": [
+    "Capability, service, firewall and bounded server-data surfaces remain separate",
+    "Mismatched machine/build/edition is rejected before component queries",
+    "Provider errors are unavailable, not absence",
+    "Present capability does not imply service activation",
+    "Exact sshd service observation does not start the service",
+    "Bounded synthetic host-key/config metadata is hashed without returning file bytes"
+  ],
+  "Boundaries": {
+    "ObserverOnly": true,
+    "CatalogOperationAdded": false,
+    "ServiceChanged": false,
+    "FirewallChanged": false,
+    "HostKeyOrConfigChanged": false,
+    "WindowsStateChanged": false,
+    "VmUsed": false,
+    "ElevationRequested": false,
+    "DefenderChanged": false
+  },
+  "Outcome": {
+    "Resolved": ["The current-source read-only observer passes all seven focused mocked checks."],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Mutation lifecycle, capability servicing source, service/firewall ownership and exact recovery, native Windows 11/Server 2025 acceptance."],
+    "Partial": ["Unregistered observer candidate only; no legacy component outcome closes."],
+    "EstimateRangesUnchanged": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170"
+  }
+}

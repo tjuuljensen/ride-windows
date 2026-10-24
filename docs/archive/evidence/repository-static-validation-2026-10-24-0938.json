@@ -1,0 +1,45 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T09:38:00Z",
+  "Batch": "Current-source read-only catalog and PowerShell validation",
+  "Command": "pwsh -NoProfile -File tools/validate.ps1",
+  "Result": {
+    "Passed": true,
+    "Operations": 407,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 272,
+    "GeneratedOperationDocumentation": "Current"
+  },
+  "Boundaries": {
+    "HandlersInvoked": false,
+    "PackagesAcquired": false,
+    "InstallerExecuted": false,
+    "VmUsed": false,
+    "DefenderChanged": false,
+    "WindowsStateChanged": false
+  },
+  "Outcome": {
+    "Resolved": [
+      "Current catalog, profiles, generated operations documentation and 272 PowerShell source files pass the repository's static validation."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Runtime behavior and target acceptance remain separate VM work."
+    ],
+    "Partial": [
+      "No migration legacy outcome or supported Windows target closes from static validation."
+    ]
+  },
+  "Estimates": {
+    "Settings": "38-58",
+    "Packages": "52-67",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "No estimate change: validation proves source consistency but does not close runtime or legacy outcomes."
+  }
+}

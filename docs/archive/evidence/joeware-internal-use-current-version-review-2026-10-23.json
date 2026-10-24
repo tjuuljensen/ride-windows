@@ -1,0 +1,66 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "RecordedAtUtc": "2026-10-23T15:56:09Z",
+  "Batch": "JoeWare internal-use terms and current-version source review",
+  "Sources": [
+    {
+      "Uri": "https://blog.joeware.net/2024/06/06/6216/",
+      "Finding": "Publisher clarification permits a company to download a copy and serve it to internal corporate users for internal use. Distribution to others, especially within a solution sold to customers, is a separate case."
+    },
+    {
+      "Uri": "https://blog.joeware.net/",
+      "Finding": "Publisher's 2026-07-11 release note lists AdFind 1.64.00 and AdMod 1.29.00. The 2026-08-09 note says the AdFind archive is password protected and contains an unprotected password.txt."
+    },
+    {
+      "Uri": "https://joeware.net/freetools/tools/adfind/index.htm",
+      "Finding": "Current AdFind page lists version 1.64.00 dated 2026-06-08 and describes publisher-observed AV/PUP blocking; it identifies a password-protected archive with password.txt."
+    },
+    {
+      "Uri": "https://www.joeware.net/freetools/tools/rdp-sec-check/index.htm",
+      "Finding": "Page lists 0.9-beta / JoeWare V02.00.00 dated 2014-11-17 and says GPLv2 Perl source is included in the ZIP alongside an AutoState PerlApp executable. The exact archive and contents remain uninspected."
+    }
+  ],
+  "Disposition": {
+    "DirectDownloadAndInstall": "Internal company use is covered by the publisher's 2024 clarification; license concerns do not block RIDE migration.",
+    "ThirdPartyCommercialDistribution": "Separate publisher agreement/negotiation; outside this RIDE internal-use workflow.",
+    "AdFind": "AV/PUP warning is product-specific. Any Defender-blocked binary remains excluded; no Defender exception or allow action was made.",
+    "RdpSecCheck": "Exact publisher ZIP/source/member/dependency inventory remains pending; do not infer the contents from the separate upstream source repository."
+  },
+  "Outcome": {
+    "Resolved": [
+      "JoeWare internal corporate deployment scope for RIDE direct download-and-install.",
+      "Current publisher version evidence for AdFind 1.64.00 and AdMod 1.29.00."
+    ],
+    "Retired": [],
+    "Excluded": [
+      "Defender-blocked files remain excluded from selection and execution."
+    ],
+    "Deferred": [
+      "Exact publisher bytes, archive/member hashes, source/dependency notices, lifecycle and Windows acceptance."
+    ],
+    "Partial": [
+      "No JoeWare legacy package outcome is closed."
+    ]
+  },
+  "Estimate": {
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "Unchanged: the terms and version review closes no exact-source, lifecycle or acceptance outcome."
+  },
+  "Boundaries": {
+    "ArchiveDownloaded": false,
+    "ExecutableRun": false,
+    "AdLdapEndpointContacted": false,
+    "DefenderChanged": false,
+    "VmUsed": false,
+    "WindowsStateChanged": false
+  }
+}

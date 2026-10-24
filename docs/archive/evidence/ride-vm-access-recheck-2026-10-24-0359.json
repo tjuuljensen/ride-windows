@@ -1,0 +1,24 @@
+{
+  "RecordedAtUtc": "2026-10-24T03:59:47Z",
+  "Targets": [
+    {
+      "Name": "RIDE-Win11-Test",
+      "GetVm": "BlockedBeforeInspection",
+      "GetVmError": "Access to a CIM resource was not available to the client",
+      "CheckpointInspection": "NotReached"
+    },
+    {
+      "Name": "RIDE-Srv2025Test",
+      "GetVm": "BlockedBeforeInspection",
+      "GetVmError": "Access to a CIM resource was not available to the client",
+      "CheckpointInspection": "NotReached"
+    }
+  ],
+  "SideEffects": {
+    "ElevationPrompt": false,
+    "VmStateChanged": false,
+    "CheckpointChanged": false,
+    "GuestCodeRun": false
+  },
+  "Impact": "Python manager/runtime acceptance and other VM-dependent package, setting, and component tests remain deferred. The prior VM/checkpoint state is unknown."
+}

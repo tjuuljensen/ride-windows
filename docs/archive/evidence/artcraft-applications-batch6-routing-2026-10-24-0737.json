@@ -1,0 +1,101 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T07:37:00Z",
+  "Batch": "Artcraft machine-scope application lifecycle routing",
+  "Selection": {
+    "IntegrationSuite": "ApplicationsBatch6",
+    "RunnerVersion": "0.8.0",
+    "CandidateTarget": "Windows 11",
+    "Packages": [
+      "package.photocraft",
+      "package.vectorcraft",
+      "package.filmcraft",
+      "package.lightcraft",
+      "package.pdfcraft",
+      "package.effectcraft",
+      "package.designcraft",
+      "package.wordcraft",
+      "package.soundcraft",
+      "package.deckcraft",
+      "package.cadcraft",
+      "package.gridcraft"
+    ],
+    "SelectedCount": 12,
+    "AllMachineScope": true,
+    "AllWindows11Candidates": true,
+    "AllPendingAcceptance": true,
+    "AllSupportedTargetsEmpty": true,
+    "SeparateCurrentUserLauncher": {
+      "Id": "package.artcraft-launcher",
+      "InBatch": false
+    }
+  },
+  "LicenseReview": {
+    "Store": ".local/license-reviews.json",
+    "MatchingVersionRecords": 13,
+    "NeedsReviewRecords": 13,
+    "TechnicalMigrationGatedByReview": false,
+    "EntitlementOrRedistributionApproved": false
+  },
+  "Validation": {
+    "FocusedPesterPaths": [
+      "tests/ArtcraftPackages.Tests.ps1",
+      "tests/TestAutomation.Tests.ps1"
+    ],
+    "PesterVersion": "5.7.1",
+    "PowerShellVersion": "7.6.5",
+    "TestRegistryPlugin": "Disabled",
+    "Discovered": 112,
+    "Passed": 110,
+    "Failed": 0,
+    "Skipped": 2,
+    "InitialDefaultTempAttempt": "Sandbox denied fixture writes under the default system temporary directory; rerun used a unique checkout-local .local temp root.",
+    "RerunResult": "Passed",
+    "ApplicationBatchScriptVersion": "0.8.0",
+    "CatalogExport": "Passed",
+    "RepositoryValidation": {
+      "Result": "Passed",
+      "Operations": 407,
+      "Groups": 8,
+      "Profiles": 5,
+      "PowerShellFiles": 269
+    },
+    "DiffCheck": "Passed"
+  },
+  "AcceptanceBoundary": {
+    "VmUsed": false,
+    "InstallerDownloadedOrRun": false,
+    "LauncherStarted": false,
+    "SupportedTargetsChanged": false,
+    "LicenseReviewStatusChanged": false,
+    "WindowsStateChanged": false,
+    "ElevationRequested": false,
+    "DefenderChanged": false
+  },
+  "DeferredAcceptance": [
+    "Windows 11 preview, install/repeat, uninstall and saved-run recovery for the twelve machine-scope apps",
+    "Artifact/version-specific behavior and retained source notices",
+    "All Windows Server support and all production SupportedTargets"
+  ],
+  "VmQueue": {
+    "Target": "RIDE-Win11-Test",
+    "NewRequestSubmitted": false,
+    "LastRecordedDispatchBlocker": "Protected pending-queue temporary request-file access denied before enqueue"
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Native ApplicationsBatch6 lifecycle/recovery acceptance awaits protected queue write access."],
+    "Partial": ["Twelve previously unbatched packages now have an exact Windows 11 acceptance route and passing local selector/automation regression."],
+    "EstimateRangesUnchanged": {
+      "Settings": "38-58",
+      "Packages": "52-67",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "142-196",
+      "RoundedTotal": "145-200/about 170"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-23T12:31:01Z",
+  "Queries": [
+    {
+      "Name": "RIDE-Win11-Test",
+      "Command": "Get-VM -Name RIDE-Win11-Test",
+      "Result": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "Name": "RIDE-Srv2025Test",
+      "Command": "Get-VM -Name RIDE-Srv2025Test",
+      "Result": "Access to a CIM resource was not available to the client."
+    }
+  ],
+  "CheckpointState": "Unknown; VM queries failed before inspection",
+  "QueueSubmission": "None",
+  "VmRuns": 0,
+  "FreshUacPrompts": 0,
+  "HostOrControllerChanged": false,
+  "DefenderBlockedToolsTouched": false,
+  "Consequence": "Windows acceptance remains deferred. Continue source review and offline fixture work that does not require these VMs."
+}

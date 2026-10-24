@@ -1,0 +1,34 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T16:31:26Z",
+  "Batch": "WinPmem synthetic portable-file lifecycle regression",
+  "Suite": "tests/WinPmemPackage.Tests.ps1",
+  "Runner": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "WindowsIntegrationExcluded": true,
+    "TempRoot": ".local/winpmem-pester-20261024/temp"
+  },
+  "Tests": { "Passed": 4, "Failed": 0, "Skipped": 0, "Total": 4 },
+  "NewCoverage": "A synthetic inert executable file is staged through the catalog candidate's PortableFormat=File handler, verified as healthy, then removed by manifest ownership while preserving an operator-owned file and the tools root.",
+  "Boundaries": {
+    "RealWinPmemBytesUsed": false,
+    "ExecutableLaunched": false,
+    "DriverLoaded": false,
+    "MemoryCaptured": false,
+    "DefenderChanged": false,
+    "VmUsed": false,
+    "WindowsStateChanged": false
+  },
+  "RepositoryValidation": "Passed; 410 operations, 8 groups, 5 profiles and 273 PowerShell files; generated operation documentation current.",
+  "Disposition": {
+    "Resolved": ["Synthetic exact-file staging/removal and preservation behavior for package.winpmem."],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Publisher bytes and Authenticode verification because local DNS cannot resolve github.com.", "Driver compatibility, explicit load/unload and recovery, memory capture behavior and Windows 11/Server acceptance."],
+    "Partial": ["No whole legacy outcome closes and no target is supported."],
+    "LicenseReviewIsMigrationBlocker": false,
+    "EstimateImpact": "Unchanged: 37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170."
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-24T11:04:34Z",
+  "runId": "2c4c9348bbb541059ea9e38e7fb796cd",
+  "suite": "PSScriptTools",
+  "target": "Windows 11",
+  "build": "26300",
+  "controllerResult": {
+    "status": "Failed",
+    "error": "Guest portable checks failed; inspect focused evidence.",
+    "cleanupError": null,
+    "evidenceCollected": true,
+    "checkpointRecovery": "ResetAndOff"
+  },
+  "guestPackageResult": {
+    "status": "FailedOverall",
+    "packageId": "package.psscripttools",
+    "lifecycleRecovery": true,
+    "checks": [
+      "InstallPreview",
+      "Install",
+      "ExactMemberSelection",
+      "RepeatInstall",
+      "RemovePreview",
+      "Remove",
+      "RepeatRemove",
+      "RestorePreview",
+      "ExactRemovalRestore",
+      "UnownedPreservation",
+      "OriginalAbsenceRestore",
+      "UnownedCollisionRefusal",
+      "ModifiedReplacementRefusal",
+      "ModifiedRemovalPreservation"
+    ],
+    "toolExecuted": false,
+    "payloadExecution": false
+  },
+  "runtimeAcceptance": {
+    "status": "Failed",
+    "desktopPowerShell": "5.1.26100.9444",
+    "desktopResult": "Failed: required Microsoft.PowerShell.ThreadJob module missing before import",
+    "missingDependencyGuard": "Passed: import failed before creating the test CIM file",
+    "powershellCore": "Unavailable",
+    "dependenciesInstalled": false,
+    "functionsRun": false,
+    "cimNamespaceContentsCollected": false,
+    "cause": "ThreadJob dependency absent in Windows PowerShell; PowerShell 7 was not installed on the test image."
+  },
+  "acceptanceBoundaries": {
+    "functionalAcceptance": "Pending",
+    "activationAcceptance": "Pending",
+    "targetSupportPromoted": false,
+    "legacyOutcomeClosed": false
+  },
+  "evidencePaths": [
+    "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\2c4c9348bbb541059ea9e38e7fb796cd\\focused\\evidence\\summary.json",
+    "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\2c4c9348bbb541059ea9e38e7fb796cd\\focused\\evidence\\psscripttools-runtime\\summary.json",
+    "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\2c4c9348bbb541059ea9e38e7fb796cd\\controller.log"
+  ],
+  "migrationOutcome": {
+    "resolved": ["Windows 11 source-file lifecycle and exact recovery on build 26300"],
+    "retired": [],
+    "excluded": [],
+    "partial": ["PSScriptTools package functional/runtime acceptance; no target support promotion"],
+    "deferred": ["ThreadJob dependency ownership/source decision, dependency-present runtime probe, functional acceptance"],
+    "estimateRangesUnchanged": true,
+    "estimates": {
+      "settings": "38-58",
+      "packages": "52-67",
+      "components": "19-24",
+      "deploymentAndOffline": "25-35",
+      "other": "8-12",
+      "exactTotal": "142-196",
+      "roundedTotal": "145-200/about 170"
+    }
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-24",
+  "RunId": "28d247d6b29b47919e492e28c95fa0c7",
+  "Batch": "MiTeCUtilityFiles",
+  "Source": "Local working tree including uncommitted changes",
+  "Target": {
+    "Name": "Windows 11",
+    "Build": "26300",
+    "Vm": "RIDE-Win11-Test"
+  },
+  "Packages": [
+    {
+      "Id": "package.mitec-uuid-generator",
+      "Archive": "UUID.zip",
+      "ArchiveSha256": "0795838486e6a0ce15edeaeaeed978e09d510ffa9478f9f040122a4583914c80",
+      "SelectedFile": "UUID.exe",
+      "SelectedFileSha256": "36508b19dec5f4ff521322ddffc278e1cbba69f75d733eb1fcee1ba94ab6137f",
+      "AuthenticodeStatus": "UnknownError",
+      "SignerThumbprint": "D5AB5C5DCDAC5BF30E0D981B5E341A17B75C251C",
+      "Status": "Passed",
+      "LifecycleRecovery": "Passed",
+      "ToolExecuted": false,
+      "CollisionRefusal": "Portable destination collision: UUID.exe",
+      "ModifiedRemovalPreservation": "Preserved modified portable file: UUID.exe"
+    },
+    {
+      "Id": "package.mitec-certificate-generator",
+      "Archive": "CG.zip",
+      "ArchiveSha256": "dab3421d6ca9629c938b86e267ce139d4f2ce54758f1125008bf7da158f28666",
+      "SelectedFile": "CG.exe",
+      "SelectedFileSha256": "8cc29d56a0a7fc863ca2e659a66d115a581521767bd8988a5ace504d32cc9c0e",
+      "AuthenticodeStatus": "UnknownError",
+      "SignerThumbprint": "D5AB5C5DCDAC5BF30E0D981B5E341A17B75C251C",
+      "Status": "Passed",
+      "LifecycleRecovery": "Passed",
+      "ToolExecuted": false,
+      "CollisionRefusal": "Portable destination collision: CG.exe",
+      "ModifiedRemovalPreservation": "Preserved modified portable file: CG.exe"
+    },
+    {
+      "Id": "package.mitec-certificate-information",
+      "Archive": "CertInfo.zip",
+      "ArchiveSha256": "6183172dc2277111b3019460716b4f57ad5b5f09d3bf3584620bdaff033e7c7b",
+      "SelectedFile": "CertInfo.exe",
+      "SelectedFileSha256": "d4d7936b1f9498c2ba03a1a613a06562f447c7f2d1371d9be01e0e6ae407b391",
+      "AuthenticodeStatus": "UnknownError",
+      "SignerThumbprint": "D5AB5C5DCDAC5BF30E0D981B5E341A17B75C251C",
+      "Status": "Passed",
+      "LifecycleRecovery": "Passed",
+      "ToolExecuted": false,
+      "CollisionRefusal": "Portable destination collision: CertInfo.exe",
+      "ModifiedRemovalPreservation": "Preserved modified portable file: CertInfo.exe"
+    }
+  ],
+  "Checks": [
+    "InstallPreview",
+    "Install",
+    "ExactMemberSelection",
+    "RepeatInstall",
+    "RemovePreview",
+    "Remove",
+    "RepeatRemove",
+    "RestorePreview",
+    "ExactRemovalRestore",
+    "UnownedPreservation",
+    "OriginalAbsenceRestore",
+    "UnownedCollisionRefusal",
+    "ModifiedReplacementRefusal",
+    "ModifiedRemovalPreservation"
+  ],
+  "Controller": {
+    "Status": "Passed",
+    "ExpectedCases": 3,
+    "Completed": 3,
+    "Passed": 3,
+    "StartedAtUtc": "2026-10-24T04:51:31.9359927Z",
+    "FinishedAtUtc": "2026-10-24T04:56:34.9138102Z",
+    "Cleanup": "ResetAndOff",
+    "CleanupError": null,
+    "CollectionError": null,
+    "EvidenceExportError": null,
+    "EvidenceCollected": true
+  },
+  "FunctionalAcceptance": "Pending",
+  "ActivationAcceptance": "Pending",
+  "Disposition": "Confirms only the three pinned packages' Windows 11 file lifecycle and saved-state recovery using synthetic fixtures. No identifier was generated or read, no certificate was generated/parsed/exported, and no private key or certificate store was accessed. AuthenticodeStatus was UnknownError for all three selected executables; no positive signature validation is claimed.",
+  "LegacyOutcomeAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "UUID Generator functional behavior and supported-target promotion",
+      "Certificate Generator synthetic generation/export behavior and supported-target promotion",
+      "Certificate Information parsing/display behavior and supported-target promotion"
+    ],
+    "EstimateRangesUnchanged": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+    "ExactEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T06:10:00Z",
+  "Batch": "Sysinternals Suite current-source focused package regression",
+  "Test": {
+    "Path": "tests/SysinternalsSuitePackage.Tests.ps1",
+    "Passed": 7,
+    "Failed": 0,
+    "Skipped": 0,
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "TempRoot": "Repository-local .local temp directory"
+  },
+  "Attempts": [
+    {
+      "TempRoot": "Default system temp",
+      "Outcome": "Blocked before tests",
+      "Reason": "Pester TestRegistry could not access HKCU in the sandbox."
+    },
+    {
+      "TempRoot": "Sandbox system temp",
+      "Outcome": "Failed",
+      "Passed": 4,
+      "Failed": 3,
+      "Reason": "Access denied while moving staged files/manifest in system temp."
+    },
+    {
+      "TempRoot": "Repository-local .local temp",
+      "Outcome": "Passed",
+      "Passed": 7,
+      "Failed": 0,
+      "Reason": "All focused package tests completed."
+    }
+  ],
+  "Boundaries": {
+    "SysinternalsUtilityExecuted": false,
+    "InstallerExecuted": false,
+    "VmUsed": false,
+    "DefenderChanged": false,
+    "WindowsStateChanged": false
+  },
+  "Decision": {
+    "LicenseBlocker": false,
+    "Basis": "Prior RIDE v2 license-specialist approval for direct publisher download and installation; no additional review or redistribution gate applies.",
+    "DefenderDetections": "Separate security exclusions; affected files were not selected or executed."
+  },
+  "Outcome": {
+    "Resolved": [
+      "Current-source inert package lifecycle/recovery regression passed 7/7."
+    ],
+    "Retired": [],
+    "Excluded": [
+      "Defender-reported files remain separately excluded from selection."
+    ],
+    "Deferred": [
+      "Utility behavior, activation and supported-target acceptance."
+    ],
+    "Partial": [
+      "No whole legacy outcome closed."
+    ]
+  },
+  "Estimate": {
+    "Ranges": {
+      "Settings": "38-58",
+      "Packages": "52-67",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "142-196",
+      "RoundedTotal": "145-200/about 170"
+    },
+    "Adjustment": "Unchanged: this local package lifecycle regression closes no legacy outcome and promotes no supported target."
+  }
+}

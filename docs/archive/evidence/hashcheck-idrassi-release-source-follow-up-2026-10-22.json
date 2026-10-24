@@ -1,0 +1,71 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-22",
+  "Batch": "HashCheck idrassi 2.6.3 release source follow-up",
+  "ReleasePageObservation": {
+    "Source": "https://github.com/idrassi/HashCheck/releases/tag/v2.6.3",
+    "ReleaseVersion": "2.6.3",
+    "ListedAsLatest": true,
+    "PublishedOn": "2026-10-07",
+    "ListedAssetCount": 4,
+    "AssetLinksRendered": false,
+    "ObservedOn": "2026-10-22"
+  },
+  "PublisherSources": {
+    "ReleaseUri": "https://github.com/idrassi/HashCheck/releases/tag/v2.6.3",
+    "RepositoryUri": "https://github.com/idrassi/HashCheck",
+    "ReadmeUri": "https://github.com/idrassi/HashCheck/blob/master/README.md",
+    "LicenseUri": "https://github.com/idrassi/HashCheck/blob/master/license.txt",
+    "CurrentRelease": "2.6.3",
+    "WinGetId": "idrassi.HashCheckShellExtension",
+    "License": "BSD-3-Clause",
+    "ReleaseBehavior": [
+      "Separate checksum creation is available from the Windows 11 Explorer context menu and HashCheckPackageHost.exe.",
+      "Checksum verification stops rather than displaying incomplete results when entries cannot all be loaded.",
+      "The 2.6.3 installer and uninstaller correct Windows PowerShell lookup when launched from PowerShell 7."
+    ],
+    "READMEBehavior": [
+      "The publisher documents Windows Vista and later.",
+      "HashCheckPackageHost.exe supports checksum creation, verification and options without Explorer."
+    ]
+  },
+  "AssetLead": {
+    "ObservedIn": "https://community.chocolatey.org/packages/hashcheck/2.6.3",
+    "Architecture": "x86 only",
+    "PublisherAssetUri": "https://github.com/idrassi/HashCheck/releases/download/v2.6.3/HashCheckSetup-v2.6.3.0.exe",
+    "ReportedSha256": "CD890774839177B234A1165FD459DDEB830274EF7D81B289DDB70D43AE5983FA",
+    "DigestStatus": "Third-party Chocolatey package record only; not independently verified against publisher bytes.",
+    "SilentSwitchLead": "/S",
+    "UninstallCommandLead": "regsvr32.exe /u /i:\"NoRebootPrompt\" /n /s \"<ProgramFiles>\\HashCheck\\HashCheck.dll\"",
+    "Limitations": [
+      "The release assets did not render in the official release page inspection.",
+      "The shell could not resolve api.github.com or github.com, so no publisher installer bytes were obtained.",
+      "The x86 checksum does not pin an x64 installer.",
+      "The Chocolatey test report is evidence about that package test, not RIDE acceptance or publisher confirmation."
+    ]
+  },
+  "ExactBuildSource": {
+    "PublisherDefaultBranchInstallerUri": "https://raw.githubusercontent.com/idrassi/HashCheck/master/installer/HashCheck.nsi",
+    "ObservedInstallerVersion": "2.6.2.0",
+    "Disposition": "Not used as exact 2.6.3 installer evidence; source version differs from the selected release."
+  },
+  "Boundaries": {
+    "InstallerDownloaded": false,
+    "InstallerExecuted": false,
+    "VmRun": false,
+    "Uac": false,
+    "DefenderChange": false
+  },
+  "Disposition": {
+    "PackageOperationAdded": false,
+    "SupportedTargets": [],
+    "LicenseReview": "BSD-3-Clause identified; no license blocker inferred for RIDE download/install. Owner-specific local review remains informational.",
+    "RemainingWork": [
+      "Obtain the exact publisher x64 installer and independently verify its digest and signer.",
+      "Inspect the exact 2.6.3 installer source or binary metadata for install/uninstall side effects, reboot behavior and Win11 sparse-package registration.",
+      "Prepare focused lifecycle/recovery acceptance and validate Windows 11 behavior on a disposable VM."
+    ],
+    "LegacyOutcomeClosed": false,
+    "EstimateRangesUnchanged": "38-58 / 53-68 / 20-25 / 25-35 / 8-12; exact 144-198; rounded 145-200/about 170"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-10-23",
+  "RecordedAtUtc": "2026-10-23T07:31:59Z",
+  "Batch": "License review regression and VM access recheck",
+  "Tests": {
+    "Suite": "tests/LicenseReviews.Tests.ps1",
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "Passed": 21,
+    "Failed": 0,
+    "Skipped": 0,
+    "TestRegistryPlugin": "Disabled",
+    "CoversAllPendingPackages": true,
+    "SysinternalsInstallPlansRemainAvailable": true
+  },
+  "VmAccess": {
+    "VM": "RIDE-Win11-Test",
+    "Action": "Read-only Get-VM query",
+    "Result": "AccessDenied",
+    "Error": "Access to a CIM resource was not available to the client.",
+    "CheckpointQueried": false,
+    "GuestRun": false,
+    "VmStateChanged": false
+  },
+  "Boundaries": {
+    "PackageDownloaded": false,
+    "InstallerExecuted": false,
+    "WindowsStateChanged": false,
+    "DefenderChanged": false
+  },
+  "Outcomes": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Package, setting and component Windows acceptance requiring RIDE-Win11-Test remains blocked by host CIM access."],
+    "Partial": ["All 41 PendingAcceptance package install plans remain available when version-matched synthetic local NeedsReview records exist; Sysinternals licensing remains cleared for the approved direct download-and-install workflow."]
+  },
+  "Estimate": {
+    "GroupRanges": ["38-58", "52-67", "19-24", "25-35", "8-12"],
+    "ExactTotal": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "Adjustment": "No legacy outcome closed; ranges remain unchanged."
+  }
+}

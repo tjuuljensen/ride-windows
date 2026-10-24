@@ -1,0 +1,82 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-21",
+  "Scope": "Static publisher-page, version, licensing, build-action and COM-inspection review of MiTeC OLE/COM Explorer and Project Maker; no payload executed, COM object activated, project built or signing key accessed",
+  "TermsPage": {
+    "Uri": "https://www.mitec.cz/wp/support/",
+    "Snapshot": ".local/collection-inventory-20261017/mitec-support.html",
+    "Sha256": "00c55ee6e356a5b3422234dc74a92ffef09f83d655d4cd4965dcffbc3f2b066b",
+    "Observation": "The current MiTeC support EULA states unregistered/trial freeware for non-commercial use and lists other license types. Product-page license options, owner-specific rights and redistribution remain distinct."
+  },
+  "Products": [
+    {
+      "Name": "MiTeC OLE/COM Object Explorer",
+      "ProductUri": "https://www.mitec.cz/wp/molexp/",
+      "ProductPageSnapshot": ".local/collection-inventory-20261017/mitec-product-molexp.html",
+      "ProductPageSha256": "3d600e99d0ac56bd536ddafa354b8e148d30a8f47e5524774f77571d5218ed7a",
+      "PageVersion": null,
+      "PublishedBehavior": "Publisher describes an OLE/COM object explorer with a type-library viewer but provides no version history or explicit release number on the page. Page lists Windows XP-11 and Server 2003-2025 as publisher claims only.",
+      "LicenseObservation": "The page calls it freeware for private, educational and non-commercial purposes. This does not establish local intended-use entitlement or redistribution.",
+      "Archive": ".local/remaining-collections-20261017/OLExp.zip",
+      "DownloadUri": "https://www.mitec.cz/wp/files/OLExp.zip",
+      "ArchiveLength": 1279322,
+      "ArchiveSha256": "322a2d03c31b9bb995a7b176a95aa3bbfba9ba155dd9770a0e55d88fc1085769",
+      "Members": [
+        {"Path":"OLExp.exe","Length":3368088,"Sha256":"eeb8a18c5f8a961e1f0fc7fefc131f4fc33f900cf1d0cf2107e73fc45c504b4b","Architecture":"x86","FileVersion":"1.4.0.0","ProductVersion":"1.0.0.0"}
+      ],
+      "Acceptance": "Use only a known inert synthetic COM registration/type-library fixture; first establish whether inspection activates an object or changes registration. Do not activate arbitrary registered COM servers or modify system/user COM registration."
+    },
+    {
+      "Name": "MiTeC Project Maker",
+      "ProductUri": "https://www.mitec.cz/wp/pm/",
+      "ProductPageSnapshot": ".local/collection-inventory-20261017/mitec-product-pm.html",
+      "ProductPageSha256": "a96874b1e5312aea57839242d57cdcf874e4aca4b1c81e314c49833c6ed1d678",
+      "ReleasedVersion": "1.9.0, dated 2025-09-12",
+      "DevelopmentVersion": "2.0.0 is labeled under development on the current page; its listed new features include WinARM64EC support, new UI and Git branch/repository detection.",
+      "PublishedBehavior": "Automates batch builds for Delphi projects, configurable compiler selection, arbitrary before/after actions, binary version-information patching, code signing with a specified certificate and third-party software protection. Supports Delphi versions listed from Borland Delphi 5-8 through Embarcadero Delphi XE-D13 where applicable.",
+      "LicensePagePriceObservation": "The page offers a 30-day trial and lists EUR 199 single, EUR 499 team and EUR 1599 site lifetime licenses on the review date. No local entitlement or redistribution decision is inferred.",
+      "Installer": ".local/remaining-collections-20261017/PMInstall.exe",
+      "DownloadUri": "https://www.mitec.cz/wp/files/PMInstall.exe",
+      "InstallerLength": 9944720,
+      "InstallerSha256": "ee2a74e34c0c0ad97c58163b2f4f114876252317cb52fffbf9fa11e2afe13419",
+      "OuterMetadata": {"Machine":"014c","FileVersion":"1.9.0","ProductVersion":"1.9.0","CompanyName":"Michal Mutl - MiTeC"},
+      "PreviousBoundedListing": "PE installer with 18 listed entries; no inner payload extracted or action executed.",
+      "Acceptance": "Any later build test needs an isolated synthetic Delphi project and disposable output directory. Keep before/after actions constrained to that fixture, do not open real projects, and use only a disposable test code-signing certificate/key; never access a personal/production signing key. Verify exact outputs and cleanup."
+    }
+  ],
+  "ReviewFindings": [
+    "The frozen archives and page snapshots match their pins. OLE/COM Explorer page does not give a release number; its pinned executable reports FileVersion 1.4.0.0 and ProductVersion 1.0.0.0.",
+    "The previous inventory's Project Maker PageVersion value of 2.0.0 conflates a development label with the released version. The current official page calls 2.0.0 under development and lists 1.9.0 as the released version; the pinned installer outer PE also reports 1.9.0. Installed payload version remains unverified.",
+    "Project Maker's user-defined pre/post actions, compiler calls, version patching, signing and protection can affect selected project/output files and external tools. The product page does not establish the installer payload's setup/removal behavior or exact action isolation."
+  ],
+  "SafetyAndAcceptance": {
+    "FrozenArchiveInstallerPageAndMemberHashesMatch": true,
+    "PayloadsExecuted": false,
+    "COMObjectsActivated": false,
+    "COMRegistrationChanged": false,
+    "ProjectBuilt": false,
+    "SigningKeyAccessed": false,
+    "FreshUacPrompts": 0,
+    "VmRuns": 0,
+    "DefenderBlockedToolsTouched": false,
+    "HostOrControllerChanged": false,
+    "DefenderChanged": false
+  },
+  "MigrationDisposition": {
+    "WholeLegacyOutcomesClosed": 0,
+    "RetiredOutcomes": 0,
+    "NewExclusions": 0,
+    "Resolved": "OLE/COM executable version is distinguished from the unversioned product page; Project Maker 1.9.0 release is distinguished from 2.0.0 development, and build/signing effects are recorded.",
+    "Partial": "COM activation/registration effects, exact installer actions, Project Maker dependencies and output containment, local license entitlement, UI and installed behavior remain unverified.",
+    "Deferred": [
+      "Owner-specific use and distribution review for both products",
+      "No arbitrary COM activation or registry changes; later use only an inert synthetic object/type library",
+      "No real Delphi projects or production signing keys; later build tests require isolated synthetic source/output and disposable signing keys",
+      "Installer actions and exact activation/removal recovery through a future approved guest workflow"
+    ],
+    "EstimateRanges": ["38-58", "56-71", "20-25", "25-35", "8-12"],
+    "ExactTotal": "147-201",
+    "RoundedTotal": "145-200/about 175",
+    "EstimateReason": "The release/development discrepancy and behavioral gates are clarified, but no complete legacy outcome or safe runtime acceptance is closed; no estimate deduction is justified."
+  }
+}

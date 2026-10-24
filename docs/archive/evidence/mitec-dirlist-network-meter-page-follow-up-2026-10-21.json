@@ -1,0 +1,88 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-10-21",
+  "Batch": "MiTeC DirList and Network Meter current publisher-page follow-up",
+  "PublisherPages": [
+    {
+      "Uri": "https://www.mitec.cz/dirlist.html",
+      "Product": "DirList",
+      "Behavior": "Browses connected disks in an Explorer-like view; users select folders and files for listing; the page says files can also be listed by content and results can be previewed and saved as CSV or layout-defined HTML.",
+      "ContentListingMeaning": "The page does not specify whether this means file contents, content metadata or another listing mode.",
+      "Targets": [
+        "Windows XP",
+        "Windows 2003",
+        "Windows Vista",
+        "Windows 7",
+        "Windows Server 2008",
+        "Windows 8",
+        "Windows 8.1",
+        "Windows 10"
+      ],
+      "LicenseStatement": "Free to use for both private and commercial users."
+    },
+    {
+      "Uri": "https://www.mitec.cz/netmet.html",
+      "Product": "Network Meter",
+      "Behavior": "Scans for interfaces and adapters installed in the local system, monitors them, and provides interface detail, statistics and graphical traffic history.",
+      "Targets": [
+        "Windows XP",
+        "Windows 2003",
+        "Windows Vista",
+        "Windows 7",
+        "Windows Server 2008",
+        "Windows 8",
+        "Windows 8.1",
+        "Windows 10"
+      ],
+      "LicenseStatement": "Free to use for both private and commercial users.",
+      "NetworkScope": "The page describes local interface enumeration/monitoring; it does not describe remote network scanning or packet capture."
+    },
+    {
+      "Uri": "https://www.mitec.cz/wp/support/",
+      "Observation": "The current general terms say trial or unregistered software is freeware for non-commercial use.",
+      "Conflict": "Both product pages say free for private and commercial users. Exact applicability to the retained builds and intended local use remains unresolved; product-page wording does not establish redistribution permission."
+    }
+  ],
+  "Artifacts": [
+    {
+      "Product": "DirList",
+      "Archive": "DirList.zip",
+      "ArchiveLength": 1040280,
+      "ArchiveSha256": "635e8d311eb99a2730aecff405272e1b0b92636763051e41d451961d3b9c0e26",
+      "Executable": "DirList.exe",
+      "ExecutableLength": 2386944,
+      "ExecutableSha256": "e1dc9d150c97739e2678e57c0b3de88d5dff78f5161722577042c4463694749b",
+      "FileVersion": "1.3.0.0",
+      "FrozenHashesMatch": true
+    },
+    {
+      "Product": "Network Meter",
+      "Archive": "NetMet.zip",
+      "ArchiveLength": 1456776,
+      "ArchiveSha256": "04e55b066b9a6a598c15e619d99597894b0494bae63d7d8a36df391feae1f360",
+      "Executable": "NetMet.exe",
+      "ExecutableLength": 3607872,
+      "ExecutableSha256": "961ef047dd75b4d888aa8e8f247f91926badc6ee75a3c8793e0601cd5b0dc4c0",
+      "FileVersion": "2.5.0.0",
+      "FrozenHashesMatch": true
+    }
+  ],
+  "RemainingBlockers": [
+    "Both product pages' commercial-use claims conflict with the current general trial/unregistered non-commercial terms; exact entitlement and redistribution rights remain unresolved.",
+    "Both publisher target lists stop at Windows 10; Windows 11 and newer Server behavior remain unverified.",
+    "DirList's 'listed by content' mode is undefined; any test must use an owned synthetic directory tree and avoid private content.",
+    "DirList CSV/HTML output selection, ownership and exact cleanup/recovery need isolated acceptance.",
+    "Network Meter's interface/counter behavior, history retention, generated files and adapter preservation need isolated acceptance; do not infer remote scanning or packet capture."
+  ],
+  "ResolvedWholeLegacyOutcomes": 0,
+  "RetiredWholeLegacyOutcomes": 0,
+  "ExcludedWholeLegacyOutcomes": 0,
+  "NativeAcceptance": false,
+  "PayloadExecuted": false,
+  "PrivateContentRead": false,
+  "NetworkStateChanged": false,
+  "FreshUacLaunches": 0,
+  "VmOrControllerChanged": false,
+  "DefenderStateChanged": false,
+  "Inspection": "Read official publisher/support pages; recomputed retained archive and executable hashes and read embedded file versions only. No payload ran, private directory was read, or network setting changed."
+}

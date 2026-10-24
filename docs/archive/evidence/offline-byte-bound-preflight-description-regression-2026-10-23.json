@@ -1,0 +1,34 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-23T13:45:22Z",
+  "Batch": "B10 offline byte-bound preflight description and regression",
+  "Change": {
+    "File": "modules/RIDE.OfflineBundle.psm1",
+    "Version": "0.7.2",
+    "Behavior": "Corrected module help to state that explicit offline install/apply consume byte-bound whole-plan preflight, while normal online commands do not use the bundle preflight."
+  },
+  "Validation": {
+    "Pester": {
+      "Files": [
+        "tests/OfflineExecution.Tests.ps1",
+        "tests/OfflineBundle.Tests.ps1",
+        "tests/OfflineProfileCoverage.Tests.ps1"
+      ],
+      "Passed": 143,
+      "Failed": 0,
+      "Skipped": 0,
+      "TestRegistry": "Disabled",
+      "TemporaryRoot": "Fresh repository-local .local scratch directory, removed after the run",
+      "Note": "An initial attempt using the restricted AppData temp path passed 142 checks and failed one portable staging check on denied temp-folder access; the rerun with the repository-local temporary root passed all 143."
+    },
+    "WindowsPowerShell51Parser": "Passed for modules/RIDE.OfflineBundle.psm1",
+    "RepositoryValidation": "Passed: 393 operations, 8 groups, 5 profiles, 257 PowerShell files; generated operation documentation current."
+  },
+  "Acceptance": {
+    "LegacyOutcomeClosed": false,
+    "VMs": ["RIDE-Win11-Test", "RIDE-Srv2025Test"],
+    "Result": "Read-only VM inventory failed before checkpoint inspection with Hyper-V CIM access denied.",
+    "Deferred": "Disconnected deployment and target behavior still require disposable Windows guest acceptance."
+  },
+  "Safety": "No publisher code, package payload, Defender state, installer, or Windows configuration was changed or executed."
+}

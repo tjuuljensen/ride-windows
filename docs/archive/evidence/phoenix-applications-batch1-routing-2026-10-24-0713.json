@@ -1,0 +1,79 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T07:13:08Z",
+  "Scope": "Phoenix Protector candidate routing into ApplicationsBatch1",
+  "Catalog": {
+    "OperationId": "package.phoenix-protector",
+    "PackageVersion": "1.7.1",
+    "MigrationBatch": "ApplicationsBatch1",
+    "CandidateTargets": ["Windows 11"],
+    "SupportedTargets": [],
+    "PendingAcceptance": true,
+    "StaticArtifactEvidence": "Retained publisher-linked MSI and exact hash are documented in phoenix-msi-static-install-boundary-2026-10-22.json."
+  },
+  "Validation": {
+    "PhoenixPackageTests": {
+      "Discovered": 3,
+      "Passed": 3,
+      "Failed": 0,
+      "Coverage": [
+        "Machine-wide quiet MSI scope and arguments",
+        "Exact publisher URL, version and SHA-256 pin",
+        "Batch route without supported-target promotion"
+      ]
+    },
+    "CatalogExport": "Passed",
+    "RepositoryValidation": {
+      "Result": "Passed",
+      "Operations": 407,
+      "Groups": 8,
+      "Profiles": 5,
+      "PowerShellFiles": 269
+    },
+    "DiffCheck": "Passed"
+  },
+  "AcceptanceBoundary": {
+    "MsiExecuted": false,
+    "CustomActionsRun": false,
+    "VmUsed": false,
+    "FreshElevationPromptRequested": false,
+    "DefenderBlockedToolsIncluded": false,
+    "LicenseReviewBlocksRouting": false,
+    "RemainingTechnicalChecks": [
+      ".NET Framework 2.0.50727 exact-launch-condition behavior on the disposable Windows 11 guest",
+      "Quiet install path, shortcuts, repeat install, uninstall cleanup and saved-state recovery",
+      "Offline behavior and required reboot reporting"
+    ]
+  },
+  "RunnerStatus": {
+    "ExistingRegisteredTask": "RIDE-Win11-Test",
+    "LastApplicationsBatch1Dispatch": "Failed before enqueue because protected pending-queue temporary-file creation was denied",
+    "PendingQueueCountAtRecheck": 0,
+    "RunningQueueCountAtRecheck": 0,
+    "DispatchRepeatedAfterFailure": false,
+    "VmOrCheckpointChanged": false
+  },
+  "OtherNewBatchMembers": ["package.gpg4win", "package.tmog"],
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Phoenix Protector Windows 11 install, repeat, uninstall and recovery acceptance",
+      ".NET Framework 2.0.50727 launch-condition acceptance",
+      "Gpg4win and TMOG Windows 11 native acceptance"
+    ],
+    "Partial": [
+      "Phoenix Protector has a pinned catalog candidate and focused package test; Windows acceptance is pending."
+    ],
+    "EstimateRangesUnchanged": {
+      "Settings": "38-58",
+      "Packages": "52-67",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "142-196",
+      "RoundedTotal": "145-200/about 170"
+    }
+  }
+}

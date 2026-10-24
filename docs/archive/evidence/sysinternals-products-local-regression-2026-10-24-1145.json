@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-24T11:45:00Z",
+  "batch": "Independent Sysinternals product current-source inert package regression",
+  "test": {
+    "path": "tests/SysinternalsProductPackages.Tests.ps1",
+    "products": [
+      "Process Explorer",
+      "Autoruns",
+      "TCPView",
+      "Process Monitor",
+      "RAMMap",
+      "Disk2vhd",
+      "Sigcheck",
+      "Strings",
+      "Handle"
+    ],
+    "discovered": 72,
+    "passed": 72,
+    "failed": 0,
+    "skipped": 0,
+    "powershell": "7.6.5",
+    "pester": "5.7.1",
+    "testRegistryEnabled": false,
+    "tempRoot": ".local/sysinternals-products-pester-20261024-1137",
+    "exitCode": 1,
+    "report": {
+      "path": ".local/sysinternals-products-pester-20261024-1137/results.xml",
+      "format": "NUnitXml",
+      "total": 72,
+      "errors": 0,
+      "failures": 0,
+      "notRun": 0,
+      "environmentSection": "Empty because the post-test Get-CimInstance query was denied by the host."
+    },
+    "postTestReporterError": "After all 72 assertions passed and a partial NUnit XML report with zero errors/failures was written, Pester's environment-information step failed because Get-CimInstance was denied by the host. This caused Invoke-Pester to return exit code 1."
+  },
+  "coverage": [
+    "Pinned source and archive-member manifest reconciliation",
+    "Pinned resolution without mutable network discovery",
+    "Digest mismatch refusal before extraction or success recording",
+    "Required EULA-file presence before destination creation without answering terms",
+    "Repeat install, owned-file removal, saved-state restore, configuration preservation, collision refusal and modified-file retention",
+    "Independent product removal does not claim the complete Sysinternals Suite folder"
+  ],
+  "boundaries": {
+    "archiveMembers": "Synthetic inert text files",
+    "publisherPayloadAcquired": false,
+    "externalNetwork": false,
+    "sysinternalsUtilityExecuted": false,
+    "installerExecuted": false,
+    "eulaAccepted": false,
+    "vmUsed": false,
+    "defenderChanged": false,
+    "windowsStateChanged": false,
+    "defenderDetectedToolsIncluded": false
+  },
+  "migrationOutcome": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [
+      "Separately Defender-detected binaries remain outside the selected products."
+    ],
+    "deferred": [
+      "Nine independent product Windows install/repeat/remove/recovery acceptance; the registered controller rejected the VM batch due its stale suite allowlist.",
+      "Utility functional behavior, activation and supported-target promotion."
+    ],
+    "partial": [
+      "Current-source inert package lifecycle/recovery assertions passed locally for all nine product candidates."
+    ],
+    "estimateRangesUnchanged": true,
+    "estimates": {
+      "settings": "38-58",
+      "packages": "52-67",
+      "components": "19-24",
+      "accountsConfigurationAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "142-196",
+      "roundedTotal": "145-200/about 170"
+    }
+  }
+}

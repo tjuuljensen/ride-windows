@@ -173,6 +173,9 @@ Describe 'Read-only desired configuration reference' {
 }
 
 Describe 'Desired configuration export and completion' {
+  BeforeEach {
+    Remove-Module RIDE.Engine -Force -ErrorAction SilentlyContinue
+  }
   BeforeAll {
     $script:Tool=Join-Path $Root 'tools/Export-RideDesiredConfiguration.ps1'
     $script:Base=@{Profile=(Join-Path $Root 'profiles/default.psd1');Target='Windows 11';Build=26100;EditionId='Professional';InstallationType='Client';Role='Workstation'}

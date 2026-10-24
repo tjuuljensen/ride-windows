@@ -1,0 +1,59 @@
+{
+  "RecordedAtUtc": "2026-10-24T14:36:00Z",
+  "Review": "HxD and ExifTool publisher-source review",
+  "HxD": {
+    "ProductUri": "https://mh-nexus.de/en/hxd/",
+    "DownloadPageUri": "https://mh-nexus.de/en/downloads.php?product=HxD20",
+    "LicenseUri": "https://mh-nexus.de/en/hxd/license.php",
+    "Version": "2.5.0.0",
+    "Edition": "English portable",
+    "ReleaseDate": "2021-02-11",
+    "PublisherDownloadUri": "https://mh-nexus.de/downloads/HxDPortableSetup.zip",
+    "PublisherListedSize": "3.19 MiB",
+    "PublisherListsSha1AndSha512": true,
+    "PortableSetupRequiresAdmin": false,
+    "PublisherListedWindowsThrough": "Windows 10",
+    "LicenseMigrationBlocker": false,
+    "AcquisitionResult": "Native PowerShell HEAD failed local DNS before transfer; no payload or partial file was created."
+  },
+  "ExifTool": {
+    "ProductUri": "https://exiftool.org/index.html",
+    "HistoryUri": "https://exiftool.org/history.html",
+    "WindowsInstallUri": "https://exiftool.org/install.html",
+    "LicenseEvidenceUri": "https://exiftool.org/forum/index.php?topic=4002.0",
+    "OfficialVersionEvidence": {
+      "HistoryPage": "13.55 identified as latest production release; later versions labeled development",
+      "WindowsInstallPage": "13.59 Windows executable ZIP names shown",
+      "HomePage": "13.58 Windows executable ZIP names shown"
+    },
+    "WindowsDistributionRequirement": "Keep exiftool(-k).exe and adjacent exiftool_files directory together.",
+    "LicenseDescription": "Publisher describes use under Perl terms: GNU GPL or Artistic License.",
+    "LicenseMigrationBlocker": false,
+    "ExactWindowsPayloadAndHashVerified": false,
+    "NextAction": "Resolve the canonical publisher Windows package/version and inspect its exact hash and members; do not infer a URL/hash or use a mirror."
+  },
+  "RunDisposition": {
+    "ResolvedLegacyOutcomes": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Acquire and verify exact HxD English portable payload and hash",
+      "Resolve and pin exact ExifTool Windows payload and hash",
+      "Native lifecycle and behavior acceptance for both packages"
+    ],
+    "Partial": [
+      "Publisher-source review only; no whole legacy outcome closed"
+    ],
+    "WindowsStateChanged": false,
+    "VmStateChanged": false,
+    "MigrationEstimates": {
+      "Settings": "37-57",
+      "Packages": "52-67",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "141-195",
+      "RoundedTotal": "140-195/about 170"
+    }
+  }
+}

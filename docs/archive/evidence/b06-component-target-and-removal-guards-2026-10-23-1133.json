@@ -1,0 +1,48 @@
+{
+  "SchemaVersion": 1,
+  "RunUtc": "2026-10-23T11:33:36Z",
+  "Batch": "B06 Windows 11 candidate target and component removal gates",
+  "Outcome": "Improved unregistered client-component lifecycle candidate",
+  "Changes": [
+    "Reject pre-Windows 11 client builds below 22000 before native inventory, snapshot creation or servicing.",
+    "Reject restore of any saved candidate snapshot from a pre-Windows 11 build.",
+    "Block Absent transitions when an effective state change is required because the candidate cannot validate matching recovery-source identity or completeness.",
+    "Preserve observed no-change handling without servicing."
+  ],
+  "Validation": {
+    "FocusedPester": "41 passed, 0 failed, 0 skipped across ClientComponentPreparation.Tests.ps1 and ClientComponentLifecycle.Tests.ps1",
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "WindowsIntegrationExcluded": true,
+    "NativeProviderCalls": 0,
+    "DismCalls": 0
+  },
+  "Safety": {
+    "SupportedTargets": [],
+    "CatalogOperationsAdded": 0,
+    "VmRun": false,
+    "InstallerCalls": 0,
+    "NetworkCalls": 0,
+    "DefenderChanges": 0,
+    "WindowsStateChanged": false
+  },
+  "Deferred": [
+    "Matching Features on Demand/Telnet source identity and completeness.",
+    "Configured-source fallback, dependency and policy behavior.",
+    "Exact payload/version recovery after removal and Windows 11 native acceptance.",
+    "The candidate remains unregistered with no supported target."
+  ],
+  "Estimates": {
+    "GroupRanges": [
+      "38-58",
+      "52-67",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactRangeEndpoints": "142-196",
+    "RoundedTotal": "145-200/about 170",
+    "EstimateAdjustment": "Unchanged: candidate guard improvements and mocked tests close no legacy component outcome."
+  }
+}
