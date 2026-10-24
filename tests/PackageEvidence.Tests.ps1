@@ -409,6 +409,25 @@ Describe 'MSI and scoped package lifecycle' {
       Should -Invoke Get-ItemProperty -Exactly 0 -ParameterFilter { $Path -like 'HKLM:*' }
     }
 
+    It 'detects a per-user MSI through its declared UpgradeCode and vendor install marker when ARP registration is absent' {
+      $installDirectory=Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) 'Programs/ArtCraft Launcher'
+      $registryKey='HKCU:\Software\Learning Machines LLC\ArtCraft Launcher'
+      $operation=@{
+        Id='package.artcraft-launcher';Scope='User';InstallerType='Msi';DisplayNamePattern='^ArtCraft Launcher$'
+        MsiUpgradeCode='1AC08DBF-D4CF-4BA4-A81E-CAA5C1004974';MsiProductName='ArtCraft Launcher'
+        MsiInstallDirectoryRegistryKey=$registryKey;MsiInstallDirectory='ArtCraft Launcher';MsiExecutable='artcraft-launcher.exe'
+      }
+      Mock Get-ItemProperty { @() }
+      Mock Get-ItemProperty { [pscustomobject]@{InstallDir=$installDirectory} } -ParameterFilter {$LiteralPath -eq $registryKey}
+      Mock Get-RideMsiRelatedProduct { [pscustomobject]@{ProductCode='{11111111-2222-3333-4444-555555555555}';DisplayName='ArtCraft Launcher';DisplayVersion='0.2.1'} }
+      Mock Test-Path { $true } -ParameterFilter {$LiteralPath -eq (Join-Path $installDirectory 'artcraft-launcher.exe') -and $PathType -eq 'Leaf'}
+      $state=Get-RideInstalledPackage $operation
+      $state.Present | Should -BeTrue
+      $state.DisplayVersion | Should -BeExactly '0.2.1'
+      $state.InstallLocation | Should -BeExactly $installDirectory
+      $state.UninstallString | Should -BeExactly '"msiexec.exe" /x {11111111-2222-3333-4444-555555555555}'
+    }
+
     It 'detects stable Signal versioned registration without accepting the Beta edition' {
       Import-Module (Join-Path (Split-Path -Parent $PSScriptRoot) 'modules/RIDE.CatalogData.psm1') -Force -Scope Local
       $signalPattern = ((Import-RideCatalogData (Join-Path (Split-Path -Parent $PSScriptRoot) 'catalog/operations.psd1')).Operations | Where-Object Id -eq 'package.signal').DisplayNamePattern

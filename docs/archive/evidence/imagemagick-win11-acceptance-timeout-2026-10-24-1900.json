@@ -1,0 +1,29 @@
+{
+  "runId": "7f3a4a8fac6e4ef0970c8054201d7719",
+  "batch": "ImageMagick",
+  "target": "RIDE-Win11-Test",
+  "checkpoint": "RIDE-clean-test-base",
+  "request": {
+    "submittedAtUtc": "2026-10-24T17:59:55.0235652Z",
+    "timeoutMinutes": 60,
+    "startedAtUtc": "2026-10-24T18:40:30.8948188Z",
+    "finishedAtUtc": "2026-10-24T19:00:08.9709423Z",
+    "queuedMinutesBeforeStart": 40.6,
+    "elapsedMinutesAfterStart": 19.6,
+    "status": "TimedOut",
+    "error": "Test controller exceeded its timeout; process tree terminated."
+  },
+  "evidence": {
+    "focusedResultPresent": false,
+    "guestAcceptanceResultPresent": false,
+    "partialStagingPresent": true,
+    "cleanupError": null,
+    "collectionError": null,
+    "evidenceExportError": null,
+    "blockedMarkerPresent": false
+  },
+  "recovery": "The registered controller entered its VM-reset finally path after terminating the child process and reported no cleanup error. No test result or ImageMagick acceptance is claimed.",
+  "cause": "The 60-minute request budget includes time spent waiting in the serialized queue. ImageMagick waited approximately 40 minutes 35 seconds before the controller started, leaving approximately 19 minutes 24 seconds for execution; the controller stopped the process when the overall request deadline expired.",
+  "nextAction": "Do not retry ahead of the already queued settings and ArtCraft Launcher requests. After the existing queue drains, submit a fresh ImageMagick request with a full queue-inclusive 180-minute budget.",
+  "migrationImpact": "No legacy outcome closed and no scope changed. All estimate ranges remain unchanged."
+}

@@ -269,6 +269,15 @@ function Get-RideCatalogValidationErrors {
       if ($operation.Scope -eq 'Machine' -and -not $operation.RequiresAdmin) { Add-Error "Machine packages require elevation: $($operation.Id)" }
       if ($operation.InstallerType -notin @('Exe', 'Msi', 'SysmonZip', 'Portable')) { Add-Error "Unsupported installer type: $($operation.Id)" }
       if ($operation.ContainsKey('UninstallerType') -and ($operation.UninstallerType -notin @('Exe', 'Msi') -or $operation.InstallerType -notin @('Exe', 'Msi'))) { Add-Error "Unsupported uninstaller type: $($operation.Id)" }
+      $msiDetectionFields=@('MsiUpgradeCode','MsiProductName','MsiInstallDirectoryRegistryKey','MsiInstallDirectory','MsiExecutable')
+      if(@($msiDetectionFields|Where-Object {$operation.ContainsKey($_)}).Count -gt 0 -and
+         ($operation.InstallerType -ne 'Msi' -or $operation.Scope -ne 'User' -or
+          [string]$operation.MsiUpgradeCode -notmatch '^\{?[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}\}?$' -or
+          [string]::IsNullOrWhiteSpace([string]$operation.MsiProductName) -or
+          [string]$operation.MsiInstallDirectoryRegistryKey -notmatch '^HKCU:\\(?:[A-Za-z0-9_. -]+\\?)+$' -or
+          [string]$operation.MsiInstallDirectory -notmatch '^[a-zA-Z0-9][a-zA-Z0-9 ._-]{0,79}$' -or ([string]$operation.MsiInstallDirectory).EndsWith('.') -or ([string]$operation.MsiInstallDirectory).EndsWith(' ') -or
+          [string]$operation.MsiExecutable -notmatch '^[A-Za-z0-9][A-Za-z0-9._-]{0,99}\.exe$' -or
+          @($msiDetectionFields|Where-Object {-not $operation.ContainsKey($_)}).Count -gt 0)) { Add-Error "MSI product-code detection requires a user MSI, UpgradeCode, product name, HKCU install marker, install directory and executable: $($operation.Id)" }
       if ($operation.ContainsKey('ArchiveType') -and $operation.ArchiveType -notin @('None', 'Zip')) { Add-Error "Unsupported ArchiveType: $($operation.Id)" }
       if ($operation.ArchiveType -eq 'Zip' -and $operation.InstallerType -ne 'Portable') {
         if ($operation.DownloadProvider -ne 'DirectHttps' -or $operation.InstallerType -notin @('Exe', 'Msi')) { Add-Error "ZIP installer requires DirectHttps and Exe/Msi: $($operation.Id)" }

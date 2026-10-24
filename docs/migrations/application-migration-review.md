@@ -55,7 +55,7 @@ Source references below identify the publisher declared by the legacy implementa
 | 2 | `InstallVeraCrypt` | Individual review: veracrypt | Driver/reboot installation requires orchestrated reboot and retained-version recovery tests; ordinary EXE presence is insufficient. | [Legacy publisher reference](https://github.com/veracrypt/VeraCrypt) |
 | 2 | `InstallVeraCryptPortable` | Individual review: veracryptportable | Portable self-extractor still loads a driver. Resolve driver ownership, cleanup/reboot and exact version recovery separately from file deployment. | [Legacy publisher reference](https://github.com/veracrypt/VeraCrypt) |
 | 1 | `InstallADReplStatus`, `RemoveADReplStatus` | Deferred by user decision, 2026-10-24 | Keep the legacy outcome in v3's deferred scope; do not retire it based only on the 404 release endpoint. Reconsider only after establishing an authorized, compatible distribution and applicable domain/lab acceptance. The available source repository describes an early personal rebuild targeting .NET Framework 4.8.1, which is not approved for RIDE deployment. | [Publisher README and dependency evidence](https://github.com/ryanries/ADReplStatus); [scope decision](decision-session-2026-10-17.md#adrepstatus-remains-deferred-2026-10-24) |
-| 2 | `InstallFirewallNotifier`, `RemoveFirewallNotifier` | Individual review: firewallnotifier | Latest-release lookup returned HTTP 404; publisher README still offers beta/nightly choices and says Server is not officially supported. Choose a pinned GPLv3 distribution and applicable target; capture/restore firewall policy before treating package presence as recovery. | [Publisher versions, requirements and support limits](https://github.com/wokhan/WFN) |
+| 2 | `InstallFirewallNotifier`, `RemoveFirewallNotifier` | Individual review: firewallnotifier | User selected the latest publisher Nightly on 2026-10-24. At decision time the current x64 standalone asset is wfn-20250719-ac02df-x64-standalone.zip from build 20250719-ac02df; resolve and record the exact version, URL, hash and archive contents at acquisition because the Nightly channel is mutable. The publisher says Server is unsupported. Capture/restore firewall policy before treating package presence as recovery; Windows 11 lifecycle acceptance remains open. | [Publisher versions, requirements and support limits](https://github.com/wokhan/WFN) |
 | 1 | `InstallWinDirStat`, `RemoveWinDirStat` | Previously migrated: `package.windirstat` | Retain prior acceptance; see existing software disposition and verification records. No new Server support inferred. | [Legacy publisher reference](https://windirstat.net/wds_current_setup.exe) |
 | 1 | `InstallShareX`, `RemoveShareX` | Previously migrated: `package.sharex` | Retain prior acceptance; see existing software disposition and verification records. No new Server support inferred. | [Legacy publisher reference](https://github.com/sharex/sharex) |
 | 2 | `InstallShareXportable`, `RemoveShareXportable` | Accepted migration: `package.sharex / portable` | Preview, install/repeat/remove, file preservation and saved-selection restore passed on Windows 11 and Server 2025 Desktop Experience. See dated acceptance evidence; runtime/forensic function remains separate acceptance. | [Legacy publisher reference](https://github.com/sharex/sharex) |
@@ -108,6 +108,38 @@ Source references below identify the publisher declared by the legacy implementa
 | 2 | `InstallNetworkMiner`, `RemoveNetworkMiner` | Accepted migration: `package.networkminer` | Fixed-version free edition 3.2 matches publisher page SHA-256; whole nested distribution and notices retained. Preview, repeat install/remove, preservation and exact owned-file restore passed on Windows 11 and Server 2025 Desktop Experience. Runtime/forensic analysis remains separate acceptance. See continuation evidence. | [Current fixed-version distribution and checksum](https://www.netresec.com/?page=NetworkMiner); [GPLv2 reference](https://www.netresec.com/?page=NetworkMinerSourceCode) |
 | 2 | `InstallAutorunner`, `RemoveAutorunner` | Individual review: autorunner | Latest-release endpoint returned HTTP 404, but source/README remain available. Publisher requires x64/.NET Framework 4.7.2 and describes privileged forensic-image access and a Sigcheck dependency. Establish a licensed binary/build, pin dependencies and keep deployment separate from investigation execution. | [Publisher README and dependency evidence](https://github.com/woanware/autorunner) |
 | 2 | `InstallChainsaw`, `RemoveChainsaw` | Accepted migration: `package.chainsaw` | Preview, install/repeat/remove, file preservation and saved-selection restore passed on Windows 11 and Server 2025 Desktop Experience. See dated acceptance evidence; runtime/forensic function remains separate acceptance. | [Legacy publisher reference](https://github.com/WithSecureLabs/chainsaw) |
+
+## User decisions for peStudio, TMOG, BloodHound CE and WFN, 2026-10-24
+
+The user selected implementation planning for peStudio and TMOG, confirmed the
+BloodHound CE boundary, and selected WFN's latest Nightly channel. These are
+design choices only; no installer, archive, firewall rule, VM or Windows state
+changed.
+
+For peStudio, use Pro for professional/corporate use because Basic is limited
+to private, occasional analysis. This is the package design choice, not proof
+of a per-user Pro entitlement; keep exact terms and entitlement in the private
+license review store. For TMOG, continue the existing 1.0.1 free-edition
+candidate with its personal-use and release-candidate license limits intact.
+The choice does not establish publisher approval or authorize professional or
+fleet use, activation, running TMOG.scr, or changing screensaver settings.
+
+Keep BloodHound CE 9.8.0 package work separate from Docker Desktop, WSL or
+Windows feature provisioning, backend configuration, credentials, network
+ownership, data and recovery. Package and collector source/lifecycle acceptance
+remain open.
+
+For WFN, select the latest publisher Nightly, build `20250719-ac02df`, using
+the x64 standalone archive `wfn-20250719-ac02df-x64-standalone.zip` as the
+current source-review target. Resolve the exact version, URL, hash and archive
+contents at acquisition time because the Nightly channel is mutable. The
+publisher says Windows Server is unsupported; do not add Server support.
+Firewall policy capture/recovery and Windows 11 lifecycle acceptance remain
+open. See [the decision record](decision-session-2026-10-17.md#pestudio-tmog-bloodhound-ce-and-wfn-decisions-2026-10-24)
+and [WFN Nightlies](https://github.com/wokhan/WFN/releases/tag/nightlies).
+
+No whole legacy outcome closes; estimates remain 37-57 / 50-65 / 19-24 /
+25-35 / 8-12, exact 139-193, rounded 140-195/about 170.
 | 2 | `GetChromeParser`, `RemoveChromeParser` | Individual review: chromeparser | Pending package.chromeparser retains the complete pinned source/README/MIT archive. Python 3.12.14 syntax parsing passed without execution. Static follow-up found Windows default discovery handles only release labels 7/XP, the README and code paths differ, SQLite opens read-write, and -f truncates its output before the database is opened; aliasing input and output can destroy the database. Do not execute against live profiles/evidence. Disposable file lifecycle may be tested independently, but parser runtime, modern schema, read-only input/output safety and target acceptance remain open. See the [source batch](#b08-pinned-python-source-candidates-2026-10-16) and [2026-10-22 static review](#chromesyncparser-static-source-safety-review-2026-10-22). | [Pinned source evidence](../archive/evidence/python-script-source-review-2026-10-16.json); [legacy publisher reference](https://raw.githubusercontent.com/marleyjaffe/ChromeSyncParser/master/ChromeParser.py) |
 | 2 | `InstallCyLR`, `RemoveCyLR` | Accepted migration: `package.cylr` | Preview, install/repeat/remove, file preservation and saved-selection restore passed on Windows 11 and Server 2025 Desktop Experience. See dated acceptance evidence; runtime/forensic function remains separate acceptance. | [Legacy publisher reference](https://github.com/orlikoski/CyLR) |
 | 2 | `InstallDejsonlz4`, `RemoveDejsonlz4` | Accepted migration: `package.dejsonlz4` | Preview, install/repeat/remove, file preservation and saved-selection restore passed on Windows 11 and Server 2025 Desktop Experience. See dated acceptance evidence; runtime/forensic function remains separate acceptance. | [Legacy publisher reference](https://github.com/avih/dejsonlz4) |
@@ -9183,3 +9215,152 @@ Microsoft download-and-install, so no license gate applies. Request
 retry `1a0ec19a4e8e4517ad800bf3ac9f21dc` on the serialized RIDE-Win11-Test worker.
 No guest result or target support is claimed yet. No legacy outcome closes; all
 estimate ranges remain unchanged. See the [queue and current-hash evidence](../archive/evidence/sysinternals-products-win11-queue-submission-2026-10-24-1757.json).
+
+## Remaining settings Windows 11 batches queued, 2026-10-24 18:16 UTC
+
+Queued current-source `SettingsRemainingBatch1` request
+`b434c134bc8144e1ae4dcd7ad80ef403` and `SettingsRemainingBatch2` request
+`3f89f9225e324b22a6127318f62b86ca` through the existing registered RIDE-Win11-Test
+worker. Each selects 19 settings operations and follows the live ArtCraft Launcher
+diagnostic retry and the verified nine-product Sysinternals batch. The VM queue is
+serialized on the existing clean checkpoint; no fresh UAC prompt is needed, the
+blocked marker is absent, and no guest result or legacy closure is claimed yet.
+Estimates remain unchanged. See the [serialized queue evidence](../archive/evidence/settings-remaining-win11-queue-submission-2026-10-24-1816.json).
+
+## ApplicationsBatch7 Windows 11 diagnostic result, 2026-10-24 18:21 UTC
+
+Diagnostic retry `1a0ec19a4e8e4517ad800bf3ac9f21dc` failed at RIDE's
+post-install presence check after ArtCraft Launcher 0.2.1 returned successful
+Windows Installer events 1033 and 11707. The per-user vendor registry marker
+and expected `artcraft-launcher.exe` both exist, but no matching HKCU ARP
+uninstall entry was found. This confirms that presence detection cannot rely
+solely on the current uninstall-key lookup; uninstall discovery must also be
+designed before another lifecycle attempt. Uninstall and recovery were not run.
+
+Guest validation passed; Pester passed 348/349 with zero failures and one skip.
+Partial-evidence collection timed out after 90 seconds, while checkpoint
+recovery completed and no blocked marker remained. No launcher support is
+promoted and no legacy outcome closes. All estimates remain 37-57 / 50-65 /
+19-24 / 25-35 / 8-12, exact 139-193 and rounded 140-195/about 170. The prior
+RIDE v2 license-specialist approval still governs Sysinternals direct
+download-and-install; there is no licensing migration blocker. Defender-detected
+files remain separate security exclusions. See the [structured diagnostic
+result](../archive/evidence/applications-batch7-win11-diagnostic-retry-2026-10-24-1821.json).
+
+## ArtCraft Launcher MSI registration repair, 2026-10-24 18:40 UTC
+
+The package handler now queries Windows Installer related products using the
+declared UpgradeCode and exact product name, accepts only a per-user product
+whose declared HKCU install marker points to the declared LocalAppData Programs
+directory and whose expected executable exists, and builds `/x <ProductCode>`
+for removal. Catalog validation requires and constrains the corresponding MSI
+detection metadata. Five focused Pester cases passed, including path rejection,
+absent-product handling and quiet uninstall command construction. Repository
+validation passed for 410 operations, 8 groups, 5 profiles and 273 PowerShell
+files; the RIDE MSI interop type compiled and performed read-only enumeration
+against an unused UpgradeCode.
+
+This does not prove detection or removal of an actually installed ArtCraft MSI.
+No legacy outcome closes and launcher support stays pending a fresh full
+Windows 11 install, repeat, uninstall, repeat and saved-state recovery run. The
+serialized worker is processing SysinternalsProducts; ImageMagick and the two
+19-operation settings batches remain queued. All estimates remain 37-57 /
+50-65 / 19-24 / 25-35 / 8-12, exact 139-193 and rounded 140-195/about 170.
+Sysinternals licensing remains settled under prior RIDE v2 specialist approval
+for direct Microsoft download-and-install; Defender-detected files remain
+separate security exclusions. See the [implementation evidence]
+(../archive/evidence/artcraft-launcher-msi-detection-implementation-2026-10-24-1840.json).
+
+## SysinternalsProducts Windows 11 file lifecycle accepted, 2026-10-24 18:40 UTC
+
+Request `ae3bb5af12ee4b329c88cc51ff3d2bc2` passed all nine independent product
+cases on RIDE-Win11-Test, Windows 11 build 26300. Each exact pinned archive passed
+install, repeat, exact member selection, remove, repeat, preview, saved-state
+restoration, digest/signature observation, collision refusal and modified-file
+preservation. Evidence collection and export completed without errors; the
+controller restored `RIDE-clean-test-base` and turned the VM off. No utility ran,
+the batch made no external-network request or EULA acceptance, and no driver or
+service was activated. Windows 11 support is now declared for the nine package
+file lifecycles; functional utility behavior and activation remain untested.
+
+The legacy `GetSysinternalsSuite` / `RemoveSysinternalsSuite` outcome remains
+partial because the whole-Suite grouping, coexistence with separately owned
+product folders, and any additional legacy product grouping remain unresolved.
+Therefore no complete legacy outcome closes and all estimates remain 37-57 /
+50-65 / 19-24 / 25-35 / 8-12, exact 139-193 and rounded 140-195/about 170.
+The prior RIDE v2 license-specialist approval governs direct Microsoft
+download-and-install; licensing is not a blocker. Defender-detected files remain
+separate exclusions. See the [structured acceptance evidence]
+(../archive/evidence/sysinternals-products-win11-file-lifecycle-acceptance-2026-10-24-1840.json).
+
+## Sysinternals Windows 11 target support and current validation, 2026-10-24 18:53 UTC
+
+All nine individually tested Sysinternals package operations now declare
+`Windows 11` support and the target defaults required by catalog validation:
+default state `Absent`, effective default `Not installed in the default Windows
+image`. Their acceptance covered each managed-file lifecycle, not execution of
+the upstream utilities. The separate Suite snapshot, product coexistence,
+Windows Server targets and utility runtime/activation remain open. The legacy
+Suite selector therefore stays partial, no outcome closes, and all estimates
+remain 37-57 / 50-65 / 19-24 / 25-35 / 8-12, exact 139-193 and rounded
+140-195/about 170.
+
+`tools/validate.ps1` passed with 410 operations, 8 groups, 5 profiles and 273
+PowerShell files; `Export-RideCatalog.ps1 -Check` confirmed generated docs are
+current. Focused package-handler Pester passed 5/5. The broader Catalog Pester
+run passed 79 tests and failed 3 because restricted-environment registry access
+and two temporary-path writes were denied; the failures are recorded rather
+than treated as migration results. ImageMagick is running; SettingsRemainingBatch1
+and Batch2 are queued before the full ApplicationsBatch7 launcher retry
+`89f97d58ba1a493199f83654702c91ea`. No fresh UAC prompt or Defender exclusion
+was introduced. See the [support and validation evidence]
+(../archive/evidence/sysinternals-win11-target-promotion-validation-2026-10-24-1853.json).
+
+## ApplicationsBatch7 full lifecycle retry queued, 2026-10-24 18:53 UTC
+
+Request `89f97d58ba1a493199f83654702c91ea` is pending in the existing
+RIDE-Win11-Test serialized queue, behind ImageMagick and the two settings
+batches. It uses `RIDE-clean-test-base` and current-source Batch7 runner 0.14.8
+to exercise launcher install, repeat, uninstall, repeat and saved-state
+recovery after the MSI ProductCode detection repair. No guest result or target
+support is claimed yet. No fresh UAC prompt is requested and no Defender-blocked
+tool is selected. Estimates remain unchanged; no legacy outcome closes. See the
+[queue evidence](../archive/evidence/applications-batch7-win11-retry-queue-2026-10-24-1852.json).
+
+## Sysinternals practical license disposition reconfirmed, 2026-10-24 19:03 UTC
+
+The user rejected the earlier overly strict licensing rationale. The prior
+RIDE v2 license-specialist review approved Sysinternals for RIDE's
+download-and-install workflow. The user states that there are no legal issues
+using Sysinternals in RIDE. Treat that approval as settled: do not block or
+defer package migration for another license review or generalized
+redistribution analysis. Continue eligible Sysinternals work on technical
+acceptance grounds. Keep Defender-detected files excluded under their separate
+security disposition. No migration scope or legacy outcome changed, so all
+estimate ranges remain unchanged. See the [current disposition evidence]
+(../archive/evidence/sysinternals-practical-license-administration-correction-2026-10-24-1903.json).
+
+## ImageMagick Windows 11 acceptance timed out in serialized queue, 2026-10-24 19:00 UTC
+
+Request `7f3a4a8fac6e4ef0970c8054201d7719` for ImageMagick expired on
+RIDE-Win11-Test. Its 60-minute timeout covers queue wait plus execution: it was
+submitted at 17:59:55 UTC, began at 18:40:30 UTC after approximately 40 minutes
+35 seconds in the queue, and was terminated at 19:00:08 UTC after about 19
+minutes 38 seconds of execution. The controller process-tree timeout message
+therefore reflects the request deadline, not a separate 20-minute integration
+limit.
+
+The controller entered its reset `finally` path and reported no cleanup,
+collection or evidence-export error; `runtime/blocked.json` is absent. Partial
+focused staging contains payload/source inventory but no focused or guest
+acceptance result, so no ImageMagick lifecycle, runtime, or target support is
+accepted. Resolved: timeout cause and lack of a recovery block. Retired: none.
+Excluded: none for this selected ImageMagick package. Deferred: full ImageMagick
+acceptance under a fresh request budget. Partial: no legacy outcome closes. All
+five estimates remain 37-57 / 50-65 / 19-24 / 25-35 / 8-12, exact 139-193,
+rounded 140-195/about 170. At 19:08 UTC SettingsRemainingBatch1 was in the
+running queue item; SettingsRemainingBatch2 and ArtCraft Launcher full-lifecycle
+retry remain pending. Do not insert an ImageMagick retry ahead of those requests;
+after the queue drains, submit a fresh request with a 180-minute queue-inclusive
+budget. See [structured timeout evidence]
+(../archive/evidence/imagemagick-win11-acceptance-timeout-2026-10-24-1900.json).

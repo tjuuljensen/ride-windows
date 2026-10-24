@@ -1,0 +1,49 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T18:21:21.9393842Z",
+  "RunId": "1a0ec19a4e8e4517ad800bf3ac9f21dc",
+  "Controller": "RIDEWin11Test",
+  "Target": "RIDE-Win11-Test",
+  "Suite": "ApplicationsBatch7",
+  "Status": "Failed",
+  "SourceSnapshotRunnerVersion": "0.14.7",
+  "Guest": {
+    "OS": "Windows 11 Enterprise Evaluation",
+    "Build": "26300",
+    "PowerShell": "5.1.26100.9444",
+    "Account": "RIDE-WIN11-TEST\\admin"
+  },
+  "Pester": {
+    "Version": "5.7.1",
+    "Total": 349,
+    "Passed": 348,
+    "Failed": 0,
+    "Skipped": 1
+  },
+  "Scenario": {
+    "PackageId": "package.artcraft-launcher",
+    "PackageVersion": "0.2.1",
+    "Status": "Failed",
+    "Failure": "Installer completed but ArtCraft Launcher was not detected afterward.",
+    "MsiInstallerEvents": "Windows Installer reported Product Name ArtCraft Launcher, Version 0.2.1, installation success status 0 (event 11707).",
+    "VendorInstallDir": "C:\\Users\\admin\\AppData\\Local\\Programs\\ArtCraft Launcher\\",
+    "ExecutablePresent": true,
+    "MatchingUninstallEntries": 0,
+    "VendorRegistryKey": "HKCU:\\Software\\Learning Machines LLC\\ArtCraft Launcher",
+    "ProfilePreservationSentinelSeeded": true,
+    "VendorUninstallRan": false,
+    "ProfilePreservationVerified": false
+  },
+  "Controller": {
+    "CleanupError": null,
+    "CollectionError": "Partial-evidence collection timed out after 90 seconds.",
+    "BlockedMarkerPresent": false
+  },
+  "Disposition": "Do not promote support. Use the publisher InstallDir marker and Windows Installer UpgradeCode registration for detection, then rerun full install, vendor uninstall, profile preservation and saved-state recovery acceptance.",
+  "Estimate": {
+    "Ranges": "37-57 / 50-65 / 19-24 / 25-35 / 8-12",
+    "Exact": "139-193",
+    "Rounded": "140-195/about 170",
+    "LegacyOutcomesClosed": 0
+  }
+}

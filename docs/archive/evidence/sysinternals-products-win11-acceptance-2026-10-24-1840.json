@@ -1,0 +1,52 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T18:40:30.7243666Z",
+  "RunId": "ae3bb5af12ee4b329c88cc51ff3d2bc2",
+  "Controller": "RIDEWin11Test",
+  "Target": "RIDE-Win11-Test",
+  "Suite": "SysinternalsProducts",
+  "Status": "Passed",
+  "Guest": {
+    "OS": "Windows 11 Enterprise Evaluation",
+    "Build": "26300"
+  },
+  "Cases": {
+    "Expected": 9,
+    "Completed": 9,
+    "Passed": 9,
+    "Failed": 0,
+    "Packages": [
+      "package.sysinternals-process-explorer",
+      "package.sysinternals-autoruns",
+      "package.sysinternals-tcpview",
+      "package.sysinternals-procmon",
+      "package.sysinternals-rammap",
+      "package.sysinternals-disk2vhd",
+      "package.sysinternals-sigcheck",
+      "package.sysinternals-strings",
+      "package.sysinternals-handle"
+    ]
+  },
+  "Lifecycle": "Install and remove previews, exact archive-member ownership, repeat install/removal, saved-run restore, unowned-file preservation and refusal for modified managed files passed for all nine packages.",
+  "ExecutionBoundary": {
+    "PayloadExecuted": false,
+    "ToolExecuted": false,
+    "FunctionalAcceptance": "Pending",
+    "RuntimeAcceptance": "NotSelected",
+    "ActivationAcceptance": "Pending"
+  },
+  "Controller": {
+    "CleanupError": null,
+    "CollectionError": null,
+    "EvidenceCollected": true,
+    "Cleanup": "ResetAndOff",
+    "BlockedMarkerPresent": false
+  },
+  "Disposition": "Record Windows 11 portable package lifecycle acceptance only. Do not claim runtime, execution or activation acceptance; no legacy outcome closed.",
+  "Estimate": {
+    "Ranges": "37-57 / 50-65 / 19-24 / 25-35 / 8-12",
+    "Exact": "139-193",
+    "Rounded": "140-195/about 170",
+    "LegacyOutcomesClosed": 0
+  }
+}

@@ -32,8 +32,9 @@
   Compatibility: Windows PowerShell 5.1 on disposable Windows 11/Server 2025.
   Prerequisites: Elevated guest, RIDE_INTEGRATION_VM=1 and the VM test runner.
   Recovery: Saved-run restoration and host clean-checkpoint recovery.
-  Owner: RIDE-Windows maintainers. Version: 0.14.7.
-  Changelog: 0.14.7: Capture bounded launcher registration and MSI event evidence when installation detection fails.
+  Owner: RIDE-Windows maintainers. Version: 0.14.8.
+  Changelog: 0.14.8: Check exact OpenJDK package IDs; test launcher MSI registration without ARP entries.
+    0.14.7: Capture bounded launcher registration and MSI event evidence when installation detection fails.
     0.14.6: Verify Artcraft MSI uninstallation preserves user profile data.
     0.14.5: Verify pinned Artcraft versions and full install/uninstall recovery in ApplicationsBatch6 and ApplicationsBatch7.
     0.14.3: Use the exported engine state reader when checking whether prerequisite-dependent packages are installed.
@@ -63,7 +64,7 @@
 #>
 [CmdletBinding(SupportsShouldProcess=$true)]
 param([ValidateSet(1,2,3,4,5,6,7,8)][int] $Batch=1,[ValidateSet('all-users')][string] $Variant,[switch] $Version,[switch] $UnelevatedChild,[string] $ExpectedUserSid,[string] $ExpectedLocalAppData)
-$script:ScriptVersion='0.14.7'
+$script:ScriptVersion='0.14.8'
 if($Version){$script:ScriptVersion;return}
 $ErrorActionPreference='Stop'
 if($env:RIDE_INTEGRATION_VM -ne '1'){throw 'Run application scenarios only through the disposable-VM runner.'}
@@ -163,8 +164,8 @@ if($Batch -eq 6){
 }
 if($Batch -eq 7 -and ($scenarios.Count -ne 1 -or $scenarios[0].Id -cne 'package.artcraft-launcher')){throw 'ApplicationsBatch7 must select exactly the current-user ArtCraft Launcher package.'}
 if($Batch -eq 8){
-  $expectedIds=@('package.microsoft-openjdk-25','package.microsoft-openjdk-21','package.microsoft-openjdk-17','package.microsoft-openjdk-11')
-  $actualIds=@($scenarios | ForEach-Object Id | Sort-Object)
+  $expectedIds=@('microsoft-openjdk-25','microsoft-openjdk-21','microsoft-openjdk-17','microsoft-openjdk-11')
+  $actualIds=@($scenarios | ForEach-Object {$_.Selected.PackageId} | Sort-Object)
   if($actualIds.Count -ne $expectedIds.Count -or (@($actualIds) -join '|') -cne (@($expectedIds | Sort-Object) -join '|')){throw 'ApplicationsBatch8 must select exactly the four pinned Microsoft OpenJDK compatibility packages.'}
 }
 $results=New-Object System.Collections.Generic.List[object]

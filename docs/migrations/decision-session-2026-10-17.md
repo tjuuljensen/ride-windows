@@ -209,6 +209,12 @@ Accepted by the user on 2026-10-17 (Europe/Copenhagen): "Use secure interactive
 password entry, handle existing accounts separately, and protect the last usable
 administrator."
 
+The user confirmed on 2026-10-24 that this guarded enrollment flow is included
+in v3. This resolves the previously stale follow-up entry that still listed
+Q07 as an open design decision. It approves v3 implementation planning only;
+account creation, password changes, membership changes and native acceptance
+remain separate runtime gates.
+
 The operator chooses the new account name and enters its password securely during
 execution. Passwords must not be written to profiles, logs or saved recovery
 records. An existing account with the requested name requires a separate explicit
@@ -2843,3 +2849,39 @@ legacy outcome. Estimates change from 51-66 to 50-65 packages and from 140-194
 to 139-193 exact total; the rounded total remains 140-195/about 170. These
 decisions changed no package, tool, VM, or Windows state and produced no test
 result.
+
+## peStudio, TMOG, BloodHound CE and WFN decisions, 2026-10-24
+
+The user chose to implement peStudio. Use the Pro edition for professional or
+corporate use because the publisher limits Basic to private, occasional
+analysis. Treat Pro as the selected package design; do not infer a paid
+per-user entitlement. Keep owner-specific terms/entitlement confirmation in
+the private license review store before any use that requires it. The package
+work does not authorize acquisition or installation.
+
+The user chose to implement the existing TMOG free-edition candidate. Keep the
+current 1.0.1 candidate and its personal-use/release-candidate license limits
+explicit. The decision does not establish publisher approval or authorize
+professional/fleet use, activation, launching TMOG.scr, or changing screensaver
+settings. Keep those requirements and Windows acceptance as separate gates.
+
+The user confirmed that BloodHound CE package migration stays separate from
+Docker Desktop, WSL/Windows feature provisioning, backend configuration,
+credentials, network ownership, data, and recovery. The selected backend
+version remains 9.8.0; its package and collector technical acceptance remain
+open.
+
+The user selected the latest publisher Nightly for Windows Firewall Notifier
+(WFN). The official `nightlies` release currently identifies build
+`20250719-ac02df`; select its x64 standalone archive
+`wfn-20250719-ac02df-x64-standalone.zip` when preparing the candidate. Resolve
+the exact version, URL, archive hash and contents at acquisition time; the
+mutable Nightly channel does not provide a durable package pin. Do not claim
+Windows Server support; the publisher says Server is unsupported. Firewall
+policy capture/recovery and Windows 11 lifecycle acceptance remain required.
+
+These choices change design scope only. No product was acquired or installed,
+no firewall or Windows state changed, and no whole legacy outcome closes.
+All estimate ranges remain 37-57 / 50-65 / 19-24 / 25-35 / 8-12, exact
+139-193 and rounded 140-195/about 170. Current publisher source:
+[WFN Nightlies](https://github.com/wokhan/WFN/releases/tag/nightlies).

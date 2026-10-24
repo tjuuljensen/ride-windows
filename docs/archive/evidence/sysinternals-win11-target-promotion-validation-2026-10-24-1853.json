@@ -1,0 +1,90 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T18:53:52Z",
+  "SourceCommit": "9d2890eb42863f8cf03140e07551b1f8a7563bcf",
+  "Promotion": {
+    "Packages": [
+      "package.sysinternals-process-explorer",
+      "package.sysinternals-autoruns",
+      "package.sysinternals-tcpview",
+      "package.sysinternals-procmon",
+      "package.sysinternals-rammap",
+      "package.sysinternals-disk2vhd",
+      "package.sysinternals-sigcheck",
+      "package.sysinternals-strings",
+      "package.sysinternals-handle"
+    ],
+    "SupportedTargets": ["Windows 11"],
+    "TargetDefaults": {
+      "DefaultValue": "Absent",
+      "EffectiveDefault": "Not installed in the default Windows image"
+    },
+    "PendingAcceptance": false,
+    "RuntimeAndActivation": "Not tested; no utility was executed in the file-lifecycle acceptance run.",
+    "WholeSuiteAndServer": "Separate acceptance remains open."
+  },
+  "Validation": {
+    "RepositoryValidation": {
+      "Command": "tools/validate.ps1",
+      "Result": "Passed",
+      "Operations": 410,
+      "Groups": 8,
+      "Profiles": 5,
+      "PowerShellFiles": 273,
+      "GeneratedOperationDocumentation": "Current"
+    },
+    "CatalogPester": {
+      "Path": "tests/Catalog.Tests.ps1",
+      "Passed": 79,
+      "Failed": 3,
+      "Skipped": 0,
+      "FailureCauses": [
+        "Registry fixture access denied in the restricted test environment.",
+        "Two Save-RidePackageArtifact tests were denied temporary-path writes under the sandbox AppContainer.",
+        "TestRegistry plugin was disabled; the three failures were not caused by Sysinternals package metadata."
+      ]
+    },
+    "PackageHandlerPester": {
+      "Path": "tests/ApplicationPackages.Tests.ps1",
+      "Filter": "Current-user MSI product registration without ARP",
+      "Passed": 5,
+      "Failed": 0,
+      "Skipped": 0
+    }
+  },
+  "Queue": {
+    "Running": {
+      "RunId": "7f3a4a8fac6e4ef0970c8054201d7719",
+      "Suite": "ImageMagick"
+    },
+    "PendingInSubmissionOrder": [
+      {
+        "RunId": "b434c134bc8144e1ae4dcd7ad80ef403",
+        "Suite": "SettingsRemainingBatch1"
+      },
+      {
+        "RunId": "3f89f9225e324b22a6127318f62b86ca",
+        "Suite": "SettingsRemainingBatch2"
+      },
+      {
+        "RunId": "89f97d58ba1a493199f83654702c91ea",
+        "Suite": "ApplicationsBatch7"
+      }
+    ]
+  },
+  "Migration": {
+    "LegacyOutcomesClosed": 0,
+    "LegacySysinternalsSelector": "Partial; whole-Suite behavior and any additional product grouping remain open.",
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "50-65",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "139-193",
+      "RoundedTotal": "140-195/about 170",
+      "Adjustment": "None; target support was declared for nine implemented package operations, while the legacy Suite outcome remains partial."
+    },
+    "SysinternalsDisposition": "Prior RIDE v2 license-specialist approval governs direct Microsoft download-and-install; licensing is not a blocker. Defender-detected files remain separate exclusions."
+  }
+}

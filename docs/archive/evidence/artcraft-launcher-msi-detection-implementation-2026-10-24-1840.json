@@ -1,0 +1,65 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T18:40:11Z",
+  "Implementation": {
+    "Package": "package.artcraft-launcher",
+    "Behavior": "Find related Windows Installer products by declared UpgradeCode and exact product name; accept only per-user assignment, the declared HKCU InstallDir marker, the declared LocalAppData\\Programs directory and expected executable; return the discovered ProductCode as the msiexec /x command.",
+    "CatalogMetadata": [
+      "MsiUpgradeCode",
+      "MsiProductName",
+      "MsiInstallDirectoryRegistryKey",
+      "MsiInstallDirectory",
+      "MsiExecutable"
+    ],
+    "RuntimeAcceptance": "Pending: no actual ArtCraft Launcher product was installed or removed in this local test run."
+  },
+  "Validation": {
+    "FocusedPester": {
+      "Path": "tests/ApplicationPackages.Tests.ps1",
+      "Filter": "Current-user MSI product registration without ARP",
+      "Passed": 5,
+      "Failed": 0,
+      "Skipped": 0,
+      "PowerShell": "7.6.5",
+      "Pester": "5.7.1",
+      "TestRegistryPlugin": "Disabled"
+    },
+    "CatalogAndParserValidation": {
+      "Command": "tools/validate.ps1",
+      "Result": "Passed",
+      "Operations": 410,
+      "Groups": 8,
+      "Profiles": 5,
+      "PowerShellFiles": 273,
+      "Documentation": "Current"
+    },
+    "WindowsInstallerApiSmoke": {
+      "Result": "Passed",
+      "Check": "Loaded the RIDE.MsiProductLookup interop type and enumerated an unused UpgradeCode without changing Windows state.",
+      "Scope": "Read-only; does not prove detection of an installed ArtCraft product."
+    }
+  },
+  "Migration": {
+    "LegacyOutcomesClosed": 0,
+    "LauncherSupportPromoted": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "50-65",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "139-193",
+      "RoundedTotal": "140-195/about 170",
+      "Adjustment": "None; presence/uninstall implementation is ready for a full disposable-VM retry, but acceptance and recovery are not yet proven."
+    },
+    "ActiveQueue": {
+      "SysinternalsProducts": "ae3bb5af12ee4b329c88cc51ff3d2bc2",
+      "Status": "Running",
+      "Pending": [
+        "ImageMagick: 7f3a4a8fac6e4ef0970c8054201d7719",
+        "SettingsRemainingBatch1: b434c134bc8144e1ae4dcd7ad80ef403",
+        "SettingsRemainingBatch2: 3f89f9225e324b22a6127318f62b86ca"
+      ]
+    }
+  }
+}

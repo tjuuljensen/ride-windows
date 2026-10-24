@@ -1,0 +1,732 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T18:40:30.7243666Z",
+  "Controller": "RIDEWin11Test",
+  "Request": {
+    "RunId": "ae3bb5af12ee4b329c88cc51ff3d2bc2",
+    "Suite": "SysinternalsProducts",
+    "SourceCommit": "9d2890eb42863f8cf03140e07551b1f8a7563bcf",
+    "SourceIdentity": "Working-tree source-manifest hashes, including uncommitted changes",
+    "Status": "Passed",
+    "StartedAtUtc": "2026-10-24T18:21:22.1008151Z",
+    "FinishedAtUtc": "2026-10-24T18:40:30.7243666Z"
+  },
+  "Target": {
+    "Name": "RIDE-Win11-Test",
+    "Id": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "WindowsVersion": "Windows 11",
+    "Build": 26300
+  },
+  "Checkpoint": {
+    "Name": "RIDE-clean-test-base",
+    "Id": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+    "Cleanup": "ResetAndOff"
+  },
+  "Summary": {
+    "ExpectedCases": 9,
+    "Completed": 9,
+    "Passed": 9,
+    "Status": "Passed",
+    "PayloadExecution": false,
+    "ToolExecuted": false,
+    "FunctionalAcceptance": "Pending",
+    "RuntimeAcceptance": "NotSelected",
+    "ActivationAcceptance": "Pending"
+  },
+  "Selection": {
+    "PackageIds": [
+      "package.sysinternals-autoruns",
+      "package.sysinternals-disk2vhd",
+      "package.sysinternals-handle",
+      "package.sysinternals-process-explorer",
+      "package.sysinternals-procmon",
+      "package.sysinternals-rammap",
+      "package.sysinternals-sigcheck",
+      "package.sysinternals-strings",
+      "package.sysinternals-tcpview"
+    ],
+    "Payloads": [
+      {
+        "Id": "package.sysinternals-autoruns",
+        "FileName": "Autoruns.zip",
+        "Sha256": "7b3a8eed819f732a3e4c134aecaeaebb8d643a46490ccddb82cc8a1a745c4cf7"
+      },
+      {
+        "Id": "package.sysinternals-disk2vhd",
+        "FileName": "Disk2vhd.zip",
+        "Sha256": "c294d279bf98645f84452989f320b561bf58609e35d85de47ea19ef583880821"
+      },
+      {
+        "Id": "package.sysinternals-handle",
+        "FileName": "Handle.zip",
+        "Sha256": "279aaf8eccb6f79147f4dcc6ba091fb895c4cb8b199a0dd186a4c76bc519d2cd"
+      },
+      {
+        "Id": "package.sysinternals-process-explorer",
+        "FileName": "ProcessExplorer.zip",
+        "Sha256": "dab147316264b89ae46ae2ad7d8a94116848ef0b703bcac8de9ff22689ce9d51"
+      },
+      {
+        "Id": "package.sysinternals-procmon",
+        "FileName": "ProcessMonitor.zip",
+        "Sha256": "477754bf299c9e5b311c5666f7a4a48dfdb21265eaa8f0cca70ef9d9552e3a10"
+      },
+      {
+        "Id": "package.sysinternals-rammap",
+        "FileName": "RAMMap.zip",
+        "Sha256": "6536a8107a3fb391e4443f2742366067341a7da50de89f99ca0b2390120dd0cc"
+      },
+      {
+        "Id": "package.sysinternals-sigcheck",
+        "FileName": "Sigcheck.zip",
+        "Sha256": "8756099c1ce3d3f450245c0d4b39aeb5b29309f56bf77f8c18f1469c418abf12"
+      },
+      {
+        "Id": "package.sysinternals-strings",
+        "FileName": "Strings.zip",
+        "Sha256": "b1a0a3dc5f639af1c98ae5832676727646eb3d543640e65e310dff747e733a25"
+      },
+      {
+        "Id": "package.sysinternals-tcpview",
+        "FileName": "TCPView.zip",
+        "Sha256": "4fc5ceba3e1b27ad95a24df35d094b454ec5f9478e12a8ca2b1b222705b9683b"
+      }
+    ],
+    "DefenderDetectedToolsIncluded": 0,
+    "UtilityExecution": false,
+    "EulaAcceptance": false
+  },
+  "Scenarios": [
+    {
+      "PackageId": "package.sysinternals-process-explorer",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "e408ce136c2a4eeb927348f76d94d470",
+        "f180681bf56b44498441ead0bcc73df2",
+        "da56d49daa474ea0a6eeaeb6a2c506cc"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "Eula.txt",
+          "Sha256": "8329bcbadc7f81539a4969ca13f0be5b8eb7652b912324a1926fc9bfb6ec005a",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "procexp.exe",
+          "Sha256": "fd8bf40a4915df81e6ab7126361f0f98d027824c42cd85bd6ac311791840a448",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "AB172913A2960A224809EE8A0C371CD47A079B72"
+        },
+        {
+          "RelativePath": "procexp64.exe",
+          "Sha256": "cdd3bf8fd68284480361c3673b9db7f48ff8a44317d28a243d26e12192050392",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "1D77A9B9E8FE2075D9AD15123257FB90DB0DA4A1"
+        },
+        {
+          "RelativePath": "procexp64a.exe",
+          "Sha256": "48db5c371054e53eaefc97eed1e8e6debb57652b2ffbac233d1bb5791cb6da26",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "AB172913A2960A224809EE8A0C371CD47A079B72"
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.sysinternals-process-explorer' failed. Run ID: 09e0012bdc3e48c98eb9122839afc3a1. Saved state: package.sysinternals-process-explorer. Completed operations: <none>. Error: Portable destination collision: procexp.exe",
+      "ModifiedRefusal": "RIDE operation 'package.sysinternals-process-explorer' failed. Run ID: efc0f02da11b486f83e791dd1afd917b. Saved state: package.sysinternals-process-explorer. Completed operations: <none>. Error: Portable upgrade would overwrite modified managed files.",
+      "FunctionalAcceptance": "Pending",
+      "RuntimeAcceptance": "NotSelected",
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": false
+    },
+    {
+      "PackageId": "package.sysinternals-autoruns",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "1345e3ef3eb342ff9e5d934c8c0e2560",
+        "1657a3e06e5c421695fbf2fe9ff371bf",
+        "a2d29d53d33f4228a623a5185a03eb55"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "Autoruns.exe",
+          "Sha256": "38519c3ae945f678261327d05efe8fb0be44afb91236bd71199e20e1151ff157",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "AB172913A2960A224809EE8A0C371CD47A079B72"
+        },
+        {
+          "RelativePath": "Autoruns64.exe",
+          "Sha256": "d8deb836731fdf760898b377347ca4ff57e750c09f07e2cbaab43b0060a89dce",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "1D77A9B9E8FE2075D9AD15123257FB90DB0DA4A1"
+        },
+        {
+          "RelativePath": "Autoruns64a.exe",
+          "Sha256": "0140f164976d62dbc115865ba0fb3f404fdd752c2e0f6b589e87a8d74ca7bd6f",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "AB172913A2960A224809EE8A0C371CD47A079B72"
+        },
+        {
+          "RelativePath": "autorunsc.exe",
+          "Sha256": "a2394a11272ae38e7fb6ea862e783daa6d704a3d9c73a51dfe978b7692df6b1f",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "AB172913A2960A224809EE8A0C371CD47A079B72"
+        },
+        {
+          "RelativePath": "autorunsc64.exe",
+          "Sha256": "093d1c6b91d280c9644635c667753e0aa0e78c656eb4082147bf30364787d96f",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "AB172913A2960A224809EE8A0C371CD47A079B72"
+        },
+        {
+          "RelativePath": "autorunsc64a.exe",
+          "Sha256": "13f7ee6f51ab8d42a1d1e6812c00e174e88802412fbeaed98582c3cb443ab8ee",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "AB172913A2960A224809EE8A0C371CD47A079B72"
+        },
+        {
+          "RelativePath": "Eula.txt",
+          "Sha256": "8329bcbadc7f81539a4969ca13f0be5b8eb7652b912324a1926fc9bfb6ec005a",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.sysinternals-autoruns' failed. Run ID: da1e059d138e4c528056d15a77a7bcb8. Saved state: package.sysinternals-autoruns. Completed operations: <none>. Error: Portable destination collision: Autoruns.exe",
+      "ModifiedRefusal": "RIDE operation 'package.sysinternals-autoruns' failed. Run ID: 65a0b4af75f54d218b7c77309e3252c8. Saved state: package.sysinternals-autoruns. Completed operations: <none>. Error: Portable upgrade would overwrite modified managed files.",
+      "FunctionalAcceptance": "Pending",
+      "RuntimeAcceptance": "NotSelected",
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": false
+    },
+    {
+      "PackageId": "package.sysinternals-tcpview",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "8a807b1cd7bf495099d03b09168116e3",
+        "1d7e7c63a8244df5be743e15a06d6684",
+        "5db8f78f220d40cd861b20054f8281e1"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "Eula.txt",
+          "Sha256": "8329bcbadc7f81539a4969ca13f0be5b8eb7652b912324a1926fc9bfb6ec005a",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "tcpvcon.exe",
+          "Sha256": "37621bdac3ced1103278e8c0ef7b73dfa1cbe9becfbaff421a46fbc78d636b5f",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "F372C27F6E052A6BE8BAB3112B465C692196CD6F"
+        },
+        {
+          "RelativePath": "tcpvcon64.exe",
+          "Sha256": "f9fdc027050d59608062a95c41e3965e3800fd5a91f35de080a432d62bd129c1",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "97221B97098F37A135DCC212E2B41E452BCE51F2"
+        },
+        {
+          "RelativePath": "tcpvcon64a.exe",
+          "Sha256": "0e85278ca6617dcd61af1e84dea1e3049be0539ca492b5731ddf85545db00390",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "97221B97098F37A135DCC212E2B41E452BCE51F2"
+        },
+        {
+          "RelativePath": "tcpview.chm",
+          "Sha256": "37b11010a35761703e914dfd88fb26776dbfb29531934244a3bab7b6219a764f",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "tcpview.exe",
+          "Sha256": "9775b4bbe23b8eb93727efe0a6d0b160ae5132a10b223f43200499cf0051a18f",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "F372C27F6E052A6BE8BAB3112B465C692196CD6F"
+        },
+        {
+          "RelativePath": "tcpview64.exe",
+          "Sha256": "0cbcb7ec4a042622b0d9d91b18f908e4208e4725ee1fa74a3555c4dcb622cfc1",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "F372C27F6E052A6BE8BAB3112B465C692196CD6F"
+        },
+        {
+          "RelativePath": "tcpview64a.exe",
+          "Sha256": "fca26bd5a35267a2ff19317c9e4f7642517d9d8795dcf50c65ff036298d6255b",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "97221B97098F37A135DCC212E2B41E452BCE51F2"
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.sysinternals-tcpview' failed. Run ID: c404f446e9de4c81bb35662d429d8624. Saved state: package.sysinternals-tcpview. Completed operations: <none>. Error: Portable destination collision: tcpview.exe",
+      "ModifiedRefusal": "RIDE operation 'package.sysinternals-tcpview' failed. Run ID: 05286600380f400c87ec309207198525. Saved state: package.sysinternals-tcpview. Completed operations: <none>. Error: Portable upgrade would overwrite modified managed files.",
+      "FunctionalAcceptance": "Pending",
+      "RuntimeAcceptance": "NotSelected",
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": false
+    },
+    {
+      "PackageId": "package.sysinternals-procmon",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "b9c0015bb6244515a211e70584ed82ff",
+        "217f7243ad59425a8707b0377e15a779",
+        "1aa5bd4f0a0e4693a18760a4881eef99"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "Eula.txt",
+          "Sha256": "8329bcbadc7f81539a4969ca13f0be5b8eb7652b912324a1926fc9bfb6ec005a",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Procmon.exe",
+          "Sha256": "a7a2adcb8353e4fad8d7f408b7f14f5d2bf4912ab556e6bdb5887682701a917e",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "1D77A9B9E8FE2075D9AD15123257FB90DB0DA4A1"
+        },
+        {
+          "RelativePath": "Procmon64.exe",
+          "Sha256": "28495e642b2a465474a4edc58380eaf8b7ee580f3fbcb4141061deadafe9b885",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "AB172913A2960A224809EE8A0C371CD47A079B72"
+        },
+        {
+          "RelativePath": "Procmon64a.exe",
+          "Sha256": "b1c6beaec539f0ffdf714746c161bf9d78f44cb3715d634f36cdb2683f4d6f5b",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "1D77A9B9E8FE2075D9AD15123257FB90DB0DA4A1"
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.sysinternals-procmon' failed. Run ID: ff1e3b46ce1849a4a2be4484c845d7d0. Saved state: package.sysinternals-procmon. Completed operations: <none>. Error: Portable destination collision: Procmon.exe",
+      "ModifiedRefusal": "RIDE operation 'package.sysinternals-procmon' failed. Run ID: bce25cdbf47f4ae89a6c735c5181cab9. Saved state: package.sysinternals-procmon. Completed operations: <none>. Error: Portable upgrade would overwrite modified managed files.",
+      "FunctionalAcceptance": "Pending",
+      "RuntimeAcceptance": "NotSelected",
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": false
+    },
+    {
+      "PackageId": "package.sysinternals-rammap",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "8341ba63dcb14d0ea888a7b66bd1befb",
+        "5cbef2634a554a4a92b24e4a69e0ae7f",
+        "18ac17309c3543c8a204ec1ba0281fd1"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "Eula.txt",
+          "Sha256": "8329bcbadc7f81539a4969ca13f0be5b8eb7652b912324a1926fc9bfb6ec005a",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "RAMMap.exe",
+          "Sha256": "29c9675e41224bedf1501f4bc84de6ae5107f49e8ad46707ea6bed5c61deceef",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "F5877012FBD62FABCBDC8D8CEE9C9585BA30DF79"
+        },
+        {
+          "RelativePath": "RAMMap64.exe",
+          "Sha256": "e970913798481432cd590991577089e68510b861dc669dcab24feb06aae0df52",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "3F56A45111684D454E231CFDC4DA5C8D370F9816"
+        },
+        {
+          "RelativePath": "RAMMap64a.exe",
+          "Sha256": "5847b681b59b91ee35e7d7ad9ab4c116e4d234b8e2a6cc772b4b2ce204c7672e",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "F5877012FBD62FABCBDC8D8CEE9C9585BA30DF79"
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.sysinternals-rammap' failed. Run ID: 1f6e470a61fe489fa3d413c15344ee10. Saved state: package.sysinternals-rammap. Completed operations: <none>. Error: Portable destination collision: RAMMap.exe",
+      "ModifiedRefusal": "RIDE operation 'package.sysinternals-rammap' failed. Run ID: 42ced6f633b54860bc9ae1db11ad4879. Saved state: package.sysinternals-rammap. Completed operations: <none>. Error: Portable upgrade would overwrite modified managed files.",
+      "FunctionalAcceptance": "Pending",
+      "RuntimeAcceptance": "NotSelected",
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": false
+    },
+    {
+      "PackageId": "package.sysinternals-disk2vhd",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "b0e29501a5874d53a1c5ea1c96e67563",
+        "81769fa3536140f1a1afc190aa228b78",
+        "eee3efe9532a4ce99e86b6bc589a6f5c"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "Disk2vhd.chm",
+          "Sha256": "56b375c7db8525c93a308bb095343b74ce85a01355ff486afa6ffbdf1471a7a9",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "disk2vhd.exe",
+          "Sha256": "7c2ca32561cc5d41606b86ebadd0a6a526f669a818fa40ea2023eaed02efc4f7",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "ABDCA79AF9DD48A0EA702AD45260B3C03093FB4B"
+        },
+        {
+          "RelativePath": "disk2vhd64.exe",
+          "Sha256": "029a261ae3aeab1f8e8eadaa8d2109ee38729936ad44b03eff8f16f075a3d97a",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "ABDCA79AF9DD48A0EA702AD45260B3C03093FB4B"
+        },
+        {
+          "RelativePath": "disk2vhd64a.exe",
+          "Sha256": "416d300b4445b7715cf5aeebea128e80a46097443e3122745ad17c3d611c3b6a",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "ABDCA79AF9DD48A0EA702AD45260B3C03093FB4B"
+        },
+        {
+          "RelativePath": "Eula.txt",
+          "Sha256": "8329bcbadc7f81539a4969ca13f0be5b8eb7652b912324a1926fc9bfb6ec005a",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.sysinternals-disk2vhd' failed. Run ID: 173f2d50d4a441529d9977132932d9c2. Saved state: package.sysinternals-disk2vhd. Completed operations: <none>. Error: Portable destination collision: disk2vhd.exe",
+      "ModifiedRefusal": "RIDE operation 'package.sysinternals-disk2vhd' failed. Run ID: cd86856ac0fa4e799cb924173d6bd929. Saved state: package.sysinternals-disk2vhd. Completed operations: <none>. Error: Portable upgrade would overwrite modified managed files.",
+      "FunctionalAcceptance": "Pending",
+      "RuntimeAcceptance": "NotSelected",
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": false
+    },
+    {
+      "PackageId": "package.sysinternals-sigcheck",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "c417cfd1b3f047c18539d47b9e08a6aa",
+        "0eaebdacf8a64ba7bc30fd3a888ac940",
+        "c3a089f31a5e4cd5bba9a2ca93bd4c18"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "Eula.txt",
+          "Sha256": "8329bcbadc7f81539a4969ca13f0be5b8eb7652b912324a1926fc9bfb6ec005a",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "sigcheck.exe",
+          "Sha256": "7cf481ae647639d03782c614e268894caf94811da300deef9c6a74fccc5f7804",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "AB172913A2960A224809EE8A0C371CD47A079B72"
+        },
+        {
+          "RelativePath": "sigcheck64.exe",
+          "Sha256": "f3d671b4bab4714746d0034104363d4f6deef591e979e8e37170803e8960487d",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "AB172913A2960A224809EE8A0C371CD47A079B72"
+        },
+        {
+          "RelativePath": "sigcheck64a.exe",
+          "Sha256": "c081f7ec670bd90c2209738801050683f1e5d908653636674f5b9f1280f7bf09",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "AB172913A2960A224809EE8A0C371CD47A079B72"
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.sysinternals-sigcheck' failed. Run ID: 8db68654493b4dc7af44a2d252f3001b. Saved state: package.sysinternals-sigcheck. Completed operations: <none>. Error: Portable destination collision: sigcheck.exe",
+      "ModifiedRefusal": "RIDE operation 'package.sysinternals-sigcheck' failed. Run ID: 98654a4b3211457a9dce1a270f07376a. Saved state: package.sysinternals-sigcheck. Completed operations: <none>. Error: Portable upgrade would overwrite modified managed files.",
+      "FunctionalAcceptance": "Pending",
+      "RuntimeAcceptance": "NotSelected",
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": false
+    },
+    {
+      "PackageId": "package.sysinternals-strings",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "9839c1b878714e09a338d8343c8d4f31",
+        "63fbd4ec68f24afea98dfa022e91beba",
+        "b94d46f7f8ed4208bb293ad37a59466d"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "Eula.txt",
+          "Sha256": "8329bcbadc7f81539a4969ca13f0be5b8eb7652b912324a1926fc9bfb6ec005a",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "strings.exe",
+          "Sha256": "a7553d77edca85bec980e38e69bf0e9f36962f20be0ee759e9a96030d519c5a0",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "ABDCA79AF9DD48A0EA702AD45260B3C03093FB4B"
+        },
+        {
+          "RelativePath": "strings64.exe",
+          "Sha256": "05dbb43499bcff44424c7ac2d987ea9e9742cd90afe360e84ba0bccade17f71b",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "3D7E1E393BF85A02007094B249E1EBA19D945D32"
+        },
+        {
+          "RelativePath": "strings64a.exe",
+          "Sha256": "128ddf146edb4c72b48588a57f5fdc4528b870ba0fb2b99bce500452ae436912",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "3D7E1E393BF85A02007094B249E1EBA19D945D32"
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.sysinternals-strings' failed. Run ID: 0822eff5936d450ba86ff923fffbcfb1. Saved state: package.sysinternals-strings. Completed operations: <none>. Error: Portable destination collision: strings.exe",
+      "ModifiedRefusal": "RIDE operation 'package.sysinternals-strings' failed. Run ID: 5038cd5df7944652856d92057638fa0e. Saved state: package.sysinternals-strings. Completed operations: <none>. Error: Portable upgrade would overwrite modified managed files.",
+      "FunctionalAcceptance": "Pending",
+      "RuntimeAcceptance": "NotSelected",
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": false
+    },
+    {
+      "PackageId": "package.sysinternals-handle",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "89e38c947634441790bcde1632ec8d00",
+        "ed946a083fe24c1aa48d39ecdc3208c0",
+        "5640ca95385b42189ac0c76213ca7ff3"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "Eula.txt",
+          "Sha256": "8329bcbadc7f81539a4969ca13f0be5b8eb7652b912324a1926fc9bfb6ec005a",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "handle.exe",
+          "Sha256": "84c22579ca09f4fd8a8d9f56a6348c4ad2a92d4722c9f1213dd73c2f68a381e3",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "AFBF0B8B6A18F7E23CCA1DDCD0AC1A55B4035173"
+        },
+        {
+          "RelativePath": "handle64.exe",
+          "Sha256": "24bafcc570cc9bbb6b6e6652a57a519e0464e3996891aaba6f55299cce20b04f",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "AFBF0B8B6A18F7E23CCA1DDCD0AC1A55B4035173"
+        },
+        {
+          "RelativePath": "handle64a.exe",
+          "Sha256": "21bd4ed38f08015f39f1653a1a4dccf19ce06cd44ee32720488a9096a306080d",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "AFBF0B8B6A18F7E23CCA1DDCD0AC1A55B4035173"
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.sysinternals-handle' failed. Run ID: 03d39672ba8d428e967396c4a00f3d31. Saved state: package.sysinternals-handle. Completed operations: <none>. Error: Portable destination collision: handle.exe",
+      "ModifiedRefusal": "RIDE operation 'package.sysinternals-handle' failed. Run ID: 01490002ba534e89b0d73713499994dd. Saved state: package.sysinternals-handle. Completed operations: <none>. Error: Portable upgrade would overwrite modified managed files.",
+      "FunctionalAcceptance": "Pending",
+      "RuntimeAcceptance": "NotSelected",
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": false
+    }
+  ],
+  "ControllerErrors": {
+    "Error": null,
+    "CleanupError": null,
+    "CollectionError": null,
+    "EvidenceExportError": null
+  },
+  "Migration": {
+    "LegacyOutcomesClosed": 0,
+    "Windows11PackageLifecycle": "Accepted for the nine listed independent package operations",
+    "Windows11SupportedTargetsDeclared": true,
+    "FunctionalUtilityBehavior": "Pending; utilities were not executed",
+    "RuntimeAcceptance": "Not selected",
+    "ActivationAcceptance": "Pending",
+    "LicenseDisposition": "Prior RIDE v2 license-specialist approval governs direct Microsoft download-and-install. Licensing is not a blocker; Defender-detected files remain separate exclusions.",
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "50-65",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "139-193",
+      "RoundedTotal": "140-195/about 170",
+      "Adjustment": "None; the legacy Suite selector remains partially migrated and no complete legacy feature/product outcome closed."
+    }
+  }
+}

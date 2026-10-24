@@ -8,7 +8,7 @@ part of this review.
 
 | Legacy selector(s) | Current v3 disposition | Source behavior and remaining work |
 | --- | --- | --- |
-| `GetSysinternalsSuite`, `RemoveSysinternalsSuite` | Partially migrated: fixed Sysinternals Suite snapshot and nine independent products are implemented as candidates | The v2 selector downloaded Microsoft's mutable `SysinternalsSuite.zip`, copied it into a shared tools root, and removed that whole directory. V3 now has a pinned official snapshot and independently owned product candidates, with exact file ownership and recovery. The prior RIDE v2 license-specialist approval covers RIDE's direct download-and-install workflow; licensing is not a migration blocker. Remaining work is technical lifecycle/target acceptance and any additional legacy product grouping. Do not add automatic Defender exclusions or tool execution to staging. |
+| `GetSysinternalsSuite`, `RemoveSysinternalsSuite` | Partially migrated: the fixed Suite snapshot and nine independent product packages are implemented; Windows 11 file lifecycle is accepted for the nine products | The v2 selector downloaded Microsoft's mutable `SysinternalsSuite.zip`, copied it into a shared tools root, and removed that whole directory. V3 now has a pinned official snapshot and independently owned product packages. All nine packages passed exact install/repeat/remove/repeat, saved-state recovery, digest/signature, collision and modified-file-preservation checks on Windows 11 build 26300; their Windows 11 package lifecycle support is declared. The prior RIDE v2 license-specialist approval covers RIDE's direct download-and-install workflow; licensing is not a migration blocker. Suite/product coexistence, Windows Server acceptance and any additional legacy product grouping remain open. Do not add automatic Defender exclusions or tool execution to staging. |
 | `InstallJoeWare`, `RemoveJoeWare` | User selected the complete official collection, including AdFind, on 2026-10-23; dedicated package-directory Defender exclusion authorized | Replace the broad crawler with bounded per-product acquisition that resolves the latest publisher-offered version at download time. Preserve each observed source version and downloaded archive identity. The accepted `rdp-sec-check` page/version-list difference is documented in [JoeWare version discrepancies](../joeware-version-discrepancies.md); do not map the old `V01.00.00` digests to current `V02.00.00` bytes. Add a short description note for any page/archive mismatch found on acquisition. Exact payload and archive contents remain uninspected. AdFind remains excluded from selected batches because the publisher reports Defender blocking; this is not a threat classification or false-positive finding. Scope the authorized exclusion to the dedicated JoeWare install directory only. Defer individual-file exclusions to v3.1; do not exclude `ToolsDirectory`, `C:\Tools`, Downloads, or add per-file allow actions. Preserve and restore only the exact exclusion changed by the RIDE run. [Decision](decision-session-2026-10-17.md#package-and-profile-scope-decisions-2026-10-23); [JoeWare report](https://blog.joeware.net/2023/02/22/6166/); [current-source evidence](../archive/evidence/joeware-current-source-review-2026-10-24-0408.json) |
 | `InstallCCleaner`, `RemoveCCleaner` | User selected installed/full and portable distributions for all four products on 2026-10-23 | Keep CCleaner, Defraggler, Recuva and Speccy independently selectable. Offer each publisher-verified portable distribution where available and report unavailable variants without substituting another distribution. Exact editions, artifacts, ownership and removal/recovery behavior remain to be reviewed. [Decision](decision-session-2026-10-17.md#package-and-profile-scope-decisions-2026-10-23). |
 | `InstallMitec`, `RemoveMitec` | Deferred: dynamic collection | Scrapes the MiTeC site and follows multiple product pages before downloading tool archives into one shared directory. Select and pin intended tools; do not infer presence or remove ownership from a directory name alone. |
@@ -25,9 +25,10 @@ part of this review.
 
 ## Implementation constraints
 
-- Package operations currently support EXE and MSI installers plus a dedicated
-  Sysmon ZIP path. A portable collection needs managed-file installation,
-  presence detection, version reporting, safe removal and exact rollback.
+- Package operations currently support EXE and MSI installers plus managed
+  portable ZIP files. Nine independent Sysinternals product packages have passed
+  their Windows 11 file lifecycle and exact recovery checks. The separate Suite
+  snapshot and cross-package coexistence remain distinct acceptance scopes.
 - The default workstation profile currently adds a broad Tools-directory
   Defender exclusion. That exclusion must not be mistaken for package-level
   alert evidence; a controlled alert scan must run with that exclusion absent
@@ -92,3 +93,10 @@ describe the later v3.1 gate. The four reported alert files remain unclassified;
 this clarification does not alter the authorized v3 whole-collection package
 work or package-directory Defender exclusion rules. Windows VM acceptance stays
 a separate technical gate.
+
+User decision, 2026-10-24: continue implementation planning for the existing
+TMOG 1.0.1 free-edition candidate. Keep its personal-use/release-candidate
+license limits explicit; this does not establish publisher approval or
+authorize professional/fleet use, activation, launching TMOG.scr or changing
+screensaver settings. Windows lifecycle and owner-specific license review
+remain separate gates. No installer or Windows state changed.

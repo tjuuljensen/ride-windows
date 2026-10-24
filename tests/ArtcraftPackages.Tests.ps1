@@ -81,6 +81,10 @@ Describe 'Artcraft standalone acquisition' {
       if ($package.PackageId -eq 'artcraft-launcher') {
         $package.Scope | Should -Be 'User'
         $package.RequiresAdmin | Should -BeFalse
+        $package.MsiUpgradeCode | Should -BeExactly '1AC08DBF-D4CF-4BA4-A81E-CAA5C1004974'
+        $package.MsiProductName | Should -BeExactly 'ArtCraft Launcher'
+        $package.MsiInstallDirectoryRegistryKey | Should -BeExactly 'HKCU:\Software\Learning Machines LLC\ArtCraft Launcher'
+        $package.MsiExecutable | Should -BeExactly 'artcraft-launcher.exe'
       } else {
         $package.Scope | Should -Be 'Machine'
         $package.RequiresAdmin | Should -BeTrue

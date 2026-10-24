@@ -1168,7 +1168,7 @@ selects only these twelve apps on Windows 11 for preview, install/repeat,
 uninstall and saved-run recovery checks. `package.artcraft-launcher` is a separate
 current-user MSI candidate routed to `ApplicationsBatch7`; that batch checks
 launcher install/repeat/uninstall/recovery without launching it or downloading
-apps. The twelve standalone apps passed full pinned-version install/uninstall and saved-run recovery on Windows 11 Enterprise build 26300 and now declare Windows 11 support. The separate ArtCraft Launcher remains a Windows 11 candidate: its first guest run accepted the MSI exit code but RIDE did not detect an installed registration, so diagnose detection before retrying full lifecycle acceptance.
+apps. The twelve standalone apps passed full pinned-version install/uninstall and saved-run recovery on Windows 11 Enterprise build 26300 and now declare Windows 11 support. The separate ArtCraft Launcher remains a Windows 11 candidate: its first guest run accepted the MSI exit code but RIDE did not find an ARP entry. The handler now detects the current-user MSI from Windows Installer's per-user product registration, the vendor marker and expected executable, and uses the discovered ProductCode for uninstall. Five focused tests and repository validation passed; full Windows lifecycle retry `89f97d58ba1a493199f83654702c91ea` is queued after the current ImageMagick and settings batches.
 
 The versions in the private review store are marked `NeedsReview` for
 owner-specific bundled-asset and brand-term assessment. This record does not
@@ -1334,7 +1334,7 @@ has prior RIDE v2 license-specialist approval, reconfirmed by the user on
 `Reviewed` in the checkout-local store; no licensing hold remains for their RIDE
 package migration. Publishing or transferring copies is not part of this workflow.
 
-## Individual Sysinternals portable candidates
+## Individual Sysinternals portable packages
 
 Nine independently selectable candidates accompany the whole-Suite snapshot:
 
@@ -1352,24 +1352,28 @@ Nine independently selectable candidates accompany the whole-Suite snapshot:
 
 Each has its own official ZIP SHA-256 pin, version and independent owned folder.
 Selecting a product does not require Suite. Selecting both creates separate copies;
-removing one does not own the other folder. Native coexistence remains unaccepted.
-Product archives contain x86, x64 and ARM64 members; neutral means an archive of
-mixed files, not acceptance of every architecture or Windows release. Supported
-apply targets remain empty and the candidates are absent from recommended profiles.
+removing one does not own the other folder. The nine products passed install,
+repeat, removal, repeat, saved-state restoration, digest/signature, collision and
+modified-file preservation checks on Windows 11 build 26300; Windows 11 is now a
+supported target for those package file lifecycles. Coexistence with the separate
+Suite snapshot and Windows Server acceptance remain open. Product archives contain
+x86, x64 and ARM64 members; neutral means the package retains mixed upstream files,
+not that every utility architecture or runtime is accepted. These packages remain
+absent from recommended profiles.
 
 No process inspection/termination, autostart change, connection closure, driver
 activation, EULA interaction or VirusTotal upload is performed by file staging.
 Symbols, application preferences and tool execution are separate choices. Upstream
 help inventory differs from the Suite; retain each archive's actual complete set
-rather than silently borrowing files from another product. Exact saved file recovery
-and collision/modified-file refusal use the existing portable lifecycle. See the
+rather than silently borrowing files from another product. Utility runtime and
+activation behavior have not been tested. Exact saved file recovery and
+collision/modified-file refusal use the existing portable lifecycle. See the
 [source review](migrations/application-migration-review.md#b11-independent-sysinternals-products-2026-10-17) for pins and
-remaining native acceptance. The prior RIDE v2 license-specialist approval,
-reconfirmed by the user, covers RIDE's direct download-and-install workflow;
-there is no licensing blocker to these package migrations. RIDE downloads
-Sysinternals directly from Microsoft and installs it on supported devices. It does
-not publish Sysinternals or create a shared redistribution bundle; restrictions
-about those separate activities are not a gate for RIDE package migration.
+  remaining native acceptance. The prior RIDE v2 license-specialist approval,
+  reconfirmed by the user, covers RIDE's download-and-install workflow. The user
+  confirms there are no legal issues using Sysinternals in RIDE. Licensing is
+  settled and must not block or defer these package migrations; proceed on the
+  remaining technical acceptance work.
 
 Process Monitor, RAMMap and Disk2vhd stage files only. Kernel-driver loading, boot
 logging, trace capture, memory-list changes, imaging, VSS, virtual-disk attachment

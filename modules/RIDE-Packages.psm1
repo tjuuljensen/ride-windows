@@ -3,9 +3,10 @@
   Inspect package presence, retain upstream artifacts, and run catalog installers.
 
 .DESCRIPTION
-  Queries uninstall entries or the Sysmon service. Resolves explicit HTTPS installers,
-  GitHub release/file revisions or the Microsoft Sysmon archive; downloads versioned artifacts, checks available provider digests, and
-  records SHA-256/Authenticode observations. Install/uninstall run declared commands and check
+  Queries scope-matched uninstall entries, declared current-user Windows Installer products,
+  or the Sysmon service. Resolves explicit HTTPS installers, GitHub release/file revisions or
+  the Microsoft Sysmon archive; downloads versioned artifacts, checks available provider digests,
+  and records SHA-256/Authenticode observations. Install/uninstall run declared commands and check
   presence; declared user-data preservation can wrap selected installers and all removals. Hashes
   alone are not publisher authentication. Downloads retain public license
   references and GitHub release assets must belong to the declared publisher repository.
@@ -35,8 +36,9 @@
   Recovery: State-changing handlers are engine-internal: use ride.ps1 preview and captured-run
   restoration. Direct calls bypass ShouldProcess and snapshot capture.
   Author: RIDE-Windows maintainers.
-  Version: 0.19.0
+  Version: 0.20.0
   Changelog:
+    0.20.0: Detect declared per-user MSI products without ARP entries through Windows Installer registration.
     0.19.0: Fail closed on the declared shared .NET Framework 3.5 prerequisite.
     0.18.0: Preserve declared user data across package install/removal and retain installer-created collisions.
     0.17.0: Stage explicit installer configuration and preserve user data only after declared processes exit.
@@ -78,6 +80,58 @@ Import-Module (Join-Path $PSScriptRoot 'RIDE.InstallerInspection.psm1') -ErrorAc
 Import-Module (Join-Path $PSScriptRoot 'RIDE.PublisherSources.psm1') -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.PackageSelection.psm1') -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE-PortablePackages.psm1') -ErrorAction Stop
+
+function Get-RideMsiRelatedProduct {
+  param([Parameter(Mandatory)][string]$UpgradeCode,[Parameter(Mandatory)][string]$ProductName)
+  $UpgradeCode='{' + $UpgradeCode.Trim('{}') + '}'
+  if(-not ('RIDE.MsiProductLookup' -as [type])){
+    Add-Type -TypeDefinition @'
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Text;
+namespace RIDE {
+public static class MsiProductLookup {
+  [DllImport("msi.dll", CharSet=CharSet.Unicode, EntryPoint="MsiEnumRelatedProductsW")]
+  private static extern uint MsiEnumRelatedProducts(string upgradeCode, uint reserved, uint index, StringBuilder productCode);
+  [DllImport("msi.dll", CharSet=CharSet.Unicode, EntryPoint="MsiGetProductInfoW")]
+  private static extern uint MsiGetProductInfo(string productCode, string property, StringBuilder value, ref uint length);
+  public static string[] EnumerateRelatedProducts(string upgradeCode) {
+    var products = new List<string>();
+    for (uint index=0; index<256; index++) {
+      var code = new StringBuilder(39);
+      uint result = MsiEnumRelatedProducts(upgradeCode, 0, index, code);
+      if (result == 259) break;
+      if (result != 0) throw new InvalidOperationException("MsiEnumRelatedProducts failed with Windows Installer error " + result + ".");
+      products.Add(code.ToString());
+    }
+    return products.ToArray();
+  }
+  public static string GetProductInfo(string productCode, string property) {
+    uint length=512;
+    var value = new StringBuilder((int)length);
+    uint result = MsiGetProductInfo(productCode, property, value, ref length);
+    if (result != 0) return null;
+    return value.ToString();
+  }
+}
+}
+'@ -ErrorAction Stop
+  }
+  foreach($productCode in [RIDE.MsiProductLookup]::EnumerateRelatedProducts($UpgradeCode)){
+    $name=[RIDE.MsiProductLookup]::GetProductInfo($productCode,'ProductName')
+    $assignmentType=[RIDE.MsiProductLookup]::GetProductInfo($productCode,'AssignmentType')
+    if($name -ceq $ProductName -and $assignmentType -ceq '0'){
+      return [pscustomobject]@{
+        ProductCode=$productCode
+        DisplayName=$name
+        DisplayVersion=[RIDE.MsiProductLookup]::GetProductInfo($productCode,'VersionString')
+        AssignmentType=$assignmentType
+      }
+    }
+  }
+  $null
+}
 
 function Get-RideInstalledPackage {
   <#
@@ -176,6 +230,27 @@ function Get-RideInstalledPackage {
           UninstallString = $entry.UninstallString
           QuietUninstallString = $entry.QuietUninstallString
           InstallLocation = $entry.InstallLocation
+        }
+      }
+    }
+  }
+
+  if($Operation.MsiUpgradeCode -and $Operation.MsiProductName -and $Operation.MsiInstallDirectoryRegistryKey){
+    $vendor=Get-ItemProperty -LiteralPath $Operation.MsiInstallDirectoryRegistryKey -ErrorAction SilentlyContinue
+    $installDirectory=[string]$vendor.InstallDir
+    if($installDirectory){
+      $installerProduct=Get-RideMsiRelatedProduct -UpgradeCode $Operation.MsiUpgradeCode -ProductName $Operation.MsiProductName
+      $expectedDirectory=[IO.Path]::GetFullPath((Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) ('Programs/' + $Operation.MsiInstallDirectory))).TrimEnd('\')
+      $registeredDirectory=[IO.Path]::GetFullPath($installDirectory).TrimEnd('\')
+      if($installerProduct -and $registeredDirectory -ieq $expectedDirectory -and
+         (Test-Path -LiteralPath (Join-Path $installDirectory $Operation.MsiExecutable) -PathType Leaf)){
+        return [pscustomobject]@{
+          Present=$true
+          DisplayName=$installerProduct.DisplayName
+          DisplayVersion=$installerProduct.DisplayVersion
+          UninstallString='"msiexec.exe" /x ' + $installerProduct.ProductCode
+          QuietUninstallString=$null
+          InstallLocation=$installDirectory
         }
       }
     }

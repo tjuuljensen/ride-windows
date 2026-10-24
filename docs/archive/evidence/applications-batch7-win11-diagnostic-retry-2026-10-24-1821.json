@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T18:21:21.939Z",
+  "Controller": "RIDEWin11Test",
+  "Target": "RIDE-Win11-Test",
+  "Checkpoint": {
+    "Name": "RIDE-clean-test-base",
+    "Id": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+    "Recovery": "Completed"
+  },
+  "Request": {
+    "RunId": "1a0ec19a4e8e4517ad800bf3ac9f21dc",
+    "Suite": "ApplicationsBatch7",
+    "RunnerVersion": "0.14.7",
+    "Status": "Failed",
+    "Validation": "Passed",
+    "Pester": {
+      "Passed": 348,
+      "Failed": 0,
+      "Skipped": 1,
+      "Total": 349
+    }
+  },
+  "Finding": {
+    "MsiProduct": "ArtCraft Launcher 0.2.1",
+    "MsiEvents": "Installer events 1033 and 11707 report successful installation, status 0.",
+    "VendorRegistryMarker": "HKCU:\\Software\\Learning Machines LLC\\ArtCraft Launcher exists with InstallDir set to the per-user Programs directory.",
+    "ExpectedExecutable": "C:\\Users\\admin\\AppData\\Local\\Programs\\ArtCraft Launcher\\artcraft-launcher.exe exists (22,097,800 bytes).",
+    "ArpRegistration": "No matching HKCU Uninstall entry was found.",
+    "RootCause": "RIDE's current post-install presence detection depends on uninstall registry entries; this successful per-user MSI installation exposes a vendor marker and executable but no matching ARP entry.",
+    "Lifecycle": "Stopped at presence detection; uninstall and saved-state recovery were not run."
+  },
+  "EvidenceCollection": {
+    "Status": "Partial",
+    "Error": "Partial-evidence collection timed out after 90 seconds.",
+    "CheckpointRecovery": "Succeeded",
+    "BlockedMarkerPresent": false
+  },
+  "Migration": {
+    "LegacyOutcomesClosed": 0,
+    "LauncherSupportPromoted": false,
+    "Estimate": {
+      "Settings": "37-57",
+      "Packages": "50-65",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "139-193",
+      "RoundedTotal": "140-195/about 170",
+      "Adjustment": "None; no migration outcome closed. Corrected package presence detection and uninstall behavior are required before another full lifecycle retry."
+    },
+    "SysinternalsDisposition": "Prior RIDE v2 license-specialist approval governs direct Microsoft download-and-install. Licensing is not a migration blocker; Defender-detected files remain separate exclusions."
+  }
+}

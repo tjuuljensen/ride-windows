@@ -890,6 +890,67 @@ Describe 'Current-user Mozilla edition safety' {
   }
 }
 
+Describe 'Current-user MSI product registration without ARP' {
+  InModuleScope RIDE-Packages {
+    BeforeEach {
+      $operation=@{
+        Id='package.artcraft-launcher';Kind='Package';PackageId='artcraft-launcher';Name='ArtCraft Launcher'
+        Scope='User';InstallerType='Msi';SelectedVariant='installed';RequiresAdmin=$false
+        DisplayNamePattern='^ArtCraft Launcher$';UninstallerArguments='/qn /norestart'
+        MsiUpgradeCode='1AC08DBF-D4CF-4BA4-A81E-CAA5C1004974';MsiProductName='ArtCraft Launcher'
+        MsiInstallDirectoryRegistryKey='HKCU:\Software\Learning Machines LLC\ArtCraft Launcher'
+        MsiInstallDirectory='ArtCraft Launcher';MsiExecutable='artcraft-launcher.exe'
+      }
+      $expectedDirectory=[IO.Path]::GetFullPath((Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) 'Programs/ArtCraft Launcher')).TrimEnd('\')
+      Mock Get-ItemProperty { @() } -ParameterFilter { $Path -like 'HKCU:*' }
+      Mock Get-ItemProperty { [pscustomobject]@{InstallDir=$expectedDirectory} } -ParameterFilter { $LiteralPath -eq $operation.MsiInstallDirectoryRegistryKey }
+      Mock Get-RideMsiRelatedProduct { [pscustomobject]@{ProductCode='{1C5DA9B1-600A-49ED-A54F-6CA3958705C2}';DisplayName='ArtCraft Launcher';DisplayVersion='0.2.1';AssignmentType='0'} }
+      Mock Test-Path { $true } -ParameterFilter { $LiteralPath -eq (Join-Path $expectedDirectory $operation.MsiExecutable) -and $PathType -eq 'Leaf' }
+    }
+
+    It 'detects the exact per-user MSI from Windows Installer registration, marker and executable' {
+      $installed=Get-RideInstalledPackage -Operation $operation
+      $installed.Present | Should -BeTrue
+      $installed.DisplayName | Should -BeExactly 'ArtCraft Launcher'
+      $installed.DisplayVersion | Should -BeExactly '0.2.1'
+      $installed.InstallLocation | Should -BeExactly $expectedDirectory
+      $installed.UninstallString | Should -BeExactly '"msiexec.exe" /x {1C5DA9B1-600A-49ED-A54F-6CA3958705C2}'
+      Should -Invoke Get-RideMsiRelatedProduct -Exactly 1 -ParameterFilter { $UpgradeCode -eq $operation.MsiUpgradeCode -and $ProductName -eq $operation.MsiProductName }
+    }
+
+    It 'does not claim an advertised or otherwise unregistered product from a marker and executable alone' {
+      Mock Get-RideMsiRelatedProduct { $null }
+      (Get-RideInstalledPackage -Operation $operation).Present | Should -BeFalse
+    }
+
+    It 'does not claim a per-user MSI when its marker points outside the declared Programs directory' {
+      Mock Get-ItemProperty { [pscustomobject]@{InstallDir=(Join-Path $expectedDirectory '..\Other')} } -ParameterFilter { $LiteralPath -eq $operation.MsiInstallDirectoryRegistryKey }
+      (Get-RideInstalledPackage -Operation $operation).Present | Should -BeFalse
+    }
+
+    It 'uses the detected MSI product code for quiet uninstall and verifies absence' {
+      $script:uninstallLookups=0
+      Mock Get-RideInstalledPackage {
+        $script:uninstallLookups++
+        if($script:uninstallLookups -eq 1){return [pscustomobject]@{Present=$true;DisplayName='ArtCraft Launcher';UninstallString='"msiexec.exe" /x {1C5DA9B1-600A-49ED-A54F-6CA3958705C2}';QuietUninstallString=$null}}
+        [pscustomobject]@{Present=$false}
+      }
+      Mock Invoke-RidePreservingPackageOperation { [pscustomobject]@{ExitCode=0} }
+      Uninstall-RidePackage -Operation $operation
+      Should -Invoke Invoke-RidePreservingPackageOperation -Exactly 1 -ParameterFilter { $FilePath -eq 'msiexec.exe' -and $ArgumentList -eq '/x {1C5DA9B1-600A-49ED-A54F-6CA3958705C2} /qn /norestart' }
+      Should -Invoke Get-RideInstalledPackage -Exactly 2
+    }
+  }
+
+  It 'rejects unsafe MSI install-directory metadata' {
+    $root=Split-Path -Parent $PSScriptRoot
+    $catalog=Import-RideCatalogData (Join-Path $root 'catalog/operations.psd1')
+    $operation=$catalog.Operations | Where-Object Id -eq 'package.artcraft-launcher'
+    $operation.MsiInstallDirectory='../outside'
+    (@(Get-RideCatalogValidationErrors -Catalog $catalog) -join ' ') | Should -Match 'MSI product-code detection requires'
+  }
+}
+
 Describe 'Package variant metadata and completion' {
   It 'completes the selected product variants with case-insensitive prefix filtering' {
     $runner=Join-Path (Split-Path -Parent $PSScriptRoot) 'ride.ps1'
@@ -966,6 +1027,12 @@ Describe 'Package variant metadata and completion' {
       $package.InstallerArguments | Should -Match "jdk-$([regex]::Match($package.PackageVersion,'^\d+').Value)"
     }
     @(Get-RideCatalogValidationErrors -Catalog $catalog).Count | Should -Be 0
+  }
+
+  It 'selects all four OpenJDK package IDs in the Server 2025 acceptance batch' {
+    $runner=Get-Content (Join-Path (Split-Path -Parent $PSScriptRoot) 'tests/integration/Invoke-RideApplicationBatch.ps1') -Raw
+    $runner | Should -Match 'microsoft-openjdk-25.*microsoft-openjdk-21.*microsoft-openjdk-17.*microsoft-openjdk-11'
+    $runner | Should -Match '\$actualIds=@\(\$scenarios \| ForEach-Object \{\$_.Selected.PackageId\} \| Sort-Object\)'
   }
 }
 

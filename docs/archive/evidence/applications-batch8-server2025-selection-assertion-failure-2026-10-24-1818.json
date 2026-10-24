@@ -1,0 +1,38 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T18:18:55.6022671Z",
+  "RunId": "c700ab902a384773abcd2e10029fb08d",
+  "Controller": "RIDESrv2025Test",
+  "Target": "RIDE-S25-Test",
+  "Suite": "ApplicationsBatch8",
+  "Status": "Failed",
+  "Guest": {
+    "OS": "Windows Server 2025 Standard Evaluation",
+    "Build": "26100",
+    "PowerShell": "5.1.26100.33438"
+  },
+  "Pester": {
+    "Version": "5.7.1",
+    "Total": 343,
+    "Passed": 342,
+    "Failed": 0,
+    "Skipped": 1
+  },
+  "Scenario": {
+    "InstallerActions": "None",
+    "Failure": "The batch asserted four operation IDs ending in package.microsoft-openjdk-25/21/17/11, while the 25 operation ID is package.microsoft-openjdk and all four package IDs are carried in PackageId metadata.",
+    "Correction": "Compare Selected.PackageId with the four pinned Microsoft package IDs."
+  },
+  "Controller": {
+    "CleanupError": null,
+    "CollectionError": "Partial-evidence collection timed out after 90 seconds.",
+    "BlockedMarkerPresent": false
+  },
+  "Disposition": "No package lifecycle was executed and no legacy outcome closed. Rerun the Server 2025 suite after correcting the exact package selection assertion.",
+  "Estimate": {
+    "Ranges": "37-57 / 50-65 / 19-24 / 25-35 / 8-12",
+    "Exact": "139-193",
+    "Rounded": "140-195/about 170",
+    "LegacyOutcomesClosed": 0
+  }
+}
